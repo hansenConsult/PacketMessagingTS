@@ -5,70 +5,555 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
+    xmlns:models="using:PacketMessagingTS.Models"
+    xmlns:vm="using:PacketMessagingTS.ViewModels"
     xmlns:helper="using:PacketMessagingTS.Helpers"
     xmlns:xaml="using:Windows.UI.Xaml"
     mc:Ignorable="d">
+    
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+
+        <CollectionViewSource x:Name="TacticalCallsignsAreaSource" IsSourceGrouped="False"/>
+        <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />
+
+        <CollectionViewSource x:Name="BBSDataCollection"  IsSourceGrouped="False" />
+        <CollectionViewSource x:Name="ProfilesCollection"  IsSourceGrouped="False"  />
+        <CollectionViewSource x:Name="DeviceListSource" IsSourceGrouped="False" />
+
+        <DataTemplate x:Name="ProfilesDataTemplate" x:DataType="models:Profile">
+            <TextBlock Text="{x:Bind Name}" />
+        </DataTemplate>
+
+        <CollectionViewSource x:Name="ComPortListSource" IsSourceGrouped="False"/>
+        <CollectionViewSource x:Name="ComNameListSource" IsSourceGrouped="False"/>
+        <CollectionViewSource x:Name="BaudRateListSource" IsSourceGrouped="False"/>
+        <CollectionViewSource x:Name="DataBitsListSource" IsSourceGrouped="False"/>
+        <CollectionViewSource x:Name="ParitiesListSource" IsSourceGrouped="False"/>
+        <CollectionViewSource x:Name="StopBitsListSource" IsSourceGrouped="False"/>
+        <CollectionViewSource x:Name="HandshakesListSource" IsSourceGrouped="False"/>
+
+        <DataTemplate x:Name="TNCDataTemplate" x:DataType="models:TNCDevice" >
+            <TextBlock Text="{x:Bind Name}" />
+        </DataTemplate>
+
     </Page.Resources>
 
     <Grid Margin="{StaticResource MediumLeftRightMargin}">
-        <StackPanel
-            x:Name="ContentArea">
-            <TextBlock
-                x:Uid="Settings_Personalization"
-                Style="{StaticResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
-                <TextBlock
-                    x:Uid="Settings_Theme"
-                    Style="{StaticResource BodyTextStyle}" />
+        <Pivot x:Name="SettingsPivot"
+               SelectionChanged="SettingsPivot_SelectionChanged">
 
-                <StackPanel Margin="{StaticResource EightTopMargin}">
-                    <RadioButton
+            <!--Settings-->
+            <PivotItem Header="Settings" DataContext="{x:Bind ViewModel}">
+                <StackPanel x:Name="ContentArea">
+                    <TextBlock x:Uid="Settings_Personalization"
+                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
+                        <TextBlock x:Uid="Settings_Theme"
+                                   Style="{StaticResource BodyTextStyle}" />
+
+                        <StackPanel Margin="{StaticResource EightTopMargin}">
+                            <RadioButton
                         x:Uid="Settings_Theme_Light"
                         GroupName="AppTheme"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Light</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                            <RadioButton
                         x:Uid="Settings_Theme_Dark"
                         GroupName="AppTheme"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
-                    <RadioButton
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                            <RadioButton
                         x:Uid="Settings_Theme_Default"
                         GroupName="AppTheme"
                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
-                        <RadioButton.CommandParameter>
-                            <xaml:ElementTheme>Default</xaml:ElementTheme>
-                        </RadioButton.CommandParameter>
-                    </RadioButton>
+                                <RadioButton.CommandParameter>
+                                    <xaml:ElementTheme>Default</xaml:ElementTheme>
+                                </RadioButton.CommandParameter>
+                            </RadioButton>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock x:Uid="Settings_About"
+                               Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                    <StackPanel Margin="{StaticResource EightTopMargin}">
+                        <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                        <TextBlock x:Uid="Settings_AboutDescription"
+                                   Margin="{StaticResource EightTopMargin}" />
+
+                        <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
+                                         Margin="{StaticResource EightTopMargin}" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </PivotItem>
 
-            <TextBlock
-                x:Uid="Settings_About"
-                Style="{StaticResource SubtitleTextBlockStyle}" />
+            <!--Identity-->
+            <PivotItem DataContext="{x:Bind _identityViewModel}"
+                       Header="Identity" Padding="0">
+                <ScrollViewer Margin="0,0,-12,0" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <RelativePanel>
+                            <TextBlock x:Name="LabelUserCallsign" RelativePanel.AlignLeftWithPanel="True" Text="User Callsign:" Width="125" Margin="0,10"/>
+                            <TextBox x:Name="textBoxUsercallsign" 
+									 RelativePanel.RightOf="LabelUserCallsign" 
+									 RelativePanel.AlignVerticalCenterWith="LabelUserCallsign"
+									 VerticalContentAlignment="Center" 
+									 Text="{Binding UserCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+									 PlaceholderText="Callsign" Margin="0,1" BorderThickness="2" Padding="10,3,10,5" />
+                            <TextBox x:Name="textBoxUserName" 
+									 RelativePanel.Below="textBoxUsercallsign" RelativePanel.AlignLeftWith="textBoxUsercallsign"
+									 VerticalContentAlignment="Center" Margin="0,1"
+									 Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="189" />
+                            <TextBlock x:Name="labelUserName" RelativePanel.AlignVerticalCenterWith="textBoxUserName" Text="User Name:" />
+                            <TextBox x:Name="textBoxUserPrefix" 
+									 RelativePanel.Below="textBoxUserName" RelativePanel.AlignLeftWith="textBoxUsercallsign"
+									 VerticalContentAlignment="Center" 
+									 Text="{Binding UserMsgPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="58" BorderThickness="2" Margin="0,1" Padding="10,3,10,5"/>
+                            <TextBlock x:Name="labelUserPrefix"
+									   RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="textBoxUserPrefix"										   Text="Message ID Prefix:" />
+                        </RelativePanel>
+                        <ToggleSwitch x:Name="toggleUseTacticalCallsign"
+									  
+  									  Header="Use Tactical Call-sign" 
+									  IsOn="{Binding UseTacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									  Margin="0,30"/>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" x:Name="labelTacticalCallsignArea" 
+									   VerticalAlignment="Center" 
+									   Text="Tactical Call-sign Area:" />
+                            <ComboBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsignArea" 
+									  ItemsSource="{x:Bind TacticalCallsignsAreaSource.View, Mode=OneTime}"
+									  DisplayMemberPath = "AreaName"
+									  VerticalContentAlignment="Center"
+									  IsEnabled="{x:Bind toggleUseTacticalCallsign.IsOn, Mode=OneWay}"
+									  SelectedIndex="{Binding TacticalCallsignAreaSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+									  Margin="5,1,0,1" Background="White" 
+									  SelectionChanged="ComboBoxTacticalCallsignArea_SelectionChanged" Width="220" BorderThickness="2" >
+                            </ComboBox>
+                            <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelTacticalCallsign" 
+									   VerticalAlignment="Center"
+									   Text="Tactical Call-sign:" />
+                            <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
+									  ItemsSource="{x:Bind TacticalCallsignsSource.View, Mode=OneWay}" 									
+									  IsEnabled="{Binding UseTacticalCallsign}"
+									  DisplayMemberPath="TacticalCallsign"
+									  SelectedIndex="{Binding TacticalCallsignSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+									  VerticalContentAlignment="Center"  
+									  Width="133" 
+									  BorderThickness="2" Margin="5,1,0,1"   />
+                            <TextBox Grid.Column="1" Grid.Row="1"  x:Name="textBoxTacticalCallsign" 
+									 Text="{Binding TacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+									 HorizontalAlignment="Left"
+									 IsEnabled="{Binding UseTacticalCallsign}"
+									 Width="133" 
+									 BorderThickness="2" Margin="5,1,0,1"
+									 TextChanged="textBoxTacticalCallsign_TextChanged"/>
+                            <TextBlock Grid.Column="0" Grid.Row="2"  x:Name="labelAdditionalText" 
+									   VerticalAlignment="Center" 
+									Text="Additional ID text:" />
+                            <ComboBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="comboBoxAdditionalText"  
+									ItemsSource="{x:Bind TacticalCallsignsSource.View, Mode=OneWay}" 	
+									DisplayMemberPath = "AgencyName"
+									IsEnabled="{x:Bind toggleUseTacticalCallsign.IsOn, Mode=OneWay}"
+									VerticalContentAlignment="Center" Width="220" 
+									Margin="5,1,0,1" BorderThickness="2" />
+                            <TextBlock Grid.Column="0" Grid.Row="3" x:Name="labelTacticalPrefix" 
+									Text="Message ID Prefix:" 
+									VerticalAlignment="Center"  />
+                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxTacticalPrefix" 
+									 Text="{Binding TacticalMsgPrefix}" 									
+								 	 IsEnabled="{Binding UseTacticalCallsign}"
+									 HorizontalAlignment="Left"
+									 VerticalAlignment="Center" 
+									 BorderThickness="2" 
+									 Width="58" 
+									 Margin="5,1,0,1" Padding="10,3,12,5" />
+                            <!--<TextBlock Grid.Column="0" Grid.Row="4" x:Name="labelTacticalPrimary"
+									   VerticalAlignment="Center" 
+									Text="Primary:" />
+							<TextBox Grid.Column="1" Grid.Row="4" x:Name="textBoxTacticalPrimary"
+									Text="{Binding TacticalPrimary, Mode=TwoWay }"
+									IsEnabled="{Binding UseTacticalCallsign}"
+									Margin="5,1,0,1" Padding="10,3,10,5" />
+							<RadioButton Grid.Column="2" Grid.Row="4" x:Name="radioButtonPrimaryActive" 
+									     IsEnabled="{Binding UseTacticalCallsign}"
+										 IsChecked="{Binding TacticalPrimaryActive, Mode=TwoWay}"
+									     Content="Active"  
+										 GroupName="TacticalPrimSecSelection" Margin="20,0,0,0"/>
+							<TextBlock Grid.Column="0" Grid.Row="5" x:Name="labelTacticalSecondary"
+									   VerticalAlignment="Center"
+									   Text="Secondary:" />
+							<TextBox Grid.Column="1" Grid.Row="5" x:Name="textBoxTacticalSecondary"
+									Text="{Binding TacticalSecondary, Mode=TwoWay }"
+									IsEnabled="{Binding UseTacticalCallsign}" 
+									Margin="5,1,0,1" />
+							<RadioButton Grid.Column="2" Grid.Row="5" x:Name="radioButtonSecondaryActive" 
+										IsChecked="{Binding TacticalSecondaryActive, Mode=TwoWay}"
+									IsEnabled="{Binding UseTacticalCallsign}"	 
+									Content="Active" GroupName="TacticalPrimSecSelection" Margin="20,0,0,0"/>
+							<Button Grid.Column="2" Grid.Row="6" x:Name="buttonSetAllPrimary" 
+									Content="Make All Primary"  
+									VerticalAlignment="Stretch"
+									Margin="20,10,0,0" 
+									Click="ButtonSetAllPrimary_Click"/>-->
+                            <ToggleSwitch Grid.Column="0" Grid.Row="7" x:Name="toggleDisplayIdentityAtStartup"
+                                          Header="Display on Start" Margin="0, 30"
+										  IsOn="{Binding DisplayIdentityAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
 
-            <StackPanel Margin="{StaticResource EightTopMargin}">
-                <TextBlock
-                    Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Margin="{StaticResource EightTopMargin}" />
+            <!--Packet Settings-->
+            <PivotItem x:Name="pivotPacketSettings" DataContext="{x:Bind _packetSettingsViewModel}" Header="Packet Settings" Height="auto">
+                <RelativePanel Margin="-12,0,-12,0" >
+                    <ScrollViewer x:Name="scrollViewerProfile" Width="auto"
+								  RelativePanel.AlignTopWithPanel="True"
+								  RelativePanel.AlignLeftWithPanel="True"
+								  RelativePanel.AlignRightWithPanel="True"
+								  RelativePanel.Above="profileCommandBar"
+								  Margin="0,10,0,-10" VerticalScrollBarVisibility="Auto">
+                        <RelativePanel x:Name="profilePanel">
+                            <RelativePanel x:Name="panelProfileSelection" Margin="18">
+                                <TextBlock x:Name="labelProfile"  Text="Profile:" Margin="0,0,5,0" 
+										RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                                <ComboBox x:Name="comboBoxProfiles"  Width="300"
+										  RelativePanel.RightOf="labelProfile"
+										  ItemTemplate="{StaticResource  ProfilesDataTemplate}"
+										  ItemsSource="{x:Bind ProfilesCollection.View, Mode=OneWay}"
+                                          SelectedIndex="{Binding ProfileSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          VerticalAlignment="Center" SelectionChanged="ComboBoxProfiles_SelectionChanged"   />
+                                <TextBox x:Name="textBoxNewProfileName" Width="300"
+										RelativePanel.RightOf="labelProfile"
+										PlaceholderText="Enter profile name"
+										Visibility="Collapsed"  />
+                            </RelativePanel>
+                            <Grid Margin="12"
+									RelativePanel.Below="panelProfileSelection">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width ="1*"/>
+                                    <ColumnDefinition Width="2.4*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="44"/>
+                                    <RowDefinition Height="44"/>
+                                    <RowDefinition Height="100"/>
+                                    <RowDefinition Height="44"/>
+                                    <RowDefinition Height="44"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock x:Name="label7" Grid.Column="0" Grid.Row="0" Text="TNC:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <ComboBox x:Name="comboBoxTNCs"  Grid.Column="1" Grid.Row="0"  VerticalAlignment="Center" Width="270"
+									IsSynchronizedWithCurrentItem="False"	  
+									ItemsSource="{x:Bind DeviceListSource.View}"
+									SelectedValuePath="Name" 
+									SelectionChanged="ComboBoxTNCs_SelectionChanged" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="label"  Grid.Column="0" Grid.Row="1" Text="BBS:"  VerticalAlignment="Center" />
+                                <ComboBox x:Name="comboBoxBBS"  Grid.Column="1" Grid.Row="1" 
+										DisplayMemberPath="Name"
+										IsSynchronizedWithCurrentItem="False"
+										ItemsSource="{x:Bind BBSDataCollection.View, Mode=OneWay}"
+										SelectedValuePath = "Name"
+										VerticalAlignment="Center" Width="120"   
+										SelectionChanged="ComboBoxBBS_SelectionChanged"/>
+                                <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Description:"  HorizontalAlignment="Left" Margin="0,6,5,0" />
+                                <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" Width="270" Height="88"
+										IsReadOnly="True" TextWrapping="Wrap" 
+										VerticalAlignment="Center"/>
+                                <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Height="23"  Width="85"
+									 HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center" />
+                                <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="48,0,0,0"
+										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center" />
+                                <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
+                                <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4"  Height="23" Width="270"
+										 Text="{Binding MessageTo}"  TextWrapping="Wrap" VerticalAlignment="Center" 
+										 TextChanged="TextBoxTo_TextChanged" />
+                            </Grid>
+                        </RelativePanel>
+                    </ScrollViewer>
+                    <CommandBar x:Name="profileCommandBar"
+							RelativePanel.AlignBottomWithPanel="True"
+							RelativePanel.AlignLeftWithPanel="True"
+							RelativePanel.AlignRightWithPanel="True">
+                        <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add" HorizontalAlignment="Right" Click="ProfileSettingsAdd_Click" />
+                        <AppBarButton x:Name="profileSave" Label="Save Profile" Icon="Save" Click="ProfileSave_Click" />
+                        <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete" Click="ProfileSettingsDelete_Click"  />
+                    </CommandBar>
+                </RelativePanel>
+            </PivotItem>
 
-                <HyperlinkButton
-                    x:Uid="Settings_PrivacyTermsLink"
-                    Margin="{StaticResource EightTopMargin}" />
-            </StackPanel>
-        </StackPanel>
+            <!--TNC-->
+            <PivotItem x:Name="pivotTNC" DataContext="{x:Bind _TNCSettingsViewModel}" Header="Interface" Padding="0">
+                <RelativePanel Margin="-12,0,-12,0" >
+                    <!--<ScrollViewer Name="scrollViewerTNC"
+								  RelativePanel.AlignTopWithPanel="True"
+								  RelativePanel.Above="ButtomCommandBar"
+								  Margin="0,0,0,0" VerticalScrollBarVisibility="Auto" Width="auto">-->
+                    <SplitView  IsPaneOpen="True" OpenPaneLength="200" HorizontalAlignment="Left" Height="auto"  VerticalAlignment="Top" DisplayMode="Inline">
+                        <SplitView.Pane >
+                            <StackPanel>
+                                <ListBox x:Name="ConnectDevices"  Width="auto"  Height="auto"  Background="LightGray"
+									 ItemsSource="{x:Bind DeviceListSource.View}" 
+									 ItemTemplate="{StaticResource  TNCDataTemplate}"
+									 SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									 SelectionChanged="ConnectDevices_SelectionChanged"
+								>
+                                </ListBox>
+                                <TextBox x:Name="newTNCDeviceName" Header="New Device Name" 
+                                     Margin="5,58,5,0" Visibility="Collapsed"/>
+                            </StackPanel>
+                            <!--<ListView x:Name="tncDeviceList" Width="100"/>-->
+                        </SplitView.Pane>
+                        <SplitView.Content>
+                            <StackPanel>
+                                <Pivot x:Name="PivotTNC"  Margin="12,0,12,0" >
+                                    <PivotItem Header="Init Commands" >
+                                        <ScrollViewer Margin="0,0,2,48" 
+												  VerticalScrollBarVisibility="Auto">
+                                            <Grid Margin="10" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="15"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+                                                <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="Pre connect commands"/>-->
+                                                <!--<TextBlock Grid.Column="2" Grid.Row="0" Text="Post Connect Commands"/>-->
+                                                <TextBox Grid.Column="0" Grid.Row="0" x:Name="textBoxInitCommandsPre" 
+												         AcceptsReturn="True" Header="Pre Connect Commands" />
+                                                <!--TextChanged="textBoxInitCommandsPre_TextChanged" />-->
+                                                <TextBox Grid.Column="2" Grid.Row="0" x:Name="textBoxInitCommandsPost" 
+												         AcceptsReturn="True" Header="Post Connect Commands"
+												         Margin="0,0,2,0" />
+                                                <!--TextChanged="textBoxInitCommandsPost_TextChanged"  />-->
+                                            </Grid>
+                                        </ScrollViewer>
+                                    </PivotItem>
+
+                                    <!--Com Port-->
+                                    <PivotItem x:Name="pivotItemComPort" Header="Comm Port">
+                                        <ScrollViewer Margin="0,0,0,48">
+                                            <StackPanel>
+                                                <ToggleSwitch x:Name="toggleSwitchBluetooth" Margin="10"														  
+														  Header="Serial device type"												
+														  OffContent="Other serial devices"
+														  OnContent="Bluetooth serial devices" />
+                                                <!--Toggled="toggleSwitchBluetooth_Toggled"/>-->
+                                                <Grid x:Name="gridSerialPortSettings" Margin="10" >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="90"/>
+                                                        <ColumnDefinition Width="230"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Comm Port:" HorizontalAlignment="Left" 
+														   VerticalAlignment="Center" />
+                                                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort" 
+													      ItemsSource="{x:Bind ComPortListSource.View, Mode=OneWay}"
+													      SelectedValuePath = "PortName"
+													      DisplayMemberPath="PortName"
+													      Width="100" 
+														  VerticalAlignment="Stretch" 
+														  Margin="0,1,0,3" 	/>
+                                                    <!--SelectionChanged="comboBoxComPort_SelectionChanged" />-->
+                                                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComName" 
+													      ItemsSource="{x:Bind ComNameListSource.View, Mode=OneWay}"									
+														  SelectedValuePath = "Name"
+														  DisplayMemberPath="Name"
+														  Width="210" 
+														  VerticalAlignment="Stretch" Margin="0,1,0,3"	/>
+                                                    <!--SelectionChanged="comboBoxComName_SelectionChanged" />-->
+                                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Baud Rate:"  
+														   VerticalAlignment="Center" />
+                                                    <ComboBox Grid.Column="1" Grid.Row="1" x:Name="comboBoxBaudRate"  
+													      ItemsSource="{x:Bind BaudRateListSource.View, Mode=OneTime}"											
+														  Width="100" Margin=" 0,2" 	/>
+                                                    <!--SelectionChanged="comboBoxBaudRate_SelectionChanged" />-->
+                                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Data Bits:" VerticalAlignment="Center" />
+                                                    <ComboBox Grid.Column="1" Grid.Row="2" x:Name="comboBoxDatabits"
+														  ItemsSource="{x:Bind DataBitsListSource.View, Mode=OneTime}"													
+														  Width="100" Margin="0,2" 	/>
+                                                    <!--SelectionChanged="comboBoxDatabits_SelectionChanged" />-->
+                                                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Parity:" 
+														   VerticalAlignment="Center" />
+                                                    <ComboBox Grid.Column="1" Grid.Row="3" x:Name="comboBoxParity" Width="100" Margin="0,2,0,0" />
+                                                    <!--SelectionChanged="comboBoxParity_SelectionChanged" />-->
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Stop Bits:" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                    <ComboBox Grid.Column="1" Grid.Row="4" x:Name="comboBoxStopBits" Width="100" Margin="0,2,0,0" 
+													SelectionChanged="comboBoxStopBits_SelectionChanged" />
+                                                    <!--ItemsSource="{x:Bind StopBitsListSource.View, Mode=OneTime}"-->
+                                                    <TextBlock Grid.Column="0" Grid.Row="5" Text="Flow Control:" VerticalAlignment="Center" />
+                                                    <ComboBox Grid.Column="1" Grid.Row="5" x:Name="comboBoxFlowControl" Width="210" Margin="0,2,0,0" />
+                                                    <!--SelectionChanged="comboBoxFlowControl_SelectionChanged" />-->
+
+                                                    <!--ItemsSource="{x:Bind HandshakesListSource.View, Mode=OneTime}"
+													SelectedItem="{Binding SelectedHandshake, Mode=TwoWay}"-->
+                                                </Grid>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </PivotItem>
+
+                                    <!--Prompts-->
+                                    <PivotItem Header="Prompts" DataContext="{x:Bind _TNCSettingsViewModel}">
+                                        <Grid Margin="10" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="25*"/>
+                                                <ColumnDefinition Width="60*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Command:" VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="textBoxPrompsCommand" Text="{Binding TNCPromptsCommand, Mode=TwoWay}" Margin="0,2" />
+                                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Timeout:" VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1" Grid.Row="1" x:Name="textBoxPromptsTimeout" Margin="0,2" Text="{Binding TNCPromptsTimeout, Mode=TwoWay}" />
+                                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Connected:" VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="textBoxPromptsConnected" Margin="0,2" TextChanged="textBoxPromptsConnected_TextChanged"  />
+                                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Disconnected:" VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxPromptsDisconnected" Margin="0,2" TextChanged="textBoxPromptsDisconnected_TextChanged"  />
+                                        </Grid>
+                                    </PivotItem>
+
+                                    <!--Commands-->
+                                    <PivotItem Header="Commands">
+                                        <Grid Margin="10" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="60*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Mycall:" VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="textBoxCommandsMyCall" Margin="0,2" />
+                                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Connect:" VerticalAlignment="Center" />
+                                            <!--<TextBox Grid.Column="1" Grid.Row="1" x:Name="textBoxCommandsConnect" Margin="0,2" Text="{x:Bind TNCCommandsConnect, Mode=TwoWay}" />-->
+                                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Retry:" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="textBoxCommandsRetry" Margin="0,2"  />
+                                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Convers Mode:" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxCommandsConversMode" Margin="0,2"  />
+                                            <TextBlock Grid.Column="0" Grid.Row="4" Text="DateTime:" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="1" Grid.Row="4" x:Name="textBoxCommandsDateTime" Margin="0,2"  />
+                                        </Grid>
+                                    </PivotItem>
+
+                                    <!--E Mail Settings-->
+                                    <!--<PivotItem Header="E-Mail Settings" >
+                                    <Grid x:Name="EMailSettings" Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBox Grid.Column="0" Grid.Row="0" x:Name="mailServer" Text="{Binding MailServer, Mode=TwoWay}" Header="Mail Server"/>
+                                        <TextBox Grid.Column="1" Grid.Row="0" x:Name="mailPortString" Text="{Binding MailPortString, Mode=TwoWay}" Header="Mail port:" Margin="10,0,0,0"/>
+                                        <TextBox Grid.Column="0" Grid.Row="1" x:Name="mailUserName" Text="{Binding MailUserName, Mode=TwoWay}" Header="Mail username:" Margin="0,5,0,0"/>
+                                        <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="mailPassword" Password="{Binding MailPassword, Mode=TwoWay}" Header="Mail password:" Margin="10,5,0,0"/>
+                                    </Grid>
+                                </PivotItem>-->
+                                </Pivot>
+                                <!--<Grid x:Name="EMailSettings" Margin="20,20,0,0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition MinWidth="250"/>
+                                        <ColumnDefinition MinWidth="150"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    --><!--ItemsSource="{x:Bind EmailAccountsSource.View, Mode=OneWay}"--><!--
+                                    <ComboBox Grid.Column="0" Grid.Row="0" x:Name="mailServerComboBox"
+                                              Header="Mail Server:" 
+                                              
+                                              Margin="10,10,0,0" Visibility="Collapsed"/>
+                                    --><!--SelectionChanged="MailServerComboBox_SelectionChanged"/>--><!--
+                                    <AutoSuggestBox Grid.Column="0" Grid.Row="0" x:Name="mailServer" 
+                                                    Text="{Binding MailServer, Mode=TwoWay}" Header="Mail Server:" 
+                                                    Margin="10,10,0,0" Visibility="Collapsed"
+                                                    TextChanged="MailServer_TextChanged"
+                                                    SuggestionChosen="MailServer_SuggestionChosen"/>
+                                    <TextBox Grid.Column="1" Grid.Row="0" x:Name="mailPortString" 
+                                             Text="{Binding MailPortString, Mode=TwoWay}" 
+                                             Header="Mail port:" Margin="10,10,0,0"
+                                             TextChanged="MailPortString_TextChanged"/>
+                                    <TextBox Grid.Column="0" Grid.Row="1" x:Name="mailUserName" 
+                                             Text="{Binding MailUserName, Mode=TwoWay}" 
+                                             Header="Mail User Name:" Margin="10,20,0,0"
+                                             TextChanged="MailUserName_TextChanged"/>
+                                    <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="mailPassword" 
+                                                 Password="{Binding MailPassword, Mode=TwoWay}" 
+                                                 Header="Mail password:" Width="200" Margin="10,20,0,0"
+                                                 PasswordChanged="MailPassword_PasswordChanged"/>
+                                    <ToggleSwitch Grid.Column="0" Grid.Row="2" x:Name="mailIsSSL" 
+                                                  IsOn="{Binding IsMailSSL}"
+                                                  Visibility="Collapsed"
+                                                  Header="SSL:" Margin="10,20,0,0"
+                                                  Toggled="MailIsSSL_Toggled"/>
+                                </Grid>-->
+                            </StackPanel>
+                        </SplitView.Content>
+                    </SplitView>
+                    <!--</ScrollViewer>-->
+                    <CommandBar x:Name="ButtomCommandBar"
+							RelativePanel.AlignBottomWithPanel="True"
+							RelativePanel.AlignRightWithPanel="True"
+							RelativePanel.AlignLeftWithPanel="True">
+						<AppBarButton x:Name="appBarAddTNC" Label="Add TNC" Icon="Add" HorizontalAlignment="Right" />
+						<AppBarButton x:Name="appBarSaveTNC" Label="Save TNC" Icon="Save" HorizontalAlignment="Right"
+
+								Click="appBarSaveTNC_ClickAsync" />
+						<AppBarButton x:Name="appBarDelete" Label="Delete TNC" Icon="Delete" HorizontalAlignment="Right" />
+					</CommandBar>
+                </RelativePanel>
+            </PivotItem>
+
+        </Pivot>
     </Grid>    
 </Page>

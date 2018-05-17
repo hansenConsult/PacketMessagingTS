@@ -11,7 +11,7 @@ using PacketMessagingTS.Services;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class MasterDetailViewModel : Observable
+    public class MasterDetailViewModel : BaseViewModel
     {
         private SampleOrder _selected;
 

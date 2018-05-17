@@ -7,7 +7,7 @@ using PacketMessagingTS.Services;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class TelerikDataGridViewModel : Observable
+    public class TelerikDataGridViewModel : BaseViewModel
     {
         public ObservableCollection<SampleOrder> Source
         {

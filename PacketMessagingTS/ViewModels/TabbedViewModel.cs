@@ -4,7 +4,7 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class TabbedViewModel : Observable
+    public class TabbedViewModel : BaseViewModel
     {
         public TabbedViewModel()
         {

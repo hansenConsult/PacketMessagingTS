@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class ShellViewModel : Observable
+    public class ShellViewModel : BaseViewModel
     {
         private NavigationView _navigationView;
         private NavigationViewItem _selected;

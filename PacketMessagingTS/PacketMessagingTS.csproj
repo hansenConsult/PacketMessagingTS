@@ -92,6 +92,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="MetroLog">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>
     </PackageReference>
@@ -116,17 +119,29 @@
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask1.cs" />
+    <Compile Include="Helpers\AddressConverter.cs" />
+    <Compile Include="Helpers\AreaConverter.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
+    <Compile Include="Helpers\SharedData.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
+    <Compile Include="Models\AddressBook.cs" />
+    <Compile Include="Models\BBSData.cs" />
+    <Compile Include="Models\distributionlists.cs" />
+    <Compile Include="Models\Emailaccounts.cs" />
+    <Compile Include="Models\GroupInfoList.cs" />
+    <Compile Include="Models\profiles.cs" />
     <Compile Include="Models\SampleOrder.cs" />
+    <Compile Include="Models\TacticalCallsigns.cs" />
+    <Compile Include="Models\TNCDevices.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
+    <Compile Include="Services\BackgroundTransfer.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\OnBackgroundEnteringEventArgs.cs" />
     <Compile Include="Services\SampleDataService.cs" />
@@ -136,12 +151,16 @@
     <Compile Include="Services\ViewLifetimeControl.cs" />
     <Compile Include="Services\WindowManagerService.cs" />
     <Compile Include="ViewModels\BlankViewModel.cs" />
+    <Compile Include="ViewModels\IdentityViewModel.cs" />
+    <Compile Include="ViewModels\MailSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterDetailViewModel.cs" />
+    <Compile Include="ViewModels\PacketSettingsViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\TabbedViewModel.cs" />
     <Compile Include="ViewModels\TelerikDataGridViewModel.cs" />
+    <Compile Include="ViewModels\TNCSettingsViewModel.cs" />
     <Compile Include="ViewModels\WebViewViewModel.cs" />
     <Compile Include="Views\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
@@ -248,8 +267,22 @@
     <Compile Include="Helpers\ResourceExtensions.cs" />
     <Compile Include="Helpers\Singleton.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
+      <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
+      <Name>FormControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToggleButtonGroupControl\ToggleButtonGroupControl.csproj">
+      <Project>{b448e071-59c5-4198-908f-ee3120bf4f7b}</Project>
+      <Name>ToggleButtonGroupControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\BBSData.xml" />
+    <Content Include="Assets\CountyTacticalCallsigns.xml" />
+    <Content Include="Assets\EmailAccounts.xml" />
+    <Content Include="Assets\Tactical_Calls.txt" />
+    <Content Include="Assets\TNCData.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

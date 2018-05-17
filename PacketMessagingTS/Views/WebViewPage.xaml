@@ -80,7 +80,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <WebView x:Name="webView" Source="{x:Bind ViewModel.Source, Mode=OneWay}">
+        <WebView Grid.Row="0" x:Name="webView" Source="{x:Bind ViewModel.Source, Mode=OneWay}">
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="NavigationCompleted">
                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.NavCompletedCommand}"/>
@@ -104,7 +104,7 @@
             <HyperlinkButton Command="{x:Bind ViewModel.RetryCommand}" x:Uid="WebView_Retry" HorizontalAlignment="Center" />
         </StackPanel>
 
-        <Grid VerticalAlignment="Bottom" Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }">
+        <Grid Grid.Row="1" VerticalAlignment="Bottom" Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }">
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource BrowserButtonStyle}" Command="{x:Bind ViewModel.BrowserBackCommand, Mode=OneWay}" x:Uid="WebView_BrowserBackButton">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72B;" />

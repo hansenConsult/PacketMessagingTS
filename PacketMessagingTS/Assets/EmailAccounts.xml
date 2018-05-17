@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfEmailAccount xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EmailAccount>
+    <MailServer>smtp-mail.outlook.com</MailServer>
+    <MailServerPort>587</MailServerPort>
+    <MailUserName>email@outlook.com</MailUserName>
+    <MailPassword>password</MailPassword>
+    <MailIsSSLField>false</MailIsSSLField>
+  </EmailAccount>
+  <EmailAccount>
+    <MailServer>smtp.gmail.com</MailServer>
+    <MailServerPort>465</MailServerPort>
+    <MailUserName>email@gmail.com</MailUserName>
+    <MailPassword>password</MailPassword>
+    <MailIsSSLField>true</MailIsSSLField>
+  </EmailAccount>
+</ArrayOfEmailAccount>
