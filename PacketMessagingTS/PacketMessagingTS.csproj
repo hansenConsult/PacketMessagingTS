@@ -124,7 +124,7 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="Helpers\Observable.cs" />
+    <Compile Include="Helpers\BaseViewModel.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\SharedData.cs" />
@@ -150,6 +150,7 @@
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="Services\ViewLifetimeControl.cs" />
     <Compile Include="Services\WindowManagerService.cs" />
+    <Compile Include="ViewModels\AddressBookViewModel.cs" />
     <Compile Include="ViewModels\BlankViewModel.cs" />
     <Compile Include="ViewModels\IdentityViewModel.cs" />
     <Compile Include="ViewModels\MailSettingsViewModel.cs" />

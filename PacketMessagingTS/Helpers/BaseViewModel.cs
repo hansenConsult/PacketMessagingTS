@@ -8,16 +8,23 @@ namespace PacketMessagingTS.Helpers
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        Dictionary<string, object> properties = new Dictionary<string, object>();  //Application.Current.Properties;
-
+        Dictionary<string, object> properties = App.Properties;
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
         {
-            if (properties.ContainsKey(propertyName))
+            if (properties != null && properties.ContainsKey(propertyName))
             {
                 // Retrieve value from dictionary
                 object o = properties[propertyName];
-                return (T)o;
+                //if (o.GetType() == typeof(Int64))
+                //{
+                //    int retval = Convert.ToInt32(o);
+                //    return retval;
+                //}
+                //else
+                //{
+                    return (T)o;
+                //}
             }
             else
                 return backingStore;

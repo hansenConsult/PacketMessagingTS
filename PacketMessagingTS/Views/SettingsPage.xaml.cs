@@ -24,6 +24,7 @@ namespace PacketMessagingTS.Views
         public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = new TNCSettingsViewModel();
         public MailSettingsViewModel _mailSettingsViewModel { get; } = new MailSettingsViewModel();
+        public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
         static ObservableCollection<Profile> _profileCollection;
 
@@ -77,6 +78,7 @@ namespace PacketMessagingTS.Views
 
             ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
 
+            ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -157,9 +159,9 @@ namespace PacketMessagingTS.Views
 
         private async Task ProfileSaveAsync()
         {
-            //Profile newProfile = null;
-            int index = comboBoxProfiles.SelectedIndex;
-            Profile profile = SharedData.ProfileArray.Profiles[index];
+            Profile profile = comboBoxProfiles.Items[comboBoxProfiles.SelectedIndex] as Profile;
+            //int index = comboBoxProfiles.SelectedIndex;
+            //Profile profile = ProfileArray.Instance.ProfileList.[index];
             if (comboBoxProfiles.Visibility == Visibility.Collapsed)
             {
                 //	newProfile = new Profile();
@@ -184,13 +186,15 @@ namespace PacketMessagingTS.Views
             profile.SendTo = textBoxTo.Text;
             //profile.Selected = true;
 
-            SharedData.ProfileArray.Profiles.SetValue(profile, index);
+            //ProfileArray.Instance.ProfileList[ProfileArray.Instance.ProfileList.IndexOf(profile)] = profile;
+            ProfileArray.Instance.ProfileList[comboBoxProfiles.SelectedIndex] = profile;
+            //SharedData.ProfileArray.Profiles.SetValue(profile, index);
             //}
 
             await ProfileArray.Instance.SaveAsync();
 
             _profileCollection = new ObservableCollection<Profile>();
-            foreach (Profile prof in SharedData.ProfileArray.Profiles)
+            foreach (Profile prof in ProfileArray.Instance.ProfileList)
             {
                 _profileCollection.Add(prof);
             }
@@ -203,9 +207,44 @@ namespace PacketMessagingTS.Views
             profileSave.IsEnabled = false;
         }
 
-        private void ProfileSave_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void PacketSettingsSave_ClickAsync(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            ProfileSaveAsync();
+            int index = comboBoxProfiles.SelectedIndex;
+            if (comboBoxProfiles.Visibility == Visibility.Collapsed)
+            {
+                Profile newProfile = new Profile()
+                {
+                    Name = textBoxNewProfileName.Text,
+                	BBS = comboBoxBBS.SelectedValue as string,
+                	TNC = comboBoxTNCs.SelectedValue as string,
+                	SendTo = textBoxTo.Text,
+                };
+                ProfileArray.Instance.ProfileList.Add(newProfile);
+                comboBoxProfiles.Visibility = Visibility.Visible;
+                textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                index = ProfileArray.Instance.ProfileList.Count - 1;
+            }
+            else
+            {
+                Profile profile = comboBoxProfiles.Items[comboBoxProfiles.SelectedIndex] as Profile;
+
+                profile.BBS = comboBoxBBS.SelectedValue as string;
+                profile.TNC = comboBoxTNCs.SelectedValue as string;
+                profile.SendTo = textBoxTo.Text;
+
+                //ProfileArray.Instance.ProfileList[ProfileArray.Instance.ProfileList.IndexOf(profile)] = profile;
+                ProfileArray.Instance.ProfileList[comboBoxProfiles.SelectedIndex] = profile;
+            }
+
+            await ProfileArray.Instance.SaveAsync();
+
+            ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
+            comboBoxProfiles.SelectedIndex = index;
+
+            _bbsChanged = false;
+            _tncChanged = false;
+            _defaultToChanged = false;
+            profileSave.IsEnabled = false;
         }
 
         private void ProfileSettingsAdd_Click(object sender, RoutedEventArgs e)
@@ -215,47 +254,49 @@ namespace PacketMessagingTS.Views
             comboBoxProfiles.Visibility = Visibility.Collapsed;
             textBoxNewProfileName.Visibility = Visibility.Visible;
 
-            var length = SharedData.ProfileArray.Profiles.Length;
-            Profile[] tempProfileArray = new Profile[length + 1];
-            SharedData.ProfileArray.Profiles.CopyTo(tempProfileArray, 0);
-            Profile newProfile = new Profile()
-            {
-                BBS = comboBoxBBS.SelectedValue as string,
-                TNC = comboBoxTNCs.SelectedValue as string,
-                SendTo = textBoxTo.Text
-            };
-            tempProfileArray.SetValue(newProfile, length);
-            SharedData.ProfileArray.Profiles = tempProfileArray;
+            //Profile newProfile = new Profile()
+            //{
+            //    BBS = comboBoxBBS.SelectedValue as string,
+            //    TNC = comboBoxTNCs.SelectedValue as string,
+            //    SendTo = textBoxTo.Text
+            //};
+            //ProfileArray.Instance.ProfileList.Add(newProfile);
 
-            ObservableCollection<Profile> profileCollection = new ObservableCollection<Profile>();
-            foreach (Profile profile in SharedData.ProfileArray.Profiles)
-            {
-                //profile.Selected = false;
-                profileCollection.Add(profile);
-            }
-            //sharedData.ProfileArray.Profiles[length].Selected = true;
-            ProfilesCollection.Source = profileCollection;
-            comboBoxProfiles.SelectedIndex = length;
+            //ObservableCollection<Profile> profileCollection = new ObservableCollection<Profile>();
+            //foreach (Profile profile in ProfileArray.Instance.ProfileList)
+            //{
+            //    //profile.Selected = false;
+            //    profileCollection.Add(profile);
+            //}
+            ////sharedData.ProfileArray.Profiles[length].Selected = true;
+            //ProfilesCollection.Source = profileCollection;
+            //comboBoxProfiles.SelectedIndex = ProfileArray.Instance.ProfileList.Count - 1;
         }
 
         private void ProfileSettingsDelete_Click(object sender, RoutedEventArgs e)
         {
             int index = comboBoxProfiles.SelectedIndex;
-            var length = SharedData.ProfileArray.Profiles.Length;
-            Profile[] tempProfileArray = new Profile[length - 1];
 
-            ObservableCollection<Profile> profileCollection = new ObservableCollection<Profile>();
-            for (int i = 0, j = 0; i < length; i++)
-            {
-                if (i != index)
-                {
-                    tempProfileArray.SetValue(SharedData.ProfileArray?.Profiles[i], j);
-                    profileCollection.Add(SharedData.ProfileArray?.Profiles[i]);
-                    j++;
-                }
-            }
-            ProfilesCollection.Source = profileCollection;
-            SharedData.ProfileArray.Profiles = tempProfileArray;
+            Profile profile = comboBoxProfiles.SelectedItem as Profile;
+            ProfileArray.Instance.ProfileList.Remove(profile);
+            ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
+
+            //int index = comboBoxProfiles.SelectedIndex;
+            //var length = SharedData.ProfileArray.Profiles.Length;
+            //Profile[] tempProfileArray = new Profile[length - 1];
+
+            //ObservableCollection<Profile> profileCollection = new ObservableCollection<Profile>();
+            //for (int i = 0, j = 0; i < length; i++)
+            //{
+            //    if (i != index)
+            //    {
+            //        tempProfileArray.SetValue(SharedData.ProfileArray?.Profiles[i], j);
+            //        profileCollection.Add(SharedData.ProfileArray?.Profiles[i]);
+            //        j++;
+            //    }
+            //}
+            //ProfilesCollection.Source = profileCollection;
+            //SharedData.ProfileArray.Profiles = tempProfileArray;
 
             comboBoxProfiles.SelectedIndex = Math.Max(index - 1, 0);
             profileSave.IsEnabled = true;
@@ -340,10 +381,8 @@ namespace PacketMessagingTS.Views
                     comboBoxTNCs.SelectedValue = profile.TNC;
                     //BBSSelectedValue = profile.BBS;
                     comboBoxBBS.SelectedValue = profile.BBS;
-                    textBoxTo.Text = profile.SendTo;
-                    //MessageTo = profile.SendTo;
+ //                   textBoxTo.Text = profile.SendTo;
                     SharedData.CurrentProfile = profile;
-                    //profile.Selected = true;
                 }
                 _bbsChanged = false;
                 _tncChanged = false;
@@ -642,5 +681,113 @@ namespace PacketMessagingTS.Views
         {
 
         }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch)
+            {
+                ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+                if (toggleSwitch.IsHitTestVisible && !(toggleSwitch.FocusState == FocusState.Unfocused))
+                {
+                    AddressBook addressBook = AddressBook.Instance;
+
+                    Grid parent = toggleSwitch.Parent as Grid;
+                    string callsign = (parent.Children[1] as TextBlock).Text;
+                    if (string.IsNullOrEmpty(callsign))
+                        return;
+
+                    addressBook.UpdateAddressBookEntry(callsign, toggleSwitch.IsOn);
+                    ContactsCVS.Source = addressBook.GetContactsGrouped();
+                }
+            }
+        }
+
+        private void MailServer_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailServer != (string)((AutoSuggestBox)sender).Text)
+            //{
+            //    _emailMailServerChanged = true;
+            //}
+            //else
+            //{
+            //    _emailMailServerChanged = false;
+            //}
+            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
+            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
+        }
+
+        private void MailServer_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            //sender.Text = args.SelectedItem.ToString();
+            //TNCPartViewModel viewModel = SettingsPageViewModel.TNCPartViewModel;
+            UpdateMailState(TNCState.EMail);
+            _mailSettingsViewModel.CurrentMailAccount = args.SelectedItem as EmailAccount;
+            // Set comboBox selection
+            for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
+            {
+                if (_mailSettingsViewModel.MailServer == EmailAccountArray.Instance.EmailAccounts[i].MailServer)
+                {
+                    mailServerComboBox.SelectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        private void MailPortString_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailServerPort.ToString() != (string)((TextBox)sender).Text)
+            //{
+            //    _emailMailServerPortChanged = true;
+            //}
+            //else
+            //{
+            //    _emailMailServerPortChanged = false;
+            //}
+            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
+            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
+        }
+
+        private void MailUserName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailUserName != (string)((TextBox)sender).Text)
+            //{
+            //    _emailMailUserNameChanged = true;
+            //}
+            //else
+            //{
+            //    _emailMailUserNameChanged = false;
+            //}
+            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
+            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
+        }
+
+        private void MailPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailPassword != (string)((PasswordBox)sender).Password)
+            //{
+            //    _emailMailPasswordChanged = true;
+            //}
+            //else
+            //{
+            //    _emailMailPasswordChanged = false;
+            //}
+            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
+            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
+        }
+
+        private void MailIsSSL_Toggled(object sender, RoutedEventArgs e)
+        {
+            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailIsSSLField != ((ToggleSwitch)sender).IsOn)
+            //{
+            //    _emailMailIsSSLChanged = true;
+            //}
+            //else
+            //{
+            //    _emailMailIsSSLChanged = false;
+            //}
+            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
+            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
+        }
+
     }
 }

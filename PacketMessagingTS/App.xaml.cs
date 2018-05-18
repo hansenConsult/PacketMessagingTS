@@ -19,6 +19,15 @@ namespace PacketMessagingTS
     {
         public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
 
+        private const string PropertiesDictionaryFileName = "PropertiesDictionary";
+
+        private static Dictionary<string, object> _properties;  //Application.Current.Properties;
+        public static Dictionary<string, object> Properties
+        {
+            get => _properties;
+            set => _properties = value;
+        }
+
         private Lazy<ActivationService> _activationService;
         private ActivationService ActivationService
         {
@@ -107,21 +116,31 @@ namespace PacketMessagingTS
                 BulletinFileName = ""
             };
 
+            //_properties = new Dictionary<string, object>();
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            Properties = await localFolder.ReadAsync<Dictionary<string, object>>(PropertiesDictionaryFileName);
+            if (Properties == null)
+            {
+                _properties = new Dictionary<string, object>();
+            }
+
             await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
             await TNCDeviceArray.Instance.OpenAsync();
+            await EmailAccountArray.Instance.OpenAsync();
             await ProfileArray.Instance.OpenAsync();
+            await AddressBook.Instance.OpenAsync();
+            AddressBook.Instance.CreateAddressBook();
+
+
 
             if (!args.PrelaunchActivated)
             {
                 await ActivationService.ActivateAsync(args);
             }
-
-
-
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
@@ -144,6 +163,9 @@ namespace PacketMessagingTS
             var deferral = e.GetDeferral();
             await Helpers.Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
             deferral.Complete();
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)

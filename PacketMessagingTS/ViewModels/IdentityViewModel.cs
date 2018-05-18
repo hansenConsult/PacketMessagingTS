@@ -39,8 +39,8 @@ namespace PacketMessagingTS.ViewModels
         string userMsgPrefix;
         public string UserMsgPrefix
         {
-            get { return userMsgPrefix; }
-            set { SetProperty(ref userMsgPrefix, value); }
+            get { return GetProperty(ref userName); }
+            set { SetProperty(ref userMsgPrefix, value, true); }
         }
 
         bool useTacticalCallsign;

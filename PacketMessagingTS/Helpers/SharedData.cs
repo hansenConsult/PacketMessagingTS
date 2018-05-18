@@ -56,8 +56,6 @@ namespace PacketMessagingTS.Helpers
             set => currentProfile = value;
         }
 
-        public static ProfileArray ProfileArray { get; set; }
-
         //public static BBSDefinitions BbsArray { get; set; } = new BBSDefinitions();
 
         public static BBSData CurrentBBS { get; set; }

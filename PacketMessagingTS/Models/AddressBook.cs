@@ -148,35 +148,35 @@ namespace PacketMessagingTS.Models
         public void CreateAddressBook()
         {
             _addressDictionary = new Dictionary<string, AddressBookEntry>();
-            foreach (var tacticalCallsignData in SharedData._tacticalCallsignDataDictionary.Values)
-            {
-				if (tacticalCallsignData.TacticalCallsigns == null)
-					continue;
+    //        foreach (var tacticalCallsignData in SharedData._tacticalCallsignDataDictionary.Values)
+    //        {
+				//if (tacticalCallsignData.TacticalCallsigns == null)
+				//	continue;
 
-                foreach (TacticalCall tacticalCall in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
-                {
-                    AddressBookEntry entry = new AddressBookEntry()
-                    {
-                        Callsign = tacticalCall.TacticalCallsign.ToUpper(),
-                        NameDetail = tacticalCall.AgencyName,
-                        BBSPrimary = tacticalCall.PrimaryBBS,
-                        BBSSecondary = tacticalCall.SecondaryBBS,
-                        BBSPrimaryActive = true // tacticalCall.PrimaryBBSActive
-                    };
-                    if (tacticalCall.SecondaryBBS.Length == 0)
-                    {
-                        tacticalCall.PrimaryBBSActive = true;
-                        //tacticalCall.SecondaryBBSActive = false;
-                    }
+    //            foreach (TacticalCall tacticalCall in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
+    //            {
+    //                AddressBookEntry entry = new AddressBookEntry()
+    //                {
+    //                    Callsign = tacticalCall.TacticalCallsign.ToUpper(),
+    //                    NameDetail = tacticalCall.AgencyName,
+    //                    BBSPrimary = tacticalCall.PrimaryBBS,
+    //                    BBSSecondary = tacticalCall.SecondaryBBS,
+    //                    BBSPrimaryActive = true // tacticalCall.PrimaryBBSActive
+    //                };
+    //                if (tacticalCall.SecondaryBBS.Length == 0)
+    //                {
+    //                    tacticalCall.PrimaryBBSActive = true;
+    //                    //tacticalCall.SecondaryBBSActive = false;
+    //                }
 
-                    string activeBBS = tacticalCall.PrimaryBBSActive ? tacticalCall.PrimaryBBS : tacticalCall.SecondaryBBS;
-                    _addressDictionary.TryGetValue(entry.Callsign, out AddressBookEntry newEntry);
-                    if (newEntry == null)
-                    {
-                        _addressDictionary.Add(entry.Callsign, entry);
-                    }
-                }
-            }
+    //                string activeBBS = tacticalCall.PrimaryBBSActive ? tacticalCall.PrimaryBBS : tacticalCall.SecondaryBBS;
+    //                _addressDictionary.TryGetValue(entry.Callsign, out AddressBookEntry newEntry);
+    //                if (newEntry == null)
+    //                {
+    //                    _addressDictionary.Add(entry.Callsign, entry);
+    //                }
+    //            }
+    //        }
             // Add user enries to the dictionary
             if (UserAddressEntries != null)
             {

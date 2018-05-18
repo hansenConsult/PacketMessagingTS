@@ -134,7 +134,7 @@ namespace PacketMessagingTS.Models
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             try
             {
-                var storageItem = await localFolder.CreateFileAsync(tncFileName);
+                var storageItem = await localFolder.CreateFileAsync(tncFileName, CreationCollisionOption.ReplaceExisting);
                 if (storageItem != null)
                 {
                     using (Stream writer = new FileStream(storageItem.Path, FileMode.Create))

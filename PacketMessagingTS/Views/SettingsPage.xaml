@@ -13,6 +13,8 @@
     
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+        <helper:VisibilityConverter x:Key="VisibilityConverter"/>
+
 
         <CollectionViewSource x:Name="TacticalCallsignsAreaSource" IsSourceGrouped="False"/>
         <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />
@@ -35,6 +37,57 @@
 
         <DataTemplate x:Name="TNCDataTemplate" x:DataType="models:TNCDevice" >
             <TextBlock Text="{x:Bind Name}" />
+        </DataTemplate>
+        
+        <CollectionViewSource x:Name="EmailAccountsSource" IsSourceGrouped="False"/>
+
+        <CollectionViewSource x:Name="ContactsCVS"  IsSourceGrouped="True" />
+        <DataTemplate x:Name="ContactListViewTemplate" x:DataType="models:AddressBookEntry">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Ellipse x:Name="Ellipse"
+                         Grid.RowSpan="2"
+                         Width ="25"
+                         Height="25"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"
+                         Fill="LightGray"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" 
+                           Text="{x:Bind Callsign}" 
+                           x:Phase="1"  
+                           Style="{ThemeResource BaseTextBlockStyle}"
+                           Margin="12,6,0,0"/>
+                <TextBlock  Grid.Column="1"
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind Address}" 
+                            MaxLines="2"
+                            x:Phase="1"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Margin="12,0,0,6"/>
+                <TextBlock Grid.Column="2"
+                           Grid.Row="0"
+                           Text="{x:Bind NameDetail}"
+                           TextTrimming="CharacterEllipsis"
+                           x:Phase="1"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Margin="12,6,0,6"/>
+                <ToggleSwitch x:Name="bbsToggle" Grid.Column="2"
+                           Grid.Row="1"
+                           IsOn="{x:Bind BBSPrimaryActive, Mode=TwoWay}"
+                           OffContent="Secondary BBS"
+                           OnContent="Primary BBS"
+						   Visibility="{x:Bind BBSPrimary, Converter={StaticResource VisibilityConverter}}"
+                           Margin="20,0,0,0" Toggled="ToggleSwitch_Toggled" />
+            </Grid>
         </DataTemplate>
 
     </Page.Resources>
@@ -236,7 +289,6 @@
 								  RelativePanel.AlignTopWithPanel="True"
 								  RelativePanel.AlignLeftWithPanel="True"
 								  RelativePanel.AlignRightWithPanel="True"
-								  RelativePanel.Above="profileCommandBar"
 								  Margin="0,10,0,-10" VerticalScrollBarVisibility="Auto">
                         <RelativePanel x:Name="profilePanel">
                             <RelativePanel x:Name="panelProfileSelection" Margin="18">
@@ -246,12 +298,12 @@
 										  RelativePanel.RightOf="labelProfile"
 										  ItemTemplate="{StaticResource  ProfilesDataTemplate}"
 										  ItemsSource="{x:Bind ProfilesCollection.View, Mode=OneWay}"
-                                          SelectedIndex="{Binding ProfileSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedIndex="{Binding ProfileSelectedIndex, Mode=TwoWay}"
                                           VerticalAlignment="Center" SelectionChanged="ComboBoxProfiles_SelectionChanged"   />
                                 <TextBox x:Name="textBoxNewProfileName" Width="300"
-										RelativePanel.RightOf="labelProfile"
-										PlaceholderText="Enter profile name"
-										Visibility="Collapsed"  />
+										 RelativePanel.RightOf="labelProfile"
+										 PlaceholderText="Enter profile name"
+										 Visibility="Collapsed"  />
                             </RelativePanel>
                             <Grid Margin="12"
 									RelativePanel.Below="panelProfileSelection">
@@ -291,7 +343,7 @@
 										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center" />
                                 <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4"  Height="23" Width="270"
-										 Text="{Binding MessageTo}"  TextWrapping="Wrap" VerticalAlignment="Center" 
+										 Text="{Binding DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
 										 TextChanged="TextBoxTo_TextChanged" />
                             </Grid>
                         </RelativePanel>
@@ -301,7 +353,7 @@
 							RelativePanel.AlignLeftWithPanel="True"
 							RelativePanel.AlignRightWithPanel="True">
                         <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add" HorizontalAlignment="Right" Click="ProfileSettingsAdd_Click" />
-                        <AppBarButton x:Name="profileSave" Label="Save Profile" Icon="Save" Click="ProfileSave_Click" />
+                        <AppBarButton x:Name="profileSave" Label="Save Profile" Icon="Save" Click="PacketSettingsSave_ClickAsync" />
                         <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete" Click="ProfileSettingsDelete_Click"  />
                     </CommandBar>
                 </RelativePanel>
@@ -498,7 +550,7 @@
                                     </Grid>
                                 </PivotItem>-->
                                 </Pivot>
-                                <!--<Grid x:Name="EMailSettings" Margin="20,20,0,0" >
+                                <Grid x:Name="EMailSettings" Margin="20,20,0,0" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition MinWidth="250"/>
                                         <ColumnDefinition MinWidth="150"/>
@@ -508,12 +560,11 @@
                                         <RowDefinition />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    --><!--ItemsSource="{x:Bind EmailAccountsSource.View, Mode=OneWay}"--><!--
                                     <ComboBox Grid.Column="0" Grid.Row="0" x:Name="mailServerComboBox"
                                               Header="Mail Server:" 
-                                              
+                                              ItemsSource="{x:Bind EmailAccountsSource.View, Mode=OneWay}"
                                               Margin="10,10,0,0" Visibility="Collapsed"/>
-                                    --><!--SelectionChanged="MailServerComboBox_SelectionChanged"/>--><!--
+                                    <!--SelectionChanged="MailServerComboBox_SelectionChanged"/>-->
                                     <AutoSuggestBox Grid.Column="0" Grid.Row="0" x:Name="mailServer" 
                                                     Text="{Binding MailServer, Mode=TwoWay}" Header="Mail Server:" 
                                                     Margin="10,10,0,0" Visibility="Collapsed"
@@ -536,7 +587,7 @@
                                                   Visibility="Collapsed"
                                                   Header="SSL:" Margin="10,20,0,0"
                                                   Toggled="MailIsSSL_Toggled"/>
-                                </Grid>-->
+                                </Grid>
                             </StackPanel>
                         </SplitView.Content>
                     </SplitView>
@@ -551,6 +602,33 @@
 								Click="appBarSaveTNC_ClickAsync" />
 						<AppBarButton x:Name="appBarDelete" Label="Delete TNC" Icon="Delete" HorizontalAlignment="Right" />
 					</CommandBar>
+                </RelativePanel>
+            </PivotItem>
+
+            <!--Address Book-->
+            <PivotItem x:Name="pivotItemAddressBook" Header="Address Book"
+                DataContext="{x:Bind _addressBookViewModel}">
+                <RelativePanel >
+                    <ListView x:Name="addressBookListView"  ItemsSource="{x:Bind ContactsCVS.View, Mode=OneWay}"
+							  ItemTemplate="{StaticResource ContactListViewTemplate}"
+							  RelativePanel.AlignLeftWithPanel="True"
+							  RelativePanel.AlignRightWithPanel="True"
+                              HorizontalContentAlignment="Stretch"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              SelectionMode="Single"
+                              ShowsScrollingPlaceholders="True"
+                              >
+                        <ListView.GroupStyle>
+                            <GroupStyle >
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate x:DataType="models:GroupInfoList">
+                                        <TextBlock Text="{x:Bind Key}" 
+                                                Style="{ThemeResource TitleTextBlockStyle}"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+                    </ListView>
                 </RelativePanel>
             </PivotItem>
 

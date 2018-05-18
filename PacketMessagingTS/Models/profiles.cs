@@ -18,6 +18,7 @@ using Windows.Storage;
 using MetroLog;
 
 using PacketMessagingTS.Helpers;
+using System.Linq;
 
 namespace PacketMessagingTS.Models
 {
@@ -62,15 +63,8 @@ namespace PacketMessagingTS.Models
         [System.Xml.Serialization.XmlIgnore]
         public List<Profile> ProfileList
         {
-            get
-            {
-                profileList = new List<Profile>();
-                foreach (Profile profile in _instance.profileField)
-                {
-                    profileList.Add(profile);
-                }
-                return profileList;
-            }
+            get => profileList;
+            set => profileList = value;
         }
 
         private ProfileArray()
@@ -128,6 +122,8 @@ namespace PacketMessagingTS.Models
 				{
 					XmlSerializer serializer = new XmlSerializer(typeof(ProfileArray));
 					_instance = (ProfileArray)serializer.Deserialize(reader);
+
+                    _instance.profileList = _instance.profileField.ToList();
 				}
 			}
 			catch (Exception e)
@@ -139,12 +135,14 @@ namespace PacketMessagingTS.Models
 
 		public async Task SaveAsync()
 		{
-            StorageFile storageFile = null;        
+            StorageFile storageFile = null;
+
+            Profiles = ProfileList.ToArray();
             try
 			{
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
-                storageFile = await localFolder.CreateFileAsync(profileFileName);
+                storageFile = await localFolder.CreateFileAsync(profileFileName, CreationCollisionOption.ReplaceExisting);
                 if (storageFile != null)
                 {
 
@@ -165,10 +163,20 @@ namespace PacketMessagingTS.Models
 			}
 		}
 
-	}
+        public void AddItem(Profile profile)
+        {
+            profileList.Add(profile);
+        }
 
-	/// <remarks/>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
+        public void DeleteItem(Profile profile)
+        {
+            profileList.Remove(profile);
+        }
+
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
 	//[System.SerializableAttribute()]
 	//[System.Diagnostics.DebuggerStepThroughAttribute()]
 	//[System.ComponentModel.DesignerCategoryAttribute("code")]
