@@ -108,12 +108,12 @@ namespace PacketMessagingTS.Models
                         SendTo = "",
                     };
 
-					profileArray = new ProfileArray();
-					Profile[] profiles = new Profile[1];
-					profiles.SetValue(profile, 0);
-					profileArray.Profiles = profiles;
+					_instance = new ProfileArray();
+                    _instance.Profiles = new Profile[1];
+                    _instance.Profiles.SetValue(profile, 0);
+                    _instance.ProfileList = _instance.Profiles.ToList();
 
-                    await profileArray.SaveAsync();
+                    await _instance.SaveAsync();
 				}
 
 				file = await localFolder.GetFileAsync(profileFileName);

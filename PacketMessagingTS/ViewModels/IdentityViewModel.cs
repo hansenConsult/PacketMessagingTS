@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 
 namespace PacketMessagingTS.ViewModels
 {
     public class IdentityViewModel : BaseViewModel
     {
+        public static TacticalCall _callsignData;
+        public static TacticalCallsignData _tacticalCallsignData;
+
         public IdentityViewModel()
         {
 
@@ -64,65 +68,98 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        string tacticalMsgPrefix;
+        private Int64 tacticalCallsignAreaSelectedIndex;
+        public Int64 TacticalCallsignAreaSelectedIndex
+        {
+            get => GetProperty(ref tacticalCallsignAreaSelectedIndex);
+            set
+            {
+                SetProperty(ref tacticalCallsignAreaSelectedIndex, value, true);
+            }
+        }
+
+        private Int64 tacticalCallsignSelectedIndex;
+        public Int64 TacticalCallsignSelectedIndex
+        { 
+            get { return GetProperty(ref tacticalCallsignAreaSelectedIndex); }
+            set
+            {
+                if (value == -1)
+                {
+
+                }
+                else
+                {
+                    tacticalCallsignSelectedIndex = value;
+
+                    int index = Convert.ToInt32(TacticalCallsignAreaSelectedIndex);
+                    if (Views.SettingsPage.listOfTacticallsignsArea[index].TacticalCallsigns != null)
+                    {
+                        _callsignData = Views.SettingsPage.listOfTacticallsignsArea[index].TacticalCallsigns.TacticalCallsignsArray[value];
+                        TacticalCallsign = _callsignData.TacticalCallsign;
+                        TacticalMsgPrefix = _callsignData.Prefix;
+                        TacticalPrimary = _callsignData.PrimaryBBS;
+                        TacticalPrimaryActive = _callsignData.PrimaryBBSActive;
+                        TacticalSecondary = _callsignData.SecondaryBBS;
+                        //TacticalSecondaryActive = _callsignData.SecondaryBBSActive;
+                    }
+                    SetProperty(ref tacticalCallsignSelectedIndex, value, true);
+                }
+            }
+        }
+
+        private string tacticalCallsignOther;
+        public string TacticalCallsignOther
+        {
+            get => GetProperty(ref tacticalCallsignOther);
+            set
+            {
+                SetProperty(ref tacticalCallsignOther, value, true);
+
+                TacticalCallsign = TacticalCallsignOther;
+                TacticalMsgPrefix = TacticalCallsign.Substring(3, 3);
+            }
+        }
+
+        private string tacticalMsgPrefix;
         public string TacticalMsgPrefix
         {
             get { return tacticalMsgPrefix; }
             set { SetProperty(ref tacticalMsgPrefix, value); }
         }
 
-        public int TacticalCallsignAreaSelectedIndex
+        private string tacticalPrimary;
+        public string TacticalPrimary
         {
-            get;
-            set;
-            //get { return _settings.TacticalCallsignAreaSelectedIndex; }
-            //set
-            //{
-            //    _settings.TacticalCallsignAreaSelectedIndex = value;
-            //    base.RaisePropertyChanged();
-            //}
+            get { return tacticalPrimary; }
+            set { SetProperty(ref tacticalPrimary, value); }
         }
 
-        public int TacticalCallsignSelectedIndex
-        { get; set;
-            //get { return _settings.TacticalCallsignSelectedIndex; }
-            //set
-            //{
-            //    if (value == -1)
-            //    {
+        private bool tacticalPrimaryActive;
+        public bool TacticalPrimaryActive
+        {
+            get { return tacticalPrimaryActive; }
+            set
+            {
+                tacticalPrimaryActive = value;
+                if (_callsignData == null)
+                {
+                    int index = Convert.ToInt32(TacticalCallsignAreaSelectedIndex);
+                    _callsignData = Views.SettingsPage.listOfTacticallsignsArea[index].TacticalCallsigns.TacticalCallsignsArray[TacticalCallsignSelectedIndex];
+                }
 
-            //    }
-            //    else
-            //    {
-            //        _settings.TacticalCallsignSelectedIndex = value;
-
-            //        if (Views.SettingsPage.listOfTacticallsignsArea[_settings.TacticalCallsignAreaSelectedIndex].TacticalCallsigns != null)
-            //        {
-            //            _callsignData = Views.SettingsPage.listOfTacticallsignsArea[_settings.TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArray[value];
-            //            TacticalCallsign = _callsignData.TacticalCallsign;
-            //            TacticalMsgPrefix = _callsignData.Prefix;
-            //            TacticalPrimary = _callsignData.PrimaryBBS;
-            //            TacticalPrimaryActive = _callsignData.PrimaryBBSActive;
-            //            TacticalSecondary = _callsignData.SecondaryBBS;
-            //            //TacticalSecondaryActive = _callsignData.SecondaryBBSActive;
-            //        }
-            //        base.RaisePropertyChanged();
-            //    }
-            //}
+                _callsignData.PrimaryBBSActive = tacticalPrimaryActive;
+                _tacticalCallsignData.TacticalCallsignsChanged = true;
+                //AddressBook.UpdateEntry(_callsignData);
+                SetProperty(ref tacticalPrimaryActive, value);
+            }
         }
 
-        public string TacticalCallsignOther
+        private string tacticalSecondary;
+        public string TacticalSecondary
         {
-            get;
-            set;
-            //get => _settings.TacticalCallsignOther;
-            //set
-            //{
-            //    _settings.TacticalCallsignOther = value;
-            //    base.RaisePropertyChanged();
-            //    TacticalCallsign = _settings.TacticalCallsignOther;
-            //    TacticalMsgPrefix = TacticalCallsign.Substring(3, 3);
-            //}
+            get { return tacticalSecondary; }
+            set { SetProperty(ref tacticalSecondary, value); }
         }
 
     }

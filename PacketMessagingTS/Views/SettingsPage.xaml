@@ -14,7 +14,7 @@
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
         <helper:VisibilityConverter x:Key="VisibilityConverter"/>
-
+        <helper:ComboBoxItemConverter x:Key="ComboBoxItemConverter"/>
 
         <CollectionViewSource x:Name="TacticalCallsignsAreaSource" IsSourceGrouped="False"/>
         <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />
@@ -175,8 +175,7 @@
                             <TextBlock x:Name="labelUserPrefix"
 									   RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="textBoxUserPrefix"										   Text="Message ID Prefix:" />
                         </RelativePanel>
-                        <ToggleSwitch x:Name="toggleUseTacticalCallsign"
-									  
+                        <ToggleSwitch x:Name="toggleUseTacticalCallsign"									  
   									  Header="Use Tactical Call-sign" 
 									  IsOn="{Binding UseTacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									  Margin="0,30"/>
@@ -306,7 +305,7 @@
 										 Visibility="Collapsed"  />
                             </RelativePanel>
                             <Grid Margin="12"
-									RelativePanel.Below="panelProfileSelection">
+								  RelativePanel.Below="panelProfileSelection">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width ="1*"/>
                                     <ColumnDefinition Width="2.4*"/>
@@ -334,13 +333,16 @@
 										SelectionChanged="ComboBoxBBS_SelectionChanged"/>
                                 <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Description:"  HorizontalAlignment="Left" Margin="0,6,5,0" />
                                 <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" Width="270" Height="88"
-										IsReadOnly="True" TextWrapping="Wrap" 
-										VerticalAlignment="Center"/>
+										 IsReadOnly="True" TextWrapping="Wrap" 
+										 VerticalAlignment="Center"
+                                         Text="{Binding BBSDescription, Mode=TwoWay}"/>
                                 <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Height="23"  Width="85"
-									 HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center" />
+									     HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center"
+                                         Text="{Binding BBSFrequency1, Mode=TwoWay}"/>
                                 <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="48,0,0,0"
-										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center" />
+										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
+                                         Text="{Binding BBSFrequency2, Mode=TwoWay}"/>
                                 <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4"  Height="23" Width="270"
 										 Text="{Binding DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
@@ -353,7 +355,7 @@
 							RelativePanel.AlignLeftWithPanel="True"
 							RelativePanel.AlignRightWithPanel="True">
                         <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add" HorizontalAlignment="Right" Click="ProfileSettingsAdd_Click" />
-                        <AppBarButton x:Name="profileSave" Label="Save Profile" Icon="Save" Click="PacketSettingsSave_ClickAsync" />
+                        <AppBarButton x:Name="profileSave"  Label="Save Profile" Icon="Save" Click="PacketSettingsSave_ClickAsync" />
                         <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete" Click="ProfileSettingsDelete_Click"  />
                     </CommandBar>
                 </RelativePanel>
@@ -398,14 +400,13 @@
                                                     <RowDefinition />
                                                     <RowDefinition Height="auto"/>
                                                 </Grid.RowDefinitions>
-                                                <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="Pre connect commands"/>-->
-                                                <!--<TextBlock Grid.Column="2" Grid.Row="0" Text="Post Connect Commands"/>-->
                                                 <TextBox Grid.Column="0" Grid.Row="0" x:Name="textBoxInitCommandsPre" 
-												         AcceptsReturn="True" Header="Pre Connect Commands" />
+												         AcceptsReturn="True" Header="Pre Connect Commands"
+                                                         Text="{Binding TNCInitCommandsPre, Mode=TwoWay}"/>
                                                 <!--TextChanged="textBoxInitCommandsPre_TextChanged" />-->
                                                 <TextBox Grid.Column="2" Grid.Row="0" x:Name="textBoxInitCommandsPost" 
 												         AcceptsReturn="True" Header="Post Connect Commands"
-												         Margin="0,0,2,0" />
+												         Text="{Binding TNCInitCommandsPost, Mode=TwoWay}" Margin="0,0,2,0" />
                                                 <!--TextChanged="textBoxInitCommandsPost_TextChanged"  />-->
                                             </Grid>
                                         </ScrollViewer>
@@ -416,9 +417,10 @@
                                         <ScrollViewer Margin="0,0,0,48">
                                             <StackPanel>
                                                 <ToggleSwitch x:Name="toggleSwitchBluetooth" Margin="10"														  
-														  Header="Serial device type"												
-														  OffContent="Other serial devices"
-														  OnContent="Bluetooth serial devices" />
+														      Header="Serial device type"												
+														      OffContent="Other serial devices"
+														      OnContent="Bluetooth serial devices"
+                                                              IsOn="{Binding IsToggleSwitchOn, Mode=TwoWay}"/>
                                                 <!--Toggled="toggleSwitchBluetooth_Toggled"/>-->
                                                 <Grid x:Name="gridSerialPortSettings" Margin="10" >
                                                     <Grid.ColumnDefinitions>
@@ -436,42 +438,55 @@
                                                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Comm Port:" HorizontalAlignment="Left" 
 														   VerticalAlignment="Center" />
                                                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort" 
-													      ItemsSource="{x:Bind ComPortListSource.View, Mode=OneWay}"
-													      SelectedValuePath = "PortName"
-													      DisplayMemberPath="PortName"
-													      Width="100" 
-														  VerticalAlignment="Stretch" 
-														  Margin="0,1,0,3" 	/>
+													          ItemsSource="{x:Bind ComPortListSource.View, Mode=OneWay}"
+													          SelectedValuePath = "PortName"
+													          DisplayMemberPath="PortName"
+                                                              Visibility="{Binding TNCComPortVisible, Mode=OneWay}"
+													          Width="100" 
+														      VerticalAlignment="Stretch" 
+														      Margin="0,1,0,3" 	/>
                                                     <!--SelectionChanged="comboBoxComPort_SelectionChanged" />-->
                                                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComName" 
-													      ItemsSource="{x:Bind ComNameListSource.View, Mode=OneWay}"									
-														  SelectedValuePath = "Name"
-														  DisplayMemberPath="Name"
-														  Width="210" 
-														  VerticalAlignment="Stretch" Margin="0,1,0,3"	/>
+													          ItemsSource="{x:Bind ComNameListSource.View, Mode=OneWay}"									
+														      SelectedValuePath = "Name"
+														      DisplayMemberPath="Name"
+                                                              Visibility="{Binding TNCComNameVisible, Mode=OneWay}"
+														      Width="210" 
+														      VerticalAlignment="Stretch" Margin="0,1,0,3"	/>
                                                     <!--SelectionChanged="comboBoxComName_SelectionChanged" />-->
                                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="Baud Rate:"  
 														   VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="1" x:Name="comboBoxBaudRate"  
 													      ItemsSource="{x:Bind BaudRateListSource.View, Mode=OneTime}"											
-														  Width="100" Margin=" 0,2" 	/>
+														  Width="100" Margin=" 0,2"
+                                                          SelectedItem="{Binding TNCComBaudRate, Mode=TwoWay}" />
                                                     <!--SelectionChanged="comboBoxBaudRate_SelectionChanged" />-->
                                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Data Bits:" VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="2" x:Name="comboBoxDatabits"
-														  ItemsSource="{x:Bind DataBitsListSource.View, Mode=OneTime}"													
-														  Width="100" Margin="0,2" 	/>
+														      ItemsSource="{x:Bind DataBitsListSource.View, Mode=OneTime}"													
+														      Width="100" Margin="0,2"                                                             
+                                                              SelectedValue="{Binding TNCComDatabits, Mode=TwoWay}"/>
                                                     <!--SelectionChanged="comboBoxDatabits_SelectionChanged" />-->
                                                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Parity:" 
-														   VerticalAlignment="Center" />
-                                                    <ComboBox Grid.Column="1" Grid.Row="3" x:Name="comboBoxParity" Width="100" Margin="0,2,0,0" />
+														       VerticalAlignment="Center"/>
+                                                    <ComboBox Grid.Column="1" Grid.Row="3" x:Name="comboBoxParity"                                                              
+                                                              Width="100" Margin="0,2,0,0"
+                                                              ItemsSource="{Binding SerialParityValues, Mode=OneTime}"
+                                                              SelectedItem="{Binding TNCComParity, Mode=TwoWay}"/>
                                                     <!--SelectionChanged="comboBoxParity_SelectionChanged" />-->
 
                                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="Stop Bits:" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                                    <ComboBox Grid.Column="1" Grid.Row="4" x:Name="comboBoxStopBits" Width="100" Margin="0,2,0,0" 
-													SelectionChanged="comboBoxStopBits_SelectionChanged" />
+                                                    <ComboBox Grid.Column="1" Grid.Row="4" x:Name="comboBoxStopBits"
+                                                              Width="100" Margin="0,2,0,0"
+                                                              ItemsSource="{Binding SerialStopBitCountValues, Mode=OneTime}"
+                                                              SelectedItem="{Binding TNCComStopbits, Mode=TwoWay}"/>
+													          <!--SelectionChanged="comboBoxStopBits_SelectionChanged" />-->
                                                     <!--ItemsSource="{x:Bind StopBitsListSource.View, Mode=OneTime}"-->
                                                     <TextBlock Grid.Column="0" Grid.Row="5" Text="Flow Control:" VerticalAlignment="Center" />
-                                                    <ComboBox Grid.Column="1" Grid.Row="5" x:Name="comboBoxFlowControl" Width="210" Margin="0,2,0,0" />
+                                                    <ComboBox Grid.Column="1" Grid.Row="5" x:Name="comboBoxFlowControl"
+                                                              Width="210" Margin="0,2,0,0"
+                                                              ItemsSource="{Binding MyEnumTypeValues, Mode=OneTime}"
+                                                              SelectedItem="{Binding TNCComHandshake, Mode=TwoWay}"/>
                                                     <!--SelectionChanged="comboBoxFlowControl_SelectionChanged" />-->
 
                                                     <!--ItemsSource="{x:Bind HandshakesListSource.View, Mode=OneTime}"
@@ -483,52 +498,63 @@
 
                                     <!--Prompts-->
                                     <PivotItem Header="Prompts" DataContext="{x:Bind _TNCSettingsViewModel}">
-                                        <Grid Margin="10" >
+                                        <Grid Margin="20" >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="25*"/>
                                                 <ColumnDefinition Width="60*"/>
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
+                                                <RowDefinition Height="36"/>
+                                                <RowDefinition Height="36"/>
+                                                <RowDefinition Height="36"/>
+                                                <RowDefinition Height="36"/>
                                             </Grid.RowDefinitions>
                                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Command:" VerticalAlignment="Center"/>
-                                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="textBoxPrompsCommand" Text="{Binding TNCPromptsCommand, Mode=TwoWay}" Margin="0,2" />
+                                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="textBoxPrompsCommand"
+                                                     Text="{Binding TNCPromptsCommand, Mode=TwoWay}" Margin="0,2" />
                                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Timeout:" VerticalAlignment="Center"/>
-                                            <TextBox Grid.Column="1" Grid.Row="1" x:Name="textBoxPromptsTimeout" Margin="0,2" Text="{Binding TNCPromptsTimeout, Mode=TwoWay}" />
+                                            <TextBox Grid.Column="1" Grid.Row="1" x:Name="textBoxPromptsTimeout" Margin="0,2"
+                                                     Text="{Binding TNCPromptsTimeout, Mode=TwoWay}" />
                                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Connected:" VerticalAlignment="Center"/>
-                                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="textBoxPromptsConnected" Margin="0,2" TextChanged="textBoxPromptsConnected_TextChanged"  />
+                                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="textBoxPromptsConnected" Margin="0,2"
+                                                     Text="{Binding TNCPromptsConnected, Mode=TwoWay}"
+                                                     TextChanged="textBoxPromptsConnected_TextChanged"  />
                                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Disconnected:" VerticalAlignment="Center"/>
-                                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxPromptsDisconnected" Margin="0,2" TextChanged="textBoxPromptsDisconnected_TextChanged"  />
+                                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxPromptsDisconnected" Margin="0,2"
+                                                     Text="{Binding TNCPromptsDisconnected, Mode=TwoWay}"
+                                                     TextChanged="textBoxPromptsDisconnected_TextChanged"  />
                                         </Grid>
                                     </PivotItem>
 
                                     <!--Commands-->
                                     <PivotItem Header="Commands">
-                                        <Grid Margin="10" >
+                                        <Grid Margin="20" >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="20*"/>
                                                 <ColumnDefinition Width="60*"/>
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition/>
+                                                <RowDefinition Height="36"/>
+                                                <RowDefinition Height="36"/>
+                                                <RowDefinition Height="36"/>
+                                                <RowDefinition Height="36"/>
+                                                <RowDefinition Height="36"/>
                                             </Grid.RowDefinitions>
                                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Mycall:" VerticalAlignment="Center"/>
-                                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="textBoxCommandsMyCall" Margin="0,2" />
+                                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="textBoxCommandsMyCall" Margin="0,2"
+                                                     Text="{Binding TNCCommandsMyCall, Mode=TwoWay}"/>
                                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Connect:" VerticalAlignment="Center" />
-                                            <!--<TextBox Grid.Column="1" Grid.Row="1" x:Name="textBoxCommandsConnect" Margin="0,2" Text="{x:Bind TNCCommandsConnect, Mode=TwoWay}" />-->
+                                            <TextBox Grid.Column="1" Grid.Row="1" x:Name="textBoxCommandsConnect" Margin="0,2"
+                                                     Text="{Binding TNCCommandsConnect, Mode=TwoWay}"/>
                                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Retry:" VerticalAlignment="Center" />
-                                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="textBoxCommandsRetry" Margin="0,2"  />
+                                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="textBoxCommandsRetry" Margin="0,2"
+                                                     Text="{Binding TNCCommandsRetry, Mode=TwoWay}"/>
                                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Convers Mode:" VerticalAlignment="Center" />
-                                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxCommandsConversMode" Margin="0,2"  />
+                                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxCommandsConversMode" Margin="0,2"
+                                                     Text="{Binding TNCCommandsConversMode, Mode=TwoWay}"/>
                                             <TextBlock Grid.Column="0" Grid.Row="4" Text="DateTime:" VerticalAlignment="Center" />
-                                            <TextBox Grid.Column="1" Grid.Row="4" x:Name="textBoxCommandsDateTime" Margin="0,2"  />
+                                            <TextBox Grid.Column="1" Grid.Row="4" x:Name="textBoxCommandsDateTime" Margin="0,2"
+                                                     Text="{Binding TNCCommandsDateTime, Mode=TwoWay}"/>
                                         </Grid>
                                     </PivotItem>
 
@@ -563,6 +589,7 @@
                                     <ComboBox Grid.Column="0" Grid.Row="0" x:Name="mailServerComboBox"
                                               Header="Mail Server:" 
                                               ItemsSource="{x:Bind EmailAccountsSource.View, Mode=OneWay}"
+                                              SelectedIndex="{Binding MailAccountSelectedIndex, Mode=TwoWay}"
                                               Margin="10,10,0,0" Visibility="Collapsed"/>
                                     <!--SelectionChanged="MailServerComboBox_SelectionChanged"/>-->
                                     <AutoSuggestBox Grid.Column="0" Grid.Row="0" x:Name="mailServer" 
@@ -592,15 +619,19 @@
                         </SplitView.Content>
                     </SplitView>
                     <!--</ScrollViewer>-->
-                    <CommandBar x:Name="ButtomCommandBar"
-							RelativePanel.AlignBottomWithPanel="True"
-							RelativePanel.AlignRightWithPanel="True"
-							RelativePanel.AlignLeftWithPanel="True">
-						<AppBarButton x:Name="appBarAddTNC" Label="Add TNC" Icon="Add" HorizontalAlignment="Right" />
-						<AppBarButton x:Name="appBarSaveTNC" Label="Save TNC" Icon="Save" HorizontalAlignment="Right"
-
-								Click="appBarSaveTNC_ClickAsync" />
-						<AppBarButton x:Name="appBarDelete" Label="Delete TNC" Icon="Delete" HorizontalAlignment="Right" />
+                    <!--IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}"-->
+                    <CommandBar x:Name="TNCCommandBar"
+							    RelativePanel.AlignBottomWithPanel="True"
+							    RelativePanel.AlignRightWithPanel="True"
+							    RelativePanel.AlignLeftWithPanel="True">
+						<AppBarButton x:Name="appBarAddTNC" Label="Add" Icon="Add" HorizontalAlignment="Right"
+                                      IsEnabled="{Binding IsAppBarAddEnabled, Mode=OneWay}" Click="AppBarAddTNC_Clicked"/>
+                        <AppBarButton x:Name="appBarSettingsEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right"
+                                      IsEnabled="{Binding IsAppBarEditEnabled, Mode=OneWay}"  Click="AppBarEditTNC_ClickAsync"/>
+                        <AppBarButton x:Name="appBarSaveTNC" Label="Save" Icon="Save" HorizontalAlignment="Right"
+                                      IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}" Click="appBarSaveTNC_ClickAsync" />
+						<AppBarButton x:Name="appBarDeleteTNC" Label="Delete" Icon="Delete" HorizontalAlignment="Right"
+                                      IsEnabled="{Binding IsAppBarDeleteEnabled, Mode=OneWay}" Click="appBarDeleteTNC_ClickAsync"/>
 					</CommandBar>
                 </RelativePanel>
             </PivotItem>

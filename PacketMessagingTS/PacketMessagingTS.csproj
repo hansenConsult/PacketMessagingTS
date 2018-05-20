@@ -96,20 +96,20 @@
       <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.8</Version>
+      <Version>6.1.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.0</Version>
     </PackageReference>
     <!-- Nuget package references -->
     <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.1</Version>
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>2.2.0</Version>
     </PackageReference>
     <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
-      <Version>1.0.0.9</Version>
+      <Version>1.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -121,11 +121,13 @@
     <Compile Include="BackgroundTasks\BackgroundTask1.cs" />
     <Compile Include="Helpers\AddressConverter.cs" />
     <Compile Include="Helpers\AreaConverter.cs" />
+    <Compile Include="Helpers\DeviceListEntry.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\BaseViewModel.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\SerialDeviceConfig.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\SharedData.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
@@ -153,7 +155,6 @@
     <Compile Include="ViewModels\AddressBookViewModel.cs" />
     <Compile Include="ViewModels\BlankViewModel.cs" />
     <Compile Include="ViewModels\IdentityViewModel.cs" />
-    <Compile Include="ViewModels\MailSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterDetailViewModel.cs" />
     <Compile Include="ViewModels\PacketSettingsViewModel.cs" />
@@ -282,6 +283,10 @@
     <Content Include="Assets\BBSData.xml" />
     <Content Include="Assets\CountyTacticalCallsigns.xml" />
     <Content Include="Assets\EmailAccounts.xml" />
+    <Content Include="Assets\PacFORMS\city-scan.html" />
+    <Content Include="Assets\PacFORMS\EOCLogisticsRequest.html" />
+    <Content Include="Assets\PacFORMS\Message.html" />
+    <Content Include="Assets\PacFORMS\XSC_EOC-213RR_v1706.html" />
     <Content Include="Assets\Tactical_Calls.txt" />
     <Content Include="Assets\TNCData.xml" />
     <Content Include="Properties\Default.rd.xml" />

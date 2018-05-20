@@ -18,8 +18,9 @@ namespace PacketMessagingTS.ViewModels
         static bool _emailMailIsSSLChanged = false;
 
 
-        private Int32 mailAccountSelectedIndex;
-        public int MailAccountSelectedIndex
+
+        private Int32 mailAccountSelectedIndex = -1;
+        public Int32 MailAccountSelectedIndex
         {
             get => GetProperty(ref mailAccountSelectedIndex);
             set

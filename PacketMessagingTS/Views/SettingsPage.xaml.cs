@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,7 +14,10 @@ using Windows.Devices.SerialCommunication;
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
-
+using System.Diagnostics;
+using Windows.ApplicationModel;
+using Windows.UI.Core;
+using Windows.Foundation;
 
 namespace PacketMessagingTS.Views
 {
@@ -23,16 +28,40 @@ namespace PacketMessagingTS.Views
         public IdentityViewModel _identityViewModel { get; } = new IdentityViewModel();
         public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = new TNCSettingsViewModel();
-        public MailSettingsViewModel _mailSettingsViewModel { get; } = new MailSettingsViewModel();
+        //public MailSettingsViewModel _mailSettingsViewModel { get; } = new MailSettingsViewModel();
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
+
 
         static ObservableCollection<Profile> _profileCollection;
 
+        ComportComparer comportComparer;
+
+        private ObservableCollection<DeviceListEntry> listOfDevices;
+
+        private List<SerialDevice> _listOfSerialDevices;
         private ObservableCollection<SerialDevice> CollectionOfSerialDevices;
 
         private ObservableCollection<uint> listOfBaudRates;
         private ObservableCollection<ushort> listOfDataBits;
+        private ObservableCollection<SerialHandshake> serialHandshakes;
 
+        private string _otherDeviceSelector;
+        private string _bluetoothDeviceSelector;
+        private Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector;
+
+        private Boolean watchersSuspended;
+        private Boolean watchersStarted;
+
+        // Has all the devices enumerated by the device watcher?
+        private Boolean isAllDevicesEnumerated;
+
+        private SuspendingEventHandler appSuspendEventHandler;
+        private EventHandler<Object> appResumeEventHandler;
+
+        // Identity settings
+        public static ObservableCollection<TacticalCallsignData> listOfTacticallsignsArea;
+
+        TacticalCallsignData _tacticalCallsignData;
 
 
         public SettingsPage()
@@ -47,7 +76,18 @@ namespace PacketMessagingTS.Views
             DeviceListSource.Source = tncDeviceCollection;
             comboBoxTNCs.SelectedValue = SharedData.CurrentTNCDevice;
 
+            // Serial ports
+            listOfDevices = new ObservableCollection<DeviceListEntry>();
+            _listOfSerialDevices = new List<SerialDevice>();
             CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
+            //_listOfBluetoothDevices = new List<DeviceInformation>();
+            //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
+            comportComparer = new ComportComparer();
+
+            mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
+            watchersStarted = false;
+            watchersSuspended = false;
+            isAllDevicesEnumerated = false;
 
             listOfBaudRates = new ObservableCollection<uint>();
             for (uint i = 1200; i < 39000; i *= 2)
@@ -60,30 +100,43 @@ namespace PacketMessagingTS.Views
             listOfDataBits = new ObservableCollection<ushort>() { 7, 8 };
             DataBitsListSource.Source = listOfDataBits;
 
-            // Parity
-            foreach (SerialParity item in Enum.GetValues(typeof(SerialParity)))
-            {
-                comboBoxParity.Items.Add(item);
-            }
+            //ParitiesListSource.Source = Enum.GetValues(typeof(SerialParity));
 
-            foreach (SerialStopBitCount item in Enum.GetValues(typeof(SerialStopBitCount)))
-            {
-                comboBoxStopBits.Items.Add(item);
-            }
-
-            foreach (SerialHandshake item in Enum.GetValues(typeof(SerialHandshake)))
-            {
-                comboBoxFlowControl.Items.Add(item);
-            }
+            //StopBitsListSource.Source = Enum.GetValues(typeof(SerialStopBitCount));
 
             ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
 
+            //ObservableCollection<EmailAccount> EmailAccountsObservableCollection = new ObservableCollection<EmailAccount>();
+            //foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccounts)
+            //{
+            //    EmailAccountsObservableCollection.Add(account);
+            //}
+            ////EmailAccountsSource.Source = EmailAccountsObservableCollection;
+            EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
+
             ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+
+            // Identity initialization
+            listOfTacticallsignsArea = new ObservableCollection<TacticalCallsignData>();
+            foreach (var callsignData in App._tacticalCallsignDataDictionary.Values)
+            {
+                listOfTacticallsignsArea.Add(callsignData);
+            }
+            TacticalCallsignsAreaSource.Source = listOfTacticallsignsArea;
+
+            //distributionListName.ItemsSource = DistributionListArray.Instance.GetDistributionLists();
+            //distributionListAddItem.IsEnabled = false;
+            //distributionListItems.IsReadOnly = true;
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Initialize();
+
+            // Initialize the desired device watchers so that we can watch for when devices are connected/removed
+            InitializeDeviceWatchers();
+            StartDeviceWatchers();
         }
 
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -117,33 +170,33 @@ namespace PacketMessagingTS.Views
             //        break;
             //}
         }
-
+        #region Identity
         private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //_tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
+            _tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
 
-            //_tacticalCallsignData.TacticalCallsignsChanged = false;
-            //ViewModels.IdentityPartViewModel._tacticalCallsignData = _tacticalCallsignData;
-            //if (_tacticalCallsignData.TacticalCallsigns != null)
-            //{
-            //    ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>();
-            //    foreach (var callsignData in _tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
-            //    {
-            //        listOfTacticallsigns.Add(callsignData);
-            //    }
-            //    TacticalCallsignsSource.Source = listOfTacticallsigns;
-            //}
-            //if (_tacticalCallsignData.AreaName == "Other")
-            //{
-            //    textBoxTacticalCallsign.Visibility = Visibility.Visible;
-            //    comboBoxTacticalCallsign.Visibility = Visibility.Collapsed;
-            //    comboBoxAdditionalText.SelectedItem = null;
-            //}
-            //else
-            //{
-            //    textBoxTacticalCallsign.Visibility = Visibility.Collapsed;
-            //    comboBoxTacticalCallsign.Visibility = Visibility.Visible;
-            //}
+            _tacticalCallsignData.TacticalCallsignsChanged = false;
+            IdentityViewModel._tacticalCallsignData = _tacticalCallsignData;
+            if (_tacticalCallsignData.TacticalCallsigns != null)
+            {
+                ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>();
+                foreach (var callsignData in _tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
+                {
+                    listOfTacticallsigns.Add(callsignData);
+                }
+                TacticalCallsignsSource.Source = listOfTacticallsigns;
+            }
+            if (_tacticalCallsignData.AreaName == "Other")
+            {
+                textBoxTacticalCallsign.Visibility = Visibility.Visible;
+                comboBoxTacticalCallsign.Visibility = Visibility.Collapsed;
+                comboBoxAdditionalText.SelectedItem = null;
+            }
+            else
+            {
+                textBoxTacticalCallsign.Visibility = Visibility.Collapsed;
+                comboBoxTacticalCallsign.Visibility = Visibility.Visible;
+            }
         }
 
         private void textBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
@@ -151,7 +204,7 @@ namespace PacketMessagingTS.Views
             if (textBoxTacticalCallsign.Text.Length == 6)
                 _identityViewModel.TacticalCallsignOther = textBoxTacticalCallsign.Text;
         }
-
+        #endregion Identity
         #region Profiles
         private bool _bbsChanged = false;
         private bool _tncChanged = false;
@@ -307,18 +360,16 @@ namespace PacketMessagingTS.Views
             if (e.AddedItems.Count > 0)
             {
                 var selectedTNCDevice = (TNCDevice)e.AddedItems[0];
+
                 if (string.IsNullOrEmpty(selectedTNCDevice.Prompts.Command))
                 {
                     comboBoxBBS.SelectedIndex = -1;
                 }
-                if (SharedData.CurrentProfile.TNC != selectedTNCDevice.Name)
+                if (_packetSettingsViewModel.CurrentProfile != null)
                 {
-                    _tncChanged = true;
+                    _tncChanged = _packetSettingsViewModel.CurrentProfile.TNC != selectedTNCDevice.Name;
                 }
-                else
-                {
-                    _tncChanged = false;
-                }
+
                 profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
                 SharedData.CurrentTNCDevice = selectedTNCDevice;
             }
@@ -334,14 +385,11 @@ namespace PacketMessagingTS.Views
                 textBoxDescription.Text = selectedBBS.Description;
                 textBoxFrequency1.Text = selectedBBS.Frequency1;
                 textBoxFrequency2.Text = selectedBBS.Frequency2;
-                if (SharedData.CurrentProfile.BBS != selectedBBS.Name)
+                if (_packetSettingsViewModel.CurrentProfile != null)
                 {
-                    _bbsChanged = true;
+                    _bbsChanged = _packetSettingsViewModel.CurrentProfile.BBS != selectedBBS.Name;
                 }
-                else
-                {
-                    _bbsChanged = false;
-                }
+
                 profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
             }
             else
@@ -354,7 +402,7 @@ namespace PacketMessagingTS.Views
 
         private void TextBoxTo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (SharedData.CurrentProfile.SendTo != ((TextBox)sender).Text)
+            if (_packetSettingsViewModel.CurrentProfile.SendTo != ((TextBox)sender).Text)
             {
                 _defaultToChanged = true;
             }
@@ -377,12 +425,12 @@ namespace PacketMessagingTS.Views
                 Profile profile = (Profile)((ComboBox)sender).SelectedItem;
                 if (profile != null)
                 {
+                    _packetSettingsViewModel.CurrentProfile = profile;
                     //comboBoxTNCs.SelectedValuePath = "Name";
                     comboBoxTNCs.SelectedValue = profile.TNC;
                     //BBSSelectedValue = profile.BBS;
                     comboBoxBBS.SelectedValue = profile.BBS;
- //                   textBoxTo.Text = profile.SendTo;
-                    SharedData.CurrentProfile = profile;
+                    //textBoxTo.Text = profile.SendTo;
                 }
                 _bbsChanged = false;
                 _tncChanged = false;
@@ -397,6 +445,7 @@ namespace PacketMessagingTS.Views
         }
 
         #endregion
+
         enum TNCState
         {
             None,
@@ -409,6 +458,315 @@ namespace PacketMessagingTS.Views
             EMailAdd
         }
         TNCState _tncState = TNCState.None;
+
+        private void ClearDeviceEntries()
+        {
+            listOfDevices.Clear();
+            foreach (SerialDevice serialDevice in _listOfSerialDevices)
+            {
+                serialDevice.Dispose();
+            }
+            _listOfSerialDevices.Clear();
+            CollectionOfSerialDevices.Clear();
+            //_listOfBluetoothDevices.Clear();
+            //CollectionOfBluetoothDevices.Clear();
+        }
+
+        private void InitializeDeviceWatchers()
+        {
+            // Serial devices device selector
+            var deviceSelector = SerialDevice.GetDeviceSelector();
+
+            // Create a device watcher to look for instances of the Serial Device that match the device selector
+            // used earlier.
+            var deviceWatcher = DeviceInformation.CreateWatcher(deviceSelector);
+
+            // Allow the EventHandlerForDevice to handle device watcher events that relates or effects our device (i.e. device removal, addition, app suspension/resume)
+            AddDeviceWatcher(deviceWatcher, deviceSelector);
+
+            // Bluetooth devices device selector
+            //_bluetoothDeviceSelector = BluetoothDevice.GetDeviceSelector();
+            //_bluetoothDeviceSelector = RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort);
+            //deviceWatcher = DeviceInformation.CreateWatcher(_bluetoothDeviceSelector);
+            //AddDeviceWatcher(deviceWatcher, _bluetoothDeviceSelector);
+        }
+
+        private void StartDeviceWatchers()
+        {
+            // Start all device watchers
+            watchersStarted = true;
+            isAllDevicesEnumerated = false;
+
+            foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
+            {
+                if ((deviceWatcher.Status != DeviceWatcherStatus.Started)
+                    && (deviceWatcher.Status != DeviceWatcherStatus.EnumerationCompleted))
+                {
+                    deviceWatcher.Start();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stops all device watchers.
+        /// </summary>
+        private void StopDeviceWatchers()
+        {
+            // Stop all device watchers
+            foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
+            {
+                if ((deviceWatcher.Status == DeviceWatcherStatus.Started)
+                    || (deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted))
+                {
+                    deviceWatcher.Stop();
+                }
+            }
+
+            // Clear the list of devices so we don't have potentially disconnected devices around
+            ClearDeviceEntries();
+
+            watchersStarted = false;
+        }
+
+        private DeviceListEntry FindDevice(String deviceId)
+        {
+            if (deviceId != null)
+            {
+                foreach (DeviceListEntry entry in listOfDevices)
+                {
+                    if (entry.DeviceInformation.Id == deviceId)
+                    {
+                        return entry;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// We must stop the DeviceWatchers because device watchers will continue to raise events even if
+        /// the app is in suspension, which is not desired (drains battery). We resume the device watcher once the app resumes again.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        private void OnAppSuspension(Object sender, SuspendingEventArgs args)
+        {
+            if (watchersStarted)
+            {
+                watchersSuspended = true;
+                StopDeviceWatchers();
+            }
+            else
+            {
+                watchersSuspended = false;
+            }
+        }
+
+        /// <summary>
+        /// See OnAppSuspension for why we are starting the device watchers again
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnAppResume(Object sender, Object args)
+        {
+            if (watchersSuspended)
+            {
+                watchersSuspended = false;
+                StartDeviceWatchers();
+            }
+        }
+
+        /// <summary>
+        /// We will remove the device from the UI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="deviceInformationUpdate"></param>
+        private async void OnDeviceRemovedAsync(DeviceWatcher sender, DeviceInformationUpdate deviceInformationUpdate)
+        {
+            await RemoveDeviceFromListAsync(deviceInformationUpdate.Id);
+        }
+
+        /// <summary>
+        /// This function will add the device to the listOfDevices so that it shows up in the UI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="deviceInformation"></param>
+        private async void OnDeviceAddedAsync(DeviceWatcher sender, DeviceInformation deviceInformation)
+        {
+            await this.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                new DispatchedHandler(() =>
+                {
+                    AddDeviceToListAsync(deviceInformation, mapDeviceWatchersToDeviceSelector[sender]);
+                }));
+        }
+
+
+        /// <summary>
+        /// Notify the UI whether or not we are connected to a device
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnDeviceEnumerationComplete(DeviceWatcher sender, Object args)
+        {
+            isAllDevicesEnumerated = true;
+
+            //await rootPage.Dispatcher.RunAsync(
+            //    CoreDispatcherPriority.Normal,
+            //    new DispatchedHandler(() =>
+            //    {
+            //        isAllDevicesEnumerated = true;
+
+            //    // If we finished enumerating devices and the device has not been connected yet, the OnDeviceConnected method
+            //    // is responsible for selecting the device in the device list (UI); otherwise, this method does that.
+            //    if (EventHandlerForDevice.Current.IsDeviceConnected)
+            //        {
+            //            SelectDeviceInList(EventHandlerForDevice.Current.DeviceInformation.Id);
+
+            //            ButtonDisconnectFromDevice.Content = ButtonNameDisconnectFromDevice;
+
+            //        //rootPage.NotifyUser("Connected to - " +
+            //        //					EventHandlerForDevice.Current.DeviceInformation.Id, NotifyType.StatusMessage);
+
+            //        EventHandlerForDevice.Current.ConfigureCurrentlyConnectedDevice();
+            //        }
+            //        else if (EventHandlerForDevice.Current.IsEnabledAutoReconnect && EventHandlerForDevice.Current.DeviceInformation != null)
+            //        {
+            //        // We will be reconnecting to a device
+            //        ButtonDisconnectFromDevice.Content = ButtonNameDisableReconnectToDevice;
+
+            //        //rootPage.NotifyUser("Waiting to reconnect to device -  " + EventHandlerForDevice.Current.DeviceInformation.Id, NotifyType.StatusMessage);
+            //    }
+            //        else
+            //        {
+            //        //rootPage.NotifyUser("No device is currently connected", NotifyType.StatusMessage);
+            //    }
+            //    }));
+        }
+
+        private void StartHandlingAppEvents()
+        {
+            appSuspendEventHandler = new SuspendingEventHandler(this.OnAppSuspension);
+            appResumeEventHandler = new EventHandler<Object>(this.OnAppResume);
+
+            // This event is raised when the app is exited and when the app is suspended
+            App.Current.Suspending += appSuspendEventHandler;
+
+            App.Current.Resuming += appResumeEventHandler;
+        }
+
+        private void StopHandlingAppEvents()
+        {
+            // This event is raised when the app is exited and when the app is suspended
+            App.Current.Suspending -= appSuspendEventHandler;
+
+            App.Current.Resuming -= appResumeEventHandler;
+        }
+
+        /// <summary>
+        /// Registers for Added, Removed, and Enumerated events on the provided deviceWatcher before adding it to an internal list.
+        /// </summary>
+        /// <param name="deviceWatcher"></param>
+        /// <param name="deviceSelector">The AQS used to create the device watcher</param>
+        private void AddDeviceWatcher(DeviceWatcher deviceWatcher, String deviceSelector)
+        {
+            deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(this.OnDeviceAddedAsync);
+            deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(this.OnDeviceRemovedAsync);
+            deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(this.OnDeviceEnumerationComplete);
+
+            mapDeviceWatchersToDeviceSelector.Add(deviceWatcher, deviceSelector);
+        }
+
+        private async void AddDeviceToListAsync(DeviceInformation deviceInformation, string deviceSelector)
+        {
+            try
+            {
+                // search the device list for a device with a matching interface ID
+                var match = FindDevice(deviceInformation.Id);
+
+                // Add the device if it's new
+                if (match == null)
+                {
+                    // Create a new element for this device interface, and queue up the query of its
+                    // device information
+                    match = new DeviceListEntry(deviceInformation, deviceSelector);
+
+                    // Add the new element to the end of the list of devices
+                    listOfDevices.Add(match);
+
+                    //SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
+                    //if (serialDevice != null)
+                    //{
+                    //	//string name = serialDevice.PortName;
+                    //	_listOfSerialDevices.Add(serialDevice);
+                    //	// Sort list
+                    //	_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
+                    //	CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
+                    //	ComPortListSource.Source = CollectionOfSerialDevices;
+                    //}
+
+
+                    if (deviceInformation.Pairing.IsPaired)
+                    {
+                        // Bluetooth device
+                        //try
+                        //{
+                        //    if (deviceInformation.Kind == DeviceInformationKind.AssociationEndpoint)
+                        //    {
+                        //        _listOfBluetoothDevices.Add(deviceInformation);
+                        //        CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
+                        //        ComNameListSource.Source = CollectionOfBluetoothDevices;
+                        //    }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    LogHelper(LogLevel.Error, $"Overall Connect: { ex.Message}");
+                        //}
+                    }
+                    else
+                    {
+                        // USB serial port
+                        SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
+                        if (serialDevice != null)
+                        {
+                            //string name = serialDevice.PortName;
+                            _listOfSerialDevices.Add(serialDevice);
+                            // Sort list
+                            _listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
+                            CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
+                            ComPortListSource.Source = CollectionOfSerialDevices;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Debug.WriteLine($"{e.Message}, DeviceId = {deviceInformation.Id}");
+                //LogHelper(LogLevel.Error, $"{e.Message}, DeviceId = {deviceInformation.Id}");
+#endif
+            }
+        }
+
+        private async Task RemoveDeviceFromListAsync(String deviceId)
+        {
+            // Removes the device entry from the internal list; therefore the UI
+            var deviceEntry = FindDevice(deviceId);
+
+            listOfDevices.Remove(deviceEntry);
+
+            SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceId);
+            if (serialDevice != null)
+            {
+                _listOfSerialDevices.Remove(serialDevice);
+                // Sort list
+                _listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
+                CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
+                ComPortListSource.Source = CollectionOfSerialDevices;
+            }
+        }
+
 
         private void comboBoxStopBits_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -476,61 +834,59 @@ namespace PacketMessagingTS.Views
             UpdateTNCFromUI(SharedData.CurrentTNCDevice);
         }
 
-        private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            TNCSaveAsCurrent();
-            //for (int i = 0; i < SharedData.TncDeviceArray.TNCDevices.Length; i++)
-            foreach (TNCDevice tncDevice in TNCDeviceArray.Instance.TNCDeviceList)
-            {
-                if (tncDevice.Name == SharedData.CurrentTNCDevice.Name)
-                {
-                    tncDevice.InitCommands.Precommands = SharedData.CurrentTNCDevice.InitCommands.Precommands;
-                    tncDevice.InitCommands.Postcommands = SharedData.CurrentTNCDevice.InitCommands.Postcommands;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.IsBluetooth = SharedData.CurrentTNCDevice.CommPort.IsBluetooth;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.BluetoothName = SharedData.CurrentTNCDevice.CommPort.BluetoothName;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.DeviceId = SharedData.CurrentTNCDevice.CommPort.DeviceId;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.Comport = SharedData.CurrentTNCDevice.CommPort.Comport;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.Baudrate = SharedData.CurrentTNCDevice.CommPort.Baudrate;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.Databits = SharedData.CurrentTNCDevice.CommPort.Databits;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.Stopbits = SharedData.CurrentTNCDevice.CommPort.Stopbits;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.Parity = SharedData.CurrentTNCDevice.CommPort.Parity;
-//                    SharedData.TncDeviceArray.TNCDevices[i].CommPort.Flowcontrol = SharedData.CurrentTNCDevice.CommPort.Flowcontrol;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Prompts.Command = SharedData.CurrentTNCDevice.Prompts.Command;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Prompts.Timeout = SharedData.CurrentTNCDevice.Prompts.Timeout;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Prompts.Connected = SharedData.CurrentTNCDevice.Prompts.Connected;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Prompts.Disconnected = SharedData.CurrentTNCDevice.Prompts.Disconnected;
-////                    SharedData.TncDeviceArray.TNCDevices[i].Commands.Connect = textBoxCommandsConnect.Text;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Commands.Conversmode = SharedData.CurrentTNCDevice.Commands.Conversmode;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Commands.MyCall = SharedData.CurrentTNCDevice.Commands.MyCall;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Commands.Retry = SharedData.CurrentTNCDevice.Commands.Retry;
-//                    SharedData.TncDeviceArray.TNCDevices[i].Commands.Datetime = SharedData.CurrentTNCDevice.Commands.Datetime;
+        //private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
+        //{
+        //    TNCSaveAsCurrent();
+        //    foreach (TNCDevice tncDevice in TNCDeviceArray.Instance.TNCDeviceList)
+        //    {
+        //        if (tncDevice.Name == SharedData.CurrentTNCDevice.Name)
+        //        {
+        //            tncDevice.InitCommands.Precommands = SharedData.CurrentTNCDevice.InitCommands.Precommands;
+        //            tncDevice.InitCommands.Postcommands = SharedData.CurrentTNCDevice.InitCommands.Postcommands;
+        //            tncDevice.CommPort.IsBluetooth = SharedData.CurrentTNCDevice.CommPort.IsBluetooth;
+        //            tncDevice.CommPort.BluetoothName = SharedData.CurrentTNCDevice.CommPort.BluetoothName;
+        //            tncDevice.CommPort.DeviceId = SharedData.CurrentTNCDevice.CommPort.DeviceId;
+        //            tncDevice.CommPort.Comport = SharedData.CurrentTNCDevice.CommPort.Comport;
+        //            tncDevice.CommPort.Baudrate = SharedData.CurrentTNCDevice.CommPort.Baudrate;
+        //            tncDevice.CommPort.Databits = SharedData.CurrentTNCDevice.CommPort.Databits;
+        //            tncDevice.CommPort.Stopbits = SharedData.CurrentTNCDevice.CommPort.Stopbits;
+        //            tncDevice.CommPort.Parity = SharedData.CurrentTNCDevice.CommPort.Parity;
+        //            tncDevice.CommPort.Flowcontrol = SharedData.CurrentTNCDevice.CommPort.Flowcontrol;
+        //            tncDevice.Prompts.Command = SharedData.CurrentTNCDevice.Prompts.Command;
+        //            tncDevice.Prompts.Timeout = SharedData.CurrentTNCDevice.Prompts.Timeout;
+        //            tncDevice.Prompts.Connected = SharedData.CurrentTNCDevice.Prompts.Connected;
+        //            tncDevice.Prompts.Disconnected = SharedData.CurrentTNCDevice.Prompts.Disconnected;
+        //            tncDevice.Commands.Connect = textBoxCommandsConnect.Text;
+        //            tncDevice.Commands.Conversmode = SharedData.CurrentTNCDevice.Commands.Conversmode;
+        //            tncDevice.Commands.MyCall = SharedData.CurrentTNCDevice.Commands.MyCall;
+        //            tncDevice.Commands.Retry = SharedData.CurrentTNCDevice.Commands.Retry;
+        //            tncDevice.Commands.Datetime = SharedData.CurrentTNCDevice.Commands.Datetime;
+        //            break;
+        //        }
+        //    }
 
-                    break;
-                }
-            }
-
-            await SharedData.TncDeviceArray.SaveAsync();
-            SharedData.SavedTNCDevice = new TNCDevice(SharedData.CurrentTNCDevice);
-            appBarSaveTNC.IsEnabled = false;
-        }
+        //    await TNCDeviceArray.Instance.SaveAsync();
+        //    SharedData.SavedTNCDevice = new TNCDevice(SharedData.CurrentTNCDevice);
+        //    appBarSaveTNC.IsEnabled = false;
+        //}
 
         private void SetMailControlsEnabledState(bool enabledState)
         {
-            //mailPortString.IsEnabled = enabledState;
-            //mailUserName.IsEnabled = enabledState;
-            //mailPassword.IsEnabled = enabledState;
-            //if (enabledState == true)
-            //{
-            //    mailIsSSL.Visibility = Visibility.Visible;
-            //    mailServerComboBox.Visibility = Visibility.Collapsed;
-            //    mailServer.Visibility = Visibility.Visible;
-            //}
-            //else
-            //{
-            //    mailIsSSL.Visibility = Visibility.Collapsed;
-            //    mailServerComboBox.Visibility = Visibility.Visible;
-            //    mailServer.Visibility = Visibility.Collapsed;
-            //}
+            mailPortString.IsEnabled = enabledState;
+            mailUserName.IsEnabled = enabledState;
+            mailPassword.IsEnabled = enabledState;
+            if (enabledState == true)
+            {
+                mailIsSSL.Visibility = Visibility.Visible;
+                mailServerComboBox.Visibility = Visibility.Collapsed;
+                mailServer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                mailIsSSL.Visibility = Visibility.Collapsed;
+                mailServerComboBox.Visibility = Visibility.Visible;
+                mailServer.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void UpdateMailState(TNCState newMailState)
@@ -546,22 +902,101 @@ namespace PacketMessagingTS.Views
                     break;
                 case TNCState.EMailEdit:
                     SetMailControlsEnabledState(true);
+                    //appBarSaveTNC.IsEnabled = true;
                     break;
                 case TNCState.EMailDelete:
                     SetMailControlsEnabledState(false);
                     break;
                 case TNCState.EMailAdd:
                     SetMailControlsEnabledState(true);
-                    //mailServer.Text = "";
-                    //mailPortString.Text = "0";
-                    //mailUserName.Text = "";
-                    //mailPassword.Password = "";
-                    //mailIsSSL.IsOn = false;
+                    mailServer.Text = "";
+                    mailPortString.Text = "0";
+                    mailUserName.Text = "";
+                    mailPassword.Password = "";
+                    mailIsSSL.IsOn = false;
                     break;
                 case TNCState.None:
                     SetMailControlsEnabledState(false);
                     break;
             }
+        }
+
+        private void SetComportComboBoxVisibility()
+        {
+            if (toggleSwitchBluetooth.IsOn)
+            {
+                //ShowBluetoothDevices = Visibility.Visible;
+                comboBoxComName.Visibility = Visibility.Visible;
+                comboBoxComPort.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                //ShowBluetoothDevices = Visibility.Collapsed;
+                comboBoxComName.Visibility = Visibility.Collapsed;
+                comboBoxComPort.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void NewTNCDevice()
+        {
+            ConnectDevices.Visibility = Visibility.Collapsed;
+            newTNCDeviceName.Visibility = Visibility.Visible;
+
+            textBoxInitCommandsPre.Text = "";
+            textBoxInitCommandsPost.Text = "";
+
+            toggleSwitchBluetooth.IsOn = false;
+            SetComportComboBoxVisibility();
+
+            //if (CollectionOfBluetoothDevices.Count > 0)
+            //{
+            //    comboBoxComName.SelectedItem = CollectionOfBluetoothDevices[0];
+            //}
+
+            if (CollectionOfSerialDevices.Count > 0)
+            {
+                comboBoxComPort.SelectedItem = CollectionOfSerialDevices[0];
+            }
+
+            comboBoxBaudRate.SelectedItem = 9600;
+            comboBoxDatabits.SelectedItem = 8;
+
+
+            int i = 0;
+            var values = Enum.GetValues(typeof(SerialParity));
+            for (; i < values.Length; i++)
+            {
+                if ((SerialParity)values.GetValue(i) == SerialParity.None) break;
+            }
+            comboBoxParity.SelectedIndex = i;
+
+            values = Enum.GetValues(typeof(SerialStopBitCount));
+            for (i = 0; i < values.Length; i++)
+            {
+                if ((SerialStopBitCount)values.GetValue(i) == SerialStopBitCount.One) break;
+            }
+            comboBoxStopBits.SelectedIndex = i;
+
+            values = Enum.GetValues(typeof(SerialHandshake));
+            for (i = 0; i < values.Length; i++)
+            {
+                if ((SerialHandshake)values.GetValue(i) == SerialHandshake.RequestToSend)
+                {
+                    break;
+                }
+            }
+            comboBoxFlowControl.SelectedIndex = i;
+
+            textBoxPrompsCommand.Text = "";
+            textBoxPromptsTimeout.Text = "";
+            textBoxPromptsConnected.Text = "";
+            textBoxPromptsDisconnected.Text = "";
+
+            textBoxCommandsConnect.Text = "";
+            textBoxCommandsConversMode.Text = "";
+            textBoxCommandsMyCall.Text = "";
+            textBoxCommandsRetry.Text = "";
+            textBoxCommandsDateTime.Text = "";
         }
 
         private void ConnectDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -577,13 +1012,12 @@ namespace PacketMessagingTS.Views
                 {
                     tncDevice = (TNCDevice)TNCDevices[0];
                     SharedData.CurrentTNCDevice = tncDevice;
-                    SharedData.SavedTNCDevice = new TNCDevice(tncDevice);
-                    if (tncDevice.Name == "E-Mail")
+                    if (tncDevice.Name.Contains("E-Mail"))
                     {
                         UpdateMailState(TNCState.EMail);
-//                        EMailSettings.Visibility = Visibility.Visible;
+                        EMailSettings.Visibility = Visibility.Visible;
                         PivotTNC.Visibility = Visibility.Collapsed;
-//                        mailServerComboBox.SelectedIndex = _mailSettingsViewModel.MailAccountSelectedIndex;
+                        mailServerComboBox.SelectedIndex = Convert.ToInt32(_TNCSettingsViewModel.MailAccountSelectedIndex);
                     }
                     else
                     {
@@ -591,7 +1025,7 @@ namespace PacketMessagingTS.Views
                         {
                             _tncState = TNCState.None;
                         }
-//                        EMailSettings.Visibility = Visibility.Collapsed;
+                        EMailSettings.Visibility = Visibility.Collapsed;
                         PivotTNC.Visibility = Visibility.Visible;
                     }
                 }
@@ -599,8 +1033,8 @@ namespace PacketMessagingTS.Views
                 {
                     return;
                 }
-                textBoxInitCommandsPre.Text = tncDevice.InitCommands.Precommands;
-                textBoxInitCommandsPost.Text = tncDevice.InitCommands.Postcommands;
+                //textBoxInitCommandsPre.Text = tncDevice.InitCommands.Precommands;
+                //textBoxInitCommandsPost.Text = tncDevice.InitCommands.Postcommands;
 
                 //SerialDevice serialDevice = null;
                 //UseBluetooth = tncDevice.CommPort.IsBluetooth;
@@ -615,65 +1049,65 @@ namespace PacketMessagingTS.Views
                 //        break;
                 //    }
                 //}
-                foreach (SerialDevice device in CollectionOfSerialDevices)
-                {
-                    if (device.PortName == tncDevice.CommPort.Comport)
-                    {
-                        comboBoxComPort.SelectedItem = device;
-                        break;
-                    }
-                }
+                //foreach (SerialDevice device in CollectionOfSerialDevices)
+                //{
+                //    if (device.PortName == tncDevice.CommPort.Comport)
+                //    {
+                //        comboBoxComPort.SelectedItem = device;
+                //        break;
+                //    }
+                //}
                 //if (serialDevice != null)
                 {
                     //comboBoxComPort.SelectedItem = serialDevice;
-                    comboBoxBaudRate.SelectedValue = tncDevice.CommPort.Baudrate;
-                    comboBoxDatabits.SelectedValue = tncDevice.CommPort.Databits;
+                    //comboBoxBaudRate.SelectedValue = tncDevice.CommPort.Baudrate;
+                    //comboBoxDatabits.SelectedValue = tncDevice.CommPort.Databits;
 
-                    int i = 0;
-                    var values = Enum.GetValues(typeof(SerialParity));
-                    for (; i < values.Length; i++)
-                    {
-                        if ((SerialParity)values.GetValue(i) == tncDevice.CommPort.Parity) break;
-                    }
-                    comboBoxParity.SelectedIndex = i;
+                    //int i = 0;
+                    //var values = Enum.GetValues(typeof(SerialParity));
+                    //for (; i < values.Length; i++)
+                    //{
+                    //    if ((SerialParity)values.GetValue(i) == tncDevice.CommPort.Parity) break;
+                    //}
+                    //comboBoxParity.SelectedIndex = i;
                     //ViewModels.SettingsPageViewModel.TNCPartViewModel.SelectedParity = tncDevice.CommPort.Parity;
 
-                    values = Enum.GetValues(typeof(SerialStopBitCount));
-                    for (i = 0; i < values.Length; i++)
-                    {
-                        if ((SerialStopBitCount)values.GetValue(i) == tncDevice.CommPort.Stopbits) break;
-                    }
-                    comboBoxStopBits.SelectedIndex = i;
+                    //values = Enum.GetValues(typeof(SerialStopBitCount));
+                    //for (i = 0; i < values.Length; i++)
+                    //{
+                    //    if ((SerialStopBitCount)values.GetValue(i) == tncDevice.CommPort.Stopbits) break;
+                    //}
+                    //comboBoxStopBits.SelectedIndex = i;
 
                     //ViewModels.SettingsPageViewModel.TNCPartViewModel.SelectedStopBits = tncDevice.CommPort.Stopbits;
-                    values = Enum.GetValues(typeof(SerialHandshake));
-                    for (i = 0; i < values.Length; i++)
-                    {
-                        if ((SerialHandshake)values.GetValue(i) == tncDevice.CommPort.Flowcontrol)
-                        {
-                            break;
-                        }
-                    }
-                    comboBoxFlowControl.SelectedIndex = i;
+                    //values = Enum.GetValues(typeof(SerialHandshake));
+                    //for (i = 0; i < values.Length; i++)
+                    //{
+                    //    if ((SerialHandshake)values.GetValue(i) == tncDevice.CommPort.Flowcontrol)
+                    //    {
+                    //        break;
+                    //    }
+                    //}
+                    //comboBoxFlowControl.SelectedIndex = i;
                 }
                 //else
                 //{
                 //	MessageDialog messageDialog = new MessageDialog("Com port not found. \nIs the TNC plugged in?");
                 //	await messageDialog.ShowAsync();
                 //}
-                _TNCSettingsViewModel.TNCPromptsCommand = tncDevice.Prompts.Command;
-                _TNCSettingsViewModel.TNCPromptsTimeout = tncDevice.Prompts.Timeout;
+                //_TNCSettingsViewModel.TNCPromptsCommand = tncDevice.Prompts.Command;
+                //_TNCSettingsViewModel.TNCPromptsTimeout = tncDevice.Prompts.Timeout;
                 //textBoxPrompsCommand.Text = tncDevice.Prompts.Command;
                 //textBoxPromptsTimeout.Text = tncDevice.Prompts.Timeout;
-                textBoxPromptsConnected.Text = tncDevice.Prompts.Connected;
-                textBoxPromptsDisconnected.Text = tncDevice.Prompts.Disconnected;
+                //textBoxPromptsConnected.Text = tncDevice.Prompts.Connected;
+                //textBoxPromptsDisconnected.Text = tncDevice.Prompts.Disconnected;
 
-                _TNCSettingsViewModel.TNCCommandsConnect = tncDevice.Commands.Connect;
+                //_TNCSettingsViewModel.TNCCommandsConnect = tncDevice.Commands.Connect;
                 //textBoxCommandsConnect.Text = tncDevice.Commands.Connect;
-                textBoxCommandsConversMode.Text = tncDevice.Commands.Conversmode;
-                textBoxCommandsMyCall.Text = tncDevice.Commands.MyCall;
-                textBoxCommandsRetry.Text = tncDevice.Commands.Retry;
-                textBoxCommandsDateTime.Text = tncDevice.Commands.Datetime;
+                //textBoxCommandsConversMode.Text = tncDevice.Commands.Conversmode;
+                //textBoxCommandsMyCall.Text = tncDevice.Commands.MyCall;
+                //textBoxCommandsRetry.Text = tncDevice.Commands.Retry;
+                //textBoxCommandsDateTime.Text = tncDevice.Commands.Datetime;
             }
         }
 
@@ -702,6 +1136,17 @@ namespace PacketMessagingTS.Views
             }
         }
 
+        private void UpdateEMailAccountFromUI(ref EmailAccount emailAccount)
+        {
+            emailAccount.MailServer = mailServer.Text;
+            emailAccount.MailServerPort = Convert.ToUInt16(mailPortString.Text);
+            emailAccount.MailUserName = mailUserName.Text;
+            emailAccount.MailPassword = mailPassword.Password;
+            emailAccount.MailIsSSLField = mailIsSSL.IsOn;
+        }
+
+
+
         private void MailServer_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailServer != (string)((AutoSuggestBox)sender).Text)
@@ -721,11 +1166,11 @@ namespace PacketMessagingTS.Views
             //sender.Text = args.SelectedItem.ToString();
             //TNCPartViewModel viewModel = SettingsPageViewModel.TNCPartViewModel;
             UpdateMailState(TNCState.EMail);
-            _mailSettingsViewModel.CurrentMailAccount = args.SelectedItem as EmailAccount;
+            _TNCSettingsViewModel.CurrentMailAccount = args.SelectedItem as EmailAccount;
             // Set comboBox selection
             for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
             {
-                if (_mailSettingsViewModel.MailServer == EmailAccountArray.Instance.EmailAccounts[i].MailServer)
+                if (_TNCSettingsViewModel.MailServer == EmailAccountArray.Instance.EmailAccounts[i].MailServer)
                 {
                     mailServerComboBox.SelectedIndex = i;
                     break;
@@ -789,5 +1234,116 @@ namespace PacketMessagingTS.Views
             //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
         }
 
+        private void AppBarAddTNC_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (_tncState == TNCState.EMail || _tncState == TNCState.EMailEdit)
+            {
+                UpdateMailState(TNCState.EMailAdd);
+            }
+            else if (_tncState != TNCState.EMail || _tncState != TNCState.EMailEdit || _tncState != TNCState.EMailAdd)
+            {
+                _tncState = TNCState.Add;
+                NewTNCDevice();
+            }
+
+        }
+
+        private void AppBarEditTNC_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (_tncState == TNCState.EMail)
+            {
+                UpdateMailState(TNCState.EMailEdit);
+            }
+        }
+
+        private async void appBarDeleteTNC_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (_tncState == TNCState.EMail)
+            {
+                int index = mailServerComboBox.SelectedIndex;
+                EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
+                List<EmailAccount> emailAccountsList = EmailAccountArray.Instance.EmailAccounts.ToList();
+                bool success = emailAccountsList.Remove(emailAccount);
+                EmailAccountArray.Instance.EmailAccounts = emailAccountsList.ToArray();
+
+                if (!success)
+                {
+                    return;
+                }
+
+                EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
+
+                mailServerComboBox.SelectedIndex = Math.Max(0, index - 1);
+                await EmailAccountArray.Instance.SaveAsync();
+                UpdateMailState(TNCState.EMail);
+            }
+
+        }
+
+        private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (_tncState == TNCState.EMailDelete)
+            {
+                //await EmailAccountArray.Instance.SaveAsync();
+                //UpdateMailState(TNCState.EMail);
+            }
+            else if (_tncState == TNCState.EMailEdit)
+            {
+                EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
+                UpdateEMailAccountFromUI(ref emailAccount);
+                for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
+                {
+                    if (EmailAccountArray.Instance.EmailAccounts[i].MailServer == emailAccount.MailServer)
+                    {
+                        EmailAccountArray.Instance.EmailAccounts[i] = emailAccount;
+                        break;
+                    }
+                }
+                await EmailAccountArray.Instance.SaveAsync();
+                UpdateMailState(TNCState.EMail);
+            }
+            else if (_tncState == TNCState.EMailAdd)
+            {
+                EmailAccount emailAccount = new EmailAccount();
+                UpdateEMailAccountFromUI(ref emailAccount);
+                List<EmailAccount> emailAccountList = EmailAccountArray.Instance.EmailAccounts.ToList();
+                emailAccountList.Add(emailAccount);
+                EmailAccountArray.Instance.EmailAccounts = emailAccountList.ToArray();
+                await EmailAccountArray.Instance.SaveAsync();
+                UpdateMailState(TNCState.EMail);
+
+                //ObservableCollection<EmailAccount> EmailAccountsObservableCollection = new ObservableCollection<EmailAccount>();
+                //foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccounts)
+                //{
+                //    EmailAccountsObservableCollection.Add(account);
+                //}
+                //int selectedIndex = SettingsPageViewModel.TNCPartViewModel.MailAccountSelectedIndex;
+                EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
+                mailServerComboBox.SelectedIndex = EmailAccountArray.Instance.EmailAccounts.Length - 1;
+            }
+            else if (_tncState == TNCState.Add)
+            {
+                string tncDeviceName = newTNCDeviceName.Text;
+                if (string.IsNullOrEmpty(tncDeviceName))
+                {
+                    //await Utilities.ShowMessageDialogAsync("The new TNC Device must have a name.", "Add TNC Device error");
+                    return;
+                }
+                TNCDevice tncDevice = new TNCDevice();
+                tncDevice.Name = tncDeviceName;
+                UpdateTNCFromUI(tncDevice);       // Fill the new TNCDevice with data
+                                                  // Add to existing array
+                TNCDeviceArray.Instance.TNCDeviceList.Add(tncDevice);
+                await TNCDeviceArray.Instance.SaveAsync();
+                _tncState = TNCState.None;
+            }
+            ConnectDevices.Visibility = Visibility.Visible;
+            newTNCDeviceName.Visibility = Visibility.Collapsed;
+
+            //ResetTNCDeviceChanged();
+
+            appBarSaveTNC.IsEnabled = false;
+
+        }
     }
 }

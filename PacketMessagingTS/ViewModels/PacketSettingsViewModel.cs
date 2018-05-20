@@ -35,6 +35,45 @@ namespace PacketMessagingTS.ViewModels
 
         }
 
+        private Profile currentProfile;
+        public Profile CurrentProfile
+        {
+            get => currentProfile;
+            set
+            {
+                currentProfile = value;
+
+                Name = currentProfile.Name;
+                TNC = currentProfile.TNC;
+                BBS = currentProfile.BBS;
+            }
+        }
+
+        private string name;
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+
+        private string tnc;
+        public string TNC
+        {
+            get => tnc;
+            set => SetProperty(ref tnc, value);
+        }
+
+        private string bbs;
+        public string BBS
+        {
+            get => bbs;
+            set
+            {
+                SetProperty(ref bbs, value);
+
+            }
+        }
+
         private string defaultTo;
         public string DefaultTo
         {

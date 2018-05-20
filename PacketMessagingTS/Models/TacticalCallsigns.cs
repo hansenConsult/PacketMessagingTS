@@ -198,7 +198,7 @@ namespace PacketMessagingTS.Models
             TacticalCallsigns tacticalCallsigns = null;
             try
             {
-				TacticalCallsignData tacticalCallsignData = SharedData._tacticalCallsignDataDictionary[fileName];
+				TacticalCallsignData tacticalCallsignData = App._tacticalCallsignDataDictionary[fileName];
 
 				StorageFolder localFolder = ApplicationData.Current.LocalFolder;
                 var tacticalCallFile = await localFolder.TryGetItemAsync(fileName);
@@ -817,7 +817,7 @@ namespace PacketMessagingTS.Models
 
         private static (string primaryBBS, string secondaryBBS) FindCountyPrimSecBBS(string callsign)
         {
-            TacticalCallsignData tacticalCallsignData = SharedData._tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
+            TacticalCallsignData tacticalCallsignData = App._tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
 
             string primBBS = "", secBBS = "";
             foreach (var callsignData in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)

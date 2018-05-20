@@ -11,7 +11,7 @@ namespace PacketMessagingTS.Helpers
 {
     public static class SharedData
     {
-        public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
+        //public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
 
         public static StorageFolder ArchivedMessagesFolder
         {
@@ -49,22 +49,22 @@ namespace PacketMessagingTS.Helpers
             set;
         }
 
-        static Profile currentProfile;
-        public static Profile CurrentProfile
-        {
-            get => currentProfile;
-            set => currentProfile = value;
-        }
+        //static Profile currentProfile;
+        //public static Profile CurrentProfile
+        //{
+        //    get => currentProfile;
+        //    set => currentProfile = value;
+        //}
 
         //public static BBSDefinitions BbsArray { get; set; } = new BBSDefinitions();
 
         public static BBSData CurrentBBS { get; set; }
 
-        public static TNCDeviceArray TncDeviceArray { get; set; }
+        //public static TNCDeviceArray TncDeviceArray { get; set; }
 
         public static TNCDevice CurrentTNCDevice { get; set; }
 
-        public static TNCDevice SavedTNCDevice { get; set; }
+        //public static TNCDevice SavedTNCDevice { get; set; }
 
 
     }

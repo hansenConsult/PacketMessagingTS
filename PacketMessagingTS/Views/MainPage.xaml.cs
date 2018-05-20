@@ -15,28 +15,28 @@ namespace PacketMessagingTS.Views
         {
             InitializeComponent();
 
-            if (SharedData.CurrentProfile == null)
-            {
-                SharedData.CurrentProfile = ProfileArray.Instance.Profiles[0];
-            }
+            //if (SharedData.CurrentProfile == null)
+            //{
+            //    SharedData.CurrentProfile = ProfileArray.Instance.Profiles[0];
+            //}
 
-            foreach (BBSData bbs in BBSDefinitions.Instance.BBSDataList)
-            {
-                if (SharedData.CurrentProfile.BBS == bbs.Name)
-                {
-                    SharedData.CurrentBBS = bbs;
-                    break;
-                }
-            }
+            //foreach (BBSData bbs in BBSDefinitions.Instance.BBSDataList)
+            //{
+            //    if (SharedData.CurrentProfile.BBS == bbs.Name)
+            //    {
+            //        SharedData.CurrentBBS = bbs;
+            //        break;
+            //    }
+            //}
 
-            foreach (TNCDevice tncDevice in TNCDeviceArray.Instance.TNCDeviceList)
-            {
-                if (SharedData.CurrentProfile.TNC == tncDevice.Name)
-                {
-                    SharedData.CurrentTNCDevice = tncDevice;
-                    break;
-                }
-            }
+            //foreach (TNCDevice tncDevice in TNCDeviceArray.Instance.TNCDeviceList)
+            //{
+            //    if (SharedData.CurrentProfile.TNC == tncDevice.Name)
+            //    {
+            //        SharedData.CurrentTNCDevice = tncDevice;
+            //        break;
+            //    }
+            //}
 
         }
     }

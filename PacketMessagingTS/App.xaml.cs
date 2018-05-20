@@ -128,6 +128,11 @@ namespace PacketMessagingTS
                 _properties = new Dictionary<string, object>();
             }
 
+            foreach (var tacticalCallsignType in _tacticalCallsignDataDictionary.Values)
+            {
+                tacticalCallsignType.TacticalCallsigns = await TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
+            }
+
             await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
             await TNCDeviceArray.Instance.OpenAsync();
             await EmailAccountArray.Instance.OpenAsync();

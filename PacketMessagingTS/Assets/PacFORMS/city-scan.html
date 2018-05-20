@@ -1,0 +1,869 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=iso-8859-1">
+<!-- city-scan.html, Ver. 3.5.10, 07/17/13 - PacRelease 3.9, 07/17/13
+     Added limit print feature, 10/17/09
+     Added Bold Style Sheet command for form fields, 11/8/09
+     Added Msg. Nos., handling, Textarea enlargement, 02/12/10
+     Added upcase, reset date, 4/17/10
+     Added "To Planning" and blured 2 msg. nos., 7/19/10
+     Added red color to "1a.)", 1/11/11 (Add PR34 to # ver. rec.)
+     Added test to NOT print empty fields, removed non-essential # recoreds, 1/16/11
+     Added odate and otime as hidden to store time and date when submtted, 2/1/11
+     Added Monte Sereno to Los Gatos on City dropdown list, 2/8/11
+     Added update to gerurl() to fix cgi stuff.  4/24/11
+     Modified localhost to 127.0.0.1 in last <form tag, 2/13/12
+     Modified to add JSid & JSver for ver. 3.5.7, Rel. 3.8
+     Modified  by J Clark to work with FF 2 on W2K, 1/10/13
+     07/17/13 - Modified textarea LF flag from Inv. ? to \n for 7 bit problem
+     07/17/13 - Changed trim: user '] to ''] and ] to ']; all reversed thru pac-read
+     07/17/13 by HPH, added a fix to trim to add a blank to the end of the string if a
+        backtick is the last character
+     07/09/13 - Changed the Version number to include PR-3.9....
+     07/23/12 by HPH, Added command to unwrap to convert inverted ? to \n for input from old forms
+     09/23/14 by HPH, No change, revised version to 4.0
+     10/1/14 by HPH, change Receiving to Receiver's in "When Sending Message" msg. no, field
+     10/27/14 by HPH, Fixed typo "Senders's" to "Sender's"
+     01/11/15 by HPH, Fixed typo at field 14: ACTIVTED to ACTIVATED
+     01/11/15 by HPH, Fixed JS function geturl to remove problem with a slash in Outpost ID user name
+     01/19/17 by MEF - Consistent indent level of 2 spaces for HTML code
+                     - Eliminated variety of HTML errors:  closed tags, quotes, etc.
+                     - Eliminated depricated <FONT> tag
+                     - Eliminated use of serif font for more consistent look and feel
+                     - Resized most items for more reliable printing
+                     - Turn off input field backgrounds and set red to black for printing
+                     - Bumped version to 4.1-3.10
+     03/10/17 by HPH - Modified msg no. line with align="right" and aligh="left" to put
+                       labels closer to form fields.
+     06-16-17 by HPH - Modified verson to PacRELEASE 4.2
+     07-18-17 by HPH - No 50 char. limit for !PACF! record - City and whether emergency declared
+     08-16-17 by HPH - Changed PacRelease from 4.2 to 4.3 - no other changes made
+
+-->
+<title>CITY SCAN FLASH REPORT</title>
+<style type="text/css">
+
+  body { font-size: 9pt; font-weight: normal;  color: black; font-family: Helvetica, Arial, sans-serif; }
+
+  input, textarea, select { font-size: 9pt; font-weight: bold; background: #ffffdd; }
+  /* select { width: 300px; } */
+
+  hr { color: red; }
+
+  table, button { font-size: 9pt; font-weight:bold; }
+
+  #BOX {border-style: double; border-width: medium; background: rgb(255,255,180);}
+
+  .banner-table { background: #DDDDDD; }
+  .msgno  { font-size:  9pt; text-align: right; }
+  .table1 { font-size:  8pt; }
+  .ils_table {font-size:  8pt; }
+
+  .red { color: red; }
+
+  .title-text    { font-size: 14pt; font-weight: bold; color: #4242CE; }
+  .s1-title-text { font-size: 12pt; font-weight: bold;  }
+  .s2-title-text { font-size:  9pt; font-weight: normal;  }
+  .js-head-text  { font-size:  9pt; }
+  .js-error-text { font-size: 12pt; font-weight: bold;  color: red; }
+  .submit-text   { font-size: 10pt; color: red; }
+  .form-ver-text { font-size:  8pt; font-weight: bold; text-decoration: underline; }
+
+</style>
+
+<style type="text/css" media="print">
+
+  .header, .trailer { display: none;  }
+  #box { background: none; }
+  .red { color: black; }
+  hr { color: black }
+  input, select, textarea { color: black; background: none; }
+  .title-text { color: black; }
+
+</style>
+
+<script language="JavaScript">
+// <!--
+var JSid = "CITY-SCAN UPDATE FLASH REPORT";
+var JSver = "JS-ver. PR-4.3-3.12, 07/18/17";
+var JShead = "<span class=\"js-head-text\">JavaScript Version PR-4.3-3.12 for Amateur Radio Packet Transmission, 07/18/17 - <b>PacRELEASE 4.3</b></span>";
+var JStail = "(PR-4.3-3.12, 07/18/17)";
+
+function lockUnlockMsg(checkbox) {
+     if (checkbox.checked == 1)
+        { document.getElementById('RSmsgno').disabled = false;
+          document.getElementById('SRmsgno').disabled = false;
+        }
+     else
+        { document.getElementById('RSmsgno').disabled = true;
+          document.getElementById('SRmsgno').disabled = true;
+        }
+ }
+
+function emerg()
+  { document.forms[0].handling[0].checked=true;
+  }
+
+ var whichway, ascii, thisurl;
+ thisurl = "";
+ function geturl()
+  { if (thisurl != "") { return thisurl; }
+    var res = new Array(), tem = new Array();
+    var a=document.URL;
+    tem = a.split(/\?/);
+  //  alert(a+", T0:"+tem[0]+", T1:"+tem[1]);
+    a = tem[0];
+    a = a.replace(/\\/g,"\/");
+    res = a.split(/\//g);
+    var l = res.length-1;
+  //  alert(a+", "+l+", "+res[0]+","+res[l]);
+    return res[l];
+  }
+
+
+ function resetforms()
+  { document.forms[0].reset();
+    document.forms[1].reset();
+    datetime(0);  // added 4/17/10, modified to add (0) 2/1/11
+  }
+
+ function hide_message()
+  {
+    document.getElementById('errormessage1').style.display='none';
+  }
+
+ function Browser()
+  { var bb = navigator.appName;
+    if (bb.indexOf("Microsoft") != -1)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+      function zerofill(val)
+       { if (val > 9) { return "" + val }
+         return "0" + val
+       }
+
+      function datetime(dum1) // Parameter added 2/1/11 to update Operator send date/time
+       { var hr, ampm;
+         var Today = new Date();
+         var month = zerofill(Today.getMonth()+1);
+         var year = Today.getFullYear();
+         var day  = zerofill(Today.getDate());
+         var hr1 = Today.getHours();
+         var min = zerofill(Today.getMinutes());
+/*
+         if (hr1 >12)
+          { hr = hr1 - 12;
+            ampm = " PM";
+          } else
+          { hr = hr1;
+            ampm = " AM";
+          }
+*/
+         hr = zerofill(hr1);
+         var dat = month+"/"+day+"/"+year;
+         var tim = hr+min;
+         if (dum1 == 0)       //  Added these tests with dum1 2/1/11
+          { document.forms[0].date.value=dat;
+            document.forms[0].time.value=tim;
+          } else
+         if(dum1 == 1)
+          { document.forms[0].odate.value=dat;
+            document.forms[0].otime.value=tim;
+          } else
+         if (dum1 == 2)
+          { document.forms[0].odate.value="";
+            document.forms[0].otime.value="";
+          }
+       }
+
+ function slen(strval, len, disp)
+  { var n;
+    n = strval.length;
+    if (n > len)
+      { alert("The "+disp+" field contains more than "+len+" characters.  Please shorten the message");
+        return true;
+      } else
+      { return false;
+      }
+   }
+
+   function trim(strval)              // Trims leading and trailing blanks
+   {
+     strval = strval.replace(/\`\]/g, "\x87")  // New - temp.
+     strval = strval.replace(/\]/g, "`]");     // New
+     strval = strval.replace(/\x87/g, "``]");  // New
+     strval = strval.replace(/\s*$/,"");
+     strval = strval.replace(/^\s*/,"");
+     strval = strval.replace(/\`$/,"` ");  // adds a last backtick with backtick blank
+     return strval;
+   }
+
+ function wrap(inStr, cols)
+  { var i, n, itot, str, res, cvt;
+    words = new Array;
+    if (inStr == "") { return inStr; }
+    if (cols < 0)
+     { cols=Math.abs(cols);
+//       inStr = inStr.replace(/%BF/g, "%37BF");  // removes %BF typed by user NEW
+//       inStr = inStr.replace(/\n/g,"\xBF");   // Inverted ?
+       inStr = inStr.replace(/\n/g,"\\n");      //NEW
+       inStr = inStr.replace(/\r/g,"");
+//       inStr = "\xBF"+inStr;                  // Inverted ?
+       inStr = "\\n"+inStr;                    // NEW
+     } else
+     { inStr = inStr.replace(/\n|\r/g, " ");
+     }
+    words = inStr.split(" ");
+    iwd = words.length;
+    n = inStr.length;
+    i = 0;
+    k = 0;
+    res = "";
+    blk = "";
+    itot = 0;
+    for (i=0; i<iwd; i++)
+     { if (itot >= cols)
+        { words[i] = words[i]+"\n";
+          itot = 0;
+        }
+       itot = itot + words[i].length + 1;
+       res = res + blk + words[i];
+       blk = " ";
+     }
+    return res;
+  }
+
+   var itot;
+   function unwrap(str,msg)
+    { var i, n, nl, iwd, k;
+      words = new Array;
+      icols = msg.cols;
+      irows = msg.rows;
+      str = str.replace(/\xBF/g,"\\n");  // Converts all inverted ? to \n from old versions, 7/23/13
+      str = str.replace(/\\n/g, "\n");
+//      str = str.replace(/%37/g, "%");     // NEW
+      if (str.charAt(0) == "\n")      // Removes inverted \n at 1st Chr.
+       { str = str.substring(1); }
+      parl = countlines(str);
+      tsl = str.length;
+      nrows = Math.ceil(tsl/icols);
+      words = str.split(" ");
+      iwd = words.length;
+      n = str.length;
+  //    if (n <= icols) { return inStr }
+      i = 0;
+      k = 0;
+      nl = 0;
+      res = "";
+      itot = 0;
+      for (i=0; i<iwd; i++)
+       { if (itot >= icols)
+          { nl++;
+            itot = 0;
+          }
+         itot = itot + words[i].length + 1;
+       }
+      itot = nl + parl+1;
+      if (nrows > itot) { itot = nrows; }
+   //  alert(nl+" "+parl+" "+irows+" "+icols+" "+nrows )
+      str = str.replace(/\n/g,"\r\n");
+      if (itot > irows)
+        { msg.rows=itot;  }
+      return str;
+    }
+
+   function countlines(inStr)
+    { var i, n, m;
+      n = 0;
+      i = 0;
+      m = inStr.indexOf("\n",n);
+      while (m >= 0)
+       { i++;
+         n=m+1;
+         m = inStr.indexOf("\n",n);
+       }
+      return i;
+  }
+
+ function out(win, text, param)
+  { var str, val;
+    if (param == "") { return; }
+    str = text+": ["+param+"]\n";
+    if (whichway == 0)
+     { win.document.write(str);
+     } else
+     { ascii += str;
+     }
+  }
+
+ function radio(win, param, text, max)
+  { var i, val, j;
+    j=0;
+    for (i=0; i<max; i++)
+     { if (param[i].checked)
+        { val=param[i].value;
+          out(win,text,val);
+          j=1;
+        }
+     }
+    if (j == 0) { out(win,text,"") }
+   }
+
+ function fradio(param, max)
+  { var i, val, j;
+    j=0;
+    for (i=0; i<max; i++)
+     { if (param[i].checked)
+        { val=param[i].value;
+          j=1;
+        }
+     }
+    if (j == 0) { val = ""; }
+    return val;
+   }
+
+function fdropdown(param, max)
+  { var i, j, val;
+    val = "";
+    j = 0;
+    with(param)
+     { for (i=0; i<max; i++)
+        { if (options[i].selected)
+           { j++;
+             if (j == 1)
+              { val = options[i].text;
+              } else
+              { val = val + ", " + options[i].text;
+              }
+           }
+        }
+      }
+    if (j > 2) { val = wrap(val,50); }
+    return val;
+   }
+
+ function testvalues()
+  { var str, k, j, m;
+    str = "";
+    if (Fmsgno == "") { str="Enter a Message Number."; }
+	if (Fsever == "") { str=str+"\n Indicate Situation Severity."; }
+	if (Fhandling == "") { str=str+"\n Indicate Msg. Handling Order."; }
+    if (Fcitylist == "SELECT the CITY")
+     { str=str+"\n Line 1a.: Please select a City."; }
+    if (Fcitylist == "Other" && Fother == "")
+     { str =str + "\n Line 1b.: You must specify OTHER."; }
+    if (Fctname == "")
+     { str =str + "\n Line 4.: Please specify Contact Person."; }
+    if (Fdeclare == "")
+     { str = str + "\n Line 9.: Please specify Emergency declaration or not."; }
+    if (str == "")
+     { k = 0;
+     } else
+     { datetime(2);  // Added 2/1/11
+       alert(str);
+       k = 1;
+     }
+   // j=checklen();
+    m=k;
+    if (m > 0)
+     { return false;
+     } else
+     { return true;
+     }
+  }
+
+ function gatherdata()
+ {
+  document.forms[1].formtext.value = ascii;
+  return;
+ }
+
+ function poundstuff()
+  {  var reqStr = "!PACF! "+pacf+"\n"+"# "+JSid+" \n"+"# "+JSver+"\n"+
+                  "# FORMFILENAME: "+geturl()+"\n";
+               //   "# Form Item numbers are followed by a colon (:)\n"+
+               //   "# Answers are enclosed in brackets ( [ ] )\n"+
+               //   "# Note: The symbol "+"\xBF"+" is NOT a bug. It is used in Textarea formatting.\n";
+     return reqStr;
+  }
+
+ var pacf = "";
+ function newwin(theway)
+  { datetime(1); //  Added 2/1/11
+   whichway = theway;
+ FRSmsgno = trim(document.forms[0].RSmsgno.value); // TEXT
+ Fmsgno = trim(document.forms[0].msgno.value); // TEXT
+ FSRmsgno = trim(document.forms[0].SRmsgno.value); // TEXT
+
+ FRSmsgno = FRSmsgno.toUpperCase();
+ Fmsgno = Fmsgno.toUpperCase();
+ FSRmsgno =FSRmsgno.toUpperCase();
+
+ Fodate = trim(document.forms[0].odate.value); // TEXT added 2/1/11
+ Fotime = trim(document.forms[0].otime.value); // TEXT
+
+ Fsever = fradio(document.forms[0].sever,3);
+ Fhandling = fradio(document.forms[0].handling,3);
+ //Freplyyn = fradio(document.forms[0].replyyn,2);
+ Freplyby = trim(document.forms[0].replyby.value); // TEXT
+ Fcitylist = fdropdown(document.forms[0].citylist,19);
+ Fother = trim(document.forms[0].other.value); // TEXT
+ Fdate = trim(document.forms[0].date.value); // TEXT
+ Ftime = trim(document.forms[0].time.value); // TEXT
+ Fctname = trim(document.forms[0].ctname.value); // TEXT
+ Ftitle = trim(document.forms[0].title.value); // TEXT
+ Fphone = trim(document.forms[0].phone.value); // TEXT
+ Fradio = trim(document.forms[0].radio.value); // TEXT
+ Fdeclare = fradio(document.forms[0].declare,2);
+ Fwhendate = trim(document.forms[0].whendate.value); // TEXT
+ Fwhentime = trim(document.forms[0].whentime.value); // TEXT
+ Fwhoname = trim(document.forms[0].whoname.value); // TEXT
+ Fwhotitle = trim(document.forms[0].whotitle.value); // TEXT
+ Finca = trim(document.forms[0].inca.value); // Textarea
+ Floca = trim(document.forms[0].loca.value); // Textarea
+ Fstata = trim(document.forms[0].stata.value); // Textarea
+
+ Finca = wrap(Finca,-50);
+ Floca = wrap(Floca,-50);
+ Fstata = wrap(Fstata,-50);
+
+// Next 10 lines are for added info after !PACF!
+   d = "CityScan";
+   a = Fmsgno.substring(0);
+   b = Fsever.substring(0,1);
+   c = Fhandling.substring(0,1);
+   if (Fother != "")
+    { e = Fcitylist+" "+Fother;
+    } else
+    { e = Fcitylist;
+    }
+   pacf = a+"_"+b+"/"+c+"_"+d+"_"+e+" Emergency Declared: "+Fdeclare;
+//
+
+ if (whichway == 1)
+  { ascii = poundstuff();
+    NewWin = 0;
+  } else
+  {
+ if ( !testvalues() ) { return }
+ NewWin = window.open("", null, "height=600,width=700,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes,resizable=yes");
+ NewWin.document.write("<" + "html>\n");
+ NewWin.document.write("<" + "head>\n");
+ NewWin.document.write("<title>City Scan Flash Report</title>\n");
+ var bbb = Browser();
+ if (bbb)
+  {
+    NewWin.document.write('<S' + 'CRIPT LANGUAGE="JavaScript" type="text/javascript">\n');
+
+    NewWin.document.write("function ClipBoard()\n");
+    NewWin.document.write(" { \n");
+    NewWin.document.write("   holdtext.innerText = copytext.innerText; \n");
+    NewWin.document.write("   Copied = holdtext.createTextRange(); \n");
+    NewWin.document.write('   Copied.execCommand("Copy"); \n');
+    NewWin.document.write(" } \n");
+
+    NewWin.document.write("</S" + "CRIPT> \n");
+  }
+ NewWin.document.write("<" + "/head> \n");
+ if (bbb)
+  {
+    NewWin.document.write('<' + 'body  bgcolor="#ffffff" onLoad="ClipBoard()">\n');
+    NewWin.document.write('<SPAN ID="copytext" STYLE="background-color:lightblue">\n');
+    NewWin.document.write('<TEXTAREA ID="holdtext" STYLE="display:none;"> </TEXTAREA>\n');
+  }
+ else
+  { NewWin.document.write('<' + 'body>\n');
+  }
+ NewWin.document.write("<pre>\n");
+ NewWin.document.write("!PACF! "+pacf+"\n# "+JSid+" \n");
+ NewWin.document.write("# "+JSver+"\n");
+ NewWin.document.write("# FORMFILENAME: "+geturl()+"\n");
+/*
+ if (bbb)
+  { NewWin.document.write('<span class="red"># \n');
+    NewWin.document.write("# THE LIGHT BLUE HIGHLIGHTED TEXT HAS BEEN AUTOMATICALLY COPIED \n");
+    NewWin.document.write("# to the Clipboard.  To save it to a file, you must \n");
+  }
+ else
+  { NewWin.document.write('<span class="red"># TO COPY THE TEXT IN THIS WINDOW, FOCUS THIS WINDOW, THEN:\n');
+    NewWin.document.write("# Select All ASCII Text by typing Ctrl-A, then Ctrl-C to Copy.\n");
+  }
+ NewWin.document.write("# Next, RUN WordPad or Notepad and DO Ctrl-V to Paste into the editor body.\n");
+ NewWin.document.write("# Then DO Save-As to a TEXT Document file, or Paste directly into Outpost.</span>\n");
+ NewWin.document.write("# Form Item numbers are followed by a colon (:)\n");
+ NewWin.document.write("# Answers are enclosed in brackets ( [ ] )\n");
+ NewWin.document.write("# Note: The symbol "+"\xBF"+" is NOT a bug. It is used in Textarea formatting.\n");
+*/
+  }  // end of else loop where whichway == 0
+
+//
+ out(NewWin,"A.",FRSmsgno);
+ out(NewWin,"MsgNo",Fmsgno);
+ out(NewWin,"C.",FSRmsgno);
+ out(NewWin,"D.",Fsever);
+ out(NewWin,"E.",Fhandling);
+ radio(NewWin,document.forms[0].replyyn,"F.",2);
+ out(NewWin,"replyby",Freplyby);
+ out(NewWin,"1a.",Fcitylist);
+ out(NewWin,"1b.",Fother);
+ out(NewWin,"2.",Fdate);
+ out(NewWin,"3.",Ftime);
+ out(NewWin,"4.",Fctname);
+ out(NewWin,"5.",Ftitle);
+ out(NewWin,"6.",Fphone);
+ out(NewWin,"7.",Fradio);
+ radio(NewWin,document.forms[0].impact,"8.",2);
+ radio(NewWin,document.forms[0].declare,"9.",2);
+ out(NewWin,"10.",Fwhendate);
+ out(NewWin,"11.",Fwhentime);
+ out(NewWin,"12.",Fwhoname);
+ out(NewWin,"13.",Fwhotitle);
+ radio(NewWin,document.forms[0].activate,"14.",2);
+ radio(NewWin,document.forms[0].incnow,"15.",2);
+
+ out(NewWin,"16a-I",Finca);
+ out(NewWin,"16a-L",Floca);
+ out(NewWin,"16a-S",Fstata);
+ out(NewWin,"OpDate",Fodate); // added 2/1/11
+ out(NewWin,"OpTime",Fotime);
+
+ radio(NewWin,document.forms[0].addres,"17.",2);
+
+ if (whichway == 0)
+  { NewWin.document.write("#EOF\n");
+  } else
+  { ascii += "#EOF\n";
+    gatherdata();
+    return;
+  }
+
+//
+ NewWin.document.write("</pre>\n");
+ if (bbb)
+  { NewWin.document.write("</SPAN>"); }
+ NewWin.document.write("</body>");
+ NewWin.document.write("</html>");
+ NewWin.document.close();
+  }
+  //
+var qsParm = new Array();
+var qsVal = new Array();
+var qsN;
+function qs()
+ { var n=0;
+   var query = window.location.search.substring(1);
+   query = query.replace(/%20/g,"");
+   var leng=query.length;
+  // alert("Query="+query+", "+leng);
+   if (leng <=1) { return; }
+   var parms = query.split('&');
+   qsN = parms.length;
+   for (var i=0; i<qsN; i++)
+    {
+      var pos = parms[i].indexOf('=');
+      if (pos > 0)
+       {
+         qsParm[i] = parms[i].substring(0,pos);
+         qsVal[i] = parms[i].substring(pos+1);
+         qsVal[i] = decodeURI(qsVal[i]);
+         qsVal[i] = qsVal[i].replace(/\+/g, " ");
+       }
+    }
+   assignq();
+ }
+
+ function assignq()
+  { var i,j,dum;
+    for (i=0; i<qsN; i++)
+     {
+       if (!document.forms[0][qsParm[i]] )
+       { alert(">>> Form Field name \'"+qsParm[i]+"\' does NOT exist.");
+       } else
+       { document.forms[0][qsParm[i]].value=qsVal[i];
+       }
+     }
+  }
+//
+   function custom()
+    {
+  <!-- CUSTOM1 -->
+  <!-- CUSTOM2 -->
+     qs();  // Do Not remove this function call. Used by Outpost to pass data.
+    }
+
+// -->
+</SCRIPT>
+<!-- PART1 -->
+</head>
+<body bgcolor="#ffffff" onLoad="hide_message(); datetime(0); custom();">
+
+
+<!-- PART2 -->
+<center>
+
+<table class=banner-table width="100%">
+  <tr><td><center>
+    <span class="title-text">"CITY SCAN" - FLASH REPORT</span>
+    <div class="js-head-text header">
+      <script language="JavaScript"> // put in header area
+        document.write(JShead);
+      </script><br>
+      <span class="s2-title-text">(For the manual saving of the ASCII output, this form is best used with Microsoft Internet Explorer)</span>
+      <div id="errormessage1" name="errormessage1" align="center">
+        <p></p><p></p>
+        <hr color="red" size="3">
+        <span class="js-error-text">
+        JAVASCRIPT IS NOT ENABLED IN THIS BROWSER.<br>
+        THIS FORM WILL NOT WORK WITHOUT JAVASCRIPT ENABLED.</span>
+        <hr color="red" size="3">
+        <p></p><p></p>
+      </div>
+    </div>
+  </center></td></tr>
+</table>
+
+<!-- PART3 -->
+</center>
+
+<form name="Form1">
+
+<center>
+<span class="red header"><b>Items in RED <i>Italics</i> and marked with * are Required</b></span>
+</center>
+
+<!-- Message Numbers -->
+<center>
+<table class="msgno" width="100%">
+  <tr>
+    <td nowrap align="right">A.) When Receiving,<br>Sender's Msg. No.</td>
+    <td nowrap align="left"><input type="text" size="11" name="RSmsgno" tabindex="1" id="RSmsgno" disabled="true"></td>
+    <td nowrap align="right">&nbsp;&nbsp;&nbsp;&nbsp;<span class="red"><b>B.) Message<br>Number</b></span></td>
+    <td nowrap align="left"><input type="text" size="11" name="msgno"  tabindex="2"></td>
+    <td nowrap align="right">&nbsp;&nbsp;&nbsp;&nbsp;C.) When Sending,<br>Receiver's Msg. No.</td>
+    <td nowrap align="left"><input type="text" size="11" name="SRmsgno" tabindex="3" id="SRmsgno" disabled="true"></td>
+  </tr>
+</table>
+
+<div class="header">
+  <span style="font-size:8pt">
+    <input type="checkbox" name="unlockmsg1" value="1" onclick="lockUnlockMsg(this)">Unlock msg. nos. A.) &amp; C.)
+  </span>
+</div>
+</center>
+
+<!-- Severity, Handling Order, Reply -->
+<center>
+<table border="1" class="table1" width="100%">
+<!---
+<tr class="header">
+-->
+  <tr valign="top">
+    <td nowrap>
+      <span class="red"><b>D.) Situation Severity </b></span><span class="header">(Select One)</span><br>
+      <input type="radio" name="sever" value="EMERGENCY" tabindex="6" onClick="emerg()">
+        <b>EMERGENCY</b>&nbsp;<span class="sm-text">(e.g., Life Threat)</span><br>
+      <input type="radio" name="sever" value="URGENT" tabindex="7">
+        <b>URGENT</b>&nbsp;<span class="sm-text">(e.g., Property Threat)</span><br>
+      <input type="radio" name="sever" value="OTHER" tabindex="8">
+        <b>OTHER</b>&nbsp;<span class="sm-text">(All Others)</span><br>
+    </td>
+    <td nowrap>
+      <span class="red"><b>E.) Msg. Handling Order </b></span><span class="header">(Select One)</span><br>
+      <input type="radio" name="handling" value="IMMEDIATE" tabindex="9">
+        <b>IMMEDIATE</b>&nbsp;<span class="sm-text">(As Soon as Possible)</span><br>
+      <input type="radio" name="handling" value="PRIORITY" tabindex="10">
+        <b>PRIORITY</b>&nbsp;<span class="sm-text">(Less Than One Hour)</span><br>
+      <input type="radio" name="handling" value="ROUTINE" tabindex="11">
+        <b>ROUTINE</b>&nbsp;<span class="sm-text">(More Than One Hour)</span><br>
+    </td>
+    <td nowrap ><b>F.) Message Requests You to:<br><br>
+      &nbsp;&nbsp;REPLY</b> (Check one)<br>
+      <input type="radio" name="replyyn" value="Yes" tabindex="14"><b>Yes, by</b>
+      <input type="text" name="replyby" size="17" tabindex="15">&nbsp;
+      <input type="radio" name="replyyn" value="No" tabindex="16"><b>No&nbsp;</b>
+    </td>
+  </tr>
+</table>
+</center>
+
+<br>
+
+<table border="0" width="100%">
+  <tr><td nowrap>
+    <input type="hidden" name="odate">
+    <input type="hidden" name="otime">
+    <strong>To:</strong> Planning &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>From:</strong>&nbsp;
+    <span class="red"><strong>1a.)</strong> City of: </span>
+    <select name="citylist">
+      <option value="0">SELECT the CITY</option>
+      <option value="Campbell">Campbell</option>
+      <option value="Cupertino">Cupertino</option>
+      <option value="Gilroy">Gilroy</option>
+      <option value="Loma Prieta">Loma Prieta</option>
+      <option value="Los Altos">Los Altos</option>
+      <option value="Los Altos Hills">Los Altos Hills</option>
+      <option value="Los Gatos/Monte Sereno">Los Gatos/Monte Sereno</option>
+      <option value="Milpitas">Milpitas</option>
+      <option value="Morgan Hill">Morgan Hill</option>
+      <option value="Mountain View">Mountain View</option>
+      <option value="NASA-Ames">NASA-Ames</option>
+      <option value="Palo Alto">Palo Alto</option>
+      <option value="San Jose">San Jose</option>
+      <option value="Santa Clara">Santa Clara</option>
+      <option value="Saratoga">Saratoga</option>
+      <option value="Stanford">Stanford</option>
+      <option value="Sunnyvale">Sunnyvale</option>
+      <option value="Other">Other</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b>1b.)</b><span class="header"> If <b>Other</b> , enter</span> Entity Name:
+    <input type="text" name="other" size="25"></td></tr>
+</table>
+
+<p ID="BOX"></p>
+
+<table width="100%" cellpadding="2">
+  <tr>
+    <td nowrap>Date/Time of Contact:</td>
+    <td nowrap><b>2.)</b> Date: </td>
+    <td nowrap><input type="text" name="date" size="11"> (MM/DD/YY)</td>
+    <td nowrap><b>3.)</b> Time: </td>
+    <td nowrap><input type="text" name="time" value="" size="6"> (24 Hr, HH:MM)</td></tr>
+  <tr>
+    <td nowrap>Contact Person:</td>
+    <td nowrap><span class="red"><b>4.)</b> Name: </span></td>
+    <td nowrap><input type="text" name="ctname" size="30"></td>
+    <td nowrap><b>5.)</b> Title: </td>
+    <td nowrap><input type="text" name="title" size="30"></td></tr>
+  <tr>
+    <td nowrap>Method of Contact: </td>
+    <td nowrap><b>6.)</b> Phone #: </td>
+    <td nowrap><input type="text" name="phone" size="20" value="000-000-0000"></td>
+    <td nowrap><b>7.)</b> Radio Freq.: </td>
+    <td nowrap><input type="text" name="radio" size="20"></td></tr>
+</table>
+
+<table width="100%">
+  <tr>
+    <td><b>8.)</b> HAS THE CITY BEEN IMPACTED? (check one)</td>
+    <td>
+      <input type="radio" name="impact" value="yes">YES &nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" name="impact" value="no">NO</td></tr>
+  <tr>
+    <td><span class="red"><b>9.)</b> HAS A LOCAL EMERGENCY BEEN PROCLAIMED? (check one)</span></td>
+  <td>
+    <input type="radio" name="declare" value="yes"><span class="red">YES </span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="radio" name="declare" value="no"><span class="red">NO</span></td></tr>
+</table>
+
+<table width="100%">
+  <tr>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When?</td>
+    <td nowrap><b>10.)</b> Date:</td>
+    <td nowrap><input type="text" name="whendate" size="12" value="" > (MM/DD/YYYY)</td>
+    <td nowrap><b>11.)</b> Time:</td>
+    <td nowrap><input type="text" name="whentime" size="6" value=""> (24 Hr, HH:MM)</td></tr>
+  <tr>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Who signed it?</td>
+    <td nowrap><b>12.)</b> Name: &nbsp;</td>
+    <td nowrap><input type="text" name="whoname" size="30" ></td>
+    <td nowrap><b>13.)</b> Title: </td>
+    <td nowrap><input type="text" name="whotitle" size="30" ></td></tr>
+</table>
+
+<br>
+
+<table width="100%">
+  <tr>
+    <td><b>14.)</b> HAS YOUR EMERGENCY OPERATIONS CENTER BEEN ACTIVATED? (check one)</td>
+    <td><input type="radio" name="activate" value="yes">YES&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="activate" value="no">NO</td></tr>
+  <tr>
+    <td><b>15.)</b> Can you tell me what MAJOR INCIDENTS are occurring now? (check one)</td>
+    <td><input type="radio" name="incnow" value="yes">YES&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="incnow" value="no">NO</td></tr>
+</table>
+
+<table>
+  <tr><td><b>16.)</b> Please Summarize:</td></tr>
+</table>
+
+<table class="ils_table" width="100%">
+  <tr>
+     <th>&nbsp;</th>
+     <th>INCIDENT</th>
+     <th>LOCATION</th><th>STATUS</th></tr>
+  <tr>
+    <td><b>16a.</b></td>
+    <td><textarea name="inca" cols="30" rows="15" wrap="hard"></textarea></td>
+    <td><textarea name="loca" cols="30" rows="15" wrap="hard"></textarea></td>
+    <td><textarea name="stata" cols="30" rows="15" wrap="hard"></textarea></td></tr>
+</table>
+
+<p>
+
+<table width="100%">
+  <tr>
+    <td><b>17.)</b> Are you requesting any ADDITIONAL RESOURCES from the Operation Area? (check one)</td>
+    <td>
+      <input type="radio" name="addres" value="yes">YES&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" name="addres" value="no">NO</td></tr>
+  <tr>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      [ If you checked YES, a Resource Request needs to be submitted. ]</td></tr>
+</table>
+
+<!-- Form version info -->
+<br>
+<div align="right" class="form-ver-text">
+  SCCo City Scan - Flash Report
+  <script type="text/javascript">
+    document.write(JStail);
+  </script>
+</div>
+
+
+<center>
+
+<!-- PART3.1 -->
+<!--  Addition for saving to Outpost -->
+</form>
+
+<div class="trailer">
+<form name="submitmachine" method="post" action="http://127.0.0.1:9334/send" onSubmit="return testvalues()">
+<center>
+<p></p>
+<table width="70%">
+  <tr><td><span class="submit-text">
+    <p>Below you will see two SUBMIT buttons.  The one on the left, when Submitted, will
+    open a new window with the ASCII text so you can manually capture, copy, paste and
+    save the text.  Follow instructions in red in that window.</p>
+    <p>The SUBMIT button to the right will automatically transfer the ASCII text extracted
+    from the form to the Outpost database via via OpDirect.
+    OpDirect must be running to make this work or nothing is saved.</p></span></td></tr>
+</table>
+
+<p></p>
+
+<input type="button" value="SUBMIT the Form: Manual Copy & Save" onClick="newwin(0)">
+<input type="hidden" name="formtext" value="snafutextnotchanged">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<input type="submit" value="SUBMIT the Form to Outpost" onClick="newwin(1)">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<input type="reset" value="Clear Input" onClick="resetforms();">
+
+</center>
+</form>
+</div>
+</body>
+</html>
+<!-- PART4 -->
+

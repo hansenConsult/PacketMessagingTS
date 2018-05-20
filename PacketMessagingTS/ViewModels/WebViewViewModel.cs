@@ -10,9 +10,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class WebViewViewModel : BaseViewModel
     {
-        // TODO WTS: Set the URI of the page to show by default
+        // TODO WTS: Set the URI of the page to show by default   ms-appx
         //private const string DefaultUrl = "https://developer.microsoft.com/en-us/windows/apps";
         private const string DefaultUrl = "ms-appdata:///local/PacFORMS/Message.html";
+        //private const string DefaultUrl = "ms-appdata:///local/Message.html";
+
 
 
         private Uri _source;

@@ -77,7 +77,7 @@ namespace PacketMessagingTS.Helpers
 
 	public sealed class ComboBoxItemConverter : IValueConverter
 	{
-		object IValueConverter.Convert(object value, Type targetType, object parameter, string language) => value;
+		object IValueConverter.Convert(object value, Type targetType, object parameter, string language) => value as object;
 
 		object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language) => value;
 	}
