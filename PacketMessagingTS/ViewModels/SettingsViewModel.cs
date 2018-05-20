@@ -18,7 +18,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get { return _elementTheme; }
 
-            set { Set(ref _elementTheme, value); }
+            set { SetProperty(ref _elementTheme, value); }
         }
 
         private string _versionDescription;
@@ -27,7 +27,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get { return _versionDescription; }
 
-            set { Set(ref _versionDescription, value); }
+            set { SetProperty(ref _versionDescription, value); }
         }
 
         private ICommand _switchThemeCommand;

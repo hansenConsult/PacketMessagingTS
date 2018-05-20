@@ -33,7 +33,7 @@ namespace PacketMessagingTS.Helpers
         protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false,
                     [CallerMemberName]string propertyName = "", Action onChanged = null)
         {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
+            if (Equals(backingStore, value))
                 return false;
 
             if (persist)
@@ -48,16 +48,16 @@ namespace PacketMessagingTS.Helpers
             return true;
         }
 
-        protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
+        //protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        //{
+        //    if (Equals(storage, value))
+        //    {
+        //        return;
+        //    }
 
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
+        //    storage = value;
+        //    OnPropertyChanged(propertyName);
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>

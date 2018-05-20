@@ -18,6 +18,8 @@ using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.Foundation;
+using MetroLog;
+using Windows.Devices.Bluetooth;
 
 namespace PacketMessagingTS.Views
 {
@@ -40,12 +42,12 @@ namespace PacketMessagingTS.Views
 
         private List<SerialDevice> _listOfSerialDevices;
         private ObservableCollection<SerialDevice> CollectionOfSerialDevices;
+        private List<DeviceInformation> _listOfBluetoothDevices;
+        private ObservableCollection<DeviceInformation> CollectionOfBluetoothDevices;
 
         private ObservableCollection<uint> listOfBaudRates;
         private ObservableCollection<ushort> listOfDataBits;
-        private ObservableCollection<SerialHandshake> serialHandshakes;
 
-        private string _otherDeviceSelector;
         private string _bluetoothDeviceSelector;
         private Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector;
 
@@ -80,8 +82,8 @@ namespace PacketMessagingTS.Views
             listOfDevices = new ObservableCollection<DeviceListEntry>();
             _listOfSerialDevices = new List<SerialDevice>();
             CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
-            //_listOfBluetoothDevices = new List<DeviceInformation>();
-            //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
+            _listOfBluetoothDevices = new List<DeviceInformation>();
+            CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
             comportComparer = new ComportComparer();
 
             mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
@@ -468,8 +470,8 @@ namespace PacketMessagingTS.Views
             }
             _listOfSerialDevices.Clear();
             CollectionOfSerialDevices.Clear();
-            //_listOfBluetoothDevices.Clear();
-            //CollectionOfBluetoothDevices.Clear();
+            _listOfBluetoothDevices.Clear();
+            CollectionOfBluetoothDevices.Clear();
         }
 
         private void InitializeDeviceWatchers()
@@ -485,10 +487,9 @@ namespace PacketMessagingTS.Views
             AddDeviceWatcher(deviceWatcher, deviceSelector);
 
             // Bluetooth devices device selector
-            //_bluetoothDeviceSelector = BluetoothDevice.GetDeviceSelector();
-            //_bluetoothDeviceSelector = RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort);
-            //deviceWatcher = DeviceInformation.CreateWatcher(_bluetoothDeviceSelector);
-            //AddDeviceWatcher(deviceWatcher, _bluetoothDeviceSelector);
+            _bluetoothDeviceSelector = BluetoothDevice.GetDeviceSelector();
+            deviceWatcher = DeviceInformation.CreateWatcher(_bluetoothDeviceSelector);
+            AddDeviceWatcher(deviceWatcher, _bluetoothDeviceSelector);
         }
 
         private void StartDeviceWatchers()
@@ -540,7 +541,6 @@ namespace PacketMessagingTS.Views
                     }
                 }
             }
-
             return null;
         }
 
@@ -652,7 +652,6 @@ namespace PacketMessagingTS.Views
 
             // This event is raised when the app is exited and when the app is suspended
             App.Current.Suspending += appSuspendEventHandler;
-
             App.Current.Resuming += appResumeEventHandler;
         }
 
@@ -660,7 +659,6 @@ namespace PacketMessagingTS.Views
         {
             // This event is raised when the app is exited and when the app is suspended
             App.Current.Suspending -= appSuspendEventHandler;
-
             App.Current.Resuming -= appResumeEventHandler;
         }
 
@@ -695,34 +693,22 @@ namespace PacketMessagingTS.Views
                     // Add the new element to the end of the list of devices
                     listOfDevices.Add(match);
 
-                    //SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
-                    //if (serialDevice != null)
-                    //{
-                    //	//string name = serialDevice.PortName;
-                    //	_listOfSerialDevices.Add(serialDevice);
-                    //	// Sort list
-                    //	_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
-                    //	CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
-                    //	ComPortListSource.Source = CollectionOfSerialDevices;
-                    //}
-
-
                     if (deviceInformation.Pairing.IsPaired)
                     {
                         // Bluetooth device
-                        //try
-                        //{
-                        //    if (deviceInformation.Kind == DeviceInformationKind.AssociationEndpoint)
-                        //    {
-                        //        _listOfBluetoothDevices.Add(deviceInformation);
-                        //        CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
-                        //        ComNameListSource.Source = CollectionOfBluetoothDevices;
-                        //    }
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    LogHelper(LogLevel.Error, $"Overall Connect: { ex.Message}");
-                        //}
+                        try
+                        {
+                            if (deviceInformation.Kind == DeviceInformationKind.AssociationEndpoint)
+                            {
+                                _listOfBluetoothDevices.Add(deviceInformation);
+                                CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
+                                ComNameListSource.Source = CollectionOfBluetoothDevices;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            LogHelper.Log(LogLevel.Error, $"Overall Connect: { ex.Message}");
+                        }
                     }
                     else
                     {
@@ -744,7 +730,7 @@ namespace PacketMessagingTS.Views
             {
 #if DEBUG
                 Debug.WriteLine($"{e.Message}, DeviceId = {deviceInformation.Id}");
-                //LogHelper(LogLevel.Error, $"{e.Message}, DeviceId = {deviceInformation.Id}");
+                LogHelper.Log(LogLevel.Error, $"{e.Message}, DeviceId = {deviceInformation.Id}");
 #endif
             }
         }
@@ -771,15 +757,6 @@ namespace PacketMessagingTS.Views
         private void comboBoxStopBits_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-
-        private void textBoxPromptsConnected_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //_promptsConnectedChanged = SharedData.SavedTNCDevice.Prompts.Connected != (string)((TextBox)sender).Text;
-
-            //_promptsChanged = _promptsCommandChanged | _promptsTimeoutChanged | _promptsConnectedChanged | _promptsDisconnectedChanged;
-            //appBarSettingsSave.IsEnabled = _comportSettingsChanged | _initCommandsChanged
-            //        | _commandsChanged | _promptsChanged;
         }
 
         private void UpdateTNCFromUI(TNCDevice tncDevice)
@@ -921,21 +898,19 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void SetComportComboBoxVisibility()
-        {
-            if (toggleSwitchBluetooth.IsOn)
-            {
-                //ShowBluetoothDevices = Visibility.Visible;
-                comboBoxComName.Visibility = Visibility.Visible;
-                comboBoxComPort.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                //ShowBluetoothDevices = Visibility.Collapsed;
-                comboBoxComName.Visibility = Visibility.Collapsed;
-                comboBoxComPort.Visibility = Visibility.Visible;
-            }
-        }
+        //private void SetComportComboBoxVisibility()
+        //{
+        //    if (toggleSwitchBluetooth.IsOn)
+        //    {
+        //        comboBoxComName.Visibility = Visibility.Visible;
+        //        comboBoxComPort.Visibility = Visibility.Collapsed;
+        //    }
+        //    else
+        //    {
+        //        comboBoxComName.Visibility = Visibility.Collapsed;
+        //        comboBoxComPort.Visibility = Visibility.Visible;
+        //    }
+        //}
 
         private void NewTNCDevice()
         {
@@ -946,12 +921,12 @@ namespace PacketMessagingTS.Views
             textBoxInitCommandsPost.Text = "";
 
             toggleSwitchBluetooth.IsOn = false;
-            SetComportComboBoxVisibility();
+            //SetComportComboBoxVisibility();
 
-            //if (CollectionOfBluetoothDevices.Count > 0)
-            //{
-            //    comboBoxComName.SelectedItem = CollectionOfBluetoothDevices[0];
-            //}
+            if (CollectionOfBluetoothDevices.Count > 0)
+            {
+                comboBoxComName.SelectedItem = CollectionOfBluetoothDevices[0];
+            }
 
             if (CollectionOfSerialDevices.Count > 0)
             {
@@ -1033,8 +1008,6 @@ namespace PacketMessagingTS.Views
                 {
                     return;
                 }
-                //textBoxInitCommandsPre.Text = tncDevice.InitCommands.Precommands;
-                //textBoxInitCommandsPost.Text = tncDevice.InitCommands.Postcommands;
 
                 //SerialDevice serialDevice = null;
                 //UseBluetooth = tncDevice.CommPort.IsBluetooth;
@@ -1109,11 +1082,6 @@ namespace PacketMessagingTS.Views
                 //textBoxCommandsRetry.Text = tncDevice.Commands.Retry;
                 //textBoxCommandsDateTime.Text = tncDevice.Commands.Datetime;
             }
-        }
-
-        private void textBoxPromptsDisconnected_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
@@ -1342,7 +1310,8 @@ namespace PacketMessagingTS.Views
 
             //ResetTNCDeviceChanged();
 
-            appBarSaveTNC.IsEnabled = false;
+            _TNCSettingsViewModel.ResetChangedProperty();
+            //appBarSaveTNC.IsEnabled = false;
 
         }
     }

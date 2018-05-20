@@ -517,12 +517,10 @@
                                                      Text="{Binding TNCPromptsTimeout, Mode=TwoWay}" />
                                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Connected:" VerticalAlignment="Center"/>
                                             <TextBox Grid.Column="1" Grid.Row="2" x:Name="textBoxPromptsConnected" Margin="0,2"
-                                                     Text="{Binding TNCPromptsConnected, Mode=TwoWay}"
-                                                     TextChanged="textBoxPromptsConnected_TextChanged"  />
+                                                     Text="{Binding TNCPromptsConnected, Mode=TwoWay}" />
                                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Disconnected:" VerticalAlignment="Center"/>
                                             <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxPromptsDisconnected" Margin="0,2"
-                                                     Text="{Binding TNCPromptsDisconnected, Mode=TwoWay}"
-                                                     TextChanged="textBoxPromptsDisconnected_TextChanged"  />
+                                                     Text="{Binding TNCPromptsDisconnected, Mode=TwoWay}" />
                                         </Grid>
                                     </PivotItem>
 

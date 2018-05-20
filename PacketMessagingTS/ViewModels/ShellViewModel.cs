@@ -20,7 +20,7 @@ namespace PacketMessagingTS.ViewModels
         public NavigationViewItem Selected
         {
             get { return _selected; }
-            set { Set(ref _selected, value); }
+            set { SetProperty(ref _selected, value); }
         }
 
         public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked));

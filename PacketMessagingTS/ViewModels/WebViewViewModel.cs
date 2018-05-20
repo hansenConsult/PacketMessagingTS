@@ -22,7 +22,7 @@ namespace PacketMessagingTS.ViewModels
         public Uri Source
         {
             get { return _source; }
-            set { Set(ref _source, value); }
+            set { SetProperty(ref _source, value); }
         }
 
         private bool _isLoading;
@@ -41,7 +41,7 @@ namespace PacketMessagingTS.ViewModels
                     IsShowingFailedMessage = false;
                 }
 
-                Set(ref _isLoading, value);
+                SetProperty(ref _isLoading, value);
                 IsLoadingVisibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -51,7 +51,7 @@ namespace PacketMessagingTS.ViewModels
         public Visibility IsLoadingVisibility
         {
             get { return _isLoadingVisibility; }
-            set { Set(ref _isLoadingVisibility, value); }
+            set { SetProperty(ref _isLoadingVisibility, value); }
         }
 
         private bool _isShowingFailedMessage;
@@ -70,7 +70,7 @@ namespace PacketMessagingTS.ViewModels
                     IsLoading = false;
                 }
 
-                Set(ref _isShowingFailedMessage, value);
+                SetProperty(ref _isShowingFailedMessage, value);
                 FailedMesageVisibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -80,7 +80,7 @@ namespace PacketMessagingTS.ViewModels
         public Visibility FailedMesageVisibility
         {
             get { return _failedMesageVisibility; }
-            set { Set(ref _failedMesageVisibility, value); }
+            set { SetProperty(ref _failedMesageVisibility, value); }
         }
 
         private ICommand _navCompleted;
