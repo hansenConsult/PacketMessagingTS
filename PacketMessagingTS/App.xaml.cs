@@ -145,9 +145,9 @@ namespace PacketMessagingTS
             }
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            SharedData.SettingsContainer = localSettings.CreateContainer("SettingsContainer", ApplicationDataCreateDisposition.Always);
 
-            ApplicationDataContainer container = localSettings.CreateContainer("SettingsContainer", ApplicationDataCreateDisposition.Always);
-
+            SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

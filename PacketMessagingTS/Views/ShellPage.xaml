@@ -23,14 +23,14 @@
             Or to use an IconElement instead of a Symbol see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/projectTypes/navigationpane.md
             Edit String/en-US/Resources.resw: Add a menu item title for each page
             -->
-            <NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="views:MainPage" />
+            <NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="views:MainPage" />
+            <NavigationViewItem x:Uid="Shell_Forms" Icon="Document" helpers:NavHelper.NavigateTo="views:FormsPage" />
+            <NavigationViewItem x:Uid="Shell_WebView" Icon="Globe" helpers:NavHelper.NavigateTo="views:WebViewPage" />
+            <NavigationViewItem x:Uid="Shell_Tools" Icon="Repair" helpers:NavHelper.NavigateTo="views:ToolsPage" />
             <NavigationViewItem x:Uid="Shell_Blank" Icon="Document" helpers:NavHelper.NavigateTo="views:BlankPage" />
-            <NavigationViewItem x:Uid="Shell_WebView" Icon="Document" helpers:NavHelper.NavigateTo="views:WebViewPage" />
             <NavigationViewItem x:Uid="Shell_TelerikDataGrid" Icon="Document" helpers:NavHelper.NavigateTo="views:TelerikDataGridPage" />
             <NavigationViewItem x:Uid="Shell_MasterDetail" Icon="Document" helpers:NavHelper.NavigateTo="views:MasterDetailPage" />
             <NavigationViewItem x:Uid="Shell_Tabbed" Icon="Document" helpers:NavHelper.NavigateTo="views:TabbedPage" />
-            <NavigationViewItem x:Uid="Shell_Forms" Icon="Document" helpers:NavHelper.NavigateTo="views:FormsPage" />
-            <NavigationViewItem x:Uid="Shell_Tools" Icon="Document" helpers:NavHelper.NavigateTo="views:ToolsPage" />
         </NavigationView.MenuItems>
         <NavigationView.HeaderTemplate>
             <DataTemplate>

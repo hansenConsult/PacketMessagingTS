@@ -45,6 +45,10 @@ namespace PacketMessagingTS.Helpers
             //    return;
 
             int messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+            if (messageNumber == default(int))
+            {
+                return;
+            }
             messageNumber--;
             await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
         }

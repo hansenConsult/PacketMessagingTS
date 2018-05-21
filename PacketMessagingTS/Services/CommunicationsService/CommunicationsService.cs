@@ -100,7 +100,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					formName = formName.Substring(0, formName.Length - html.Length);
 					pktMsg.PacFormType = formName;
 
-					formControl = await FormsPage.CreateFormControlInstanceAsync(pktMsg.PacFormType);
+					formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormType);
 					if (formControl == null)
 					{
 						//await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
@@ -185,7 +185,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							pktMsg.PacFormType = formName;
 
 							//formControl = Views.FormsPage.CreateFormControlInstanceFromFileName(pktMsg.PacFormName);
-							formControl = await Views.FormsPage.CreateFormControlInstanceAsync(pktMsg.PacFormType);
+							formControl = Views.FormsPage.CreateFormControlInstance(pktMsg.PacFormType);
 							if (formControl == null)
 							{
 								await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
@@ -431,7 +431,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 						if (operatorTimeField != null)
 							operatorTimeField.ControlContent = $"{now.Hour:d2}{now.Minute:d2}";
 
-						formControl = await FormsPage.CreateFormControlInstanceAsync(packetMessage.PacFormType);
+						formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormType);
 						if (formControl == null)
 						{
 							MessageDialog messageDialog = new MessageDialog($"Form {packetMessage.PacFormName} not found");

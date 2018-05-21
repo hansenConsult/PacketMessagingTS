@@ -49,10 +49,9 @@ namespace PacketMessagingTS.Helpers
             set;
         }
 
-        public static ApplicationDataContainer SettingsContainer
-        {
-            get; set;
-        }
+        public static ApplicationDataContainer SettingsContainer;
+
+        public static IReadOnlyList<StorageFile> FilesInInstalledLocation;
 
         //static Profile currentProfile;
         //public static Profile CurrentProfile

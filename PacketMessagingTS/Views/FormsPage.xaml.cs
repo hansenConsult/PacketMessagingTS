@@ -1,9 +1,4 @@
-﻿using FormControlBaseClass;
-using PacketMessagingTS.Controls;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
-using PacketMessagingTS.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using ToggleButtonGroupControl;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -26,25 +20,175 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using PacketMessagingTS.Controls;
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+using ToggleButtonGroupControl;
+using FormControlBaseClass;
+using MetroLog;
+
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace PacketMessagingTS.Views
 {
+    public class FormControlAttributes
+    {
+        public string FormControlName
+        { get; private set; }
+
+        public string FormControlMenuName
+        { get; private set; }
+
+        public FormControlAttribute.FormType FormControlType
+        { get; private set; }
+
+        public StorageFile FormControlFileName
+        { get; set; }
+
+        public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, StorageFile formControlFileName)
+        {
+            FormControlName = formControlType;
+            FormControlMenuName = formControlMenuName;
+            FormControlType = formType;
+            FormControlFileName = formControlFileName;
+        }
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class FormsPage : Page
     {
+        private ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormsPage>();
+
         PacketMessage _packetMessage;
         bool _loadMessage = false;
 
         FormControlBase _packetForm;
         SendFormDataControl _packetAddressForm;
 
+        private List<FormControlAttributes> _formControlAttributeList;
+
 
         public FormsPage()
         {
             this.InitializeComponent();
+
+            _formControlAttributeList = new List<FormControlAttributes>();
+            ScanFormAttributes();
+
+            foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
+            {
+                PivotItem pivotItem = CreatePivotItem(formControlAttribute);
+                MyPivot.Items.Add(pivotItem);
+            }
+        }
+
+        private PivotItem CreatePivotItem(FormControlAttributes formControlAttributes)
+        {
+            PivotItem pivotItem = new PivotItem();
+            pivotItem.Name = formControlAttributes.FormControlName;
+            pivotItem.Header = formControlAttributes.FormControlMenuName;
+
+            ScrollViewer scrollViewer = new ScrollViewer();
+            scrollViewer.Margin = new Thickness(0, 12, -12, 0);
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            scrollViewer.Height = double.NaN;
+
+            StackPanel stackpanel = new StackPanel();
+            stackpanel.Name = pivotItem.Name + "Panel";
+            scrollViewer.Content = stackpanel;
+
+            pivotItem.Content = scrollViewer;
+
+            return pivotItem;
+        }
+
+        private void ScanFormAttributes()
+        {
+            IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
+            if (files == null)
+                return;
+
+            foreach (StorageFile file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
+            {
+                try
+                {
+                    Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
+                    foreach (Type classType in assembly.GetTypes())
+                    {
+                        var attrib = classType.GetTypeInfo();
+                        foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
+                        {
+                            //if (!(customAttribute is FormControlAttribute))
+                            //    continue;
+                            var namedArguments = customAttribute.NamedArguments;
+                            if (namedArguments.Count == 3)
+                            {
+                                string formControlType = namedArguments[0].TypedValue.Value as string;
+                                FormControlAttribute.FormType FormControlType = (FormControlAttribute.FormType)Enum.Parse(typeof(FormControlAttribute.FormType), namedArguments[1].TypedValue.Value.ToString());
+                                string formControlMenuName = namedArguments[2].TypedValue.Value as string;
+                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlType, formControlMenuName, FormControlType, file);
+                                _formControlAttributeList.Add(formControlAttributes);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            // Pick latest file version for each type
+            for (int i = 0; i < _formControlAttributeList.Count; i++)
+            {
+                for (int j = i + 1; j < _formControlAttributeList.Count; j++)
+                {
+                    if (_formControlAttributeList[i].FormControlName == _formControlAttributeList[j].FormControlName)
+                    {
+                        // Should be version rather than creation date
+                        if (_formControlAttributeList[i].FormControlFileName.DateCreated > _formControlAttributeList[j].FormControlFileName.DateCreated)
+                        {
+                            _formControlAttributeList.Remove(_formControlAttributeList[j]);
+                        }
+                        else
+                        {
+                            _formControlAttributeList.Remove(_formControlAttributeList[i]);
+                        }
+                    }
+                }
+            }
+            List<FormControlAttributes> attributeListTypeNone = new List<FormControlAttributes>();
+            List<FormControlAttributes> attributeListTypeCounty = new List<FormControlAttributes>();
+            List<FormControlAttributes> attributeListTypeCity = new List<FormControlAttributes>();
+            List<FormControlAttributes> attributeListTypeHospital = new List<FormControlAttributes>();
+            // Sort by menu type
+            foreach (FormControlAttributes formControlAttributes in _formControlAttributeList)
+            {
+                if (formControlAttributes.FormControlType == FormControlAttribute.FormType.None)
+                {
+                    attributeListTypeNone.Add(formControlAttributes);
+                }
+                else if (formControlAttributes.FormControlType == FormControlAttribute.FormType.CountyForm)
+                {
+                    attributeListTypeCounty.Add(formControlAttributes);
+                }
+                else if (formControlAttributes.FormControlType == FormControlAttribute.FormType.CityForm)
+                {
+                    attributeListTypeCity.Add(formControlAttributes);
+                }
+                else if (formControlAttributes.FormControlType == FormControlAttribute.FormType.HospitalForm)
+                {
+                    attributeListTypeHospital.Add(formControlAttributes);
+                }
+            }
+            _formControlAttributeList.Clear();
+            _formControlAttributeList.AddRange(attributeListTypeNone);
+            _formControlAttributeList.AddRange(attributeListTypeCounty);
+            _formControlAttributeList.AddRange(attributeListTypeCity);
+            _formControlAttributeList.AddRange(attributeListTypeHospital);
         }
 
         private void CreatePacketMessage()
@@ -121,10 +265,10 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        public static async Task<FormControlBase> CreateFormControlInstanceAsync(string controlType)
+        public static FormControlBase CreateFormControlInstance(string controlType)
         {
             FormControlBase formControl = null;
-            IReadOnlyList<StorageFile> files = await Package.Current.InstalledLocation.GetFilesAsync();
+            IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
             if (files == null)
                 return null;
 
@@ -194,12 +338,12 @@ namespace PacketMessagingTS.Views
 
         private async void MyPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
-            await Utilities.ReturnMessageNumberAsync();
+            //await Utilities.ReturnMessageNumberAsync();
 
             _packetAddressForm = new SendFormDataControl();
             PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
             string pivotItemName = pivotItem.Name;
-            _packetForm = await CreateFormControlInstanceAsync(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
+            _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm == null)
             {
                 MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");

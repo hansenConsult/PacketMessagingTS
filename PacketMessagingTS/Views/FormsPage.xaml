@@ -50,11 +50,11 @@
         <!--<Canvas x:Name="PrintCanvas" Opacity="0"/>-->
 
         <!--  content  -->
-        <Pivot x:Name="MyPivot" Grid.Row="1" Height="auto"        
+        <Pivot x:Name="MyPivot" Grid.Row="1" Height="auto"
+               RelativePanel.AlignTopWithPanel="True"
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
-               RelativePanel.Below="pageHeader" 
                FontFamily="Bahnschrift"
                SelectionChanged="MyPivot_SelectionChangedAsync">
             <!--Simple Message-->
