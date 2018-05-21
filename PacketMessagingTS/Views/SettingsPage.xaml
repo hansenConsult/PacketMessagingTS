@@ -147,6 +147,10 @@
                         <HyperlinkButton x:Uid="Settings_PrivacyTermsLink"
                                          Margin="{StaticResource EightTopMargin}" />
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Send Receipt:"/>
+                        <ToggleSwitch IsOn="{Binding SendReceipt, Mode=TwoWay}"/>
+                    </StackPanel>
                 </StackPanel>
             </PivotItem>
 

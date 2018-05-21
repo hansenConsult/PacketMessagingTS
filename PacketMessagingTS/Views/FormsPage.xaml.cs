@@ -321,8 +321,8 @@ namespace PacketMessagingTS.Views
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 
-// ToDO            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-//            communicationsService.BBSConnectAsync();
+            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
+            communicationsService.BBSConnectAsync();
         }
 
         private async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)

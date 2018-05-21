@@ -71,6 +71,8 @@ namespace PacketMessagingTS.Helpers
 
         //public static TNCDevice SavedTNCDevice { get; set; }
 
+        public static string[] _Areas;
+        public static bool _forceReadBulletins;
 
     }
 

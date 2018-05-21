@@ -29,6 +29,8 @@
             <NavigationViewItem x:Uid="Shell_TelerikDataGrid" Icon="Document" helpers:NavHelper.NavigateTo="views:TelerikDataGridPage" />
             <NavigationViewItem x:Uid="Shell_MasterDetail" Icon="Document" helpers:NavHelper.NavigateTo="views:MasterDetailPage" />
             <NavigationViewItem x:Uid="Shell_Tabbed" Icon="Document" helpers:NavHelper.NavigateTo="views:TabbedPage" />
+            <NavigationViewItem x:Uid="Shell_Forms" Icon="Document" helpers:NavHelper.NavigateTo="views:FormsPage" />
+            <NavigationViewItem x:Uid="Shell_Tools" Icon="Document" helpers:NavHelper.NavigateTo="views:ToolsPage" />
         </NavigationView.MenuItems>
         <NavigationView.HeaderTemplate>
             <DataTemplate>

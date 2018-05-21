@@ -205,6 +205,14 @@
     <value>Tabbed</value>
     <comment>Navigation view item name for Tabbed</comment>
   </data>
+  <data name="Shell_Forms.Content" xml:space="preserve">
+    <value>Forms</value>
+    <comment>Navigation view item name for Forms</comment>
+  </data>
+  <data name="Shell_Tools.Content" xml:space="preserve">
+    <value>Tools</value>
+    <comment>Navigation view item name for Tools</comment>
+  </data>
   <data name="ExceptionSettingsStorageExtensionsFileNameIsNullOrEmpty" xml:space="preserve">
     <value>File name is null or empty. Specify a valid file name</value>
     <comment>File name is null or empty to save file in settings storage extensions</comment>

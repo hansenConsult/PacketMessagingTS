@@ -148,6 +148,14 @@
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTransfer.cs" />
+    <Compile Include="Services\CommunicationsService\BluetoothManager.cs" />
+    <Compile Include="Services\CommunicationsService\CommunicationsService.cs" />
+    <Compile Include="Services\CommunicationsService\CommunicationsServiceBase.cs" />
+    <Compile Include="Services\CommunicationsService\EventHandlerForDevice.cs" />
+    <Compile Include="Services\CommunicationsService\SerialPort.cs" />
+    <Compile Include="Services\CommunicationsService\SerialPortException.cs" />
+    <Compile Include="Services\CommunicationsService\TNCInterface.cs" />
+    <Compile Include="Services\CommunicationsService\Utilities.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\OnBackgroundEnteringEventArgs.cs" />
     <Compile Include="Services\SampleDataService.cs" />
@@ -174,6 +182,7 @@
     <Compile Include="ViewModels\TabbedViewModel.cs" />
     <Compile Include="ViewModels\TelerikDataGridViewModel.cs" />
     <Compile Include="ViewModels\TNCSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ToolsViewModel.cs" />
     <Compile Include="ViewModels\WebViewViewModel.cs" />
     <Compile Include="Views\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
@@ -201,6 +210,9 @@
     </Compile>
     <Compile Include="Views\TelerikDataGridPage.xaml.cs">
       <DependentUpon>TelerikDataGridPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolsPage.xaml.cs">
+      <DependentUpon>ToolsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WebViewPage.xaml.cs">
       <DependentUpon>WebViewPage.xaml</DependentUpon>
@@ -277,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ToolsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\WebViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -295,6 +311,10 @@
     <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MessageFormControl\MessageFormControl.csproj">
+      <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>
+      <Name>MessageFormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToggleButtonGroupControl\ToggleButtonGroupControl.csproj">
       <Project>{b448e071-59c5-4198-908f-ee3120bf4f7b}</Project>
@@ -330,9 +350,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\CommunicationsService\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

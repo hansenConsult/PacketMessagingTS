@@ -68,5 +68,12 @@ namespace PacketMessagingTS.ViewModels
 
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
+
+        private bool sendReceipt;
+        public bool SendReceipt
+        {
+            get => GetProperty(ref sendReceipt);
+            set => SetProperty(ref sendReceipt, value, true);
+        }
     }
 }
