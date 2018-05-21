@@ -8,7 +8,47 @@ namespace PacketMessagingTS.Helpers
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        Dictionary<string, bool> SaveEnabledDictionary;
+
         Dictionary<string, object> properties = App.Properties;
+
+        public BaseViewModel()
+        {
+            SaveEnabledDictionary = new Dictionary<string, bool>();
+        }
+
+        public virtual void ResetChangedProperty()
+        {
+            string[] keyArray = new string[SaveEnabledDictionary.Count];
+
+            int i = 0;
+            foreach (string key in SaveEnabledDictionary.Keys)
+            {
+                keyArray[i++] = key;
+            }
+            for (i = 0; i < SaveEnabledDictionary.Count; i++)
+            {
+                SaveEnabledDictionary[keyArray[i]] = false;
+            }
+        }
+
+        protected bool SaveEnabled(bool propertyChanged, [CallerMemberName]string propertyName = "")
+        {
+            SaveEnabledDictionary[propertyName] = propertyChanged;
+            bool saveEnabled = false;
+            foreach (bool value in SaveEnabledDictionary.Values)
+            {
+                saveEnabled |= value;
+            }
+            return saveEnabled;
+        }
+
+        protected bool isAppBarSaveEnabled = false;
+        public bool IsAppBarSaveEnabled
+        {
+            get => isAppBarSaveEnabled;
+            set => SetProperty(ref isAppBarSaveEnabled, value);
+        }
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
         {

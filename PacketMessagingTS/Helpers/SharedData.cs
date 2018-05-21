@@ -49,6 +49,11 @@ namespace PacketMessagingTS.Helpers
             set;
         }
 
+        public static ApplicationDataContainer SettingsContainer
+        {
+            get; set;
+        }
+
         //static Profile currentProfile;
         //public static Profile CurrentProfile
         //{

@@ -15,39 +15,17 @@ namespace PacketMessagingTS.ViewModels
     public class TNCSettingsViewModel : BaseViewModel
     {
 
-        Dictionary<string, bool> SaveEnabledDictionary;
     
 
         public TNCSettingsViewModel()
         {
-            SaveEnabledDictionary = new Dictionary<string, bool>();
+            
         }
 
-        public void ResetChangedProperty()
+        public override void ResetChangedProperty()
         {
-            string[] keyArray = new string[SaveEnabledDictionary.Count];
-
-            int i = 0;
-            foreach (string key in SaveEnabledDictionary.Keys)
-            {
-                keyArray[i++] = key;
-            }
-            for (i = 0; i < SaveEnabledDictionary.Count; i++)
-            {
-                SaveEnabledDictionary[keyArray[i]] = false;
-            }
+            base.ResetChangedProperty();
             IsAppBarSaveEnabled = false;
-        }
-
-        private bool SaveEnabled(bool propertyChanged, [CallerMemberName]string propertyName = "")
-        {
-            SaveEnabledDictionary[propertyName] = propertyChanged;
-            bool saveEnabled = false;
-            foreach (bool value in SaveEnabledDictionary.Values)
-            {
-                saveEnabled |= value;
-            }
-            return saveEnabled;
         }
 
         private Int64 tncDeviceSelectedIndex;
@@ -482,7 +460,7 @@ namespace PacketMessagingTS.ViewModels
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
-                //        TODO       Services.SMTPClient.SmtpClient.Instance.Server = MailServer;
+                Services.SMTPClient.SmtpClient.Instance.Server = MailServer;
             }
         }
 
@@ -515,7 +493,7 @@ namespace PacketMessagingTS.ViewModels
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
-                //  TODO               Services.SMTPClient.SmtpClient.Instance.Port = MailPort;
+                Services.SMTPClient.SmtpClient.Instance.Port = MailPort;
             }
         }
 
@@ -530,7 +508,7 @@ namespace PacketMessagingTS.ViewModels
                 bool changed = CurrentMailAccount.MailIsSSLField != isMailSSL;
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
-                // TODO                Services.SMTPClient.SmtpClient.Instance.IsSsl = IsMailSSL;
+                Services.SMTPClient.SmtpClient.Instance.IsSsl = IsMailSSL;
             }
         }
 
@@ -546,8 +524,7 @@ namespace PacketMessagingTS.ViewModels
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
-
-                //  TODO                Services.SMTPClient.SmtpClient.Instance.UserName = MailUserName;
+                Services.SMTPClient.SmtpClient.Instance.UserName = MailUserName;
             }
         }
 
@@ -563,7 +540,7 @@ namespace PacketMessagingTS.ViewModels
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
-                //  TODO               Services.SMTPClient.SmtpClient.Instance.Password = MailPassword;
+                Services.SMTPClient.SmtpClient.Instance.Password = MailPassword;
             }
         }
         #endregion Mail Settings
@@ -574,12 +551,6 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref isAppBarAddEnabled, value);
         }
 
-        private bool isAppBarSaveEnabled = false;
-        public bool IsAppBarSaveEnabled
-        {
-            get => isAppBarSaveEnabled;
-            set => SetProperty(ref isAppBarSaveEnabled, value);
-        }
 
         private bool isAppBarDeleteEnabled = true;
         public bool IsAppBarDeleteEnabled

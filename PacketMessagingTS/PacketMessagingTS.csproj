@@ -119,6 +119,9 @@
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask1.cs" />
+    <Compile Include="Controls\SendFormDataControl.xaml.cs">
+      <DependentUpon>SendFormDataControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\AddressConverter.cs" />
     <Compile Include="Helpers\AreaConverter.cs" />
     <Compile Include="Helpers\DeviceListEntry.cs" />
@@ -148,6 +151,12 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\OnBackgroundEnteringEventArgs.cs" />
     <Compile Include="Services\SampleDataService.cs" />
+    <Compile Include="Services\SMTPClient\SmtpClient.cs" />
+    <Compile Include="Services\SMTPClient\SmtpCode.cs" />
+    <Compile Include="Services\SMTPClient\SmtpMessage.cs" />
+    <Compile Include="Services\SMTPClient\SmtpPriority.cs" />
+    <Compile Include="Services\SMTPClient\SmtpResponse.cs" />
+    <Compile Include="Services\SMTPClient\SmtpSocket.cs" />
     <Compile Include="Services\SuspendAndResumeService.cs" />
     <Compile Include="Services\SuspensionState.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
@@ -155,6 +164,7 @@
     <Compile Include="Services\WindowManagerService.cs" />
     <Compile Include="ViewModels\AddressBookViewModel.cs" />
     <Compile Include="ViewModels\BlankViewModel.cs" />
+    <Compile Include="ViewModels\FormsPageViewModel.cs" />
     <Compile Include="ViewModels\IdentityViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterDetailViewModel.cs" />
@@ -167,6 +177,9 @@
     <Compile Include="ViewModels\WebViewViewModel.cs" />
     <Compile Include="Views\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FormsPage.xaml.cs">
+      <DependentUpon>FormsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -200,6 +213,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\SendFormDataControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Page.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -227,6 +244,10 @@
     <Page Include="Views\BlankPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FormsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -308,6 +329,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\CommunicationsService\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

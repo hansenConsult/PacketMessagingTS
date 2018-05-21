@@ -19,8 +19,38 @@ namespace FormControlBaseClass
         public static SolidColorBrush _lightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
 
         protected List<FormControl> formControlsList = new List<FormControl>();
+        protected List<RadioButton> radioButtonsList = new List<RadioButton>();
+
 
         protected string validationResultMessage;
+
+        public void ScanControls(DependencyObject panelName)
+        {
+            var count = VisualTreeHelper.GetChildrenCount(panelName);
+
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
+
+                if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
+                {
+                    ScanControls(control);
+                }
+                else if (control is TextBox || control is AutoSuggestBox || control is ComboBox
+                                            || control is CheckBox || control is ToggleButtonGroup)
+                {
+                    FormControl formControl = new FormControl((Control)control);
+                    formControlsList.Add(formControl);
+                }
+                else if (control is RadioButton)
+                {
+                    FormControl formControl = new FormControl((Control)control);
+                    formControlsList.Add(formControl);
+
+                    radioButtonsList.Add((RadioButton)control);
+                }
+            }
+        }
 
         protected void AddToErrorString(string errorText)
         {
@@ -48,9 +78,9 @@ namespace FormControlBaseClass
             }
         }
 
-        public virtual string ValidateForm()
+        public virtual string ValidateForm(string errorText = "")
         {
-            validationResultMessage = "";
+            validationResultMessage = errorText;
             //bool result = true;
             foreach (FormControl formControl in formControlsList)
             {
@@ -61,10 +91,6 @@ namespace FormControlBaseClass
                     continue;
                 }
 
-                //if (control.Name == "comboBoxToICSPosition" || control.Name == "textBoxToICSPosition" || control.Name == "comboBoxFromICSPosition" || control.Name == "textBoxFromICSPosition")
-                //{
-                //    int a = 0;
-                //}
                 if (!string.IsNullOrEmpty(tag) && control.IsEnabled && control.Visibility == Visibility.Visible && tag.Contains("required"))
                 {
                     if (control is TextBox textBox)

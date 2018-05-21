@@ -116,7 +116,6 @@ namespace PacketMessagingTS
                 BulletinFileName = ""
             };
 
-            //_properties = new Dictionary<string, object>();
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
@@ -140,12 +139,15 @@ namespace PacketMessagingTS
             await AddressBook.Instance.OpenAsync();
             AddressBook.Instance.CreateAddressBook();
 
-
-
             if (!args.PrelaunchActivated)
             {
                 await ActivationService.ActivateAsync(args);
             }
+
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+            ApplicationDataContainer container = localSettings.CreateContainer("SettingsContainer", ApplicationDataCreateDisposition.Always);
+
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

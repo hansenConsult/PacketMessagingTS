@@ -273,20 +273,31 @@ namespace PacketMessagingTS.Models
 			}
 		}
 
-		/// <remarks/>
-		//[System.Xml.Serialization.XmlAttributeAttribute()]
-		//public string Name
-		//{
-		//	get
-		//	{
-		//		return this.nameField;
-		//	}
-		//	set
-		//	{
-		//		this.nameField = value;
-		//	}
-		//}
-		public override string ToString()
+        public override int GetHashCode()
+        {
+            var hashCode = -2123422976;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MailServer);
+            hashCode = hashCode * -1521134295 + MailServerPort.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MailUserName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MailPassword);
+            hashCode = hashCode * -1521134295 + MailIsSSLField.GetHashCode();
+            return hashCode;
+        }
+
+        /// <remarks/>
+        //[System.Xml.Serialization.XmlAttributeAttribute()]
+        //public string Name
+        //{
+        //	get
+        //	{
+        //		return this.nameField;
+        //	}
+        //	set
+        //	{
+        //		this.nameField = value;
+        //	}
+        //}
+        public override string ToString()
 		{
 			return MailServer;
 		}

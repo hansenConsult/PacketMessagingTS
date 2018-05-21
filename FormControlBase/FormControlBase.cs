@@ -56,7 +56,6 @@ namespace FormControlBaseClass
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        List<RadioButton> radioButtonsList = new List<RadioButton>();
         //List<Control> formFieldsList = new List<Control>();
 
         //string _operatorTime;
@@ -293,33 +292,6 @@ namespace FormControlBaseClass
 		//string GetName(Control control) => control.Name;
 
 
-		public void ScanControls(DependencyObject panelName)
-		{
-			var count = VisualTreeHelper.GetChildrenCount(panelName);
-
-			for (int i = 0; i < count; i++)
-			{
-				DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
-
-				if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
-				{
-					ScanControls(control);
-				}
-				else if (control is TextBox || control is AutoSuggestBox || control is ComboBox 
-											|| control is CheckBox || control is ToggleButtonGroup)
-				{
-					FormControl formControl = new FormControl((Control)control);
-					formControlsList.Add(formControl);
-				}
-				else if (control is RadioButton)
-				{
-                    FormControl formControl = new FormControl((Control)control);
-                    formControlsList.Add(formControl);
-
-                    radioButtonsList.Add((RadioButton)control);
-				}
-			}
-		}
 
 		public void InitializeControls()
 		{

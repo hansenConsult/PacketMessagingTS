@@ -355,7 +355,9 @@
 							RelativePanel.AlignLeftWithPanel="True"
 							RelativePanel.AlignRightWithPanel="True">
                         <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add" HorizontalAlignment="Right" Click="ProfileSettingsAdd_Click" />
-                        <AppBarButton x:Name="profileSave"  Label="Save Profile" Icon="Save" Click="PacketSettingsSave_ClickAsync" />
+                        <AppBarButton x:Name="profileSave"  Label="Save Profile" Icon="Save"
+                                      IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}"
+                                      Click="PacketSettingsSave_ClickAsync" />
                         <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete" Click="ProfileSettingsDelete_Click"  />
                     </CommandBar>
                 </RelativePanel>

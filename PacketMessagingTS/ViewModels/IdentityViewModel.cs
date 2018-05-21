@@ -47,7 +47,7 @@ namespace PacketMessagingTS.ViewModels
             set { SetProperty(ref userMsgPrefix, value, true); }
         }
 
-        bool useTacticalCallsign;
+        private bool useTacticalCallsign;
         public bool UseTacticalCallsign
         {
             get => GetProperty(ref useTacticalCallsign);

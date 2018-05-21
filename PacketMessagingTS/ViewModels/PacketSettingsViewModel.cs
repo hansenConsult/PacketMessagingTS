@@ -16,6 +16,12 @@ namespace PacketMessagingTS.ViewModels
 
         }
 
+        public override void ResetChangedProperty()
+        {
+            base.ResetChangedProperty();
+            IsAppBarSaveEnabled = false;
+        }
+
         private Int64 profileSelectedIndex;
         public Int64 ProfileSelectedIndex
         {
@@ -46,6 +52,8 @@ namespace PacketMessagingTS.ViewModels
                 Name = currentProfile.Name;
                 TNC = currentProfile.TNC;
                 BBS = currentProfile.BBS;
+
+                ResetChangedProperty();
             }
         }
 

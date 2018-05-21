@@ -1,4 +1,5 @@
 ﻿using MetroLog;
+using PacketMessagingTS.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,44 @@ using System.Threading.Tasks;
 namespace PacketMessagingTS.Helpers
 {
     public static class Utilities
-    {
+    { 
+
+        public static string GetMessageNumberPacket() => GetMessageNumberAsync() + "P";
+
+        public static async Task<string> GetMessageNumberAsync()
+        {
+            string messageNumberString;
+
+            int messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+            if (messageNumber == default(int))
+            {
+                messageNumber = 100;
+            }
+
+            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            {
+                messageNumberString = Singleton<IdentityViewModel>.Instance.TacticalMsgPrefix + "-" + messageNumber.ToString();
+            }
+            else
+            {
+                messageNumberString = Singleton<IdentityViewModel>.Instance.UserMsgPrefix + "-" + messageNumber.ToString();
+            }
+            messageNumber++;
+            await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+
+            return messageNumberString;
+        }
+
+        public static async Task ReturnMessageNumberAsync()
+        {
+            // Only remove the last message number created
+            //if (!_activeMessageNumber)
+            //    return;
+
+            int messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+            messageNumber--;
+            await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+        }
 
     }
 
