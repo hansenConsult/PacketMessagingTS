@@ -115,11 +115,11 @@ namespace PacketMessagingTS.Models
             }
             catch (FileNotFoundException e)
             {
-                log.Error($"Open Address Book file failed: {e.Message}");
+                LogHelper.Log(LogLevel.Error, $"Open Address Book file failed: {e.Message}");
             }
             catch (Exception e)
             {
-                log.Error($"Error opening {e.Message} {e}");
+                LogHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
             }
         }
 

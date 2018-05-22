@@ -6,13 +6,58 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
-    <Grid
-        x:Name="ContentArea"
-        Margin="{StaticResource MediumLeftRightMargin}">
-        <Grid
-            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+    <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+                   x:Name="ContentArea"
+                   Margin="{StaticResource MediumLeftRightMargin}">
+        <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                 Place your content here.-->
-        </Grid>
-    </Grid>
+
+        <Pivot x:Name="MainPagePivot" 
+               RelativePanel.AlignTopWithPanel="True"
+               RelativePanel.AlignLeftWithPanel="True"
+               RelativePanel.AlignRightWithPanel="True"
+	           RelativePanel.Above="ButtomCommandBar"
+               Margin="{StaticResource EightTopMargin}"
+               FontFamily="Bahnschrift" >
+            <!--SelectionChanged="MainPagePivot_SelectionChanged" >-->
+
+            <!--  Inbox  -->
+            <PivotItem x:Uid="Main_Inbox"  x:Name="InBox"  >
+            </PivotItem>
+
+            <!--  Sent Items  -->
+            <PivotItem x:Uid="Main_SentItems" x:Name="Sent" >
+            </PivotItem>
+
+            <!--  Outbox  -->
+            <PivotItem x:Uid="Main_Outbox" x:Name="OutBox" >
+            </PivotItem>
+
+            <!--  Drafts  -->
+            <PivotItem x:Uid="Main_Outbox" x:Name="Drafts" >
+            </PivotItem>
+
+            <!--  Archived Items  -->
+            <PivotItem x:Uid="Main_ArchivedItems" x:Name="Archive" >
+            </PivotItem>
+
+            <!--  Deleted Items  -->
+            <PivotItem x:Uid="Main_DeletedItems" x:Name="Deleted" ></PivotItem>
+
+        </Pivot>
+
+        <CommandBar x:Name="ButtomCommandBar"
+				    RelativePanel.AlignBottomWithPanel="True"
+				    RelativePanel.AlignRightWithPanel="True"
+				    RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center" Margin="0,-6,0,0" VerticalAlignment="Top">
+            <AppBarButton Label="Open" Icon="OpenFile" Click="AppBarMainPage_OpenMessage" />
+            <!--<AppBarButton x:Name="appBarPrint" Label="Print Message" HorizontalAlignment="Right" Click="AppBarPrint_Click">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>-->
+            <AppBarButton Label="Send/Receive" Icon="Send" Click="AppBarMainPage_SendReceive" />
+            <AppBarButton Label="Delete Item" Icon="Delete" Click="AppBarMainPage_DeleteItemAsync" HorizontalAlignment="Right" />
+        </CommandBar>
+    </RelativePanel>
 </Page>

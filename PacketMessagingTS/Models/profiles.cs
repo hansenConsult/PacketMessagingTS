@@ -128,7 +128,8 @@ namespace PacketMessagingTS.Models
 			}
 			catch (Exception e)
 			{
-				Debug.WriteLine ($"Error opening file {file?.Path + profileFileName}, {e}");
+                LogHelper.Log(LogLevel.Error, $"Error opening file {file?.Path + profileFileName}, {e}");
+                Debug.WriteLine ($"Error opening file {file?.Path + profileFileName}, {e}");
 			}
 		}
 

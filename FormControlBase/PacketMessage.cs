@@ -472,7 +472,8 @@ namespace FormControlBaseClass
 			}
 			catch (Exception e)
 			{
-				Debug.WriteLine($"Failed to open {file?.Path}, {e}");
+                LogHelper.Log(LogLevel.Error, $"Failed to open {file?.Path}, {e}");
+                Debug.WriteLine($"Failed to open {file?.Path}, {e}");
 			}
 			//finally
 			//{

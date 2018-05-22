@@ -301,4 +301,19 @@
     <value>logFile</value>
     <comment>Name of tab</comment>
   </data>
+  <data name="Main_ArchivedItems.Header" xml:space="preserve">
+    <value>Archived Items</value>
+  </data>
+  <data name="Main_DeletedItems.Header" xml:space="preserve">
+    <value>Deleted Items</value>
+  </data>
+  <data name="Main_Inbox.Header" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
+  <data name="Main_Outbox.Header" xml:space="preserve">
+    <value>Outbox</value>
+  </data>
+  <data name="Main_SentItems.Header" xml:space="preserve">
+    <value>Sent Items</value>
+  </data>
 </root>

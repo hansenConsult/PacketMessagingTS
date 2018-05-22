@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MetroLog;
+using PacketMessagingTS.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -87,6 +89,7 @@ namespace PacketMessagingTS.Services.SMTPClient
 			}
             catch (Exception ex)
             {
+                LogHelper.Log(LogLevel.Error, ex.Message);
                 Debug.WriteLine(ex.Message);
                 throw;
             }
@@ -170,6 +173,7 @@ namespace PacketMessagingTS.Services.SMTPClient
 
                                 response.Values.Add(r);
 
+                                LogHelper.Log(LogLevel.Error, "{0}{1}", ((int)code).ToString(), stringBuilder.ToString());
                                 Debug.WriteLine("{0}{1}", ((int)code).ToString(), stringBuilder.ToString());
 
                                 stringBuilder = new StringBuilder();
@@ -192,6 +196,7 @@ namespace PacketMessagingTS.Services.SMTPClient
             }
             catch (Exception ex)
             {
+                LogHelper.Log(LogLevel.Error, ex.Message);
                 Debug.WriteLine(ex.Message);
                 throw;
             }

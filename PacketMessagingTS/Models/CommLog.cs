@@ -206,13 +206,13 @@ namespace PacketMessagingTS.Models
 			}
 			catch (FileNotFoundException e)
 			{
-				log.Error($"Open E-Mail Accounts file failed: {e.Message}");
+                LogHelper.Log(LogLevel.Error, $"Open E-Mail Accounts file failed: {e.Message}");
 				return;
 			}
 
 			catch (Exception e)
 			{
-				log.Error($"Error opening file {file?.Path + commLogFileName}, {e}");
+                LogHelper.Log(LogLevel.Error, $"Error opening file {file?.Path + commLogFileName}, {e}");
 				return;
 			}
 			//UpdateDictionary();

@@ -132,10 +132,12 @@ namespace PacketMessagingTS.Models
 			catch (FileNotFoundException e)
 			{
 				Debug.WriteLine($"Open BBSData file failed: {e.Message}");
+                LogHelper.Log(LogLevel.Error, $"Open BBSData file failed: {e.Message}");
 			}
 			catch (Exception e)
 			{
-				Debug.WriteLine($"Error opening {e.Message} {e}");
+                LogHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
+                Debug.WriteLine($"Error opening {e.Message} {e}");
 			}
 		}
 
@@ -158,13 +160,13 @@ namespace PacketMessagingTS.Models
                 }
                 else
                 {
-                    log.Error($"File not found {bbsFileName}");
+                    LogHelper.Log(LogLevel.Error, $"File not found {bbsFileName}");
 
                 }
             }
 			catch (Exception e)
 			{
-				log.Error($"Error saving {bbsFileName} {e}");
+                LogHelper.Log(LogLevel.Error, $"Error saving {bbsFileName} {e}");
 			}
 		}
 

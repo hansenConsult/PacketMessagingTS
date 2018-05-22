@@ -9,6 +9,8 @@ using MetroLog;
 using System.Collections.Generic;
 using System.Linq;
 
+using PacketMessagingTS.Helpers;
+
 namespace PacketMessagingTS.Models
 {
 
@@ -114,11 +116,13 @@ namespace PacketMessagingTS.Models
 			}
 			catch (FileNotFoundException e)
 			{
-				Debug.WriteLine($"File not found: {e.Message}");
+                LogHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
+                Debug.WriteLine($"File not found: {e.Message}");
 			}
 			catch (Exception e)
 			{
-				Debug.WriteLine($"Failed to read TNC data file {e}");
+                LogHelper.Log(LogLevel.Error, $"Failed to read TNC data file {e}");
+                Debug.WriteLine($"Failed to read TNC data file {e}");
 			}
 			if (_instance.TNCDevices == null || _instance.TNCDevices.Length == 0)
 			{
