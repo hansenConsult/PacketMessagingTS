@@ -23,9 +23,9 @@
         <CollectionViewSource x:Name="ProfilesCollection"  IsSourceGrouped="False"  />
         <CollectionViewSource x:Name="DeviceListSource" IsSourceGrouped="False" />
 
-        <DataTemplate x:Name="ProfilesDataTemplate" x:DataType="models:Profile">
+        <!--<DataTemplate x:Name="ProfilesDataTemplate" x:DataType="models:Profile">
             <TextBlock Text="{x:Bind Name}" />
-        </DataTemplate>
+        </DataTemplate>-->
 
         <CollectionViewSource x:Name="ComPortListSource" IsSourceGrouped="False"/>
         <CollectionViewSource x:Name="ComNameListSource" IsSourceGrouped="False"/>
@@ -304,10 +304,11 @@
 										RelativePanel.AlignVerticalCenterWithPanel="True"/>
                                 <ComboBox x:Name="comboBoxProfiles"  Width="300"
 										  RelativePanel.RightOf="labelProfile"
-										  ItemTemplate="{StaticResource  ProfilesDataTemplate}"
 										  ItemsSource="{x:Bind ProfilesCollection.View, Mode=OneWay}"
+                                          DisplayMemberPath="Name"
                                           SelectedIndex="{Binding ProfileSelectedIndex, Mode=TwoWay}"
-                                          VerticalAlignment="Center" SelectionChanged="ComboBoxProfiles_SelectionChanged"   />
+                                          VerticalAlignment="Center"/>
+                                <!--SelectionChanged="ComboBoxProfiles_SelectionChanged"   />-->
                                 <TextBox x:Name="textBoxNewProfileName" Width="300"
 										 RelativePanel.RightOf="labelProfile"
 										 PlaceholderText="Enter profile name"
@@ -328,18 +329,21 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock x:Name="label7" Grid.Column="0" Grid.Row="0" Text="TNC:" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                 <ComboBox x:Name="comboBoxTNCs"  Grid.Column="1" Grid.Row="0"  VerticalAlignment="Center" Width="270"
-									IsSynchronizedWithCurrentItem="False"	  
-									ItemsSource="{x:Bind DeviceListSource.View}"
-									SelectedValuePath="Name" 
-									SelectionChanged="ComboBoxTNCs_SelectionChanged" HorizontalAlignment="Left"/>
+									      IsSynchronizedWithCurrentItem="False"	  
+									      ItemsSource="{x:Bind DeviceListSource.View}"
+                                          DisplayMemberPath="Name"
+									      SelectedValuePath="Name"
+                                          SelectedValue="{Binding TNC, Mode=TwoWay}"
+                                          HorizontalAlignment="Left"/>
                                 <TextBlock x:Name="label"  Grid.Column="0" Grid.Row="1" Text="BBS:"  VerticalAlignment="Center" />
-                                <ComboBox x:Name="comboBoxBBS"  Grid.Column="1" Grid.Row="1" 
-										DisplayMemberPath="Name"
-										IsSynchronizedWithCurrentItem="False"
-										ItemsSource="{x:Bind BBSDataCollection.View, Mode=OneWay}"
-										SelectedValuePath = "Name"
-										VerticalAlignment="Center" Width="120"   
-										SelectionChanged="ComboBoxBBS_SelectionChanged"/>
+                                <ComboBox x:Name="comboBoxBBS"  Grid.Column="1" Grid.Row="1"
+										  DisplayMemberPath="Name"
+										  ItemsSource="{x:Bind BBSDataCollection.View, Mode=OneWay}"
+										  SelectedValuePath = "Name"
+                                          SelectedValue="{Binding BBSSelectedValue, Mode=TwoWay}"
+                                          SelectedIndex="{Binding BBSSelectedIndex, Mode=OneWay}"
+										  VerticalAlignment="Center" Width="120"   />
+                                <!--SelectionChanged="ComboBoxBBS_SelectionChanged"/>-->
                                 <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Description:"  HorizontalAlignment="Left" Margin="0,6,5,0" />
                                 <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" Width="270" Height="88"
 										 IsReadOnly="True" TextWrapping="Wrap" 
@@ -379,14 +383,16 @@
 								  RelativePanel.AlignTopWithPanel="True"
 								  RelativePanel.Above="ButtomCommandBar"
 								  Margin="0,0,0,0" VerticalScrollBarVisibility="Auto" Width="auto">-->
+                    <!--ItemTemplate="{StaticResource  TNCDataTemplate}"-->
                     <SplitView  IsPaneOpen="True" OpenPaneLength="200" HorizontalAlignment="Left" Height="auto"  VerticalAlignment="Top" DisplayMode="Inline">
                         <SplitView.Pane >
                             <StackPanel>
                                 <ListBox x:Name="ConnectDevices"  Width="auto"  Height="auto"  Background="LightGray"
-									 ItemsSource="{x:Bind DeviceListSource.View}" 
-									 ItemTemplate="{StaticResource  TNCDataTemplate}"
-									 SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-									 SelectionChanged="ConnectDevices_SelectionChanged"
+									     ItemsSource="{x:Bind DeviceListSource.View}" 
+									     
+                                         DisplayMemberPath="Name"
+									     SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									     SelectionChanged="ConnectDevices_SelectionChanged"
 								>
                                 </ListBox>
                                 <TextBox x:Name="newTNCDeviceName" Header="New Device Name" 
@@ -447,7 +453,7 @@
                                                         <RowDefinition />
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Comm Port:" HorizontalAlignment="Left" 
-														   VerticalAlignment="Center" />
+														       VerticalAlignment="Center" />
                                                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort" 
 													          ItemsSource="{x:Bind ComPortListSource.View, Mode=OneWay}"
 													          SelectedValuePath = "PortName"
@@ -468,9 +474,9 @@
                                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="Baud Rate:"  
 														   VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="1" x:Name="comboBoxBaudRate"  
-													      ItemsSource="{x:Bind BaudRateListSource.View, Mode=OneTime}"											
-														  Width="100" Margin=" 0,2"
-                                                          SelectedItem="{Binding TNCComBaudRate, Mode=TwoWay}" />
+													          ItemsSource="{x:Bind BaudRateListSource.View, Mode=OneTime}"											
+														      Width="100" Margin=" 0,2"
+                                                              SelectedItem="{Binding TNCComBaudRate, Mode=TwoWay}" />
                                                     <!--SelectionChanged="comboBoxBaudRate_SelectionChanged" />-->
                                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Data Bits:" VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="2" x:Name="comboBoxDatabits"

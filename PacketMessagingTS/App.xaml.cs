@@ -127,6 +127,8 @@ namespace PacketMessagingTS
                 _properties = new Dictionary<string, object>();
             }
 
+            SharedData.MetroLogsFolder = await localFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists);
+
             foreach (var tacticalCallsignType in _tacticalCallsignDataDictionary.Values)
             {
                 tacticalCallsignType.TacticalCallsigns = await TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);

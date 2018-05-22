@@ -137,6 +137,7 @@
     <Compile Include="Helpers\Utilities.cs" />
     <Compile Include="Models\AddressBook.cs" />
     <Compile Include="Models\BBSData.cs" />
+    <Compile Include="Models\CommLog.cs" />
     <Compile Include="Models\distributionlists.cs" />
     <Compile Include="Models\Emailaccounts.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
@@ -229,6 +230,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\ICSFormsDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Page.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -311,6 +316,10 @@
     <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICS213FormControl\ICS213FormControl.csproj">
+      <Project>{eba5e558-4804-4914-87ed-efbfa45e2069}</Project>
+      <Name>ICS213FormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\MessageFormControl\MessageFormControl.csproj">
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>

@@ -48,6 +48,7 @@ namespace PacketMessagingTS.Helpers
             get;
             set;
         }
+        public static StorageFolder MetroLogsFolder;
 
         public static ApplicationDataContainer SettingsContainer;
 

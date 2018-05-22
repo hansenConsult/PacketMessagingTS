@@ -103,7 +103,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormType);
 					if (formControl == null)
 					{
-						//await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
+						await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
 						log.Error($"Form {pktMsg.PacFormName} not found");
 						return ;
 					}

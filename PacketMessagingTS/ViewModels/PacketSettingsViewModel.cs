@@ -28,15 +28,13 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 GetProperty(ref profileSelectedIndex);
-                Profile profile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
-                DefaultTo = profile.SendTo;
+                CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
                 return profileSelectedIndex;
             }
             set
             {
-                SetProperty(ref profileSelectedIndex, value, true);
-                Profile profile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
-                DefaultTo = profile.SendTo;
+                SetProperty(ref profileSelectedIndex, Convert.ToInt64(value), true);
+                CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
             }
 
         }
@@ -51,7 +49,8 @@ namespace PacketMessagingTS.ViewModels
 
                 Name = currentProfile.Name;
                 TNC = currentProfile.TNC;
-                BBS = currentProfile.BBS;
+                BBSSelectedValue = currentProfile.BBS;
+                DefaultTo = currentProfile.SendTo;
 
                 ResetChangedProperty();
             }
@@ -68,25 +67,112 @@ namespace PacketMessagingTS.ViewModels
         public string TNC
         {
             get => tnc;
-            set => SetProperty(ref tnc, value);
-        }
-
-        private string bbs;
-        public string BBS
-        {
-            get => bbs;
             set
             {
-                SetProperty(ref bbs, value);
+                SetProperty(ref tnc, value);
+
+                bool changed = CurrentProfile.TNC != tnc;
+                IsAppBarSaveEnabled = SaveEnabled(changed);
 
             }
+        }
+
+        //private string bbs;
+        //public string BBS
+        //{
+        //    get => bbs;
+        //    set
+        //    {
+        //        SetProperty(ref bbs, value);
+        //    }
+        //}
+
+        //private BBSData bbsSelectedItem;
+        //public BBSData BBSSelectedItem
+        //{
+        //    get => bbsSelectedItem;
+        //    set
+        //    {
+        //        SetProperty(ref bbsSelectedItem, value);
+
+        //        //BBSDescription = bbsSelectedItem.Description;
+        //        //BBSFrequency1 = bbsSelectedItem.Frequency1;
+        //        //BBSFrequency2 = bbsSelectedItem.Frequency2;
+        //    }
+        //}
+
+        private int bbsSelectedIndex;
+        public int BBSSelectedIndex
+        {
+            get
+            {
+                return bbsSelectedIndex;
+            }
+            set
+            {
+                SetProperty(ref bbsSelectedIndex, value);
+
+                BBSData bbsData = BBSDefinitions.Instance.BBSDataList[bbsSelectedIndex];
+                BBSDescription = bbsData.Description;
+                BBSFrequency1 = bbsData.Frequency1;
+                BBSFrequency2 = bbsData.Frequency2;
+            }
+        }
+
+        private string bbsSelectedValue;
+        public string BBSSelectedValue
+        {
+            get => bbsSelectedValue;
+            set
+            {
+                SetProperty(ref bbsSelectedValue, value);
+
+                BBSData bbsData = BBSDefinitions.Instance.BBSDataList[BBSSelectedIndex];
+                BBSDescription = bbsData.Description;
+                BBSFrequency1 = bbsData.Frequency1;
+                BBSFrequency2 = bbsData.Frequency2;
+
+                bool changed = CurrentProfile.BBS != bbsSelectedValue;
+                IsAppBarSaveEnabled = SaveEnabled(changed);
+
+            }
+        }
+
+        private string bbsDescription;
+        public string BBSDescription
+        {
+            get => bbsDescription;
+            set => SetProperty(ref bbsDescription, value);
+        }
+        
+        private string bbsFrequency1;
+        public string BBSFrequency1
+        {
+            get => bbsFrequency1;
+            set => SetProperty(ref bbsFrequency1, value);
+        }
+
+        private string bbsFrequency2;
+        public string BBSFrequency2
+        {
+            get => bbsFrequency2;
+            set => SetProperty(ref bbsFrequency2, value);
         }
 
         private string defaultTo;
         public string DefaultTo
         {
             get => defaultTo;
-            set => SetProperty(ref defaultTo, value);
+            set
+            {
+                SetProperty(ref defaultTo, value);
+
+                bool changed = CurrentProfile.SendTo != defaultTo;
+
+                IsAppBarSaveEnabled = SaveEnabled(changed);
+
+            }
         }
+
     }
 }

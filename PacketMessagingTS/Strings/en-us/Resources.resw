@@ -145,7 +145,7 @@
     <value>retry</value>
     <comment>Retry button for WebView</comment>
   </data>
-    <data name="WebView_BrowserBackButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+  <data name="WebView_BrowserBackButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Back</value>
     <comment>WebView back button automation name property for WebView</comment>
   </data>
@@ -193,7 +193,7 @@
     <value>MasterDetail</value>
     <comment>Navigation view item name for MasterDetail</comment>
   </data>
-  <data name="Tabbed_PivotItem1.Header" xml:space="preserve">  
+  <data name="Tabbed_PivotItem1.Header" xml:space="preserve">
     <value>Item 1</value>
     <comment>First Pivot item title for Tabbed</comment>
   </data>
@@ -233,31 +233,31 @@
     <value>Light</value>
     <comment>Light theme text for Settings</comment>
   </data>
-  <data name="Settings_About.Text" xml:space="preserve">    
+  <data name="Settings_About.Text" xml:space="preserve">
     <value>About this application</value>
     <comment>About this application title for Settings</comment>
   </data>
-  <data name="Settings_AboutDescription.Text" xml:space="preserve">    
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
     <value>Settings page placeholder text.  Your app description goes here.</value>
     <comment>About this application description for Settings</comment>
   </data>
-  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">    
+  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
     <value>Privacy Statement</value>
     <comment>Privacy Statement link content for Settings</comment>
   </data>
-  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">  
+  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://YourPrivacyUrlGoesHere/</value>
     <comment>Here is your Privacy Statement url for Settings</comment>
   </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">   
+  <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>Personalization</value>
     <comment>Personalization text for Settings</comment>
   </data>
-  <data name="ExceptionEnumToBooleanConverterValueMustBeAnEnum" xml:space="preserve">   
+  <data name="ExceptionEnumToBooleanConverterValueMustBeAnEnum" xml:space="preserve">
     <value>value must be an Enum!</value>
     <comment>Value must be an Enum in enum to boolean converter</comment>
   </data>
-  <data name="ExceptionEnumToBooleanConverterParameterMustBeAnEnumName" xml:space="preserve">   
+  <data name="ExceptionEnumToBooleanConverterParameterMustBeAnEnumName" xml:space="preserve">
     <value>parameter must be an Enum name!</value>
     <comment>Parameter must be an Enum name in enum to boolean converter</comment>
   </data>
@@ -268,5 +268,37 @@
   <data name="ExceptionViewLifeTimeControlViewDisposal" xml:space="preserve">
     <value>This view is being disposed.</value>
     <comment>View disposed</comment>
+  </data>
+  <data name="Tools_ConvertText.Header" xml:space="preserve">
+    <value>Convert Text</value>
+    <comment>Convert text to Form and Convert from Base64</comment>
+  </data>
+  <data name="Tools_ICS309.Header" xml:space="preserve">
+    <value>ICS 309</value>
+    <comment>Show form ICS 309</comment>
+  </data>
+  <data name="Tools_ViewLogFile.Header" xml:space="preserve">
+    <value>View Log File</value>
+    <comment>Log file viewer</comment>
+  </data>
+  <data name="Tools_ConvertText.Name" xml:space="preserve">
+    <value>ConvertToFromPacForm</value>
+    <comment>Name of tab</comment>
+  </data>
+  <data name="Tools_ICS309.Name" xml:space="preserve">
+    <value>ics309</value>
+    <comment>Name of tab</comment>
+  </data>
+  <data name="Tools_TestReceive.Header" xml:space="preserve">
+    <value>Test Receive</value>
+    <comment>Test Receive pivot item</comment>
+  </data>
+  <data name="Tools_TestReceive.Name" xml:space="preserve">
+    <value>testReceive</value>
+    <comment>Name of tab</comment>
+  </data>
+  <data name="Tools_ViewLogFile.Name" xml:space="preserve">
+    <value>logFile</value>
+    <comment>Name of tab</comment>
   </data>
 </root>

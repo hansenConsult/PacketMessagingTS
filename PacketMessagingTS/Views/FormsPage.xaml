@@ -39,16 +39,6 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <!--  header  -->
-        <!--<controls:PageHeader x:Name="pageHeader" Content="Forms"
-							 BackButtonVisibility="Visible"
-                             Frame="{x:Bind Frame}"
-                             RelativePanel.AlignLeftWithPanel="True"
-                             RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" />-->
-
-        <!--<Canvas x:Name="PrintCanvas" Opacity="0"/>-->
-
         <!--  content  -->
         <Pivot x:Name="MyPivot" Grid.Row="1" Height="auto"
                RelativePanel.AlignTopWithPanel="True"

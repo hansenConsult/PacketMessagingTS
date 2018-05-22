@@ -56,15 +56,8 @@ namespace PacketMessagingTS.Helpers
             {
                 // Retrieve value from dictionary
                 object o = properties[propertyName];
-                //if (o.GetType() == typeof(Int64))
-                //{
-                //    int retval = Convert.ToInt32(o);
-                //    return retval;
-                //}
-                //else
-                //{
-                    return (T)o;
-                //}
+                backingStore = (T)o;
+                return (T)o;
             }
             else
                 return backingStore;

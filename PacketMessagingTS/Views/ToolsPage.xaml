@@ -5,31 +5,330 @@
     xmlns:local="using:PacketMessagingTS.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:PacketMessagingTS.Models"
+        xmlns:converters="using:PacketMessagingTS.Helpers"
+
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="ContentArea">
-        <Pivot
-            x:Name="Items">
-            <PivotItem x:Uid="Tabbed_PivotItem1">
-                <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+    <Page.Resources>
+        <converters:DateTimeConverter x:Key="DatetimeConverter"/>
+        <converters:TimeConverter x:Key="TimeConverter"/>
+
+        <Style x:Key="ListBoxHeader" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="8"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="MediumText" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+        <Style x:Key="LogListBoxText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <DataTemplate x:Name="isc309HeaderTemplate">
+            <TextBlock Text="{Binding}" FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Black" Margin="4,0,0,0"/>
+        </DataTemplate>
+        <DataTemplate x:Name="isc309MediumTextTemplate">
+            <TextBlock Text="{Binding}" FontSize="10" FontFamily="Arial" FontWeight="Bold"/>
+        </DataTemplate>
+        <DataTemplate x:Name="isc309LargeTextTemplate">
+            <TextBlock Text="{Binding}" FontSize="14" FontFamily="Arial" FontWeight="Bold"/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="ics309ListViewHeaderTemplate">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="40*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1">
+                    <TextBlock   Style="{StaticResource ListBoxHeader}">
+                                              Time<LineBreak/>(24:00)
+                    </TextBlock>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
+                    <TextBlock Text="FROM" HorizontalAlignment="Center" Style="{StaticResource ListBoxHeader}"/>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                    <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
+                </Border>
+                <Border Grid.Column="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
+                    <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}"/>
+                </Border>
+                <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
+                    <TextBlock Text="TO" Style="{StaticResource ListBoxHeader}"/>
+                </Border>
+                <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                    <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
+                </Border>
+                <Border Grid.Column="4" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
+                    <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}" />
+                </Border>
+                <Border Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,1,0,1">
+                    <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+        <CollectionViewSource x:Name="LogFilesCollection"  IsSourceGrouped="False" />
+        <CollectionViewSource x:Name="TestFilesCollection"  IsSourceGrouped="False" />
+        <CollectionViewSource x:Name="CommLogMessagesCollection" IsSourceGrouped="False"/>
+        <DataTemplate x:Name="ics309ListViewTemplate" x:DataType="data:CommLogEntry">
+            <Grid x:Name="nameInboxTemplate" HorizontalAlignment="Stretch" Margin="-12,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*" MinWidth="50"/>
+                    <ColumnDefinition Width="1.2*" MinWidth="70"/>
+                    <ColumnDefinition Width="1.2*" MinWidth="70"/>
+                    <ColumnDefinition Width="1.2*" MinWidth="70"/>
+                    <ColumnDefinition Width="1.2*" MinWidth="70"/>
+                    <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{x:Bind Time, Converter={StaticResource TimeConverter}}" 
+                           Style="{StaticResource LogListBoxText}"  />
+                <TextBlock Grid.Column="1" Text="{x:Bind FromCallsign}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0"/>
+                <TextBlock Grid.Column="2" Text="{x:Bind FromMessageNumber}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0" />
+                <TextBlock Grid.Column="3" Text="{x:Bind ToCallsign}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0" />
+                <TextBlock Grid.Column="4" Text="{x:Bind ToMessageNumber}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0"/>
+                <!--<Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,1,0,1">-->
+                <TextBlock Grid.Column="5" Text="{x:Bind Message}" Style="{StaticResource LogListBoxText}" HorizontalAlignment="Left" Padding="5,0,5,0"/>
+                <!--</Border>-->
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <RelativePanel RequestedTheme = "Light">
+
+            <Pivot x:Name="Tools"
+                   SelectionChanged="ToolsPagePivot_SelectionChangedAsync">
+                <PivotItem x:Uid="Tools_ViewLogFile">
+                    <RelativePanel x:Name="logFilePivotPanel" 
+							   HorizontalAlignment="Stretch"
+							   >
+                        <RelativePanel x:Name="fileSelectPanel">
+                            <TextBlock x:Name="logfileListTextBlock"
+							   Text="Select a Log File:" 
+								   Margin="10"/>
+                            <ComboBox x:Name="logFilesComboBox" 
+								  RelativePanel.RightOf="logfileListTextBlock"
+								  RelativePanel.AlignVerticalCenterWithPanel="True"
+								  ItemsSource="{x:Bind LogFilesCollection.View, Mode=OneWay}"
+								  DisplayMemberPath="Name" 
+								  SelectionChanged="logFilesComboBox_SelectionChangedAsync" />
+                        </RelativePanel>
+                        <TextBox x:Name="logFileTextBox" 
+							     RelativePanel.Below="fileSelectPanel"
+							     RelativePanel.AlignLeftWithPanel="True"
+							     RelativePanel.AlignRightWithPanel="True"
+							 ScrollViewer.VerticalScrollBarVisibility="Auto"
+							 AcceptsReturn="True"
+							 TextWrapping="Wrap"
+							 Margin="10,10,10,10"
+							 />
+                        <CommandBar x:Name="ButtomCommandBar"
+                   				    RelativePanel.AlignBottomWithPanel="True"
+				                    RelativePanel.AlignRightWithPanel="True"
+                                    RelativePanel.AlignLeftWithPanel="True">
+                            <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
+                            <AppBarButton x:Name="appBarPrint" Label="Print" HorizontalAlignment="Right" >
+                                <AppBarButton.Icon>
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+                            <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
+                        </CommandBar>
+
+                    </RelativePanel>
+
+                    <!--<Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">-->
                     <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
 
-                </Grid>
-            </PivotItem>
+                    <!--</Grid>-->
+                </PivotItem>
 
-            <PivotItem x:Uid="Tabbed_PivotItem2">
-                <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                    <!--
+                <PivotItem x:Uid="Tools_ConvertText">
+                    <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
+                    <ScrollViewer>
+                        <StackPanel Margin="0,5,0,0">
+                            <TextBox x:Name="messageTo" Header="To:" Margin="0,5,0,0" />
+                            <TextBox x:Name="messageFrom" Header="From:" Margin="0,5,0,0" />
+                            <TextBox x:Name="messageReceivedTime" Header="Time" Margin="0,5,0,0" />
+                            <TextBox x:Name="messageSubject" Header="Subject:" Margin="0,5,0,0" />
+                            <TextBox x:Name="PacFormText" Header="Message:" Height="auto" AcceptsReturn="True" Margin="0,6,0,0"/>
+                            <Button x:Name="buttonShowForm" Content="Convert To Form" Click="ConvertToForm_Click" Margin="0,5,0,0"/>
+                            <Button x:Name="buttonConvertFromBase64" Content="Convert From Base64" Click="ConvertFromBase64_Click"  Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </ScrollViewer>
 
                 </Grid>
-            </PivotItem>
-        </Pivot>
-    </Grid>
+                </PivotItem>
+                <PivotItem x:Uid="Tools_ICS309">
+                    <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                        <!--
+                    The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+                    Place your content here.
+                    -->
+                    <ScrollViewer Margin="0,12,-12,0" 
+                              VerticalScrollBarVisibility="Auto" Height="auto" >
+                        <!--<StackPanel >                
+                        <userControls:ICS309UserControl x:Name="ICSForm309" />
+                    </StackPanel>-->
+                        <StackPanel Margin="0,0,12,0">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <StackPanel>
+                                    <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                            <TextBlock  Margin="10,4,10,-4.4" HorizontalAlignment="Center" 
+                                                    Style="{StaticResource MediumText}">
+                                            <Run Text="COMM Log" FontSize="14"/>
+                                            <LineBreak/>
+                                            <Run Text="  ICS 309-SCCo"/>
+                                            <LineBreak/>
+                                            <Run Text="  ARES/RACES"/>
+                                            </TextBlock>
+                                        </Border>
+                                        <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                            <TextBox x:Name="incidentName"  BorderBrush="White"
+                                                 Header="1. Incident name and Activation Number" 
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                                 TextChanged="IncidentName_TextChanged"/>
+                                        </Border>
+                                        <Border Grid.Column="2" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                            <TextBox x:Name="operationalPeriod"  BorderBrush="White"
+                                                 Header="2. Operational Period (Date/Time)" 
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                                 TextChanged="OperationalPeriod_TextChangedAsync"/>
+                                        </Border>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                            <TextBox x:Name="radioNetName" BorderBrush="White"
+                                             Header="3. Radio Net Name (for NCOs)  or Position/Tactical Call" 
+                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                             TextChanged="RadioNetName_TextChanged"/>
+                                        </Border>
+                                        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                            <TextBox x:Name="radioOperator" BorderBrush="White"
+                                                 Text="{}" Header="4. Radio Operator (Name, Call Sign)" 
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
+                                        </Border>
+                                    </Grid>
+                                    <!--<StackPanel Background="LightGray">-->
+                                    <Grid Background="LightGray" Margin="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="5." Style="{StaticResource MediumText}" Margin="4,0,0,0"/>
+                                        <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center" Style="{StaticResource MediumText}"/>
+                                    </Grid>
+                                    <!--</StackPanel>-->
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="8*"/>
+                                            <ColumnDefinition Width="12*"/>
+                                            <ColumnDefinition Width="12*"/>
+                                            <ColumnDefinition Width="12*"/>
+                                            <ColumnDefinition Width="12*"/>
+                                            <ColumnDefinition Width="40*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1">
+                                            <TextBlock   Style="{StaticResource ListBoxHeader}">
+                                              Time<LineBreak/>(24:00)
+                                            </TextBlock>
+                                        </Border>
+                                        <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
+                                            <TextBlock Text="FROM" HorizontalAlignment="Center" Style="{StaticResource ListBoxHeader}"/>
+                                        </Border>
+                                        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                                            <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
+                                        </Border>
+                                        <Border Grid.Column="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
+                                            <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}"/>
+                                        </Border>
+                                        <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
+                                            <TextBlock Text="TO" Style="{StaticResource ListBoxHeader}"/>
+                                        </Border>
+                                        <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                                            <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
+                                        </Border>
+                                        <Border Grid.Column="4" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
+                                            <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}" />
+                                        </Border>
+                                        <Border Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                            <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
+                                        </Border>
+                                    </Grid>
+                                    <ListView x:Name="logEntries" Height="300"
+                                          ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
+                                          ItemTemplate="{StaticResource ics309ListViewTemplate}"
+                                          />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
+                                                 Header="6. Prepared By (Name, Call Sign)" 
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                        </Border>
+                                        <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
+                                                 Header="7. Date $ Time Prepared" 
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                        </Border>
+                                        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
+                                            <TextBox x:Name="pageNoOf" BorderBrush="White" 
+                                                 Text="{Binding PageNoAsString, Mode=OneWay}"  Header="8."  HeaderTemplate="{StaticResource isc309HeaderTemplate}" Margin="0,-0.8,0.2,0.4"/>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,0" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                </Grid>
+                </PivotItem>
+            </Pivot>
+    </RelativePanel>
 </Page>

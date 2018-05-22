@@ -72,11 +72,11 @@ namespace PacketMessagingTS.Views
 
             ObservableCollection<BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
             BBSDataCollection.Source = bbsDataCollection;
-            comboBoxBBS.SelectedValue = SharedData.CurrentBBS;
+            //comboBoxBBS.SelectedValue = SharedData.CurrentBBS;
 
             ObservableCollection<TNCDevice> tncDeviceCollection = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList );
             DeviceListSource.Source = tncDeviceCollection;
-            comboBoxTNCs.SelectedValue = SharedData.CurrentTNCDevice;
+            //comboBoxTNCs.SelectedValue = SharedData.CurrentTNCDevice;
 
             // Serial ports
             listOfDevices = new ObservableCollection<DeviceListEntry>();
@@ -256,10 +256,10 @@ namespace PacketMessagingTS.Views
             ProfilesCollection.Source = _profileCollection;
 
 
-            _bbsChanged = false;
-            _tncChanged = false;
-            _defaultToChanged = false;
-            profileSave.IsEnabled = false;
+            //_bbsChanged = false;
+            //_tncChanged = false;
+            //_defaultToChanged = false;
+            //profileSave.IsEnabled = false;
         }
 
         private async void PacketSettingsSave_ClickAsync(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -296,10 +296,10 @@ namespace PacketMessagingTS.Views
             ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
             comboBoxProfiles.SelectedIndex = index;
 
-            _bbsChanged = false;
-            _tncChanged = false;
-            _defaultToChanged = false;
-            profileSave.IsEnabled = false;
+            //_bbsChanged = false;
+            //_tncChanged = false;
+            //_defaultToChanged = false;
+            //profileSave.IsEnabled = false;
         }
 
         private void ProfileSettingsAdd_Click(object sender, RoutedEventArgs e)
@@ -359,60 +359,60 @@ namespace PacketMessagingTS.Views
 
         private void ComboBoxTNCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
-            {
-                var selectedTNCDevice = (TNCDevice)e.AddedItems[0];
+            //if (e.AddedItems.Count > 0)
+            //{
+            //    var selectedTNCDevice = (TNCDevice)e.AddedItems[0];
 
-                if (string.IsNullOrEmpty(selectedTNCDevice.Prompts.Command))
-                {
-                    comboBoxBBS.SelectedIndex = -1;
-                }
-                if (_packetSettingsViewModel.CurrentProfile != null)
-                {
-                    _tncChanged = _packetSettingsViewModel.CurrentProfile.TNC != selectedTNCDevice.Name;
-                }
+            //    if (string.IsNullOrEmpty(selectedTNCDevice.Prompts.Command))
+            //    {
+            //        comboBoxBBS.SelectedIndex = -1;
+            //    }
+            //    if (_packetSettingsViewModel.CurrentProfile != null)
+            //    {
+            //        _tncChanged = _packetSettingsViewModel.CurrentProfile.TNC != selectedTNCDevice.Name;
+            //    }
 
-                profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
-                SharedData.CurrentTNCDevice = selectedTNCDevice;
-            }
+            //    profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
+            //    SharedData.CurrentTNCDevice = selectedTNCDevice;
+            //}
         }
 
         private void ComboBoxBBS_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
-            {
-                var selectedBBS = (BBSData)e.AddedItems[0];
-                SharedData.CurrentBBS = selectedBBS;
+            //if (e.AddedItems.Count > 0)
+            //{
+            //    var selectedBBS = (BBSData)e.AddedItems[0];
+            //    SharedData.CurrentBBS = selectedBBS;
                 //ViewModels.SharedData._currentProfile.BBS = selectedBBS.Name;
-                textBoxDescription.Text = selectedBBS.Description;
-                textBoxFrequency1.Text = selectedBBS.Frequency1;
-                textBoxFrequency2.Text = selectedBBS.Frequency2;
-                if (_packetSettingsViewModel.CurrentProfile != null)
-                {
-                    _bbsChanged = _packetSettingsViewModel.CurrentProfile.BBS != selectedBBS.Name;
-                }
+ //               textBoxDescription.Text = selectedBBS.Description;
+ //               textBoxFrequency1.Text = selectedBBS.Frequency1;
+ //               textBoxFrequency2.Text = selectedBBS.Frequency2;
+                //if (_packetSettingsViewModel.CurrentProfile != null)
+                //{
+                //    _bbsChanged = _packetSettingsViewModel.CurrentProfile.BBS != selectedBBS.Name;
+                //}
 
-                profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
-            }
-            else
-            {
-                textBoxDescription.Text = "";
-                textBoxFrequency1.Text = "";
-                textBoxFrequency2.Text = "";
-            }
+                //profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
+            //}
+            //else
+            //{
+            //    textBoxDescription.Text = "";
+            //    textBoxFrequency1.Text = "";
+            //    textBoxFrequency2.Text = "";
+            //}
         }
 
         private void TextBoxTo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (_packetSettingsViewModel.CurrentProfile.SendTo != ((TextBox)sender).Text)
-            {
-                _defaultToChanged = true;
-            }
-            else
-            {
-                _defaultToChanged = false;
-            }
-            profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
+            //if (_packetSettingsViewModel.CurrentProfile.SendTo != ((TextBox)sender).Text)
+            //{
+            //    _defaultToChanged = true;
+            //}
+            //else
+            //{
+            //    _defaultToChanged = false;
+            //}
+            //profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
         }
 
         private void ComboBoxProfiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -424,21 +424,21 @@ namespace PacketMessagingTS.Views
 
             try
             {
-                Profile profile = (Profile)((ComboBox)sender).SelectedItem;
-                if (profile != null)
-                {
-                    _packetSettingsViewModel.CurrentProfile = profile;
-                    //comboBoxTNCs.SelectedValuePath = "Name";
-                    comboBoxTNCs.SelectedValue = profile.TNC;
-                    //BBSSelectedValue = profile.BBS;
-                    comboBoxBBS.SelectedValue = profile.BBS;
-                    //textBoxTo.Text = profile.SendTo;
-                }
-                _bbsChanged = false;
-                _tncChanged = false;
-                _defaultToChanged = false;
+                //Profile profile = (Profile)((ComboBox)sender).SelectedItem;
+                //if (profile != null)
+                //{
+                //    _packetSettingsViewModel.CurrentProfile = profile;
+                //    //comboBoxTNCs.SelectedValuePath = "Name";
+                //    comboBoxTNCs.SelectedValue = profile.TNC;
+                //    //BBSSelectedValue = profile.BBS;
+                //    comboBoxBBS.SelectedValue = profile.BBS;
+                //    //textBoxTo.Text = profile.SendTo;
+                //}
+                //_bbsChanged = false;
+                //_tncChanged = false;
+                //_defaultToChanged = false;
 
-                profileSave.IsEnabled = false;
+                //profileSave.IsEnabled = false;
             }
             catch (Exception ex)
             {
