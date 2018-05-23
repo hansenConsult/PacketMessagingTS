@@ -148,8 +148,11 @@
                                          Margin="{StaticResource EightTopMargin}" />
                     </StackPanel>
                     <StackPanel Margin="0, 20, 0, 0">
-                        
-                        <ToggleSwitch IsOn="{Binding SendReceipt, Mode=TwoWay}" Header="Send Received Receipt"/>
+                        <TextBox x:Name="FirstMessageNumber"
+                                 Header="Message Number Start:"
+                                 Text="{Binding FirstMessageNumber}"
+                                 TextChanged="FirstMessageNumber_TextChangedAsync"/>
+                        <ToggleSwitch IsOn="{Binding SendReceipt, Mode=TwoWay}" Header="Send Received Receipt" Margin="0,10,0,10"/>
                         <ToggleSwitch IsOn="{Binding ForceReadBulletins, Mode=TwoWay}"
                                       Header="Force onetime get bulletins" Margin="0,10,0,10"/>
 

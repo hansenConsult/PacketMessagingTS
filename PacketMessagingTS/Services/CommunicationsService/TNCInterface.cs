@@ -296,7 +296,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			_serialPort.ReadTimeout = new TimeSpan(0, 0, 0, 5, 0);
 		}
 
-		private void SendMessageReceipts()
+		private async Task SendMessageReceiptsAsync()
 		{
 			if (Singleton<SettingsViewModel>.Instance.SendReceipt)
 			{
@@ -336,7 +336,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             PacketMessage receiptMessage = new PacketMessage()
                             {
                                 PacFormName = "SimpleMessage",
-                                MessageNumber = Helpers.Utilities.GetMessageNumberPacket(),
+                                MessageNumber = await Helpers.Utilities.GetMessageNumberPacketAsync(true),
                                 BBSName = _messageBBS,
                                 TNCName = _tncDevice.Name,
                                 MessageTo = pktMsg.MessageFrom,
@@ -448,7 +448,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         {
                             BBSName = _messageBBS,
                             TNCName = _tncDevice.Name,
-                            MessageNumber = Helpers.Utilities.GetMessageNumberPacket(),
+                            MessageNumber = await Helpers.Utilities.GetMessageNumberPacketAsync(true),
                             Area = area,
                             MessageSize = Convert.ToInt32(lineSections[6])
                         };
@@ -708,7 +708,7 @@ Disconnect:
 				BBSDisconnectTime = DateTime.Now;
 				//serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
 
-				SendMessageReceipts();          // TODO testing
+				SendMessageReceiptsAsync();          // TODO testing
 
 				_serialPort.ReadTimeout = new TimeSpan(0, 0, 0, 5, 0);
 				readCmdText = await _serialPort.ReadToAsync(_TNCPrompt);      // Next command

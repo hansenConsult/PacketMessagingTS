@@ -154,7 +154,7 @@ namespace PacketMessagingTS.Views
             PacketMessage message = new PacketMessage()
             {
                 ReceivedTime = DateTime.Parse(messageReceivedTime.Text),
-                MessageNumber = Helpers.Utilities.GetMessageNumberPacket(),
+                MessageNumber = await Helpers.Utilities.GetMessageNumberPacketAsync(),
                 TNCName = "E-Mail",
             };
             message.MessageBody = $"Date: {message.ReceivedTime}\r\n";

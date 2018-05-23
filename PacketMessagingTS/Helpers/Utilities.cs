@@ -12,9 +12,9 @@ namespace PacketMessagingTS.Helpers
     public static class Utilities
     { 
 
-        public static string GetMessageNumberPacket() => GetMessageNumberAsync() + "P";
+        public static async Task<string> GetMessageNumberPacketAsync(bool markAsUsed = false) => await GetMessageNumberAsync(markAsUsed) + "P";
 
-        public static async Task<string> GetMessageNumberAsync()
+        public static async Task<string> GetMessageNumberAsync(bool reserveMessageNumber = false)
         {
             string messageNumberString;
 
@@ -32,10 +32,28 @@ namespace PacketMessagingTS.Helpers
             {
                 messageNumberString = Singleton<IdentityViewModel>.Instance.UserMsgPrefix + "-" + messageNumber.ToString();
             }
-            messageNumber++;
-            await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+            if (reserveMessageNumber)
+            {
+                messageNumber++;
+                await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+            }
 
             return messageNumberString;
+        }
+
+        public static async Task MarkMessageNumberAsUsed(int startMessageNumber = -1)
+        {
+            int messageNumber;
+            if (startMessageNumber < 0)
+            {
+                messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+                messageNumber++;
+            }
+            else
+            {
+                messageNumber = startMessageNumber;
+            }
+            await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
         }
 
         public static async Task ReturnMessageNumberAsync()

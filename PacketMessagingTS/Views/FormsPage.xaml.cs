@@ -355,7 +355,7 @@ namespace PacketMessagingTS.Views
             {
                 _packetMessage = new PacketMessage();
             }
-            _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            _packetForm.MessageNo = await Utilities.GetMessageNumberPacketAsync();
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -396,10 +396,9 @@ namespace PacketMessagingTS.Views
                 _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
                 _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
             }
-
-            if (_loadMessage)
+            else 
             {
-                await Utilities.ReturnMessageNumberAsync(); // Use original message number
+                //await Utilities.ReturnMessageNumberAsync(); // Use original message number
 
                 FillFormFromPacketMessage();
                 //_packetForm.MsgTime = ViewModels.FormsPageViewModel.
@@ -431,14 +430,14 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void AppBarSave_Click(object sender, RoutedEventArgs e)
+        private async void AppBarSave_ClickAsync(object sender, RoutedEventArgs e)
         {
             CreatePacketMessage();
             DateTime dateTime = DateTime.Now;
             _packetMessage.CreateTime = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
-            _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            await Utilities.MarkMessageNumberAsUsed();
         }
 
         private async void AppBarSend_ClickAsync(object sender, RoutedEventArgs e)

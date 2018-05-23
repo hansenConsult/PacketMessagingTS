@@ -27,9 +27,9 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                GetProperty(ref profileSelectedIndex);
-                CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
-                return profileSelectedIndex;
+                return GetProperty(ref profileSelectedIndex);
+                //CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
+                //return profileSelectedIndex;
             }
             set
             {

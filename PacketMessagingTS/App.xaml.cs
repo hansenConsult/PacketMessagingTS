@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Helpers;
 using Windows.Storage;
+using PacketMessagingTS.ViewModels;
 
 namespace PacketMessagingTS
 {
@@ -150,6 +151,8 @@ namespace PacketMessagingTS
             SharedData.SettingsContainer = localSettings.CreateContainer("SettingsContainer", ApplicationDataCreateDisposition.Always);
 
             SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
+
+            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToUInt32(App.Properties["ProfileSelectedIndex"]);
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

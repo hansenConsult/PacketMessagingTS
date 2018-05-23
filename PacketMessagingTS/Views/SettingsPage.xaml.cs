@@ -28,7 +28,8 @@ namespace PacketMessagingTS.Views
     {
         public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
         public IdentityViewModel _identityViewModel { get; } = new IdentityViewModel();
-        public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
+        public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+        //public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = new TNCSettingsViewModel();
         //public MailSettingsViewModel _mailSettingsViewModel { get; } = new MailSettingsViewModel();
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
@@ -70,7 +71,7 @@ namespace PacketMessagingTS.Views
         {
             InitializeComponent();
 
-            ObservableCollection<BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+            ObservableCollection <BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
             BBSDataCollection.Source = bbsDataCollection;
             //comboBoxBBS.SelectedValue = SharedData.CurrentBBS;
 
@@ -135,7 +136,7 @@ namespace PacketMessagingTS.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Initialize();
-
+            //Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToUInt32(App.Properties["ProfileSelectedIndex"]);
             // Initialize the desired device watchers so that we can watch for when devices are connected/removed
             InitializeDeviceWatchers();
             StartDeviceWatchers();
@@ -172,6 +173,15 @@ namespace PacketMessagingTS.Views
             //        break;
             //}
         }
+        #region General
+        private async void FirstMessageNumber_TextChangedAsync(object sender, TextChangedEventArgs e)
+        {
+            int messageNumber = Convert.ToInt32(((TextBox)sender).Text);
+            await Utilities.MarkMessageNumberAsUsed(messageNumber);
+            ViewModel.FirstMessageNumber = messageNumber.ToString();
+        }
+
+        #endregion General
         #region Identity
         private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1314,5 +1324,6 @@ namespace PacketMessagingTS.Views
             //appBarSaveTNC.IsEnabled = false;
 
         }
+
     }
 }

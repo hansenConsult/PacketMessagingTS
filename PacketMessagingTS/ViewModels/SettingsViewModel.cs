@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
@@ -67,6 +68,19 @@ namespace PacketMessagingTS.ViewModels
             var version = packageId.Version;
 
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
+
+        private string firstMessageNumber;
+        public string FirstMessageNumber
+        {
+            get
+            {
+                return firstMessageNumber;
+            }
+            set
+            {
+                SetProperty(ref firstMessageNumber, value, true);
+            }
         }
 
         private bool sendReceipt;

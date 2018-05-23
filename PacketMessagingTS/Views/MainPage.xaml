@@ -1,11 +1,11 @@
-﻿<Page
-    x:Class="PacketMessagingTS.Views.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Style="{StaticResource PageStyle}"
-    mc:Ignorable="d">
+﻿<Page x:Class="PacketMessagingTS.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:tg="using:Telerik.UI.Xaml.Controls.Grid"
+      Style="{StaticResource PageStyle}"
+      mc:Ignorable="d">
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                    x:Name="ContentArea"
                    Margin="{StaticResource MediumLeftRightMargin}">
@@ -17,7 +17,6 @@
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
 	           RelativePanel.Above="ButtomCommandBar"
-               Margin="{StaticResource EightTopMargin}"
                FontFamily="Bahnschrift" >
             <!--SelectionChanged="MainPagePivot_SelectionChanged" >-->
 
@@ -31,10 +30,14 @@
 
             <!--  Outbox  -->
             <PivotItem x:Uid="Main_Outbox" x:Name="OutBox" >
+                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" Margin="{StaticResource EightTopMargin}"
+                                x:Name="outbox"
+                                ItemsSource="{x:Bind ViewModel.Source}" />
             </PivotItem>
 
             <!--  Drafts  -->
-            <PivotItem x:Uid="Main_Outbox" x:Name="Drafts" >
+            <PivotItem x:Uid="Main_Drafts" x:Name="Drafts" >
+                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="drafts" ItemsSource="{x:Bind ViewModel.Source}" />
             </PivotItem>
 
             <!--  Archived Items  -->
@@ -49,7 +52,7 @@
         <CommandBar x:Name="ButtomCommandBar"
 				    RelativePanel.AlignBottomWithPanel="True"
 				    RelativePanel.AlignRightWithPanel="True"
-				    RelativePanel.AlignLeftWithPanel="True" HorizontalAlignment="Center" Margin="0,-6,0,0" VerticalAlignment="Top">
+				    RelativePanel.AlignLeftWithPanel="True" >
             <AppBarButton Label="Open" Icon="OpenFile" Click="AppBarMainPage_OpenMessage" />
             <!--<AppBarButton x:Name="appBarPrint" Label="Print Message" HorizontalAlignment="Right" Click="AppBarPrint_Click">
                 <AppBarButton.Icon>

@@ -307,6 +307,9 @@
   <data name="Main_DeletedItems.Header" xml:space="preserve">
     <value>Deleted Items</value>
   </data>
+  <data name="Main_Drafts.Header" xml:space="preserve">
+    <value>Drafts</value>
+  </data>
   <data name="Main_Inbox.Header" xml:space="preserve">
     <value>Inbox</value>
   </data>

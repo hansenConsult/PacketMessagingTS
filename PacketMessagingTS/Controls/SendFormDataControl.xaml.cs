@@ -14,6 +14,11 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using FormControlBaseClass;
 using PacketMessagingTS.Models;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.ViewModels;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -25,20 +30,84 @@ namespace PacketMessagingTS.Controls
         public SendFormDataControl()
         {
             this.InitializeComponent();
+
+            ScanControls(messageInfo);
+
+            MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            MessageTNC = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            MessageTo = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.SendTo;
+            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            {
+                MessageFrom = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+            }
+            else
+            {
+                MessageFrom = Singleton<IdentityViewModel>.Instance.UserCallsign;
+            }
+
         }
 
+        private string messageSubject;
         public string MessageSubject
         {
-            get; internal set;
+            get => messageSubject;
+            set => Set(ref messageSubject, value);
         }
-        public string MessageBBS { get; internal set; }
-        public string MessageTNC { get; internal set; }
-        public string MessageFrom { get; internal set; }
-        public string MessageTo { get; internal set; }
+
+        private string messageBBS;
+        public string MessageBBS
+        {
+            get => messageBBS;
+            set => Set(ref messageBBS, value);
+        }
+
+        private string messageTNC;
+        public string MessageTNC
+        {
+            get => messageTNC;
+            set => Set(ref messageTNC, value);
+        }
+
+        private string messageFrom;
+        public string MessageFrom
+        {
+            get => messageFrom;
+            set => Set(ref messageFrom, value);
+        }
+
+        private string messageTo;
+        public string MessageTo
+        {
+            get => messageTo;
+            set => Set(ref messageTo, value);
+        }
+
+        private bool isToIndividuals = true;
+        public bool IsToIndividuals
+        {
+            get => isToIndividuals;
+            set => Set(ref isToIndividuals, value);
+        }
+
+        private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName) =>
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
 
         private void MessageTo_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            AddressBook.Instance.UserBBS = messageBBS.Text;
+            AddressBook.Instance.UserBBS = MessageBBS;
 
             if (!toSelection.IsOn)
             {
@@ -62,7 +131,7 @@ namespace PacketMessagingTS.Controls
                 // Only get results when it was a user typing, 
                 // otherwise assume the value got filled in by TextMemberPath 
                 // or the handler for SuggestionChosen.
-                if (string.IsNullOrEmpty(messageTo.Text))
+                if (string.IsNullOrEmpty(textBoxMessageTo.Text))
                 {
                     sender.ItemsSource = null;
                     return;
@@ -71,10 +140,10 @@ namespace PacketMessagingTS.Controls
                 if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
                 {
                     //Set the ItemsSource to be your filtered dataset
-                    if (toSelection.IsOn)
-                        sender.ItemsSource = AddressBook.Instance.GetCallsigns(messageTo.Text);
+                    if (IsToIndividuals)
+                        sender.ItemsSource = AddressBook.Instance.GetCallsigns(textBoxMessageTo.Text);
                     else
-                        sender.ItemsSource = DistributionListArray.Instance.GetDistributionListNames(messageTo.Text);
+                        sender.ItemsSource = DistributionListArray.Instance.GetDistributionListNames(textBoxMessageTo.Text);
                 }
             }
         }

@@ -17,5 +17,14 @@ namespace PacketMessagingTS.ViewModels
                 return SampleDataService.GetGridSampleData();
             }
         }
+
+        public ObservableCollection<SampleOrder> DraftMessages
+        {
+            get
+            {
+                // TODO WTS: Replace this with your actual data
+                return SampleDataService.GetGridSampleData();
+            }
+        }
     }
 }
