@@ -285,7 +285,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 				DateTime dateTime = DateTime.Now;
 				packetMessage.SentTime = dateTime;
-				packetMessage.SentTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+				//packetMessage.SentTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 				_packetMessagesSent.Add(packetMessage);
 			}
 			catch (Exception e)
@@ -315,7 +315,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							if (msgLines[i].StartsWith("Date:"))
 							{
 								pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
-								pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
+								//pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
 							}
 							else if (msgLines[i].StartsWith("From:"))
 								pktMsg.MessageFrom = msgLines[i].Substring(6);
@@ -366,7 +366,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							receiptMessage.CreateFileName();
 							DateTime dateTime = DateTime.Now;
 							receiptMessage.SentTime = dateTime;
-							receiptMessage.SentTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+							//receiptMessage.SentTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 							receiptMessage.MessageSize = receiptMessage.Size;
 							log.Info(receiptMessage.MessageBody);   // Disable if not testing
 							//SendMessage(ref receiptMessage);		// Disabled for testing
@@ -467,7 +467,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 						packetMessage.MessageBody = readText.Substring(0, readText.Length - _BBSPrompt.Length); // Remove beginning of prompt
 						DateTime dateTime = DateTime.Now;
 						packetMessage.ReceivedTime = dateTime;
-						packetMessage.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+						//packetMessage.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 						_packetMessagesReceived.Add(packetMessage);
 
 						if (area.Length == 0)

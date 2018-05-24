@@ -717,8 +717,9 @@ namespace PacketMessagingTS.Models
 								if (revisionTime > lastRevisionTime)
 								{
 									lastRevisionTime = revisionTime;
-									packetMessage.CreateTime = $"{lastRevisionTime.Month:d2}/{lastRevisionTime.Day:d2}/{lastRevisionTime.Year - 2000:d2} {lastRevisionTime.Hour:d2}:{lastRevisionTime.Minute:d2}";
-									bulletinPacketMessage = packetMessage;
+                                    //packetMessage.CreateTime = $"{lastRevisionTime.Month:d2}/{lastRevisionTime.Day:d2}/{lastRevisionTime.Year - 2000:d2} {lastRevisionTime.Hour:d2}:{lastRevisionTime.Minute:d2}";
+                                    packetMessage.CreateTime = lastRevisionTime;
+                                    bulletinPacketMessage = packetMessage;
 								}
 								break;
 							}

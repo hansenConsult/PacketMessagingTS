@@ -53,7 +53,8 @@
 					    Tag="required,Please fill the To field" BorderThickness="5"  
                         Margin="12.6,1.8,0,-0.2" 
                         TextChanged="MessageTo_TextChanged"
-                        SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center" />
+                        SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center"
+                        Text="{x:Bind MessageTo, Mode=TwoWay}"/>
         <ToggleSwitch x:Name="toSelection" Margin="12,-3,0,2" 
                       RelativePanel.AlignRightWithPanel="True"
                       RelativePanel.Below="textBoxMessageTNC"
@@ -71,7 +72,7 @@
                  RelativePanel.Below="textBoxMessageFrom" 
                  RelativePanel.AlignLeftWith="textBoxMessageBBS" 
                  RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
-                 Text="{x:Bind messageSubject, Mode=TwoWay}"
+                 Text="{x:Bind MessageSubject, Mode=TwoWay}"
                  Tag="required,Please fill out the Subject field" Margin="0,2,0,0"   />
     </RelativePanel>
 </basics:FormControlBasics>

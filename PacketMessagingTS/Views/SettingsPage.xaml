@@ -681,7 +681,21 @@
                 </RelativePanel>
             </PivotItem>
 
-            <PivotItem x:Name="pivotItemDistributionLists" Header="Distribution Lists" />
+            <!--Distribution Lists-->
+            <PivotItem x:Name="pivotItemDistributionLists" Header="Distribution Lists" >
+                <RelativePanel DataContext="{Binding distributionListsPartViewModel}">
+                    <AutoSuggestBox x:Name="distributionListName" Text="{Binding DistributionListName, Mode=TwoWay}" Header="List Name:" Margin="5,10,0,0"
+                                    TextChanged="DistributionListName_TextChanged"
+                                    SuggestionChosen="DistributionListName_SuggestionChosen" MinWidth="120"/>
+                    <TextBox x:Name="distributionListItems" Text="{Binding DistributionListItems, Mode=TwoWay}"
+                             Header="Distribution List" Margin="5,10,0,0"
+                             RelativePanel.Below="distributionListName" IsTabStop="False"/>
+                    <AutoSuggestBox x:Name="distributionListAddItem" Header="Add to Distribution List" Margin="5,10,0,0"
+                                    RelativePanel.Below="distributionListItems"                                    
+                                    TextChanged="DistributionListAddItem_TextChanged"
+                                    SuggestionChosen="DistributionListAddItem_SuggestionChosen"/>
+                </RelativePanel>
+            </PivotItem>
             <PivotItem x:Name="pivotItemAbout" Header="About" />
         </Pivot>
     </Grid>    

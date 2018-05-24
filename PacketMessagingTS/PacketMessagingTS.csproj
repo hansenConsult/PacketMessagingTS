@@ -139,10 +139,8 @@
     <Compile Include="Models\BBSData.cs" />
     <Compile Include="Models\CommLog.cs" />
     <Compile Include="Models\distributionlists.cs" />
-    <Compile Include="Models\Drafts.cs" />
     <Compile Include="Models\Emailaccounts.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
-    <Compile Include="Models\Outboc.cs" />
     <Compile Include="Models\profiles.cs" />
     <Compile Include="Models\SampleOrder.cs" />
     <Compile Include="Models\TacticalCallsigns.cs" />

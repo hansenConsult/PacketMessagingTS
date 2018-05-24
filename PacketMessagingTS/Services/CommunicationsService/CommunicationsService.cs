@@ -69,7 +69,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				{
 					string startpos = new string(new char[] { 'D','a','t','e',':',' ' });
 					pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(startpos.Length));
-					pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
+					//pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
 				}
 				else if (msgLines[i].StartsWith("From:"))
 					pktMsg.MessageFrom = msgLines[i].Substring(6);
@@ -153,7 +153,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 						if (msgLines[i].StartsWith("Date:"))
 						{
 							pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
-							pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
+							//pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
 						}
 						else if (msgLines[i].StartsWith("From:"))
 							pktMsg.MessageFrom = msgLines[i].Substring(6);
@@ -203,12 +203,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					if (pktMsg.ReceivedTime != null)
 					{
 						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
-						pktMsg.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+						//pktMsg.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 					}
 					if (pktMsg.ReceivedTime != null)
 					{
 						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
-						pktMsg.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+						//pktMsg.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 					}
 					pktMsg.CreateFileName();
 					string fileFolder = SharedData.ReceivedMessagesFolder.Path;
@@ -278,10 +278,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 										}
 										packetMessage.ReceiverMessageNumber = receiversMessageId;
 										packetMessage.ReceivedTime = receiveTime;
-										if (receiveTime != null)
-										{
-											packetMessage.ReceivedTimeDisplay = $"{receiveTime.Month:d2}/{receiveTime.Date:d2}/{receiveTime.Year - 2000:d2} {receiveTime.Hour:d2}:{receiveTime.Minute:d2}";
-										}
+										//if (receiveTime != null)
+										//{
+										//	packetMessage.ReceivedTimeDisplay = $"{receiveTime.Month:d2}/{receiveTime.Date:d2}/{receiveTime.Year - 2000:d2} {receiveTime.Hour:d2}:{receiveTime.Minute:d2}";
+										//}
 										packetMessage.Save(SharedData.SentMessagesFolder.Path);
 										break;
 									}
@@ -544,7 +544,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 								if (sendMailSuccess) {
 									DateTime dateTime = DateTime.Now;
 									packetMessage.SentTime = dateTime;
-									packetMessage.SentTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+									//packetMessage.SentTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 									packetMessage.MailUserName = smtpClient.UserName;
 									tncInterface.PacketMessagesSent.Add(packetMessage);
 

@@ -324,6 +324,26 @@ namespace PacketMessagingTS.Views
             return formControl;
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter == null)
+                return;
+
+            int index = 0;
+            string packetMessagePath = e.Parameter as string;
+            _packetMessage = PacketMessage.Open(packetMessagePath);
+            _loadMessage = true;
+            foreach (PivotItem pivotItem in MyPivot.Items)
+            {
+                if (pivotItem.Name == _packetMessage.PacFormType || pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
+                {
+                    MyPivot.SelectedIndex = index;
+                    break;
+                }
+                index++;
+            }
+        }
+
         void FormControl_SubjectChange(object sender, FormEventArgs e)
         {
             if (e?.SubjectLine?.Length > 0)
@@ -434,7 +454,8 @@ namespace PacketMessagingTS.Views
         {
             CreatePacketMessage();
             DateTime dateTime = DateTime.Now;
-            _packetMessage.CreateTime = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+            //_packetMessage.CreateTime = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+            _packetMessage.CreateTime = DateTime.Now;
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
             await Utilities.MarkMessageNumberAsUsed();
@@ -460,7 +481,8 @@ namespace PacketMessagingTS.Views
 
             CreatePacketMessage();
             DateTime dateTime = DateTime.Now;
-            _packetMessage.CreateTime = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+            //_packetMessage.CreateTime = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+            _packetMessage.CreateTime = DateTime.Now;
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 

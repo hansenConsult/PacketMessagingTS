@@ -4,8 +4,20 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:tg="using:Telerik.UI.Xaml.Controls.Grid"
+      xmlns:vm="using:PacketMessagingTS.ViewModels"
+      xmlns:helpers="using:PacketMessagingTS.Helpers"
       Style="{StaticResource PageStyle}"
       mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:MainViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    
+    <Page.Resources>
+        <helpers:AreaConverter x:Key="Converter1"/>
+        <helpers:DateTimeConverter x:Key="DatetimeConverter"/>
+
+    </Page.Resources>
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                    x:Name="ContentArea"
                    Margin="{StaticResource MediumLeftRightMargin}">
@@ -17,35 +29,151 @@
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
 	           RelativePanel.Above="ButtomCommandBar"
-               FontFamily="Bahnschrift" >
-            <!--SelectionChanged="MainPagePivot_SelectionChanged" >-->
+               FontFamily="Bahnschrift"
+               SelectionChanged="MainPagePivot_SelectionChanged" >
 
             <!--  Inbox  -->
-            <PivotItem x:Uid="Main_Inbox"  x:Name="InBox"  >
+            <PivotItem x:Uid="Main_Inbox"  x:Name="pivotItemInBox"  >
+                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridInbox"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Multiple"
+                                ItemsSource="{x:Bind ViewModel.Source}"
+                                DoubleTapped="DataGrid_DoubleTapped">
+                    <tg:RadDataGrid.Columns>
+                        <tg:DataGridTemplateColumn Header="Area">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Area, Mode=OneWay, Converter={StaticResource Converter1}}" />
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
+                        <tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>
+                        <tg:DataGridTextColumn PropertyName="JNOSDate" Header="Sent Time"/>
+                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                    </tg:RadDataGrid.Columns>
+                </tg:RadDataGrid>
             </PivotItem>
 
             <!--  Sent Items  -->
-            <PivotItem x:Uid="Main_SentItems" x:Name="Sent" >
+            <PivotItem x:Uid="Main_SentItems" x:Name="pivotItemSent" >
+                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridSent"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Multiple"
+                                ItemsSource="{x:Bind ViewModel.Source}" >
+                    <tg:RadDataGrid.Columns>
+                        <tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>
+                        <tg:DataGridTextColumn PropertyName="SentTime" Header="Sent Time"/>
+                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                    </tg:RadDataGrid.Columns>
+                </tg:RadDataGrid>
             </PivotItem>
 
             <!--  Outbox  -->
-            <PivotItem x:Uid="Main_Outbox" x:Name="OutBox" >
+            <PivotItem x:Uid="Main_Outbox" x:Name="pivotItemOutBox" >
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" Margin="{StaticResource EightTopMargin}"
-                                x:Name="outbox"
-                                ItemsSource="{x:Bind ViewModel.Source}" />
+                                x:Name="dataGridOutbox"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Multiple"
+                                ItemsSource="{x:Bind ViewModel.Source}" >
+                    <tg:RadDataGrid.Columns>
+                        <tg:DataGridTextColumn PropertyName="CreateTime" Header="Create Time"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                    </tg:RadDataGrid.Columns>
+                </tg:RadDataGrid>
+
             </PivotItem>
 
             <!--  Drafts  -->
-            <PivotItem x:Uid="Main_Drafts" x:Name="Drafts" >
-                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="drafts" ItemsSource="{x:Bind ViewModel.Source}" />
+            <PivotItem x:Uid="Main_Drafts" x:Name="pivotItemDrafts" >
+                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridDrafts"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Multiple"
+                                IsDoubleTapEnabled="True"
+                                ItemsSource="{x:Bind ViewModel.Source}"
+                                SelectionChanged="DataGrid_SelectionChanged">
+                    <tg:RadDataGrid.Columns>
+                        <tg:DataGridTemplateColumn Header="Create Time">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CreateTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
+                        <!--<tg:DataGridTextColumn PropertyName="CreateTime" Header="Create Time"/>-->
+                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" />
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                    </tg:RadDataGrid.Columns>
+                </tg:RadDataGrid>
             </PivotItem>
 
             <!--  Archived Items  -->
-            <PivotItem x:Uid="Main_ArchivedItems" x:Name="Archive" >
+            <PivotItem x:Uid="Main_ArchivedItems" x:Name="pivotItemArchive" >
+                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridArchived"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Multiple"
+                                ItemsSource="{x:Bind ViewModel.Source}" >
+                    <tg:RadDataGrid.Columns>
+                        <tg:DataGridTemplateColumn Header="Area">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Area, Mode=OneWay, Converter={StaticResource Converter1}}"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
+                        <tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>
+                        <tg:DataGridTextColumn PropertyName="JNOSDate" Header="Sent Time"/>
+                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                    </tg:RadDataGrid.Columns>
+                </tg:RadDataGrid>
             </PivotItem>
 
             <!--  Deleted Items  -->
-            <PivotItem x:Uid="Main_DeletedItems" x:Name="Deleted" ></PivotItem>
+            <PivotItem x:Uid="Main_DeletedItems" x:Name="pivotItemDeleted" >
+                <tg:RadDataGrid ColumnDataOperationsMode="Flyout" Margin="{StaticResource EightTopMargin}"
+                                x:Name="dataGridDeleted"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Multiple"
+                                ItemsSource="{x:Bind ViewModel.Source}">
+                    <tg:RadDataGrid.Columns>
+                        <tg:DataGridTemplateColumn Header="Create Time">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CreateTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                    </tg:RadDataGrid.Columns>
+                </tg:RadDataGrid>
+            </PivotItem>
 
         </Pivot>
 

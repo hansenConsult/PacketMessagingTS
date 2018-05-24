@@ -457,7 +457,7 @@ namespace PacketMessagingTS.Views
         }
 
         #endregion
-
+        #region Interface
         enum TNCState
         {
             None,
@@ -1324,6 +1324,74 @@ namespace PacketMessagingTS.Views
             //appBarSaveTNC.IsEnabled = false;
 
         }
+        #endregion Interface
+        #region Distribution Lists
+        enum DistributionListState
+        {
+            None,
+            Edit,
+            Add,
+            Delete
+        }
+        DistributionListState _distributionListState = DistributionListState.None;
 
+        private void DistributionListName_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
+            distributionListItems.Text = DistributionListArray.Instance.DistributionListsDict[sender.Text];
+        }
+
+        private void DistributionListName_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (string.IsNullOrEmpty(distributionListName.Text))
+            {
+                sender.ItemsSource = DistributionListArray.Instance.GetDistributionListNames();
+                return;
+            }
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                sender.ItemsSource = DistributionListArray.Instance.GetDistributionListNames(distributionListName.Text);
+            }
+        }
+
+        private void DistributionListAddItem_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
+            if (!distributionListItems.Text.Contains(sender.Text))
+            {
+                if (string.IsNullOrEmpty(distributionListItems.Text))
+                {
+                    distributionListItems.Text = $"{sender.Text}";
+                }
+                else
+                {
+                    distributionListItems.Text += $", {sender.Text}";
+                }
+            }
+            sender.Text = "";
+        }
+
+        private void DistributionListAddItem_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (string.IsNullOrEmpty(distributionListAddItem.Text))
+            {
+                sender.ItemsSource = null;
+                return;
+            }
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                sender.ItemsSource = AddressBook.Instance.GetAddressNames(distributionListAddItem.Text);
+            }
+        }
+        #endregion Distribution Lists
     }
 }

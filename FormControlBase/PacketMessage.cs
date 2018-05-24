@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -54,17 +55,17 @@ namespace FormControlBaseClass
 
         private DateTime jNOSDateField;
 
-		private string jNOSDateDisplayField;
+		//private string jNOSDateDisplayField;
 
 		private DateTime? messageSentTimeField;
 
-		private string messageSentTimeDisplayField;
+		//private string messageSentTimeDisplayField;
 
-		private string messageCreateTimeField = null;
+		private DateTime? messageCreateTimeField = null;
 
         private DateTime? messageReceiveTimeField = null;
 
-		private string messageReceiveTimeDisplayField;
+		//private string messageReceiveTimeDisplayField;
 
 		private string messageNumberField;
 
@@ -179,12 +180,12 @@ namespace FormControlBaseClass
             }
         }
 
-		/// <remarks/>
-		public string JNOSDateDisplay
-		{
-			get => jNOSDateDisplayField;
-			set => jNOSDateDisplayField = value;
-		}
+		///// <remarks/>
+		//public string JNOSDateDisplay
+		//{
+		//	get => jNOSDateDisplayField;
+		//	set => jNOSDateDisplayField = value;
+		//}
 
 		/// <remarks/>
 		public DateTime? SentTime
@@ -200,14 +201,14 @@ namespace FormControlBaseClass
         }
 
 		/// <remarks/>
-		public string SentTimeDisplay
-		{
-			get => messageSentTimeDisplayField;
-			set => messageSentTimeDisplayField = value;
-		}
+		//public string SentTimeDisplay
+		//{
+		//	get => messageSentTimeDisplayField;
+		//	set => messageSentTimeDisplayField = value;
+		//}
 
 		/// <remarks/>
-		public string CreateTime
+		public DateTime? CreateTime
         {
             get
             {
@@ -229,20 +230,20 @@ namespace FormControlBaseClass
             set
             {
                 this.messageReceiveTimeField = value;
-				if (value != null)
-				{
-					messageReceiveTimeDisplayField = ConvertToDisplayTime((DateTime)this.messageReceiveTimeField);
-				}
+				//if (value != null)
+				//{
+				//	messageReceiveTimeDisplayField = ConvertToDisplayTime((DateTime)this.messageReceiveTimeField);
+				//}
 
 			}
         }
 
 		/// <remarks/>
-		public string ReceivedTimeDisplay
-		{
-			get => messageReceiveTimeDisplayField;
-			set => messageReceiveTimeDisplayField = value;
-		}
+		//public string ReceivedTimeDisplay
+		//{
+		//	get => messageReceiveTimeDisplayField;
+		//	set => messageReceiveTimeDisplayField = value;
+		//}
 
 		/// <remarks/>
 		public string MessageNumber
@@ -380,11 +381,11 @@ namespace FormControlBaseClass
 		//    }
 		//}
 
-		public double GridWidth
-		{
-			get { return gridWidthField; }
-			set => gridWidthField = value;
-		}
+		//public double GridWidth
+		//{
+		//	get { return gridWidthField; }
+		//	set => gridWidthField = value;
+		//}
 
 		[XmlIgnore]
 		public int Size
@@ -403,10 +404,10 @@ namespace FormControlBaseClass
 			return Subject;
 		}
 
-		private string ConvertToDisplayTime(DateTime dateTime)
-		{
-			return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-		}
+		//private string ConvertToDisplayTime(DateTime dateTime)
+		//{
+		//	return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+		//}
 
 		public async void CreateFileName()
 		{
@@ -550,7 +551,7 @@ namespace FormControlBaseClass
 		}
 
 
-		public static async System.Threading.Tasks.Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
+		public static async Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
 		{
 			List<PacketMessage> packetMessages = new List<PacketMessage>();
 
