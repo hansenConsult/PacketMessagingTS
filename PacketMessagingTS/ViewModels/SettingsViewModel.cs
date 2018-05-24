@@ -14,7 +14,6 @@ namespace PacketMessagingTS.ViewModels
     public class SettingsViewModel : BaseViewModel
     {
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
-
         public ElementTheme ElementTheme
         {
             get { return _elementTheme; }
@@ -23,7 +22,6 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private string _versionDescription;
-
         public string VersionDescription
         {
             get { return _versionDescription; }
@@ -32,7 +30,6 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private ICommand _switchThemeCommand;
-
         public ICommand SwitchThemeCommand
         {
             get
@@ -70,16 +67,43 @@ namespace PacketMessagingTS.ViewModels
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
-        private string firstMessageNumber;
-        public string FirstMessageNumber
+        //private string firstMessageNumber = "100";
+        //public string FirstMessageNumber
+        //{
+        //    get
+        //    {
+        //        //bool found = App.Properties.TryGetValue("MessageNumber", out object first);
+        //        //if (!found)
+        //        //{
+        //        //    App.Properties["MessageNumber"] = firstMessageNumber;
+        //        //}
+        //        //firstMessageNumber = Convert.ToInt32(first);
+        //        return firstMessageNumber;
+        //    }
+        //    set
+        //    {
+        //        //Utilities.MarkMessageNumberAsUsed(firstMessageNumber);
+        //        SetProperty(ref firstMessageNumber, value);
+        //    }
+        //}
+
+        private int firstMessageNumber;
+        public int FirstMessageNumber
         {
             get
             {
+                bool found = App.Properties.TryGetValue("MessageNumber", out object first);
+                if (!found)
+                {
+                    App.Properties["MessageNumber"] = 100;
+                }
+                firstMessageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
                 return firstMessageNumber;
             }
             set
             {
-                SetProperty(ref firstMessageNumber, value, true);
+                Utilities.MarkMessageNumberAsUsed(value);
+                SetProperty(ref firstMessageNumber, value);
             }
         }
 

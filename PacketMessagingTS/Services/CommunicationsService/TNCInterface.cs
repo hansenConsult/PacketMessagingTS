@@ -336,7 +336,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             PacketMessage receiptMessage = new PacketMessage()
                             {
                                 PacFormName = "SimpleMessage",
-                                MessageNumber = await Helpers.Utilities.GetMessageNumberPacketAsync(true),
+                                MessageNumber = Helpers.Utilities.GetMessageNumberPacket(true),
                                 BBSName = _messageBBS,
                                 TNCName = _tncDevice.Name,
                                 MessageTo = pktMsg.MessageFrom,
@@ -448,7 +448,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         {
                             BBSName = _messageBBS,
                             TNCName = _tncDevice.Name,
-                            MessageNumber = await Helpers.Utilities.GetMessageNumberPacketAsync(true),
+                            MessageNumber = Helpers.Utilities.GetMessageNumberPacket(true),
                             Area = area,
                             MessageSize = Convert.ToInt32(lineSections[6])
                         };

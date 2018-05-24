@@ -21,13 +21,7 @@ namespace PacketMessagingTS
         public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
 
         private const string PropertiesDictionaryFileName = "PropertiesDictionary";
-
-        private static Dictionary<string, object> _properties;  //Application.Current.Properties;
-        public static Dictionary<string, object> Properties
-        {
-            get => _properties;
-            set => _properties = value;
-        }
+        public static Dictionary<string, object> Properties { get; set; }
 
         private Lazy<ActivationService> _activationService;
         private ActivationService ActivationService
@@ -125,7 +119,7 @@ namespace PacketMessagingTS
             Properties = await localFolder.ReadAsync<Dictionary<string, object>>(PropertiesDictionaryFileName);
             if (Properties == null)
             {
-                _properties = new Dictionary<string, object>();
+                Properties = new Dictionary<string, object>();
             }
 
             SharedData.MetroLogsFolder = await localFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using Windows.UI.Xaml.Data;
 
 namespace PacketMessagingTS.Helpers
 {
-	public sealed class AreaConverter : IValueConverter
+    public sealed class AreaConverter : IValueConverter
 	{
 		object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
 		{
@@ -97,72 +96,19 @@ namespace PacketMessagingTS.Helpers
             throw new NotImplementedException();
         }
     }
-
-	//public sealed class BBSToggleEnabled : IValueConverter
-	//{
-	//	object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
-	//	{
-	//		return true;
-	//	}
-
-	//	object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
-	//	{
-	//		throw new NotImplementedException();
-	//	}
-	//}
-
-	public class ComportComparer : IComparer<string>
+    public sealed class StringIntConverter : IValueConverter
     {
-        int IComparer<string>.Compare(string x, string y)
+        object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
         {
-            // Only compare the port number
-            string comString = "COM";
-            string x1 = x.Substring(comString.Length);
-            string y1 = y.Substring(comString.Length);
+            return ((int)value).ToString();
+        }
 
-            if (x == null)
-            {
-                if (y == null)
-                {
-                    // If x is null and y is null, they're
-                    // equal. 
-                    return 0;
-                }
-                else
-                {
-                    // If x is null and y is not null, y
-                    // is greater. 
-                    return -1;
-                }
-            }
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            if (string.IsNullOrEmpty(value as string))
+                return value;
             else
-            {
-                // If x is not null...
-                if (y == null)
-                // ...and y is null, x is greater.
-                {
-                    return 1;
-                }
-                else
-                {
-                    // ...and y is not null, compare the 
-                    // lengths of the two strings.
-                    int retval = x1.Length.CompareTo(y1.Length);
-
-                    if (retval != 0)
-                    {
-                        // If the strings are not of equal length,
-                        // the longer string is greater.
-                        return retval;
-                    }
-                    else
-                    {
-                        // If the strings are of equal length,
-                        // sort them with ordinary string comparison.
-                        return x1.CompareTo(y1);
-                    }
-                }
-            }
+                return Convert.ToUInt32((string)value);
         }
     }
 }

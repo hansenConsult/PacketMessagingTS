@@ -26,8 +26,8 @@ namespace PacketMessagingTS.Views
     // TODO WTS: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page
     {
-        public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
-        public IdentityViewModel _identityViewModel { get; } = new IdentityViewModel();
+        public SettingsViewModel ViewModel { get; } = Singleton<SettingsViewModel>.Instance;
+        public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
         public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
         //public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = new TNCSettingsViewModel();
@@ -174,12 +174,12 @@ namespace PacketMessagingTS.Views
             //}
         }
         #region General
-        private async void FirstMessageNumber_TextChangedAsync(object sender, TextChangedEventArgs e)
-        {
-            int messageNumber = Convert.ToInt32(((TextBox)sender).Text);
-            await Utilities.MarkMessageNumberAsUsed(messageNumber);
-            ViewModel.FirstMessageNumber = messageNumber.ToString();
-        }
+        //private async void FirstMessageNumber_TextChangedAsync(object sender, TextChangedEventArgs e)
+        //{
+        //    int messageNumber = Convert.ToInt32(((TextBox)sender).Text);
+        //    await Utilities.MarkMessageNumberAsUsed(messageNumber);
+        //    ViewModel.FirstMessageNumber = messageNumber.ToString();
+        //}
 
         #endregion General
         #region Identity

@@ -375,7 +375,7 @@ namespace PacketMessagingTS.Views
             {
                 _packetMessage = new PacketMessage();
             }
-            _packetForm.MessageNo = await Utilities.GetMessageNumberPacketAsync();
+            _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -458,7 +458,7 @@ namespace PacketMessagingTS.Views
             _packetMessage.CreateTime = DateTime.Now;
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
-            await Utilities.MarkMessageNumberAsUsed();
+            Utilities.MarkMessageNumberAsUsed();
         }
 
         private async void AppBarSend_ClickAsync(object sender, RoutedEventArgs e)

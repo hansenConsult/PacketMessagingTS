@@ -10,15 +10,16 @@ using System.Threading.Tasks;
 namespace PacketMessagingTS.Helpers
 {
     public static class Utilities
-    { 
+    {
 
-        public static async Task<string> GetMessageNumberPacketAsync(bool markAsUsed = false) => await GetMessageNumberAsync(markAsUsed) + "P";
+        public static string GetMessageNumberPacket(bool markAsUsed = false) => GetMessageNumber(markAsUsed) + "P";
 
-        public static async Task<string> GetMessageNumberAsync(bool reserveMessageNumber = false)
+        public static string GetMessageNumber(bool reserveMessageNumber = false)
         {
             string messageNumberString;
 
-            int messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+            //int messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+            int messageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
             if (messageNumber == default(int))
             {
                 messageNumber = 100;
@@ -35,42 +36,29 @@ namespace PacketMessagingTS.Helpers
             if (reserveMessageNumber)
             {
                 messageNumber++;
-                await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+                //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+                App.Properties["MessageNumber"] = messageNumber;
             }
 
             return messageNumberString;
         }
 
-        public static async Task MarkMessageNumberAsUsed(int startMessageNumber = -1)
+        public static void MarkMessageNumberAsUsed(int startMessageNumber = -1)
         {
             int messageNumber;
             if (startMessageNumber < 0)
             {
-                messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+                //messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
+                messageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
                 messageNumber++;
             }
             else
             {
                 messageNumber = startMessageNumber;
             }
-            await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+            //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
+            App.Properties["MessageNumber"] = messageNumber;
         }
-
-        public static async Task ReturnMessageNumberAsync()
-        {
-            // Only remove the last message number created
-            //if (!_activeMessageNumber)
-            //    return;
-
-            int messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
-            if (messageNumber == default(int))
-            {
-                return;
-            }
-            messageNumber--;
-            await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
-        }
-
     }
 
     public class LogHelper
