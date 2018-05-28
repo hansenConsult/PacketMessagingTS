@@ -421,7 +421,8 @@ namespace PacketMessagingTS.Models
                 if (index < 0 || index2 < 0)
                     continue;
 
-				tacticalList.Add(new TacticalCall()
+
+                TacticalCall tacticalCall = new TacticalCall()
 				{
 					TacticalCallsign = line.Substring(0, 6),
 					Prefix = line.Substring(3, 3),
@@ -429,8 +430,13 @@ namespace PacketMessagingTS.Models
 					PrimaryBBS = primaryBBS,
 					PrimaryBBSActive = true,
 					SecondaryBBS = secondaryBBS,
-					//SecondaryBBSActive = false
-				});
+				};
+                string prefix = FindCountyPrefix(tacticalCall.TacticalCallsign);
+                if (!string.IsNullOrEmpty(prefix))
+                {
+                    tacticalCall.Prefix = prefix;
+                }
+                tacticalList.Add(tacticalCall);
             }
             string searchString = "emergency_plan_";
             // Find revision time
@@ -832,10 +838,26 @@ namespace PacketMessagingTS.Models
             }
             return (primBBS, secBBS);
         }
-	}
 
-	/// <remarks/>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
+        private static string  FindCountyPrefix(string callsign)
+        {
+            TacticalCallsignData tacticalCallsignData = App._tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
+
+            string prefix = "";
+            foreach (var callsignData in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
+            {
+                if (callsignData.TacticalCallsign == callsign)
+                {
+                    prefix = callsignData.Prefix;
+                    break;
+                }
+            }
+            return prefix;
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
 	//[System.SerializableAttribute()]
 	//[System.Diagnostics.DebuggerStepThroughAttribute()]
 	//[System.ComponentModel.DesignerCategoryAttribute("code")]

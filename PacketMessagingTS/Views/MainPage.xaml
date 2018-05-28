@@ -38,6 +38,7 @@
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
                                 ItemsSource="{x:Bind ViewModel.Source}"
+                                SelectionChanged="DataGrid_SelectionChanged"
                                 DoubleTapped="DataGrid_DoubleTapped">
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Area">
@@ -47,8 +48,22 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>
-                        <tg:DataGridTextColumn PropertyName="JNOSDate" Header="Sent Time"/>
+                        <tg:DataGridTemplateColumn Header="Received Time">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ReceivedTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
+                        <tg:DataGridTemplateColumn Header="Sent Time">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding JNOSDate, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
@@ -115,7 +130,6 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <!--<tg:DataGridTextColumn PropertyName="CreateTime" Header="Create Time"/>-->
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" />
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>

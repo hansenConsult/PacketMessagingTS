@@ -11,6 +11,10 @@ namespace PacketMessagingTS.Helpers
 {
     public static class SharedData
     {
+#if DEBUG
+        public static StorageFolder TestFilesFolder;
+#endif
+
         public static StorageFolder ArchivedMessagesFolder;
 
         public static StorageFolder DeletedMessagesFolder;
@@ -38,9 +42,9 @@ namespace PacketMessagingTS.Helpers
 
         //public static BBSDefinitions BbsArray { get; set; } = new BBSDefinitions();
 
-        public static BBSData CurrentBBS { get; set; }
+        //public static BBSData CurrentBBS { get; set; }
 
-        public static TNCDevice CurrentTNCDevice { get; set; }
+        //public static TNCDevice CurrentTNCDevice { get; set; }
 
         //public static TNCDevice SavedTNCDevice { get; set; }
 

@@ -148,7 +148,7 @@ namespace PacketMessagingTS.Models
         public void CreateAddressBook()
         {
             _addressDictionary = new Dictionary<string, AddressBookEntry>();
-            foreach (var tacticalCallsignData in App._tacticalCallsignDataDictionary.Values)
+            foreach (var tacticalCallsignData in App._TacticalCallsignDataList)
             {
                 if (tacticalCallsignData.TacticalCallsigns == null)
                     continue;

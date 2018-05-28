@@ -85,7 +85,7 @@ namespace FormControlBaseClass
 
         private string messageBodyField;
 
-        private bool messageOpenedField = false;
+        //private bool messageOpenedField = false;
 
 		private string mailUserNameField;
 
@@ -349,20 +349,21 @@ namespace FormControlBaseClass
             }
         }
 
-        /// <remarks/>
-        public bool MessageOpened
-        {
-            get
-            {
-                return this.messageOpenedField;
-            }
-            set
-            {
-                this.messageOpenedField = value;
-            }
-        }
+        ///// <remarks/>
+        //public bool MessageOpened
+        //{
+        //    get
+        //    {
+        //        return this.messageOpenedField;
+        //    }
+        //    set
+        //    {
+        //        this.messageOpenedField = value;
+        //    }
+        //}
 
-		public string MailUserName
+        /// <remarks/>
+        public string MailUserName
 		{
 			get => mailUserNameField;
 			set => mailUserNameField = value;

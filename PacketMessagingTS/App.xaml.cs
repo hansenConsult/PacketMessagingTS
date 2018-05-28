@@ -19,6 +19,7 @@ namespace PacketMessagingTS
     public sealed partial class App : Application
     {
         public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
+        public static List<TacticalCallsignData> _TacticalCallsignDataList;
 
         private const string PropertiesDictionaryFileName = "PropertiesDictionary";
         public static Dictionary<string, object> Properties { get; set; }
@@ -42,6 +43,7 @@ namespace PacketMessagingTS
             GlobalCrashHandler.Configure();
 
             _tacticalCallsignDataDictionary = new Dictionary<string, TacticalCallsignData>();
+            _TacticalCallsignDataList = new List<TacticalCallsignData>();
 
             TacticalCallsignData tacticalCallsignData = new TacticalCallsignData()
             {
@@ -51,6 +53,7 @@ namespace PacketMessagingTS
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
             _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -60,6 +63,7 @@ namespace PacketMessagingTS
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
             _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -71,6 +75,7 @@ namespace PacketMessagingTS
                 RawDataFileName = "Tactical_Calls.txt"
             };
             _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -82,6 +87,7 @@ namespace PacketMessagingTS
                 RawDataFileName = "Tactical_Calls.txt"
             };
             _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -93,6 +99,7 @@ namespace PacketMessagingTS
                 RawDataFileName = "Tactical_Calls.txt"
             };
             _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -102,6 +109,7 @@ namespace PacketMessagingTS
                 BulletinFileName = "https://scc-ares-races.org/activities/showtacticalcalls.php"
             };
             _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -122,6 +130,10 @@ namespace PacketMessagingTS
                 Properties = new Dictionary<string, object>();
             }
 
+#if DEBUG
+            SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
+#endif
+
             SharedData.MetroLogsFolder = await localFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists);
             SharedData.ArchivedMessagesFolder = await localFolder.CreateFolderAsync("ArchivedMessages", CreationCollisionOption.OpenIfExists);
             SharedData.DeletedMessagesFolder = await localFolder.CreateFolderAsync("DeletedMessages", CreationCollisionOption.OpenIfExists);
@@ -130,7 +142,7 @@ namespace PacketMessagingTS
             SharedData.SentMessagesFolder = await localFolder.CreateFolderAsync("SentMessages", CreationCollisionOption.OpenIfExists);
             SharedData.UnsentMessagesFolder = await localFolder.CreateFolderAsync("UnsentMessages", CreationCollisionOption.OpenIfExists);
 
-            foreach (var tacticalCallsignType in _tacticalCallsignDataDictionary.Values)
+            foreach (var tacticalCallsignType in _TacticalCallsignDataList)
             {
                 tacticalCallsignType.TacticalCallsigns = await TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
             }
@@ -153,6 +165,7 @@ namespace PacketMessagingTS
             SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
 
             Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToUInt32(App.Properties["ProfileSelectedIndex"]);
+            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Convert.ToUInt32(App.Properties["TacticalCallsignSelectedIndex"]);
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

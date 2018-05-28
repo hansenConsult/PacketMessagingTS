@@ -47,9 +47,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		const string _BBSPrompt = ") >\r\n";
 		string _TNCPrompt = "cmd:";
-		bool _error = false;		// Disconnect if an error is detected
+		bool _error = false;        // Disconnect if an error is detected
 
-		//const byte send = 0x5;
+        //const byte send = 0x5;
+
+        public TNCInterface(ref TNCDevice tncDevice, bool forceReadBulletins, string[] areas, ref List<PacketMessage> packetMessagesToSend) : base(log)
+        {
+            _messageBBS = null;
+            _tncDevice = tncDevice;
+            _TNCPrompt = _tncDevice.Prompts.Command;
+            _forceReadBulletins = forceReadBulletins;
+            _Areas = areas;
+            _packetMessagesToSend = packetMessagesToSend;
+        }
 
         public TNCInterface(string messageBBS, ref TNCDevice tncDevice, bool forceReadBulletins, string[] areas, ref List<PacketMessage> packetMessagesToSend) : base(log)
         {

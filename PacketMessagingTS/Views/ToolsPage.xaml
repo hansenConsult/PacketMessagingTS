@@ -116,59 +116,65 @@
 
     <RelativePanel RequestedTheme = "Light">
 
-            <Pivot x:Name="Tools"
-                   SelectionChanged="ToolsPagePivot_SelectionChangedAsync">
-                <PivotItem x:Uid="Tools_ViewLogFile">
-                    <RelativePanel x:Name="logFilePivotPanel" 
+        <Pivot x:Name="Tools"
+               RelativePanel.AlignBottomWithPanel="True"
+               RelativePanel.AlignRightWithPanel="True"
+               RelativePanel.AlignTopWithPanel="True"
+               Margin="{StaticResource EightTopMargin}"
+               SelectionChanged="ToolsPagePivot_SelectionChangedAsync">
+            <!--Log File-->
+            <PivotItem x:Uid="Tools_ViewLogFile">
+                <RelativePanel x:Name="logFilePivotPanel" 
 							   HorizontalAlignment="Stretch"
 							   >
-                        <RelativePanel x:Name="fileSelectPanel">
-                            <TextBlock x:Name="logfileListTextBlock"
+                    <RelativePanel x:Name="fileSelectPanel">
+                        <TextBlock x:Name="logfileListTextBlock"
 							   Text="Select a Log File:" 
 								   Margin="10"/>
-                            <ComboBox x:Name="logFilesComboBox" 
+                        <ComboBox x:Name="logFilesComboBox" 
 								  RelativePanel.RightOf="logfileListTextBlock"
 								  RelativePanel.AlignVerticalCenterWithPanel="True"
 								  ItemsSource="{x:Bind LogFilesCollection.View, Mode=OneWay}"
 								  DisplayMemberPath="Name" 
 								  SelectionChanged="logFilesComboBox_SelectionChangedAsync" />
-                        </RelativePanel>
-                        <TextBox x:Name="logFileTextBox" 
+                    </RelativePanel>
+                    <TextBox x:Name="logFileTextBox" 
 							     RelativePanel.Below="fileSelectPanel"
 							     RelativePanel.AlignLeftWithPanel="True"
 							     RelativePanel.AlignRightWithPanel="True"
-							 ScrollViewer.VerticalScrollBarVisibility="Auto"
-							 AcceptsReturn="True"
-							 TextWrapping="Wrap"
-							 Margin="10,10,10,10"
+                                 RelativePanel.Above="ButtomCommandBar"
+							     ScrollViewer.VerticalScrollBarVisibility="Auto"
+							     AcceptsReturn="True"
+							     TextWrapping="Wrap"
+							     Margin="10,10,10,10"
 							 />
-                        <CommandBar x:Name="ButtomCommandBar"
+                    <CommandBar x:Name="ButtomCommandBar"
                    				    RelativePanel.AlignBottomWithPanel="True"
 				                    RelativePanel.AlignRightWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True">
-                            <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
-                            <AppBarButton x:Name="appBarPrint" Label="Print" HorizontalAlignment="Right" >
-                                <AppBarButton.Icon>
-                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                            <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
-                        </CommandBar>
+                        <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
+                        <AppBarButton x:Name="appBarPrint" Label="Print" HorizontalAlignment="Right" >
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
+                    </CommandBar>
 
-                    </RelativePanel>
+                </RelativePanel>
 
-                    <!--<Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">-->
-                    <!--
+                <!--<Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">-->
+                <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
 
-                    <!--</Grid>-->
-                </PivotItem>
-
-                <PivotItem x:Uid="Tools_ConvertText">
-                    <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                        <!--
+                <!--</Grid>-->
+            </PivotItem>
+            <!--Convert ASCII data-->
+            <PivotItem x:Uid="Tools_ConvertText">
+                <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                    <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
@@ -185,22 +191,27 @@
                     </ScrollViewer>
 
                 </Grid>
-                </PivotItem>
-                <PivotItem x:Uid="Tools_ICS309">
-                    <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                        <!--
+            </PivotItem>
+            <!--ICS 309-->
+            <PivotItem x:Uid="Tools_ICS309">
+                <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                    <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
-                    <ScrollViewer Margin="0,12,-12,0" 
-                              VerticalScrollBarVisibility="Auto" Height="auto" >
-                        <!--<StackPanel >                
-                        <userControls:ICS309UserControl x:Name="ICSForm309" />
-                    </StackPanel>-->
-                        <StackPanel Margin="0,0,12,0">
-                            <Border BorderBrush="Black" BorderThickness="2">
-                                <StackPanel>
-                                    <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,1,1">
+                    <ScrollViewer x:Name="ICS309ScrollViewer"
+                                  Margin="0,12,-12,0"
+                                  RelativePanel.AlignTopWithPanel="True"
+                                  RelativePanel.AlignLeftWithPanel="True"
+                                  RelativePanel.AlignRightWithPanel="True"
+                                  RelativePanel.Above="ButtomCommandBarICS309"
+                                  VerticalScrollBarVisibility="Auto" >
+                        <StackPanel x:Name="ICS309StackPanel"                                    
+                                    Margin="0,0,12,0">
+                            <StackPanel x:Name="ICS309MainForm"
+                                        BorderBrush="Black" BorderThickness="2">
+
+                                <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,1,1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="2*"/>
@@ -322,13 +333,76 @@
                                         </Border>
                                     </Grid>
                                 </StackPanel>
-                            </Border>
                             <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,0" />
                         </StackPanel>
                     </ScrollViewer>
+                    <CommandBar x:Name="ButtomCommandBarICS309"
+                   				    RelativePanel.AlignBottomWithPanel="True"
+				                    RelativePanel.AlignRightWithPanel="True"
+                                    RelativePanel.AlignLeftWithPanel="True">
+                        <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
+                        <AppBarButton x:Name="appBarOpenICS309" Label="Print" Icon="OpenFile" HorizontalAlignment="Right" />
+                        <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" HorizontalAlignment="Right" />
+                        <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" HorizontalAlignment="Right" />
+                        <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
+                    </CommandBar>
 
-                </Grid>
-                </PivotItem>
-            </Pivot>
+                </RelativePanel>
+            </PivotItem>
+            <!--Test receive Outpost data-->
+            <PivotItem x:Name="testReceive" DataContext="{Binding ToolsPageTestReceivePartViewModel}" Header="Test Receive">
+                <RelativePanel x:Name="testReceivePanel">
+                    <RelativePanel x:Name="fileNamePanel"
+                                   RelativePanel.AlignLeftWithPanel="True"
+                                   RelativePanel.AlignRightWithPanel="True">
+                        <TextBlock x:Name="fileNameHeader" 
+                                   RelativePanel.LeftOf="textBoxTestFileName"
+                                   RelativePanel.AlignVerticalCenterWith="textBoxTestFileName"
+                                   Text="File Name:" />
+                        <TextBox x:Name="textBoxTestFileName"                                   
+                                 RelativePanel.AlignRightWithPanel="True"
+                                 Width="300"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="5,10"/>
+                        <TextBlock Text="Select a test file:"
+                                       RelativePanel.LeftOf="comboBoxTestFiles"
+                                       RelativePanel.AlignVerticalCenterWith="comboBoxTestFiles"/>
+                        <ComboBox x:Name="comboBoxTestFiles"  Margin="5,10" 
+                                      RelativePanel.Below="textBoxTestFileName"
+                                      RelativePanel.AlignRightWithPanel="True"
+                                      ItemsSource="{x:Bind TestFilesCollection.View, Mode=OneWay}"
+								      DisplayMemberPath="Name" Width="300"
+								      SelectionChanged="TestFilesComboBox_SelectionChangedAsync" />
+                    </RelativePanel>
+                    <RelativePanel x:Name="messagePanel"
+                                   RelativePanel.Below="fileNamePanel"
+                                   RelativePanel.AlignLeftWithPanel="True"
+                                   RelativePanel.AlignRightWithPanel="True"
+                                   RelativePanel.Above="ButtomCommandBarTest">
+                        <TextBox x:Name="receivedMessage" 
+                                 RelativePanel.AlignTopWithPanel="True"
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 RelativePanel.AlignRightWithPanel="True"
+                                 RelativePanel.Above="testReceivedMessage"
+                                 AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5,10,5,10"  
+                                  />
+                        <Button x:Name="testReceivedMessage"                                 
+                                RelativePanel.AlignRightWithPanel="True"
+                                RelativePanel.AlignBottomWithPanel="True"
+                                Content="Test Received Message" Margin="0,10,5,10" Click="TestReceivedMessage_Click" />
+                    </RelativePanel>
+                    <CommandBar x:Name="ButtomCommandBarTest"
+                   				    RelativePanel.AlignBottomWithPanel="True"
+				                    RelativePanel.AlignRightWithPanel="True"
+                                    RelativePanel.AlignLeftWithPanel="True">
+                        <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
+                        <AppBarButton x:Name="appBarOpenTest" Label="Open" Icon="OpenFile" HorizontalAlignment="Right" Click="AppBarButtonTest_OpenFileAsync" />
+                        <AppBarButton x:Name="appBarSaveTest" Label="Save" Icon="Save" HorizontalAlignment="Right" Click="AppBarButtonTest_SaveFileAsync"/>
+                        <AppBarButton x:Name="appBarSeleteTest" Label="Delete" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
+                    </CommandBar>
+
+                </RelativePanel>
+            </PivotItem>
+
+        </Pivot>
     </RelativePanel>
 </Page>

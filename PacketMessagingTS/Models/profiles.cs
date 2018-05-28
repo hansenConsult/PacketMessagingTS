@@ -90,7 +90,6 @@ namespace PacketMessagingTS.Models
 
         public async Task OpenAsync()
 		{
-			ProfileArray profileArray = null;
 			StorageFile file = null;
 			try
 			{

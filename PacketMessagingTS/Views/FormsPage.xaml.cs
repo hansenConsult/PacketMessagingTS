@@ -335,12 +335,65 @@ namespace PacketMessagingTS.Views
             _loadMessage = true;
             foreach (PivotItem pivotItem in MyPivot.Items)
             {
-                if (pivotItem.Name == _packetMessage.PacFormType || pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
+                if (pivotItem.Name == _packetMessage.PacFormType) // If PacFormType is not set
                 {
                     MyPivot.SelectedIndex = index;
                     break;
                 }
                 index++;
+            }
+        }
+
+        private async Task InitializeFormControlAsync()
+        {
+            PivotItem pivotItem = MyPivot.SelectedItem as PivotItem;
+            string pivotItemName = pivotItem.Name;
+
+            _packetAddressForm = new SendFormDataControl();
+            _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
+            if (_packetForm == null)
+            {
+                MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
+                await messageDialog.ShowAsync();
+                return;
+            }
+
+            _packetMessage = new PacketMessage();
+            _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+
+            DateTime now = DateTime.Now;
+            _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
+            _packetForm.MsgTime = $"{now.Hour:d2}{now.Minute:d2}";
+            _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
+            _packetForm.OperatorTime = $"{now.Hour:d2}{now.Minute:d2}";
+            _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+            _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+
+            StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
+            stackPanel.Margin = new Thickness(0, 0, 12, 0);
+
+            stackPanel.Children.Clear();
+            if (pivotItemName == "SimpleMessage")
+            {
+                stackPanel.Children.Insert(0, _packetAddressForm);
+                stackPanel.Children.Insert(1, _packetForm);
+
+                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_";
+            }
+            //else if (pivotItemName == "Message")
+            //{
+            //    Form213Panel.Children.Clear();
+            //    Form213Panel.Children.Insert(0, _packetForm);
+            //    Form213Panel.Children.Insert(1, _packetAddressForm);
+            //    _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+            //}
+            //else if (pivotItemName != "Message")
+            else
+            {
+                stackPanel.Children.Insert(0, _packetForm);
+                stackPanel.Children.Insert(1, _packetAddressForm);
+
+                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
             }
         }
 
@@ -358,8 +411,6 @@ namespace PacketMessagingTS.Views
 
         private async void MyPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
-            //await Utilities.ReturnMessageNumberAsync();
-
             _packetAddressForm = new SendFormDataControl();
             PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
             string pivotItemName = pivotItem.Name;
@@ -371,11 +422,12 @@ namespace PacketMessagingTS.Views
                 return;
             }
 
-            if (!_loadMessage)
-            {
-                _packetMessage = new PacketMessage();
-            }
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            //if (!_loadMessage)
+            //{
+            //    _packetMessage = new PacketMessage();
+            //}
+            //_packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -406,6 +458,8 @@ namespace PacketMessagingTS.Views
 
             if (!_loadMessage)
             {
+                _packetMessage = new PacketMessage();
+
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
                 DateTime now = DateTime.Now;
@@ -418,8 +472,6 @@ namespace PacketMessagingTS.Views
             }
             else 
             {
-                //await Utilities.ReturnMessageNumberAsync(); // Use original message number
-
                 FillFormFromPacketMessage();
                 //_packetForm.MsgTime = ViewModels.FormsPageViewModel.
                 _loadMessage = false;
@@ -459,6 +511,8 @@ namespace PacketMessagingTS.Views
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
             Utilities.MarkMessageNumberAsUsed();
+
+            await InitializeFormControlAsync();
         }
 
         private async void AppBarSend_ClickAsync(object sender, RoutedEventArgs e)
@@ -480,14 +534,14 @@ namespace PacketMessagingTS.Views
             }
 
             CreatePacketMessage();
-            DateTime dateTime = DateTime.Now;
-            //_packetMessage.CreateTime = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
             _packetMessage.CreateTime = DateTime.Now;
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 
             Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
             communicationsService.BBSConnectAsync();
+
+            await InitializeFormControlAsync();
         }
 
         private async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)

@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using MetroLog;
@@ -55,7 +56,15 @@ namespace PacketMessagingTS.Models
 			}
 		}
 
-		private EmailAccountArray()
+        private List<EmailAccount> emailAccountList;
+        [System.Xml.Serialization.XmlIgnore]
+        public List<EmailAccount> EmailAccountList
+        {
+            get => emailAccountList;
+            set => emailAccountList = value;
+        }
+
+        private EmailAccountArray()
 		{
 			emailAccountsArrayField = new EmailAccount[0];
 		}
@@ -101,7 +110,9 @@ namespace PacketMessagingTS.Models
 					XmlSerializer serializer = new XmlSerializer(typeof(EmailAccount[]));
 					EmailAccounts = (EmailAccount[])serializer.Deserialize(reader);
 				}
-			}
+                EmailAccountList = EmailAccounts.ToList();
+
+            }
 			catch (FileNotFoundException e)
 			{
 				log.Error($"Open E-Mail Accounts file failed: {e.Message}");
@@ -121,7 +132,9 @@ namespace PacketMessagingTS.Models
 			if (EmailAccounts == null || EmailAccounts.Length == 0)
 				return;
 
-			StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            EmailAccounts = EmailAccountList.ToArray();
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 			try
 			{
 				StorageFile file = await localFolder.CreateFileAsync(emailAccountsFileName, CreationCollisionOption.ReplaceExisting);

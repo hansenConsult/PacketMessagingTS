@@ -39,10 +39,10 @@ namespace PacketMessagingTS.Views
 
         ComportComparer comportComparer;
 
-        private ObservableCollection<DeviceListEntry> listOfDevices;
+        private ObservableCollection<DeviceListEntry> listOfDevices = new ObservableCollection<DeviceListEntry>();
 
-        private List<SerialDevice> _listOfSerialDevices;
-        private ObservableCollection<SerialDevice> CollectionOfSerialDevices;
+        private static List<SerialDevice> _listOfSerialDevices = new List<SerialDevice>();
+        private static ObservableCollection<SerialDevice> CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
         private List<DeviceInformation> _listOfBluetoothDevices;
         private ObservableCollection<DeviceInformation> CollectionOfBluetoothDevices;
 
@@ -50,13 +50,13 @@ namespace PacketMessagingTS.Views
         private ObservableCollection<ushort> listOfDataBits;
 
         private string _bluetoothDeviceSelector;
-        private Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector;
+        private static Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
 
-        private Boolean watchersSuspended;
-        private Boolean watchersStarted;
+        private static Boolean watchersSuspended = false;
+        private static Boolean watchersStarted = false;
 
         // Has all the devices enumerated by the device watcher?
-        private Boolean isAllDevicesEnumerated;
+        private Boolean isAllDevicesEnumerated = false;
 
         private SuspendingEventHandler appSuspendEventHandler;
         private EventHandler<Object> appResumeEventHandler;
@@ -80,17 +80,18 @@ namespace PacketMessagingTS.Views
             //comboBoxTNCs.SelectedValue = SharedData.CurrentTNCDevice;
 
             // Serial ports
-            listOfDevices = new ObservableCollection<DeviceListEntry>();
-            _listOfSerialDevices = new List<SerialDevice>();
-            CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
+            //listOfDevices = new ObservableCollection<DeviceListEntry>();
+            //_listOfSerialDevices = new List<SerialDevice>();
+            //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
+            ComPortListSource.Source = CollectionOfSerialDevices;
             _listOfBluetoothDevices = new List<DeviceInformation>();
             CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
             comportComparer = new ComportComparer();
 
-            mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
-            watchersStarted = false;
-            watchersSuspended = false;
-            isAllDevicesEnumerated = false;
+            //mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
+            //watchersStarted = false;
+            //watchersSuspended = false;
+            //isAllDevicesEnumerated = false;
 
             listOfBaudRates = new ObservableCollection<uint>();
             for (uint i = 1200; i < 39000; i *= 2)
@@ -121,7 +122,8 @@ namespace PacketMessagingTS.Views
 
             // Identity initialization
             listOfTacticallsignsArea = new ObservableCollection<TacticalCallsignData>();
-            foreach (var callsignData in App._tacticalCallsignDataDictionary.Values)
+            //foreach (var callsignData in App._tacticalCallsignDataDictionary.Values)
+            foreach (var callsignData in App._TacticalCallsignDataList)
             {
                 listOfTacticallsignsArea.Add(callsignData);
             }
@@ -138,41 +140,44 @@ namespace PacketMessagingTS.Views
             ViewModel.Initialize();
             //Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToUInt32(App.Properties["ProfileSelectedIndex"]);
             // Initialize the desired device watchers so that we can watch for when devices are connected/removed
-            InitializeDeviceWatchers();
-            StartDeviceWatchers();
+            if (!watchersStarted)
+            {
+                InitializeDeviceWatchers();
+                StartDeviceWatchers();
+            }
         }
 
-        private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //switch ((SettingsPivot.SelectedItem as PivotItem).Name)
-            //{
-            //    case "pivotTNC":
-            //        ResetTNCDeviceChanged();
-            //        appBarSettingsSave.Visibility = Visibility.Visible;
-            //        appBarSettingsSave.IsEnabled = false;
-            //        appBarSettingsAdd.Visibility = Visibility.Visible;
-            //        appBarSettingsEdit.Visibility = Visibility.Visible;
-            //        appBarsettingsDelete.Visibility = Visibility.Visible;
-            //        SettingsCommandBar.Visibility = Visibility.Visible;
-            //        break;
-            //    case "pivotItemAddressBook":
-            //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-            //        appBarSettingsSave.Visibility = Visibility.Collapsed;
-            //        SettingsCommandBar.Visibility = Visibility.Visible;
-            //        break;
-            //    case "pivotItemDistributionLists":
-            //        //ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-            //        appBarSettingsSave.Visibility = Visibility.Visible;
-            //        appBarSettingsSave.IsEnabled = DistributionListArray.Instance.DataChanged;
-            //        appBarSettingsEdit.Visibility = Visibility.Visible;
-            //        appBarsettingsDelete.Visibility = Visibility.Visible;
-            //        SettingsCommandBar.Visibility = Visibility.Visible;
-            //        break;
-            //    default:
-            //        SettingsCommandBar.Visibility = Visibility.Collapsed;
-            //        break;
-            //}
-        }
+        //private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    //switch ((SettingsPivot.SelectedItem as PivotItem).Name)
+        //    //{
+        //    //    case "pivotTNC":
+        //    //        ResetTNCDeviceChanged();
+        //    //        appBarSettingsSave.Visibility = Visibility.Visible;
+        //    //        appBarSettingsSave.IsEnabled = false;
+        //    //        appBarSettingsAdd.Visibility = Visibility.Visible;
+        //    //        appBarSettingsEdit.Visibility = Visibility.Visible;
+        //    //        appBarsettingsDelete.Visibility = Visibility.Visible;
+        //    //        SettingsCommandBar.Visibility = Visibility.Visible;
+        //    //        break;
+        //    //    case "pivotItemAddressBook":
+        //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+        //    //        appBarSettingsSave.Visibility = Visibility.Collapsed;
+        //    //        SettingsCommandBar.Visibility = Visibility.Visible;
+        //    //        break;
+        //    //    case "pivotItemDistributionLists":
+        //    //        //ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+        //    //        appBarSettingsSave.Visibility = Visibility.Visible;
+        //    //        appBarSettingsSave.IsEnabled = DistributionListArray.Instance.DataChanged;
+        //    //        appBarSettingsEdit.Visibility = Visibility.Visible;
+        //    //        appBarsettingsDelete.Visibility = Visibility.Visible;
+        //    //        SettingsCommandBar.Visibility = Visibility.Visible;
+        //    //        break;
+        //    //    default:
+        //    //        SettingsCommandBar.Visibility = Visibility.Collapsed;
+        //    //        break;
+        //    //}
+        //}
         #region General
         //private async void FirstMessageNumber_TextChangedAsync(object sender, TextChangedEventArgs e)
         //{
@@ -284,7 +289,13 @@ namespace PacketMessagingTS.Views
                 	TNC = comboBoxTNCs.SelectedValue as string,
                 	SendTo = textBoxTo.Text,
                 };
+                if (newProfile.TNC.Contains("E-Mail"))
+                {
+                    comboBoxBBS.SelectedIndex = -1;
+                    newProfile.BBS = "";
+                }
                 ProfileArray.Instance.ProfileList.Add(newProfile);
+                await ProfileArray.Instance.SaveAsync();
                 comboBoxProfiles.Visibility = Visibility.Visible;
                 textBoxNewProfileName.Visibility = Visibility.Collapsed;
                 index = ProfileArray.Instance.ProfileList.Count - 1;
@@ -387,30 +398,30 @@ namespace PacketMessagingTS.Views
             //}
         }
 
-        private void ComboBoxBBS_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (e.AddedItems.Count > 0)
-            //{
-            //    var selectedBBS = (BBSData)e.AddedItems[0];
-            //    SharedData.CurrentBBS = selectedBBS;
-                //ViewModels.SharedData._currentProfile.BBS = selectedBBS.Name;
- //               textBoxDescription.Text = selectedBBS.Description;
- //               textBoxFrequency1.Text = selectedBBS.Frequency1;
- //               textBoxFrequency2.Text = selectedBBS.Frequency2;
-                //if (_packetSettingsViewModel.CurrentProfile != null)
-                //{
-                //    _bbsChanged = _packetSettingsViewModel.CurrentProfile.BBS != selectedBBS.Name;
-                //}
+ //       private void ComboBoxBBS_SelectionChanged(object sender, SelectionChangedEventArgs e)
+ //       {
+ //           //if (e.AddedItems.Count > 0)
+ //           //{
+ //           //    var selectedBBS = (BBSData)e.AddedItems[0];
+ //           //    SharedData.CurrentBBS = selectedBBS;
+ //               //ViewModels.SharedData._currentProfile.BBS = selectedBBS.Name;
+ ////               textBoxDescription.Text = selectedBBS.Description;
+ ////               textBoxFrequency1.Text = selectedBBS.Frequency1;
+ ////               textBoxFrequency2.Text = selectedBBS.Frequency2;
+ //               //if (_packetSettingsViewModel.CurrentProfile != null)
+ //               //{
+ //               //    _bbsChanged = _packetSettingsViewModel.CurrentProfile.BBS != selectedBBS.Name;
+ //               //}
 
-                //profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
-            //}
-            //else
-            //{
-            //    textBoxDescription.Text = "";
-            //    textBoxFrequency1.Text = "";
-            //    textBoxFrequency2.Text = "";
-            //}
-        }
+ //               //profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
+ //           //}
+ //           //else
+ //           //{
+ //           //    textBoxDescription.Text = "";
+ //           //    textBoxFrequency1.Text = "";
+ //           //    textBoxFrequency2.Text = "";
+ //           //}
+ //       }
 
         private void TextBoxTo_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -816,9 +827,9 @@ namespace PacketMessagingTS.Views
             if (_tncState == TNCState.Add)      // New setting have been created but not saved
                 return;
 
-            TNCDevice tncDevice = SharedData.CurrentTNCDevice;
+            //TNCDevice tncDevice = SharedData.CurrentTNCDevice;
 
-            UpdateTNCFromUI(SharedData.CurrentTNCDevice);
+            UpdateTNCFromUI(Singleton<PacketSettingsViewModel>.Instance.CurrentTNC);
         }
 
         //private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
@@ -996,7 +1007,7 @@ namespace PacketMessagingTS.Views
                 if (TNCDevices.Count == 1)
                 {
                     tncDevice = (TNCDevice)TNCDevices[0];
-                    SharedData.CurrentTNCDevice = tncDevice;
+                    Singleton<PacketSettingsViewModel>.Instance.CurrentTNC = tncDevice;
                     if (tncDevice.Name.Contains("E-Mail"))
                     {
                         UpdateMailState(TNCState.EMail);
@@ -1262,8 +1273,9 @@ namespace PacketMessagingTS.Views
         {
             if (_tncState == TNCState.EMailDelete)
             {
-                //await EmailAccountArray.Instance.SaveAsync();
-                //UpdateMailState(TNCState.EMail);
+                EmailAccountArray.Instance.EmailAccountList.Remove(_TNCSettingsViewModel.CurrentMailAccount);
+                await EmailAccountArray.Instance.SaveAsync();
+                UpdateMailState(TNCState.EMail);
             }
             else if (_tncState == TNCState.EMailEdit)
             {
@@ -1278,6 +1290,8 @@ namespace PacketMessagingTS.Views
                     }
                 }
                 await EmailAccountArray.Instance.SaveAsync();
+                TNCDeviceArray.Instance.TNCDeviceList[Convert.ToInt32(_TNCSettingsViewModel.TNCDeviceSelectedIndex)].MailUserName = emailAccount.MailUserName;
+                await TNCDeviceArray.Instance.SaveAsync();
                 UpdateMailState(TNCState.EMail);
             }
             else if (_tncState == TNCState.EMailAdd)
@@ -1318,11 +1332,8 @@ namespace PacketMessagingTS.Views
             ConnectDevices.Visibility = Visibility.Visible;
             newTNCDeviceName.Visibility = Visibility.Collapsed;
 
-            //ResetTNCDeviceChanged();
-
+            // Disable Save button
             _TNCSettingsViewModel.ResetChangedProperty();
-            //appBarSaveTNC.IsEnabled = false;
-
         }
         #endregion Interface
         #region Distribution Lists

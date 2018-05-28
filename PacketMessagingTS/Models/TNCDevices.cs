@@ -194,9 +194,9 @@ namespace PacketMessagingTS.Models
 
         private TNCDeviceCommPort commPortField;
 
-        private string nameField;
+        private string mailUserNameField;
 
-        private bool selectedField;
+        private string nameField;
 
 
         /// <remarks/>
@@ -250,6 +250,20 @@ namespace PacketMessagingTS.Models
                 this.commPortField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string MailUserName
+        {
+            get
+            {
+                return this.mailUserNameField;
+            }
+            set
+            {
+                this.mailUserNameField = value;
+            }
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -262,20 +276,6 @@ namespace PacketMessagingTS.Models
             set
             {
                 this.nameField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public bool Selected
-        {
-            get
-            {
-                return this.selectedField;
-            }
-            set
-            {
-                this.selectedField = value;
             }
         }
 

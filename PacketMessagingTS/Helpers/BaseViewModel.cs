@@ -10,11 +10,17 @@ namespace PacketMessagingTS.Helpers
     {
         Dictionary<string, bool> SaveEnabledDictionary;
 
-        Dictionary<string, object> properties = App.Properties;
+        Dictionary<string, object> _properties = App.Properties;
+        Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
         public BaseViewModel()
         {
             SaveEnabledDictionary = new Dictionary<string, bool>();
+
+            foreach (string key in _properties.Keys)
+            {
+                _propertyFirstTime[key] = true;
+            }
         }
 
         public virtual void ResetChangedProperty()
@@ -52,10 +58,10 @@ namespace PacketMessagingTS.Helpers
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
         {
-            if (properties != null && properties.ContainsKey(propertyName))
+            if (_properties != null && _properties.ContainsKey(propertyName))
             {
                 // Retrieve value from dictionary
-                object o = properties[propertyName];
+                object o = _properties[propertyName];
                 backingStore = (T)o;
                 return (T)o;
             }
@@ -66,13 +72,25 @@ namespace PacketMessagingTS.Helpers
         protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false,
                     [CallerMemberName]string propertyName = "", Action onChanged = null)
         {
-            if (Equals(backingStore, value))
+            bool firstTime;
+            if (_propertyFirstTime.ContainsKey(propertyName))
+            {
+                firstTime = _propertyFirstTime[propertyName];
+            }
+            else
+            {
+                firstTime = true;
+            }
+            if (Equals(backingStore, value) && !firstTime)
+            {                
                 return false;
+            }
+            _propertyFirstTime[propertyName] = false;
 
             if (persist)
             {
                 // store value
-                properties[propertyName] = value;
+                _properties[propertyName] = value;
             }
 
             backingStore = value;

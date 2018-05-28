@@ -23,7 +23,7 @@
             RelativePanel.AlignVerticalCenterWith="labelBBS" 
                  RelativePanel.RightOf="labelBBS" VerticalContentAlignment="Center"
                  Text="{x:Bind MessageBBS, Mode=TwoWay}"
-                 Tag="required,Please select a BBS" BorderThickness="2" Width="100"  />
+                 Tag="conditionallyrequired,Please select a BBS" BorderThickness="2" Width="100"  />
         <TextBlock x:Name="labelTNC" 
                    RelativePanel.AlignVerticalCenterWith="labelBBS" 
                    RelativePanel.RightOf="textBoxMessageBBS"  Text="TNC:" Margin="30,0,0,0" />

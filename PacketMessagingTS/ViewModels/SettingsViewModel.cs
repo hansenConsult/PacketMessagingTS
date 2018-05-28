@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 using PacketMessagingTS.Services;
 
 using Windows.ApplicationModel;
@@ -113,5 +114,85 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref sendReceipt);
             set => SetProperty(ref sendReceipt, value, true);
         }
+
+        private bool w1XSCStatusUp;
+        public bool W1XSCStatusUp
+        {
+            get
+            {
+                GetProperty(ref w1XSCStatusUp);
+                //AddressBook.Instance.UpdateForBBSStatusChange("W1XSC", w1XSCStatusUp);
+                return w1XSCStatusUp;
+            }
+            set
+            {
+                SetProperty(ref w1XSCStatusUp, value, true);
+                AddressBook.Instance.UpdateForBBSStatusChange("W1XSC", w1XSCStatusUp);
+            }
+        }
+
+        public bool w2XSCStatusUp;
+        public bool W2XSCStatusUp
+        {
+            get
+            {
+                GetProperty(ref w2XSCStatusUp);
+                //AddressBook.Instance.UpdateForBBSStatusChange("W2XSC", temp);
+                return w2XSCStatusUp;
+            }
+            set
+            {
+                SetProperty(ref w2XSCStatusUp, value, true);
+                AddressBook.Instance.UpdateForBBSStatusChange("W2XSC", w2XSCStatusUp);
+            }
+        }
+
+        public bool w3XSCStatusUp;
+        public bool W3XSCStatusUp
+        {
+            get
+            {
+                GetProperty(ref w3XSCStatusUp);
+                //AddressBook.Instance.UpdateForBBSStatusChange("W3XSC", temp);
+                return w3XSCStatusUp;
+            }
+            set
+            {
+                SetProperty(ref w3XSCStatusUp, value, true);
+                AddressBook.Instance.UpdateForBBSStatusChange("W3XSC", W3XSCStatusUp);
+            }
+        }
+
+        public bool w4XSCStatusUp;
+        public bool W4XSCStatusUp
+        {
+            get
+            {
+                GetProperty(ref w4XSCStatusUp);
+                //AddressBook.Instance.UpdateForBBSStatusChange("W4XSC", temp);
+                return w4XSCStatusUp;
+            }
+            set
+            {
+                SetProperty(ref w4XSCStatusUp, value, true);
+                AddressBook.Instance.UpdateForBBSStatusChange("W4XSC", W4XSCStatusUp);
+            }
+        }
+        public bool w5XSCStatusUp;
+        public bool W5XSCStatusUp
+        {
+            get
+            {
+                GetProperty(ref w5XSCStatusUp);
+                //AddressBook.Instance.UpdateForBBSStatusChange("W5XSC", temp);
+                return w5XSCStatusUp;
+            }
+            set
+            {
+                SetProperty(ref w5XSCStatusUp, value, true);
+                AddressBook.Instance.UpdateForBBSStatusChange("W5XSC", W5XSCStatusUp);
+            }
+        }
+
     }
 }

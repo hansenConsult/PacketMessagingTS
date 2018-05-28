@@ -28,15 +28,12 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 return GetProperty(ref profileSelectedIndex);
-                //CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
-                //return profileSelectedIndex;
             }
             set
             {
                 SetProperty(ref profileSelectedIndex, Convert.ToInt64(value), true);
                 CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
             }
-
         }
 
         private Profile currentProfile;
@@ -47,6 +44,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 currentProfile = value;
 
+                CurrentTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == currentProfile.TNC).FirstOrDefault();
+                CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
                 Name = currentProfile.Name;
                 TNC = currentProfile.TNC;
                 BBSSelectedValue = currentProfile.BBS;
@@ -77,6 +76,13 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private TNCDevice currentTNC;
+        public TNCDevice CurrentTNC
+        {
+            get => currentTNC;
+            set => currentTNC = value;
+        }
+
         //private string bbs;
         //public string BBS
         //{
@@ -87,38 +93,6 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //}
 
-        //private BBSData bbsSelectedItem;
-        //public BBSData BBSSelectedItem
-        //{
-        //    get => bbsSelectedItem;
-        //    set
-        //    {
-        //        SetProperty(ref bbsSelectedItem, value);
-
-        //        //BBSDescription = bbsSelectedItem.Description;
-        //        //BBSFrequency1 = bbsSelectedItem.Frequency1;
-        //        //BBSFrequency2 = bbsSelectedItem.Frequency2;
-        //    }
-        //}
-
-        private int bbsSelectedIndex;
-        public int BBSSelectedIndex
-        {
-            get
-            {
-                return bbsSelectedIndex;
-            }
-            set
-            {
-                SetProperty(ref bbsSelectedIndex, value);
-
-                BBSData bbsData = BBSDefinitions.Instance.BBSDataList[bbsSelectedIndex];
-                BBSDescription = bbsData.Description;
-                BBSFrequency1 = bbsData.Frequency1;
-                BBSFrequency2 = bbsData.Frequency2;
-            }
-        }
-
         private string bbsSelectedValue;
         public string BBSSelectedValue
         {
@@ -127,13 +101,22 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref bbsSelectedValue, value);
 
-                BBSData bbsData = BBSDefinitions.Instance.BBSDataList[BBSSelectedIndex];
-                BBSDescription = bbsData.Description;
-                BBSFrequency1 = bbsData.Frequency1;
-                BBSFrequency2 = bbsData.Frequency2;
-
                 bool changed = CurrentProfile.BBS != bbsSelectedValue;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
+
+            }
+        }
+
+        private BBSData currentBBS;
+        public BBSData CurrentBBS
+        {
+            get => currentBBS;
+            set
+            {
+                currentBBS = value;
+                BBSDescription = currentBBS?.Description;
+                BBSFrequency1 = currentBBS?.Frequency1;
+                BBSFrequency2 = currentBBS?.Frequency2;
 
             }
         }

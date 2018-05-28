@@ -272,8 +272,6 @@ namespace PacketMessagingTS.Models
 
         private string secondaryField;
 
-        private bool selectedField;
-
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Name
@@ -355,20 +353,6 @@ namespace PacketMessagingTS.Models
             set
             {
                 this.secondaryField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public bool Selected
-        {
-            get
-            {
-                return this.selectedField;
-            }
-            set
-            {
-                this.selectedField = value;
             }
         }
 
