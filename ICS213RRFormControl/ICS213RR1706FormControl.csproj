@@ -106,7 +106,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ICS213RRControl.xaml.cs">
+      <DependentUpon>ICS213RRControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\ICS213RRFormControl.rd.xml" />
   </ItemGroup>
@@ -114,6 +116,22 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.4</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ICS213RRControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
+      <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
+      <Name>FormControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToggleButtonGroupControl\ToggleButtonGroupControl.csproj">
+      <Project>{b448e071-59c5-4198-908f-ee3120bf4f7b}</Project>
+      <Name>ToggleButtonGroupControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

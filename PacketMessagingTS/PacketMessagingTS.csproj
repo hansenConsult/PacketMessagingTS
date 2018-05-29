@@ -315,6 +315,10 @@
     <Compile Include="Helpers\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CityScanFormControl\CityScanFormControl.csproj">
+      <Project>{ecdd9858-2441-4cb2-b859-172265ec7c7b}</Project>
+      <Name>CityScanFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
@@ -322,6 +326,10 @@
     <ProjectReference Include="..\ICS213FormControl\ICS213FormControl.csproj">
       <Project>{eba5e558-4804-4914-87ed-efbfa45e2069}</Project>
       <Name>ICS213FormControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICS213RRFormControl\ICS213RR1706FormControl.csproj">
+      <Project>{93f74750-00f2-44d3-bd5b-189487733a59}</Project>
+      <Name>ICS213RR1706FormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\MessageFormControl\MessageFormControl.csproj">
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>

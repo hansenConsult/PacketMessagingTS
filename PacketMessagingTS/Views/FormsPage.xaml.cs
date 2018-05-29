@@ -378,7 +378,17 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_";
+                string firstName = Singleton<IdentityViewModel>.Instance.UserName;
+                int index = firstName.IndexOf(' ');
+                firstName = firstName.Substring(0, index);
+                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+                {
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {_packetForm.MsgDate}-{Singleton<IdentityViewModel>.Instance.TacticalCallsign}-{firstName}-<city or agency>";
+                }
+                else
+                {
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {_packetForm.MsgDate}-{Singleton<IdentityViewModel>.Instance.UserCallsign}-{firstName}-<city or agency>";
+                }
             }
             //else if (pivotItemName == "Message")
             //{
@@ -409,6 +419,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
+        // TODO insert InitializeFormControlAsync
         private async void MyPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             _packetAddressForm = new SendFormDataControl();
@@ -432,13 +443,26 @@ namespace PacketMessagingTS.Views
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
 
+            DateTime now = DateTime.Now;
+            string messageData = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
+
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")
             {
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_";
+                string firstName = Singleton<IdentityViewModel>.Instance.UserName;
+                int index = firstName.IndexOf(' ');
+                firstName = firstName.Substring(0, index);
+                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+                {
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {messageData}-{Singleton<IdentityViewModel>.Instance.TacticalCallsign}-{firstName}-<city or agency>";
+                }
+                else
+                {
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {messageData}-{Singleton<IdentityViewModel>.Instance.UserCallsign}-{firstName}-<city or agency>";
+                }
             }
             //else if (pivotItemName == "Message")
             //{
@@ -462,8 +486,7 @@ namespace PacketMessagingTS.Views
 
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
-                DateTime now = DateTime.Now;
-                _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
+                _packetForm.MsgDate = messageData;
                 _packetForm.MsgTime = $"{now.Hour:d2}{now.Minute:d2}";
                 _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
                 _packetForm.OperatorTime = $"{now.Hour:d2}{now.Minute:d2}";
@@ -512,6 +535,7 @@ namespace PacketMessagingTS.Views
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
             Utilities.MarkMessageNumberAsUsed();
 
+            // Initialize to an empty form
             await InitializeFormControlAsync();
         }
 
@@ -541,6 +565,7 @@ namespace PacketMessagingTS.Views
             Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
             communicationsService.BBSConnectAsync();
 
+            // Create an empty form
             await InitializeFormControlAsync();
         }
 

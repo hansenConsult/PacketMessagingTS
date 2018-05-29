@@ -39,11 +39,11 @@ namespace ICS213FormControl
 			ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
 			OtherText = "Packet";
-			comboBoxToICSPosition.ItemsSource = ICSPosition;
-			//comboBoxFromICSPosition.ItemsSource = ICSPosition;
-		}
+            autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
+            autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
+        }
 
-		public override string ReceiverMsgNo
+        public override string ReceiverMsgNo
 		{ get { return GetTextBoxString(receiverMsgNo); } set { SetTextBoxString(receiverMsgNo, value); } }
 
 		public override string MessageNo
@@ -78,7 +78,7 @@ namespace ICS213FormControl
 		{ get { return GetCheckBoxCheckedState(forInfo); } set { SetCheckBoxCheckedState(forInfo, value); } }
 
 		public string ToICSPosition
-		{ get { return GetComboBoxSelectedValuePath(comboBoxToICSPosition); } set { SetComboBoxString(comboBoxToICSPosition, value); } }
+		{ get { return GetAutoSuggestBoxString(autoSuggestBoxToICSPosition); } set { SetAutoSuggestBoxString(autoSuggestBoxToICSPosition, value); } }
 
 		public string ToLocation
 		{ get { return GetTextBoxString(toLocation); } set { SetTextBoxString(toLocation, value); } }
@@ -92,7 +92,7 @@ namespace ICS213FormControl
 		//public string FromICSPositionComboBox
 		//{ get { return GetComboBoxSelectedValuePath(comboBoxFromICSPosition); } set { SetComboBoxString(comboBoxFromICSPosition, value); } }
 		public string FromICSPositionComboBox
-		{ get { return GetAutoSuggestBoxString(comboBoxFromICSPosition); } set { SetAutoSuggestBoxString(comboBoxFromICSPosition, value); } }
+		{ get { return GetAutoSuggestBoxString(autoSuggestBoxFromICSPosition); } set { SetAutoSuggestBoxString(autoSuggestBoxFromICSPosition, value); } }
 
 		public string FromLocation
 		{ get { return GetTextBoxString(fromLocation); } set { SetTextBoxString(fromLocation, value); } }
@@ -197,13 +197,8 @@ namespace ICS213FormControl
 						outpostData.Add($"6d.: [{formField.ControlContent}]");
 						break;
 					//8.: [Operations]
-					case "comboBoxToICSPosition":
-						if ((string)buttonSelectToICSPosInput.Content == "List Input")
-							outpostData.Add($"7.: [{formField.ControlContent}]");
-						break;
-					case "textBpxToICSPosition":
-						if ((string)buttonSelectToICSPosInput.Content == "Manual Input")
-							outpostData.Add($"7.: [{formField.ControlContent}]");
+					case "autoSuggestBoxToICSPosition":
+						outpostData.Add($"7.: [{formField.ControlContent}]");
 						break;
 					//9a.: [Jerry]
 					case "toLocation":
@@ -216,17 +211,9 @@ namespace ICS213FormControl
 						outpostData.Add($"ToTel.: [{formField.ControlContent}]");
 						break;
 					//8.: [Operations]
-					case "comboBoxFromICSPosition":
+					case "autoSuggestBoxFromICSPosition":
 						outpostData.Add($"8.: [{formField.ControlContent}]");
 						break;
-					//case "comboBoxFromICSPosition":
-					//	if ((string)buttonSelectFromICSPosInput.Content == "List Input")
-					//		outpostData.Add($"8.: [{formField.ControlContent}]");
-					//	break;
-					//case "textBoxFromICSPosition":
-					//	if ((string)buttonSelectFromICSPosInput.Content == "Manual Input")
-					//		outpostData.Add($"8.: [{formField.ControlContent}]");
-					//	break;
 					//9b.: [Poul Hansen]
 					case "fromLocation":
 						outpostData.Add($"9b.: [{formField.ControlContent}]");
@@ -313,7 +300,7 @@ namespace ICS213FormControl
 					case "senderMsgNo":
 						formField.ControlContent = GetOutpostValue("MsgNo", ref msgLines);
 						break;
-					case "messagegNo":
+					case "messageNo":
 						formField.ControlContent = msgNumber;
 						break;
 					case "msgDate":
@@ -348,11 +335,10 @@ namespace ICS213FormControl
 					case "replyBy":
 						formField.ControlContent = GetOutpostValue("6d.", ref msgLines);
 						break;
-					case "textBoxToICSPosition":
-						ButtonTextInput(true, true);
-						formField.ControlContent = GetOutpostValue("7.", ref msgLines);
-						break;
-					case "toLocation":
+                    case "autoSuggestBoxToICSPosition":
+                        formField.ControlContent = GetOutpostValue("7.", ref msgLines);
+                        break;
+                    case "toLocation":
 						formField.ControlContent = GetOutpostValue("9a.", ref msgLines);
 						break;
 					case "toName":
@@ -361,12 +347,10 @@ namespace ICS213FormControl
 					case "toTelephone":
 						formField.ControlContent = GetOutpostValue("ToTel", ref msgLines);
 						break;
-					//case "fromICSPosition":
-					case "textBoxFromICSPosition":
-						ButtonTextInput(false, true);
-						formField.ControlContent = GetOutpostValue("8.", ref msgLines);
-						break;
-					case "fromLocation":
+                    case "autoSuggestBoxFromICSPosition":
+                        formField.ControlContent = GetOutpostValue("8.", ref msgLines);
+                        break;
+                    case "fromLocation":
 						formField.ControlContent = GetOutpostValue("9b.", ref msgLines);
 						break;
 					case "fromName":
@@ -424,49 +408,6 @@ namespace ICS213FormControl
 				}
 			}
 			return formFields;
-		}
-
-		private void ButtonTextInput(bool to, bool buttonStateText)
-		{
-			Button buttonSelectICSPosInput = buttonSelectToICSPosInput;
-			TextBox textBoxICSPosition = textBoxToICSPosition;
-			ComboBox comboBoxICSPosition = comboBoxToICSPosition;
-			if (to)
-			{
-				buttonSelectICSPosInput = buttonSelectToICSPosInput;
-				textBoxICSPosition = textBoxToICSPosition;
-                textBoxICSPosition.Tag = "required,Enter a To position.";
-                comboBoxICSPosition = comboBoxToICSPosition;
-                comboBoxICSPosition.Tag = "required,Enter a To position.";
-            }
-   //         else
-			//{
-			//	buttonSelectICSPosInput = buttonSelectFromICSPosInput;
-			//	textBoxICSPosition = textBoxFromICSPosition;
-   //             textBoxICSPosition.Tag = "required,Enter a From position.";
-   //             comboBoxICSPosition = comboBoxFromICSPosition;
-   //             comboBoxICSPosition.Tag = "required,Enter a From position.";
-   //         }
-            if (buttonStateText)
-			{
-				buttonSelectICSPosInput.Content = "Manual Input";
-				textBoxICSPosition.Visibility = Visibility.Collapsed;
-				textBoxICSPosition.Tag = null;
-				comboBoxICSPosition.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				buttonSelectICSPosInput.Content = "List Input";
-				textBoxICSPosition.Visibility = Visibility.Visible;
-				comboBoxICSPosition.Visibility = Visibility.Collapsed;
-				comboBoxICSPosition.Tag = null;
-			}
-		}
-
-		private void buttonSelectICSPosInput_Click(object sender, RoutedEventArgs e)
-		{
-			ButtonTextInput((Button)sender == buttonSelectToICSPosInput, 
-					((string)((Button)sender).Content == "List Input"));
 		}
 
 		private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)

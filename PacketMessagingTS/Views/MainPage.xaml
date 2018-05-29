@@ -101,7 +101,14 @@
                                 SelectionMode="Multiple"
                                 ItemsSource="{x:Bind ViewModel.Source}" >
                     <tg:RadDataGrid.Columns>
-                        <tg:DataGridTextColumn PropertyName="CreateTime" Header="Create Time"/>
+                        <tg:DataGridTemplateColumn Header="Create Time">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CreateTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>

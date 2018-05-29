@@ -350,12 +350,12 @@ namespace PacketMessagingTS.Views
                 {
                     MessageBody = receivedMessage.Text,
                     ReceivedTime = dateTime,
-                    BBSName = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS.Name,
-                    TNCName = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.Name,
+                    BBSName = BBSDefinitions.Instance.BBSDataList[2].Name,
+                    TNCName = TNCDeviceArray.Instance.TNCDeviceList[1].Name,
                     MessageNumber = Helpers.Utilities.GetMessageNumberPacket(true),
                     Area = "",
+                    MessageSize = receivedMessage.Text.Length,
                 };
-                packetMsg.MessageSize = packetMsg.MessageBody.Length;
 
                 //packetMsg.MessageBody = "Message #1 \r\nDate: Mon, 24 Aug 2015 21:07:37 PDT\r\nFrom: kz6dm @w1xsc.ampr.org\r\nTo: kz6dm\r\nSubject: 6DM - 483_O/R_CityScan_Mountain View Emergency Declared: no\r\n\r\n!PACF!6DM - 483_O/R_CityScan_Mountain View Emergency Declared: no\r\n# CITY-SCAN UPDATE FLASH REPORT \r\n# JS-ver. PR-4.1-3.9, 01/11/15\r\n# FORMFILENAME: city-scan.html\r\nMsgNo: [6DM-483]\r\nD.: [OTHER]\r\nE.: [ROUTINE]\r\n1a.: [Mountain View]\r\n2.: [08/24/2015]\r\n3.: [2028]\r\n4.: [Poul Hansen]\r\n6.: [000-000-0000]\r\n9.: [no]\r\nOpDate: [08/24/2015]\r\nOpTime: [2030]\r\n#EOF\r\n";
 

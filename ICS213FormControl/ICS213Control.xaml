@@ -15,15 +15,15 @@
 
 	<MyBaseNamespace:FormControlBase.Resources>
 
-        <ResourceDictionary >
+		<ResourceDictionary >
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
-        
+
 	</MyBaseNamespace:FormControlBase.Resources>
 
-    <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
+	<StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
 		<Border x:Name="Form213" BorderBrush="Black" BorderThickness="1" Padding="15" >
 			<StackPanel >
 				<Border BorderBrush="Black" BorderThickness="1,1,1,0">
@@ -88,7 +88,7 @@
 							<Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
 								<StackPanel>
 									<TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Situation Severity" Foreground="LightSalmon" Margin="10"/>
-                                    <MyNamespace:ToggleButtonGroup x:Name="severity" 
+									<MyNamespace:ToggleButtonGroup x:Name="severity" 
                                                                    CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="required,Indicate Situation Severity."/>
 									<RadioButton x:Name="emergency" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" Margin="10, 8" Padding="4" Content="EMERGENCY" Tag="required," Checked="Subject_Changed" 
 										ToolTipService.ToolTip="Life threat">
@@ -104,7 +104,7 @@
 							<Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
 								<StackPanel>
 									<TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Msg. Handling Order" Foreground="LightSalmon" Margin=" 10"/>
-                                    <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
+									<MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                    CheckedControlName="{x:Bind HandlingOrder, Mode=TwoWay}"
                                                                    Tag="required,Indicate Msg. Handling Order."/>
 									<RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10, 8" Padding="4" Content="IMMEDIATE" Checked="Subject_Changed">
@@ -131,9 +131,9 @@
 									<StackPanel Orientation="Horizontal">
 										<MyNamespace:ToggleButtonGroup x:Name="reply"/>
 										<RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0,0,0" Content="Yes, by" Width="65" Padding="4" MinWidth="50"/>
-                                        <TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hhmm" Height="16.986" UseLayoutRounding="False" d:LayoutRounding="Auto" VerticalAlignment="Center"/>
+										<TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hhmm" Height="16.986" UseLayoutRounding="False" d:LayoutRounding="Auto" VerticalAlignment="Center"/>
 
-                                        <!--<TextBlock Style="{StaticResource LabelFontTNR12B}" Padding="0, 0" Text=", by" Width="20" />-->
+										<!--<TextBlock Style="{StaticResource LabelFontTNR12B}" Padding="0, 0" Text=", by" Width="20" />-->
 										<RadioButton x:Name="replyNo" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Content="No" Width="50" Margin="10,0,0,0" Padding="4" MinWidth="50"/>
 									</StackPanel>
 									<CheckBox x:Name="forInfo" Style="{StaticResource CheckBoxTNR12B}" Margin="10,5,4,5" Content="FOR INFO" Padding="4"/>
@@ -153,38 +153,18 @@
 								<Border BorderBrush="Black" BorderThickness="0,1">
 									<StackPanel >
 										<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="ICS Position:" Foreground="LightSalmon" />
-										<RelativePanel x:Name="toICSPos">
-											<Button x:Name="buttonSelectToICSPosInput" 
-													RelativePanel.AlignVerticalCenterWithPanel="True" 
-													Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2"/>
-                                            <TextBox x:Name="textBoxToICSPosition" Style="{StaticResource TypedText}" 
-													RelativePanel.RightOf="buttonSelectToICSPosInput"
-													RelativePanel.AlignRightWithPanel="True"	 
-													BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
-                                                     Tag="required,Enter a To position."/>
-                                            <ComboBox x:Name="comboBoxToICSPosition"  Margin="9.667,0,10,2" 
-													RelativePanel.RightOf="buttonSelectToICSPosInput"
-													RelativePanel.AlignRightWithPanel="True"	  
-													BorderBrush="White" BorderThickness="2"  
-                                                      HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-                                                      PlaceholderText="Select ICS Position"
-                                                      Tag="required,Enter a To position.">
-												<!--<ComboBoxItem Content="Incident Commander"/>
-												<ComboBoxItem Content="Operations"/>
-												<ComboBoxItem Content="Planning"/>
-												<ComboBoxItem Content="Logistics"/>
-												<ComboBoxItem Content="Finance"/>
-												<ComboBoxItem Content="Public Info. Officer"/>
-												<ComboBoxItem Content="Liaison Officer"/>
-												<ComboBoxItem Content="Safety Officer"/>-->
-											</ComboBox>
-										</RelativePanel>
+										<AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"
+                                                        BorderBrush="Green"
+                                                        PlaceholderText="Select ICS Position"
+                                                        TextChanged="textBoxFromICSPosition_TextChanged"
+                                                        SuggestionChosen="textBoxFromICSPosition_SuggestionChosen"
+                                                        Tag="required,Enter a To Position." VerticalAlignment="Top"/>
 									</StackPanel>
 								</Border>
 								<Border BorderBrush="Black" BorderThickness="0,0,0,1" >
 									<StackPanel >
 										<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="Location:" Foreground="LightSalmon" />
-                                        <TextBox x:Name="toLocation"  BorderBrush="White" Margin="10,0,10,2" Tag="required,Enter a To Location."/>
+										<TextBox x:Name="toLocation"  BorderBrush="White" Margin="10,0,10,2" Tag="required,Enter a To Location."/>
 									</StackPanel>
 								</Border>
 								<Border BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -204,16 +184,16 @@
 							<TextBlock x:Name="labelFrom" Grid.Column="2" Style="{StaticResource LabelFontTNR14B}" Text=" From:" />
 							<StackPanel Grid.Column="3" >
 								<Border BorderBrush="Black" BorderThickness="0,1">
-                                    <StackPanel>
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
-                                        <AutoSuggestBox x:Name="comboBoxFromICSPosition" Margin="10,0,10,2"
+									<StackPanel>
+										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
+										<AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
                                                         BorderBrush="Green"
                                                         PlaceholderText="Select ICS Position"
                                                         TextChanged="textBoxFromICSPosition_TextChanged"
                                                         SuggestionChosen="textBoxFromICSPosition_SuggestionChosen"
                                                         Tag="required,Enter a From position."/>
-                                    </StackPanel>
-                                    <!--<StackPanel >
+									</StackPanel>
+									<!--<StackPanel >
 										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
 										<RelativePanel x:Name="fromICSPos" >
 											<Button x:Name="buttonSelectFromICSPosInput" RelativePanel.AlignVerticalCenterWithPanel="True" Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2" />
@@ -222,18 +202,20 @@
 												RelativePanel.AlignRightWithPanel="True"	 
 												BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
                                                 Tag="required,Enter a From position."/>
-											--><!--<ComboBox x:Name="comboBoxFromICSPosition" Margin="9.667,0,10,2" 
+											-->
+									<!--<ComboBox x:Name="comboBoxFromICSPosition" Margin="9.667,0,10,2" 
 												RelativePanel.RightOf="buttonSelectFromICSPosInput"
 												RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Stretch"
 												BorderBrush="White" BorderThickness="2" Tag="required,Enter a From position." PlaceholderText="Select ICS Position" >
-											</ComboBox>--><!--
+											</ComboBox>-->
+									<!--
 										</RelativePanel>
 									</StackPanel>-->
 								</Border>
 								<Border BorderBrush="Black" BorderThickness="0,0,0,1" >
 									<StackPanel >
 										<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Location:" Foreground="LightSalmon" />
-                                        <TextBox x:Name="fromLocation"  BorderBrush="White" Margin="10,0,10,2" Tag="required,Enter a From Location." />
+										<TextBox x:Name="fromLocation"  BorderBrush="White" Margin="10,0,10,2" Tag="required,Enter a From Location." />
 									</StackPanel>
 								</Border>
 								<Border BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -260,7 +242,7 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 							<TextBlock Grid.Column="0" Grid.Row="0" Text="SUBJECT:" Style="{StaticResource LabelFontTNR14B}"  Foreground="LightSalmon" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                            <TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" Tag="required,Enter a Subject." TextChanged="Subject_Changed" Margin="5,2,5,2"/>
+							<TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" Tag="required,Enter a Subject." TextChanged="Subject_Changed" Margin="5,2,5,2"/>
 							<TextBlock Grid.Column="0" Grid.Row="1" Text="REFERENCE:" Style="{StaticResource LabelFontTNR14B}"   VerticalAlignment="Center" Margin="5,0,0,0"/>
 							<TextBox  Grid.Column="1" Grid.Row="1" x:Name="reference" TextChanged="Subject_Changed" Margin="5,2,5,2"/>
 						</Grid>
@@ -271,11 +253,13 @@
 						<!--<StackPanel Orientation="Horizontal">
 							<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="REFERENCE:" VerticalAlignment="Center" Margin="5,0,0,0"/>
 							<TextBox x:Name="reference"  Width="560" Margin="5,0,0,0" >
-								--><!--<TextBox.ToolTip>Number of earlier message</TextBox.ToolTip>--><!--
+								-->
+						<!--<TextBox.ToolTip>Number of earlier message</TextBox.ToolTip>-->
+						<!--
 							</TextBox>
 						</StackPanel>-->
 						<TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Message:" Foreground="LightSalmon" Margin="5,0,0,0"/>
-                        <TextBox x:Name="message"  BorderBrush="White" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+						<TextBox x:Name="message"  BorderBrush="White" ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                  AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="required,You must include a Message." 
 								 ToolTipService.ToolTip="What, when, where needed; how long; contact name and phone number. Keep message brief" 
                                  PlaceholderText="Type message here.">
@@ -326,12 +310,12 @@
 						<Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" >
 							<StackPanel Orientation="Horizontal" Height="34">
 								<TextBlock Style="{StaticResource LabelFontTNR12B}" Text="How received" VerticalAlignment="Center" Margin="5,0,5,0" />
-                                <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" CheckedControlName="{x:Bind ReceivedOrSent}"/>
+								<MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" CheckedControlName="{x:Bind ReceivedOrSent}"/>
 								<RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="or Sent" Padding="5"/>
 								<RadioButton x:Name="sent" GroupName="receivedOrSent" Content="" Margin="-30,0,0,0"/>
 							</StackPanel>
 						</Border>
-                        <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" CheckedControlName="{x:Bind HowReceivedSent}"/>
+						<MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" CheckedControlName="{x:Bind HowReceivedSent}"/>
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="149*" />
@@ -363,7 +347,7 @@
 							<StackPanel Orientation="Horizontal" Height="34">
 								<TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Call Sign:" VerticalAlignment="Center" Margin="5"/>
 								<TextBox x:Name="operatorCallsign"  
-                                         Text="{x:Bind OperatorCallsign}" 
+                                         Text="{x:Bind OperatorCallsign, Mode=TwoWay}" 
                                          BorderBrush="White" HorizontalAlignment="Left" Margin="5,0,0,0" Width="auto"  />
 							</StackPanel>
 						</Border>

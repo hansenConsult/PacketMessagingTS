@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using ToggleButtonGroupControl;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FormControlBaseClass
 {
@@ -43,30 +44,30 @@ namespace FormControlBaseClass
 		{ get; set; }
 	}
 
-	public abstract class FormControlBase : FormControlBasics
+	public abstract class FormControlBase : FormControlBasics, INotifyPropertyChanged
 
     {
-		//private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-
-
-
-
 		public event EventHandler<FormEventArgs> EventSubjectChanged;
         public event PropertyChangedEventHandler PropertyChanged;
-
-
-        //List<Control> formFieldsList = new List<Control>();
-
-        //string _operatorTime;
-        //string _messageTime;
-        //string _msgDate = "";
 
         protected List<string> outpostData;
 
         public FormControlBase()
 		{
 		}
+
+        protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
+
+        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         //event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         //{
@@ -81,15 +82,12 @@ namespace FormControlBaseClass
         //    }
         //}
 
-        
+
         private void NotifyPropertyChanged( String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-        //delegate string GetTextBoxText(TextBox name);
-        //string GetText(TextBox name) => name.Text;
         public string GetTextBlockString(TextBlock textBlock) => textBlock.Text;
 
 		public void SetTextBlockString(TextBlock textBlock, string text)
@@ -97,18 +95,9 @@ namespace FormControlBaseClass
 			textBlock.Text = text;
 		}
 
-
 		public string GetTextBoxString(TextBox textBox)
 		{
-			//	if ((textBox.Dispatcher.HasThreadAccess))
-			//	{
-			//	//return textBox.Text;
 			return textBox.Text;
-			//	}
-			//else
-			//{
-			//	object retval = textBox.Dispatcher.Invoke(DispatcherPriority.Normal, new GetTextBoxText(GetText), textBox);
-			//	return (string)retval;
 		}
 
 		public string GetAutoSuggestBoxString(AutoSuggestBox autoSuggestBox)
@@ -116,24 +105,11 @@ namespace FormControlBaseClass
 			return autoSuggestBox.Text;
 		}
 
-		//delegate void SetTextBoxText(TextBox name, string text);
-		//void SetText(TextBox textBox, string text) => textBox.Text = text;
-
 		public void SetTextBoxString(TextBox textBox, string text)
 		{
-			//	{
-			//		if ((textBox.Dispatcher.CheckAccess()))
-			//		{
 			textBox.Text = text;
-			//		}
-			//		else
-			//		{
-			//			textBox.Dispatcher.Invoke(DispatcherPriority.Normal, new SetTextBoxText(SetText), textBox, text);
-			//		}
-			//	}
 		}
 
-		//delegate ComboBoxItem GetCBxSelection(ComboBox comboBox);
 		object GetCBSelectedItem(ComboBox comboBox) => comboBox.SelectedItem;
 
 		public string GetComboBoxSelectedItem(ComboBox comboBox)
@@ -151,24 +127,9 @@ namespace FormControlBaseClass
 			//	}
 		}
 
-        //delegate string GetComboBoxText(ComboBox comboBox);
-        //string GetText(ComboBox comboBox) => comboBox.Text;
-
         public string GetComboBoxSelectedValuePath(ComboBox comboBox)
         {
-            //	{
-            //		if ((comboBox.Dispatcher.CheckAccess()))
-            //		{
             return comboBox.SelectedValuePath;
-            //return comboBox.SelectionBoxItem.ToString();
-            //return comboBox.SelectedItem?.ToString();
-            //		}
-            //		else
-            //		{
-            //			object retval = comboBox.Dispatcher.Invoke(DispatcherPriority.Normal, new GetComboBoxText(GetText), comboBox);
-            //			return (string)retval;
-            //		}
-            //	}
         }
 
 		public void SetAutoSuggestBoxString(AutoSuggestBox autoSuggestBox, string text)
@@ -178,120 +139,18 @@ namespace FormControlBaseClass
 
 		public void SetComboBoxString(ComboBox comboBox, string text)
         {
-            //	if ((comboBox.Dispatcher.CheckAccess()))
-            //	{
             comboBox.SelectedValue = text;
-            //	}
-            //	else
-            //	{
-            //		comboBox.Dispatcher.Invoke(DispatcherPriority.Normal, new SetComboBoxText(SetText), comboBox, text);
-            //	}
         }
-
-        //delegate bool? GetCheckBoxChecked(CheckBox checkBox);
-        //bool? GetCheckBox(CheckBox checkBox) => checkBox.IsChecked;
 
         public bool? GetCheckBoxCheckedState(CheckBox checkBox)
 		{
-			//	if ((checkBox.Dispatcher.CheckAccess()))
-			//	{
 			return checkBox.IsChecked;
-			//	}
-			//	else
-			//	{
-			//		return (bool?)checkBox.Dispatcher.Invoke(DispatcherPriority.Normal, new GetCheckBoxChecked(GetCheckBox), checkBox);
-			//	}
 		}
-
-		//delegate void SetCheckBoxChecked(CheckBox checkBox, bool? isChecked);
-		//void SetCheckBox(CheckBox checkBox, bool? isChecked) => checkBox.IsChecked = isChecked;
 
 		public void SetCheckBoxCheckedState(CheckBox checkBox, bool? isChecked)
 		{
-			//	if ((checkBox.Dispatcher.CheckAccess()))
-			//	{
 			checkBox.IsChecked = isChecked;
-			//	}
-			//	else
-			//	{
-			//		checkBox.Dispatcher.Invoke(DispatcherPriority.Normal, new SetCheckBoxChecked(SetCheckBox), checkBox, isChecked);
-			//	}
 		}
-
-		//public void Arrange()
-		//{
-		//	throw new NotImplementedException();
-		//}
-
-		//delegate void SetFocusDelegate(UIElement element);
-		//void SetFocus(UIElement element)
-		//{
-		//	element.Focus();
-		//}
-
-		//public void SetControlFocus(UIElement element)
-		//{
-		//	{
-		//		if ((element.Dispatcher.CheckAccess()))
-		//		{
-		//SetFocus(element);
-		//		}
-		//		else
-		//		{
-		//			element.Dispatcher.Invoke(DispatcherPriority.Normal, new SetFocusDelegate(SetFocus), element);
-		//		}
-		//	}
-		//}
-
-		//delegate IInputElement GetFocusDelegate(DependencyObject element);
-		//IInputElement GetFocus(DependencyObject element) => FocusManager.GetFocusedElement(element);
-
-		//public IInputElement GetFocusedControl(DependencyObject element)
-		//{
-		//	if ((element.Dispatcher.CheckAccess()))
-		//	{
-		//return GetFocus(element);
-		//	}
-		//	else
-		//	{
-		//		return (IInputElement)element.Dispatcher.Invoke(DispatcherPriority.Normal, new GetFocusDelegate(GetFocus), element);
-		//	}
-		//}
-
-		//delegate void SetFocusManagerDelegate(DependencyObject element, IInputElement value);
-		//void SetFocus(DependencyObject element, IInputElement value) => FocusManager.SetFocusedElement(element, value);
-
-		//public void SetFocusedControl(DependencyObject element, IInputElement value)
-		//{
-		//	if ((element.Dispatcher.CheckAccess()))
-		//	{
-		//		SetFocus(element, value);
-		//	}
-		//	else
-		//	{
-		//		element.Dispatcher.Invoke(DispatcherPriority.Normal, new SetFocusManagerDelegate(SetFocus), element, value);
-		//	}
-		//}
-
-		//delegate string GetFrameworkNameDelegate(FrameworkElement element);
-		//string GetName(FrameworkElement element) => element.Name;
-
-		//public string GetFrameworkElementName(FrameworkElement element)
-		//{
-		//	if ((element.Dispatcher.CheckAccess()))
-		//	{
-		//		return GetName(element);
-		//	}
-		//	else
-		//	{
-		//		return (string)element.Dispatcher.Invoke(DispatcherPriority.Normal, new GetFrameworkNameDelegate(GetName), element);
-		//	}
-		//}
-
-		//delegate string GetFormControlName(Control control);
-		//string GetName(Control control) => control.Name;
-
-
 
 		public void InitializeControls()
 		{
@@ -301,7 +160,6 @@ namespace FormControlBaseClass
 
 				if (control is TextBox)
 				{
-					//((TextBox)control).Text = "";
 					control.BorderBrush = formControl.BaseBorderColor;
 				}
 				else if (control is AutoSuggestBox)
@@ -323,15 +181,16 @@ namespace FormControlBaseClass
 			}
 		}
 
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty OperatorCallsignProperty =
+        //	DependencyProperty.Register("OperatorCallsign", typeof(string), typeof(FormControlBase), null);
 
-		// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty OperatorCallsignProperty =
-			DependencyProperty.Register("OperatorCallsign", typeof(string), typeof(FormControlBase), null);
+        private string operatorCallsign;
 
-		public virtual string OperatorCallsign
+        public virtual string OperatorCallsign
 		{
-			get { return (string)GetValue(OperatorCallsignProperty); }
-			set { SetValue(OperatorCallsignProperty, value); }
+			get { return operatorCallsign; }
+			set { Set(ref operatorCallsign, value); }
 		}
 
 		public List<FormControl> FormControlsList
@@ -348,9 +207,6 @@ namespace FormControlBaseClass
 
         public virtual string ReceiverMsgNo
         { get; set; }
-
-  //      public virtual string OperatorCallsign
-		//{ get; set; }
 
 		public virtual string OperatorName
 		{ get; set; }
@@ -523,9 +379,6 @@ namespace FormControlBaseClass
             }
         }
 
-
-
-
         public string CreateOutpostDataString(FormField formField)
         {
             (string id, Control control) = GetTagIndex(formField);
@@ -574,44 +427,10 @@ namespace FormControlBaseClass
 			foreach (string s in outpostData)
 			{
 				sb.Append(s + "\r");
-				//Console.WriteLine(s);
 			}
 			string outpostDataMessage = sb.ToString();
 			return outpostDataMessage;
 		}
-
-		//public static string CompressString(string str)
-		//{
-		//    var bytes = Encoding.UTF8.GetBytes(str);
-		//    //var bytes = str.ToArray.ToByteArray();
-		//    using (var msi = new MemoryStream(bytes))
-		//    {
-		//        using (var mso = new MemoryStream())
-		//        {
-		//            using (var gs = new GZipStream(mso, CompressionMode.Compress))
-		//            {
-		//                msi.CopyTo(gs);
-		//            }
-		//            return Convert.ToBase64String(mso.ToArray());
-		//            //return Convert.ToString(mso.ToArray());
-		//        }
-		//    }
-		//}
-
-		//public static string UnCompressString(string str)
-		//{
-		//    byte[] bytes = Convert.FromBase64String(str);
-		//    //byte[] bytes = Convert.(str);
-		//    using (var msi = new MemoryStream(bytes))
-		//    using (var mso = new MemoryStream())
-		//    {
-		//        using (var gs = new GZipStream(msi, CompressionMode.Decompress))
-		//        {
-		//            gs.CopyTo(mso);
-		//        }
-		//        return Encoding.UTF8.GetString(mso.ToArray());
-		//    }
-		//}
 
 		public FormField[] CreateEmptyFormFieldsArray()
 		{

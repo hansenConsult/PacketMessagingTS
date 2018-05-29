@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICS213FormControl", "ICS213
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityScanFormControl", "CityScanFormControl\CityScanFormControl.csproj", "{ECDD9858-2441-4CB2-B859-172265EC7C7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICS213RRFormControl", "ICS213RRFormControl\ICS213RRFormControl.csproj", "{93F74750-00F2-44D3-BD5B-189487733A59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICS213RR1706FormControl", "ICS213RRFormControl\ICS213RR1706FormControl.csproj", "{93F74750-00F2-44D3-BD5B-189487733A59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

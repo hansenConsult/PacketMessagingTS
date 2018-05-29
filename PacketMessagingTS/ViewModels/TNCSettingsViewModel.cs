@@ -421,20 +421,15 @@ namespace PacketMessagingTS.ViewModels
         public EmailAccount CurrentMailAccount
         {
             get => GetProperty(ref currentMailAccount);
-            //MailServer = EmailAccountArray.Instance.EmailAccounts [index].MailServer;
-            //MailPortString = EmailAccountArray.Instance.EmailAccounts [index].MailServerPort.ToString();
-            //IsMailSSL = EmailAccountArray.Instance.EmailAccounts[index].MailIsSSLField;
-            //MailUserName = EmailAccountArray.Instance.EmailAccounts[index].MailUserName;
-            //MailPassword = EmailAccountArray.Instance.EmailAccounts[index].MailPassword;
             set
             {
                 SetProperty(ref currentMailAccount, value);
 
-                MailServer = CurrentMailAccount.MailServer;
-                MailPort = CurrentMailAccount.MailServerPort;
-                IsMailSSL = CurrentMailAccount.MailIsSSLField;
-                MailUserName = CurrentMailAccount.MailUserName;
-                MailPassword = CurrentMailAccount.MailPassword;
+                MailServer = currentMailAccount.MailServer;
+                MailPort = currentMailAccount.MailServerPort;
+                IsMailSSL = currentMailAccount.MailIsSSLField;
+                MailUserName = currentMailAccount.MailUserName;
+                MailPassword = currentMailAccount.MailPassword;
             }
         }
 
@@ -457,27 +452,26 @@ namespace PacketMessagingTS.ViewModels
                 //	}
                 //}
                 bool changed = CurrentMailAccount.MailServer != mailServer;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.Server = MailServer;
             }
         }
 
-        private string mailPortString;
-        public string MailPortString
-        {
-            get => mailPortString;
-            set
-            {
-                SetProperty(ref mailPortString, value);
-                bool changed = (Convert.ToInt32(MailPortString) != CurrentMailAccount.MailServerPort);
-                if (changed)
-                    MailPort = Convert.ToInt32(mailPortString);
+        //private string mailPortString;
+        //public string MailPortString
+        //{
+        //    get => mailPortString;
+        //    set
+        //    {
+        //        SetProperty(ref mailPortString, value);
+        //        bool changed = (Convert.ToInt32(MailPortString) != CurrentMailAccount.MailServerPort);
+        //        if (changed)
+        //            MailPort = Convert.ToInt32(mailPortString);
 
-                IsAppBarSaveEnabled = SaveEnabled(changed);
-            }
-        }
+        //        IsAppBarSaveEnabled = SaveEnabled(changed);
+        //    }
+        //}
 
         private Int32 mailPort;
         public Int32 MailPort
@@ -486,11 +480,10 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref mailPort, value);
-                if (MailPortString != MailPort.ToString())
-                    MailPortString = MailPort.ToString();
+                //if (MailPortString != MailPort.ToString())
+                //    MailPortString = MailPort.ToString();
 
                 bool changed = CurrentMailAccount.MailServerPort != mailPort;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.Port = MailPort;
@@ -521,7 +514,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref mailUserName, value);
 
                 bool changed = CurrentMailAccount.MailUserName != mailUserName;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.UserName = MailUserName;

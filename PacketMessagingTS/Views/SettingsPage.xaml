@@ -632,13 +632,13 @@
                                                     TextChanged="MailServer_TextChanged"
                                                     SuggestionChosen="MailServer_SuggestionChosen"/>
                                     <TextBox Grid.Column="1" Grid.Row="0" x:Name="mailPortString" 
-                                             Text="{Binding MailPortString, Mode=TwoWay}" 
-                                             Header="Mail port:" Margin="10,10,0,0"
-                                             TextChanged="MailPortString_TextChanged"/>
+                                             Text="{Binding MailPort, Mode=TwoWay}" 
+                                             Header="Mail port:" Margin="10,10,0,0" />
+                                    <!--TextChanged="MailPortString_TextChanged"/>-->
                                     <TextBox Grid.Column="0" Grid.Row="1" x:Name="mailUserName" 
                                              Text="{Binding MailUserName, Mode=TwoWay}" 
                                              Header="Mail User Name:" Margin="10,20,0,0"
-                                             TextChanged="MailUserName_TextChanged"/>
+                                             TextChanged="MailUserName_TextChangedAsync"/>
                                     <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="mailPassword" 
                                                  Password="{Binding MailPassword, Mode=TwoWay}" 
                                                  Header="Mail password:" Width="200" Margin="10,20,0,0"

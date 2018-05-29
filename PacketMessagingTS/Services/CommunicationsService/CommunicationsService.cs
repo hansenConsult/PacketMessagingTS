@@ -195,7 +195,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					}
 
                     //pktMsg.MessageNumber = GetMessageNumberPacket();		// Filled in BBS connection
-                    pktMsg.PacFormType = formControl.PacFormType;    
+                    pktMsg.PacFormType = formControl.PacFormType;
+                    pktMsg.PacFormName = formControl.PacFormName;
                     pktMsg.MessageNumber = packetMessageOutpost.MessageNumber;
 					pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines);
 					pktMsg.ReceivedTime = packetMessageOutpost.ReceivedTime;
@@ -467,9 +468,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             {
                                 // Mark message as sent by email
                                 packetMessage.TNCName = tncDevice.Name;
-                                if (!_deviceFound)
+                                if (!tncDevice.Name.Contains("E-Mail"))
                                 {
-                                    packetMessage.TNCName = "E-Mail-" + Singleton<TNCSettingsViewModel>.Instance.CurrentMailAccount.MailUserName;
+                                    packetMessage.TNCName = "E-Mail-" + Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
                                 }
 
                                 emailMessage = new EmailMessage();
@@ -554,7 +555,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 {
                                     DateTime dateTime = DateTime.Now;
                                     packetMessage.SentTime = dateTime;
-                                    //packetMessage.SentTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
                                     packetMessage.MailUserName = smtpClient.UserName;
                                     tncInterface.PacketMessagesSent.Add(packetMessage);
 
@@ -565,6 +565,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         catch (Exception ex)
                         {
                             string text = ex.Message;
+                            return;
                         }
                     }
                     else

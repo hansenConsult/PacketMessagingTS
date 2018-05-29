@@ -1134,7 +1134,10 @@ namespace PacketMessagingTS.Views
             emailAccount.MailIsSSLField = mailIsSSL.IsOn;
         }
 
+        //private void MailServerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
 
+        //}
 
         private void MailServer_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -1181,8 +1184,16 @@ namespace PacketMessagingTS.Views
             //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
         }
 
-        private void MailUserName_TextChanged(object sender, TextChangedEventArgs e)
+        private async void MailUserName_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
+            // Update TNC mail name
+            var eMailTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains("E-Mail")).FirstOrDefault();
+            eMailTNC.MailUserName = ((TextBox)sender).Text;
+            eMailTNC.Name = $"E-Mail-{eMailTNC.MailUserName}";
+            await TNCDeviceArray.Instance.SaveAsync();
+
+            DeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+
             //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailUserName != (string)((TextBox)sender).Text)
             //{
             //    _emailMailUserNameChanged = true;
@@ -1290,7 +1301,9 @@ namespace PacketMessagingTS.Views
                     }
                 }
                 await EmailAccountArray.Instance.SaveAsync();
-                TNCDeviceArray.Instance.TNCDeviceList[Convert.ToInt32(_TNCSettingsViewModel.TNCDeviceSelectedIndex)].MailUserName = emailAccount.MailUserName;
+                TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[Convert.ToInt32(_TNCSettingsViewModel.TNCDeviceSelectedIndex)];
+                tncDevice.MailUserName = emailAccount.MailUserName;
+                tncDevice.Name += "-" + emailAccount.MailUserName;
                 await TNCDeviceArray.Instance.SaveAsync();
                 UpdateMailState(TNCState.EMail);
             }
@@ -1404,5 +1417,6 @@ namespace PacketMessagingTS.Views
             }
         }
         #endregion Distribution Lists
+
     }
 }
