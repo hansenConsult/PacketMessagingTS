@@ -254,9 +254,10 @@ namespace PacketMessagingTS.Models
 			else
 			{
 				_addressDictionary.TryGetValue(callsign, out entry);
-				if (entry != null)
-					return entry.Callsign;
-			}
+				//if (entry != null)
+				//	return entry.Callsign;
+                return entry?.Callsign;
+            }
 			return null;
         }
 

@@ -164,8 +164,9 @@ namespace PacketMessagingTS
 
             SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
 
-            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToUInt32(App.Properties["ProfileSelectedIndex"]);
-            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Convert.ToUInt32(App.Properties["TacticalCallsignSelectedIndex"]);
+            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToInt32(App.Properties["ProfileSelectedIndex"]);
+            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Convert.ToInt32(App.Properties["TacticalCallsignSelectedIndex"]);
+            Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Convert.ToInt32(Properties["MailAccountSelectedIndex"]);
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

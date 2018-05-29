@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 using PacketMessagingTS.Controls;
@@ -208,7 +199,6 @@ namespace PacketMessagingTS.Views
             string subject = _packetForm.CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             _packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
-            //MessageSubject = _packetMessage.MessageSubject;
             _packetMessage.CreateFileName();
         }
 
@@ -219,7 +209,6 @@ namespace PacketMessagingTS.Views
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
             _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
             _packetAddressForm.MessageTo = _packetMessage.MessageTo;
-            //MessageNumber = _packetMessage.MessageNumber;
             _packetAddressForm.MessageSubject = _packetMessage.Subject;
 
 
@@ -265,7 +254,9 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        public static FormControlBase CreateFormControlInstance(string controlType)
+        // The form control is created based on the control name,
+        // since there may be several versions of the same type
+        public static FormControlBase CreateFormControlInstance(string controlName)
         {
             FormControlBase formControl = null;
             IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
@@ -283,15 +274,11 @@ namespace PacketMessagingTS.Views
                         var attrib = classType.GetTypeInfo();
                         foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
                         {
-                            //if (!(customAttribute is FormControlAttribute))
-                            //    continue;
                             var namedArguments = customAttribute.NamedArguments;
                             if (namedArguments.Count == 3)
                             {
                                 var formControlType = namedArguments[0].TypedValue.Value as string;
-                                //var arg1 = Enum.Parse(typeof(FormControlAttribute.FormType), namedArguments[1].TypedValue.Value.ToString());
-                                //var arg2 = namedArguments[2].TypedValue.Value;
-                                if (formControlType == controlType)
+                                if (formControlType == controlName)
                                 {
                                     foundType = classType;
                                     break;
@@ -335,7 +322,7 @@ namespace PacketMessagingTS.Views
             _loadMessage = true;
             foreach (PivotItem pivotItem in MyPivot.Items)
             {
-                if (pivotItem.Name == _packetMessage.PacFormType) // If PacFormType is not set
+                if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
                 {
                     MyPivot.SelectedIndex = index;
                     break;
@@ -383,11 +370,11 @@ namespace PacketMessagingTS.Views
                 firstName = firstName.Substring(0, index);
                 if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
                 {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {_packetForm.MsgDate}-{Singleton<IdentityViewModel>.Instance.TacticalCallsign}-{firstName}-<city or agency>";
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
                 }
                 else
                 {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {_packetForm.MsgDate}-{Singleton<IdentityViewModel>.Instance.UserCallsign}-{firstName}-<city or agency>";
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
                 }
             }
             //else if (pivotItemName == "Message")
@@ -457,11 +444,11 @@ namespace PacketMessagingTS.Views
                 firstName = firstName.Substring(0, index);
                 if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
                 {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {messageData}-{Singleton<IdentityViewModel>.Instance.TacticalCallsign}-{firstName}-<city or agency>";
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
                 }
                 else
                 {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject> {messageData}-{Singleton<IdentityViewModel>.Instance.UserCallsign}-{firstName}-<city or agency>";
+                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
                 }
             }
             //else if (pivotItemName == "Message")
@@ -496,7 +483,6 @@ namespace PacketMessagingTS.Views
             else 
             {
                 FillFormFromPacketMessage();
-                //_packetForm.MsgTime = ViewModels.FormsPageViewModel.
                 _loadMessage = false;
             }
         }
@@ -529,7 +515,6 @@ namespace PacketMessagingTS.Views
         {
             CreatePacketMessage();
             DateTime dateTime = DateTime.Now;
-            //_packetMessage.CreateTime = $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
             _packetMessage.CreateTime = DateTime.Now;
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);

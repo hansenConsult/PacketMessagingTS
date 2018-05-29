@@ -39,7 +39,7 @@ namespace FormControlBaseClass
     {
 		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketMessage>();
 
-		private static double gridWidthField = 218;
+		//private static double gridWidthField = 218;
 
 		private string fileNameField;
 
@@ -53,7 +53,7 @@ namespace FormControlBaseClass
 
         private string tncNameField;
 
-        private DateTime jNOSDateField;
+        private DateTime? jNOSDateField;
 
 		//private string jNOSDateDisplayField;
 
@@ -168,7 +168,7 @@ namespace FormControlBaseClass
         }
 
         /// <remarks/>
-        public DateTime JNOSDate
+        public DateTime? JNOSDate
 		{
             get
             {
@@ -414,7 +414,7 @@ namespace FormControlBaseClass
 		{
 			if (MessageNumber?.Length != 0)
 			{
-				FileName = MessageNumber + "_" + PacFormName + ".xml";
+				FileName = MessageNumber + "_" + PacFormType + ".xml";
 			}
 			else if (MessageNumber == null || MessageNumber?.Length == 0)
 			{

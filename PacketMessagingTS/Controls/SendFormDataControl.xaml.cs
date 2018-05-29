@@ -124,6 +124,7 @@ namespace PacketMessagingTS.Controls
             {
                 sender.Text = AddressBook.Instance.GetAddress(args.SelectedItem.ToString());
             }
+            MessageTo = sender.Text;
         }
 
         private void MessageTo_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

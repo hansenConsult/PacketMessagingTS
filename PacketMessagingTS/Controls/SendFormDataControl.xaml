@@ -54,7 +54,7 @@
                         Margin="12.6,1.8,0,-0.2" 
                         TextChanged="MessageTo_TextChanged"
                         SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center"
-                        Text="{x:Bind MessageTo, Mode=TwoWay}"/>
+                        Text="{x:Bind MessageTo, Mode=OneWay}"/>
         <ToggleSwitch x:Name="toSelection" Margin="12,-3,0,2" 
                       RelativePanel.AlignRightWithPanel="True"
                       RelativePanel.Below="textBoxMessageTNC"

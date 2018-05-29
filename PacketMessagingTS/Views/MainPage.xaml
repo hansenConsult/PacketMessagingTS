@@ -79,10 +79,27 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridSent"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                SelectionChanged="DataGrid_SelectionChanged"
                                 ItemsSource="{x:Bind ViewModel.Source}" >
                     <tg:RadDataGrid.Columns>
-                        <tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>
-                        <tg:DataGridTextColumn PropertyName="SentTime" Header="Sent Time"/>
+                        <tg:DataGridTemplateColumn Header="Received Time">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ReceivedTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
+                        <!--<tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>-->
+                        <tg:DataGridTemplateColumn Header="Sent Time">
+                            <tg:DataGridTemplateColumn.CellContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SentTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
+                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </DataTemplate>
+                            </tg:DataGridTemplateColumn.CellContentTemplate>
+                        </tg:DataGridTemplateColumn>
+                        <!--<tg:DataGridTextColumn PropertyName="SentTime" Header="Sent Time"/>-->
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
@@ -99,6 +116,7 @@
                                 x:Name="dataGridOutbox"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                SelectionChanged="DataGrid_SelectionChanged"
                                 ItemsSource="{x:Bind ViewModel.Source}" >
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Create Time">
@@ -150,7 +168,8 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridArchived"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                ItemsSource="{x:Bind ViewModel.Source}" >
+                                ItemsSource="{x:Bind ViewModel.Source}"
+                                SelectionChanged="DataGrid_SelectionChanged">
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Area">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -177,7 +196,8 @@
                                 x:Name="dataGridDeleted"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                ItemsSource="{x:Bind ViewModel.Source}">
+                                ItemsSource="{x:Bind ViewModel.Source}"
+                                SelectionChanged="DataGrid_SelectionChanged">
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>

@@ -133,9 +133,9 @@ namespace ICS213FormControl
 		//public override string OperatorTime
 		//{ get { return GetTextBoxString(operatorTime); } set { SetTextBoxString(operatorTime, value); } }
 
-		public override string PacFormName => "ICS213";	// Used in CreateFileName() 
+		public override string PacFormName => "Message";	// Used in CreateFileName() 
 
-        public override string PacFormType => "Message";
+        public override string PacFormType => "ICS213";
 
         public override string CreateSubject()
 		{

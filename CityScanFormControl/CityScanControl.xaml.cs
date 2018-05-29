@@ -10,7 +10,7 @@ using MetroLog;
 namespace CityScanFormControl
 {
 	[FormControl(
-		FormControlName = "city_scan",
+		FormControlName = "city-scan",
 		FormControlMenuName = "City Scan/Flash Report",
 		FormControlType = FormControlAttribute.FormType.CountyForm)
 	]
@@ -149,7 +149,7 @@ namespace CityScanFormControl
 
 		public override string PacFormName => "city-scan";
 
-        public override string PacFormType => "city_scan";
+        public override string PacFormType => "city-scan";
 
         public override string CreateSubject()
 		{

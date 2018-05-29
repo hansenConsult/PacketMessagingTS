@@ -126,7 +126,7 @@ namespace PacketMessagingTS.Models
 
         private string areaField;
 
-        private DateTime bulletinCreationTimeField;
+        private DateTime? bulletinCreationTimeField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("TacticalCalls", IsNullable = false)]
@@ -158,7 +158,7 @@ namespace PacketMessagingTS.Models
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public System.DateTime BulletinCreationTime
+        public System.DateTime? BulletinCreationTime
         {
             get
             {

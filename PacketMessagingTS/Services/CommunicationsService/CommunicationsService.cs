@@ -69,7 +69,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				{
 					string startpos = new string(new char[] { 'D','a','t','e',':',' ' });
 					pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(startpos.Length));
-					//pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
 				}
 				else if (msgLines[i].StartsWith("From:"))
 					pktMsg.MessageFrom = msgLines[i].Substring(6);
@@ -98,9 +97,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					string html = ".html";
 					string formName = msgLines[i].Substring(16).TrimEnd(new char[] { ' ' });
 					formName = formName.Substring(0, formName.Length - html.Length);
-					pktMsg.PacFormType = formName;
+                    pktMsg.PacFormName = formName;
 
-					formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormType);
+                    formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
 					if (formControl == null)
 					{
 						await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
@@ -111,15 +110,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				}
 			}
 			pktMsg.PacFormName = formControl.PacFormName;
-			//pktMsg.PacFormType = formControl.PacFormType;
-			//pktMsg.MessageNumber = packetMessage.MessageNumber;
 			pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines);
 			//pktMsg.ReceivedTime = packetMessage.ReceivedTime;
 			pktMsg.CreateFileName();
 			string fileFolder = SharedData.ReceivedMessagesFolder.Path;
 			pktMsg.Save(fileFolder);
 
-			//log.Info($"Message number {pktMsg.MessageNumber} received");
 			LogHelper(LogLevel.Info, $"Message number {pktMsg.MessageNumber} converted and saved");
 
 			return ;
@@ -135,7 +131,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     // test for packet form!!
                     PacketMessage pktMsg = new PacketMessage()
                     {
-                        //pktMsg.PacFormType = PacForms.Message;
                         BBSName = packetMessageOutpost.BBSName,
                         TNCName = packetMessageOutpost.TNCName,
                         MessageSize = packetMessageOutpost.MessageSize,
@@ -152,7 +147,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 						if (msgLines[i].StartsWith("Date:"))
 						{
 							pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
-							//pktMsg.JNOSDateDisplay = $"{pktMsg.JNOSDate.Month:d2}/{pktMsg.JNOSDate.Date:d2}/{pktMsg.JNOSDate.Year - 2000:d2} {pktMsg.JNOSDate.Hour:d2}:{pktMsg.JNOSDate.Minute:d2}";
 						}
 						else if (msgLines[i].StartsWith("From:"))
 							pktMsg.MessageFrom = msgLines[i].Substring(6);
@@ -181,10 +175,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							string html = ".html";
 							string formName = msgLines[i].Substring(16).TrimEnd(new char[] { ' ' });
 							formName = formName.Substring(0, formName.Length - html.Length);
-							pktMsg.PacFormType = formName;
+                            pktMsg.PacFormName = formName;
 
-							//formControl = Views.FormsPage.CreateFormControlInstanceFromFileName(pktMsg.PacFormName);
-							formControl = Views.FormsPage.CreateFormControlInstance(pktMsg.PacFormType);
+                            formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
 							if (formControl == null)
 							{
 								await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
@@ -203,18 +196,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					if (pktMsg.ReceivedTime != null)
 					{
 						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
-						//pktMsg.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
 					}
-					if (pktMsg.ReceivedTime != null)
-					{
-						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
-						//pktMsg.ReceivedTimeDisplay = $"{dateTime.Month:d2}/{dateTime.Date:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-					}
+					//if (pktMsg.ReceivedTime != null)   ???? duplicate
+					//{
+					//	DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
+					//}
 					pktMsg.CreateFileName();
 					string fileFolder = SharedData.ReceivedMessagesFolder.Path;
 					pktMsg.Save(fileFolder);
 
-					//log.Info($"Message number {pktMsg.MessageNumber} received");
                     LogHelper(LogLevel.Info, $"Message number {pktMsg.MessageNumber} received");
 
                     // If the received message is a delivery confirmation, update receivers message number in the original sent message
@@ -437,7 +427,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         if (operatorTimeField != null)
                             operatorTimeField.ControlContent = $"{now.Hour:d2}{now.Minute:d2}";
 
-                        formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormType);
+                        formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
                         if (formControl == null)
                         {
                             MessageDialog messageDialog = new MessageDialog($"Form {packetMessage.PacFormName} not found");
