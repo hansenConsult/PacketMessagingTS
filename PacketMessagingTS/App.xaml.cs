@@ -13,6 +13,7 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.Helpers;
 using Windows.Storage;
 using PacketMessagingTS.ViewModels;
+using PacketMessagingTS.Views;
 
 namespace PacketMessagingTS
 {
@@ -164,10 +165,25 @@ namespace PacketMessagingTS
 
             SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
 
-            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToInt32(App.Properties["ProfileSelectedIndex"]);
-            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Convert.ToInt32(App.Properties["TacticalCallsignSelectedIndex"]);
-            Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Convert.ToInt32(Properties["MailAccountSelectedIndex"]);
-            Singleton<MainViewModel>.Instance.PivotSelectedIndex = Convert.ToInt32(Properties["PivotSelectedIndex"]);
+            bool success = Properties.TryGetValue("ProfileSelectedIndex", out object profileSelectedIndex);
+            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = success ? Convert.ToInt32(profileSelectedIndex) : 0;
+            success = Properties.TryGetValue("TacticalCallsignSelectedIndex", out object tacticalCallsignSelectedIndex);
+            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = success ? Convert.ToInt32(tacticalCallsignSelectedIndex) : 0;
+            success = Properties.TryGetValue("MailAccountSelectedIndex", out object mailAccountSelectedIndex);
+            Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = success ? Convert.ToInt32(mailAccountSelectedIndex) : 0;
+            success = Properties.TryGetValue("PivotSelectedIndex", out object pivotSelectedIndex);
+            Singleton<MainViewModel>.Instance.PivotSelectedIndex = success ? Convert.ToInt32(pivotSelectedIndex) : 0;
+            bool displayIdentity = Properties.TryGetValue("DisplayIdentityAtStartup", out object displayIdentityAtStartup);
+            bool displayProfiles = Properties.TryGetValue("DisplayProfileOnStart", out object displayProfileOnStart);
+            if (displayIdentity && (bool)displayIdentityAtStartup)
+            {
+                NavigationService.Navigate(typeof(SettingsPage), 1);
+            }
+            else if (displayProfiles && (bool)displayProfileOnStart)
+            {
+                NavigationService.Navigate(typeof(SettingsPage), 2);
+            }
+
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

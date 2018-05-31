@@ -17,8 +17,7 @@
         <helper:ComboBoxItemConverter x:Key="ComboBoxItemConverter"/>
         <helper:StringIntConverter x:Key="StringIntConverter" />
 
-        <CollectionViewSource x:Name="TacticalCallsignsAreaSource" IsSourceGrouped="False"/>
-        <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />
+        <!--<CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />-->
 
         <CollectionViewSource x:Name="BBSDataCollection"  IsSourceGrouped="False" />
         <CollectionViewSource x:Name="ProfilesCollection"  IsSourceGrouped="False"  />
@@ -134,8 +133,8 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Margin="0, 20, 0, 0">
-                        <TextBox x:Name="TextBoxFirstMessageNumber" Width="100" HorizontalAlignment="Left"
+                    <StackPanel Margin="0, 10, 0, 0">
+                        <TextBox x:Name="TextBoxFirstMessageNumber" Width="155" HorizontalAlignment="Left"
                                  Header="Message Number Start:"
                                  Text="{Binding FirstMessageNumber, Mode=TwoWay}"/>
                         <!--TextChanged="FirstMessageNumber_TextChangedAsync"/>-->
@@ -143,7 +142,8 @@
                         <ToggleSwitch IsOn="{Binding ForceReadBulletins, Mode=TwoWay}"
                                       Header="Force onetime get bulletins" Margin="0,10,0,10"/>
 
-                        <TextBox Header="Area string" Text="XSCPERM, XSCEVENT"/>
+                        <TextBox Header="Area string" Text="XSCPERM, XSCEVENT"
+                                 Width="300" HorizontalAlignment="Left" AcceptsReturn="True"/>
 
                         <TextBlock x:Name="bbsStatus" Margin="0,30,0,10" Style="{StaticResource TitleTextBlockStyle}"
                                    RelativePanel.Below="dataPathPanel"
@@ -181,90 +181,92 @@
             <!--Identity-->
             <PivotItem DataContext="{x:Bind _identityViewModel}"
                        Header="Identity" Padding="0">
-                <RelativePanel>
-                    <ScrollViewer Margin="0,0,-12,0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <RelativePanel>
-                                <TextBlock x:Name="LabelUserCallsign" RelativePanel.AlignLeftWithPanel="True" Text="User Callsign:" Width="125" Margin="0,10"/>
-                                <TextBox x:Name="textBoxUsercallsign" 
+                <ScrollViewer Margin="0,0,-12,0" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <RelativePanel>
+                            <TextBlock x:Name="LabelUserCallsign" RelativePanel.AlignLeftWithPanel="True" Text="User Callsign:" Width="125" Margin="0,10"/>
+                            <TextBox x:Name="textBoxUsercallsign" 
 									 RelativePanel.RightOf="LabelUserCallsign" 
 									 RelativePanel.AlignVerticalCenterWith="LabelUserCallsign"
 									 VerticalContentAlignment="Center" 
 									 Text="{Binding UserCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
 									 PlaceholderText="Callsign" Margin="0,1" BorderThickness="2" Padding="10,3,10,5" />
-                                <TextBox x:Name="textBoxUserName" 
+                            <TextBox x:Name="textBoxUserName" 
 									 RelativePanel.Below="textBoxUsercallsign" RelativePanel.AlignLeftWith="textBoxUsercallsign"
 									 VerticalContentAlignment="Center" Margin="0,1"
 									 Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="189" />
-                                <TextBlock x:Name="labelUserName" RelativePanel.AlignVerticalCenterWith="textBoxUserName" Text="User Name:" />
-                                <TextBox x:Name="textBoxUserPrefix" 
+                            <TextBlock x:Name="labelUserName" RelativePanel.AlignVerticalCenterWith="textBoxUserName" Text="User Name:" />
+                            <TextBox x:Name="textBoxUserPrefix" 
 									 RelativePanel.Below="textBoxUserName" RelativePanel.AlignLeftWith="textBoxUsercallsign"
 									 VerticalContentAlignment="Center" 
 									 Text="{Binding UserMsgPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="58" BorderThickness="2" Margin="0,1" Padding="10,3,10,5"/>
-                                <TextBlock x:Name="labelUserPrefix"
+                            <TextBlock x:Name="labelUserPrefix"
 									   RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWith="textBoxUserPrefix"										   Text="Message ID Prefix:" />
-                            </RelativePanel>
-                            <ToggleSwitch x:Name="toggleUseTacticalCallsign"									  
+                        </RelativePanel>
+                        <ToggleSwitch x:Name="toggleUseTacticalCallsign"									  
   									  Header="Use Tactical Call-sign" 
 									  IsOn="{Binding UseTacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									  Margin="0,30"/>
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="0" Grid.Row="0" x:Name="labelTacticalCallsignArea" 
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" x:Name="labelTacticalCallsignArea" 
 									   VerticalAlignment="Center" 
 									   Text="Tactical Call-sign Area:" />
-                                <ComboBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsignArea" 
-									  ItemsSource="{x:Bind TacticalCallsignsAreaSource.View, Mode=OneTime}"
+                            <ComboBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsignArea" 
+									  ItemsSource="{Binding TacticalCallsignsAreaSource, Mode=OneTime}"
 									  DisplayMemberPath = "AreaName"
 									  VerticalContentAlignment="Center"
 									  IsEnabled="{x:Bind toggleUseTacticalCallsign.IsOn, Mode=OneWay}"
-									  SelectedIndex="{Binding TacticalCallsignAreaSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+									  SelectedIndex="{Binding TacticalCallsignAreaSelectedIndex, Mode=TwoWay}"
 									  Margin="5,1,0,1" Background="White" 
 									  SelectionChanged="ComboBoxTacticalCallsignArea_SelectionChanged" Width="220" BorderThickness="2" >
-                                </ComboBox>
-                                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelTacticalCallsign" 
+                            </ComboBox>
+                            <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelTacticalCallsign" 
 									   VerticalAlignment="Center"
 									   Text="Tactical Call-sign:" />
-                                <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
-									  ItemsSource="{x:Bind TacticalCallsignsSource.View, Mode=OneWay}" 									
+                            <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
+									  ItemsSource="{Binding TacticalCallsignsSource, Mode=OneWay}" 									
 									  IsEnabled="{Binding UseTacticalCallsign}"
 									  DisplayMemberPath="TacticalCallsign"
-									  SelectedIndex="{Binding TacticalCallsignSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+									  SelectedIndex="{Binding TacticalCallsignSelectedIndex, Mode=TwoWay}"
 									  VerticalContentAlignment="Center"  
 									  Width="133" 
 									  BorderThickness="2" Margin="5,1,0,1"   />
-                                <TextBox Grid.Column="1" Grid.Row="1"  x:Name="textBoxTacticalCallsign" 
+                            <TextBox Grid.Column="1" Grid.Row="1"  x:Name="textBoxTacticalCallsign" 
 									 Text="{Binding TacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
 									 HorizontalAlignment="Left"
 									 IsEnabled="{Binding UseTacticalCallsign}"
 									 Width="133" 
 									 BorderThickness="2" Margin="5,1,0,1"
 									 TextChanged="textBoxTacticalCallsign_TextChanged"/>
-                                <TextBlock Grid.Column="0" Grid.Row="2"  x:Name="labelAdditionalText" 
+                            <TextBlock Grid.Column="0" Grid.Row="2"  x:Name="labelAdditionalText" 
 									   VerticalAlignment="Center" 
-									Text="Additional ID text:" />
-                                <ComboBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="comboBoxAdditionalText"  
-									ItemsSource="{x:Bind TacticalCallsignsSource.View, Mode=OneWay}" 	
-									DisplayMemberPath = "AgencyName"
-									IsEnabled="{x:Bind toggleUseTacticalCallsign.IsOn, Mode=OneWay}"
-									VerticalContentAlignment="Center" Width="220" 
-									Margin="5,1,0,1" BorderThickness="2" />
-                                <TextBlock Grid.Column="0" Grid.Row="3" x:Name="labelTacticalPrefix" 
-									Text="Message ID Prefix:" 
-									VerticalAlignment="Center"  />
-                                <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxTacticalPrefix" 
+									   Text="Additional ID text:" />
+                            <ComboBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="comboBoxAdditionalText"  
+									  ItemsSource="{Binding TacticalCallsignsSource, Mode=TwoWay}" 	
+									  DisplayMemberPath = "AgencyName"
+                                      SelectedValuePath="AgencyName"
+                                      SelectedValue="{Binding TacticalAgencyName, Mode=TwoWay}"
+                                      SelectedIndex="{Binding TacticalAgencyNameSelectedIndex, Mode=TwoWay}"
+									  IsEnabled="{x:Bind toggleUseTacticalCallsign.IsOn, Mode=OneWay}"
+									  VerticalContentAlignment="Center" Width="220" 
+									  Margin="5,1,0,1" BorderThickness="2" />
+                            <TextBlock Grid.Column="0" Grid.Row="3" x:Name="labelTacticalPrefix" 
+									   Text="Message ID Prefix:" 
+									   VerticalAlignment="Center"  />
+                            <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxTacticalPrefix" 
 									 Text="{Binding TacticalMsgPrefix}" 									
 								 	 IsEnabled="{Binding UseTacticalCallsign}"
 									 HorizontalAlignment="Left"
@@ -272,7 +274,7 @@
 									 BorderThickness="2" 
 									 Width="58" 
 									 Margin="5,1,0,1" Padding="10,3,12,5" />
-                                <!--<TextBlock Grid.Column="0" Grid.Row="4" x:Name="labelTacticalPrimary"
+                            <!--<TextBlock Grid.Column="0" Grid.Row="4" x:Name="labelTacticalPrimary"
 									   VerticalAlignment="Center" 
 									Text="Primary:" />
 							<TextBox Grid.Column="1" Grid.Row="4" x:Name="textBoxTacticalPrimary"
@@ -300,13 +302,12 @@
 									VerticalAlignment="Stretch"
 									Margin="20,10,0,0" 
 									Click="ButtonSetAllPrimary_Click"/>-->
-                                <ToggleSwitch Grid.Column="0" Grid.Row="7" x:Name="toggleDisplayIdentityAtStartup"
+                            <ToggleSwitch Grid.Column="0" Grid.Row="7" x:Name="toggleDisplayIdentityAtStartup"
                                           Header="Display on Start" Margin="0, 30"
 										  IsOn="{Binding DisplayIdentityAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            </Grid>
-                        </StackPanel>
-                    </ScrollViewer>
-                </RelativePanel>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
 
             <!--Packet Settings-->
@@ -333,7 +334,7 @@
 										 PlaceholderText="Enter profile name"
 										 Visibility="Collapsed"  />
                             </RelativePanel>
-                            <Grid Margin="12"
+                            <Grid x:Name="panelProfileGrid" Margin="12"
 								  RelativePanel.Below="panelProfileSelection">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width ="1*"/>
@@ -380,6 +381,9 @@
 										 Text="{Binding DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
 										 TextChanged="TextBoxTo_TextChanged" />
                             </Grid>
+                            <ToggleSwitch Header="Dispaly on start" Margin="10,10"
+                                          RelativePanel.Below="panelProfileGrid"
+                                          IsOn="{Binding DisplayProfileOnStart, Mode=TwoWay}"/>
                         </RelativePanel>
                     </ScrollViewer>
                     <CommandBar x:Name="profileCommandBar"

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace PacketMessagingTS.ViewModels
     public class IdentityViewModel : BaseViewModel
     {
         public static TacticalCall _callsignData;
-        public static TacticalCallsignData _tacticalCallsignData;
+        public TacticalCallsignData _tacticalCallsignData;
 
         public IdentityViewModel()
         {
@@ -54,18 +55,18 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref useTacticalCallsign, value, true);
         }
 
-        private string tacticalCallsign;
-        public string TacticalCallsign
+        private ObservableCollection<TacticalCallsignData> tacticalCallsignsAreaSource;
+        public ObservableCollection<TacticalCallsignData> TacticalCallsignsAreaSource
         {
-            get => GetProperty(ref tacticalCallsign);
-            set
-            {
-                SetProperty(ref tacticalCallsign, value, true);
-                if (tacticalCallsign.Length > 3)
-                {
-                    TacticalMsgPrefix = tacticalCallsign.Substring(tacticalCallsign.Length - 3, 3);
-                }
-            }
+            get => tacticalCallsignsAreaSource;
+            set => SetProperty(ref tacticalCallsignsAreaSource, value);
+        }
+
+        private ObservableCollection<TacticalCall> tacticalCallsignsSource;
+        public ObservableCollection<TacticalCall> TacticalCallsignsSource
+        {
+            get => tacticalCallsignsSource;
+            set => SetProperty(ref tacticalCallsignsSource, value);
         }
 
         private int tacticalCallsignAreaSelectedIndex;
@@ -80,44 +81,26 @@ namespace PacketMessagingTS.ViewModels
 
         private int tacticalCallsignSelectedIndex;
         public int TacticalCallsignSelectedIndex
-        { 
+        {
             get { return GetProperty(ref tacticalCallsignSelectedIndex); }
             set
             {
-                if (value == -1)
-                {
+                SetProperty(ref tacticalCallsignSelectedIndex, value, true);
 
-                }
-                else
+                // TODO improve on this
+                if (value != -1 && App._TacticalCallsignDataList[TacticalCallsignAreaSelectedIndex].TacticalCallsigns != null)
+                //if (TacticalCallsignsSource != null)
                 {
-                    tacticalCallsignSelectedIndex = value;
-
-                    // TODO improve on this
-                    //int i = 0;
-                    //TacticalCallsigns tacticalCallsigns = null;
-                    //foreach (TacticalCallsignData data in App._tacticalCallsignDataDictionary.Values)
-                    //{ 
-                    //    if (i++ == TacticalCallsignAreaSelectedIndex)
-                    //    {
-                    //        tacticalCallsigns = data.TacticalCallsigns;
-                    //        break;
-                    //    }
-                    //}
-                    int index = Convert.ToInt32(TacticalCallsignAreaSelectedIndex);
-                    //if (Views.SettingsPage.listOfTacticallsignsArea[index].TacticalCallsigns != null)
-                    //if (tacticalCallsigns != null)
-                    if (App._TacticalCallsignDataList[index].TacticalCallsigns != null)
-                    {
-                        //_callsignData = Views.SettingsPage.listOfTacticallsignsArea[index].TacticalCallsigns.TacticalCallsignsArray[value];
-                        //_callsignData = tacticalCallsigns.TacticalCallsignsArray[value];
-                        _callsignData = App._TacticalCallsignDataList[index].TacticalCallsigns.TacticalCallsignsArray[value];
-                        TacticalCallsign = _callsignData.TacticalCallsign;
-                        TacticalMsgPrefix = _callsignData.Prefix;
-                        TacticalPrimary = _callsignData.PrimaryBBS;
-                        TacticalPrimaryActive = _callsignData.PrimaryBBSActive;
-                        TacticalSecondary = _callsignData.SecondaryBBS;
-                    }
-                    SetProperty(ref tacticalCallsignSelectedIndex, value, true);
+                    //_callsignData = TacticalCallsignsSource[tacticalCallsignSelectedIndex];
+                    //_callsignData = tacticalCallsigns.TacticalCallsignsArray[value];
+                    _callsignData = App._TacticalCallsignDataList[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArray[value];
+                    SelectedTacticalCall = App._TacticalCallsignDataList[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArray[value];
+                    //TacticalCallsign = _callsignData.TacticalCallsign;
+                    //TacticalAgencyName = _callsignData.AgencyName;
+                    //TacticalMsgPrefix = _callsignData.Prefix;
+                    //TacticalPrimary = _callsignData.PrimaryBBS;
+                    //TacticalPrimaryActive = _callsignData.PrimaryBBSActive;
+                    //TacticalSecondary = _callsignData.SecondaryBBS;
                 }
             }
         }
@@ -132,6 +115,62 @@ namespace PacketMessagingTS.ViewModels
 
                 TacticalCallsign = TacticalCallsignOther;
                 TacticalMsgPrefix = TacticalCallsign.Substring(3, 3);
+            }
+        }
+
+        private TacticalCall selectedTacticalCallArea;
+        public TacticalCall SelectedTacticalCallArea
+        {
+            get => selectedTacticalCallArea;
+            set
+            {
+                SetProperty(ref selectedTacticalCallArea, value);
+            }
+        }
+
+        private TacticalCall selectedTacticalCall;
+        public TacticalCall SelectedTacticalCall
+        {
+            get => selectedTacticalCall;
+            set
+            {
+                SetProperty(ref selectedTacticalCall, value);
+
+                TacticalCallsign = selectedTacticalCall.TacticalCallsign;
+                TacticalMsgPrefix = selectedTacticalCall.Prefix;
+                TacticalAgencyName = selectedTacticalCall.AgencyName;
+            }
+
+        }
+
+        private string tacticalCallsign;
+        public string TacticalCallsign
+        {
+            get => GetProperty(ref tacticalCallsign);
+            set
+            {
+                SetProperty(ref tacticalCallsign, value, true);
+            }
+        }
+
+        private int tacticalAgencyNameSelectedIndex;
+        public int TacticalAgencyNameSelectedIndex
+        {
+            get => tacticalAgencyNameSelectedIndex;
+            set
+            {
+                SetProperty(ref tacticalAgencyNameSelectedIndex, value);
+                TacticalCallsignSelectedIndex = tacticalAgencyNameSelectedIndex;
+            }
+        }
+
+        private string tacticalAgencyName;
+        public string TacticalAgencyName
+        {
+            get => tacticalAgencyName;
+            set
+            {
+                SetProperty(ref tacticalAgencyName, value);                
             }
         }
 
@@ -176,5 +215,11 @@ namespace PacketMessagingTS.ViewModels
             set { SetProperty(ref tacticalSecondary, value); }
         }
 
+        private bool displayIdentityAtStartup;
+        public bool DisplayIdentityAtStartup
+        {
+            get => GetProperty(ref displayIdentityAtStartup);
+            set => SetProperty(ref displayIdentityAtStartup, value, true);
+        }
     }
 }

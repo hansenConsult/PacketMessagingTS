@@ -121,12 +121,11 @@ namespace PacketMessagingTS.Models
 
 		private static string TactiCallsMasterFileName = "Tactical_Calls.txt";
 
-
 		private TacticalCall[] tacticalCallsignsArrayField;
 
         private string areaField;
 
-        private DateTime? bulletinCreationTimeField;
+        private DateTime bulletinCreationTimeField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("TacticalCalls", IsNullable = false)]
@@ -158,7 +157,7 @@ namespace PacketMessagingTS.Models
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public System.DateTime? BulletinCreationTime
+        public System.DateTime BulletinCreationTime
         {
             get
             {
@@ -291,23 +290,23 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        public static async void SaveAsync(TacticalCallsigns tacticalCallsigns, string fileName)
-        {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            try
-            {
-                StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                using (StreamWriter writer = new StreamWriter(new FileStream(file.Path, FileMode.OpenOrCreate)))
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(TacticalCallsigns));
-                    serializer.Serialize(writer, tacticalCallsigns);
-                }
-            }
-            catch (Exception e)
-            {
-                log.Error($"Failed to save {fileName}", e);
-            }
-        }
+        //public static async void SaveAsync(TacticalCallsigns tacticalCallsigns, string fileName)
+        //{
+        //    StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        //    try
+        //    {
+        //        StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+        //        using (StreamWriter writer = new StreamWriter(new FileStream(file.Path, FileMode.OpenOrCreate)))
+        //        {
+        //            XmlSerializer serializer = new XmlSerializer(typeof(TacticalCallsigns));
+        //            serializer.Serialize(writer, tacticalCallsigns);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        log.Error($"Failed to save {fileName}", e);
+        //    }
+        //}
 
         static bool IsAllCaps(string capitalString)
         {
@@ -808,14 +807,14 @@ namespace PacketMessagingTS.Models
 				{
 					tacticalCall.SecondaryBBS = secondaryBBS;
 				}
-				tacticalCall.Selected = false;
+				//tacticalCall.Selected = false;
 
 				tacticalCalls[i] = tacticalCall;
 			}
-			tacticalCalls[0].Selected = true;
+			//tacticalCalls[0].Selected = true;
             TacticalCallsigns tacticalCallsigns = new TacticalCallsigns()
             {
-                BulletinCreationTime = tacticalCallsBulletin.JNOSDate,
+                BulletinCreationTime = DateTime.Now,//tacticalCallsBulletin.JnosTime,
                 Area = agency,
                 TacticalCallsignsArray = tacticalCalls
             };
@@ -877,9 +876,9 @@ namespace PacketMessagingTS.Models
 
 		private string secondaryBBSField = "";
 
-		private bool secondaryActiveField;
+		//private bool secondaryActiveField;
 
-		private bool selectedField;
+		//private bool selectedField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
@@ -979,18 +978,18 @@ namespace PacketMessagingTS.Models
 		//	}
 		//}
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public bool Selected
-		{
-			get
-			{
-				return this.selectedField;
-			}
-			set
-			{
-				this.selectedField = value;
-			}
-		}
+		///// <remarks/>
+		//[System.Xml.Serialization.XmlAttributeAttribute()]
+		//public bool Selected
+		//{
+		//	get
+		//	{
+		//		return this.selectedField;
+		//	}
+		//	set
+		//	{
+		//		this.selectedField = value;
+		//	}
+		//}
 	}
 }

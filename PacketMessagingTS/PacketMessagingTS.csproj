@@ -329,6 +329,7 @@
     <Content Include="Assets\BBSData.xml" />
     <Content Include="Assets\CountyTacticalCallsigns.xml" />
     <Content Include="Assets\EmailAccounts.xml" />
+    <Content Include="Assets\NonCountyTacticalCallsigns.xml" />
     <Content Include="Assets\PacFORMS\city-scan.html" />
     <Content Include="Assets\PacFORMS\EOCLogisticsRequest.html" />
     <Content Include="Assets\PacFORMS\Message.html" />

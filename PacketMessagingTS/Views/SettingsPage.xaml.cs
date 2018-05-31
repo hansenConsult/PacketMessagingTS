@@ -121,13 +121,8 @@ namespace PacketMessagingTS.Views
             ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
 
             // Identity initialization
-            listOfTacticallsignsArea = new ObservableCollection<TacticalCallsignData>();
-            //foreach (var callsignData in App._tacticalCallsignDataDictionary.Values)
-            foreach (var callsignData in App._TacticalCallsignDataList)
-            {
-                listOfTacticallsignsArea.Add(callsignData);
-            }
-            TacticalCallsignsAreaSource.Source = listOfTacticallsignsArea;
+            listOfTacticallsignsArea = new ObservableCollection<TacticalCallsignData>(App._TacticalCallsignDataList);
+            _identityViewModel.TacticalCallsignsAreaSource = listOfTacticallsignsArea;
 
             //distributionListName.ItemsSource = DistributionListArray.Instance.GetDistributionLists();
             //distributionListAddItem.IsEnabled = false;
@@ -145,6 +140,10 @@ namespace PacketMessagingTS.Views
                 InitializeDeviceWatchers();
                 StartDeviceWatchers();
             }
+            if (e.Parameter == null)
+                return;
+
+            SettingsPivot.SelectedIndex = (int)e.Parameter;
         }
 
         //private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -193,15 +192,12 @@ namespace PacketMessagingTS.Views
             _tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
 
             _tacticalCallsignData.TacticalCallsignsChanged = false;
-            IdentityViewModel._tacticalCallsignData = _tacticalCallsignData;
+            _identityViewModel._tacticalCallsignData = _tacticalCallsignData;
             if (_tacticalCallsignData.TacticalCallsigns != null)
             {
-                ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>();
-                foreach (var callsignData in _tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
-                {
-                    listOfTacticallsigns.Add(callsignData);
-                }
-                TacticalCallsignsSource.Source = listOfTacticallsigns;
+                ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
+                _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
+                _identityViewModel.TacticalCallsignSelectedIndex = 0;
             }
             if (_tacticalCallsignData.AreaName == "Other")
             {

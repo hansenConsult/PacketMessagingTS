@@ -365,17 +365,7 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                string firstName = Singleton<IdentityViewModel>.Instance.UserName;
-                int index = firstName.IndexOf(' ');
-                firstName = firstName.Substring(0, index);
-                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
-                {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
-                }
-                else
-                {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
-                }
+                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
             }
             //else if (pivotItemName == "Message")
             //{
@@ -439,17 +429,7 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                string firstName = Singleton<IdentityViewModel>.Instance.UserName;
-                int index = firstName.IndexOf(' ');
-                firstName = firstName.Substring(0, index);
-                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
-                {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
-                }
-                else
-                {
-                    _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
-                }
+                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
             }
             //else if (pivotItemName == "Message")
             //{

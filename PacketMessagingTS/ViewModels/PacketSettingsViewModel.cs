@@ -55,6 +55,13 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private bool displayProfileOnStart;
+        public bool DisplayProfileOnStart
+        {
+            get => GetProperty(ref displayProfileOnStart);
+            set => SetProperty(ref displayProfileOnStart, value, true);
+        }
+
         private string name;
         public string Name
         {
