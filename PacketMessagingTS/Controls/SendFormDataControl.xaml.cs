@@ -51,8 +51,12 @@ namespace PacketMessagingTS.Controls
         public string MessageSubject
         {
             get => messageSubject;
-            set => Set(ref messageSubject, value);
-            //set => textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke???
+            //set => Set(ref messageSubject, value);
+            set
+            {
+                messageSubject = value;
+                textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke???
+            }
         }
 
         private string messageBBS;

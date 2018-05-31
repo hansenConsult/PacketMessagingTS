@@ -16,7 +16,7 @@ namespace PacketMessagingTS.ViewModels
         {
         }
 
-        ObservableCollection<PacketMessage> source;
+        private ObservableCollection<PacketMessage> source;
         public ObservableCollection<PacketMessage> Source
         {
             get
@@ -29,5 +29,11 @@ namespace PacketMessagingTS.ViewModels
 
         }
 
+        private int pivotSelectedIndex;
+        public int PivotSelectedIndex
+        {
+            get => GetProperty(ref pivotSelectedIndex);
+            set => SetProperty(ref pivotSelectedIndex, value, true);
+        }
     }
 }

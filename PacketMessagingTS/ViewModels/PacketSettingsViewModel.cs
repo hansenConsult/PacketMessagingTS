@@ -22,8 +22,8 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
-        private Int64 profileSelectedIndex;
-        public Int64 ProfileSelectedIndex
+        private int profileSelectedIndex;
+        public int ProfileSelectedIndex
         {
             get
             {
@@ -31,7 +31,7 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
-                SetProperty(ref profileSelectedIndex, Convert.ToInt64(value), true);
+                SetProperty(ref profileSelectedIndex, value, true);
                 CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
             }
         }

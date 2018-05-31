@@ -11,28 +11,28 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ToolsViewModel :  BaseViewModel
     {
-        public string incidentName;
+        public string incidentName = "";
         public string IncidentName
         {
             get => GetProperty(ref incidentName);
             set => SetProperty(ref incidentName, value, true);
         }
 
-        public DateTime operationalPeriodStart;
+        public DateTime operationalPeriodStart = DateTime.Now;
         public DateTime OperationalPeriodStart
         {
             get => GetProperty(ref operationalPeriodStart);
             set => SetProperty(ref operationalPeriodStart, value, true);
         }
 
-        public string radioNetName;
+        public string radioNetName = "";
         public string RadioNetName
         {
             get => GetProperty(ref radioNetName);
             set => SetProperty(ref radioNetName, value, true);
         }
 
-        public DateTime operationalPeriodEnd;
+        public DateTime operationalPeriodEnd = DateTime.Now;
         public DateTime OperationalPeriodEnd
         {
             get => GetProperty(ref operationalPeriodEnd);

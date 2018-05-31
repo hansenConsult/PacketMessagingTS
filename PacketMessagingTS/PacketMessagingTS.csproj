@@ -125,6 +125,7 @@
     <Compile Include="Helpers\AddressConverter.cs" />
     <Compile Include="Helpers\AreaConverter.cs" />
     <Compile Include="Helpers\ComportComparer.cs" />
+    <Compile Include="Helpers\CustomCellDoubleTapped.cs" />
     <Compile Include="Helpers\DeviceListEntry.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Json.cs" />

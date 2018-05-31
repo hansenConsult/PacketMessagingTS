@@ -167,6 +167,7 @@ namespace PacketMessagingTS
             Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToInt32(App.Properties["ProfileSelectedIndex"]);
             Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Convert.ToInt32(App.Properties["TacticalCallsignSelectedIndex"]);
             Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Convert.ToInt32(Properties["MailAccountSelectedIndex"]);
+            Singleton<MainViewModel>.Instance.PivotSelectedIndex = Convert.ToInt32(Properties["PivotSelectedIndex"]);
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

@@ -68,8 +68,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private Int64 tacticalCallsignAreaSelectedIndex;
-        public Int64 TacticalCallsignAreaSelectedIndex
+        private int tacticalCallsignAreaSelectedIndex;
+        public int TacticalCallsignAreaSelectedIndex
         {
             get => GetProperty(ref tacticalCallsignAreaSelectedIndex);
             set
@@ -78,8 +78,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private Int64 tacticalCallsignSelectedIndex;
-        public Int64 TacticalCallsignSelectedIndex
+        private int tacticalCallsignSelectedIndex;
+        public int TacticalCallsignSelectedIndex
         { 
             get { return GetProperty(ref tacticalCallsignSelectedIndex); }
             set

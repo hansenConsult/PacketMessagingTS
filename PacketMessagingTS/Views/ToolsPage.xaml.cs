@@ -174,6 +174,11 @@ namespace PacketMessagingTS.Views
             PacFormText.Text = decodedString;
         }
 
+        private string FormatDateTime(DateTime dateTime)
+        {
+            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}{dateTime.Minute:d2}";
+        }
+
         private async void ToolsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             _currentPivotItem = (PivotItem)e.AddedItems[0];
@@ -186,22 +191,21 @@ namespace PacketMessagingTS.Views
             {
                 await UpdateTestFileListAsync();
             }
-            //else if (_currentPivotItem.Name == "ics309")
-            //{
-            //    ToolsPageViewModel.ToolsPageCommLogPartViewModel viewModel = ToolsPageViewModel.toolsPageCommLogPartViewModel;
-            //    incidentName.Text = viewModel.IncidentName;
-            //    operationalPeriod.Text = FormatDateTime(viewModel.OperationalPeriodStart) + " to " + FormatDateTime(viewModel.OperationalPeriodEnd);
-            //    radioNetName.Text = viewModel.RadioNetName;
-            //    radioOperator.Text = $"{SettingsPageViewModel.IdentityPartViewModel.UserName}, {SettingsPageViewModel.IdentityPartViewModel.UserCallsign}";
-            //    viewModel.DateTimePrepared = DateTime.Now;
-            //    dateTimePrepared.Text = FormatDateTime(viewModel.DateTimePrepared);
-            //    preparedByNameCallsign.Text = radioOperator.Text;
-            //    ToolsPageViewModel.toolsPageCommLogPartViewModel.TotalPages = 1;
-            //    ToolsPageViewModel.toolsPageCommLogPartViewModel.PageNo = 1;
-            //    pageNoOf.Text = ToolsPageViewModel.toolsPageCommLogPartViewModel.PageNoAsString;
+            else if (_currentPivotItem.Name == "ics309")
+            {
+                incidentName.Text = _toolsViewModel.IncidentName;
+                operationalPeriod.Text = FormatDateTime(_toolsViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_toolsViewModel.OperationalPeriodEnd);
+                radioNetName.Text = _toolsViewModel.RadioNetName;
+                radioOperator.Text = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
+                _toolsViewModel.DateTimePrepared = DateTime.Now;
+                dateTimePrepared.Text = FormatDateTime(_toolsViewModel.DateTimePrepared);
+                preparedByNameCallsign.Text = radioOperator.Text;
+                _toolsViewModel.TotalPages = 1;
+                _toolsViewModel.PageNo = 1;
+                pageNoOf.Text = _toolsViewModel.PageNoAsString;
 
-            //    await BuildLogDataSetAsync(viewModel.OperationalPeriodStart, viewModel.OperationalPeriodEnd);
-            //}
+                await BuildLogDataSetAsync(_toolsViewModel.OperationalPeriodStart, _toolsViewModel.OperationalPeriodEnd);
+            }
         }
 
         private async Task BuildLogDataSetAsync(DateTime startTime, DateTime endTime)
@@ -229,8 +233,6 @@ namespace PacketMessagingTS.Views
 
         private async void OperationalPeriod_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
-//            ToolsPageViewModel.ToolsPageCommLogPartViewModel viewModel = ToolsPageViewModel.toolsPageCommLogPartViewModel;
-
             string opPeriod = operationalPeriod.Text;
             var startStop = opPeriod.Split(new string[] { "to", " " }, StringSplitOptions.RemoveEmptyEntries);
             if (startStop != null && (startStop.Count() != 3 && startStop.Count() != 4))

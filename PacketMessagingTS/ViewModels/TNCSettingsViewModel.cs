@@ -28,15 +28,15 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
-        private Int64 tncDeviceSelectedIndex;
-        public Int64 TNCDeviceSelectedIndex
+        private int tncDeviceSelectedIndex;
+        public int TNCDeviceSelectedIndex
         {
             get
             {
                 GetProperty(ref tncDeviceSelectedIndex);
-                if (SavedTNCDevice == null && !TNCDeviceArray.Instance.TNCDeviceList[Convert.ToInt32(tncDeviceSelectedIndex)].Name.Contains("E-Mail"))
+                if (SavedTNCDevice == null && !TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex].Name.Contains("E-Mail"))
                 {
-                    SavedTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[Convert.ToInt32(tncDeviceSelectedIndex)];
+                    SavedTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
                 }
 
                 return tncDeviceSelectedIndex;
@@ -398,8 +398,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
         #region Mail Settings
-        private Int64 mailAccountSelectedIndex;
-        public Int64 MailAccountSelectedIndex
+        private int mailAccountSelectedIndex;
+        public int MailAccountSelectedIndex
         {
             get
             {

@@ -9,9 +9,9 @@
       Style="{StaticResource PageStyle}"
       mc:Ignorable="d">
 
-    <Page.DataContext>
+    <!--<Page.DataContext>
         <vm:MainViewModel x:Name="ViewModel" />
-    </Page.DataContext>
+    </Page.DataContext>-->
     
     <Page.Resources>
         <helpers:AreaConverter x:Key="Converter1"/>
@@ -30,6 +30,7 @@
                RelativePanel.AlignRightWithPanel="True"
 	           RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
+               SelectedIndex="{Binding PivotSelectedIndex, Mode=TwoWay}"
                SelectionChanged="MainPagePivot_SelectionChanged" >
 
             <!--  Inbox  -->
@@ -37,7 +38,7 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridInbox"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                ItemsSource="{x:Bind ViewModel.Source}"
+                                ItemsSource="{x:Bind _mainViewModel.Source}"
                                 SelectionChanged="DataGrid_SelectionChanged"
                                 DoubleTapped="DataGrid_DoubleTapped">
                     <tg:RadDataGrid.Columns>
@@ -79,8 +80,8 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridSent"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                SelectionChanged="DataGrid_SelectionChanged"
-                                ItemsSource="{x:Bind ViewModel.Source}" >
+                                SelectionChanged="DataGrid_SelectionChanged" >
+                    <!--ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}" >-->
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Received Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -116,8 +117,8 @@
                                 x:Name="dataGridOutbox"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                SelectionChanged="DataGrid_SelectionChanged"
-                                ItemsSource="{x:Bind ViewModel.Source}" >
+                                SelectionChanged="DataGrid_SelectionChanged">
+                    <!--ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}" >-->
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -144,8 +145,12 @@
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
                                 IsDoubleTapEnabled="True"
-                                ItemsSource="{x:Bind ViewModel.Source}"
                                 SelectionChanged="DataGrid_SelectionChanged">
+                    <!--ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}"-->
+                    <tg:RadDataGrid.Commands>
+                        <helpers:CustomCellDoubleTapped/>
+                    </tg:RadDataGrid.Commands>
+
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -168,7 +173,6 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridArchived"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                ItemsSource="{x:Bind ViewModel.Source}"
                                 SelectionChanged="DataGrid_SelectionChanged">
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Area">
@@ -196,7 +200,6 @@
                                 x:Name="dataGridDeleted"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                ItemsSource="{x:Bind ViewModel.Source}"
                                 SelectionChanged="DataGrid_SelectionChanged">
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Create Time">

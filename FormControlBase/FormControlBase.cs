@@ -23,8 +23,13 @@ namespace FormControlBaseClass
 			HospitalForm
 		};
 
+        // Form file name
 		public string FormControlName { get; set; }    // 
+
+        // Form type (County, Hospital etc.)
 		public FormType FormControlType { get; set; }
+
+        // Menu text
 		public string FormControlMenuName { get; set; }    // 
 	}
 
@@ -114,17 +119,7 @@ namespace FormControlBaseClass
 
 		public string GetComboBoxSelectedItem(ComboBox comboBox)
 		{
-            //	{
-            //		if ((comboBox.Dispatcher.CheckAccess()))
-            //		{
-            //return comboBox.SelectedValuePath;
 			return GetCBSelectedItem(comboBox)?.ToString();
-			//		}
-			//		else
-			//		{
-			//			return (ComboBoxItem)comboBox.Dispatcher.Invoke(DispatcherPriority.Normal, new GetCBxSelection(GetCBSelectedItem), comboBox);
-			//		}
-			//	}
 		}
 
         public string GetComboBoxSelectedValuePath(ComboBox comboBox)
@@ -186,7 +181,6 @@ namespace FormControlBaseClass
         //	DependencyProperty.Register("OperatorCallsign", typeof(string), typeof(FormControlBase), null);
 
         private string operatorCallsign;
-
         public virtual string OperatorCallsign
 		{
 			get { return operatorCallsign; }
