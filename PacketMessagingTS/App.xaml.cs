@@ -154,6 +154,7 @@ namespace PacketMessagingTS
             await ProfileArray.Instance.OpenAsync();
             await AddressBook.Instance.OpenAsync();
             AddressBook.Instance.CreateAddressBook();
+            await DistributionListArray.Instance.OpenAsync();
 
             if (!args.PrelaunchActivated)
             {
@@ -167,12 +168,19 @@ namespace PacketMessagingTS
 
             bool success = Properties.TryGetValue("ProfileSelectedIndex", out object profileSelectedIndex);
             Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = success ? Convert.ToInt32(profileSelectedIndex) : 0;
+
             success = Properties.TryGetValue("TacticalCallsignSelectedIndex", out object tacticalCallsignSelectedIndex);
             Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = success ? Convert.ToInt32(tacticalCallsignSelectedIndex) : 0;
+
             success = Properties.TryGetValue("MailAccountSelectedIndex", out object mailAccountSelectedIndex);
             Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = success ? Convert.ToInt32(mailAccountSelectedIndex) : 0;
+
             success = Properties.TryGetValue("PivotSelectedIndex", out object pivotSelectedIndex);
             Singleton<MainViewModel>.Instance.PivotSelectedIndex = success ? Convert.ToInt32(pivotSelectedIndex) : 0;
+
+            success = Properties.TryGetValue("TNCDeviceSelectedIndex", out object tncDeviceSelectedIndex);
+            Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = success ? Convert.ToInt32(tncDeviceSelectedIndex) : 0;
+
             bool displayIdentity = Properties.TryGetValue("DisplayIdentityAtStartup", out object displayIdentityAtStartup);
             bool displayProfiles = Properties.TryGetValue("DisplayProfileOnStart", out object displayProfileOnStart);
             if (displayIdentity && (bool)displayIdentityAtStartup)

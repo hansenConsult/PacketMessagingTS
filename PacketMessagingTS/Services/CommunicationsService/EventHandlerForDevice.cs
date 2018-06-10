@@ -25,6 +25,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using MetroLog;
 using PacketMessagingTS.Views;
+using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -89,7 +90,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         /// If there is no instance of EventHandlerForDevice created before this property is called,
         /// an EventHandlerForDevice will be created.
         /// </summary>
-        public static EventHandlerForDevice Current
+        public static EventHandlerForDevice Instance
         {
             get
             {
@@ -116,28 +117,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public TypedEventHandler<EventHandlerForDevice, DeviceInformation> OnDeviceClose
         {
-            get
-            {
-                return _deviceCloseCallback;
-            }
-
-            set
-            {
-                _deviceCloseCallback = value;
-            }
+            get => _deviceCloseCallback;
+            set => _deviceCloseCallback = value;
         }
 
         public TypedEventHandler<EventHandlerForDevice, DeviceInformation> OnDeviceConnected
         {
-            get
-            {
-                return _deviceConnectedCallback;
-            }
-
-            set
-            {
-                _deviceConnectedCallback = value;
-            }
+            get => _deviceConnectedCallback;
+            set => _deviceConnectedCallback = value;
         }
 
 		public Boolean IsDeviceConnected => (device != null);
@@ -150,10 +137,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		/// </summary>
 		public DeviceInformation DeviceInformation
         {
-            get
-            {
-                return _deviceInformation;
-            }
+            get => _deviceInformation;
         }
 
         /// <summary>
@@ -162,10 +146,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         /// </summary>
         public DeviceAccessInformation DeviceAccessInformation
         {
-            get
-            {
-                return _deviceAccessInformation;
-            }
+            get => _deviceAccessInformation;
         }
 
         /// <summary>
@@ -377,8 +358,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
         /// </summary>
         private void RegisterForAppEvents()
         {
-            _appSuspendEventHandler = new SuspendingEventHandler(EventHandlerForDevice.Current.OnAppSuspension);
-            _appResumeEventHandler = new EventHandler<Object>(EventHandlerForDevice.Current.OnAppResume);
+            _appSuspendEventHandler = new SuspendingEventHandler(EventHandlerForDevice.Instance.OnAppSuspension);
+            _appResumeEventHandler = new EventHandler<Object>(EventHandlerForDevice.Instance.OnAppResume);
 
             // This event is raised when the app is exited and when the app is suspended
             App.Current.Suspending += _appSuspendEventHandler;

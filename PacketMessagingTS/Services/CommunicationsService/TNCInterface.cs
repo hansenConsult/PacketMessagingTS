@@ -534,7 +534,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			_packetMessagesSent.Clear();
 			_packetMessagesReceived.Clear();
 
-			SerialDevice serialDevice = EventHandlerForDevice.Current.Device;
+			SerialDevice serialDevice = EventHandlerForDevice.Instance.Device;
 
 			serialDevice.BaudRate = (uint)_tncDevice.CommPort?.Baudrate;
 			serialDevice.StopBits = (SerialStopBitCount)_tncDevice.CommPort?.Stopbits;

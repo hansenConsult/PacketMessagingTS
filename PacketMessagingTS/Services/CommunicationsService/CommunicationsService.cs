@@ -298,10 +298,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					EventHandlerForDevice.CreateNewEventHandlerForDevice();
 
 					// Get notified when the device was successfully connected to or about to be closed
-					EventHandlerForDevice.Current.OnDeviceConnected = this.OnDeviceConnected;
-					EventHandlerForDevice.Current.OnDeviceClose = this.OnDeviceClosing;
+					EventHandlerForDevice.Instance.OnDeviceConnected = this.OnDeviceConnected;
+					EventHandlerForDevice.Instance.OnDeviceClose = this.OnDeviceClosing;
 
-					openSuccess = await EventHandlerForDevice.Current.OpenDeviceAsync(deviceInfo, aqsFilter);
+					openSuccess = await EventHandlerForDevice.Instance.OpenDeviceAsync(deviceInfo, aqsFilter);
 					//SerialDevice device = await SerialDevice.FromIdAsync(deviceInfo.Id);
 					//if (openSuccess)
 					//{
@@ -395,9 +395,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             tncInterface = new TNCInterface(bbs.ConnectName, ref tncDevice, SharedData._forceReadBulletins, SharedData._Areas, ref _packetMessagesToSend);
                         }
                     }
-                }
-                else
-                {
                     // Collect messages to be sent
                     _packetMessagesToSend.Clear();
                     List<string> fileTypeFilter = new List<string>() { ".xml" };
@@ -571,7 +568,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                         bool success = await tncInterface.BBSConnectThreadProcAsync();
 
-                        EventHandlerForDevice.Current.CloseDevice();
+                        EventHandlerForDevice.Instance.CloseDevice();
 
                         if (!success)
                         {
@@ -604,13 +601,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _packetMessagesReceived = tncInterface.PacketMessagesReceived;
                     ProcessReceivedMessagesAsync();
                 }
+                else
+                {
+                    MessageDialog messageDialog = new MessageDialog($"Could not find the requested BBS ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS}). Check Packet Settings");
+                    await messageDialog.ShowAsync();
+                    LogHelper(LogLevel.Error, $"Could not find the requested BBS ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS}). Check Packet Settings");
                 }
-                //else
-                //{
-                //    MessageDialog messageDialog = new MessageDialog($"Could not find the requested BBS ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS}). Check Packet Settings");
-                //    await messageDialog.ShowAsync();
-                //    LogHelper(LogLevel.Error, $"Could not find the requested BBS ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS}). Check Packet Settings");
-                //}
+            }
             else
             {
                 MessageDialog messageDialog = new MessageDialog($"Could not find the requested TNC ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC})");

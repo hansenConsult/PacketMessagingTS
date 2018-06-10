@@ -20,6 +20,7 @@ using Windows.UI.Core;
 using Windows.Foundation;
 using MetroLog;
 using Windows.Devices.Bluetooth;
+using PacketMessagingTS.Controls;
 
 namespace PacketMessagingTS.Views
 {
@@ -30,7 +31,7 @@ namespace PacketMessagingTS.Views
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
         public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
         //public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
-        public TNCSettingsViewModel _TNCSettingsViewModel { get; } = new TNCSettingsViewModel();
+        public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton < TNCSettingsViewModel>.Instance;
         //public MailSettingsViewModel _mailSettingsViewModel { get; } = new MailSettingsViewModel();
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
@@ -124,10 +125,16 @@ namespace PacketMessagingTS.Views
             listOfTacticallsignsArea = new ObservableCollection<TacticalCallsignData>(App._TacticalCallsignDataList);
             _identityViewModel.TacticalCallsignsAreaSource = listOfTacticallsignsArea;
 
-            //distributionListName.ItemsSource = DistributionListArray.Instance.GetDistributionLists();
-            //distributionListAddItem.IsEnabled = false;
-            //distributionListItems.IsReadOnly = true;
-
+            // Distribution Lists Initialization
+            distributionListName.ItemsSource = DistributionListArray.Instance.GetDistributionLists();
+            if (DistributionListArray.Instance.ArrayOfDistributionLists != null && DistributionListArray.Instance.ArrayOfDistributionLists.Length > 0)
+            {
+                distributionListName.Text = DistributionListArray.Instance.ArrayOfDistributionLists[0].DistributionListName;
+                distributionListItems.Text = DistributionListArray.Instance.ArrayOfDistributionLists[0].DistributionListItems;
+            }
+            appBarDistributionListsSave.IsEnabled = false;
+            distributionListAddItem.IsEnabled = false;
+            distributionListItems.IsReadOnly = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -146,44 +153,51 @@ namespace PacketMessagingTS.Views
             SettingsPivot.SelectedIndex = (int)e.Parameter;
         }
 
-        //private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    //switch ((SettingsPivot.SelectedItem as PivotItem).Name)
-        //    //{
-        //    //    case "pivotTNC":
-        //    //        ResetTNCDeviceChanged();
-        //    //        appBarSettingsSave.Visibility = Visibility.Visible;
-        //    //        appBarSettingsSave.IsEnabled = false;
-        //    //        appBarSettingsAdd.Visibility = Visibility.Visible;
-        //    //        appBarSettingsEdit.Visibility = Visibility.Visible;
-        //    //        appBarsettingsDelete.Visibility = Visibility.Visible;
-        //    //        SettingsCommandBar.Visibility = Visibility.Visible;
-        //    //        break;
-        //    //    case "pivotItemAddressBook":
-        //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-        //    //        appBarSettingsSave.Visibility = Visibility.Collapsed;
-        //    //        SettingsCommandBar.Visibility = Visibility.Visible;
-        //    //        break;
-        //    //    case "pivotItemDistributionLists":
-        //    //        //ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-        //    //        appBarSettingsSave.Visibility = Visibility.Visible;
-        //    //        appBarSettingsSave.IsEnabled = DistributionListArray.Instance.DataChanged;
-        //    //        appBarSettingsEdit.Visibility = Visibility.Visible;
-        //    //        appBarsettingsDelete.Visibility = Visibility.Visible;
-        //    //        SettingsCommandBar.Visibility = Visibility.Visible;
-        //    //        break;
-        //    //    default:
-        //    //        SettingsCommandBar.Visibility = Visibility.Collapsed;
-        //    //        break;
-        //    //}
-        //}
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            //StopDeviceWatchers();
+
+            base.OnNavigatingFrom(e);
+        }
+        private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch ((SettingsPivot.SelectedItem as PivotItem).Name)
+            {
+                case "pivotTNC":
+                    // Select current TNC device
+                    comboBoxComPort.SelectedValue = _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport;
+
+                    //ResetTNCDeviceChanged();
+                    //appBarSettingsSave.Visibility = Visibility.Visible;
+                    //appBarSettingsSave.IsEnabled = false;
+                    //appBarSettingsAdd.Visibility = Visibility.Visible;
+                    //appBarSettingsEdit.Visibility = Visibility.Visible;
+                    //appBarsettingsDelete.Visibility = Visibility.Visible;
+                    //SettingsCommandBar.Visibility = Visibility.Visible;
+                    break;
+                    //    //    case "pivotItemAddressBook":
+                    //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+                    //    //        appBarSettingsSave.Visibility = Visibility.Collapsed;
+                    //    //        SettingsCommandBar.Visibility = Visibility.Visible;
+                    //    //        break;
+                    //    //    case "pivotItemDistributionLists":
+                    //    //        //ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+                    //    //        appBarSettingsSave.Visibility = Visibility.Visible;
+                    //    //        appBarSettingsSave.IsEnabled = DistributionListArray.Instance.DataChanged;
+                    //    //        appBarSettingsEdit.Visibility = Visibility.Visible;
+                    //    //        appBarsettingsDelete.Visibility = Visibility.Visible;
+                    //    //        SettingsCommandBar.Visibility = Visibility.Visible;
+                    //    //        break;
+                    //    //    default:
+                    //    //        SettingsCommandBar.Visibility = Visibility.Collapsed;
+                    //    //        break;
+            }
+        }
         #region General
-        //private async void FirstMessageNumber_TextChangedAsync(object sender, TextChangedEventArgs e)
-        //{
-        //    int messageNumber = Convert.ToInt32(((TextBox)sender).Text);
-        //    await Utilities.MarkMessageNumberAsUsed(messageNumber);
-        //    ViewModel.FirstMessageNumber = messageNumber.ToString();
-        //}
+        private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
+        {
+            ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+        }
 
         #endregion General
         #region Identity
@@ -196,7 +210,8 @@ namespace PacketMessagingTS.Views
             if (_tacticalCallsignData.TacticalCallsigns != null)
             {
                 ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
-                _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
+                TacticalCallsignsSource.Source = listOfTacticallsigns;
+                //_identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
                 _identityViewModel.TacticalCallsignSelectedIndex = 0;
             }
             if (_tacticalCallsignData.AreaName == "Other")
@@ -215,7 +230,9 @@ namespace PacketMessagingTS.Views
         private void textBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxTacticalCallsign.Text.Length == 6)
+            {
                 _identityViewModel.TacticalCallsignOther = textBoxTacticalCallsign.Text;
+            }
         }
         #endregion Identity
         #region Profiles
@@ -543,6 +560,7 @@ namespace PacketMessagingTS.Views
             // Clear the list of devices so we don't have potentially disconnected devices around
             ClearDeviceEntries();
 
+            watchersSuspended = true;
             watchersStarted = false;
         }
 
@@ -628,6 +646,9 @@ namespace PacketMessagingTS.Views
         private void OnDeviceEnumerationComplete(DeviceWatcher sender, Object args)
         {
             isAllDevicesEnumerated = true;
+
+            // Select current TNC device
+            //comboBoxComPort.SelectedValue = _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport;
 
             //await rootPage.Dispatcher.RunAsync(
             //    CoreDispatcherPriority.Normal,
@@ -745,10 +766,7 @@ namespace PacketMessagingTS.Views
             }
             catch (Exception e)
             {
-#if DEBUG
-                Debug.WriteLine($"{e.Message}, DeviceId = {deviceInformation.Id}");
-                LogHelper.Log(LogLevel.Error, $"{e.Message}, DeviceId = {deviceInformation.Id}");
-#endif
+                LogHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
             }
         }
 
@@ -1345,6 +1363,101 @@ namespace PacketMessagingTS.Views
             _TNCSettingsViewModel.ResetChangedProperty();
         }
         #endregion Interface
+        #region Address Book
+        AddressBookEntry _selectedEntry;
+        private void AddressBookListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                _selectedEntry = e.AddedItems[0] as AddressBookEntry;
+            }
+        }
+
+        private async void AddressBookAdd_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            AddressBook addressBook = AddressBook.Instance;
+
+            ContentDialogAddressBookEntry contentDialog = new ContentDialogAddressBookEntry();
+            AddressBookEntry emptyEntry = new AddressBookEntry()
+            {
+                Callsign = "",
+                NameDetail = "",
+                BBSPrimary = "",
+                BBSSecondary = "",
+                BBSPrimaryActive = true
+            };
+            //SetAddressBookEntryEditData(emptyEntry);
+            contentDialog.Title = "Add Address Book Entry";
+            //contentDialog.PrimaryButtonText = "Add";
+            ContentDialogResult result = await contentDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                emptyEntry.Callsign = contentDialog.AddressBookCallsign;
+                emptyEntry.NameDetail = contentDialog.AddressBookName;
+                emptyEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
+                emptyEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
+                bool success = addressBook.AddAddressAsync(emptyEntry);
+                if (!success)
+                {
+                    await Utilities.ShowMessageDialogAsync("Error adding a new address book entry.");
+                }
+                ContactsCVS.Source = addressBook.GetContactsGrouped();
+                addressBookSave.IsEnabled = true;
+            }
+            else
+            {
+                addressBookSave.IsEnabled = false;
+            }
+        }
+
+        private void AddressBookDelete_Click(object sender, RoutedEventArgs e)
+        {
+            AddressBook addressBook = AddressBook.Instance;
+
+            addressBook.DeleteAddress(_selectedEntry);
+
+            ContactsCVS.Source = addressBook.GetContactsGrouped();
+            addressBookSave.IsEnabled = true;
+        }
+
+        private async void AddressBookEdit_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            AddressBook addressBook = AddressBook.Instance;
+
+            ContentDialogAddressBookEntry contentDialog = new ContentDialogAddressBookEntry();
+            contentDialog.Title = "Edit Address Book Entry";
+            //contentDialog.PrimaryButtonText = "Edit";
+
+            contentDialog.AddressBookCallsign = _selectedEntry.Callsign;
+            contentDialog.AddressBookName = _selectedEntry.NameDetail;
+            contentDialog.SelectedPrimaryBBS = _selectedEntry.BBSPrimary;
+            contentDialog.SelectedSecondaryBBS = _selectedEntry.BBSSecondary;
+
+            ContentDialogResult result = await contentDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                _selectedEntry.Callsign = contentDialog.AddressBookCallsign;
+                _selectedEntry.NameDetail = contentDialog.AddressBookName;
+                _selectedEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
+                _selectedEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
+
+                ContactsCVS.Source = addressBook.GetContactsGrouped();
+                addressBookSave.IsEnabled = true;
+            }
+            else
+            {
+                addressBookSave.IsEnabled = false;
+            }
+        }
+
+        private async void AddressBookSave_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            await AddressBook.Instance.SaveAsync();
+
+            addressBookSave.IsEnabled = false;
+        }
+
+        #endregion Address Book
         #region Distribution Lists
         enum DistributionListState
         {
@@ -1411,6 +1524,77 @@ namespace PacketMessagingTS.Views
                 //Set the ItemsSource to be your filtered dataset
                 sender.ItemsSource = AddressBook.Instance.GetAddressNames(distributionListAddItem.Text);
             }
+        }
+
+        private void AppBarDistributionListsAdd_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            _distributionListState = DistributionListState.Add;
+            distributionListName.Text = "";
+            distributionListItems.Text = "";
+            appBarDistributionListsSave.IsEnabled = true;
+            distributionListAddItem.IsEnabled = true;
+            distributionListItems.IsReadOnly = false;
+        }
+
+        private void AppBarDistributionListsDelete_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            _distributionListState = DistributionListState.Delete;
+            appBarDistributionListsSave.IsEnabled = true;
+            DistributionListArray.Instance.RemoveDistributionList(distributionListName.Text);
+        }
+
+        private void AppBarDistributionListsEdit_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            _distributionListState = DistributionListState.Edit;
+            distributionListAddItem.IsEnabled = true;
+            distributionListItems.IsReadOnly = false;
+            appBarDistributionListsSave.IsEnabled = true;
+        }
+
+        private async void AppBarDistributionListsSave_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (_distributionListState == DistributionListState.Add)
+            {
+                // Must not exist
+                if (DistributionListArray.Instance.DistributionListsDict.TryGetValue(distributionListName.Text, out string items))
+                {
+                    await Utilities.ShowMessageDialogAsync("The Distribution List already exists.", "DistributionList List Error");
+                    return;
+                }
+                DistributionList list = new DistributionList()
+                {
+                    DistributionListName = distributionListName.Text,
+                    DistributionListItems = distributionListItems.Text
+                };
+                DistributionListArray.Instance.AddDistributionList(list);
+            }
+            else if (_distributionListState == DistributionListState.Edit)
+            {
+                // Must exist
+                if (!DistributionListArray.Instance.DistributionListsDict.TryGetValue(distributionListName.Text, out string items))
+                {
+                    await Utilities.ShowMessageDialogAsync("The Distribution List does not exist.", "DistributionList List Error");
+                    return;
+                }
+                DistributionList list = new DistributionList()
+                {
+                    DistributionListName = distributionListName.Text,
+                    DistributionListItems = distributionListItems.Text
+                };
+                DistributionListArray.Instance.UpdateDistributionList(list);
+            }
+            else if (_distributionListState == DistributionListState.Delete)
+            {
+                DistributionListArray.Instance.RemoveDistributionList(distributionListName.Text);
+                distributionListName.Text = "";
+                distributionListItems.Text = "";
+            }
+            await DistributionListArray.Instance.SaveAsync();
+
+            _distributionListState = DistributionListState.None;
+            appBarDistributionListsSave.IsEnabled = false;
+            distributionListAddItem.IsEnabled = false;
+            distributionListItems.IsReadOnly = true;
         }
         #endregion Distribution Lists
 

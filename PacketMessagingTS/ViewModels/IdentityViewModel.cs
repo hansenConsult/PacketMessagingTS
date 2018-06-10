@@ -160,7 +160,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tacticalAgencyNameSelectedIndex, value);
-                TacticalCallsignSelectedIndex = tacticalAgencyNameSelectedIndex;
+                //TacticalCallsignSelectedIndex = tacticalAgencyNameSelectedIndex;
             }
         }
 

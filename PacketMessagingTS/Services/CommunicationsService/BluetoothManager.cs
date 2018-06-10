@@ -45,7 +45,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		private BluetoothManager() : base(log)
 		{
-			_tncDevice = Singleton<TNCSettingsViewModel>.Instance.SavedTNCDevice;
+			_tncDevice = Singleton<TNCSettingsViewModel>.Instance.CurrentTNCDevice;
 
 		}
 

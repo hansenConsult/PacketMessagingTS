@@ -124,7 +124,7 @@ namespace PacketMessagingTS.Models
         }
 
 
-        public async void SaveAsync()
+        public async Task SaveAsync()
         {
             if (UserAddressEntries == null || UserAddressEntries.Length == 0)
                 return;
@@ -321,7 +321,7 @@ namespace PacketMessagingTS.Models
         {
             _addressDictionary.TryGetValue(callsign, out AddressBookEntry oldAddressBookEntry);
             oldAddressBookEntry.BBSPrimaryActive = usePrimaryBBS;
-            SaveAsync();
+            //SaveAsync();
         }
 
         public void UpdateAddressBookEntry(AddressBookEntry addressBookEntry)
@@ -370,7 +370,7 @@ namespace PacketMessagingTS.Models
                 var addressBookEntryList = UserAddressEntries.ToList();
                 addressBookEntryList.Add(addressBookEntry);
                 UserAddressEntries = addressBookEntryList.ToArray();
-                SaveAsync();
+                //SaveAsync();
 				return true;
 			}
 			else
@@ -418,7 +418,7 @@ namespace PacketMessagingTS.Models
                 var addressBookEntryList = UserAddressEntries.ToList();
                 addressBookEntryList.Add(entry);
                 UserAddressEntries = addressBookEntryList.ToArray();
-                SaveAsync();
+                //SaveAsync();
             }
         }
 
@@ -429,7 +429,7 @@ namespace PacketMessagingTS.Models
                 var addressBookEntryList = UserAddressEntries.ToList();
                 addressBookEntryList?.Remove(addressBookEntry);
                 UserAddressEntries = addressBookEntryList.ToArray();
-                SaveAsync();
+                //SaveAsync();
             }
             _addressDictionary.Remove(addressBookEntry.Callsign);
         }
@@ -441,7 +441,7 @@ namespace PacketMessagingTS.Models
             {
                 if (bbsStatusUp)
                 {
-                    if (!entry.BBSPrimaryActive && entry.BBSPrimary == bbs)
+                    if (entry.BBSPrimary == bbs)
                     {
                         entry.BBSPrimaryActive = true;
                         changedEntries.Add(entry);
@@ -453,7 +453,7 @@ namespace PacketMessagingTS.Models
                 }
                 else
                 {
-                    if (entry.BBSPrimaryActive && entry.BBSPrimary == bbs)
+                    if (entry.BBSPrimary == bbs)
                     {
                         entry.BBSPrimaryActive = false;
                         changedEntries.Add(entry);
@@ -508,7 +508,7 @@ namespace PacketMessagingTS.Models
             ObservableCollection<GroupInfoList> groups = new ObservableCollection<GroupInfoList>();
 
             var query = from item in GetContacts()
-                        group item by item.Callsign.Substring(0, 1) into g
+                        group item by item.Callsign.Substring(0, 1).ToUpper() into g
                         orderby g.Key
                         select new { GroupName = g.Key, Items = g };
 

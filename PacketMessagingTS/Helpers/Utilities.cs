@@ -6,6 +6,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
+using Windows.Foundation;
+using Windows.UI.Core;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -59,6 +65,34 @@ namespace PacketMessagingTS.Helpers
             //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
             App.Properties["MessageNumber"] = messageNumber;
         }
+
+        private static async Task<string> GetPinFromUserAsync(CoreDispatcher dispatcher)
+        {
+            return await dispatcher.RunTaskAsync(async () =>
+            {
+                var pinBox = new TextBox();
+                var dialog = new ContentDialog()
+                {
+                    Title = "Enter Pin",
+                    PrimaryButtonText = "OK",
+                    Content = pinBox
+                };
+                await dialog.ShowAsync();
+                return pinBox.Text;
+            });
+        }
+
+        public static async Task ShowMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
+        {
+            ContentDialog contentDialog = new ContentDialog()
+            {
+                Title = title,
+                Content = dialogMessage,
+                CloseButtonText = "Close"
+            };
+            await contentDialog.ShowAsync();
+        }
+
     }
 
     public class LogHelper

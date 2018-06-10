@@ -14,6 +14,7 @@ using PacketMessagingTS.Views;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using PacketMessagingTS.Models;
+using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -41,7 +42,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		public SerialPort() : base(log)
 		{
-			_serialDevice = EventHandlerForDevice.Current.Device;
+			_serialDevice = EventHandlerForDevice.Instance.Device;
 
 			ResetReadCancellationTokenSource();
 			ResetWriteCancellationTokenSource();
@@ -50,14 +51,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		public TimeSpan ReadTimeout
 		{
-			get => EventHandlerForDevice.Current.Device.ReadTimeout;
-			set => EventHandlerForDevice.Current.Device.ReadTimeout = value;
+			get => EventHandlerForDevice.Instance.Device.ReadTimeout;
+			set => EventHandlerForDevice.Instance.Device.ReadTimeout = value;
 		}
 
 		public TimeSpan WriteTimeout
 		{
-			get => EventHandlerForDevice.Current.Device.WriteTimeout;
-			set => EventHandlerForDevice.Current.Device.WriteTimeout = value;
+			get => EventHandlerForDevice.Instance.Device.WriteTimeout;
+			set => EventHandlerForDevice.Instance.Device.WriteTimeout = value;
 		}
 
 
@@ -109,31 +110,31 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			CancelWriteTask();
 		}
 
-		private void CancelRead()
+		private async Task CancelReadAsync()
 		{
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				CancelReadTask();
-				LogHelper(LogLevel.Info, $"Cancel Read {EventHandlerForDevice.Current.Device}");
+				LogHelper(LogLevel.Info, $"Cancel Read {EventHandlerForDevice.Instance.Device}");
 			}
 			else
 			{
-				Utilities.NotifyDeviceNotConnectedAsync();
-				LogHelper(LogLevel.Info, $"Cancel Read. Device not connected. {EventHandlerForDevice.Current.Device}");
+				await Utilities.ShowMessageDialogAsync("Device is not connected, please select a plugged in device to try the scenario again");
+                LogHelper(LogLevel.Info, $"Cancel Read. Device not connected. {EventHandlerForDevice.Instance.Device}");
 			}
 		}
 
-		private void CancelWrite()
+		private async Task CancelWriteAsync()
 		{
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				CancelWriteTask();
-				LogHelper(LogLevel.Info, $"Cancel Write {EventHandlerForDevice.Current.Device}");
+				LogHelper(LogLevel.Info, $"Cancel Write {EventHandlerForDevice.Instance.Device}");
 			}
 			else
 			{
-				Utilities.NotifyDeviceNotConnectedAsync();
-				LogHelper(LogLevel.Info, $"Cancel Write. Device not connected {EventHandlerForDevice.Current.Device}");
+                await Utilities.ShowMessageDialogAsync("Device is not connected, please select a plugged in device to try the scenario again");
+                LogHelper(LogLevel.Info, $"Cancel Write. Device not connected {EventHandlerForDevice.Instance.Device}");
 
 			}
 		}
@@ -146,7 +147,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			Task<UInt32> loadAsyncTask;
 
 			uint readBufferLength = 1024;
-			_dataReaderObject = new DataReader(EventHandlerForDevice.Current.Device.InputStream);
+			_dataReaderObject = new DataReader(EventHandlerForDevice.Instance.Device.InputStream);
 
 			while (!endOfMessage)
 			{
@@ -193,7 +194,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		private async Task WriteAsync(CancellationToken cancellationToken, string stringToWrite)
 		{
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				if (!string.IsNullOrEmpty(stringToWrite))
 				{
@@ -245,11 +246,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		{
 			string readString = "";
 
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				try
 				{
-					_readCancellationTokenSource.CancelAfter(EventHandlerForDevice.Current.Device.ReadTimeout);
+					_readCancellationTokenSource.CancelAfter(EventHandlerForDevice.Instance.Device.ReadTimeout);
 					readString = await ReadAsync(_readCancellationTokenSource.Token, readToIncluding);
 				}
 				catch (OperationCanceledException)
@@ -296,14 +297,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		public async Task WriteAsync(string s)
 		{
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				try
 				{
 					LogHelper(LogLevel.Info, $"Write {s}");
 
-					_dataWriteObject = new DataWriter(EventHandlerForDevice.Current.Device.OutputStream);
-					_writeCancellationTokenSource.CancelAfter(EventHandlerForDevice.Current.Device.WriteTimeout);
+					_dataWriteObject = new DataWriter(EventHandlerForDevice.Instance.Device.OutputStream);
+					_writeCancellationTokenSource.CancelAfter(EventHandlerForDevice.Instance.Device.WriteTimeout);
 					await WriteAsync(_writeCancellationTokenSource.Token, s);
 				}
 				catch (OperationCanceledException )
@@ -396,11 +397,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		{
 			string readString = "";
 
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				try
 				{
-					_dataReaderObject = new DataReader(EventHandlerForDevice.Current.Device.InputStream);
+					_dataReaderObject = new DataReader(EventHandlerForDevice.Instance.Device.InputStream);
 
 					//_readCancellationTokenSource.CancelAfter(EventHandlerForDevice.Current.Device.ReadTimeout);
 					readString = await ReadCharAsync(_readCancellationTokenSource.Token);
@@ -412,7 +413,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				}
 				catch (Exception exception)
 				{
-					LogHelper(LogLevel.Info, exception.Message.ToString() + $" {EventHandlerForDevice.Current.Device.PortName}");
+					LogHelper(LogLevel.Info, exception.Message.ToString() + $" {EventHandlerForDevice.Instance.Device.PortName}");
 					throw new SerialPortException(exception.Message);
 				}
 				finally
@@ -438,13 +439,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		{
 			string readString = "";
 
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				try
 				{
-					_dataReaderObject = new DataReader(EventHandlerForDevice.Current.Device.InputStream);
+					_dataReaderObject = new DataReader(EventHandlerForDevice.Instance.Device.InputStream);
 
-					_readCancellationTokenSource.CancelAfter(EventHandlerForDevice.Current.Device.ReadTimeout);
+					_readCancellationTokenSource.CancelAfter(EventHandlerForDevice.Instance.Device.ReadTimeout);
 					readString = await ReadAsync(_readCancellationTokenSource.Token);
 				}
 				catch (OperationCanceledException /*exception*/)
@@ -455,7 +456,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				}
 				catch (Exception exception)
 				{
-					LogHelper(LogLevel.Info, exception.Message.ToString() + $" {EventHandlerForDevice.Current.Device.PortName}");
+					LogHelper(LogLevel.Info, exception.Message.ToString() + $" {EventHandlerForDevice.Instance.Device.PortName}");
 					throw new SerialPortException(exception.Message, exception);
 				}
 				finally
@@ -482,13 +483,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		{
 			string readString = "";
 
-			if (EventHandlerForDevice.Current.IsDeviceConnected)
+			if (EventHandlerForDevice.Instance.IsDeviceConnected)
 			{
 				try
 				{
-					_dataReaderObject = new DataReader(EventHandlerForDevice.Current.Device.InputStream);
+					_dataReaderObject = new DataReader(EventHandlerForDevice.Instance.Device.InputStream);
 
-					_readCancellationTokenSource.CancelAfter(EventHandlerForDevice.Current.Device.ReadTimeout);
+					_readCancellationTokenSource.CancelAfter(EventHandlerForDevice.Instance.Device.ReadTimeout);
 					readString = await ReadAsync(_readCancellationTokenSource.Token);
 				}
 				catch (OperationCanceledException /*exception*/)
@@ -499,7 +500,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				}
 				catch (Exception exception)
 				{
-					LogHelper(LogLevel.Info, exception.Message.ToString() + $" {EventHandlerForDevice.Current.Device.PortName}");
+					LogHelper(LogLevel.Info, exception.Message.ToString() + $" {EventHandlerForDevice.Instance.Device.PortName}");
 					throw new SerialPortException(exception.Message, exception);
 				}
 				finally
@@ -624,14 +625,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				//	//ButtonDisconnectFromDevice.Content = ButtonNameDisconnectFromDevice;
 				//}
 
-				if (EventHandlerForDevice.Current.Device.PortName != "")
+				if (EventHandlerForDevice.Instance.Device.PortName != "")
 				{
 					LogHelper(LogLevel.Info, "Connected to - " + _serialDevice.PortName);
 				}
 				else
 				{
 				LogHelper(LogLevel.Info, "Connected to - " +
-										EventHandlerForDevice.Current.DeviceInformation.Id);
+										EventHandlerForDevice.Instance.DeviceInformation.Id);
 				}
 			}
 

@@ -83,7 +83,7 @@ namespace PacketMessagingTS.Helpers
                 return backingStore;
         }
 
-        protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false,
+        protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
                     [CallerMemberName]string propertyName = "", Action onChanged = null)
         {
             bool firstTime;
@@ -95,7 +95,8 @@ namespace PacketMessagingTS.Helpers
             {
                 firstTime = true;
             }
-            if (Equals(backingStore, value) && !firstTime)
+            // Do not update displayed value if not changed or not first time or not forced
+            if (Equals(backingStore, value) && !firstTime && !forceUpdate)
             {                
                 return false;
             }

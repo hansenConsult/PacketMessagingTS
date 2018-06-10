@@ -17,7 +17,7 @@
         <helper:ComboBoxItemConverter x:Key="ComboBoxItemConverter"/>
         <helper:StringIntConverter x:Key="StringIntConverter" />
 
-        <!--<CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />-->
+        <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />
 
         <CollectionViewSource x:Name="BBSDataCollection"  IsSourceGrouped="False" />
         <CollectionViewSource x:Name="ProfilesCollection"  IsSourceGrouped="False"  />
@@ -93,8 +93,8 @@
     </Page.Resources>
 
     <Grid Margin="{StaticResource MediumLeftRightMargin}">
-        <Pivot x:Name="SettingsPivot">
-            <!--SelectionChanged="SettingsPivot_SelectionChanged">-->
+        <Pivot x:Name="SettingsPivot"
+            SelectionChanged="SettingsPivot_SelectionChanged">
 
             <!--Settings-->
             <PivotItem Header="Settings" DataContext="{x:Bind ViewModel}">
@@ -142,7 +142,7 @@
                         <ToggleSwitch IsOn="{Binding ForceReadBulletins, Mode=TwoWay}"
                                       Header="Force onetime get bulletins" Margin="0,10,0,10"/>
 
-                        <TextBox Header="Area string" Text="XSCPERM, XSCEVENT"
+                        <TextBox Header="Area string" Text="XSCPERM, XSCEVENT" MinHeight="60"
                                  Width="300" HorizontalAlignment="Left" AcceptsReturn="True"/>
 
                         <TextBlock x:Name="bbsStatus" Margin="0,30,0,10" Style="{StaticResource TitleTextBlockStyle}"
@@ -152,27 +152,32 @@
                                       RelativePanel.Below="bbsStatus"
                                       Header="W1XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W1XSCStatusUp, Mode=TwoWay}"/>
+                                      IsOn="{Binding W1XSCStatusUp, Mode=TwoWay}"
+                                      Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w2xscPrimaryStatus" 
                                       RelativePanel.Below="w1xscPrimaryStatus"
                                       Header="W2XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W2XSCStatusUp, Mode=TwoWay}"/>
+                                      IsOn="{Binding W2XSCStatusUp, Mode=TwoWay}"
+                                      Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w3xscPrimaryStatus" 
                                       RelativePanel.Below="w2xscPrimaryStatus"
                                       Header="W3XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W3XSCStatusUp, Mode=TwoWay}"/>
+                                      IsOn="{Binding W3XSCStatusUp, Mode=TwoWay}"
+                                      Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w4xscPrimaryStatus" 
                                       RelativePanel.Below="w3xscPrimaryStatus"
                                       Header="W4XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W4XSCStatusUp, Mode=TwoWay}"/>
+                                      IsOn="{Binding W4XSCStatusUp, Mode=TwoWay}"
+                                      Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w5xscPrimaryStatus" 
                                       RelativePanel.Below="w4xscPrimaryStatus"
                                       Header="W5XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W5XSCStatusUp, Mode=TwoWay}"/>
+                                      IsOn="{Binding W5XSCStatusUp, Mode=TwoWay}"
+                                      Toggled="BBSPrimaryStatus_Toggled"/>
 
                     </StackPanel>
                 </StackPanel>
@@ -237,7 +242,7 @@
 									   VerticalAlignment="Center"
 									   Text="Tactical Call-sign:" />
                             <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
-									  ItemsSource="{Binding TacticalCallsignsSource, Mode=OneWay}" 									
+									  ItemsSource="{x:Bind TacticalCallsignsSource.View, Mode=OneWay}" 									
 									  IsEnabled="{Binding UseTacticalCallsign}"
 									  DisplayMemberPath="TacticalCallsign"
 									  SelectedIndex="{Binding TacticalCallsignSelectedIndex, Mode=TwoWay}"
@@ -255,7 +260,7 @@
 									   VerticalAlignment="Center" 
 									   Text="Additional ID text:" />
                             <ComboBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="comboBoxAdditionalText"  
-									  ItemsSource="{Binding TacticalCallsignsSource, Mode=TwoWay}" 	
+									  ItemsSource="{x:Bind TacticalCallsignsSource.View, Mode=OneWay}" 	
 									  DisplayMemberPath = "AgencyName"
                                       SelectedValuePath="AgencyName"
                                       SelectedValue="{Binding TacticalAgencyName, Mode=TwoWay}"
@@ -520,7 +525,7 @@
                                                               Width="100" Margin="0,2,0,0"
                                                               ItemsSource="{Binding SerialStopBitCountValues, Mode=OneTime}"
                                                               SelectedItem="{Binding TNCComStopbits, Mode=TwoWay}"/>
-													          <!--SelectionChanged="comboBoxStopBits_SelectionChanged" />-->
+                                                    <!--SelectionChanged="comboBoxStopBits_SelectionChanged" />-->
                                                     <!--ItemsSource="{x:Bind StopBitsListSource.View, Mode=OneTime}"-->
                                                     <TextBlock Grid.Column="0" Grid.Row="5" Text="Flow Control:" VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="5" x:Name="comboBoxFlowControl"
@@ -540,8 +545,8 @@
                                     <PivotItem Header="Prompts" DataContext="{x:Bind _TNCSettingsViewModel}">
                                         <Grid Margin="20" >
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="25*"/>
-                                                <ColumnDefinition Width="60*"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="36"/>
@@ -568,8 +573,8 @@
                                     <PivotItem Header="Commands">
                                         <Grid Margin="20" >
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="20*"/>
-                                                <ColumnDefinition Width="60*"/>
+                                                <ColumnDefinition Width="112"/>
+                                                <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="36"/>
@@ -662,15 +667,15 @@
 							    RelativePanel.AlignBottomWithPanel="True"
 							    RelativePanel.AlignRightWithPanel="True"
 							    RelativePanel.AlignLeftWithPanel="True">
-						<AppBarButton x:Name="appBarAddTNC" Label="Add" Icon="Add" HorizontalAlignment="Right"
+                        <AppBarButton x:Name="appBarAddTNC" Label="Add" Icon="Add" HorizontalAlignment="Right"
                                       IsEnabled="{Binding IsAppBarAddEnabled, Mode=OneWay}" Click="AppBarAddTNC_Clicked"/>
                         <AppBarButton x:Name="appBarSettingsEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right"
                                       IsEnabled="{Binding IsAppBarEditEnabled, Mode=OneWay}"  Click="AppBarEditTNC_ClickAsync"/>
                         <AppBarButton x:Name="appBarSaveTNC" Label="Save" Icon="Save" HorizontalAlignment="Right"
                                       IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}" Click="appBarSaveTNC_ClickAsync" />
-						<AppBarButton x:Name="appBarDeleteTNC" Label="Delete" Icon="Delete" HorizontalAlignment="Right"
+                        <AppBarButton x:Name="appBarDeleteTNC" Label="Delete" Icon="Delete" HorizontalAlignment="Right"
                                       IsEnabled="{Binding IsAppBarDeleteEnabled, Mode=OneWay}" Click="appBarDeleteTNC_ClickAsync"/>
-					</CommandBar>
+                    </CommandBar>
                 </RelativePanel>
             </PivotItem>
 
@@ -687,13 +692,14 @@
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               SelectionMode="Single"
                               ShowsScrollingPlaceholders="True"
+                              SelectionChanged="AddressBookListView_SelectionChanged"
                               >
                         <ListView.GroupStyle>
-                            <GroupStyle >
+                            <GroupStyle HidesIfEmpty="True">
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate x:DataType="models:GroupInfoList">
-                                        <TextBlock Text="{x:Bind Key}" 
-                                                Style="{ThemeResource TitleTextBlockStyle}"/>
+                                        <TextBlock Text="{x:Bind Key}"
+                                                   Style="{ThemeResource TitleTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
@@ -703,30 +709,45 @@
 							RelativePanel.AlignBottomWithPanel="True"
 							RelativePanel.AlignLeftWithPanel="True"
 							RelativePanel.AlignRightWithPanel="True">
-                        <AppBarButton x:Name="AddressBookAdd" Label="Add" Icon="Add" HorizontalAlignment="Right"  />
-                        <AppBarButton x:Name="AddressBookEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right"  />
+                        <AppBarButton x:Name="addressBookAdd" Label="Add" Icon="Add" HorizontalAlignment="Right"
+                                      Click="AddressBookAdd_ClickAsync" />
+                        <AppBarButton x:Name="addressBookEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right"
+                                      Click="AddressBookEdit_ClickAsync" />
 
-                        <!--<AppBarButton x:Name="AddressBookSave"  Label="Save Profile" Icon="Save"
+                        <AppBarButton x:Name="addressBookSave"  Label="Save Profile" Icon="Save"
                                       IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}"
-                                      Click="PacketSettingsSave_ClickAsync" />-->
-                        <AppBarButton x:Name="AddressBookDelete" Label="Delete" Icon="Delete"  />
+                                      Click="AddressBookSave_ClickAsync" />
+                        <AppBarButton x:Name="addressBookDelete" Label="Delete" Icon="Delete"
+                                      Click="AddressBookDelete_Click" />
                     </CommandBar>
                 </RelativePanel>
+
             </PivotItem>
 
             <!--Distribution Lists-->
             <PivotItem x:Name="pivotItemDistributionLists" Header="Distribution Lists" >
                 <RelativePanel DataContext="{Binding distributionListsPartViewModel}">
-                    <AutoSuggestBox x:Name="distributionListName" Text="{Binding DistributionListName, Mode=TwoWay}" Header="List Name:" Margin="5,10,0,0"
+                    <AutoSuggestBox x:Name="distributionListName"  Header="List Name:" Margin="5,10,0,0"
+                                    Text="{Binding DistributionListName, Mode=TwoWay}"
                                     TextChanged="DistributionListName_TextChanged"
-                                    SuggestionChosen="DistributionListName_SuggestionChosen" MinWidth="120"/>
-                    <TextBox x:Name="distributionListItems" Text="{Binding DistributionListItems, Mode=TwoWay}"
-                             Header="Distribution List" Margin="5,10,0,0"
-                             RelativePanel.Below="distributionListName" IsTabStop="False"/>
-                    <AutoSuggestBox x:Name="distributionListAddItem" Header="Add to Distribution List" Margin="5,10,0,0"
+                                    SuggestionChosen="DistributionListName_SuggestionChosen" MinWidth="200"/>
+                    <TextBox x:Name="distributionListItems" Header="Distribution List" Margin="5,10,0,0"
+                             RelativePanel.Below="distributionListName" IsTabStop="False"
+                             Text="{Binding DistributionListItems, Mode=TwoWay}"
+                             TextWrapping="Wrap" Width="200" MaxHeight="200" ScrollViewer.IsVerticalRailEnabled="True"/>
+                    <AutoSuggestBox x:Name="distributionListAddItem" Header="Add to Distribution List" Margin="5,20,0,0"
                                     RelativePanel.Below="distributionListItems"                                    
                                     TextChanged="DistributionListAddItem_TextChanged"
                                     SuggestionChosen="DistributionListAddItem_SuggestionChosen"/>
+                    <CommandBar x:Name="CommandbarDistributionLists"
+                                RelativePanel.AlignBottomWithPanel="True"
+				                RelativePanel.AlignRightWithPanel="True"
+				                RelativePanel.AlignLeftWithPanel="True">
+                        <AppBarButton x:Name="appBarDistributionListsAdd" Label="Add" Icon="Add" Click="AppBarDistributionListsAdd_ClickAsync" />
+                        <AppBarButton x:Name="appBarDistributionListsEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right" Click="AppBarDistributionListsEdit_ClickAsync"/>
+                        <AppBarButton x:Name="appBarDistributionListsSave" Label="Save" Icon="Save" Click="AppBarDistributionListsSave_ClickAsync" />
+                        <AppBarButton x:Name="appBarDistributionListsDelete" Label="Delete" Icon="Delete" Click="AppBarDistributionListsDelete_ClickAsync" HorizontalAlignment="Right" />
+                    </CommandBar>
                 </RelativePanel>
             </PivotItem>
 
@@ -747,5 +768,5 @@
                 </StackPanel>
             </PivotItem>
         </Pivot>
-    </Grid>    
+    </Grid>
 </Page>

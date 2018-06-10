@@ -119,6 +119,9 @@
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask1.cs" />
+    <Compile Include="Controls\ContentDialogAddressBookEntry.xaml.cs">
+      <DependentUpon>ContentDialogAddressBookEntry.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SendFormDataControl.xaml.cs">
       <DependentUpon>SendFormDataControl.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,7 @@
     <Compile Include="Helpers\ComportComparer.cs" />
     <Compile Include="Helpers\CustomCellDoubleTapped.cs" />
     <Compile Include="Helpers\DeviceListEntry.cs" />
+    <Compile Include="Helpers\DispatcherTaskExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
@@ -158,7 +162,6 @@
     <Compile Include="Services\CommunicationsService\SerialPort.cs" />
     <Compile Include="Services\CommunicationsService\SerialPortException.cs" />
     <Compile Include="Services\CommunicationsService\TNCInterface.cs" />
-    <Compile Include="Services\CommunicationsService\Utilities.cs" />
     <Compile Include="Services\MessageDataService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\OnBackgroundEnteringEventArgs.cs" />
@@ -355,7 +358,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Controls\ContentDialogAddressBookEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
