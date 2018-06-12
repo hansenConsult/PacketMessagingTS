@@ -166,20 +166,15 @@ namespace PacketMessagingTS
 
             SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
 
-            bool success = Properties.TryGetValue("ProfileSelectedIndex", out object profileSelectedIndex);
-            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = success ? Convert.ToInt32(profileSelectedIndex) : 0;
+            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
 
-            success = Properties.TryGetValue("TacticalCallsignSelectedIndex", out object tacticalCallsignSelectedIndex);
-            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = success ? Convert.ToInt32(tacticalCallsignSelectedIndex) : 0;
+            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Utilities.GetProperty("TacticalCallsignSelectedIndex");
 
-            success = Properties.TryGetValue("MailAccountSelectedIndex", out object mailAccountSelectedIndex);
-            Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = success ? Convert.ToInt32(mailAccountSelectedIndex) : 0;
+            Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Utilities.GetProperty("MailAccountSelectedIndex");
 
-            success = Properties.TryGetValue("PivotSelectedIndex", out object pivotSelectedIndex);
-            Singleton<MainViewModel>.Instance.PivotSelectedIndex = success ? Convert.ToInt32(pivotSelectedIndex) : 0;
+            Singleton<MainViewModel>.Instance.MainPagePivotSelectedIndex = Utilities.GetProperty("MainPagePivotSelectedIndex");
 
-            success = Properties.TryGetValue("TNCDeviceSelectedIndex", out object tncDeviceSelectedIndex);
-            Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = success ? Convert.ToInt32(tncDeviceSelectedIndex) : 0;
+            Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
 
             bool displayIdentity = Properties.TryGetValue("DisplayIdentityAtStartup", out object displayIdentityAtStartup);
             bool displayProfiles = Properties.TryGetValue("DisplayProfileOnStart", out object displayProfileOnStart);

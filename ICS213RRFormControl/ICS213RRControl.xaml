@@ -417,7 +417,9 @@
                                  PlaceholderText="hhmm" Margin="0" BorderBrush="White" Tag="47"/>
                     </StackPanel>
                 </StackPanel>
-                <TextBlock Text="Last Revised 06/17   EOC Form 213RR   Page 1 of 2 (pg. 2 at EOC)" Style="{StaticResource EOC213RRFieldLabel}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Last Revised 06/17   EOC Form 213RR   Page 1 of 2 (pg. 2 at EOC)" 
+                           Style="{StaticResource EOC213RRFieldLabel}" 
+                           Margin="0,4,0,0" HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
     </StackPanel>

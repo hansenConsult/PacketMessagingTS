@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FormControlBaseClass;
+using PacketMessagingTS.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,8 +26,8 @@ namespace PacketMessagingTS.Helpers
 
         public override void Execute(object parameter)
         {
-            var context = parameter as DataGridCellInfo;
-            //OpenMessageFromDoubleClick(context.Item);
+            //var context = parameter as DataGridCellInfo;
+            Singleton<MainViewModel>.Instance.OpenMessageFromDoubleClick();
         }
 
     }

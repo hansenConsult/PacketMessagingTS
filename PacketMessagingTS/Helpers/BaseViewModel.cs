@@ -56,6 +56,23 @@ namespace PacketMessagingTS.Helpers
             set => SetProperty(ref isAppBarSaveEnabled, value);
         }
 
+
+        public bool GetProperty<T>(string propertyName, out T property)
+        {
+            if (_properties != null && App.Properties.ContainsKey(propertyName))
+            {
+                // Retrieve value from dictionary
+                object o = _properties[propertyName];
+                property = (T)o;
+                return true;
+            }
+            else
+            {
+                property = default(T);
+                return false;
+            }
+        }
+
         protected int GetProperty(ref int backingStore, [CallerMemberName]string propertyName = "")
         {
             if (_properties != null && _properties.ContainsKey(propertyName))

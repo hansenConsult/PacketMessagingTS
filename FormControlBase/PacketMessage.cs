@@ -554,6 +554,9 @@ namespace FormControlBaseClass
 
 		public static async Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
 		{
+            if (storageFolder == null)
+                return null;
+
 			List<PacketMessage> packetMessages = new List<PacketMessage>();
 
 			List<string> fileTypeFilter = new List<string>() { ".xml" };

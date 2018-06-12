@@ -266,6 +266,10 @@ namespace FormControlBaseClass
             return outpostData;
         }
 
+		//case "senderMsgNo":
+		//	formField.ControlContent = GetOutpostValue("MsgNo", ref msgLines);
+		//	break;
+
         public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
@@ -296,11 +300,27 @@ namespace FormControlBaseClass
                     var comboBoxDataSet = conboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
                     formField.ControlContent = comboBoxDataSet[0];
                 }
-                else    // TextBox or AutoSuggestBox
+                else if (control is TextBox || control is AutoSuggestBox)
                 {
                     formField.ControlContent = GetOutpostValue(id, ref msgLines);
+                    // Filter operator date and time
+                    if (formField.ControlContent != null)
+                    {
+                        int index = formField.ControlContent.IndexOf("{odate");
+                        if (index > 0)
+                        {
+                            formField.ControlContent = formField.ControlContent.Substring(0, index);
+                        }
+                        index = formField.ControlContent.IndexOf("{otime");
+                        if (index > 0)
+                        {
+                            formField.ControlContent = formField.ControlContent.Substring(0, index);
+                        }
+                    }
                 }
             }
+            // Move received message number to sender message number field
+            formFields[0].ControlContent = GetOutpostValue("1", ref msgLines);
             return formFields;
         }
 

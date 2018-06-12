@@ -93,7 +93,20 @@ namespace PacketMessagingTS.Helpers
             await contentDialog.ShowAsync();
         }
 
+        public static int GetProperty(string propertyName)
+        {
+            if (App.Properties != null && App.Properties.ContainsKey(propertyName))
+            {
+                // Retrieve value from dictionary
+                object o = App.Properties[propertyName];
+                return Convert.ToInt32(o);
+            }
+            else
+                return 0;
+        }
+
     }
+
 
     public class LogHelper
     {

@@ -24,12 +24,14 @@ namespace PacketMessagingTS.Views
 
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
 
-        ObservableCollection<PacketMessage> _messageObservableCollection;
+        //ObservableCollection<PacketMessage> _messageObservableCollection;
         //ObservableCollection<PacketMessage> messageFolderCollection;
 
         public MainPage()
         {
             InitializeComponent();
+
+            _mainViewModel.MainPagePivot = MainPagePivot;
 
             foreach (PivotItem item in MainPagePivot.Items)
             {
@@ -62,31 +64,30 @@ namespace PacketMessagingTS.Views
         {
             List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)pivotItem.Tag);
 
-            //_mainViewModel.Source = new ObservableCollection<PacketMessage>(messagesInFolder);
-            _messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
-            _mainViewModel.Source = _messageObservableCollection;
+            //ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
+            _mainViewModel.Source = new ObservableCollection<PacketMessage>(messagesInFolder);
 
-            switch (pivotItem.Name)
-            {
-                case "pivotItemInBox":
-                    dataGridInbox.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemSent":
-                    dataGridSent.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemOutBox":
-                    dataGridOutbox.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemDrafts":
-                    dataGridDrafts.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemArchive":
-                    dataGridArchived.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemDeleted":
-                    dataGridDeleted.ItemsSource = _messageObservableCollection;
-                    break;
-            }
+            //switch (pivotItem.Name)
+            //{
+            //    case "pivotItemInBox":
+            //        //dataGridInbox.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemSent":
+            //        //dataGridSent.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemOutBox":
+            //        //dataGridOutbox.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemDrafts":
+            //        //dataGridDrafts.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemArchive":
+            //        //dataGridArchived.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemDeleted":
+            //        //dataGridDeleted.ItemsSource = _messageObservableCollection;
+            //        break;
+            //}
         }
 
         private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -96,12 +97,8 @@ namespace PacketMessagingTS.Views
             PivotItem pivotItem = (PivotItem)e.AddedItems[0];
 
             await RefreshDataGridAsync(pivotItem);
+            //_mainViewModel.RefreshDataGridAsync(); // problem on startup because MainPagePivotSelectedItem is null
         }
-
-        //private void DataGrid_DoubleClicked(object sender, )
-        //{
-
-        //}
 
         private void DataGrid_SelectionChanged(object sender, Telerik.UI.Xaml.Controls.Grid.DataGridSelectionChangedEventArgs e)
         {
@@ -109,21 +106,10 @@ namespace PacketMessagingTS.Views
             {
                 _selectedMessages.Remove(packetMessage);
             }
-            //_selectedMessages = e.AddedItems as List<PacketMessage>;
             foreach (PacketMessage packetMessage in e.AddedItems)
             {
                 _selectedMessages.Add(packetMessage);
             }
-        }
-
-        private  void OpenMessageFromDoubleClick(PacketMessage packetMessage)
-        {
-            PivotItem pivotItem = MainPagePivot.Items[_mainViewModel.PivotSelectedIndex] as PivotItem;
-            string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
-            //string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
-            string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
-
-            NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
         }
 
         private void OpenMessage()
@@ -187,9 +173,11 @@ namespace PacketMessagingTS.Views
             OpenMessage();
         }
 
-        private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-        {
-            OpenMessage();
-        }
+        //private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        //{
+        //    Singleton<MainViewModel>.Instance.OpenMessageFromDoubleClick(_selectedMessages[0]);
+
+        //    //OpenMessage();
+        //}
     }
 }

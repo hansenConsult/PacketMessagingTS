@@ -30,17 +30,25 @@
                RelativePanel.AlignRightWithPanel="True"
 	           RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
-               SelectedIndex="{Binding PivotSelectedIndex, Mode=TwoWay}"
-               SelectionChanged="MainPagePivot_SelectionChanged" >
+               SelectedIndex="{x:Bind _mainViewModel.MainPagePivotSelectedIndex, Mode=TwoWay}"
+               SelectionChanged="MainPagePivot_SelectionChanged"
+               >
 
             <!--  Inbox  -->
             <PivotItem x:Uid="Main_Inbox"  x:Name="pivotItemInBox"  >
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridInbox"
                                 AutoGenerateColumns="False"
-                                SelectionMode="Multiple"
-                                ItemsSource="{x:Bind _mainViewModel.Source}"
-                                SelectionChanged="DataGrid_SelectionChanged"
-                                DoubleTapped="DataGrid_DoubleTapped">
+                                SelectionMode="Single"
+                                ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
+                                SelectionUnit="Row"
+                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
+                                >
+                    <!--SelectionChanged="DataGrid_SelectionChanged"-->
+
+                    <tg:RadDataGrid.Commands>
+                        <helpers:CustomCellDoubleTapped/>
+                    </tg:RadDataGrid.Commands>
+
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Area">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -49,11 +57,11 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <tg:DataGridTemplateColumn Header="Received Time">
+                        <tg:DataGridTemplateColumn Header="Received Time" >
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ReceivedTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
-                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                               VerticalAlignment="Center"  Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
@@ -80,8 +88,12 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridSent"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged" >
-                    <!--ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}" >-->
+                    <tg:RadDataGrid.Commands>
+                        <helpers:CustomCellDoubleTapped/>
+                    </tg:RadDataGrid.Commands>
+
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Received Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -91,7 +103,6 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <!--<tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>-->
                         <tg:DataGridTemplateColumn Header="Sent Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
@@ -100,7 +111,6 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <!--<tg:DataGridTextColumn PropertyName="SentTime" Header="Sent Time"/>-->
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
@@ -117,8 +127,13 @@
                                 x:Name="dataGridOutbox"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
+                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
-                    <!--ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}" >-->
+                    <tg:RadDataGrid.Commands>
+                        <helpers:CustomCellDoubleTapped/>
+                    </tg:RadDataGrid.Commands>
+
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -144,9 +159,8 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridDrafts"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
-                                IsDoubleTapEnabled="True"
+                                ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
-                    <!--ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}"-->
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
@@ -173,7 +187,12 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridArchived"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
+                    <tg:RadDataGrid.Commands>
+                        <helpers:CustomCellDoubleTapped/>
+                    </tg:RadDataGrid.Commands>
+
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Area">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -200,7 +219,12 @@
                                 x:Name="dataGridDeleted"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
+                    <tg:RadDataGrid.Commands>
+                        <helpers:CustomCellDoubleTapped/>
+                    </tg:RadDataGrid.Commands>
+
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
@@ -232,7 +256,7 @@
                 </AppBarButton.Icon>
             </AppBarButton>-->
             <AppBarButton Label="Send/Receive" Icon="Send" Click="AppBarMainPage_SendReceive" />
-            <AppBarButton Label="Delete Item" Icon="Delete" Click="AppBarMainPage_DeleteItemAsync" HorizontalAlignment="Right" />
+            <AppBarButton Label="Delete" Icon="Delete" Click="AppBarMainPage_DeleteItemAsync" HorizontalAlignment="Right" />
         </CommandBar>
     </RelativePanel>
 </Page>
