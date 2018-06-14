@@ -66,6 +66,7 @@ namespace PacketMessagingTS.Helpers
             App.Properties["MessageNumber"] = messageNumber;
         }
 
+        // TRhis is just to show a use of ContentDialog.
         private static async Task<string> GetPinFromUserAsync(CoreDispatcher dispatcher)
         {
             return await dispatcher.RunTaskAsync(async () =>

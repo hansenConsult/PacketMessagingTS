@@ -170,8 +170,13 @@ namespace PacketMessagingTS.Views
 
         private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
         {
-            OpenMessage();
+            _mainViewModel.OpenMessageFromDoubleClick();
         }
+
+        //private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
+        //{
+        //    OpenMessage();
+        //}
 
         //private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         //{

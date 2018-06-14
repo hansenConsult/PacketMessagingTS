@@ -68,33 +68,6 @@ namespace PacketMessagingTS.ViewModels
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
-        private int firstMessageNumber;
-        public int FirstMessageNumber
-        {
-            get
-            {
-                bool found = App.Properties.TryGetValue("MessageNumber", out object first);
-                if (!found)
-                {
-                    App.Properties["MessageNumber"] = 100;
-                }
-                firstMessageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
-                return firstMessageNumber;
-            }
-            set
-            {
-                Utilities.MarkMessageNumberAsUsed(value);
-                SetProperty(ref firstMessageNumber, value);
-            }
-        }
-
-        private bool sendReceipt;
-        public bool SendReceipt
-        {
-            get => GetProperty(ref sendReceipt);
-            set => SetProperty(ref sendReceipt, value, true);
-        }
-
         private bool w1XSCStatusUp;
         public bool W1XSCStatusUp
         {

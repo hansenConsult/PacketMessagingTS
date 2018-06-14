@@ -147,30 +147,30 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public IEnumerable<SerialParity> SerialParityValues
+        public IEnumerable<Parity> SerialParityValues
         {
             get
             {
-                return Enum.GetValues(typeof(SerialParity))
-                    .Cast<SerialParity>();
+                return Enum.GetValues(typeof(Parity))
+                    .Cast<Parity>();
             }
         }
 
-        public IEnumerable<SerialStopBitCount> SerialStopBitCountValues
+        public IEnumerable<StopBits> SerialStopBitCountValues
         {
             get
             {
-                return Enum.GetValues(typeof(SerialStopBitCount))
-                    .Cast<SerialStopBitCount>();
+                return Enum.GetValues(typeof(StopBits))
+                    .Cast<StopBits>();
             }
         }
 
-        public IEnumerable<SerialHandshake> MyEnumTypeValues
+        public IEnumerable<Handshake> MyEnumTypeValues
         {
             get
             {
-                return Enum.GetValues(typeof(SerialHandshake))
-                    .Cast<SerialHandshake>();
+                return Enum.GetValues(typeof(Handshake))
+                    .Cast<Handshake>();
             }
         }
         private string tncComName;
@@ -225,8 +225,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private SerialStopBitCount tncComStopbits;
-        public SerialStopBitCount TNCComStopbits
+        private StopBits tncComStopbits;
+        public StopBits TNCComStopbits
         {
             get => tncComStopbits;
             set
@@ -239,8 +239,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private SerialParity tncComParity;
-        public SerialParity TNCComParity
+        private Parity tncComParity;
+        public Parity TNCComParity
         {
             get => tncComParity;
             set
@@ -253,8 +253,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private SerialHandshake tncComHandshake;
-        public SerialHandshake TNCComHandshake
+        private Handshake tncComHandshake;
+        public Handshake TNCComHandshake
         {
             get { return tncComHandshake; }
             set

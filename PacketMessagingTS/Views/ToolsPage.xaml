@@ -148,7 +148,7 @@
 							     TextWrapping="Wrap"
 							     Margin="10,10,10,10"
 							 />
-                    <CommandBar x:Name="ButtomCommandBar"
+                    <CommandBar x:Name="ButtomCommandBar" Margin="-12,0,-12,0"
                    				    RelativePanel.AlignBottomWithPanel="True"
 				                    RelativePanel.AlignRightWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True">
@@ -194,26 +194,16 @@
             </PivotItem>
             <!--ICS 309-->
             <PivotItem x:Uid="Tools_ICS309">
-                <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                <RelativePanel Margin="12,12,0,0">
                     <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
-                    <RelativePanel x:Name="ICS309FormsPanel"
-                                   RelativePanel.Above="ButtomCommandBarICS309"
-                                   RelativePanel.AlignTopWithPanel="True"
-                                   RelativePanel.AlignLeftWithPanel="True"
-                                   RelativePanel.AlignRightWithPanel="True">
-
-                        <ScrollViewer x:Name="ICS309ScrollViewer"
-                                      RelativePanel.AlignTopWithPanel="True"
-                                      RelativePanel.AlignLeftWithPanel="True"
-                                      RelativePanel.AlignRightWithPanel="True"
-                                      RelativePanel.AlignBottomWithPanel="True"
-                                  Margin="0,12,-12,0"
+                    <ScrollViewer x:Name="ICS309ScrollViewer"
+                                  RelativePanel.AlignTopWithPanel="True"
+                                  RelativePanel.Above="ButtomCommandBarICS309"
                                   VerticalScrollBarVisibility="Auto" >
-                        <StackPanel x:Name="ICS309StackPanel"
-                                    
+                        <StackPanel x:Name="ICS309StackPanel"                                    
                                     Margin="0,0,12,0">
                             <StackPanel x:Name="ICS309MainForm"
                                         BorderBrush="Black" BorderThickness="2">
@@ -273,79 +263,79 @@
                                     <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center" Style="{StaticResource MediumText}"/>
                                 </Grid>
                                 <Grid >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="8*"/>
-                                            <ColumnDefinition Width="12*"/>
-                                            <ColumnDefinition Width="12*"/>
-                                            <ColumnDefinition Width="12*"/>
-                                            <ColumnDefinition Width="12*"/>
-                                            <ColumnDefinition Width="40*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1">
-                                            <TextBlock   Style="{StaticResource ListBoxHeader}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="12*"/>
+                                        <ColumnDefinition Width="12*"/>
+                                        <ColumnDefinition Width="12*"/>
+                                        <ColumnDefinition Width="12*"/>
+                                        <ColumnDefinition Width="40*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <TextBlock   Style="{StaticResource ListBoxHeader}">
                                               Time<LineBreak/>(24:00)
-                                            </TextBlock>
-                                        </Border>
-                                        <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
-                                            <TextBlock Text="FROM" HorizontalAlignment="Center" Style="{StaticResource ListBoxHeader}"/>
-                                        </Border>
-                                        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                                            <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
-                                        </Border>
-                                        <Border Grid.Column="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
-                                            <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}"/>
-                                        </Border>
-                                        <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
-                                            <TextBlock Text="TO" Style="{StaticResource ListBoxHeader}"/>
-                                        </Border>
-                                        <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                                            <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
-                                        </Border>
-                                        <Border Grid.Column="4" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
-                                            <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}" />
-                                        </Border>
-                                        <Border Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,1,0,1">
-                                            <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
-                                        </Border>
-                                    </Grid>
+                                        </TextBlock>
+                                    </Border>
+                                    <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
+                                        <TextBlock Text="FROM" HorizontalAlignment="Center" Style="{StaticResource ListBoxHeader}"/>
+                                    </Border>
+                                    <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                                        <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
+                                    </Border>
+                                    <Border Grid.Column="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}"/>
+                                    </Border>
+                                    <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
+                                        <TextBlock Text="TO" Style="{StaticResource ListBoxHeader}"/>
+                                    </Border>
+                                    <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                                        <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
+                                    </Border>
+                                    <Border Grid.Column="4" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}" />
+                                    </Border>
+                                    <Border Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                        <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
+                                    </Border>
+                                </Grid>
                                 <ListView x:Name="logEntries" Height="600"
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}"
                                           />
                                 <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
-                                            <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                        <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
                                                  Header="6. Prepared By (Name, Call Sign)" 
                                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                        </Border>
-                                        <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
-                                            <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
+                                    </Border>
+                                    <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                        <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
                                                  Header="7. Date $ Time Prepared" 
                                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                        </Border>
-                                        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
-                                            <TextBox x:Name="pageNoOf" BorderBrush="White" 
+                                    </Border>
+                                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
+                                        <TextBox x:Name="pageNoOf" BorderBrush="White" 
                                                  Text="{Binding PageNoAsString, Mode=OneWay}"  Header="8."  HeaderTemplate="{StaticResource isc309HeaderTemplate}" Margin="0,-0.8,0.2,0.4"/>
-                                        </Border>
-                                    </Grid>
+                                    </Border>
+                                </Grid>
                             </StackPanel>
-                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,0" />
+                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,4" />
                         </StackPanel>
                     </ScrollViewer>
-                    </RelativePanel>
-                    <CommandBar x:Name="ButtomCommandBarICS309"
+                    <CommandBar x:Name="ButtomCommandBarICS309" Margin="-12,0,-12,0"
                    				    RelativePanel.AlignBottomWithPanel="True"
 				                    RelativePanel.AlignRightWithPanel="True"
-                                    RelativePanel.AlignLeftWithPanel="True">
+                                    RelativePanel.AlignLeftWithPanel="True"
+                                >
                         <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
                         <AppBarButton x:Name="appBarOpenICS309" Label="Print" Icon="OpenFile" HorizontalAlignment="Right" />
                         <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" HorizontalAlignment="Right" />
@@ -364,7 +354,7 @@
                         <TextBlock x:Name="fileNameHeader" 
                                    RelativePanel.LeftOf="textBoxTestFileName"
                                    RelativePanel.AlignVerticalCenterWith="textBoxTestFileName"
-                                   Text="File Name:" />
+                                   Text="Save file as:" />
                         <TextBox x:Name="textBoxTestFileName"                                   
                                  RelativePanel.AlignRightWithPanel="True"
                                  Width="300"
@@ -383,7 +373,7 @@
                                    RelativePanel.Below="fileNamePanel"
                                    RelativePanel.AlignLeftWithPanel="True"
                                    RelativePanel.AlignRightWithPanel="True"
-                                   RelativePanel.Above="ButtomCommandBarTest">
+                                   >
                         <TextBox x:Name="receivedMessage" 
                                  RelativePanel.AlignTopWithPanel="True"
                                  RelativePanel.AlignLeftWithPanel="True" 
@@ -396,7 +386,7 @@
                                 RelativePanel.AlignBottomWithPanel="True"
                                 Content="Test Received Message" Margin="0,10,5,10" Click="TestReceivedMessage_Click" />
                     </RelativePanel>
-                    <CommandBar x:Name="ButtomCommandBarTest"
+                    <CommandBar x:Name="ButtomCommandBarTest" Margin="-12,0,-12,0"
                    				    RelativePanel.AlignBottomWithPanel="True"
 				                    RelativePanel.AlignRightWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True">

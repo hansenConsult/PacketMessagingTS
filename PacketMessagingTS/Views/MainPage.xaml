@@ -158,8 +158,9 @@
             <PivotItem x:Uid="Main_Drafts" x:Name="pivotItemDrafts" >
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridDrafts"
                                 AutoGenerateColumns="False"
-                                SelectionMode="Multiple"
+                                SelectionMode="Single"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
+                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
@@ -218,8 +219,9 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" Margin="{StaticResource EightTopMargin}"
                                 x:Name="dataGridDeleted"
                                 AutoGenerateColumns="False"
-                                SelectionMode="Multiple"
+                                SelectionMode="Single"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
+                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
@@ -245,7 +247,7 @@
 
         </Pivot>
 
-        <CommandBar x:Name="ButtomCommandBar"
+        <CommandBar x:Name="ButtomCommandBar" Margin="-12,0,-12,0"
 				    RelativePanel.AlignBottomWithPanel="True"
 				    RelativePanel.AlignRightWithPanel="True"
 				    RelativePanel.AlignLeftWithPanel="True" >

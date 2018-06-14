@@ -12,7 +12,7 @@ using PacketMessagingTS.ViewModels;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
-	public class BluetoothManager : CommunicationsServiceBase
+	public class BluetoothManager
 	{
 		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BluetoothManager>();
 
@@ -43,7 +43,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		TNCDevice _tncDevice;
 		private ILogger log1;
 
-		private BluetoothManager() : base(log)
+		private BluetoothManager()
 		{
 			_tncDevice = Singleton<TNCSettingsViewModel>.Instance.CurrentTNCDevice;
 
@@ -64,43 +64,43 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			return instance;
 		}
 
-		private async Task<uint> Send(string msg)
-		{
-			//tbError.Text = string.Empty;
+		//private async Task<uint> Send(string msg)
+		//{
+		//	//tbError.Text = string.Empty;
 
-			try
-			{
-				var writer = new DataWriter(_socket.OutputStream);
+		//	try
+		//	{
+		//		var writer = new DataWriter(_socket.OutputStream);
 
-				writer.WriteString(msg);
+		//		writer.WriteString(msg);
 
-				// Launch an async task to 
-				//complete the write operation
-				var store = writer.StoreAsync().AsTask();
+		//		// Launch an async task to 
+		//		//complete the write operation
+		//		var store = writer.StoreAsync().AsTask();
 
-				return await store;
-			}
-			catch (Exception ex)
-			{
-				LogHelper(LogLevel.Error, $"Error writing to Bluetooth: {ex.Message}");
+		//		return await store;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		LogHelper(LogLevel.Error, $"Error writing to Bluetooth: {ex.Message}");
 
-				return 0;
-			}
-		}
+		//		return 0;
+		//	}
+		//}
 
-		private async void Listen()
-		{
-			ReadCancellationTokenSource = new CancellationTokenSource();
-			if (_socket.InputStream != null)
-			{
-				dataReaderObject = new DataReader(_socket.InputStream);
-				// keep reading the serial input
-				while (true)
-				{
-					await ReadAsync(ReadCancellationTokenSource.Token);
-				}
-			}
-		}
+		//private async void Listen()
+		//{
+		//	ReadCancellationTokenSource = new CancellationTokenSource();
+		//	if (_socket.InputStream != null)
+		//	{
+		//		dataReaderObject = new DataReader(_socket.InputStream);
+		//		// keep reading the serial input
+		//		while (true)
+		//		{
+		//			await ReadAsync(ReadCancellationTokenSource.Token);
+		//		}
+		//	}
+		//}
 
 		DataReader dataReaderObject;
 		private CancellationTokenSource ReadCancellationTokenSource;

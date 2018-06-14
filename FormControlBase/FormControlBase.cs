@@ -534,10 +534,10 @@ namespace FormControlBaseClass
 
 				if (control is TextBox textBox)
 				{
-                    if (control.Name == "operatorCallsign")
-                    {
-                        int test = 8;
-                    }
+                    //if (control.Name == "operatorCallsign")
+                    //{
+                    //    int test = 8;
+                    //}
                     //textBox.Focus(FocusState.Programmatic);
                     textBox.Text = formField.ControlContent;
                     //textBox.Focus(FocusState.Unfocused);

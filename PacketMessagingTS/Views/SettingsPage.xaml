@@ -92,7 +92,7 @@
 
     </Page.Resources>
 
-    <Grid Margin="{StaticResource MediumLeftRightMargin}">
+    <Grid >
         <Pivot x:Name="SettingsPivot"
             SelectionChanged="SettingsPivot_SelectionChanged">
 
@@ -134,16 +134,6 @@
                     </StackPanel>
 
                     <StackPanel Margin="0, 10, 0, 0">
-                        <TextBox x:Name="TextBoxFirstMessageNumber" Width="155" HorizontalAlignment="Left"
-                                 Header="Message Number Start:"
-                                 Text="{Binding FirstMessageNumber, Mode=TwoWay}"/>
-                        <!--TextChanged="FirstMessageNumber_TextChangedAsync"/>-->
-                        <ToggleSwitch IsOn="{Binding SendReceipt, Mode=TwoWay}" Header="Send Received Receipt" Margin="0,10,0,10"/>
-                        <ToggleSwitch IsOn="{Binding ForceReadBulletins, Mode=TwoWay}"
-                                      Header="Force onetime get bulletins" Margin="0,10,0,10"/>
-
-                        <TextBox Header="Area string" Text="XSCPERM, XSCEVENT" MinHeight="60"
-                                 Width="300" HorizontalAlignment="Left" AcceptsReturn="True"/>
 
                         <TextBlock x:Name="bbsStatus" Margin="0,30,0,10" Style="{StaticResource TitleTextBlockStyle}"
                                    RelativePanel.Below="dataPathPanel"
@@ -316,18 +306,16 @@
             </PivotItem>
 
             <!--Packet Settings-->
-            <PivotItem x:Name="pivotPacketSettings" DataContext="{x:Bind _packetSettingsViewModel}" Header="Packet Settings" Height="auto">
-                <RelativePanel Margin="-12,0,-12,0" >
-                    <ScrollViewer x:Name="scrollViewerProfile" Width="auto"
-								  RelativePanel.AlignTopWithPanel="True"
-								  RelativePanel.AlignLeftWithPanel="True"
-								  RelativePanel.AlignRightWithPanel="True"
-								  Margin="0,10,0,-10" VerticalScrollBarVisibility="Auto">
-                        <RelativePanel x:Name="profilePanel">
-                            <RelativePanel x:Name="panelProfileSelection" Margin="18">
-                                <TextBlock x:Name="labelProfile"  Text="Profile:" Margin="0,0,5,0" 
+            <PivotItem x:Name="pivotPacketSettings" Header="Packet Settings" >
+                <RelativePanel x:Name="profilePanel" >
+                    <ScrollViewer x:Name="scrollViewerProfile"
+                                  Margin="{StaticResource MediumLeftTopRightBottomMargin}" 
+								  VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <RelativePanel x:Name="panelProfileSelection" >
+                                <TextBlock x:Name="labelProfile"  Text="Profile:" Margin="12,0,6,0" 
 										RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                                <ComboBox x:Name="comboBoxProfiles"  Width="300"
+                                <ComboBox x:Name="comboBoxProfiles"  Width="306"
 										  RelativePanel.RightOf="labelProfile"
 										  ItemsSource="{x:Bind ProfilesCollection.View, Mode=OneWay}"
                                           DisplayMemberPath="Name"
@@ -386,20 +374,43 @@
 										 Text="{Binding DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
 										 TextChanged="TextBoxTo_TextChanged" />
                             </Grid>
-                            <ToggleSwitch Header="Dispaly on start" Margin="10,10"
+                            <ToggleSwitch x:Name="displayProfileOnStart" Header="Display on start" Margin="8"
                                           RelativePanel.Below="panelProfileGrid"
-                                          IsOn="{Binding DisplayProfileOnStart, Mode=TwoWay}"/>
-                        </RelativePanel>
+                                          IsOn="{x:Bind _packetSettingsViewModel.DisplayProfileOnStart, Mode=TwoWay}"
+                                          />
+
+                            <TextBox x:Name="textBoxFirstMessageNumber" Header="Message Number Start:"
+                                     RelativePanel.Below="displayProfileOnStart"
+                                     Width="155" HorizontalAlignment="Left" Margin="8,16,0,0" 
+                                     Text="{x:Bind _packetSettingsViewModel.FirstMessageNumber, Mode=TwoWay}"/>
+
+                            <TextBox x:Name="areaString" Header="Area string" MinHeight="60" Margin="8"
+                                     RelativePanel.Below="textBoxFirstMessageNumber"
+                                     Width="300"  AcceptsReturn="True"
+                                     Text="{x:Bind _packetSettingsViewModel.AreaString, Mode=TwoWay}" 
+                                     />
+                            <ToggleSwitch x:Name="sendReceivedReceipt" Header="Send Received Receipt" Margin="8"
+                                          RelativePanel.Below="areaString"
+                                          IsOn="{x:Bind _packetSettingsViewModel.SendReceipt, Mode=TwoWay}"
+                                          />
+                            <ToggleSwitch x:Name="forceReadBulletins" Header="Force onetime get bulletins" Margin="8"
+                                          RelativePanel.Below="sendReceivedReceipt"
+                                          IsOn="{x:Bind _packetSettingsViewModel.ForceReadBulletins, Mode=TwoWay}"
+                                          />
+                        </StackPanel>
                     </ScrollViewer>
-                    <CommandBar x:Name="profileCommandBar"
+                    <CommandBar x:Name="profileCommandBar" Margin="-12,0,-12,0"
 							RelativePanel.AlignBottomWithPanel="True"
 							RelativePanel.AlignLeftWithPanel="True"
 							RelativePanel.AlignRightWithPanel="True">
-                        <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add" HorizontalAlignment="Right" Click="ProfileSettingsAdd_Click" />
+                        <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add"
+                                      HorizontalAlignment="Right"
+                                      Click="ProfileSettingsAdd_Click" />
                         <AppBarButton x:Name="profileSave"  Label="Save Profile" Icon="Save"
                                       IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}"
                                       Click="PacketSettingsSave_ClickAsync" />
-                        <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete" Click="ProfileSettingsDelete_Click"  />
+                        <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete"
+                                      Click="ProfileSettingsDelete_Click"  />
                     </CommandBar>
                 </RelativePanel>
             </PivotItem>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Ports;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Devices.SerialCommunication;
@@ -310,9 +311,9 @@ namespace PacketMessagingTS.Models
 				Comport = "",
 				Baudrate = 9600,
 				Databits = 8,
-				Parity = SerialParity.None,
-				Stopbits = SerialStopBitCount.One,
-				Flowcontrol = SerialHandshake.RequestToSend
+				Parity = Parity.None,
+				Stopbits = StopBits.One,
+				Flowcontrol = Handshake.RequestToSend
 			};
 		}
 
@@ -582,15 +583,15 @@ namespace PacketMessagingTS.Models
 
 		private string comportField;
 
-        private uint baudrateField;
+        private ushort baudrateField;
 
         private ushort databitsField;
 
-        private SerialParity parityField;
+        private Parity parityField;
 
-        private SerialStopBitCount stopbitsField;
+        private StopBits stopbitsField;
 
-        private SerialHandshake flowcontrolField;
+        private Handshake flowcontrolField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
@@ -650,7 +651,7 @@ namespace PacketMessagingTS.Models
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public uint Baudrate
+        public ushort Baudrate
         {
             get
             {
@@ -678,7 +679,7 @@ namespace PacketMessagingTS.Models
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public SerialParity Parity
+        public Parity Parity
         {
             get
             {
@@ -692,7 +693,7 @@ namespace PacketMessagingTS.Models
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public SerialStopBitCount Stopbits
+        public StopBits Stopbits
         {
             get
             {
@@ -706,7 +707,7 @@ namespace PacketMessagingTS.Models
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public SerialHandshake Flowcontrol
+        public Handshake Flowcontrol
         {
             get
             {

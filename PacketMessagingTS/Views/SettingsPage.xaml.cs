@@ -887,7 +887,7 @@ namespace PacketMessagingTS.Views
             mailPortString.IsEnabled = enabledState;
             mailUserName.IsEnabled = enabledState;
             mailPassword.IsEnabled = enabledState;
-            if (enabledState == true)
+            if (enabledState)
             {
                 mailIsSSL.Visibility = Visibility.Visible;
                 mailServerComboBox.Visibility = Visibility.Collapsed;
@@ -914,7 +914,6 @@ namespace PacketMessagingTS.Views
                     break;
                 case TNCState.EMailEdit:
                     SetMailControlsEnabledState(true);
-                    //appBarSaveTNC.IsEnabled = true;
                     break;
                 case TNCState.EMailDelete:
                     SetMailControlsEnabledState(false);

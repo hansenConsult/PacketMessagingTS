@@ -55,13 +55,6 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private bool displayProfileOnStart;
-        public bool DisplayProfileOnStart
-        {
-            get => GetProperty(ref displayProfileOnStart);
-            set => SetProperty(ref displayProfileOnStart, value, true);
-        }
-
         private string name;
         public string Name
         {
@@ -164,5 +157,52 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private bool displayProfileOnStart;
+        public bool DisplayProfileOnStart
+        {
+            get => GetProperty(ref displayProfileOnStart);
+            set => SetProperty(ref displayProfileOnStart, value, true);
+        }
+
+        private int firstMessageNumber;
+        public int FirstMessageNumber
+        {
+            get
+            {
+                bool found = App.Properties.TryGetValue("MessageNumber", out object first);
+                if (!found)
+                {
+                    App.Properties["MessageNumber"] = 100;
+                }
+                firstMessageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
+                return firstMessageNumber;
+            }
+            set
+            {
+                Utilities.MarkMessageNumberAsUsed(value);
+                SetProperty(ref firstMessageNumber, value);
+            }
+        }
+
+        private string areaString = "XSCPERM, XSCEVENT";
+        public string AreaString
+        {
+            get => GetProperty(ref areaString);
+            set => SetProperty(ref areaString, value, true);
+        }
+
+        private bool sendReceipt;
+        public bool SendReceipt
+        {
+            get => GetProperty(ref sendReceipt);
+            set => SetProperty(ref sendReceipt, value, true);
+        }
+
+        private bool forceReadBulletins;
+        public bool ForceReadBulletins
+        {
+            get => forceReadBulletins;
+            set => SetProperty(ref forceReadBulletins, value);
+        }
     }
 }
