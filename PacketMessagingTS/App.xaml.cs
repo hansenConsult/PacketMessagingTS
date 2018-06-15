@@ -41,7 +41,7 @@ namespace PacketMessagingTS
             _activationService = new Lazy<ActivationService>(CreateActivationService);
 
             LogManagerFactory.DefaultConfiguration.AddTarget(LogLevel.Trace, LogLevel.Fatal, new StreamingFileTarget());
-            GlobalCrashHandler.Configure();
+            GlobalCrashHandler.Configure(); // Write a FATAL entry, wait until all of the targets have finished writing, then call Application.Exit.
 
             _tacticalCallsignDataDictionary = new Dictionary<string, TacticalCallsignData>();
             _TacticalCallsignDataList = new List<TacticalCallsignData>();

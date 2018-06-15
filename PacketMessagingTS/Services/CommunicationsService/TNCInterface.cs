@@ -17,6 +17,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 	public class TNCInterface: IDisposable
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCInterface>();
+        Helpers.LogHelper _logHelper = new Helpers.LogHelper(log);
 
         enum ConnectState
         {
@@ -35,7 +36,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
         List<PacketMessage> _packetMessagesToSend;
 
-        string _messageBBS = "";
+        string _bbsConnectName = "";
         bool _forceReadBulletins = false;
         string _Areas;
         TNCDevice _TncDevice = null;
@@ -43,16 +44,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		const string _BBSPrompt = ") >";
 		string _TNCPrompt = "cmd:";
-		bool _error = false;		// Disconnect if an error is detected
+        private bool _error = false;		// Disconnect if an error is detected
 
 		//const byte send = 0x5;
 		public TNCInterface()
         {
 
         }
-        public TNCInterface(ref TNCDevice tncDevice, bool forceReadBulletins, string areas, ref List<PacketMessage> packetMessagesToSend)
+
+        public TNCInterface(string messageBBS, ref TNCDevice tncDevice, bool forceReadBulletins, string areas, ref List<PacketMessage> packetMessagesToSend)
         {
-            //_messageBBS = messageBBS;
+            _bbsConnectName = messageBBS;
             _TncDevice = tncDevice;
 			_TNCPrompt = _TncDevice.Prompts.Command;
             _forceReadBulletins = forceReadBulletins;
@@ -321,7 +323,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							//receiptMessage.PacFormType = PacForms.Message;
 							receiptMessage.PacFormName = "SimpleMessage";
 							receiptMessage.MessageNumber = Utilities.GetMessageNumberPacket();
-							receiptMessage.BBSName = _messageBBS;
+							receiptMessage.BBSName = _bbsConnectName;
 							receiptMessage.TNCName = _TncDevice.Name;
 							receiptMessage.MessageTo = pktMsg.MessageFrom;
 							receiptMessage.MessageFrom = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign
@@ -356,7 +358,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					}
 					catch (Exception e)
 					{
-                        Helpers.LogHelper.Log(LogLevel.Error, "Delivered message exception: ", e.Message);
+                        _logHelper.Log(LogLevel.Error, "Delivered message exception: ", e.Message);
 						_error = true;
 					}
 				}
@@ -375,7 +377,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _serialPort.Write($"A {area}\r\x05");        // A XSCPERM
                     readText = _serialPort.ReadTo(") >");        // read response
                     Debug.WriteLine(readText + _BBSPrompt);
-                    log.Info(readText + _BBSPrompt);
+                    _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
 
                     //readText = _serialPort.ReadTo("\n");         // Next command
                     //Debug.WriteLine(readText + "\n");
@@ -410,11 +412,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 bool firstMessageDescriptionDetected = false;
                 foreach (string line in lines)
                 {
-					if (_error)
-						break;
-					
-					if (line[0] != '(' && (line[0] == '>' || firstMessageDescriptionDetected))
-					{
+                    if (_error)
+                    {
+                        _logHelper.Log(LogLevel.Error, $"Error in receive messages");
+                        break;
+                    }
+
+                    if (line[0] != '(' && (line[0] == '>' || firstMessageDescriptionDetected))
+                    {
                         //string lineCopy = line.Substring(1);        // Remove the first character which may be ' ' or '>'
                         string lineCopy = line.TrimStart(new char[] { ' ', '>' });
 
@@ -424,12 +429,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         if (char.IsLetter(lineSections[1][0]))        // No more messages in the list. Not sure this works!
                             break;
 
-                        PacketMessage packetMessage = new PacketMessage();
-                        packetMessage.BBSName = _messageBBS;
-                        packetMessage.TNCName = _TncDevice.Name;
-						packetMessage.MessageNumber = Utilities.GetMessageNumberPacket();
-						packetMessage.Area = area;
-                        packetMessage.MessageSize = Convert.ToInt32(lineSections[6]);
+                        PacketMessage packetMessage = new PacketMessage()
+                        {
+                            BBSName = _bbsConnectName,
+                            TNCName = _TncDevice.Name,
+                            MessageNumber = Utilities.GetMessageNumberPacket(true),
+                            Area = area,
+                            MessageSize = Convert.ToInt32(lineSections[6]),
+                        };
                         //Console.WriteLine(packetMessage.MessageSize.ToString());
                         int msgIndex = Convert.ToInt32(lineSections[1]);
                         //Console.WriteLine(msgIndex.ToString());
@@ -470,10 +477,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         }
 
-        async void SerialPortErrorReceivedAsync(object sender, SerialErrorReceivedEventArgs e)
+        async void OnSerialPortErrorReceivedAsync(object sender, SerialErrorReceivedEventArgs e)
         {
             Debug.WriteLine($"SerialPort exception: {e.EventType.ToString()}");
             log.Error($"SerialPort Error: {e.EventType.ToString()}");
+            _error = true;
             await Utilities.ShowMessageDialogAsync($"SerialPort Error: {e.EventType.ToString()}", "TNC Connect Error");
             _serialPort.Close();
             return;
@@ -510,7 +518,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.ReadTimeout = 5000;
             _serialPort.ReadBufferSize = 8192;
             _serialPort.WriteBufferSize = 4096;
-            _serialPort.ErrorReceived += new SerialErrorReceivedEventHandler(SerialPortErrorReceivedAsync);
+            _serialPort.ErrorReceived += new SerialErrorReceivedEventHandler(OnSerialPortErrorReceivedAsync);
 			log.Info("");
             Console.WriteLine($"{_TncDevice.Name}: {_TncDevice.CommPort.Comport}, {_TncDevice.CommPort.Baudrate}, {_TncDevice.CommPort.Databits}, {_TncDevice.CommPort.Stopbits}, {_TncDevice.CommPort.Parity}, {_TncDevice.CommPort.Flowcontrol}");
             log.Info($"{DateTime.Now.ToString()}");
@@ -553,7 +561,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _serialPort.ReadTimeout = 120000;
                 BBSConnectTime = DateTime.Now;
 				_connectState = ConnectState.ConnectStateBBSTryConnect;
-				_serialPort.Write("connect " + _messageBBS + "\r\x05");
+				_serialPort.Write("connect " + _bbsConnectName + "\r\x05");
 
                 readText = _serialPort.ReadLine();			// Read command
                 Debug.WriteLine(readText);
@@ -584,13 +592,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 Debug.WriteLine(readCmdText);
                 log.Info(readCmdText);
 
+                _logHelper.Log(LogLevel.Info, $"Messages to send: {_packetMessagesToSend.Count}");
                 // Send messages
                 foreach (PacketMessage packetMessage in _packetMessagesToSend)
                 {
-					if (_error)
-						break;
+                    if (_error)
+                    {
+                        _logHelper.Log(LogLevel.Error, $"Error detected in send messages");
+                        break;
+                    }
 					
-					if (packetMessage.BBSName == _messageBBS)
+					if (_bbsConnectName.Contains(packetMessage.BBSName))
                     {
                         _serialPort.ReadTimeout = 240000;
                         try

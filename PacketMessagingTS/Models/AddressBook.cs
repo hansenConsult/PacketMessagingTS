@@ -40,6 +40,7 @@ namespace PacketMessagingTS.Models
     public sealed class AddressBook
 	{
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<AddressBook>();
+        LogHelper logHelper = new LogHelper(log);
 
         private Dictionary<string, AddressBookEntry> _addressDictionary;
         private const string addressBookFileName = "addressBook.xml";
@@ -115,11 +116,11 @@ namespace PacketMessagingTS.Models
             }
             catch (FileNotFoundException e)
             {
-                LogHelper.Log(LogLevel.Error, $"Open Address Book file failed: {e.Message}");
+                logHelper.Log(LogLevel.Error, $"Open Address Book file failed: {e.Message}");
             }
             catch (Exception e)
             {
-                LogHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
+                logHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
             }
         }
 

@@ -29,7 +29,9 @@ namespace PacketMessagingTS.Models
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class TNCDeviceArray
     {
-        private ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCDeviceArray>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCDeviceArray>();
+        private LogHelper _logHelper = new LogHelper(log);
+
 
         public static string tncFileName = "TNCData.xml";
         private static volatile TNCDeviceArray _instance;
@@ -117,12 +119,12 @@ namespace PacketMessagingTS.Models
 			}
 			catch (FileNotFoundException e)
 			{
-                LogHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
+                _logHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
                 Debug.WriteLine($"File not found: {e.Message}");
 			}
 			catch (Exception e)
 			{
-                LogHelper.Log(LogLevel.Error, $"Failed to read TNC data file {e}");
+                _logHelper.Log(LogLevel.Error, $"Failed to read TNC data file {e}");
                 Debug.WriteLine($"Failed to read TNC data file {e}");
 			}
 			if (_instance.TNCDevices == null || _instance.TNCDevices.Length == 0)

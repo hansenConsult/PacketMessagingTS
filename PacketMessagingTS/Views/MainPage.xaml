@@ -89,6 +89,7 @@
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
+                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged" >
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
@@ -189,6 +190,7 @@
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
+                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>

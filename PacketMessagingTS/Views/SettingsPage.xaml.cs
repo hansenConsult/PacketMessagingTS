@@ -27,6 +27,9 @@ namespace PacketMessagingTS.Views
     // TODO WTS: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
+        private LogHelper _logHelper = new LogHelper(log);
+
         public SettingsViewModel ViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
         public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
@@ -745,7 +748,7 @@ namespace PacketMessagingTS.Views
                         }
                         catch (Exception ex)
                         {
-                            LogHelper.Log(LogLevel.Error, $"Overall Connect: { ex.Message}");
+                            _logHelper.Log(LogLevel.Error, $"Overall Connect: { ex.Message}");
                         }
                     }
                     else
@@ -766,7 +769,7 @@ namespace PacketMessagingTS.Views
             }
             catch (Exception e)
             {
-                LogHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
+                _logHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
             }
         }
 

@@ -21,15 +21,18 @@ using System.Threading.Tasks;
 using System.IO.Ports;
 using System.IO;
 
+
 namespace PacketMessagingTS.Services.CommunicationsService
 {
 	public class CommunicationsService
 	{
 		protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CommunicationsService>();
+        private Helpers.LogHelper _logHelper = new Helpers.LogHelper(log);
 
-		//Collection<DeviceListEntry> _listOfDevices;
 
-		public List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
+        //Collection<DeviceListEntry> _listOfDevices;
+
+        public List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
 		List<PacketMessage> _packetMessagesToSend = new List<PacketMessage>();
 
         private static readonly Object singletonCreationLock = new Object();
@@ -120,7 +123,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			string fileFolder = SharedData.ReceivedMessagesFolder.Path;
 			pktMsg.Save(fileFolder);
 
-			Helpers.LogHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} converted and saved");
+			_logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} converted and saved");
 
 			return ;
 		}
@@ -209,7 +212,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					string fileFolder = SharedData.ReceivedMessagesFolder.Path;
 					pktMsg.Save(fileFolder);
 
-                    Helpers.LogHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} received");
+                    _logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} received");
 
                     // If the received message is a delivery confirmation, update receivers message number in the original sent message
                     if (!string.IsNullOrEmpty(pktMsg.Subject) && pktMsg.Subject.Contains("DELIVERED:"))
@@ -366,7 +369,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         }
                         catch (Exception exp)
                         {
-                            Helpers.LogHelper.Log(LogLevel.Error, $"Error finding bluetooth device. { exp.Message }");
+                            _logHelper.Log(LogLevel.Error, $"Error finding bluetooth device. { exp.Message }");
                         }
                         if (!_deviceFound)
                         {
@@ -390,7 +393,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             catch (Exception ex)
                             {
                                 success = false;
-                                Helpers.LogHelper.Log(LogLevel.Error, "Bluetootn Connect failed:" + ex.Message);
+                                _logHelper.Log(LogLevel.Error, "Bluetootn Connect failed:" + ex.Message);
                             }
                             // If the connection was successful, the RemoteAddress field will be populated
                             try
@@ -403,11 +406,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             }
                             catch (Exception ex)
                             {
-                                Helpers.LogHelper.Log(LogLevel.Error, $"Overall Connect: { ex.Message}");
+                                _logHelper.Log(LogLevel.Error, $"Overall Connect: { ex.Message}");
                                 _socket.Dispose();
                                 _socket = null;
                             }
-                            tncInterface = new TNCInterface(ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+                            tncInterface = new TNCInterface(bbs.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
                         }
                     }
                     // Collect messages to be sent
@@ -456,10 +459,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     }
                     if (_packetMessagesToSend.Count == 0)
                     {
-                        Helpers.LogHelper.Log(LogLevel.Info, $"No messages to send.");
+                        _logHelper.Log(LogLevel.Info, $"No messages to send.");
                     }
 
-                    tncInterface = new TNCInterface(ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+                    tncInterface = new TNCInterface(bbs.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
                     // Send as email if a TNC is not reachable, or if message is defined as an e-mail message
                     if (!_deviceFound || tncDevice.Name.Contains("E-Mail"))
                     {
@@ -525,12 +528,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                     sendMailSuccess = await smtpClient.SendMail(message);
                                     if (!sendMailSuccess)
                                     {
-                                        Helpers.LogHelper.Log(LogLevel.Warn, $"Failed to send email message to {packetMessage.MessageTo}. Message No: {packetMessage.MessageNumber}");
+                                        _logHelper.Log(LogLevel.Warn, $"Failed to send email message to {packetMessage.MessageTo}. Message No: {packetMessage.MessageNumber}");
                                     }
                                 }
                                 catch (Exception e)
                                 {
-                                    Helpers.LogHelper.Log(LogLevel.Error, e.Message);
+                                    _logHelper.Log(LogLevel.Error, e.Message);
                                 }
 
                                 //								emailMessage.Subject = packetMessage.Subject;
@@ -560,7 +563,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                     packetMessage.MailUserName = smtpClient.UserName;
                                     tncInterface.PacketMessagesSent.Add(packetMessage);
 
-                                    Helpers.LogHelper.Log(LogLevel.Info, $"Message sent via email {packetMessage.MessageNumber}");
+                                    _logHelper.Log(LogLevel.Info, $"Message sent via email {packetMessage.MessageNumber}");
                                 }
                             }
                         }
@@ -576,7 +579,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                         //ref List<PacketMessage> packetMessagesReceived, ref List<PacketMessage> packetMessagesToSend, out DateTime bbsConnectTime, out DateTime bbsDisconnectTime
                         //string messageBBS, ref TNCDevice tncDevice, bool forceReadBulletins
-                        Helpers.LogHelper.Log(LogLevel.Info, $"Connect to: {bbs.ConnectName}");
+                        _logHelper.Log(LogLevel.Info, $"Connect to: {bbs.ConnectName}");
 
                         //tncInterface.BBSConnect(ref packetMessagesReceived, ref packetMessagesToSend);
                         //ConnectedDialog connectDlg = new ConnectedDialog();
@@ -602,12 +605,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         //connectDlg.ShowDialog();
 
                         Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
-                        Helpers.LogHelper.Log(LogLevel.Info, $"Disconnected from: {bbs.ConnectName}. Connect time = {tncInterface.BBSDisconnectTime - tncInterface.BBSConnectTime}");
+                        _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs.ConnectName}. Connect time = {tncInterface.BBSDisconnectTime - tncInterface.BBSConnectTime}");
                     }
                     // Move sent messages from unsent folder to the Sent folder
                     foreach (PacketMessage packetMsg in tncInterface.PacketMessagesSent)
                     {
-                        Helpers.LogHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
+                        _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
 
                         var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
                         await file.DeleteAsync();
@@ -622,14 +625,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 {
                     MessageDialog messageDialog = new MessageDialog($"Could not find the requested BBS ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS}). Check Packet Settings");
                     await messageDialog.ShowAsync();
-                    Helpers.LogHelper.Log(LogLevel.Error, $"Could not find the requested BBS ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS}). Check Packet Settings");
+                    _logHelper.Log(LogLevel.Error, $"Could not find the requested BBS ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS}). Check Packet Settings");
                 }
             }
             else
             {
                 MessageDialog messageDialog = new MessageDialog($"Could not find the requested TNC ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC})");
                 await messageDialog.ShowAsync();
-                Helpers.LogHelper.Log(LogLevel.Error, $"Could not find the requested TNC ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC})");
+                _logHelper.Log(LogLevel.Error, $"Could not find the requested TNC ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC})");
             }
         }
 
@@ -641,7 +644,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         /// <param name="deviceInformation"></param>
         //private void OnDeviceConnected(EventHandlerForDevice sender, DeviceInformation deviceInformation)
         //{
-        //          Helpers.LogHelper.Log(LogLevel.Info, $"{Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport} Connected.");
+        //          _logHelper.Log(LogLevel.Info, $"{Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport} Connected.");
         //}
 
         ///// <summary>
@@ -651,7 +654,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         ///// <param name="deviceInformation"></param>
         //private void OnDeviceClosing(EventHandlerForDevice sender, DeviceInformation deviceInformation)
         //{
-        //          Helpers.LogHelper.Log(LogLevel.Info, $"{Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport} Disconnected.");
+        //          _logHelper.Log(LogLevel.Info, $"{Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport} Disconnected.");
         //}
 
     }

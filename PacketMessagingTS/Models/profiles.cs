@@ -37,7 +37,9 @@ namespace PacketMessagingTS.Models
 	[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
 	public partial class ProfileArray
 	{
-		private ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ProfileArray>();
+		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ProfileArray>();
+        private LogHelper _logHelper = new LogHelper(log);
+
         private static volatile ProfileArray _instance;
         private static object _syncRoot = new Object();
 
@@ -127,7 +129,7 @@ namespace PacketMessagingTS.Models
 			}
 			catch (Exception e)
 			{
-                LogHelper.Log(LogLevel.Error, $"Error opening file {file?.Path + profileFileName}, {e}");
+                _logHelper.Log(LogLevel.Error, $"Error opening file {file?.Path + profileFileName}, {e}");
                 Debug.WriteLine ($"Error opening file {file?.Path + profileFileName}, {e}");
 			}
 		}

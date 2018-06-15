@@ -17,6 +17,9 @@ namespace PacketMessagingTS.Services.SMTPClient
 {
     public class SmtpSocket
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SmtpSocket>();
+        private LogHelper _logHelper = new LogHelper(log);
+
         private HostName hostName;
         private StreamSocket socket;
         private DataReader reader;
@@ -89,7 +92,7 @@ namespace PacketMessagingTS.Services.SMTPClient
 			}
             catch (Exception ex)
             {
-                LogHelper.Log(LogLevel.Error, ex.Message);
+                _logHelper.Log(LogLevel.Error, ex.Message);
                 Debug.WriteLine(ex.Message);
                 throw;
             }
@@ -173,7 +176,7 @@ namespace PacketMessagingTS.Services.SMTPClient
 
                                 response.Values.Add(r);
 
-                                LogHelper.Log(LogLevel.Error, "{0}{1}", ((int)code).ToString(), stringBuilder.ToString());
+                                _logHelper.Log(LogLevel.Error, "{0}{1}", ((int)code).ToString(), stringBuilder.ToString());
                                 Debug.WriteLine("{0}{1}", ((int)code).ToString(), stringBuilder.ToString());
 
                                 stringBuilder = new StringBuilder();
@@ -196,7 +199,7 @@ namespace PacketMessagingTS.Services.SMTPClient
             }
             catch (Exception ex)
             {
-                LogHelper.Log(LogLevel.Error, ex.Message);
+                _logHelper.Log(LogLevel.Error, ex.Message);
                 Debug.WriteLine(ex.Message);
                 throw;
             }
