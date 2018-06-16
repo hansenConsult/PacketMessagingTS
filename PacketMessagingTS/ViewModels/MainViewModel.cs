@@ -75,5 +75,6 @@ namespace PacketMessagingTS.ViewModels
             get => selectedMessage;
             set => SetProperty(ref selectedMessage, value);
         }
+
     }
 }

@@ -4,6 +4,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:tg="using:Telerik.UI.Xaml.Controls.Grid"
+      xmlns:core="using:Telerik.Data.Core"
       xmlns:vm="using:PacketMessagingTS.ViewModels"
       xmlns:helpers="using:PacketMessagingTS.Helpers"
       Style="{StaticResource PageStyle}"
@@ -16,6 +17,9 @@
     <Page.Resources>
         <helpers:AreaConverter x:Key="Converter1"/>
         <helpers:DateTimeConverter x:Key="DatetimeConverter"/>
+        <helpers:BooleanToStringConverter x:Key="BooleanToStringConverter"
+                                       TrueValue="Active"
+                                       FalseValue="Retired" />
 
     </Page.Resources>
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
@@ -40,7 +44,8 @@
                                 AutoGenerateColumns="False"
                                 SelectionMode="Single"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
-                                SelectionUnit="Row"
+                                SelectionUnit="Cell"
+                                ColumnResizeHandleDisplayMode="Always"
                                 SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 >
                     <!--SelectionChanged="DataGrid_SelectionChanged"-->
@@ -51,13 +56,21 @@
 
                     <tg:RadDataGrid.Columns>
                         <tg:DataGridTemplateColumn Header="Area">
+                            <tg:DataGridTemplateColumn.GroupDescriptor>
+                                <core:PropertyGroupDescriptor PropertyName="ActiveDescription"
+                                        DisplayContent="Active" />
+                            </tg:DataGridTemplateColumn.GroupDescriptor>
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Area, Mode=OneWay, Converter={StaticResource Converter1}}" />
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <tg:DataGridTemplateColumn Header="Received Time" >
+                        <tg:DataGridTemplateColumn Header="Received Time" CanUserSort="True">
+                            <tg:DataGridTemplateColumn.GroupDescriptor>
+                                <core:PropertyGroupDescriptor PropertyName="ActiveDescription"
+                                        DisplayContent="Active" />
+                            </tg:DataGridTemplateColumn.GroupDescriptor>
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ReceivedTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
@@ -74,10 +87,10 @@
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
                         <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
@@ -88,6 +101,7 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridSent"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged" >
@@ -113,10 +127,10 @@
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBSName" CanUserResize="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
@@ -128,6 +142,7 @@
                                 x:Name="dataGridOutbox"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
@@ -144,11 +159,11 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
                         <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
@@ -160,6 +175,7 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridDrafts"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Single"
+                                ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
@@ -177,7 +193,7 @@
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" />
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
                     </tg:RadDataGrid.Columns>
@@ -189,6 +205,7 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridArchived"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Multiple"
+                                ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
@@ -207,10 +224,10 @@
                         <tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>
                         <tg:DataGridTextColumn PropertyName="JNOSDate" Header="Sent Time"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
                         <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
@@ -222,6 +239,7 @@
                                 x:Name="dataGridDeleted"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Single"
+                                ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
@@ -238,11 +256,11 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No."/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBS" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
             </PivotItem>

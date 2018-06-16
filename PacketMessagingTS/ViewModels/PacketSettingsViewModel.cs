@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,17 +23,21 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
+        private ObservableCollection<Profile> observableProfileCollection;
+        public ObservableCollection<Profile> ObservableProfileCollection
+        {
+            get => observableProfileCollection;
+            set => SetProperty(ref observableProfileCollection, value);
+        }
+
         private int profileSelectedIndex;
         public int ProfileSelectedIndex
         {
-            get
-            {
-                return GetProperty(ref profileSelectedIndex);
-            }
+            get => GetProperty(ref profileSelectedIndex);
             set
             {
                 SetProperty(ref profileSelectedIndex, value, true);
-                CurrentProfile = ProfileArray.Instance.ProfileList[Convert.ToInt32(profileSelectedIndex)];
+                CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
             }
         }
 
@@ -83,15 +88,10 @@ namespace PacketMessagingTS.ViewModels
             set => currentTNC = value;
         }
 
-        //private string bbs;
-        //public string BBS
-        //{
-        //    get => bbs;
-        //    set
-        //    {
-        //        SetProperty(ref bbs, value);
-        //    }
-        //}
+        public ObservableCollection<BBSData> BBSDataCollection
+        {
+            get => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+        }
 
         private string bbsSelectedValue;
         public string BBSSelectedValue
@@ -103,7 +103,6 @@ namespace PacketMessagingTS.ViewModels
 
                 bool changed = CurrentProfile.BBS != bbsSelectedValue;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
-
             }
         }
 
@@ -153,7 +152,6 @@ namespace PacketMessagingTS.ViewModels
                 bool changed = CurrentProfile.SendTo != defaultTo;
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
-
             }
         }
 

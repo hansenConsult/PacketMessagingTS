@@ -170,4 +170,8 @@
         <TextBlock Text="{Binding}" FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Black" Margin="4,0,0,0"/>
     </DataTemplate>
 
+    <DataTemplate x:Name="CityScanHeaderTemplate">
+        <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" HorizontalTextAlignment="Center"/>
+    </DataTemplate>
+
 </ResourceDictionary>

@@ -70,13 +70,15 @@ namespace PacketMessagingTS.Views
 
         TacticalCallsignData _tacticalCallsignData;
 
+        // Profiles settings
+        
 
         public SettingsPage()
         {
             InitializeComponent();
 
-            ObservableCollection <BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
-            BBSDataCollection.Source = bbsDataCollection;
+            //ObservableCollection <BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+            //BBSDataCollection.Source = bbsDataCollection;
             //comboBoxBBS.SelectedValue = SharedData.CurrentBBS;
 
             ObservableCollection<TNCDevice> tncDeviceCollection = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList );
@@ -97,22 +99,7 @@ namespace PacketMessagingTS.Views
             //watchersSuspended = false;
             //isAllDevicesEnumerated = false;
 
-            listOfBaudRates = new ObservableCollection<uint>();
-            for (uint i = 1200; i < 39000; i *= 2)
-            {
-                listOfBaudRates.Add(i);
-            }
-            BaudRateListSource.Source = listOfBaudRates;
-
-            // data bits
-            listOfDataBits = new ObservableCollection<ushort>() { 7, 8 };
-            DataBitsListSource.Source = listOfDataBits;
-
-            //ParitiesListSource.Source = Enum.GetValues(typeof(SerialParity));
-
-            //StopBitsListSource.Source = Enum.GetValues(typeof(SerialStopBitCount));
-
-            ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
+            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
             //ObservableCollection<EmailAccount> EmailAccountsObservableCollection = new ObservableCollection<EmailAccount>();
             //foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccounts)
@@ -143,7 +130,7 @@ namespace PacketMessagingTS.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Initialize();
-            //Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToUInt32(App.Properties["ProfileSelectedIndex"]);
+            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToInt32(App.Properties["ProfileSelectedIndex"]);
             // Initialize the desired device watchers so that we can watch for when devices are connected/removed
             if (!watchersStarted)
             {
@@ -279,12 +266,12 @@ namespace PacketMessagingTS.Views
 
             await ProfileArray.Instance.SaveAsync();
 
-            _profileCollection = new ObservableCollection<Profile>();
-            foreach (Profile prof in ProfileArray.Instance.ProfileList)
-            {
-                _profileCollection.Add(prof);
-            }
-            ProfilesCollection.Source = _profileCollection;
+            //_profileCollection = new ObservableCollection<Profile>();
+            //foreach (Profile prof in ProfileArray.Instance.ProfileList)
+            //{
+            //    _profileCollection.Add(prof);
+            //}
+            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
 
             //_bbsChanged = false;
@@ -330,7 +317,7 @@ namespace PacketMessagingTS.Views
 
             await ProfileArray.Instance.SaveAsync();
 
-            ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
+            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
             comboBoxProfiles.SelectedIndex = index;
 
             //_bbsChanged = false;
@@ -371,7 +358,7 @@ namespace PacketMessagingTS.Views
 
             Profile profile = comboBoxProfiles.SelectedItem as Profile;
             ProfileArray.Instance.ProfileList.Remove(profile);
-            ProfilesCollection.Source = ProfileArray.Instance.ProfileList;
+            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
             //int index = comboBoxProfiles.SelectedIndex;
             //var length = SharedData.ProfileArray.Profiles.Length;
@@ -413,31 +400,6 @@ namespace PacketMessagingTS.Views
             //    SharedData.CurrentTNCDevice = selectedTNCDevice;
             //}
         }
-
- //       private void ComboBoxBBS_SelectionChanged(object sender, SelectionChangedEventArgs e)
- //       {
- //           //if (e.AddedItems.Count > 0)
- //           //{
- //           //    var selectedBBS = (BBSData)e.AddedItems[0];
- //           //    SharedData.CurrentBBS = selectedBBS;
- //               //ViewModels.SharedData._currentProfile.BBS = selectedBBS.Name;
- ////               textBoxDescription.Text = selectedBBS.Description;
- ////               textBoxFrequency1.Text = selectedBBS.Frequency1;
- ////               textBoxFrequency2.Text = selectedBBS.Frequency2;
- //               //if (_packetSettingsViewModel.CurrentProfile != null)
- //               //{
- //               //    _bbsChanged = _packetSettingsViewModel.CurrentProfile.BBS != selectedBBS.Name;
- //               //}
-
- //               //profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
- //           //}
- //           //else
- //           //{
- //           //    textBoxDescription.Text = "";
- //           //    textBoxFrequency1.Text = "";
- //           //    textBoxFrequency2.Text = "";
- //           //}
- //       }
 
         private void TextBoxTo_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -789,12 +751,6 @@ namespace PacketMessagingTS.Views
                 CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
                 ComPortListSource.Source = CollectionOfSerialDevices;
             }
-        }
-
-
-        private void comboBoxStopBits_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void UpdateTNCFromUI(TNCDevice tncDevice)
@@ -1209,46 +1165,15 @@ namespace PacketMessagingTS.Views
             await TNCDeviceArray.Instance.SaveAsync();
 
             DeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-
-            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailUserName != (string)((TextBox)sender).Text)
-            //{
-            //    _emailMailUserNameChanged = true;
-            //}
-            //else
-            //{
-            //    _emailMailUserNameChanged = false;
-            //}
-            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
-            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
         }
 
-        private void MailPassword_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailPassword != (string)((PasswordBox)sender).Password)
-            //{
-            //    _emailMailPasswordChanged = true;
-            //}
-            //else
-            //{
-            //    _emailMailPasswordChanged = false;
-            //}
-            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
-            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
-        }
+        //private void MailPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        //{
+        //}
 
-        private void MailIsSSL_Toggled(object sender, RoutedEventArgs e)
-        {
-            //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailIsSSLField != ((ToggleSwitch)sender).IsOn)
-            //{
-            //    _emailMailIsSSLChanged = true;
-            //}
-            //else
-            //{
-            //    _emailMailIsSSLChanged = false;
-            //}
-            //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
-            //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
-        }
+        //private void MailIsSSL_Toggled(object sender, RoutedEventArgs e)
+        //{
+        //}
 
         private void AppBarAddTNC_Clicked(object sender, RoutedEventArgs e)
         {

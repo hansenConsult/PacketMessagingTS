@@ -369,26 +369,32 @@ namespace FormControlBaseClass
 			set => mailUserNameField = value;
 		}
 
-		/// <remarks/>
-		//public bool MessageReadOnly
-		//{
-		//    get
-		//    {
-		//        return this.messageReadOnlyField;
-		//    }
-		//    set
-		//    {
-		//        this.messageReadOnlyField = value;
-		//    }
-		//}
+        /// <remarks/>
+        //public bool MessageReadOnly
+        //{
+        //    get
+        //    {
+        //        return this.messageReadOnlyField;
+        //    }
+        //    set
+        //    {
+        //        this.messageReadOnlyField = value;
+        //    }
+        //}
 
-		//public double GridWidth
-		//{
-		//	get { return gridWidthField; }
-		//	set => gridWidthField = value;
-		//}
+        //public double GridWidth
+        //{
+        //	get { return gridWidthField; }
+        //	set => gridWidthField = value;
+        //}
 
-		[XmlIgnore]
+        [XmlIgnore]
+        public bool IsStillActive { get; set; } = true;
+
+        [XmlIgnore]
+        public string ActiveDescription => IsStillActive ? "Active" : "Retired";
+
+        [XmlIgnore]
 		public int Size
 		{
 			get

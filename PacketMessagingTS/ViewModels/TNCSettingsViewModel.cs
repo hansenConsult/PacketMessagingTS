@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,11 +16,11 @@ namespace PacketMessagingTS.ViewModels
     public class TNCSettingsViewModel : BaseViewModel
     {
 
-    
+
 
         public TNCSettingsViewModel()
         {
-            
+
         }
 
         public override void ResetChangedProperty()
@@ -33,7 +34,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get => GetProperty(ref tncDeviceSelectedIndex);
             set
-            { 
+            {
                 SetProperty(ref tncDeviceSelectedIndex, value, true);
                 //if (!TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex].Name.Contains("E-Mail"))
                 {
@@ -197,6 +198,21 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private ObservableCollection<uint> CreateBaudRatesCollection()
+        {
+            ObservableCollection<uint> baudRatesCollection = new ObservableCollection<uint>();
+            for (uint i = 1200; i< 39000; i *= 2)
+            {
+                baudRatesCollection.Add(i);
+            }
+            return baudRatesCollection;
+        }
+
+        public ObservableCollection<uint> BaudRatesCollection
+        {
+            get => CreateBaudRatesCollection();
+        }
+
         private uint tncComBaudRate;
         public uint TNCComBaudRate
         {
@@ -209,6 +225,11 @@ namespace PacketMessagingTS.ViewModels
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
+        }
+
+        public ObservableCollection<ushort> DatabitsCollection
+        {
+            get => new ObservableCollection<ushort>() { 7, 8 };
         }
 
         private ushort tncComDatabits;
