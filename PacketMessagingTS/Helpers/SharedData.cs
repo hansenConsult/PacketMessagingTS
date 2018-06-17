@@ -40,17 +40,11 @@ namespace PacketMessagingTS.Helpers
         //    set => currentProfile = value;
         //}
 
-        //public static BBSDefinitions BbsArray { get; set; } = new BBSDefinitions();
-
         //public static BBSData CurrentBBS { get; set; }
 
         //public static TNCDevice CurrentTNCDevice { get; set; }
 
         //public static TNCDevice SavedTNCDevice { get; set; }
-
-        //public static string[] _Areas;
-        //public static bool _forceReadBulletins;
-
     }
 
 }

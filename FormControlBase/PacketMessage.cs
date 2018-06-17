@@ -180,15 +180,26 @@ namespace FormControlBaseClass
             }
         }
 
-		///// <remarks/>
-		//public string JNOSDateDisplay
-		//{
-		//	get => jNOSDateDisplayField;
-		//	set => jNOSDateDisplayField = value;
-		//}
+        /// <remarks/>
+        [XmlIgnore]
+        public string JNOSTimeAsString
+        {
+            get
+            {
+                if (jNOSDateField != null)
+                {
+                    DateTime dateTime = (DateTime)jNOSDateField;
+                    return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
 
-		/// <remarks/>
-		public DateTime? SentTime
+        /// <remarks/>
+        public DateTime? SentTime
         {
             get
             {
@@ -200,15 +211,26 @@ namespace FormControlBaseClass
             }
         }
 
-		/// <remarks/>
-		//public string SentTimeDisplay
-		//{
-		//	get => messageSentTimeDisplayField;
-		//	set => messageSentTimeDisplayField = value;
-		//}
+        /// <remarks/>
+        [XmlIgnore]
+        public string SentTimeAsString
+        {
+            get
+            {
+                if (messageSentTimeField != null)
+                {
+                    DateTime dateTime = (DateTime)messageSentTimeField;
+                    return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
 
-		/// <remarks/>
-		public DateTime? CreateTime
+        /// <remarks/>
+        public DateTime? CreateTime
         {
             get
             {
@@ -217,6 +239,24 @@ namespace FormControlBaseClass
             set
             {
                 this.messageCreateTimeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlIgnore]
+        public string CreateTimeAsString
+        {
+            get
+            {
+                if (messageCreateTimeField != null)
+                {
+                    DateTime dateTime = (DateTime)messageCreateTimeField;
+                    return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+                }
+                else
+                {
+                    return "";
+                }
             }
         }
 
@@ -238,15 +278,32 @@ namespace FormControlBaseClass
 			}
         }
 
-		/// <remarks/>
-		//public string ReceivedTimeDisplay
-		//{
-		//	get => messageReceiveTimeDisplayField;
-		//	set => messageReceiveTimeDisplayField = value;
-		//}
+        /// <remarks/>
+        [XmlIgnore]
+        public string ReceivedTimeAsString
+        {
+            get
+            {
+                if (messageReceiveTimeField != null)
+                {
+                    DateTime dateTime = (DateTime)messageReceiveTimeField;
+                    return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        /// <remarks/>
+        //public string ReceivedTimeDisplay
+        //{
+        //	get => messageReceiveTimeDisplayField;
+        //	set => messageReceiveTimeDisplayField = value;
+        //}
 
-		/// <remarks/>
-		public string MessageNumber
+        /// <remarks/>
+        public string MessageNumber
         {
             get
             {

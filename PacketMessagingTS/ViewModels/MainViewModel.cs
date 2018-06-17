@@ -32,19 +32,26 @@ namespace PacketMessagingTS.ViewModels
             //task.Wait();
             //List<PacketMessage> messagesInFolder = task.Result;
 
-            Source = new ObservableCollection<PacketMessage>(messagesInFolder);
+            switch (MainPagePivotSelectedItem.Name)
+            {
+                case "":
+                    DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
+                    break;
+                default:
+                    Source = new ObservableCollection<PacketMessage>(messagesInFolder);
+                    break;
+            }
         }
 
         public void OpenMessageFromDoubleClick()
         {
-            //PivotItem pivotItem = MainPagePivot.Items[_mainViewModel.PivotSelectedIndex] as PivotItem;
-            //string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
-            //PivotItem pivotItem = (MainPagePivot.Items[_mainViewModel.MainPagePivotSelectedIndex] as PivotItem);
-            string folder = ((StorageFolder)MainPagePivotSelectedItem.Tag).Path;
-            //string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
-            string packetMessagePath = Path.Combine(folder, SelectedMessage.FileName);
+            if (SelectedItems != null && SelectedItems.Count == 1)
+            {
+                string folder = ((StorageFolder)MainPagePivotSelectedItem.Tag).Path;
+                string packetMessagePath = Path.Combine(folder, SelectedItems[0].FileName);
 
-            NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
+                NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
+            }
         }
 
         public Pivot MainPagePivot { get; set; }
@@ -54,6 +61,13 @@ namespace PacketMessagingTS.ViewModels
         {
             get => source;
             set => SetProperty(ref source, value);
+        }
+
+        private ObservableCollection<PacketMessage> draftsSource;
+        public ObservableCollection<PacketMessage> DraftsSource
+        {
+            get => draftsSource;
+            set => SetProperty(ref draftsSource, value);
         }
 
         private int mainPagePivotSelectedIndex;
@@ -69,12 +83,6 @@ namespace PacketMessagingTS.ViewModels
         }
         public PivotItem MainPagePivotSelectedItem { get; set; }
 
-        private PacketMessage selectedMessage;
-        public PacketMessage SelectedMessage
-        {
-            get => selectedMessage;
-            set => SetProperty(ref selectedMessage, value);
-        }
-
+        public List<PacketMessage> SelectedItems { get; set; }
     }
 }

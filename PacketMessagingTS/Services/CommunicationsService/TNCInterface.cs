@@ -431,7 +431,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                         PacketMessage packetMessage = new PacketMessage()
                         {
-                            BBSName = _bbsConnectName,
+                            BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
                             TNCName = _TncDevice.Name,
                             MessageNumber = Utilities.GetMessageNumberPacket(true),
                             Area = area,

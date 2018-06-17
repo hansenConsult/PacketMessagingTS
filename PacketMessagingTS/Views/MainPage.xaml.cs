@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.IO;
 using PacketMessagingTS.Services;
+using Telerik.UI.Xaml.Controls.Grid;
 
 namespace PacketMessagingTS.Views
 {
@@ -64,30 +65,30 @@ namespace PacketMessagingTS.Views
         {
             List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)pivotItem.Tag);
 
-            //ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
+            ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
             _mainViewModel.Source = new ObservableCollection<PacketMessage>(messagesInFolder);
 
-            //switch (pivotItem.Name)
-            //{
-            //    case "pivotItemInBox":
-            //        //dataGridInbox.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemSent":
-            //        //dataGridSent.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemOutBox":
-            //        //dataGridOutbox.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemDrafts":
-            //        //dataGridDrafts.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemArchive":
-            //        //dataGridArchived.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemDeleted":
-            //        //dataGridDeleted.ItemsSource = _messageObservableCollection;
-            //        break;
-            //}
+            switch (pivotItem.Name)
+            {
+                case "pivotItemInBox":
+                    //dataGridInbox.ItemsSource = _messageObservableCollection;
+                    break;
+                case "pivotItemSent":
+                    //dataGridSent.ItemsSource = _messageObservableCollection;
+                    break;
+                case "pivotItemOutBox":
+                    //dataGridOutbox.ItemsSource = _messageObservableCollection;
+                    break;
+                case "pivotItemDrafts":
+                    _mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
+                    break;
+                case "pivotItemArchive":
+                    //dataGridArchived.ItemsSource = _messageObservableCollection;
+                    break;
+                case "pivotItemDeleted":
+                    //dataGridDeleted.ItemsSource = _messageObservableCollection;
+                    break;
+            }
         }
 
         private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -100,16 +101,18 @@ namespace PacketMessagingTS.Views
             //_mainViewModel.RefreshDataGridAsync(); // problem on startup because MainPagePivotSelectedItem is null
         }
 
-        private void DataGrid_SelectionChanged(object sender, Telerik.UI.Xaml.Controls.Grid.DataGridSelectionChangedEventArgs e)
+        private void DataGrid_SelectionChanged(object sender, DataGridSelectionChangedEventArgs e)
         {
-            foreach (PacketMessage packetMessage in e.RemovedItems)
-            {
-                _selectedMessages.Remove(packetMessage);
-            }
             foreach (PacketMessage packetMessage in e.AddedItems)
             {
                 _selectedMessages.Add(packetMessage);
             }
+            foreach (PacketMessage packetMessage in e.RemovedItems)
+            {
+                _selectedMessages.Remove(packetMessage);
+            }
+            _mainViewModel.SelectedItems = _selectedMessages;
+            //ObservableCollection<object> selectedItemsCollection = ((RadDataGrid)sender).SelectedItems;
         }
 
         private void OpenMessage()
@@ -178,11 +181,11 @@ namespace PacketMessagingTS.Views
         //    OpenMessage();
         //}
 
-        //private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-        //{
-        //    Singleton<MainViewModel>.Instance.OpenMessageFromDoubleClick(_selectedMessages[0]);
+        private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        {
+            //Singleton<MainViewModel>.Instance.OpenMessageFromDoubleClick(_selectedMessages[0]);
 
-        //    //OpenMessage();
-        //}
+            OpenMessage();
+        }
     }
 }

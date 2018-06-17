@@ -44,18 +44,16 @@
                                 AutoGenerateColumns="False"
                                 SelectionMode="Single"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
-                                SelectionUnit="Cell"
+                                SelectionUnit="Row"
                                 ColumnResizeHandleDisplayMode="Always"
-                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
-                                >
-                    <!--SelectionChanged="DataGrid_SelectionChanged"-->
+                                SelectionChanged="DataGrid_SelectionChanged">
 
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
 
                     <tg:RadDataGrid.Columns>
-                        <tg:DataGridTemplateColumn Header="Area">
+                        <!--<tg:DataGridTemplateColumn Header="Area">
                             <tg:DataGridTemplateColumn.GroupDescriptor>
                                 <core:PropertyGroupDescriptor PropertyName="ActiveDescription"
                                         DisplayContent="Active" />
@@ -65,8 +63,9 @@
                                     <TextBlock Text="{Binding Area, Mode=OneWay, Converter={StaticResource Converter1}}" />
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
-                        <tg:DataGridTemplateColumn Header="Received Time" CanUserSort="True">
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="Area" Header="Area" />
+                        <!--<tg:DataGridTemplateColumn Header="Received Time" CanUserSort="True">
                             <tg:DataGridTemplateColumn.GroupDescriptor>
                                 <core:PropertyGroupDescriptor PropertyName="ActiveDescription"
                                         DisplayContent="Active" />
@@ -77,18 +76,20 @@
                                                VerticalAlignment="Center"  Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
-                        <tg:DataGridTemplateColumn Header="Sent Time">
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="ReceivedTimeAsString" Header="Rcvd Time" SizeMode="Fixed" Width="114"/>
+                        <!--<tg:DataGridTemplateColumn Header="Sent Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding JNOSDate, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
                                                VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="JNOSTimeAsString" Header="Sent Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
-                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Fixed" Width="100"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
                         <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
                         <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
@@ -103,29 +104,32 @@
                                 SelectionMode="Multiple"
                                 ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
-                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged" >
+                    <!--SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"-->
+
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
 
                     <tg:RadDataGrid.Columns>
-                        <tg:DataGridTemplateColumn Header="Received Time">
+                        <!--<tg:DataGridTemplateColumn Header="Received Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ReceivedTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
                                                VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
-                        <tg:DataGridTemplateColumn Header="Sent Time">
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="ReceivedTimeAsString" Header="Rcvd Time" SizeMode="Fixed" Width="114"/>
+                        <!--<tg:DataGridTemplateColumn Header="Sent Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding SentTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
                                                VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="SentTimeAsString" Header="Sent Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
@@ -144,21 +148,23 @@
                                 SelectionMode="Multiple"
                                 ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
-                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
+                    <!--SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"-->
+
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
 
                     <tg:RadDataGrid.Columns>
-                        <tg:DataGridTemplateColumn Header="Create Time">
+                        <!--<tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CreateTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
                                                VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" />
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
@@ -174,24 +180,27 @@
             <PivotItem x:Uid="Main_Drafts" x:Name="pivotItemDrafts" >
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridDrafts"
                                 AutoGenerateColumns="False"
-                                SelectionMode="Single"
+                                SelectionMode="Multiple"
+                                CanUserChooseColumns="True"
                                 ColumnResizeHandleDisplayMode="Always"
-                                ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
-                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
+                                ItemsSource="{x:Bind _mainViewModel.DraftsSource, Mode=TwoWay}"                                
                                 SelectionChanged="DataGrid_SelectionChanged">
+                    <!--SelectedItem="{x:Bind _mainViewModel.DraftsSelectedMessage, Mode=TwoWay}"-->
+
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
 
                     <tg:RadDataGrid.Columns>
-                        <tg:DataGridTemplateColumn Header="Create Time">
+                        <!--<tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CreateTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
                                                VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" />
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" />
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
@@ -207,8 +216,9 @@
                                 SelectionMode="Multiple"
                                 ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
-                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
+                    <!--SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"-->
+
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
@@ -221,7 +231,7 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>
-                        <tg:DataGridTextColumn PropertyName="ReceivedTime" Header="Received Time"/>
+                        <tg:DataGridTextColumn PropertyName="ReceivedTimeAsString" Header="Rcvd Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="JNOSDate" Header="Sent Time"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
@@ -241,21 +251,23 @@
                                 SelectionMode="Single"
                                 ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
-                                SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
+                    <!--SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"-->
+
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
 
                     <tg:RadDataGrid.Columns>
-                        <tg:DataGridTemplateColumn Header="Create Time">
+                        <!--<tg:DataGridTemplateColumn Header="Create Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CreateTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
                                                VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>
+                        </tg:DataGridTemplateColumn>-->
+                        <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" />
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
