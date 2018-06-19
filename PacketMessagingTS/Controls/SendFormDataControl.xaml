@@ -20,7 +20,7 @@
                    RelativePanel.AlignLeftWithPanel="True"  
                    Text="BBS:" Width="55" Margin="0,8,8,8"/>
         <TextBox x:Name="textBoxMessageBBS"
-            RelativePanel.AlignVerticalCenterWith="labelBBS" 
+                 RelativePanel.AlignVerticalCenterWith="labelBBS" 
                  RelativePanel.RightOf="labelBBS" VerticalContentAlignment="Center"
                  Text="{x:Bind MessageBBS, Mode=TwoWay}"
                  Tag="conditionallyrequired,Please select a BBS" BorderThickness="2" Width="100"  />
@@ -54,7 +54,7 @@
                         Margin="12.6,1.8,0,-0.2" 
                         TextChanged="MessageTo_TextChanged"
                         SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center"
-                        Text="{x:Bind MessageTo, Mode=OneWay}"/>
+                        Text="{x:Bind MessageTo, Mode=TwoWay}"/>
         <ToggleSwitch x:Name="toSelection" Margin="12,-3,0,2" 
                       RelativePanel.AlignRightWithPanel="True"
                       RelativePanel.Below="textBoxMessageTNC"

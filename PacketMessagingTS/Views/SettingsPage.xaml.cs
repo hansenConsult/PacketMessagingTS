@@ -30,7 +30,7 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
         private LogHelper _logHelper = new LogHelper(log);
 
-        public SettingsViewModel ViewModel { get; } = Singleton<SettingsViewModel>.Instance;
+        public SettingsViewModel _settingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
         public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
         //public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
@@ -129,8 +129,8 @@ namespace PacketMessagingTS.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Initialize();
-            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Convert.ToInt32(App.Properties["ProfileSelectedIndex"]);
+            _settingsViewModel.Initialize();
+            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
             // Initialize the desired device watchers so that we can watch for when devices are connected/removed
             if (!watchersStarted)
             {
@@ -151,6 +151,9 @@ namespace PacketMessagingTS.Views
         }
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            comboBoxProfiles.Visibility = Visibility.Visible;
+            textBoxNewProfileName.Visibility = Visibility.Collapsed;
+
             switch ((SettingsPivot.SelectedItem as PivotItem).Name)
             {
                 case "pivotTNC":
@@ -158,25 +161,12 @@ namespace PacketMessagingTS.Views
                     comboBoxComPort.SelectedValue = _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport;
 
                     //ResetTNCDeviceChanged();
-                    //appBarSettingsSave.Visibility = Visibility.Visible;
-                    //appBarSettingsSave.IsEnabled = false;
-                    //appBarSettingsAdd.Visibility = Visibility.Visible;
-                    //appBarSettingsEdit.Visibility = Visibility.Visible;
-                    //appBarsettingsDelete.Visibility = Visibility.Visible;
-                    //SettingsCommandBar.Visibility = Visibility.Visible;
                     break;
                     //    //    case "pivotItemAddressBook":
                     //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-                    //    //        appBarSettingsSave.Visibility = Visibility.Collapsed;
-                    //    //        SettingsCommandBar.Visibility = Visibility.Visible;
                     //    //        break;
                     //    //    case "pivotItemDistributionLists":
                     //    //        //ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-                    //    //        appBarSettingsSave.Visibility = Visibility.Visible;
-                    //    //        appBarSettingsSave.IsEnabled = DistributionListArray.Instance.DataChanged;
-                    //    //        appBarSettingsEdit.Visibility = Visibility.Visible;
-                    //    //        appBarsettingsDelete.Visibility = Visibility.Visible;
-                    //    //        SettingsCommandBar.Visibility = Visibility.Visible;
                     //    //        break;
                     //    //    default:
                     //    //        SettingsCommandBar.Visibility = Visibility.Collapsed;
@@ -320,10 +310,6 @@ namespace PacketMessagingTS.Views
             _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
             comboBoxProfiles.SelectedIndex = index;
 
-            //_bbsChanged = false;
-            //_tncChanged = false;
-            //_defaultToChanged = false;
-            //profileSave.IsEnabled = false;
         }
 
         private void ProfileSettingsAdd_Click(object sender, RoutedEventArgs e)

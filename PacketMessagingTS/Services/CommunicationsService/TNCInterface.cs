@@ -11,6 +11,7 @@ using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Helpers;
 using System.Diagnostics;
 using Windows.UI.Xaml;
+using Windows.UI.Core;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -322,8 +323,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							PacketMessage receiptMessage = new PacketMessage();
 							//receiptMessage.PacFormType = PacForms.Message;
 							receiptMessage.PacFormName = "SimpleMessage";
-							receiptMessage.MessageNumber = Utilities.GetMessageNumberPacket();
-							receiptMessage.BBSName = _bbsConnectName;
+							receiptMessage.MessageNumber = Utilities.GetMessageNumberPacket(true);
+							receiptMessage.BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-'));
 							receiptMessage.TNCName = _TncDevice.Name;
 							receiptMessage.MessageTo = pktMsg.MessageFrom;
 							receiptMessage.MessageFrom = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign
@@ -479,10 +480,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         async void OnSerialPortErrorReceivedAsync(object sender, SerialErrorReceivedEventArgs e)
         {
-            Debug.WriteLine($"SerialPort exception: {e.EventType.ToString()}");
             log.Error($"SerialPort Error: {e.EventType.ToString()}");
             _error = true;
-            await Utilities.ShowMessageDialogAsync($"SerialPort Error: {e.EventType.ToString()}", "TNC Connect Error");
+            await Utilities.ShowMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "TNC Connect Error");
             _serialPort.Close();
             return;
         }
@@ -526,6 +526,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             try
             {
                 _connectState = ConnectState.ConnectStateNone;
+           
                 _serialPort.Open();
 
                 string readText = "";
@@ -561,10 +562,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _serialPort.ReadTimeout = 120000;
                 BBSConnectTime = DateTime.Now;
 				_connectState = ConnectState.ConnectStateBBSTryConnect;
-				_serialPort.Write("connect " + _bbsConnectName + "\r\x05");
+				_serialPort.Write("connect " + _bbsConnectName + "\r");
 
                 readText = _serialPort.ReadLine();			// Read command
-                Debug.WriteLine(readText);
                 log.Info(readCmdText + _TNCPrompt + readText);		// log last Write command
 
 				readText = _serialPort.ReadLine();			// Read command response

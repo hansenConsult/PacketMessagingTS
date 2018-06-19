@@ -34,6 +34,7 @@ namespace PacketMessagingTS.Controls
             ScanControls(messageInfo);
 
             MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            AddressBook.Instance.UserBBS = MessageBBS;
             MessageTNC = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
             MessageTo = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.SendTo;
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
@@ -44,7 +45,10 @@ namespace PacketMessagingTS.Controls
             {
                 MessageFrom = Singleton<IdentityViewModel>.Instance.UserCallsign;
             }
-
+            if (!string.IsNullOrEmpty(MessageBBS))
+            {
+                MessageBBS = AddressBook.Instance.GetBBS(MessageFrom);
+            }
         }
 
         private string messageSubject;
@@ -112,8 +116,6 @@ namespace PacketMessagingTS.Controls
 
         private void MessageTo_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            AddressBook.Instance.UserBBS = MessageBBS;
-
             if (!toSelection.IsOn)
             {
                 // Distribution list selected
@@ -133,24 +135,27 @@ namespace PacketMessagingTS.Controls
 
         private void MessageTo_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (string.IsNullOrEmpty(textBoxMessageTo.Text))
             {
-                // Only get results when it was a user typing, 
-                // otherwise assume the value got filled in by TextMemberPath 
-                // or the handler for SuggestionChosen.
-                if (string.IsNullOrEmpty(textBoxMessageTo.Text))
-                {
-                    sender.ItemsSource = null;
-                    return;
-                }
+                sender.ItemsSource = null;
+                return;
+            }
 
-                if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-                {
-                    //Set the ItemsSource to be your filtered dataset
-                    if (IsToIndividuals)
-                        sender.ItemsSource = AddressBook.Instance.GetCallsigns(textBoxMessageTo.Text);
-                    else
-                        sender.ItemsSource = DistributionListArray.Instance.GetDistributionListNames(textBoxMessageTo.Text);
-                }
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                if (IsToIndividuals)
+                    sender.ItemsSource = AddressBook.Instance.GetCallsigns(textBoxMessageTo.Text);
+                else
+                    sender.ItemsSource = DistributionListArray.Instance.GetDistributionListNames(textBoxMessageTo.Text);
+            }
+            else
+            {
+                string messageTo = AddressBook.Instance.GetAddress(textBoxMessageTo.Text);
+                sender.Text = messageTo == null ? textBoxMessageTo.Text : messageTo;
             }
         }
 

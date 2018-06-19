@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MetroLog;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 
@@ -12,6 +12,9 @@ namespace PacketMessagingTS.ViewModels
 {
     public class PacketSettingsViewModel : BaseViewModel
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
+        private LogHelper _logHelper = new LogHelper(log);
+
         public PacketSettingsViewModel()
         {
 
@@ -36,8 +39,18 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref profileSelectedIndex);
             set
             {
-                SetProperty(ref profileSelectedIndex, value, true);
-                CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
+                if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
+                {
+                    SetProperty(ref profileSelectedIndex, value, true);
+                    CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
+                }
+                else
+                {
+                    _logHelper.Log(LogLevel.Error, $"ProfileSelectedIndex = {value}");
+                    profileSelectedIndex = 0;
+                    SetProperty(ref profileSelectedIndex, 0, true);
+                    CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
+                }
             }
         }
 

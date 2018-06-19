@@ -80,7 +80,7 @@ namespace PacketMessagingTS.Views
                     //dataGridOutbox.ItemsSource = _messageObservableCollection;
                     break;
                 case "pivotItemDrafts":
-                    _mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
+                    //_mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
                     break;
                 case "pivotItemArchive":
                     //dataGridArchived.ItemsSource = _messageObservableCollection;
@@ -181,11 +181,16 @@ namespace PacketMessagingTS.Views
         //    OpenMessage();
         //}
 
-        private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-        {
-            //Singleton<MainViewModel>.Instance.OpenMessageFromDoubleClick(_selectedMessages[0]);
+        //private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        //{
+        //    //Singleton<MainViewModel>.Instance.OpenMessageFromDoubleClick(_selectedMessages[0]);
 
-            OpenMessage();
+        //    OpenMessage();
+        //}
+
+        private void DataGridInbox_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            int x = 7;
         }
     }
 }

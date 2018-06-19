@@ -55,7 +55,7 @@ namespace PacketMessagingTS.Helpers
             if (startMessageNumber < 0)
             {
                 //messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
-                messageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
+                messageNumber = Utilities.GetProperty("MessageNumber");
                 messageNumber++;
             }
             else
@@ -83,6 +83,20 @@ namespace PacketMessagingTS.Helpers
             });
         }
 
+        public static async Task ShowMessageDialogAsync(CoreDispatcher dispatcher, string dialogMessage, string title = "Packet Messaging")
+        {
+            await dispatcher.RunTaskAsync(async () =>
+            {
+                ContentDialog contentDialog = new ContentDialog()
+                {
+                    Title = title,
+                    Content = dialogMessage,
+                    CloseButtonText = "Close"
+                };
+                await contentDialog.ShowAsync();
+            });
+        }
+
         public static async Task ShowMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
         {
             ContentDialog contentDialog = new ContentDialog()
@@ -106,6 +120,18 @@ namespace PacketMessagingTS.Helpers
                 return 0;
         }
 
+
+        public static T GetProperty<T>(string propertyName)
+        {
+            if (App.Properties != null && App.Properties.ContainsKey(propertyName))
+            {
+                // Retrieve value from dictionary
+                object o = App.Properties[propertyName];
+                return (T)o;
+            }
+            else
+                return default(T);
+        }
     }
 
 }

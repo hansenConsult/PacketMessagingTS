@@ -476,11 +476,14 @@ namespace PacketMessagingTS.Views
                 _packetMessage.MessageBody = _packetForm.CreateOutpostData(ref _packetMessage);
             }
 
-            outpostDataDialog.Title = "Outpost Message";
-            outpostDataDialog.Content = _packetMessage.MessageBody;
-            outpostDataDialog.CloseButtonText = "Cancel";
-            outpostDataDialog.IsPrimaryButtonEnabled = true;
-            outpostDataDialog.PrimaryButtonText = "Copy";
+            ContentDialog outpostDataDialog = new ContentDialog()
+            {
+                Title = "Outpost Message",
+                Content = _packetMessage.MessageBody,
+                CloseButtonText = "Cancel",
+                IsPrimaryButtonEnabled = true,
+                PrimaryButtonText = "Copy",
+            };
             ContentDialogResult result = await outpostDataDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
@@ -524,6 +527,7 @@ namespace PacketMessagingTS.Views
 
             CreatePacketMessage();
             _packetMessage.CreateTime = DateTime.Now;
+            Utilities.MarkMessageNumberAsUsed();
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 

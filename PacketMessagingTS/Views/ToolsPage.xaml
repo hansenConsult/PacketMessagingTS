@@ -346,7 +346,7 @@
                 </RelativePanel>
             </PivotItem>
             <!--Test receive Outpost data-->
-            <PivotItem x:Name="testReceive" DataContext="{Binding ToolsPageTestReceivePartViewModel}" Header="Test Receive">
+            <PivotItem x:Name="testReceive" Header="Test Receive">
                 <RelativePanel x:Name="testReceivePanel">
                     <RelativePanel x:Name="fileNamePanel"
                                    RelativePanel.AlignLeftWithPanel="True"
@@ -391,9 +391,12 @@
 				                    RelativePanel.AlignRightWithPanel="True"
                                     RelativePanel.AlignLeftWithPanel="True">
                         <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
-                        <AppBarButton x:Name="appBarOpenTest" Label="Open" Icon="OpenFile" HorizontalAlignment="Right" Click="AppBarButtonTest_OpenFileAsync" />
-                        <AppBarButton x:Name="appBarSaveTest" Label="Save" Icon="Save" HorizontalAlignment="Right" Click="AppBarButtonTest_SaveFileAsync"/>
-                        <AppBarButton x:Name="appBarSeleteTest" Label="Delete" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
+                        <AppBarButton x:Name="appBarOpenTest" Label="Open" Icon="OpenFile" HorizontalAlignment="Right"
+                                      Click="AppBarButtonTest_OpenFileAsync" />
+                        <AppBarButton x:Name="appBarSaveTest" Label="Save" Icon="Save" 
+                                      Click="AppBarButtonTest_SaveFileAsync"/>
+                        <AppBarButton x:Name="appBarSeleteTest" Label="Delete" Icon="Delete"
+                                      Click="AppBarButton_DeleteFileAsync"  />
                     </CommandBar>
 
                 </RelativePanel>

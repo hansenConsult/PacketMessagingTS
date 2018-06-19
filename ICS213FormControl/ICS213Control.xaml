@@ -242,7 +242,9 @@
 								<RowDefinition />
 							</Grid.RowDefinitions>
 							<TextBlock Grid.Column="0" Grid.Row="0" Text="SUBJECT:" Style="{StaticResource LabelFontTNR14B}"  Foreground="LightSalmon" VerticalAlignment="Center" Margin="5,0,0,0"/>
-							<TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" Tag="required,Enter a Subject." TextChanged="Subject_Changed" Margin="5,2,5,2"/>
+							<TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" Tag="required,Enter a Subject." 
+                                      TextChanged="Subject_Changed" 
+                                      Margin="5,2,5,2" IsSpellCheckEnabled="True" />
 							<TextBlock Grid.Column="0" Grid.Row="1" Text="REFERENCE:" Style="{StaticResource LabelFontTNR14B}"   VerticalAlignment="Center" Margin="5,0,0,0"/>
 							<TextBox  Grid.Column="1" Grid.Row="1" x:Name="reference" TextChanged="Subject_Changed" Margin="5,2,5,2"/>
 						</Grid>
@@ -262,7 +264,7 @@
 						<TextBox x:Name="message"  BorderBrush="White" ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                  AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="required,You must include a Message." 
 								 ToolTipService.ToolTip="What, when, where needed; how long; contact name and phone number. Keep message brief" 
-                                 PlaceholderText="Type message here.">
+                                 PlaceholderText="Type message here." IsSpellCheckEnabled="True">
 						</TextBox>
 					</StackPanel>
 				</Border>

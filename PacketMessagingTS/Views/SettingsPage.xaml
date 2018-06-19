@@ -94,7 +94,7 @@
             SelectionChanged="SettingsPivot_SelectionChanged">
 
             <!--Settings-->
-            <PivotItem Header="Settings" DataContext="{x:Bind ViewModel}">
+            <PivotItem Header="Settings" >
                 <StackPanel x:Name="ContentArea">
                     <TextBlock x:Uid="Settings_Personalization"
                                Style="{StaticResource SubtitleTextBlockStyle}" />
@@ -105,24 +105,24 @@
                         <StackPanel Margin="{StaticResource EightTopMargin}">
                             <RadioButton x:Uid="Settings_Theme_Light"
                                          GroupName="AppTheme"
-                                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
-                                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
+                                         IsChecked="{x:Bind _settingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
+                                         Command="{x:Bind _settingsViewModel.SwitchThemeCommand}">
                                 <RadioButton.CommandParameter>
                                     <xaml:ElementTheme>Light</xaml:ElementTheme>
                                 </RadioButton.CommandParameter>
                             </RadioButton>
                             <RadioButton x:Uid="Settings_Theme_Dark"
                                          GroupName="AppTheme"
-                                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
-                                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
+                                         IsChecked="{x:Bind _settingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
+                                         Command="{x:Bind _settingsViewModel.SwitchThemeCommand}">
                                 <RadioButton.CommandParameter>
                                     <xaml:ElementTheme>Dark</xaml:ElementTheme>
                                 </RadioButton.CommandParameter>
                             </RadioButton>
                             <RadioButton x:Uid="Settings_Theme_Default"
                                          GroupName="AppTheme"
-                                         IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
-                                         Command="{x:Bind ViewModel.SwitchThemeCommand}">
+                                         IsChecked="{x:Bind _settingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
+                                         Command="{x:Bind _settingsViewModel.SwitchThemeCommand}">
                                 <RadioButton.CommandParameter>
                                     <xaml:ElementTheme>Default</xaml:ElementTheme>
                                 </RadioButton.CommandParameter>
@@ -139,31 +139,31 @@
                                       RelativePanel.Below="bbsStatus"
                                       Header="W1XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W1XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind _settingsViewModel.W1XSCStatusUp, Mode=TwoWay}"
                                       Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w2xscPrimaryStatus" 
                                       RelativePanel.Below="w1xscPrimaryStatus"
                                       Header="W2XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W2XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind _settingsViewModel.W2XSCStatusUp, Mode=TwoWay}"
                                       Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w3xscPrimaryStatus" 
                                       RelativePanel.Below="w2xscPrimaryStatus"
                                       Header="W3XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W3XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind _settingsViewModel.W3XSCStatusUp, Mode=TwoWay}"
                                       Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w4xscPrimaryStatus" 
                                       RelativePanel.Below="w3xscPrimaryStatus"
                                       Header="W4XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W4XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind _settingsViewModel.W4XSCStatusUp, Mode=TwoWay}"
                                       Toggled="BBSPrimaryStatus_Toggled"/>
                         <ToggleSwitch x:Name="w5xscPrimaryStatus" 
                                       RelativePanel.Below="w4xscPrimaryStatus"
                                       Header="W5XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{Binding W5XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind _settingsViewModel.W5XSCStatusUp, Mode=TwoWay}"
                                       Toggled="BBSPrimaryStatus_Toggled"/>
 
                     </StackPanel>
@@ -325,7 +325,7 @@
                                 <TextBox x:Name="textBoxNewProfileName" Width="300"
 										 RelativePanel.RightOf="labelProfile"
 										 PlaceholderText="Enter profile name"
-										 Visibility="Collapsed"  />
+										 Visibility="Collapsed" IsSpellCheckEnabled="True" />
                             </RelativePanel>
                             <Grid x:Name="panelProfileGrid" Margin="12"
 								  RelativePanel.Below="panelProfileSelection">
@@ -765,7 +765,7 @@
                                Style="{StaticResource SubtitleTextBlockStyle}" />
 
                     <StackPanel Margin="{StaticResource EightTopMargin}">
-                        <TextBlock Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
+                        <TextBlock Text="{x:Bind _settingsViewModel.VersionDescription, Mode=OneWay}" />
                         <TextBlock x:Uid="Settings_AboutDescription"
                                    Margin="{StaticResource EightTopMargin}" />
 
