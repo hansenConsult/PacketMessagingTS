@@ -27,7 +27,7 @@ namespace FormControlBaseClass
 
         // Form file name
 		public string FormControlName { get; set; }    // 
-
+         
         // Form type (County, Hospital etc.)
 		public FormType FormControlType { get; set; }
 
@@ -216,8 +216,12 @@ namespace FormControlBaseClass
         public virtual string MsgTime
         { get; set; }
 
+        private string operatorDate;
         public virtual string OperatorDate
-		{ get; set; }
+		{
+            get => operatorDate;
+            set => Set(ref operatorDate, value);
+        }
 
 		public virtual string OperatorTime
 		{ get; set; }
@@ -267,10 +271,6 @@ namespace FormControlBaseClass
             outpostData.Add("#EOF");
             return outpostData;
         }
-
-		//case "senderMsgNo":
-		//	formField.ControlContent = GetOutpostValue("MsgNo", ref msgLines);
-		//	break;
 
         public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
         {
@@ -336,7 +336,7 @@ namespace FormControlBaseClass
 
                 string tag = (string)control.Tag;
                 string[] tags = tag.Split(new char[] { ',' });
-                if (int.TryParse(tags[0], out int idint))
+                if (int.TryParse(tags[0], out int idint))   // Is tag an integer?
                 {
                     return (tags[0], control);
                 }

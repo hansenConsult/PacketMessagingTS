@@ -19,7 +19,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 	public class TNCInterface: IDisposable
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCInterface>();
-        Helpers.LogHelper _logHelper = new Helpers.LogHelper(log);
+        private static LogHelper _logHelper = new LogHelper(log);
 
         enum ConnectState
         {

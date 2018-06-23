@@ -18,8 +18,10 @@ using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.Foundation;
-using MetroLog;
 using Windows.Devices.Bluetooth;
+
+using MetroLog;
+using SharedCode;
 using PacketMessagingTS.Controls;
 
 namespace PacketMessagingTS.Views
@@ -28,7 +30,7 @@ namespace PacketMessagingTS.Views
     public sealed partial class SettingsPage : Page
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
-        private LogHelper _logHelper = new LogHelper(log);
+        private static LogHelper _logHelper = new LogHelper(log);
 
         public SettingsViewModel _settingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;

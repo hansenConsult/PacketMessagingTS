@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.Devices.SerialCommunication;
 using Windows.Storage;
-using MetroLog;
 using System.Collections.Generic;
 using System.Linq;
 
-using PacketMessagingTS.Helpers;
-
+using MetroLog;
+using SharedCode;
 namespace PacketMessagingTS.Models
 {
 
@@ -30,7 +29,7 @@ namespace PacketMessagingTS.Models
     public partial class TNCDeviceArray
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCDeviceArray>();
-        private LogHelper _logHelper = new LogHelper(log);
+        private static LogHelper _logHelper = new LogHelper(log);
 
 
         public static string tncFileName = "TNCData.xml";

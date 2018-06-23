@@ -4,16 +4,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using MetroLog;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+using SharedCode;
 
 namespace PacketMessagingTS.ViewModels
 {
     public class PacketSettingsViewModel : BaseViewModel
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
-        private LogHelper _logHelper = new LogHelper(log);
+        private static LogHelper _logHelper = new LogHelper(log);
 
         public PacketSettingsViewModel()
         {

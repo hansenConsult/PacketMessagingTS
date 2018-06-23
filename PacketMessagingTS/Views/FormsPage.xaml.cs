@@ -55,7 +55,9 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class FormsPage : Page
     {
-        private ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormsPage>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormsPage>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
 
         PacketMessage _packetMessage;
         bool _loadMessage = false;
@@ -228,28 +230,28 @@ namespace PacketMessagingTS.Views
                 switch (control.Name)
                 {
                     case "severity":
-                        _packetForm.Severity = ((ToggleButtonGroup)control).CheckedControlName;
+                        _packetForm.Severity = (control as ToggleButtonGroup).CheckedControlName;
                         break;
                     case "handlingOrder":
-                        _packetForm.HandlingOrder = ((ToggleButtonGroup)control).CheckedControlName;
+                        _packetForm.HandlingOrder = (control as ToggleButtonGroup).CheckedControlName;
                         break;
                     case "msgDate":
-                        _packetForm.MsgDate = ((TextBox)control).Text;
+                        _packetForm.MsgDate = (control as TextBox).Text;
                         break;
                     case "msgTime":
-                        _packetForm.MsgTime = ((TextBox)control).Text;
+                        _packetForm.MsgTime = (control as TextBox).Text;
                         break;
                     case "operatorCallsign":
                         _packetForm.OperatorCallsign = (control as TextBox).Text;
                         break;
                     case "operatorName":
-                        _packetForm.OperatorName = ((TextBox)control).Text;
+                        _packetForm.OperatorName = (control as TextBox).Text;
                         break;
                     case "operatorDate":
-                        _packetForm.OperatorDate = ((TextBox)control).Text;
+                        _packetForm.OperatorDate = (control as TextBox).Text;
                         break;
                     case "operatorTime":
-                        _packetForm.OperatorTime = ((TextBox)control).Text;
+                        _packetForm.OperatorTime = (control as TextBox).Text;
                         break;
                     case null:
                         continue;

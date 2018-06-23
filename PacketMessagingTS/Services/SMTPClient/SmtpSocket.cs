@@ -13,12 +13,14 @@ using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 
+using SharedCode;
+
 namespace PacketMessagingTS.Services.SMTPClient
 {
     public class SmtpSocket
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SmtpSocket>();
-        private LogHelper _logHelper = new LogHelper(log);
+        private static LogHelper _logHelper = new LogHelper(log);
 
         private HostName hostName;
         private StreamSocket socket;

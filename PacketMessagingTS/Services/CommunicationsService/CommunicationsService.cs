@@ -29,7 +29,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 	public class CommunicationsService
 	{
 		protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CommunicationsService>();
-        private Helpers.LogHelper _logHelper = new Helpers.LogHelper(log);
+        private LogHelper _logHelper = new LogHelper(log);
 
 
         //Collection<DeviceListEntry> _listOfDevices;
