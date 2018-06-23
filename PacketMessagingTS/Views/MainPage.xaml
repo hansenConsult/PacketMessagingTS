@@ -21,7 +21,22 @@
                                        TrueValue="Active"
                                        FalseValue="Retired" />
 
+        <helpers:CellStyleSelector x:Key="ForegroundSelector">
+            <helpers:CellStyleSelector.MessageOpened>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Margin" Value="10"/>
+                </Style>
+            </helpers:CellStyleSelector.MessageOpened>
+            <helpers:CellStyleSelector.MessageUnopened>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Green"/>
+                    <Setter Property="Margin" Value="10"/>
+                </Style>
+            </helpers:CellStyleSelector.MessageUnopened>
+        </helpers:CellStyleSelector>
     </Page.Resources>
+    
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                    x:Name="ContentArea"
                    Margin="{StaticResource MediumLeftRightMargin}">
@@ -43,12 +58,20 @@
                 <tg:RadDataGrid ColumnDataOperationsMode="Flyout" x:Name="dataGridInbox"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Single"
+                                IsRightTapEnabled="True"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionUnit="Row"
                                 ColumnResizeHandleDisplayMode="Always"
                                 SelectionChanged="DataGrid_SelectionChanged"
-                                RightTapped="DataGridInbox_RightTapped">
+                                PointerPressed="DataGridInbox_PointerPressed">
 
+                    <tg:RadDataGrid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
+                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                        </MenuFlyout>
+                    </tg:RadDataGrid.ContextFlyout>
                     <tg:RadDataGrid.SortDescriptors>
                         <core:PropertySortDescriptor PropertyName="ReceivedTimeAsString" SortOrder="Descending"/>
                     </tg:RadDataGrid.SortDescriptors>
@@ -68,7 +91,8 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>-->
-                        <tg:DataGridTextColumn PropertyName="Area" Header="Area" />
+                        <tg:DataGridTextColumn PropertyName="Area" Header="Area"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
                         <!--<tg:DataGridTemplateColumn Header="Received Time" CanUserSort="True">
                             <tg:DataGridTemplateColumn.GroupDescriptor>
                                 <core:PropertyGroupDescriptor PropertyName="ActiveDescription"
@@ -81,7 +105,8 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>-->
-                        <tg:DataGridTextColumn PropertyName="ReceivedTimeAsString" Header="Rcvd Time" SizeMode="Fixed" Width="114"/>
+                        <tg:DataGridTextColumn PropertyName="ReceivedTimeAsString" Header="Rcvd Time"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}" SizeMode="Fixed" Width="114"/>
                         <!--<tg:DataGridTemplateColumn Header="Sent Time">
                             <tg:DataGridTemplateColumn.CellContentTemplate>
                                 <DataTemplate>
@@ -90,13 +115,20 @@
                                 </DataTemplate>
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>-->
-                        <tg:DataGridTextColumn PropertyName="JNOSTimeAsString" Header="Sent Time" SizeMode="Fixed" Width="114"/>
-                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Fixed" Width="112" CanUserGroup="False"/>
-                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Fixed" Width="108"/>
-                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
-                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                        <tg:DataGridTextColumn PropertyName="JNOSTimeAsString" Header="Sent Time"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}" SizeMode="Fixed" Width="114"/>
+                        <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Fixed" Width="108"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From "
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"
+                                               CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
             </PivotItem>
@@ -109,6 +141,15 @@
                                 ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged" >
+
+                    <tg:RadDataGrid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
+                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                        </MenuFlyout>
+                    </tg:RadDataGrid.ContextFlyout>
+
                     <tg:RadDataGrid.SortDescriptors>
                         <core:PropertySortDescriptor PropertyName="SentTimeAsString" SortOrder="Descending"/>
                     </tg:RadDataGrid.SortDescriptors>
@@ -137,10 +178,10 @@
                         </tg:DataGridTemplateColumn>-->
                         <tg:DataGridTextColumn PropertyName="SentTimeAsString" Header="Sent Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
-                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto" />
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
-                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBSName" CanUserResize="False"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBSName" SizeMode="Auto"/>
                         <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
@@ -155,7 +196,14 @@
                                 ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
-                    <!--SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"-->
+
+                    <tg:RadDataGrid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
+                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                        </MenuFlyout>
+                    </tg:RadDataGrid.ContextFlyout>
 
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
@@ -171,7 +219,7 @@
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>-->
                         <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" SizeMode="Fixed" Width="114"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
@@ -192,6 +240,14 @@
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"                                
                                 SelectionChanged="DataGrid_SelectionChanged">
 
+                    <tg:RadDataGrid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
+                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                        </MenuFlyout>
+                    </tg:RadDataGrid.ContextFlyout>
+
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
@@ -207,7 +263,7 @@
                         </tg:DataGridTemplateColumn>-->
                         <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
                     </tg:RadDataGrid.Columns>
@@ -222,7 +278,13 @@
                                 ColumnResizeHandleDisplayMode="Always"
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
-                    <!--SelectedItem="{x:Bind _mainViewModel.SelectedMessage, Mode=TwoWay}"-->
+
+                    <tg:RadDataGrid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
+                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
+                        </MenuFlyout>
+                    </tg:RadDataGrid.ContextFlyout>
 
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
@@ -240,7 +302,7 @@
                         <tg:DataGridTextColumn PropertyName="ReceivedTimeAsString" Header="Rcvd Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="JNOSDate" Header="Sent Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
                         <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
@@ -259,6 +321,14 @@
                                 ItemsSource="{x:Bind _mainViewModel.Source, Mode=TwoWay}"
                                 SelectionChanged="DataGrid_SelectionChanged">
 
+                    <tg:RadDataGrid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
+                            <MenuFlyoutItem Text="Delete Permanently" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                        </MenuFlyout>
+                    </tg:RadDataGrid.ContextFlyout>
+
                     <tg:RadDataGrid.Commands>
                         <helpers:CustomCellDoubleTapped/>
                     </tg:RadDataGrid.Commands>
@@ -273,10 +343,10 @@
                             </tg:DataGridTemplateColumn.CellContentTemplate>
                         </tg:DataGridTemplateColumn>-->
                         <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" SizeMode="Fixed" Width="114"/>
-                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." CanUserGroup="False"/>
+                        <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
-                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
-                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
                         <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>

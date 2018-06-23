@@ -281,7 +281,7 @@ namespace ICS213FormControl
 
 			outpostData.Add("!PACF! " + packetMessage.Subject);
 			outpostData.Add("# EOC MESSAGE FORM ");
-			outpostData.Add("# JS-ver. PR-4.1-3.1, 01/19/17");
+			outpostData.Add("# JS-ver. PR-4.3-3.2, 07/18/17");
 			outpostData.Add("# FORMFILENAME: Message.html");
 
 			outpostData = CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);

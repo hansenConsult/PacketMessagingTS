@@ -36,7 +36,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tncDeviceSelectedIndex, value, true);
-                //if (!TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex].Name.Contains("E-Mail"))
+                //if (!TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex].Name.Contains(SharedData.EMail))
                 {
                     CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
                 }

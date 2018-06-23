@@ -20,22 +20,11 @@
         <!--Do not change. Used for synchronizing two UI controls-->
         <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" /> 
 
-        <!--<CollectionViewSource x:Name="BBSDataCollection"  IsSourceGrouped="False" />-->
-        <!--<CollectionViewSource x:Name="ProfilesCollection"  IsSourceGrouped="False"  />-->
         <CollectionViewSource x:Name="DeviceListSource" IsSourceGrouped="False" />
 
         <CollectionViewSource x:Name="ComPortListSource" IsSourceGrouped="False"/>
         <CollectionViewSource x:Name="ComNameListSource" IsSourceGrouped="False"/>
-        <!--<CollectionViewSource x:Name="BaudRateListSource" IsSourceGrouped="False"/>-->
-        <!--<CollectionViewSource x:Name="DataBitsListSource" IsSourceGrouped="False"/>-->
-        <!--<CollectionViewSource x:Name="ParitiesListSource" IsSourceGrouped="False"/>-->
-        <!--<CollectionViewSource x:Name="StopBitsListSource" IsSourceGrouped="False"/>-->
-        <!--<CollectionViewSource x:Name="HandshakesListSource" IsSourceGrouped="False"/>-->
 
-        <!--<DataTemplate x:Name="TNCDataTemplate" x:DataType="models:TNCDevice" >
-            <TextBlock Text="{x:Bind Name}" />
-        </DataTemplate>-->
-        
         <CollectionViewSource x:Name="EmailAccountsSource" IsSourceGrouped="False"/>
 
         <CollectionViewSource x:Name="ContactsCVS"  IsSourceGrouped="True" />

@@ -33,6 +33,8 @@ namespace PacketMessagingTS.Helpers
 
         public static IReadOnlyList<StorageFile> FilesInInstalledLocation;
 
+        public static string EMail = "E-Mail";
+
         //static Profile currentProfile;
         //public static Profile CurrentProfile
         //{

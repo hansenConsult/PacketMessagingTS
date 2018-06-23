@@ -119,7 +119,7 @@ namespace FormControlBaseClass
 					}
 					else if (control is ComboBox comboBox)
                     {
-                        if (string.IsNullOrEmpty((string)comboBox.SelectionBoxItem))
+                        if (string.IsNullOrEmpty(comboBox.SelectionBoxItem.ToString()))
                         {
                             AddToErrorString(GetTagErrorMessage(control));
                             control.BorderBrush = _redBrush;

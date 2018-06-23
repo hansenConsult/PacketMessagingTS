@@ -33,13 +33,11 @@ namespace PacketMessagingTS.Views
         public SettingsViewModel _settingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
         public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
-        //public PacketSettingsViewModel _packetSettingsViewModel { get; } = new PacketSettingsViewModel();
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton < TNCSettingsViewModel>.Instance;
-        //public MailSettingsViewModel _mailSettingsViewModel { get; } = new MailSettingsViewModel();
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
 
-        static ObservableCollection<Profile> _profileCollection;
+        //static ObservableCollection<Profile> _profileCollection;
 
         ComportComparer comportComparer;
 
@@ -50,8 +48,8 @@ namespace PacketMessagingTS.Views
         private List<DeviceInformation> _listOfBluetoothDevices;
         private ObservableCollection<DeviceInformation> CollectionOfBluetoothDevices;
 
-        private ObservableCollection<uint> listOfBaudRates;
-        private ObservableCollection<ushort> listOfDataBits;
+        //private ObservableCollection<uint> listOfBaudRates;
+        //private ObservableCollection<ushort> listOfDataBits;
 
         private string _bluetoothDeviceSelector;
         private static Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
@@ -77,27 +75,14 @@ namespace PacketMessagingTS.Views
         {
             InitializeComponent();
 
-            //ObservableCollection <BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
-            //BBSDataCollection.Source = bbsDataCollection;
-            //comboBoxBBS.SelectedValue = SharedData.CurrentBBS;
-
             ObservableCollection<TNCDevice> tncDeviceCollection = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList );
             DeviceListSource.Source = tncDeviceCollection;
-            //comboBoxTNCs.SelectedValue = SharedData.CurrentTNCDevice;
 
             // Serial ports
-            //listOfDevices = new ObservableCollection<DeviceListEntry>();
-            //_listOfSerialDevices = new List<SerialDevice>();
-            //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
             ComPortListSource.Source = CollectionOfSerialDevices;
             _listOfBluetoothDevices = new List<DeviceInformation>();
             CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
             comportComparer = new ComportComparer();
-
-            //mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
-            //watchersStarted = false;
-            //watchersSuspended = false;
-            //isAllDevicesEnumerated = false;
 
             _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
@@ -282,7 +267,7 @@ namespace PacketMessagingTS.Views
                 	TNC = comboBoxTNCs.SelectedValue as string,
                 	SendTo = textBoxTo.Text,
                 };
-                if (newProfile.TNC.Contains("E-Mail"))
+                if (newProfile.TNC.Contains(SharedData.EMail))
                 {
                     comboBoxBBS.SelectedIndex = -1;
                     newProfile.BBS = "";
@@ -966,7 +951,7 @@ namespace PacketMessagingTS.Views
                 {
                     tncDevice = (TNCDevice)TNCDevices[0];
                     Singleton<PacketSettingsViewModel>.Instance.CurrentTNC = tncDevice;
-                    if (tncDevice.Name.Contains("E-Mail"))
+                    if (tncDevice.Name.Contains(SharedData.EMail))
                     {
                         UpdateMailState(TNCState.EMail);
                         EMailSettings.Visibility = Visibility.Visible;
@@ -1145,7 +1130,7 @@ namespace PacketMessagingTS.Views
         private async void MailUserName_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
             // Update TNC mail name
-            var eMailTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains("E-Mail")).FirstOrDefault();
+            var eMailTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
             eMailTNC.MailUserName = ((TextBox)sender).Text;
             eMailTNC.Name = $"E-Mail-{eMailTNC.MailUserName}";
             await TNCDeviceArray.Instance.SaveAsync();

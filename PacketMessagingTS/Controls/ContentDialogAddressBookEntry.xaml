@@ -9,16 +9,16 @@
     >
     <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" >
-            <TextBlock Text="Call sign or E-Mail:" VerticalAlignment="Center" Width="120"/>
+            <TextBlock Text="Call sign or E-Mail:" VerticalAlignment="Center" Width="124"/>
             <TextBox x:Name="addressBookCallsign" 
                      Text="{Binding AddressBookCallsign}" Width="200" Margin="5,2,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Name:" VerticalAlignment="Center" Width="120"/>
+            <TextBlock Text="Name:" VerticalAlignment="Center" Width="124"/>
             <TextBox x:Name="addressBookName" Width="200" Margin="5,2,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Primary BBS:" VerticalAlignment="Center" Width="120"/>
+            <TextBlock Text="Primary BBS:" VerticalAlignment="Center" Width="124"/>
             <ComboBox x:Name="addressBookPrimaryBBS" Width="115" Margin="5,2,0,0"
                       SelectedValue="{Binding SelectedPrimaryBBS, Mode=TwoWay}">
                 <x:String>W1XSC</x:String>
@@ -29,7 +29,7 @@
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Secondary BBS:" VerticalAlignment="Center" Width="120"/>
+            <TextBlock Text="Secondary BBS:" VerticalAlignment="Center" Width="124"/>
             <ComboBox x:Name="addressBookSecondaryBBS" Width="115" Margin="5,2,0,0"
                       SelectedValue="{Binding SelectedSecondaryBBS, Mode=TwoWay}">
                 <x:String>W1XSC</x:String>

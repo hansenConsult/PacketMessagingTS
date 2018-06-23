@@ -18,6 +18,7 @@ using PacketMessagingTS.ViewModels;
 using ToggleButtonGroupControl;
 using FormControlBaseClass;
 using MetroLog;
+using System.IO;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -319,6 +320,9 @@ namespace PacketMessagingTS.Views
             int index = 0;
             string packetMessagePath = e.Parameter as string;
             _packetMessage = PacketMessage.Open(packetMessagePath);
+            _packetMessage.MessageOpened = true;
+            string directory = Path.GetDirectoryName(packetMessagePath);
+            _packetMessage.Save(directory);
             _loadMessage = true;
             foreach (PivotItem pivotItem in MyPivot.Items)
             {
@@ -532,7 +536,7 @@ namespace PacketMessagingTS.Views
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 
             Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-            communicationsService.BBSConnectAsync();
+            communicationsService.BBSConnectAsync2();
 
             // Create an empty form
             await InitializeFormControlAsync();

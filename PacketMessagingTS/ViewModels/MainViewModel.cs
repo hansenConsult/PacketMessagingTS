@@ -43,14 +43,19 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        public void OpenMessageFromDoubleClick(PacketMessage packetMessage)
+        {
+            string folder = ((StorageFolder)MainPagePivotSelectedItem.Tag).Path;
+            string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
+
+            NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
+        }
+
         public void OpenMessageFromDoubleClick()
         {
             if (SelectedItems != null && SelectedItems.Count == 1)
             {
-                string folder = ((StorageFolder)MainPagePivotSelectedItem.Tag).Path;
-                string packetMessagePath = Path.Combine(folder, SelectedItems[0].FileName);
-
-                NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
+                OpenMessageFromDoubleClick(SelectedItems[0]);
             }
         }
 

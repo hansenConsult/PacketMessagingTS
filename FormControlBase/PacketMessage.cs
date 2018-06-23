@@ -38,10 +38,11 @@ namespace FormControlBaseClass
     public sealed partial class PacketMessage
     {
 		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketMessage>();
+        //private LogHelper _logHelper = new LogHelper(log);
 
-		//private static double gridWidthField = 218;
 
-		private string fileNameField;
+
+        private string fileNameField;
 
         private string areaField;
 
@@ -55,17 +56,11 @@ namespace FormControlBaseClass
 
         private DateTime? jNOSDateField;
 
-		//private string jNOSDateDisplayField;
-
 		private DateTime? messageSentTimeField;
-
-		//private string messageSentTimeDisplayField;
 
 		private DateTime? messageCreateTimeField = null;
 
         private DateTime? messageReceiveTimeField = null;
-
-		//private string messageReceiveTimeDisplayField;
 
 		private string messageNumberField;
 
@@ -85,7 +80,7 @@ namespace FormControlBaseClass
 
         private string messageBodyField;
 
-        //private bool messageOpenedField = false;
+        private bool messageOpenedField = false;
 
 		private string mailUserNameField;
 
@@ -295,12 +290,6 @@ namespace FormControlBaseClass
                 }
             }
         }
-        /// <remarks/>
-        //public string ReceivedTimeDisplay
-        //{
-        //	get => messageReceiveTimeDisplayField;
-        //	set => messageReceiveTimeDisplayField = value;
-        //}
 
         /// <remarks/>
         public string MessageNumber
@@ -406,18 +395,18 @@ namespace FormControlBaseClass
             }
         }
 
-        ///// <remarks/>
-        //public bool MessageOpened
-        //{
-        //    get
-        //    {
-        //        return this.messageOpenedField;
-        //    }
-        //    set
-        //    {
-        //        this.messageOpenedField = value;
-        //    }
-        //}
+        /// <remarks/>
+        public bool MessageOpened
+        {
+            get
+            {
+                return this.messageOpenedField;
+            }
+            set
+            {
+                this.messageOpenedField = value;
+            }
+        }
 
         /// <remarks/>
         public string MailUserName
@@ -437,12 +426,6 @@ namespace FormControlBaseClass
         //    {
         //        this.messageReadOnlyField = value;
         //    }
-        //}
-
-        //public double GridWidth
-        //{
-        //	get { return gridWidthField; }
-        //	set => gridWidthField = value;
         //}
 
         [XmlIgnore]

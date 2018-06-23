@@ -145,6 +145,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         // Save the original message for post processing (tab characters are lost in the displayed message)
                         MessageBody = packetMessageOutpost.MessageBody,
                         //MessageReadOnly = true
+                        MessageOpened = false,
                     };
                     string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
 
@@ -348,7 +349,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
 
                 BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
-                if (bbs != null)
+                if (bbs != null && bbs.Name.Length > 0)
                 {
                     // Do we use a bluetooth device?
                     if ((bool)Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.CommPort?.IsBluetooth)
@@ -464,7 +465,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     tncInterface = new TNCInterface(bbs.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
                     // Send as email if a TNC is not reachable, or if message is defined as an e-mail message
-                    if (!_deviceFound || tncDevice.Name.Contains("E-Mail"))
+                    if (!_deviceFound || tncDevice.Name.Contains(SharedData.EMail))
                     {
                         EmailMessage emailMessage;
                         try
@@ -473,7 +474,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             {
                                 // Mark message as sent by email
                                 packetMessage.TNCName = tncDevice.Name;
-                                if (!tncDevice.Name.Contains("E-Mail"))
+                                if (!tncDevice.Name.Contains(SharedData.EMail))
                                 {
                                     packetMessage.TNCName = "E-Mail-" + Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
                                 }
@@ -635,6 +636,211 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Error, $"Could not find the requested TNC ({Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC})");
             }
         }
+
+        private async Task<bool> SendMessageViaEMailAsync(PacketMessage packetMessage)
+        {
+            EmailMessage emailMessage = new EmailMessage();
+            // Create the to field.
+            var messageTo = packetMessage.MessageTo.Split(new char[] { ' ', ';' });
+            foreach (string address in messageTo)
+            {
+                var index = address.IndexOf('@');
+                if (index > 0)
+                {
+                    index = address.ToLower().IndexOf("ampr.org");
+                    if (index < 0)
+                    {
+                        emailMessage.To.Add(new EmailRecipient(address + ".ampr.org"));
+                    }
+                    else
+                    {
+                        emailMessage.To.Add(new EmailRecipient(address));
+                    }
+                }
+                else
+                {
+                    string to = $"{packetMessage.MessageTo}@{packetMessage.BBSName}.ampr.org";
+                    emailMessage.To.Add(new EmailRecipient(to));
+                }
+            }
+            SmtpClient smtpClient = SmtpClient.Instance;
+            if (smtpClient.Server == "smtp-mail.outlook.com")
+            {
+                if (!smtpClient.UserName.EndsWith("outlook.com") && !smtpClient.UserName.EndsWith("hotmail.com") && !smtpClient.UserName.EndsWith("live.com"))
+                    throw new Exception("Mail from user must be a valid outlook.com address.");
+            }
+            else if (smtpClient.Server == "smtp.gmail.com")
+            {
+                if (!smtpClient.UserName.EndsWith("gmail.com"))
+                    throw new Exception("Mail from user must be a valid gmail address.");
+            }
+            else if (string.IsNullOrEmpty(smtpClient.Server))
+            {
+                throw new Exception("Mail Server must be defined");
+            }
+
+            SmtpMessage message = new SmtpMessage(smtpClient.UserName, packetMessage.MessageTo, null, packetMessage.Subject, packetMessage.MessageBody);
+
+            // adding an other To receiver
+            //message.To.Add("Eleanore.Doe@somewhere.com");
+            bool sendMailSuccess = false;
+            try
+            {
+                sendMailSuccess = await smtpClient.SendMail(message);
+                if (!sendMailSuccess)
+                {
+                    _logHelper.Log(LogLevel.Error, $"Failed to send email message to {packetMessage.MessageTo}. Message No: {packetMessage.MessageNumber}");
+                }
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, e.Message);
+            }
+            return sendMailSuccess;
+        }
+
+        public async void BBSConnectAsync2()
+        {
+            FormControlBase formControl;
+            PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+            TNCDevice tncDevice;
+            BBSData bbs;
+
+            // Collect messages to be sent
+            _packetMessagesToSend.Clear();
+            List<string> fileTypeFilter = new List<string>() { ".xml" };
+            QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, fileTypeFilter);
+
+            // Get the files in the Outbox folder
+            StorageFileQueryResult results = SharedData.UnsentMessagesFolder.CreateFileQueryWithOptions(queryOptions);
+            // Iterate over the results
+            IReadOnlyList<StorageFile> files = await results.GetFilesAsync();
+            foreach (StorageFile file in files)
+            {
+                // Add Outpost message format by Filling the MessageBody field in packetMessage. 
+                PacketMessage packetMessage = PacketMessage.Open(file);
+                if (packetMessage == null)
+                {
+                    _logHelper.Log(LogLevel.Error, $"Error opening message file {file}");
+                    continue;
+                }
+
+                DateTime now = DateTime.Now;
+
+                var operatorDateField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
+                if (operatorDateField != null)
+                {
+                    operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year - 2000):d2}";
+                }
+                var operatorTimeField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
+                if (operatorTimeField != null)
+                    operatorTimeField.ControlContent = $"{now.Hour:d2}{now.Minute:d2}";
+
+                formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
+                if (formControl == null)
+                {
+                    _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");
+                    await Utilities.ShowMessageDialogAsync($"Form {packetMessage.PacFormName} not found");
+                    continue;
+                }
+                packetMessage.MessageBody = formControl.CreateOutpostData(ref packetMessage);
+                packetMessage.MessageSize = packetMessage.Size;
+                // Save updated message
+                packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
+
+                _packetMessagesToSend.Add(packetMessage);
+            }
+            _logHelper.Log(LogLevel.Info, $"Send messages count: {_packetMessagesToSend.Count}");
+
+            List<PacketMessage> messagesSentAsEMail = new List<PacketMessage>();
+            //
+            foreach (PacketMessage packetMessage in _packetMessagesToSend)
+            {
+                tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == packetMessage.TNCName).FirstOrDefault();
+                bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == packetMessage.BBSName).FirstOrDefault();
+
+                //TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+                // Send as email if a TNC is not reachable, or if message is defined as an e-mail message
+                if (tncDevice.Name.Contains(SharedData.EMail))
+                {
+                    try
+                    {
+                        // Mark message as sent by email
+                        //packetMessage.TNCName = tncDevice.Name;
+                        if (!tncDevice.Name.Contains(SharedData.EMail))
+                        {
+                            packetMessage.TNCName = "E-Mail-" + Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
+                        }
+
+                        bool sendMailSuccess = await SendMessageViaEMailAsync(packetMessage);
+
+                        if (sendMailSuccess)
+                        {
+                            packetMessage.SentTime = DateTime.Now;
+                            packetMessage.MailUserName = SmtpClient.Instance.UserName;
+                            _logHelper.Log(LogLevel.Info, $"Message sent via E-Mail: {packetMessage.MessageNumber}");
+
+                            var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
+                            await file?.DeleteAsync();
+
+                            // Do a save to ensure that updates are saved
+                            packetMessage.Save(SharedData.SentMessagesFolder.Path);
+
+                            messagesSentAsEMail.Add(packetMessage);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logHelper.Log(LogLevel.Error, $"Error sending e-mail message {packetMessage.MessageNumber}");
+                        string text = ex.Message;
+                        continue;
+                    }
+                }
+            }
+
+            foreach (PacketMessage packetMessage in messagesSentAsEMail)
+            {
+                _packetMessagesToSend.Remove(packetMessage);
+            }
+            if (_packetMessagesToSend.Count > 0)
+            {
+                tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
+                bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
+                TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+                // Collect remaining messages to be sent
+                // Process files to be sent via BBS
+                await tncInterface.BBSConnectThreadProcAsync();
+
+                Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
+                _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs.ConnectName}. Connect time = {tncInterface.BBSDisconnectTime - tncInterface.BBSConnectTime}");
+
+                // Move sent messages from unsent folder to the Sent folder
+                foreach (PacketMessage packetMsg in tncInterface.PacketMessagesSent)
+                {
+                    _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
+
+                    var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
+                    await file.DeleteAsync();
+
+                    // Do a save to ensure that updates from tncInterface.BBSConnect are saved
+                    packetMsg.Save(SharedData.SentMessagesFolder.Path);
+                }
+                _packetMessagesReceived = tncInterface.PacketMessagesReceived;
+                ProcessReceivedMessagesAsync();
+            }
+            //_deviceFound = true;
+            //try
+            //{
+            //    _serialPort = new SerialPort(Singleton<TNCSettingsViewModel>.Instance.CurrentTNCDevice.CommPort.Comport);
+            //}
+            //catch (IOException e)
+            //{
+            //    _deviceFound = false;
+            //}
+            //_serialPort.Close();
+
+        }
+
 
         /// <summary>
         /// If all the devices have been enumerated, select the device in the list we connected to. Otherwise let the EnumerationComplete event

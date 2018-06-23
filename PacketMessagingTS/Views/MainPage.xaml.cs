@@ -4,6 +4,7 @@ using FormControlBaseClass;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,6 +25,7 @@ namespace PacketMessagingTS.Views
         public MainViewModel _mainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
+        PacketMessage _packetMessageClicked;
 
         //ObservableCollection<PacketMessage> _messageObservableCollection;
         //ObservableCollection<PacketMessage> messageFolderCollection;
@@ -168,7 +170,7 @@ namespace PacketMessagingTS.Views
         private void AppBarMainPage_SendReceive(object sender, RoutedEventArgs e)
         {
             Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-            communicationsService.BBSConnectAsync();
+            communicationsService.BBSConnectAsync2();
         }
 
         private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
@@ -176,21 +178,59 @@ namespace PacketMessagingTS.Views
             _mainViewModel.OpenMessageFromDoubleClick();
         }
 
-        //private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
-        //{
-        //    OpenMessage();
-        //}
-
-        //private void DataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-        //{
-        //    //Singleton<MainViewModel>.Instance.OpenMessageFromDoubleClick(_selectedMessages[0]);
-
-        //    OpenMessage();
-        //}
-
-        private void DataGridInbox_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        private void DataGridInbox_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            int x = 7;
+            var physicalPoint = e.GetCurrentPoint(sender as RadDataGrid);
+            var point = new Point { X = physicalPoint.Position.X, Y = physicalPoint.Position.Y };
+            _packetMessageClicked = (sender as RadDataGrid).HitTestService.RowItemFromPoint(point) as PacketMessage;
+        }
+
+        private async void AppBarMailPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
+        {
+            PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
+            StorageFolder folder = (StorageFolder)pivotItem.Tag;
+
+            var file = await folder.CreateFileAsync(_packetMessageClicked.FileName, CreationCollisionOption.OpenIfExists);
+
+            await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+
+            await RefreshDataGridAsync(pivotItem);
+        }
+
+        private void AppBarMainPage_OpenMessageFromContectMenu(object sender, RoutedEventArgs e)
+        {
+            _mainViewModel.OpenMessageFromDoubleClick(_packetMessageClicked);
+        }
+
+        private async void AppBarMainPage_DeleteItemFromContectMenuAsync(object sender, RoutedEventArgs e)
+        {
+            PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
+            StorageFolder folder = (StorageFolder)pivotItem.Tag;
+            bool permanentlyDelete = false;
+            if (folder == SharedData.DeletedMessagesFolder)
+            {
+                permanentlyDelete = true;
+            }
+            try
+            {
+                var file = await folder.CreateFileAsync(_packetMessageClicked.FileName, CreationCollisionOption.OpenIfExists);
+                if (permanentlyDelete)
+                {
+                    await file?.DeleteAsync();
+                }
+                else
+                {
+                    await file?.MoveAsync(SharedData.DeletedMessagesFolder);
+                }
+            }
+            catch (Exception ex)
+            {
+                var file = await folder.CreateFileAsync(_packetMessageClicked.FileName, CreationCollisionOption.OpenIfExists);
+                await file?.DeleteAsync();
+
+                string s = ex.ToString();
+            }
+            await RefreshDataGridAsync(pivotItem);
         }
     }
 }

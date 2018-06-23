@@ -19,6 +19,7 @@ using System.Runtime.CompilerServices;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
+using System.Collections.ObjectModel;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -62,6 +63,7 @@ namespace PacketMessagingTS.Controls
                 textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke???
             }
         }
+        private string originalBBS;
 
         private string messageBBS;
         public string MessageBBS
@@ -70,11 +72,35 @@ namespace PacketMessagingTS.Controls
             set => Set(ref messageBBS, value);
         }
 
+        public ObservableCollection<TNCDevice> DeviceList
+        {
+            get => new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+        }
+
         private string messageTNC;
         public string MessageTNC
         {
             get => messageTNC;
-            set => Set(ref messageTNC, value);
+            set
+            {
+                Set(ref messageTNC, value);
+
+                if (messageTNC.Contains(SharedData.EMail))
+                {
+                    if (!string.IsNullOrEmpty(MessageBBS))
+                    {
+                        originalBBS = MessageBBS;
+                    }
+                    MessageBBS = textBoxMessageBBS.Text = "";    // TODO fix this
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(originalBBS))
+                    {
+                        MessageBBS = textBoxMessageBBS.Text = originalBBS;
+                    }
+                }
+            }
         }
 
         private string messageFrom;
@@ -138,7 +164,7 @@ namespace PacketMessagingTS.Controls
             // Only get results when it was a user typing, 
             // otherwise assume the value got filled in by TextMemberPath 
             // or the handler for SuggestionChosen.
-            if (string.IsNullOrEmpty(textBoxMessageTo.Text))
+            if (string.IsNullOrEmpty(sender.Text))
             {
                 sender.ItemsSource = null;
                 return;

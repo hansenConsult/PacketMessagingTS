@@ -27,13 +27,17 @@
         <TextBlock x:Name="labelTNC" 
                    RelativePanel.AlignVerticalCenterWith="labelBBS" 
                    RelativePanel.RightOf="textBoxMessageBBS"  Text="TNC:" Margin="30,0,0,0" />
-        <TextBox x:Name="textBoxMessageTNC" 
-                 RelativePanel.AlignVerticalCenterWith="labelBBS" 
-                 RelativePanel.RightOf="labelTNC" 
-                 RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
-                 Text="{x:Bind MessageTNC, Mode=TwoWay}"
-                 Tag="required,Please select a TNC"  BorderThickness="2"  
-                 HorizontalAlignment="Stretch"  Margin="12.333,0,0,0"    />
+        <ComboBox x:Name="comboBoxMessageTNC"
+                  RelativePanel.AlignVerticalCenterWith="labelBBS" 
+                  RelativePanel.RightOf="labelTNC" 
+                  RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="Name"
+                  ItemsSource="{x:Bind DeviceList, Mode=OneWay}"
+                  SelectedValue="{x:Bind MessageTNC, Mode=TwoWay}"
+                  Tag="required,Please select a TNC"  BorderThickness="2"  
+                  HorizontalAlignment="Stretch"  Margin="12.333,0,0,0"
+                  />
         <TextBlock x:Name="labelFrom" 
                    RelativePanel.AlignVerticalCenterWith="textBoxMessageFrom" Text="From:" />
         <TextBox x:Name="textBoxMessageFrom" 
@@ -47,7 +51,7 @@
                    VerticalAlignment="Center" Width="20"/>
         <AutoSuggestBox x:Name="textBoxMessageTo"
                         RelativePanel.AlignVerticalCenterWith="labelFrom" 
-						RelativePanel.AlignLeftWith="textBoxMessageTNC" 
+						RelativePanel.AlignLeftWith="comboBoxMessageTNC" 
                         RelativePanel.LeftOf="toSelection"
                         
 					    Tag="required,Please fill the To field" BorderThickness="5"  
@@ -57,17 +61,13 @@
                         Text="{x:Bind MessageTo, Mode=TwoWay}"/>
         <ToggleSwitch x:Name="toSelection" Margin="12,-3,0,2" 
                       RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.Below="textBoxMessageTNC"
+                      RelativePanel.Below="comboBoxMessageTNC"
                       Header=""
                       OffContent="Distribution List" OnContent="Individuals" Height="32" 
                       HorizontalAlignment="Right" Padding="0,-3,0,0"
                       IsOn="{x:Bind IsToIndividuals, Mode=TwoWay}"/>
-        <!--<TextBox x:Name="textBoxMessageTo" RelativePanel.AlignVerticalCenterWith="labelFrom" 
-                 RelativePanel.AlignLeftWith="textBoxMessageTNC" 
-                 RelativePanel.AlignRightWithPanel="True"  
-                 Tag="required,Please fill the To field" BorderThickness="2"  
-                 HorizontalAlignment="Stretch" Margin="12.333,2,12,0" TextChanged="MessageTo_TextChanged"  />-->
-        <TextBlock x:Name="labelSubject" RelativePanel.AlignVerticalCenterWith="textBoxMessageSubject" Text="Subject:"/>
+        <TextBlock x:Name="labelSubject"
+                   RelativePanel.AlignVerticalCenterWith="textBoxMessageSubject" Text="Subject:"/>
         <TextBox x:Name="textBoxMessageSubject" 
                  RelativePanel.Below="textBoxMessageFrom" 
                  RelativePanel.AlignLeftWith="textBoxMessageBBS" 

@@ -259,13 +259,13 @@ namespace PacketMessagingTS.Models
             }
         }
 
-		public List<string> GetCallsigns(string partialCallsign)
+		public List<string> GetCallsigns(string partialCallsign = "")
 		{
 			List<string> matches = new List<string>();
 
 			foreach (var key in _addressDictionary.Keys)
 			{
-				if (key.StartsWith(partialCallsign.ToUpper()) || key.StartsWith(partialCallsign))
+				if (string.IsNullOrEmpty(partialCallsign) || key.StartsWith(partialCallsign.ToUpper()) || key.StartsWith(partialCallsign))
 				{
 					matches.Add(key);
 				}
