@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.IO;
 using PacketMessagingTS.Services;
+using SharedCode;
 using Telerik.UI.Xaml.Controls.Grid;
 
 namespace PacketMessagingTS.Views

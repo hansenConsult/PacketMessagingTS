@@ -109,8 +109,6 @@
     <Compile Include="FormControl.cs" />
     <Compile Include="FormControlBase.cs" />
     <Compile Include="FormControlBasics.cs" />
-    <Compile Include="LogHelper.cs" />
-    <Compile Include="PacketMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\FormControlBase.rd.xml" />
   </ItemGroup>
@@ -126,6 +124,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharedCode\SharedCode.csproj">
+      <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
+      <Name>SharedCode</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToggleButtonGroupControl\ToggleButtonGroupControl.csproj">
       <Project>{b448e071-59c5-4198-908f-ee3120bf4f7b}</Project>
       <Name>ToggleButtonGroupControl</Name>

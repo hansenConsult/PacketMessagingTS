@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using FormControlBaseClass;
 using Windows.Storage;
 using MetroLog;
 using Windows.Storage.Search;
@@ -26,6 +25,7 @@ using Windows.Globalization;
 using System.Text;
 
 using PacketMessagingTS.Helpers;
+using SharedCode;
 
 namespace PacketMessagingTS.Models
 {

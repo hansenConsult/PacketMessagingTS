@@ -9,6 +9,8 @@ using ToggleButtonGroupControl;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+using SharedCode;
+
 namespace FormControlBaseClass
 {
     // This is for deciding at runtime which form is supported by an assembly

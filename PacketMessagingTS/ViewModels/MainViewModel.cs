@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using PacketMessagingTS.Services;
-
-using FormControlBaseClass;
-
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Windows.Storage;
 using System.IO;
+
+using SharedCode;
 using PacketMessagingTS.Views;
+using PacketMessagingTS.Services;
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+
 
 namespace PacketMessagingTS.ViewModels
 {

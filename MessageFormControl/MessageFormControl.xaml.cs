@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+
+using SharedCode;
 using FormControlBaseClass;
 
 namespace MessageFormControl

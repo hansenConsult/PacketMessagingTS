@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Threading.Tasks;
-using FormControlBaseClass;
 using MessageFormControl;
 using MetroLog;
 using PacketMessagingTS.Models;
@@ -12,6 +11,8 @@ using PacketMessagingTS.Helpers;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Core;
+
+using SharedCode;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

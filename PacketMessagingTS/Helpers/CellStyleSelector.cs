@@ -8,6 +8,8 @@ using Telerik.UI.Xaml.Controls.Grid;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
+using SharedCode;
+
 namespace PacketMessagingTS.Helpers
 {
     public class CellStyleSelector : StyleSelector

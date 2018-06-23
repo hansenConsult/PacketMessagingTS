@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -18,7 +19,8 @@ using PacketMessagingTS.ViewModels;
 using ToggleButtonGroupControl;
 using FormControlBaseClass;
 using MetroLog;
-using System.IO;
+using SharedCode;
+
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238

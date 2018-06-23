@@ -1,5 +1,4 @@
-﻿using FormControlBaseClass;
-using MetroLog;
+﻿using MetroLog;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Views;
 using PacketMessagingTS.Models;
@@ -20,6 +19,9 @@ using PacketMessagingTS.ViewModels;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.IO;
+
+using FormControlBaseClass;
+using SharedCode;
 
 
 namespace PacketMessagingTS.Services.CommunicationsService

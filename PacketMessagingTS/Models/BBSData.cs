@@ -16,8 +16,10 @@ using Windows.Storage;
 using Windows.UI.Xaml.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MetroLog;
 using System.Collections.Generic;
+
+using MetroLog;
+using SharedCode;
 
 namespace PacketMessagingTS.Models
 {
@@ -36,9 +38,11 @@ namespace PacketMessagingTS.Models
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class BBSDefinitions : ICollectionViewFactory
 	{
-		private ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BBSDefinitions>();
+		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BBSDefinitions>();
+        private static LogHelper _logHelper = new LogHelper(log);
 
-		public static string bbsFileName = "BBSData.xml";
+
+        public static string bbsFileName = "BBSData.xml";
         private static volatile BBSDefinitions _instance;
         private static object _syncRoot = new Object();
 
@@ -132,11 +136,11 @@ namespace PacketMessagingTS.Models
 			catch (FileNotFoundException e)
 			{
 				Debug.WriteLine($"Open BBSData file failed: {e.Message}");
-                LogHelper.Log(LogLevel.Error, $"Open BBSData file failed: {e.Message}");
+                _logHelper.Log(LogLevel.Error, $"Open BBSData file failed: {e.Message}");
 			}
 			catch (Exception e)
 			{
-                LogHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
+                _logHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
                 Debug.WriteLine($"Error opening {e.Message} {e}");
 			}
 		}
@@ -160,13 +164,13 @@ namespace PacketMessagingTS.Models
                 }
                 else
                 {
-                    LogHelper.Log(LogLevel.Error, $"File not found {bbsFileName}");
+                    _logHelper.Log(LogLevel.Error, $"File not found {bbsFileName}");
 
                 }
             }
 			catch (Exception e)
 			{
-                LogHelper.Log(LogLevel.Error, $"Error saving {bbsFileName} {e}");
+                _logHelper.Log(LogLevel.Error, $"Error saving {bbsFileName} {e}");
 			}
 		}
 
