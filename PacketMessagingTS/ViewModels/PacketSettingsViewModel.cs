@@ -28,11 +28,12 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
-        private ObservableCollection<Profile> observableProfileCollection;
-        public ObservableCollection<Profile> ObservableProfileCollection
+        //private List<Profile> observableProfileCollection;
+        public List<Profile> ObservableProfileCollection
         {
-            get => observableProfileCollection;
-            set => SetProperty(ref observableProfileCollection, value);
+            get => ProfileArray.Instance.ProfileList;
+            //get => observableProfileCollection;
+            //set => SetProperty(ref observableProfileCollection, value);
         }
 
         private int profileSelectedIndex;

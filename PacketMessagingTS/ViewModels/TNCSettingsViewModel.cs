@@ -124,6 +124,17 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        //private List<string> comPortNames;
+        //public List<string> ComPortNames
+        //{
+        //    get
+        //    {
+        //        comPortNames = comportStringArray.ToList();
+        //        comPortNames = comPortNames.OrderBy(s => s, new ComportComparer()).ToList();
+        //        return comPortNames;
+        //    }
+        //}
+
         private string tncComPort;
         public string TNCComPort
         {

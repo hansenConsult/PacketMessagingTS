@@ -278,7 +278,7 @@ namespace PacketMessagingTS.Models
             try
             {
                 StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                using (StreamWriter writer = new StreamWriter(new FileStream(file.Path, FileMode.OpenOrCreate)))
+                using (StreamWriter writer = new StreamWriter(new FileStream(file.Path, FileMode.Create)))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(TacticalCallsigns));
                     serializer.Serialize(writer, this);

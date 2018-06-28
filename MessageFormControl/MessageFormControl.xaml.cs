@@ -3,6 +3,7 @@ using System.Text;
 
 using SharedCode;
 using FormControlBaseClass;
+using System;
 
 namespace MessageFormControl
 {
@@ -26,8 +27,60 @@ namespace MessageFormControl
             InitializeControls();
 		}
 
+
+        private bool inBoxHeaderVisibility;
+        public bool InBoxHeaderVisibility
+        {
+            get => inBoxHeaderVisibility;
+            set
+            {
+                Set(ref inBoxHeaderVisibility, value);
+                if (value)
+                {
+                    SentHeaderVisibility = false;
+                    NewHeaderVisibility = false;
+                }
+            }
+        }
+
+        private bool sentHeaderVisibility;
+        public bool SentHeaderVisibility
+        {
+            get => sentHeaderVisibility;
+            set
+            {
+                Set(ref sentHeaderVisibility, value);
+                if (value)
+                {
+                    InBoxHeaderVisibility = false;
+                    NewHeaderVisibility = false;
+                }
+            }
+        }
+
+        private bool newHeaderVisibility;
+        public bool NewHeaderVisibility
+        {
+            get => newHeaderVisibility;
+            set
+            {
+                Set(ref newHeaderVisibility, value);
+                if (value)
+                {
+                    InBoxHeaderVisibility = false;
+                    SentHeaderVisibility = false;
+                }
+            }
+        }
+
+        //public DateTime MessageReceivedTime
+        //{ get; set; }
+
+        //public DateTime MessageSentTime
+        //{ get; set; }
+
         //public override string MessageNo
-        //{ get;  set; }
+        //{ get; set; }
 
         //public override string MsgDate
         //{ get; set; }
@@ -47,7 +100,7 @@ namespace MessageFormControl
         //public override string OperatorTime
         //{ get; set; }
 
-		public override string PacFormName => "SimpleMessage";
+        public override string PacFormName => "SimpleMessage";
 
         public override string PacFormType => "SimpleMessage";
 

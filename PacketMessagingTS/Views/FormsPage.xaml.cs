@@ -20,6 +20,7 @@ using ToggleButtonGroupControl;
 using FormControlBaseClass;
 using MetroLog;
 using SharedCode;
+using MessageFormControl;
 
 
 
@@ -58,12 +59,24 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        private enum MessageOrigin
+        {
+            Archived,
+            Deleted,
+            Draft,
+            Received,
+            Sent,
+            Unsent,
+            New
+        }
+        private MessageOrigin _messageOrigin = MessageOrigin.New;
 
         PacketMessage _packetMessage;
         bool _loadMessage = false;
 
         FormControlBase _packetForm;
         SendFormDataControl _packetAddressForm;
+        //SimpleMessageHeader _headerControl;
 
         private List<FormControlAttributes> _formControlAttributeList;
 
@@ -218,6 +231,22 @@ namespace PacketMessagingTS.Views
 
 
             //string opcall = _packetForm.OperatorCallsign;//test
+            // Special handling for SimpleMessage
+            _packetForm.MessageNo = _packetMessage.MessageNumber;
+            _packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
+            if (_messageOrigin == MessageOrigin.Received)
+            {
+                _packetForm.MessageSentTime = _packetMessage.JNOSDate;
+            }
+            else if (_messageOrigin == MessageOrigin.Sent)
+            {
+                _packetForm.MessageSentTime = _packetMessage.SentTime;
+            }
+            else if (_messageOrigin == MessageOrigin.New)
+            {
+                _packetForm.MessageSentTime = null;
+                _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
+            }
 
             // Below is a workaround for missing event when a field changes
             foreach (FormField formField in _packetMessage.FormFieldArray)
@@ -326,7 +355,6 @@ namespace PacketMessagingTS.Views
             _packetMessage = PacketMessage.Open(packetMessagePath);
             _packetMessage.MessageOpened = true;
             string directory = Path.GetDirectoryName(packetMessagePath);
-            _packetMessage.Save(directory);
             _loadMessage = true;
             foreach (PivotItem pivotItem in MyPivot.Items)
             {
@@ -337,6 +365,23 @@ namespace PacketMessagingTS.Views
                 }
                 index++;
             }
+            // Show SimpleMessage header formatted by where the message came from
+            if (_packetMessage.PacFormName == "SimpleMessage")
+            {
+                if (directory.Contains("Received"))
+                {
+                    _messageOrigin = MessageOrigin.Received;
+                }
+                else if (directory.Contains("Sent"))
+                {
+                    _messageOrigin = MessageOrigin.Sent;
+                }
+                else
+                {
+                    _messageOrigin = MessageOrigin.New;
+                }
+            }
+            _packetMessage.Save(directory);
         }
 
         private async Task InitializeFormControlAsync()
@@ -374,6 +419,9 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(1, _packetForm);
 
                 _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
+
+                (_packetForm as MessageControl).NewHeaderVisibility = true;
+                _packetForm.MessageReceivedTime = DateTime.Now;
             }
             //else if (pivotItemName == "Message")
             //{
@@ -408,6 +456,7 @@ namespace PacketMessagingTS.Views
         private async void MyPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             _packetAddressForm = new SendFormDataControl();
+
             PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
             string pivotItemName = pivotItem.Name;
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
@@ -423,13 +472,10 @@ namespace PacketMessagingTS.Views
             //{
             //    _packetMessage = new PacketMessage();
             //}
-            //_packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
 
-            DateTime now = DateTime.Now;
-            string messageData = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
 
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")
@@ -438,15 +484,21 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(1, _packetForm);
 
                 _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
+
+                _packetForm.MessageReceivedTime = DateTime.Now;
+                switch (_messageOrigin)
+                {
+                    case MessageOrigin.Received:
+                        (_packetForm as MessageControl).InBoxHeaderVisibility = true;
+                        break;
+                    case MessageOrigin.Sent:
+                        (_packetForm as MessageControl).SentHeaderVisibility = true;
+                        break;
+                    default:
+                        (_packetForm as MessageControl).NewHeaderVisibility = true;
+                        break;
+                }
             }
-            //else if (pivotItemName == "Message")
-            //{
-            //    Form213Panel.Children.Clear();
-            //    Form213Panel.Children.Insert(0, _packetForm);
-            //    Form213Panel.Children.Insert(1, _packetAddressForm);
-            //    _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
-            //}
-            //else if (pivotItemName != "Message")
             else
             {
                 stackPanel.Children.Insert(0, _packetForm);
@@ -461,7 +513,8 @@ namespace PacketMessagingTS.Views
 
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
-                _packetForm.MsgDate = messageData;
+                DateTime now = DateTime.Now;
+                _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
                 _packetForm.MsgTime = $"{now.Hour:d2}{now.Minute:d2}";
                 _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
                 _packetForm.OperatorTime = $"{now.Hour:d2}{now.Minute:d2}";

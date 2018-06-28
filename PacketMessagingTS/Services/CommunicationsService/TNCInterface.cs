@@ -321,30 +321,27 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 						if (!pktMsg.Subject.Contains("DELIVERED:") && pktMsg.Area.Length == 0)
 						{
-							PacketMessage receiptMessage = new PacketMessage();
-							//receiptMessage.PacFormType = PacForms.Message;
-							receiptMessage.PacFormName = "SimpleMessage";
-							receiptMessage.MessageNumber = Utilities.GetMessageNumberPacket(true);
-							receiptMessage.BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-'));
-							receiptMessage.TNCName = _TncDevice.Name;
-							receiptMessage.MessageTo = pktMsg.MessageFrom;
-							receiptMessage.MessageFrom = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign
+                            PacketMessage receiptMessage = new PacketMessage()
+                            {
+                                PacFormName = "SimpleMessage",
+                                PacFormType = "SimpleMessage",
+                                MessageNumber = Utilities.GetMessageNumberPacket(true),
+                                BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
+                                TNCName = _TncDevice.Name,
+                                MessageTo = pktMsg.MessageFrom,
+                                MessageFrom = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign
                                         ? Singleton<IdentityViewModel>.Instance.TacticalCallsign
-                                        : Singleton<IdentityViewModel>.Instance.UserCallsign;
-
-							receiptMessage.Subject = $"DELIVERED: {pktMsg.Subject}";
+                                        : Singleton<IdentityViewModel>.Instance.UserCallsign,
+                                Subject = $"DELIVERED: {pktMsg.Subject}",
+                            };
 
 							FormField[] formFields = new FormField[1];
 
 							FormField formField = new FormField();
 							formField.ControlName = "messageBody";
-							formField.ControlContent = $"!LMI!{pktMsg.MessageNumber}!DR!{pktMsg.ReceivedTime?.ToString("G")}\r\n";
-							formField.ControlContent += "Your Message\r\n";
-							formField.ControlContent += $"To: {pktMsg.MessageTo}\r\n";
-							formField.ControlContent += $"Subject: {pktMsg.Subject}\r\n";
-							//formField.ControlContent += $"was delivered on {pktMsg.MessageReceiveTime.ToShortDateString()} {pktMsg.MessageReceiveTime.ToShortTimeString()}\r\n";
-							formField.ControlContent += $"was delivered on {pktMsg.ReceivedTime?.ToString("G")}\r\n";
-							formField.ControlContent += $"Recipient's Local Message ID: {pktMsg.MessageNumber}\r\n";
+							formField.ControlContent = "Your message was delivered to:\r\n";
+							formField.ControlContent += $"{pktMsg.MessageTo} at {receiptMessage.JNOSDate}\r\n";
+							formField.ControlContent += $"{pktMsg.MessageFrom} assigned Msg ID: {receiptMessage.MessageNumber}\r\n";
 							formFields[0] = formField;
 
 							receiptMessage.FormFieldArray = formFields;
@@ -353,7 +350,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							receiptMessage.CreateFileName();
 							receiptMessage.SentTime = DateTime.Now;
 							receiptMessage.MessageSize = receiptMessage.Size;
-							log.Info(receiptMessage.MessageBody);   // Disable if not testing
+							_logHelper.Log(LogLevel.Info, $"Delivered msg: {receiptMessage.MessageBody}");   // Disable if not testing
 							//SendMessage(ref receiptMessage);		// Disabled for testing
 							_packetMessagesSent.Add(receiptMessage);
 						}
@@ -655,11 +652,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				_serialPort.Write("B\r\x05");				// Disconnect from BBS (JNOS)
 
 				readText = _serialPort.ReadLine();           // Read command
-                Debug.WriteLine(readText);
+                //Debug.WriteLine(readText);
                 log.Info(readText);
 Disconnect:
 				readText = _serialPort.ReadLine();           // Read disconnect response
-                Console.WriteLine(readText);
+                //Console.WriteLine(readText);
                 log.Info(readText);
 
                 BBSDisconnectTime = DateTime.Now;

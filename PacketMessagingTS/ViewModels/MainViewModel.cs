@@ -22,26 +22,26 @@ namespace PacketMessagingTS.ViewModels
         {
         }
 
-        public async Task RefreshDataGridAsync()
-        {
-            if (MainPagePivotSelectedItem == null)
-                return;
+        //public async Task RefreshDataGridAsync()
+        //{
+        //    if (MainPagePivotSelectedItem == null)
+        //        return;
 
-            List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)MainPagePivotSelectedItem.Tag);
-            //var task = Task<List<PacketMessage>>.Run(async () => await PacketMessage.GetPacketMessages((StorageFolder)MainPagePivotSelectedItem.Tag));
-            //task.Wait();
-            //List<PacketMessage> messagesInFolder = task.Result;
+        //    List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)MainPagePivotSelectedItem.Tag);
+        //    //var task = Task<List<PacketMessage>>.Run(async () => await PacketMessage.GetPacketMessages((StorageFolder)MainPagePivotSelectedItem.Tag));
+        //    //task.Wait();
+        //    //List<PacketMessage> messagesInFolder = task.Result;
 
-            switch (MainPagePivotSelectedItem.Name)
-            {
-                case "":
-                    DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
-                    break;
-                default:
-                    Source = new ObservableCollection<PacketMessage>(messagesInFolder);
-                    break;
-            }
-        }
+        //    switch (MainPagePivotSelectedItem.Name)
+        //    {
+        //        case "":
+        //            DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
+        //            break;
+        //        default:
+        //            Source = new ObservableCollection<PacketMessage>(messagesInFolder);
+        //            break;
+        //    }
+        //}
 
         public void OpenMessageFromDoubleClick(PacketMessage packetMessage)
         {

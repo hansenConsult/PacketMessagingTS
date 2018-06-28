@@ -60,7 +60,7 @@ namespace PacketMessagingTS.Controls
             set
             {
                 messageSubject = value;
-                textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke???
+                textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
             }
         }
         private string originalBBS;

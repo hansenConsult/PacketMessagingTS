@@ -197,8 +197,7 @@ namespace PacketMessagingTS.ViewModels
                 tacticalPrimaryActive = value;
                 if (_callsignData == null)
                 {
-                    int index = Convert.ToInt32(TacticalCallsignAreaSelectedIndex);
-                    _callsignData = Views.SettingsPage.listOfTacticallsignsArea[index].TacticalCallsigns.TacticalCallsignsArray[TacticalCallsignSelectedIndex];
+                    _callsignData = Views.SettingsPage.listOfTacticallsignsArea[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArray[TacticalCallsignSelectedIndex];
                 }
 
                 _callsignData.PrimaryBBSActive = tacticalPrimaryActive;

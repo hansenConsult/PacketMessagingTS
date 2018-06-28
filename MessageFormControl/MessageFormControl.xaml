@@ -6,11 +6,61 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="using:MessageFormControl"
+          xmlns:shared="using:SharedCode"
              xmlns:MyBaseNamespace="using:FormControlBaseClass"
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="300">
+             d:DesignHeight="120" d:DesignWidth="580">
+
+    <MyBaseNamespace:FormControlBase.Resources>
+        <shared:DateTimeConverter x:Key="datetimeConverter"/>
+    </MyBaseNamespace:FormControlBase.Resources>
 
     <StackPanel x:Name="PrintableArea" Height="auto" RequestedTheme="Light" >
+        <Grid x:Name="inBoxHeader" Visibility="{x:Bind InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="88" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="88" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="104" />
+                <ColumnDefinition Width="0.8*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Rcvd Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{x:Bind MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="2" Text="Sent Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="3" Text="{x:Bind MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid x:Name="sentHeader" Visibility="{x:Bind SentHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="52" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="88" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="0.8*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="2" Text="Sent Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="3" Text="{x:Bind MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid x:Name="newHeader" Visibility="{x:Bind NewHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="108" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="0.8*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Created Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{x:Bind MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
+        </Grid>
+
         <TextBox x:Name="messageBody" AcceptsReturn="True" IsTapEnabled="True" TextWrapping="Wrap" 
 				 PlaceholderText="Write message here" 
 				  Tag="0,required,Please write a message"/>

@@ -199,6 +199,9 @@ namespace PacketMessagingTS.Models
 
         public string GetBBS(string callsign)
         {
+            if (callsign == null)
+                return "";
+
             _addressDictionary.TryGetValue(callsign.ToUpper(), out AddressBookEntry entry);
 
             return (entry == null ? "" : entry.BBSPrimaryActive ? entry.BBSPrimary : entry.BBSSecondary);

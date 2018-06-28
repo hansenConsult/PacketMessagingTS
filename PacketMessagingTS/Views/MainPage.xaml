@@ -9,14 +9,10 @@
       xmlns:helpers="using:PacketMessagingTS.Helpers"
       Style="{StaticResource PageStyle}"
       mc:Ignorable="d">
-
-    <!--<Page.DataContext>
-        <vm:MainViewModel x:Name="ViewModel" />
-    </Page.DataContext>-->
     
     <Page.Resources>
         <helpers:AreaConverter x:Key="Converter1"/>
-        <helpers:DateTimeConverter x:Key="DatetimeConverter"/>
+        <!--<helpers:DateTimeConverter x:Key="DatetimeConverter"/>-->
         <helpers:BooleanToStringConverter x:Key="BooleanToStringConverter"
                                        TrueValue="Active"
                                        FalseValue="Retired" />
@@ -123,9 +119,9 @@
                                                CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Fixed" Width="108"
                                                CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
-                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From "
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"
                                                CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
-                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS" SizeMode="Auto"
                                                CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
                         <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"
                                                CellContentStyleSelector="{StaticResource ForegroundSelector}"/>
@@ -182,7 +178,7 @@
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto" />
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
                         <tg:DataGridTextColumn PropertyName="BBSName" Header="BBSName" SizeMode="Auto"/>
-                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size" SizeMode="Auto"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
             </PivotItem>
@@ -221,10 +217,10 @@
                         <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
-                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
-                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
-                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size" SizeMode="Auto"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
 
@@ -264,8 +260,8 @@
                         <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
-                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
-                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
             </PivotItem>
@@ -303,10 +299,10 @@
                         <tg:DataGridTextColumn PropertyName="JNOSDate" Header="Sent Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
-                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To"/>
-                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From"/>
-                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
-                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size"/>
+                        <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS" SizeMode="Auto"/>
+                        <tg:DataGridTextColumn PropertyName="MessageSize" Header="Size" SizeMode="Auto"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
             </PivotItem>
@@ -347,7 +343,7 @@
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
                         <tg:DataGridTextColumn PropertyName="MessageTo" Header="To" SizeMode="Auto"/>
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
-                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS"/>
+                        <tg:DataGridTextColumn PropertyName="BBSName" Header="BBS" SizeMode="Auto"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
             </PivotItem>

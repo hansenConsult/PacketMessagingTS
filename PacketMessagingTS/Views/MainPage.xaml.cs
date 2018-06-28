@@ -68,7 +68,7 @@ namespace PacketMessagingTS.Views
         {
             List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)pivotItem.Tag);
 
-            ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
+            //ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
             _mainViewModel.Source = new ObservableCollection<PacketMessage>(messagesInFolder);
 
             switch (pivotItem.Name)

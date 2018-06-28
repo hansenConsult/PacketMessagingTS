@@ -61,11 +61,11 @@ namespace ICS213FormControl
         //public override string MsgTime
         //{ get { return GetTextBoxString(msgTime); } set { SetTextBoxString(msgTime, value); } }
 
-        //public override string Severity
-        //{ get { return severity.GetRadioButtonCheckedState(); } set { severity.SetRadioButtonCheckedState(value); } }
+        public override string Severity
+        { get { return severity.GetRadioButtonCheckedState(); } set { severity.SetRadioButtonCheckedState(value); } }
 
-        //public override string HandlingOrder
-        //{ get { return handlingOrder.GetRadioButtonCheckedState(); } set { handlingOrder.SetRadioButtonCheckedState(value); } }
+        public override string HandlingOrder
+        { get { return handlingOrder.GetRadioButtonCheckedState(); } set { handlingOrder.SetRadioButtonCheckedState(value); } }
 
         public string Action
 		{ get { return action.GetRadioButtonCheckedState(); } set { action.SetRadioButtonCheckedState(value); } }
@@ -426,7 +426,7 @@ namespace ICS213FormControl
 			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
 			{
 				//Set the ItemsSource to be your filtered dataset
-				//sender.ItemsSource = dataset;
+				//sender.ItemsSource = null;
 				_ICSPositionFiltered = new List<string>();
 				foreach (string s in ICSPosition)
 				{
@@ -436,7 +436,7 @@ namespace ICS213FormControl
 						_ICSPositionFiltered.Add(s);
 					}
 				}
-				sender.ItemsSource = _ICSPositionFiltered;
+			sender.ItemsSource = _ICSPositionFiltered;
 			}
 
 		}

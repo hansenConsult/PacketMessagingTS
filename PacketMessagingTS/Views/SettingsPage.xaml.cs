@@ -23,6 +23,7 @@ using Windows.Devices.Bluetooth;
 using MetroLog;
 using SharedCode;
 using PacketMessagingTS.Controls;
+using System.IO.Ports;
 
 namespace PacketMessagingTS.Views
 {
@@ -39,28 +40,24 @@ namespace PacketMessagingTS.Views
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
 
-        //static ObservableCollection<Profile> _profileCollection;
 
-        ComportComparer comportComparer;
-
-        private ObservableCollection<DeviceListEntry> listOfDevices = new ObservableCollection<DeviceListEntry>();
-
-        private static List<SerialDevice> _listOfSerialDevices = new List<SerialDevice>();
+        private ObservableCollection<DeviceListEntry> _listOfDevices = new ObservableCollection<DeviceListEntry>();
+        //private static List<SerialDevice> _listOfSerialDevices = new List<SerialDevice>();
         private static ObservableCollection<SerialDevice> CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
-        private List<DeviceInformation> _listOfBluetoothDevices;
+        //private List<DeviceInformation> _listOfBluetoothDevices;
         private ObservableCollection<DeviceInformation> CollectionOfBluetoothDevices;
 
-        //private ObservableCollection<uint> listOfBaudRates;
-        //private ObservableCollection<ushort> listOfDataBits;
+        ComportComparer _comportComparer;
 
-        private string _bluetoothDeviceSelector;
+        //private string _bluetoothDeviceSelector;
+
         private static Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
 
-        private static Boolean watchersSuspended = false;
-        private static Boolean watchersStarted = false;
+        private static Boolean _watchersSuspended = false;
+        private static Boolean _watchersStarted = false;
 
         // Has all the devices enumerated by the device watcher?
-        private Boolean isAllDevicesEnumerated = false;
+        private Boolean _isAllDevicesEnumerated = false;
 
         private SuspendingEventHandler appSuspendEventHandler;
         private EventHandler<Object> appResumeEventHandler;
@@ -81,12 +78,11 @@ namespace PacketMessagingTS.Views
             DeviceListSource.Source = tncDeviceCollection;
 
             // Serial ports
-            ComPortListSource.Source = CollectionOfSerialDevices;
-            _listOfBluetoothDevices = new List<DeviceInformation>();
+            //_listOfBluetoothDevices = new List<DeviceInformation>();
             CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
-            comportComparer = new ComportComparer();
+            _comportComparer = new ComportComparer();
 
-            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+            //_packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
             //ObservableCollection<EmailAccount> EmailAccountsObservableCollection = new ObservableCollection<EmailAccount>();
             //foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccounts)
@@ -117,9 +113,12 @@ namespace PacketMessagingTS.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _settingsViewModel.Initialize();
-            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+
+            // Begin watching out for events
+            //StartHandlingAppEvents();
+
             // Initialize the desired device watchers so that we can watch for when devices are connected/removed
-            if (!watchersStarted)
+            if (!_watchersStarted)
             {
                 InitializeDeviceWatchers();
                 StartDeviceWatchers();
@@ -132,7 +131,8 @@ namespace PacketMessagingTS.Views
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            //StopDeviceWatchers();
+            StopDeviceWatchers();
+            //StopHandlingAppEvents();
 
             base.OnNavigatingFrom(e);
         }
@@ -203,9 +203,9 @@ namespace PacketMessagingTS.Views
         }
         #endregion Identity
         #region Profiles
-        private bool _bbsChanged = false;
-        private bool _tncChanged = false;
-        private bool _defaultToChanged = false;
+        //private bool _bbsChanged = false;
+        //private bool _tncChanged = false;
+        //private bool _defaultToChanged = false;
 
         private async Task ProfileSaveAsync()
         {
@@ -248,7 +248,7 @@ namespace PacketMessagingTS.Views
             //{
             //    _profileCollection.Add(prof);
             //}
-            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+            //_packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
 
             //_bbsChanged = false;
@@ -294,8 +294,8 @@ namespace PacketMessagingTS.Views
 
             await ProfileArray.Instance.SaveAsync();
 
-            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
-            comboBoxProfiles.SelectedIndex = index;
+            //_packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+            //comboBoxProfiles.SelectedIndex = index;
 
         }
 
@@ -331,7 +331,7 @@ namespace PacketMessagingTS.Views
 
             Profile profile = comboBoxProfiles.SelectedItem as Profile;
             ProfileArray.Instance.ProfileList.Remove(profile);
-            _packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+            //_packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
             //int index = comboBoxProfiles.SelectedIndex;
             //var length = SharedData.ProfileArray.Profiles.Length;
@@ -354,70 +354,6 @@ namespace PacketMessagingTS.Views
             profileSave.IsEnabled = true;
         }
 
-        private void ComboBoxTNCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (e.AddedItems.Count > 0)
-            //{
-            //    var selectedTNCDevice = (TNCDevice)e.AddedItems[0];
-
-            //    if (string.IsNullOrEmpty(selectedTNCDevice.Prompts.Command))
-            //    {
-            //        comboBoxBBS.SelectedIndex = -1;
-            //    }
-            //    if (_packetSettingsViewModel.CurrentProfile != null)
-            //    {
-            //        _tncChanged = _packetSettingsViewModel.CurrentProfile.TNC != selectedTNCDevice.Name;
-            //    }
-
-            //    profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
-            //    SharedData.CurrentTNCDevice = selectedTNCDevice;
-            //}
-        }
-
-        private void TextBoxTo_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //if (_packetSettingsViewModel.CurrentProfile.SendTo != ((TextBox)sender).Text)
-            //{
-            //    _defaultToChanged = true;
-            //}
-            //else
-            //{
-            //    _defaultToChanged = false;
-            //}
-            //profileSave.IsEnabled = _bbsChanged | _tncChanged | _defaultToChanged;
-        }
-
-        private void ComboBoxProfiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //foreach (Profile profile in e.RemovedItems)
-            //{
-            //	profile.Selected = false;
-            //}
-
-            try
-            {
-                //Profile profile = (Profile)((ComboBox)sender).SelectedItem;
-                //if (profile != null)
-                //{
-                //    _packetSettingsViewModel.CurrentProfile = profile;
-                //    //comboBoxTNCs.SelectedValuePath = "Name";
-                //    comboBoxTNCs.SelectedValue = profile.TNC;
-                //    //BBSSelectedValue = profile.BBS;
-                //    comboBoxBBS.SelectedValue = profile.BBS;
-                //    //textBoxTo.Text = profile.SendTo;
-                //}
-                //_bbsChanged = false;
-                //_tncChanged = false;
-                //_defaultToChanged = false;
-
-                //profileSave.IsEnabled = false;
-            }
-            catch (Exception ex)
-            {
-                string s = ex.ToString();
-            }
-        }
-
         #endregion
         #region Interface
         enum TNCState
@@ -435,40 +371,40 @@ namespace PacketMessagingTS.Views
 
         private void ClearDeviceEntries()
         {
-            listOfDevices.Clear();
-            foreach (SerialDevice serialDevice in _listOfSerialDevices)
-            {
-                serialDevice.Dispose();
-            }
-            _listOfSerialDevices.Clear();
+            _listOfDevices.Clear();     // List of all devices
+            //foreach (SerialDevice serialDevice in _listOfSerialDevices)
+            //{
+            //    serialDevice.Dispose();
+            //}
+            //_listOfSerialDevices.Clear();
             CollectionOfSerialDevices.Clear();
-            _listOfBluetoothDevices.Clear();
+            //_listOfBluetoothDevices.Clear();
             CollectionOfBluetoothDevices.Clear();
         }
 
         private void InitializeDeviceWatchers()
         {
             // Serial devices device selector
-            var deviceSelector = SerialDevice.GetDeviceSelector();
+            string deviceSelector = SerialDevice.GetDeviceSelector();
 
             // Create a device watcher to look for instances of the Serial Device that match the device selector
             // used earlier.
-            var deviceWatcher = DeviceInformation.CreateWatcher(deviceSelector);
+            DeviceWatcher deviceWatcher = DeviceInformation.CreateWatcher(deviceSelector);
 
             // Allow the EventHandlerForDevice to handle device watcher events that relates or effects our device (i.e. device removal, addition, app suspension/resume)
             AddDeviceWatcher(deviceWatcher, deviceSelector);
 
             // Bluetooth devices device selector
-            _bluetoothDeviceSelector = BluetoothDevice.GetDeviceSelector();
-            deviceWatcher = DeviceInformation.CreateWatcher(_bluetoothDeviceSelector);
-            AddDeviceWatcher(deviceWatcher, _bluetoothDeviceSelector);
+            string bluetoothDeviceSelector = BluetoothDevice.GetDeviceSelector();
+            deviceWatcher = DeviceInformation.CreateWatcher(bluetoothDeviceSelector);
+            AddDeviceWatcher(deviceWatcher, bluetoothDeviceSelector);
         }
 
         private void StartDeviceWatchers()
         {
             // Start all device watchers
-            watchersStarted = true;
-            isAllDevicesEnumerated = false;
+            _watchersStarted = true;
+            _isAllDevicesEnumerated = false;
 
             foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
             {
@@ -498,15 +434,21 @@ namespace PacketMessagingTS.Views
             // Clear the list of devices so we don't have potentially disconnected devices around
             ClearDeviceEntries();
 
-            watchersSuspended = true;
-            watchersStarted = false;
+            _watchersSuspended = true;
+            _watchersStarted = false;
         }
 
+        /// <summary>
+        /// Searches through the existing list of devices for the first DeviceListEntry that has
+        /// the specified device Id.
+        /// </summary>
+        /// <param name="deviceId">Id of the device that is being searched for</param>
+        /// <returns>DeviceListEntry that has the provided Id; else a nullptr</returns>
         private DeviceListEntry FindDevice(String deviceId)
         {
             if (deviceId != null)
             {
-                foreach (DeviceListEntry entry in listOfDevices)
+                foreach (DeviceListEntry entry in _listOfDevices)
                 {
                     if (entry.DeviceInformation.Id == deviceId)
                     {
@@ -525,14 +467,14 @@ namespace PacketMessagingTS.Views
         /// <param name="eventArgs"></param>
         private void OnAppSuspension(Object sender, SuspendingEventArgs args)
         {
-            if (watchersStarted)
+            if (_watchersStarted)
             {
-                watchersSuspended = true;
+                _watchersSuspended = true;
                 StopDeviceWatchers();
             }
             else
             {
-                watchersSuspended = false;
+                _watchersSuspended = false;
             }
         }
 
@@ -543,9 +485,9 @@ namespace PacketMessagingTS.Views
         /// <param name="args"></param>
         private void OnAppResume(Object sender, Object args)
         {
-            if (watchersSuspended)
+            if (_watchersSuspended)
             {
-                watchersSuspended = false;
+                _watchersSuspended = false;
                 StartDeviceWatchers();
             }
         }
@@ -557,7 +499,19 @@ namespace PacketMessagingTS.Views
         /// <param name="deviceInformationUpdate"></param>
         private async void OnDeviceRemovedAsync(DeviceWatcher sender, DeviceInformationUpdate deviceInformationUpdate)
         {
-            await RemoveDeviceFromListAsync(deviceInformationUpdate.Id);
+            try
+            {
+                await this.Dispatcher.RunAsync(
+                    CoreDispatcherPriority.Normal,
+                    new DispatchedHandler(async () =>
+                    {
+                        await RemoveDeviceFromListAsync(deviceInformationUpdate.Id);
+                    }));
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"Remove serial device error, {e.Message}");
+            }
         }
 
         /// <summary>
@@ -583,7 +537,7 @@ namespace PacketMessagingTS.Views
         /// <param name="args"></param>
         private void OnDeviceEnumerationComplete(DeviceWatcher sender, Object args)
         {
-            isAllDevicesEnumerated = true;
+            _isAllDevicesEnumerated = true;
 
             // Select current TNC device
             //comboBoxComPort.SelectedValue = _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport;
@@ -667,7 +621,7 @@ namespace PacketMessagingTS.Views
                     match = new DeviceListEntry(deviceInformation, deviceSelector);
 
                     // Add the new element to the end of the list of devices
-                    listOfDevices.Add(match);
+                    _listOfDevices.Add(match);
 
                     if (deviceInformation.Pairing.IsPaired)
                     {
@@ -676,14 +630,15 @@ namespace PacketMessagingTS.Views
                         {
                             if (deviceInformation.Kind == DeviceInformationKind.AssociationEndpoint)
                             {
-                                _listOfBluetoothDevices.Add(deviceInformation);
-                                CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
+                                //_listOfBluetoothDevices.Add(deviceInformation);
+                                //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
+                                CollectionOfBluetoothDevices.Add(deviceInformation);
                                 ComNameListSource.Source = CollectionOfBluetoothDevices;
                             }
                         }
                         catch (Exception ex)
                         {
-                            _logHelper.Log(LogLevel.Error, $"Overall Connect: { ex.Message}");
+                            _logHelper.Log(LogLevel.Error, $"Add Bluetooth device: { ex.Message}");
                         }
                     }
                     else
@@ -693,11 +648,14 @@ namespace PacketMessagingTS.Views
                         if (serialDevice != null)
                         {
                             //string name = serialDevice.PortName;
-                            _listOfSerialDevices.Add(serialDevice);
+                            //_listOfSerialDevices.Add(serialDevice);
                             // Sort list
-                            _listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
-                            CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
-                            ComPortListSource.Source = CollectionOfSerialDevices;
+                            //_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, _comportComparer).ToList();
+                            //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
+                            CollectionOfSerialDevices.Add(serialDevice);
+                            //CollectionOfSerialDevices = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
+                            //ComPortListSource.Source = CollectionOfSerialDevices;
+                            ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
                         }
                     }
                 }
@@ -710,20 +668,23 @@ namespace PacketMessagingTS.Views
 
         private async Task RemoveDeviceFromListAsync(String deviceId)
         {
-            // Removes the device entry from the internal list; therefore the UI
-            var deviceEntry = FindDevice(deviceId);
-
-            listOfDevices.Remove(deviceEntry);
+            // Remove bluetooth devices as well  TODO
 
             SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceId);
+
             if (serialDevice != null)
             {
-                _listOfSerialDevices.Remove(serialDevice);
+                //_listOfSerialDevices.Remove(serialDevice);
                 // Sort list
-                _listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
-                CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
-                ComPortListSource.Source = CollectionOfSerialDevices;
+                //_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
+                //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
+                CollectionOfSerialDevices.Remove(serialDevice);
+                ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
             }
+            // Removes the device entry from the internal list
+            var deviceEntry = FindDevice(deviceId);
+
+            _listOfDevices.Remove(deviceEntry);
         }
 
         private void UpdateTNCFromUI(TNCDevice tncDevice)

@@ -212,8 +212,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					//	DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
 					//}
 					pktMsg.CreateFileName();
-					string fileFolder = SharedData.ReceivedMessagesFolder.Path;
-					pktMsg.Save(fileFolder);
+					pktMsg.Save(SharedData.ReceivedMessagesFolder.Path);
 
                     _logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} received");
 
@@ -227,6 +226,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							DateTime receiveTime = DateTime.Now;
 							string receiversMessageId = "", sendersMessageId = "";
 							var messageLines = formField.ControlContent.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+
 							foreach (string line in messageLines)
 							{
 								if (line.Contains(searchStrings[0]))
@@ -253,10 +254,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 								}
 							}
 
-                            //DirectoryInfo diSentFolder = new DirectoryInfo(Views.MainPage._sentMessagesFolder.Path);
-                            //foreach (FileInfo fi in diSentFolder.GetFiles())
                             List<string> fileTypeFilter = new List<string>() { ".xml" };
-                            //fileTypeFilter.Add(".xml");
                             QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, fileTypeFilter);
 
                             // Get the files in the user's archive folder
@@ -800,36 +798,49 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 }
             }
 
+            // Remove already processed E-Mail messages
             foreach (PacketMessage packetMessage in messagesSentAsEMail)
             {
                 _packetMessagesToSend.Remove(packetMessage);
             }
-            if (_packetMessagesToSend.Count > 0)
+
+            // TODO check if TNC connected otherwise suggest send via email
+            if (_packetMessagesToSend.Count == 0)
+            {
+                tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
+                if (tncDevice.Name.Contains(SharedData.EMail))
+                {
+                    await Utilities.ShowMessageDialogAsync("Use TNC other than E-Email");
+                    return;
+                }
+                bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+            }
+            else
             {
                 tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
                 bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
-                TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
-                // Collect remaining messages to be sent
-                // Process files to be sent via BBS
-                await tncInterface.BBSConnectThreadProcAsync();
-
-                Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
-                _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs.ConnectName}. Connect time = {tncInterface.BBSDisconnectTime - tncInterface.BBSConnectTime}");
-
-                // Move sent messages from unsent folder to the Sent folder
-                foreach (PacketMessage packetMsg in tncInterface.PacketMessagesSent)
-                {
-                    _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
-
-                    var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
-                    await file.DeleteAsync();
-
-                    // Do a save to ensure that updates from tncInterface.BBSConnect are saved
-                    packetMsg.Save(SharedData.SentMessagesFolder.Path);
-                }
-                _packetMessagesReceived = tncInterface.PacketMessagesReceived;
-                ProcessReceivedMessagesAsync();
             }
+            TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+            // Collect remaining messages to be sent
+            // Process files to be sent via BBS
+            await tncInterface.BBSConnectThreadProcAsync();
+
+            Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
+            _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs.ConnectName}. Connect time = {tncInterface.BBSDisconnectTime - tncInterface.BBSConnectTime}");
+
+            // Move sent messages from unsent folder to the Sent folder
+            foreach (PacketMessage packetMsg in tncInterface.PacketMessagesSent)
+            {
+                _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
+
+                var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
+                await file.DeleteAsync();
+
+                // Do a save to ensure that updates from tncInterface.BBSConnect are saved
+                packetMsg.Save(SharedData.SentMessagesFolder.Path);
+            }
+            _packetMessagesReceived = tncInterface.PacketMessagesReceived;
+            ProcessReceivedMessagesAsync();
             //_deviceFound = true;
             //try
             //{

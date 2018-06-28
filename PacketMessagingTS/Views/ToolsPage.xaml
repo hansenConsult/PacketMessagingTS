@@ -9,10 +9,11 @@
         xmlns:converters="using:PacketMessagingTS.Helpers"
 
     mc:Ignorable="d"
+    d:DesignWidth="580"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <converters:DateTimeConverter x:Key="DatetimeConverter"/>
+        <!--<converters:DateTimeConverter x:Key="DatetimeConverter"/>-->
         <converters:TimeConverter x:Key="TimeConverter"/>
 
         <Style x:Key="ListBoxHeader" TargetType="TextBlock">
@@ -194,17 +195,16 @@
             </PivotItem>
             <!--ICS 309-->
             <PivotItem x:Uid="Tools_ICS309">
-                <RelativePanel Margin="12,12,0,0">
+                <RelativePanel Margin="0,12,0,0">
                     <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
                     <ScrollViewer x:Name="ICS309ScrollViewer"
-                                  RelativePanel.AlignTopWithPanel="True"
                                   RelativePanel.Above="ButtomCommandBarICS309"
+                                  RelativePanel.AlignTopWithPanel="True"
                                   VerticalScrollBarVisibility="Auto" >
-                        <StackPanel x:Name="ICS309StackPanel"                                    
-                                    Margin="0,0,12,0">
+                        <StackPanel x:Name="ICS309StackPanel">
                             <StackPanel x:Name="ICS309MainForm"
                                         BorderBrush="Black" BorderThickness="2">
 
@@ -328,7 +328,7 @@
                                     </Border>
                                 </Grid>
                             </StackPanel>
-                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,4" />
+                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,8" />
                         </StackPanel>
                     </ScrollViewer>
                     <CommandBar x:Name="ButtomCommandBarICS309" Margin="-12,0,-12,0"
@@ -373,6 +373,7 @@
                                    RelativePanel.Below="fileNamePanel"
                                    RelativePanel.AlignLeftWithPanel="True"
                                    RelativePanel.AlignRightWithPanel="True"
+                                   RelativePanel.Above="ButtomCommandBarTest"
                                    >
                         <TextBox x:Name="receivedMessage" 
                                  RelativePanel.AlignTopWithPanel="True"

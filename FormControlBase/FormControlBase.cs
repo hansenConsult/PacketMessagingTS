@@ -238,6 +238,20 @@ namespace FormControlBaseClass
         public virtual string HowReceivedSent
         { get; set; }
 
+        private DateTime? messageReceivedTime = null;
+        public virtual DateTime? MessageReceivedTime
+        {
+            get => messageReceivedTime;
+            set => Set(ref messageReceivedTime, value);
+        }
+
+        private DateTime? messageSentTime = null;
+        public virtual DateTime? MessageSentTime
+        {
+            get => messageSentTime;
+            set => Set(ref messageSentTime, value);
+        }
+
         public abstract string PacFormName
 		{ get; }
 

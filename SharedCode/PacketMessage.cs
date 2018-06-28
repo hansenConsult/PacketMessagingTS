@@ -76,11 +76,11 @@ namespace SharedCode
 
         private string messageSubjectField;
 
+        private bool messageOpenedField = false;
+
         private FormField[] arrayOfFormFieldField;
 
         private string messageBodyField;
-
-        private bool messageOpenedField = false;
 
 		private string mailUserNameField;
 
@@ -367,9 +367,22 @@ namespace SharedCode
                 this.messageSubjectField = value;
             }
         }
-		
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayItemAttribute("FormField", IsNullable = false)]
+
+        /// <remarks/>
+        public bool MessageOpened
+        {
+            get
+            {
+                return this.messageOpenedField;
+            }
+            set
+            {
+                this.messageOpenedField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("FormField", IsNullable = false)]
         public FormField[] FormFieldArray
         {
             get
@@ -396,19 +409,6 @@ namespace SharedCode
         }
 
         /// <remarks/>
-        public bool MessageOpened
-        {
-            get
-            {
-                return this.messageOpenedField;
-            }
-            set
-            {
-                this.messageOpenedField = value;
-            }
-        }
-
-        /// <remarks/>
         public string MailUserName
 		{
 			get => mailUserNameField;
@@ -428,11 +428,11 @@ namespace SharedCode
         //    }
         //}
 
-        [XmlIgnore]
-        public bool IsStillActive { get; set; } = true;
+        //[XmlIgnore]
+        //public bool IsStillActive { get; set; } = true;
 
-        [XmlIgnore]
-        public string ActiveDescription => IsStillActive ? "Active" : "Retired";
+        //[XmlIgnore]
+        //public string ActiveDescription => IsStillActive ? "Active" : "Retired";
 
         [XmlIgnore]
 		public int Size
@@ -450,11 +450,6 @@ namespace SharedCode
 		{
 			return Subject;
 		}
-
-		//private string ConvertToDisplayTime(DateTime dateTime)
-		//{
-		//	return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-		//}
 
 		public async void CreateFileName()
 		{
@@ -474,14 +469,12 @@ namespace SharedCode
 			if (!File.Exists(filePath))
 				return null;
 
-			StreamReader reader = null;
-			//TextReader reader = null;
 			PacketMessage packetMessage;
 			try
 			{
 				using (var stream = new FileStream(filePath, FileMode.Open))
 				{
-					using (reader = new StreamReader(stream, System.Text.Encoding.UTF8))
+					using (TextReader reader = new StreamReader(stream, System.Text.Encoding.UTF8))
 					{
 						var serializer = new XmlSerializer(typeof(PacketMessage));
 						packetMessage = (PacketMessage)serializer.Deserialize(reader);
@@ -521,25 +514,20 @@ namespace SharedCode
 			catch (Exception e)
 			{
                 _logHelper.Log(LogLevel.Error, $"Failed to open {file?.Path}, {e}");
-                Debug.WriteLine($"Failed to open {file?.Path}, {e}");
 			}
-			//finally
-			//{
-			//    reader?.Dispose();
-			//}
 			return null;
 		}
 
 		public void Save(string fileFolder)
 		{
-			string filePath = fileFolder + @"\" + this.FileName;
+            string filePath = Path.Combine(fileFolder, this.FileName);
 			//StreamWriter writer = null;
-			TextWriter writer = null;
+			//TextWriter writer = null;
 			try
 			{
-				using (Stream stream = new FileStream(filePath, FileMode.OpenOrCreate))
+				using (Stream stream = new FileStream(filePath, FileMode.Create))
 				{
-					using (writer = new StreamWriter(stream))
+					using (TextWriter writer = new StreamWriter(stream))
 					{
 						XmlSerializer serializer = new XmlSerializer(typeof(PacketMessage));
 						serializer.Serialize(writer, this);
@@ -550,12 +538,8 @@ namespace SharedCode
 			{
                 _logHelper.Log(LogLevel.Error, $"Failed to save {filePath}", e.Message);
 			}
-			finally
-			{
-				writer?.Dispose();
-			}
 
-			// Noe replace tab characters with escaped tab character
+			// Now replace tab characters with escaped tab character
 			string fileBuffer = "";
 			bool tabCharacterFound = false;
 			try
@@ -582,7 +566,7 @@ namespace SharedCode
 				try
 				{
 					// Write xml file back with escaped tab characters
-					using (var stream = new FileStream(filePath, FileMode.CreateNew))
+					using (var stream = new FileStream(filePath, FileMode.Create))
 					{
 						using (StreamWriter outputFile = new StreamWriter(stream))
 						{
@@ -615,7 +599,7 @@ namespace SharedCode
             {
                 PacketMessage packetMessage = Open(file);
 				if (packetMessage != null)
-				{
+				{                    
 					packetMessages.Add(packetMessage);
 				}
 			}
