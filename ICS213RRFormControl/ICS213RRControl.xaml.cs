@@ -50,7 +50,7 @@ namespace EOC213RRFormControl
                 "# JS-ver. PR-4.3-2.8, 09/15/17",
                 "# FORMFILENAME: XSC_EOC-213RR_v1706.html"
             };
-            outpostData = CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
 			return CreateOutpostMessageBody(outpostData);
 		}

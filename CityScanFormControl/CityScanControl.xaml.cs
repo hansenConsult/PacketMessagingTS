@@ -179,7 +179,7 @@ namespace CityScanFormControl
 		////	return (MessagegNo + "_" + severityField.First().ControlContent.ToUpper()[0] + "/" + handlingOrderField.First().ControlContent.ToUpper()[0] + "_CityScan_" + City + " Emergency Declared: " + (EmergencyDeclared == "emergencyDeclaredYes" ? "yes" : "no"));
 		////}
 
-		protected override List<string> CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+		protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
 		{
             foreach (FormField formField in packetMessage.FormFieldArray)
 			{
@@ -300,7 +300,7 @@ namespace CityScanFormControl
 			}
 			outpostData.Add("#EOF");
 
-			return outpostData;
+			//return outpostData;
 		}
 
 		public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -314,7 +314,7 @@ namespace CityScanFormControl
 			//# FORMFILENAME: city-scan.html
 			outpostData.Add("# FORMFILENAME: city-scan.html");
 
-			outpostData = CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+			CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
 			return CreateOutpostMessageBody(outpostData);
 		}

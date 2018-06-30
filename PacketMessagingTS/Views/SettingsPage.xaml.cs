@@ -41,26 +41,28 @@ namespace PacketMessagingTS.Views
 
 
 
-        private ObservableCollection<DeviceListEntry> _listOfDevices = new ObservableCollection<DeviceListEntry>();
         //private static List<SerialDevice> _listOfSerialDevices = new List<SerialDevice>();
-        private static ObservableCollection<SerialDevice> CollectionOfSerialDevices = new ObservableCollection<SerialDevice>();
+        private static ObservableCollection<string> CollectionOfSerialDevices;
         //private List<DeviceInformation> _listOfBluetoothDevices;
         private ObservableCollection<DeviceInformation> CollectionOfBluetoothDevices;
 
-        ComportComparer _comportComparer;
+        private SuspendingEventHandler appSuspendEventHandler;
+        private EventHandler<Object> appResumeEventHandler;
 
-        //private string _bluetoothDeviceSelector;
+        private ObservableCollection<DeviceListEntry> _listOfDevices;
 
         private static Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
 
         private static Boolean _watchersSuspended = false;
         private static Boolean _watchersStarted = false;
 
+        ComportComparer _comportComparer;
+
+        //private string _bluetoothDeviceSelector;
+
         // Has all the devices enumerated by the device watcher?
         private Boolean _isAllDevicesEnumerated = false;
 
-        private SuspendingEventHandler appSuspendEventHandler;
-        private EventHandler<Object> appResumeEventHandler;
 
         // Identity settings
         public static ObservableCollection<TacticalCallsignData> listOfTacticallsignsArea;
@@ -75,12 +77,20 @@ namespace PacketMessagingTS.Views
             InitializeComponent();
 
             ObservableCollection<TNCDevice> tncDeviceCollection = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList );
-            DeviceListSource.Source = tncDeviceCollection;
+            TNCDeviceListSource.Source = tncDeviceCollection;
 
             // Serial ports
+            CollectionOfSerialDevices = new ObservableCollection<string>();
             //_listOfBluetoothDevices = new List<DeviceInformation>();
             CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
             _comportComparer = new ComportComparer();
+            _listOfDevices = new ObservableCollection<DeviceListEntry>();
+
+            mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
+            _watchersStarted = false;
+            _watchersSuspended = false;
+
+            _isAllDevicesEnumerated = false;
 
             //_packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
 
@@ -115,14 +125,14 @@ namespace PacketMessagingTS.Views
             _settingsViewModel.Initialize();
 
             // Begin watching out for events
-            //StartHandlingAppEvents();
+            StartHandlingAppEvents();
 
             // Initialize the desired device watchers so that we can watch for when devices are connected/removed
-            if (!_watchersStarted)
-            {
-                InitializeDeviceWatchers();
-                StartDeviceWatchers();
-            }
+            InitializeDeviceWatchers();
+            StartDeviceWatchers();
+
+            DeviceListSource.Source = _listOfDevices;       // Temporary TODO remove
+
             if (e.Parameter == null)
                 return;
 
@@ -132,7 +142,7 @@ namespace PacketMessagingTS.Views
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             StopDeviceWatchers();
-            //StopHandlingAppEvents();
+            StopHandlingAppEvents();
 
             base.OnNavigatingFrom(e);
         }
@@ -372,10 +382,6 @@ namespace PacketMessagingTS.Views
         private void ClearDeviceEntries()
         {
             _listOfDevices.Clear();     // List of all devices
-            //foreach (SerialDevice serialDevice in _listOfSerialDevices)
-            //{
-            //    serialDevice.Dispose();
-            //}
             //_listOfSerialDevices.Clear();
             CollectionOfSerialDevices.Clear();
             //_listOfBluetoothDevices.Clear();
@@ -384,7 +390,7 @@ namespace PacketMessagingTS.Views
 
         private void InitializeDeviceWatchers()
         {
-            // Serial devices device selector
+            // Target all Serial Devices present on the system
             string deviceSelector = SerialDevice.GetDeviceSelector();
 
             // Create a device watcher to look for instances of the Serial Device that match the device selector
@@ -434,7 +440,6 @@ namespace PacketMessagingTS.Views
             // Clear the list of devices so we don't have potentially disconnected devices around
             ClearDeviceEntries();
 
-            _watchersSuspended = true;
             _watchersStarted = false;
         }
 
@@ -501,12 +506,12 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                await this.Dispatcher.RunAsync(
-                    CoreDispatcherPriority.Normal,
-                    new DispatchedHandler(async () =>
-                    {
-                        await RemoveDeviceFromListAsync(deviceInformationUpdate.Id);
-                    }));
+                //await this.Dispatcher.RunAsync(
+                //    CoreDispatcherPriority.Normal,
+                //    new DispatchedHandler(async () =>
+                //    {
+                        RemoveDeviceFromList(deviceInformationUpdate.Id);
+                    //}));
             }
             catch (Exception e)
             {
@@ -535,7 +540,7 @@ namespace PacketMessagingTS.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void OnDeviceEnumerationComplete(DeviceWatcher sender, Object args)
+        private async void OnDeviceEnumerationCompleteAsync(DeviceWatcher sender, Object args)
         {
             _isAllDevicesEnumerated = true;
 
@@ -601,7 +606,7 @@ namespace PacketMessagingTS.Views
         {
             deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(this.OnDeviceAddedAsync);
             deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(this.OnDeviceRemovedAsync);
-            deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(this.OnDeviceEnumerationComplete);
+            deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(this.OnDeviceEnumerationCompleteAsync);
 
             mapDeviceWatchersToDeviceSelector.Add(deviceWatcher, deviceSelector);
         }
@@ -645,20 +650,14 @@ namespace PacketMessagingTS.Views
                     {
                         // USB serial port
                         SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
-                        if (serialDevice != null)
-                        {
-                            //string name = serialDevice.PortName;
-                            //_listOfSerialDevices.Add(serialDevice);
-                            // Sort list
-                            //_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, _comportComparer).ToList();
-                            //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
-                            CollectionOfSerialDevices.Add(serialDevice);
-                            //CollectionOfSerialDevices = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
-                            //ComPortListSource.Source = CollectionOfSerialDevices;
-                            ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
-                        }
+                    if (serialDevice != null)
+                    {
+                        CollectionOfSerialDevices.Add(serialDevice.PortName);
+                        ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s, _comportComparer);
+                        serialDevice.Dispose();     // Necessary to avoid crash on removed device
                     }
                 }
+            }
             }
             catch (Exception e)
             {
@@ -666,21 +665,21 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private async Task RemoveDeviceFromListAsync(String deviceId)
+        private void RemoveDeviceFromList(String deviceId)
         {
             // Remove bluetooth devices as well  TODO
 
-            SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceId);
+            //SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceId);
 
-            if (serialDevice != null)
-            {
-                //_listOfSerialDevices.Remove(serialDevice);
-                // Sort list
-                //_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
-                //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
-                CollectionOfSerialDevices.Remove(serialDevice);
-                ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
-            }
+            //if (serialDevice != null)
+            //{
+            //    //_listOfSerialDevices.Remove(serialDevice);
+            //    // Sort list
+            //    //_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
+            //    //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
+            //    CollectionOfSerialDevices.Remove(serialDevice);
+            //    ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
+            //}
             // Removes the device entry from the internal list
             var deviceEntry = FindDevice(deviceId);
 
@@ -910,7 +909,7 @@ namespace PacketMessagingTS.Views
             {
                 TNCDevice tncDevice = null;
                 var TNCDevices = e.AddedItems;
-                if (TNCDevices.Count == 1)
+                if (TNCDevices != null && TNCDevices.Count == 1)
                 {
                     tncDevice = (TNCDevice)TNCDevices[0];
                     Singleton<PacketSettingsViewModel>.Instance.CurrentTNC = tncDevice;
@@ -1098,7 +1097,7 @@ namespace PacketMessagingTS.Views
             eMailTNC.Name = $"E-Mail-{eMailTNC.MailUserName}";
             await TNCDeviceArray.Instance.SaveAsync();
 
-            DeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+            TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
         }
 
         //private void MailPassword_PasswordChanged(object sender, RoutedEventArgs e)

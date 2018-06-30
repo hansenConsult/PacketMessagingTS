@@ -21,7 +21,8 @@
         <!--Do not change. Used for synchronizing two UI controls-->
         <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" /> 
 
-        <CollectionViewSource x:Name="DeviceListSource" IsSourceGrouped="False" />
+        <CollectionViewSource x:Name="TNCDeviceListSource"  />
+        <CollectionViewSource x:Name="DeviceListSource"  />
 
         <CollectionViewSource x:Name="ComPortListSource" IsSourceGrouped="False"/>
         <CollectionViewSource x:Name="ComNameListSource" IsSourceGrouped="False"/>
@@ -333,7 +334,7 @@
                                 <TextBlock x:Name="label7" Grid.Column="0" Grid.Row="0" Text="TNC:" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                 <ComboBox x:Name="comboBoxTNCs"  Grid.Column="1" Grid.Row="0"  VerticalAlignment="Center" Width="270"
 									      IsSynchronizedWithCurrentItem="False"	  
-									      ItemsSource="{x:Bind DeviceListSource.View}"
+									      ItemsSource="{x:Bind TNCDeviceListSource.View}"
                                           DisplayMemberPath="Name"
 									      SelectedValuePath="Name"
                                           SelectedValue="{x:Bind _packetSettingsViewModel.TNC, Mode=TwoWay}"
@@ -414,7 +415,7 @@
                         <SplitView.Pane >
                             <StackPanel>
                                 <ListBox x:Name="ConnectDevices"  Width="auto"  Height="auto"  Background="LightGray"
-									     ItemsSource="{x:Bind DeviceListSource.View}" 									     
+									     ItemsSource="{x:Bind TNCDeviceListSource.View}" 									     
                                          DisplayMemberPath="Name"
 									     SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									     SelectionChanged="ConnectDevices_SelectionChanged"
@@ -437,19 +438,12 @@
                                                     <ColumnDefinition Width="15"/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition />
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                <TextBox Grid.Column="0" Grid.Row="0" x:Name="textBoxInitCommandsPre" 
+                                                <TextBox Grid.Column="0" x:Name="textBoxInitCommandsPre" 
 												         AcceptsReturn="True" Header="Pre Connect Commands"
                                                          Text="{Binding TNCInitCommandsPre, Mode=TwoWay}"/>
-                                                <!--TextChanged="textBoxInitCommandsPre_TextChanged" />-->
-                                                <TextBox Grid.Column="2" Grid.Row="0" x:Name="textBoxInitCommandsPost" 
+                                                <TextBox Grid.Column="2" x:Name="textBoxInitCommandsPost" 
 												         AcceptsReturn="True" Header="Post Connect Commands"
 												         Text="{Binding TNCInitCommandsPost, Mode=TwoWay}" Margin="0,0,2,0" />
-                                                <!--TextChanged="textBoxInitCommandsPost_TextChanged"  />-->
                                             </Grid>
                                         </ScrollViewer>
                                     </PivotItem>
@@ -460,10 +454,9 @@
                                             <StackPanel>
                                                 <ToggleSwitch x:Name="toggleSwitchBluetooth" Margin="10"														  
 														      Header="Serial device type"												
-														      OffContent="Other serial devices"
-														      OnContent="Bluetooth serial devices"
+														      OffContent="COM Ports"
+														      OnContent="Bluetooth devices"
                                                               IsOn="{Binding IsToggleSwitchOn, Mode=TwoWay}"/>
-                                                <!--Toggled="toggleSwitchBluetooth_Toggled"/>-->
                                                 <Grid x:Name="gridSerialPortSettings" Margin="10" >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="90"/>
@@ -479,19 +472,19 @@
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Comm Port:" HorizontalAlignment="Left" 
 														       VerticalAlignment="Center" />
-                                                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort" 
-													          ItemsSource="{x:Bind ComPortListSource.View, Mode=OneWay}"
-													          SelectedValuePath = "PortName"
-													          DisplayMemberPath="PortName"
+                                                    
+                                                    <!--ItemsSource="{x:Bind DeviceListSource.View, Mode=OneWay}"-->
+
+                                                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort"
+                                                              ItemsSource="{x:Bind ComPortListSource.View, Mode=OneWay}"
                                                               Visibility="{Binding TNCComPortVisible, Mode=OneWay}"
 													          Width="100" 
 														      VerticalAlignment="Stretch" 
 														      Margin="0,1,0,3" 	/>
-                                                    <!--SelectionChanged="comboBoxComPort_SelectionChanged" />-->
                                                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComName" 
-													          ItemsSource="{x:Bind ComNameListSource.View, Mode=OneWay}"									
-														      SelectedValuePath = "Name"
-														      DisplayMemberPath="Name"
+													          ItemsSource="{x:Bind ComNameListSource.View, Mode=OneWay}"
+                                                              SelectedValuePath = "Name"
+                                                              DisplayMemberPath="Name"
                                                               Visibility="{Binding TNCComNameVisible, Mode=OneWay}"
 														      Width="210" 
 														      VerticalAlignment="Stretch" Margin="0,1,0,3"	/>
@@ -502,7 +495,6 @@
 													          ItemsSource="{x:Bind _TNCSettingsViewModel.BaudRatesCollection, Mode=OneTime}"											
 														      Width="100" Margin=" 0,2"
                                                               SelectedItem="{Binding TNCComBaudRate, Mode=TwoWay}" />
-                                                    <!--SelectionChanged="comboBoxBaudRate_SelectionChanged" />-->
                                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Data Bits:" VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="2" x:Name="comboBoxDatabits"
                                                               ItemsSource="{x:Bind _TNCSettingsViewModel.DatabitsCollection, Mode=OneTime}"
@@ -660,7 +652,6 @@
                         </SplitView.Content>
                     </SplitView>
                     <!--</ScrollViewer>-->
-                    <!--IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}"-->
                     <CommandBar x:Name="TNCCommandBar"
 							    RelativePanel.AlignBottomWithPanel="True"
 							    RelativePanel.AlignRightWithPanel="True"

@@ -80,7 +80,10 @@ namespace ICS213FormControl
 		{ get { return GetCheckBoxCheckedState(forInfo); } set { SetCheckBoxCheckedState(forInfo, value); } }
 
 		public string ToICSPosition
-		{ get { return GetAutoSuggestBoxString(autoSuggestBoxToICSPosition); } set { SetAutoSuggestBoxString(autoSuggestBoxToICSPosition, value); } }
+		{
+            get { return GetAutoSuggestBoxString(autoSuggestBoxToICSPosition); }
+            set { SetAutoSuggestBoxString(autoSuggestBoxToICSPosition, value); }
+        }
 
 		public string ToLocation
 		{ get { return GetTextBoxString(toLocation); } set { SetTextBoxString(toLocation, value); } }
@@ -89,7 +92,10 @@ namespace ICS213FormControl
 		{ get { return GetTextBoxString(toName); } set { SetTextBoxString(toName, value); } }
 
 		public string ToTelephone
-		{ get { return GetTextBoxString(toTelephone); } set { SetTextBoxString(toTelephone, value); } }
+		{
+            get { return GetTextBoxString(toTelephone); }
+            set { SetTextBoxString(toTelephone, value); }
+        }
 
 		//public string FromICSPositionComboBox
 		//{ get { return GetComboBoxSelectedValuePath(comboBoxFromICSPosition); } set { SetComboBoxString(comboBoxFromICSPosition, value); } }
@@ -144,7 +150,7 @@ namespace ICS213FormControl
 			return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_ICS213_" + Subject);
 		}
 
-		protected override List<string> CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+		protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
 		{
             if (packetMessage.FormFieldArray == null)
             {
@@ -274,7 +280,7 @@ namespace ICS213FormControl
 			}
 			outpostData.Add("#EOF");
 
-			return outpostData;
+			//return outpostData;
 		}
 
 		public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -286,7 +292,7 @@ namespace ICS213FormControl
 			outpostData.Add("# JS-ver. PR-4.3-3.2, 07/18/17");
 			outpostData.Add("# FORMFILENAME: Message.html");
 
-			outpostData = CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+			CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
 			return CreateOutpostMessageBody(outpostData);
 		}

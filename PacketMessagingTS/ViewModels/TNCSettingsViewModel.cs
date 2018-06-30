@@ -35,11 +35,16 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref tncDeviceSelectedIndex);
             set
             {
-                SetProperty(ref tncDeviceSelectedIndex, value, true);
-                //if (!TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex].Name.Contains(SharedData.EMail))
+                if (value < 0 || value >= TNCDeviceArray.Instance.TNCDeviceList.Count)
                 {
-                    CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
+                    SetProperty(ref tncDeviceSelectedIndex, 0, true);
                 }
+                else
+                {
+                    SetProperty(ref tncDeviceSelectedIndex, value, true);
+                    //if (!TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex].Name.Contains(SharedData.EMail))
+                }
+                CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
             }
         }
 
@@ -129,6 +134,7 @@ namespace PacketMessagingTS.ViewModels
         //{
         //    get
         //    {
+
         //        comPortNames = comportStringArray.ToList();
         //        comPortNames = comPortNames.OrderBy(s => s, new ComportComparer()).ToList();
         //        return comPortNames;

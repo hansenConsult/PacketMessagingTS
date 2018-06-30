@@ -104,7 +104,7 @@ namespace MessageFormControl
 
         public override string PacFormType => "SimpleMessage";
 
-        protected override List<string> CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+        protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
             foreach (FormField formField in packetMessage.FormFieldArray)
             {
@@ -119,14 +119,14 @@ namespace MessageFormControl
                         break;
                 }
             }
-            return outpostData;
+            //return outpostData;
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
             List<string> outpostData = new List<string>();
 
-            outpostData = CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }
@@ -167,7 +167,7 @@ namespace MessageFormControl
             return formFields;
         }
 
-		//public override string CreateSubject() => MessageNo + "_O/R_";
-		public override string CreateSubject() => null;
+		public override string CreateSubject() => MessageNo + "_O/R_";
+		//public override string CreateSubject() => null;
 	}
 }

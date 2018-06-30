@@ -321,6 +321,10 @@
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>
       <Name>MessageFormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OAMunicipalStatusFormControl\OAMunicipalStatusFormControl.csproj">
+      <Project>{58e010dc-1e9f-4d3f-9828-415f67b1229f}</Project>
+      <Name>OAMunicipalStatusFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
       <Name>SharedCode</Name>

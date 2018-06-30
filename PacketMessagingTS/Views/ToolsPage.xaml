@@ -204,7 +204,8 @@
                                   RelativePanel.Above="ButtomCommandBarICS309"
                                   RelativePanel.AlignTopWithPanel="True"
                                   VerticalScrollBarVisibility="Auto" >
-                        <StackPanel x:Name="ICS309StackPanel">
+                        <StackPanel x:Name="ICS309StackPanel"
+                                    >
                             <StackPanel x:Name="ICS309MainForm"
                                         BorderBrush="Black" BorderThickness="2">
 
@@ -302,9 +303,9 @@
                                         <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
                                     </Border>
                                 </Grid>
-                                <ListView x:Name="logEntries" Height="600"
+                                <ListView x:Name="logEntries" 
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
-                                          ItemTemplate="{StaticResource ics309ListViewTemplate}"
+                                          ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" Height="594"
                                           />
                                 <Grid>
                                     <Grid.ColumnDefinitions>

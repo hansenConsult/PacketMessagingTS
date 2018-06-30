@@ -452,7 +452,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        // TODO insert InitializeFormControlAsync
+        // TODO insert InitializeFormControlAsync, maybe
         private async void MyPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             _packetAddressForm = new SendFormDataControl();
@@ -475,15 +475,14 @@ namespace PacketMessagingTS.Views
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
-
-
+        
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")
             {
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
+                //_packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
 
                 _packetForm.MessageReceivedTime = DateTime.Now;
                 switch (_messageOrigin)
@@ -504,12 +503,15 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
             }
 
+            _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+
             if (!_loadMessage)
-            {
+            {          
                 _packetMessage = new PacketMessage();
+
+                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
 
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 

@@ -262,7 +262,7 @@ namespace FormControlBaseClass
 
 		public abstract string CreateOutpostData(ref PacketMessage packetMessage);
 
-		protected virtual List<string> CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
             if (packetMessage.FormFieldArray == null)
             {
@@ -283,7 +283,7 @@ namespace FormControlBaseClass
                 outpostData.Add(data);
             }
             outpostData.Add("#EOF");
-            return outpostData;
+            //return outpostData;
         }
 
         public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
