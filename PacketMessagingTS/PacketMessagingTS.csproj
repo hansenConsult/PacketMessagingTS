@@ -137,6 +137,7 @@
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\BaseViewModel.cs" />
+    <Compile Include="Helpers\PrintHelper.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SerialDeviceConfig.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
@@ -187,6 +188,9 @@
     <Compile Include="ViewModels\TNCSettingsViewModel.cs" />
     <Compile Include="ViewModels\ToolsViewModel.cs" />
     <Compile Include="ViewModels\WebViewViewModel.cs" />
+    <Compile Include="Views\ContinuationPage.xaml.cs">
+      <DependentUpon>ContinuationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FormsPage.xaml.cs">
       <DependentUpon>FormsPage.xaml</DependentUpon>
     </Compile>
@@ -253,6 +257,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\ContinuationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FormsPage.xaml">
       <SubType>Designer</SubType>

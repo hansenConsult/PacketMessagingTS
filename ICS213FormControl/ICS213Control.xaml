@@ -24,8 +24,8 @@
 	</MyBaseNamespace:FormControlBase.Resources>
 
 	<StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
-		<Border x:Name="Form213" BorderBrush="Black" BorderThickness="1" Padding="15" >
-			<StackPanel >
+        <Border x:Name="Form213" BorderBrush="Black" BorderThickness="1" Padding="15" >
+            <StackPanel >
 				<Border BorderBrush="Black" BorderThickness="1,1,1,0">
 					<Grid >
 						<Grid.ColumnDefinitions>

@@ -16,6 +16,7 @@ using System.Text;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.CommunicationsService;
 using SharedCode;
+using Windows.UI.Xaml.Navigation;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,11 +34,29 @@ namespace PacketMessagingTS.Views
         private int _selectedFileIndex;
         PivotItem _currentPivotItem;
 
+        private PrintHelper printHelper;
 
 
         public ToolsPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // Initialize common helper class and register for printing
+            printHelper = new PrintHelper(this);
+            printHelper.RegisterForPrinting();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (printHelper != null)
+            {
+                printHelper.UnregisterForPrinting();
+            }
+
+            base.OnNavigatedFrom(e);
         }
 
         public object GetDynamicSortProperty(object item, string propName)
@@ -279,6 +298,13 @@ namespace PacketMessagingTS.Views
         {
             _toolsViewModel.RadioNetName = radioNetName.Text;
         }
+
+        private async void AppBarPrintICS309_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            //printHelper?.PreparePrintContent(this);
+            await printHelper.ShowPrintUIAsync();
+        }
+
 
         /// <summary>
         /// 

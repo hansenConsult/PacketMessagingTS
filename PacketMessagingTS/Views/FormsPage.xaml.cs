@@ -21,6 +21,7 @@ using FormControlBaseClass;
 using MetroLog;
 using SharedCode;
 using MessageFormControl;
+using ICS213FormControl;
 
 
 
@@ -80,6 +81,12 @@ namespace PacketMessagingTS.Views
 
         private List<FormControlAttributes> _formControlAttributeList;
 
+        private PrintHelper printHelper;
+
+        public FormControlBase PacketForm
+        {
+            get => _packetForm;
+        }
 
         public FormsPage()
         {
@@ -347,6 +354,10 @@ namespace PacketMessagingTS.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Initialize common helper class and register for printing
+            printHelper = new PrintHelper(this);
+            printHelper.RegisterForPrinting();
+
             if (e.Parameter == null)
                 return;
 
@@ -382,6 +393,16 @@ namespace PacketMessagingTS.Views
                 }
             }
             _packetMessage.Save(directory);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (printHelper != null)
+            {
+                printHelper.UnregisterForPrinting();
+            }
+
+            base.OnNavigatedFrom(e);
         }
 
         private async Task InitializeFormControlAsync()
@@ -528,6 +549,13 @@ namespace PacketMessagingTS.Views
                 FillFormFromPacketMessage();
                 _loadMessage = false;
             }
+
+            // Initialize print content for this scenario
+            //if (_packetForm.GetType() == typeof(ICS213Control))
+            {
+                //ContinuationPage continuationPage = new ContinuationPage(this);
+                printHelper?.PreparePrintContent(this);
+            }
         }
 
         private async void AppBarViewOutpostData_ClickAsync(object sender, RoutedEventArgs e)
@@ -603,7 +631,7 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
         {
-
+            await printHelper.ShowPrintUIAsync();
         }
 
     }

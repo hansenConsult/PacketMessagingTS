@@ -195,7 +195,7 @@
             </PivotItem>
             <!--ICS 309-->
             <PivotItem x:Uid="Tools_ICS309">
-                <RelativePanel Margin="0,12,0,0">
+                <RelativePanel x:Name="PrintableArea" Margin="0,12,0,0">
                     <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
@@ -340,7 +340,7 @@
                         <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
                         <AppBarButton x:Name="appBarOpenICS309" Label="Print" Icon="OpenFile" HorizontalAlignment="Right" />
                         <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" HorizontalAlignment="Right" />
-                        <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" HorizontalAlignment="Right" />
+                        <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" HorizontalAlignment="Right" Click="AppBarPrintICS309_ClickAsync"/>
                         <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
                     </CommandBar>
 

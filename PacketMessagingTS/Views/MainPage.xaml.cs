@@ -71,27 +71,27 @@ namespace PacketMessagingTS.Views
             //ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
             _mainViewModel.Source = new ObservableCollection<PacketMessage>(messagesInFolder);
 
-            switch (pivotItem.Name)
-            {
-                case "pivotItemInBox":
-                    //dataGridInbox.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemSent":
-                    //dataGridSent.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemOutBox":
-                    //dataGridOutbox.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemDrafts":
-                    //_mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
-                    break;
-                case "pivotItemArchive":
-                    //dataGridArchived.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemDeleted":
-                    //dataGridDeleted.ItemsSource = _messageObservableCollection;
-                    break;
-            }
+            //switch (pivotItem.Name)
+            //{
+            //    case "pivotItemInBox":
+            //        //dataGridInbox.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemSent":
+            //        //dataGridSent.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemOutBox":
+            //        //dataGridOutbox.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemDrafts":
+            //        //_mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
+            //        break;
+            //    case "pivotItemArchive":
+            //        //dataGridArchived.ItemsSource = _messageObservableCollection;
+            //        break;
+            //    case "pivotItemDeleted":
+            //        //dataGridDeleted.ItemsSource = _messageObservableCollection;
+            //        break;
+            //}
         }
 
         private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
