@@ -9,7 +9,7 @@
         xmlns:converters="using:PacketMessagingTS.Helpers"
 
     mc:Ignorable="d"
-    d:DesignWidth="580"
+    d:DesignWidth="760"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
@@ -200,11 +200,12 @@
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
-                    <ScrollViewer x:Name="ICS309ScrollViewer"
+                    <ScrollViewer x:Name="ICS309ScrollViewer" Width="700" Margin="0,0,0,0"
                                   RelativePanel.Above="ButtomCommandBarICS309"
                                   RelativePanel.AlignTopWithPanel="True"
-                                  VerticalScrollBarVisibility="Auto" >
+                                  VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"  >
                         <StackPanel x:Name="ICS309StackPanel"
+                                    
                                     >
                             <StackPanel x:Name="ICS309MainForm"
                                         BorderBrush="Black" BorderThickness="2">
@@ -303,9 +304,9 @@
                                         <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
                                     </Border>
                                 </Grid>
-                                <ListView x:Name="logEntries" 
+                                <ListView x:Name="logEntries" Height="590"
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
-                                          ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" Height="594"
+                                          ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
                                           />
                                 <Grid>
                                     <Grid.ColumnDefinitions>

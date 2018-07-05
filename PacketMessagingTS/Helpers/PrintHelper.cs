@@ -14,8 +14,8 @@ namespace PacketMessagingTS.Helpers
 {
     public class PrintHelper
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PrintHelper>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PrintHelper>();
+        protected static LogHelper _logHelper = new LogHelper(log);
 
         /// <summary>
         /// The percent of app's margin width, content is set at 85% (0.85) of the area's width
@@ -58,16 +58,16 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         protected Page _scenarioPage;
 
-        /// <summary>
-        ///  A hidden canvas used to hold pages we wish to print
-        /// </summary>
-        protected Canvas PrintCanvas
-        {
-            get
-            {
-                return ((FormsPage)_scenarioPage).PacketForm.FindName("PrintCanvas") as Canvas;
-            }
-        }
+        ///// <summary>
+        /////  A hidden canvas used to hold pages we wish to print
+        ///// </summary>
+        //protected Canvas PrintCanvas
+        //{
+        //    get
+        //    {
+        //        return ((FormsPage)_scenarioPage).PacketForm.FindName("PrintCanvas") as Canvas;
+        //    }
+        //}
 
         /// <summary>
         /// Constructor
@@ -122,7 +122,7 @@ namespace PacketMessagingTS.Helpers
             PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested -= PrintTaskRequested;
 
-            PrintCanvas?.Children.Clear();
+            //PrintCanvas?.Children.Clear();
         }
 
         public async Task ShowPrintUIAsync()
