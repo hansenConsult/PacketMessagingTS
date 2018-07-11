@@ -47,8 +47,8 @@ namespace EOC213RRFormControl
             {
                 "!PACF! " + packetMessage.Subject,
                 "# JS:EOC Resource Request (which4)",
-                "# JS-ver. PR-4.3-2.8, 09/15/17",
-                "# FORMFILENAME: XSC_EOC-213RR_v1706.html"
+                "# JS-ver. PR-4.4-2.9, 06/29/18",
+                "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

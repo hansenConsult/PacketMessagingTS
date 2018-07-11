@@ -319,4 +319,8 @@
   <data name="Main_SentItems.Header" xml:space="preserve">
     <value>Sent Items</value>
   </data>
+  <data name="Shell_Continuation" xml:space="preserve">
+    <value>Test ICS309</value>
+    <comment>Test309</comment>
+  </data>
 </root>

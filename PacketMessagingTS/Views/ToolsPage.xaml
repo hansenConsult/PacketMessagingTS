@@ -200,7 +200,7 @@
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
-                    <ScrollViewer x:Name="ICS309ScrollViewer" Width="700" Margin="0,0,0,0"
+                    <ScrollViewer x:Name="ICS309ScrollViewer" Margin="0,0,0,0"
                                   RelativePanel.Above="ButtomCommandBarICS309"
                                   RelativePanel.AlignTopWithPanel="True"
                                   VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"  >
@@ -341,7 +341,9 @@
                         <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
                         <AppBarButton x:Name="appBarOpenICS309" Label="Print" Icon="OpenFile" HorizontalAlignment="Right" />
                         <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" HorizontalAlignment="Right" />
-                        <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" HorizontalAlignment="Right" Click="AppBarPrintICS309_ClickAsync"/>
+                        <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print"
+                                      Visibility="{Binding ICS309PrintButtonVisible, Mode=TwoWay}"
+                                      HorizontalAlignment="Right" Click="AppBarPrintICS309_ClickAsync"/>
                         <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
                     </CommandBar>
 

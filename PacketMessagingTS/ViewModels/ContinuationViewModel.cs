@@ -9,7 +9,7 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class ContinuationViewModel :  BaseViewModel
+    public class ToolsViewModel :  BaseViewModel
     {
         public string incidentName = "";
         public string IncidentName

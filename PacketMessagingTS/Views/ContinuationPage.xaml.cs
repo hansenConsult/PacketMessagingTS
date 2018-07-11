@@ -1,5 +1,9 @@
-﻿using FormControlBaseClass;
+﻿using System;
 using Windows.UI.Xaml.Controls;
+
+using ICS309UserControl;
+using PacketMessagingTS.ViewModels;
+using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.Views
 {
@@ -10,6 +14,26 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class ContinuationPage : Page
     {
+        public ContinuationViewModel _continuationViewModel { get; } = new ContinuationViewModel();
+
+
+        public ContinuationPage()
+        {
+            InitializeComponent();
+
+            ICS309UserControl.ICS309Control ics309Control = new ICS309UserControl.ICS309Control();
+            formControl.Children.Add(ics309Control);
+
+            ics309Control.IncidentName = _continuationViewModel.IncidentName;
+            //operationalPeriod.Text = FormatDateTime(_toolsViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_toolsViewModel.OperationalPeriodEnd);
+            ics309Control.RadioNetName = _continuationViewModel.RadioNetName;
+            //ics309Control. = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
+            //ics309Control.DateTimePrepared = DateTime.Now;
+            ////dateTimePrepared.Text = FormatDateTime(_toolsViewModel.DateTimePrepared);
+            ////preparedByNameCallsign.Text = radioOperator.Text;
+            //ics309Control.AddToMessageList();
+        }
+
         public ContinuationPage(FormsPage formsControl)
         {
             InitializeComponent();

@@ -464,6 +464,18 @@ namespace PacketMessagingTS.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (PrintManager.IsSupported())
+            {
+                _toolsViewModel.ICS309PrintButtonVisible = true;      }
+            else
+            {
+                // Remove the print button
+                _toolsViewModel.ICS309PrintButtonVisible = false;
+            }
+
+            // Printing-related event handlers will never be called if printing
+            // is not supported, but it's okay to register for them anyway.
+
             // Initialize common helper class and register for printing
             printHelper = new ICS309PrintHelper(this);
             printHelper.RegisterForPrinting();

@@ -150,152 +150,152 @@ namespace ICS213FormControl
 			return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_ICS213_" + Subject);
 		}
 
-		protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
-		{
-            if (packetMessage.FormFieldArray == null)
+		//protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+		//{
+  //          if (packetMessage.FormFieldArray == null)
+  //          {
+  //              // This may happen if called from view Outpost Data
+  //              packetMessage.FormFieldArray = CreateFormFieldsInXML();
+  //              FillFormFromFormFields(packetMessage.FormFieldArray);
+  //          }
+
+  //          foreach (FormField formField in packetMessage.FormFieldArray)
+		//	{
+		//		if (formField.ControlContent == null || formField.ControlContent.Length == 0)
+		//			continue;
+
+		//		switch (formField.ControlName)
+		//		{
+		//			//MsgNo: [6DM-150P]
+		//			case "messageNo":
+		//				outpostData.Add($"MsgNo: [{formField.ControlContent}]");
+		//				break;
+		//			//1a.: [02/02/2015]
+		//			case "msgDate":
+		//				outpostData.Add($"1a.: [{formField.ControlContent}]");
+		//				break;
+		//			//1b.: [1917]
+		//			case "msgTime":
+		//				outpostData.Add($"1b.: [{formField.ControlContent}]");
+		//				break;
+		//			//4.: [OTHER]
+		//			case "severity":
+		//				outpostData.Add($"4.: [{formField.ControlContent.ToUpper()}]");
+		//				break;
+		//			//5.: [ROUTINE]
+		//			case "handlingOrder":
+		//				outpostData.Add($"5.: [{formField.ControlContent.ToUpper()}]");
+		//				break;
+		//			// 6a.: [Yes]
+		//			case "action":
+		//				outpostData.Add($"6a: [{(formField.ControlContent == "actionYes" ? "Yes" : "No")}]");
+		//				break;
+		//			//6b.: [Yes]
+		//			case "reply":
+		//				outpostData.Add($"6b.: [{(formField.ControlContent == "replyYes" ? "Yes" : "No")}]");
+		//				break;
+		//			//6c.: [checked]
+		//			case "forInfo":
+		//				if (formField.ControlContent == "True")
+		//				{
+		//					outpostData.Add("6c.: [checked]");
+		//				}
+		//				break;
+		//			case "replyBy":
+		//				outpostData.Add($"6d.: [{formField.ControlContent}]");
+		//				break;
+		//			//8.: [Operations]
+		//			case "autoSuggestBoxToICSPosition":
+		//				outpostData.Add($"7.: [{formField.ControlContent}]");
+		//				break;
+		//			//9a.: [Jerry]
+		//			case "toLocation":
+		//				outpostData.Add($"9a.: [{formField.ControlContent}]");
+		//				break;
+		//			case "toName":
+		//				outpostData.Add($"ToName.: [{formField.ControlContent}]");
+		//				break;
+		//			case "toTelephone":
+		//				outpostData.Add($"ToTel.: [{formField.ControlContent}]");
+		//				break;
+		//			//8.: [Operations]
+		//			case "autoSuggestBoxFromICSPosition":
+		//				outpostData.Add($"8.: [{formField.ControlContent}]");
+		//				break;
+		//			//9b.: [Poul Hansen]
+		//			case "fromLocation":
+		//				outpostData.Add($"9b.: [{formField.ControlContent}]");
+		//				break;
+		//			case "fromName":
+		//				outpostData.Add($"FmName.: [{formField.ControlContent}]");
+		//				break;
+		//			case "fromTelephone":
+		//				outpostData.Add($"FmTel.: [{formField.ControlContent}]");
+		//				break;
+		//			//10.: [Check-in 02/02/2015 - KZ6DM - Poul - Mountain View]
+		//			case "subject":
+		//				outpostData.Add($"10.: [{formField.ControlContent}]");
+		//				break;
+		//			case "reference":
+		//				outpostData.Add($"11.: [{formField.ControlContent}]");
+		//				break;
+		//			//12.: [\nweekly check in]
+		//			case "message":
+		//				outpostData.Add($"12.: [\\n{formField.ControlContent}]");
+		//				break;
+		//			//Rec-Sent: [Sent]
+		//			case "receivedOrSent":
+		//				outpostData.Add($"Rec-Sent: [{formField.ControlContent}]");
+		//				break;
+		//			//Method: [Other]
+		//			case "howRecevedSent":
+		//				string text = formField.ControlContent;
+		//				if (text == "otherRecvdType")
+		//					text = "Other";
+		//				outpostData.Add($"Method: [{text}]");
+		//				break;
+		//			//Other: [Packet]
+		//			case "otherText":
+		//				outpostData.Add($"Other: [{formField.ControlContent}]");
+		//				break;
+		//			//OpCall: [KZ6DM]
+		//			case "operatorCallsign":
+		//				outpostData.Add($"OpCall: [{formField.ControlContent}]");
+		//				break;
+		//			//OpName: [Poul Hansen]
+		//			case "operatorName":
+		//				outpostData.Add($"OpName: [{formField.ControlContent}]");
+		//				break;
+		//			//OpDate: [02/02/2015]
+		//			case "operatorDate":
+		//				//formField.ControlContent = OperatorDate;
+		//				outpostData.Add($"OpDate: [{formField.ControlContent}]");
+		//				break;
+		//			//OpTime: [1920]
+		//			case "operatorTime":
+		//				//formField.ControlContent = OperatorTime;
+		//				outpostData.Add($"OpTime: [{formField.ControlContent}]");
+		//				break;
+		//		}
+		//	}
+		//	outpostData.Add("#EOF");
+
+		//	//return outpostData;
+		//}
+
+        public override string CreateOutpostData(ref PacketMessage packetMessage)
+        {
+            List<string> outpostData = new List<string>()
             {
-                // This may happen if called from view Outpost Data
-                packetMessage.FormFieldArray = CreateFormFieldsInXML();
-                FillFormFromFormFields(packetMessage.FormFieldArray);
-            }
+                "!PACF! " + packetMessage.Subject,
+                "# JS:EOC Resource Request (which4)",
+                "# JS-ver. PR-4.4-2.9, 06/29/18",
+                "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
+            };
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
-            foreach (FormField formField in packetMessage.FormFieldArray)
-			{
-				if (formField.ControlContent == null || formField.ControlContent.Length == 0)
-					continue;
-
-				switch (formField.ControlName)
-				{
-					//MsgNo: [6DM-150P]
-					case "messageNo":
-						outpostData.Add($"MsgNo: [{formField.ControlContent}]");
-						break;
-					//1a.: [02/02/2015]
-					case "msgDate":
-						outpostData.Add($"1a.: [{formField.ControlContent}]");
-						break;
-					//1b.: [1917]
-					case "msgTime":
-						outpostData.Add($"1b.: [{formField.ControlContent}]");
-						break;
-					//4.: [OTHER]
-					case "severity":
-						outpostData.Add($"4.: [{formField.ControlContent.ToUpper()}]");
-						break;
-					//5.: [ROUTINE]
-					case "handlingOrder":
-						outpostData.Add($"5.: [{formField.ControlContent.ToUpper()}]");
-						break;
-					// 6a.: [Yes]
-					case "action":
-						outpostData.Add($"6a: [{(formField.ControlContent == "actionYes" ? "Yes" : "No")}]");
-						break;
-					//6b.: [Yes]
-					case "reply":
-						outpostData.Add($"6b.: [{(formField.ControlContent == "replyYes" ? "Yes" : "No")}]");
-						break;
-					//6c.: [checked]
-					case "forInfo":
-						if (formField.ControlContent == "True")
-						{
-							outpostData.Add("6c.: [checked]");
-						}
-						break;
-					case "replyBy":
-						outpostData.Add($"6d.: [{formField.ControlContent}]");
-						break;
-					//8.: [Operations]
-					case "autoSuggestBoxToICSPosition":
-						outpostData.Add($"7.: [{formField.ControlContent}]");
-						break;
-					//9a.: [Jerry]
-					case "toLocation":
-						outpostData.Add($"9a.: [{formField.ControlContent}]");
-						break;
-					case "toName":
-						outpostData.Add($"ToName.: [{formField.ControlContent}]");
-						break;
-					case "toTelephone":
-						outpostData.Add($"ToTel.: [{formField.ControlContent}]");
-						break;
-					//8.: [Operations]
-					case "autoSuggestBoxFromICSPosition":
-						outpostData.Add($"8.: [{formField.ControlContent}]");
-						break;
-					//9b.: [Poul Hansen]
-					case "fromLocation":
-						outpostData.Add($"9b.: [{formField.ControlContent}]");
-						break;
-					case "fromName":
-						outpostData.Add($"FmName.: [{formField.ControlContent}]");
-						break;
-					case "fromTelephone":
-						outpostData.Add($"FmTel.: [{formField.ControlContent}]");
-						break;
-					//10.: [Check-in 02/02/2015 - KZ6DM - Poul - Mountain View]
-					case "subject":
-						outpostData.Add($"10.: [{formField.ControlContent}]");
-						break;
-					case "reference":
-						outpostData.Add($"11.: [{formField.ControlContent}]");
-						break;
-					//12.: [\nweekly check in]
-					case "message":
-						outpostData.Add($"12.: [\\n{formField.ControlContent}]");
-						break;
-					//Rec-Sent: [Sent]
-					case "receivedOrSent":
-						outpostData.Add($"Rec-Sent: [{formField.ControlContent}]");
-						break;
-					//Method: [Other]
-					case "howRecevedSent":
-						string text = formField.ControlContent;
-						if (text == "otherRecvdType")
-							text = "Other";
-						outpostData.Add($"Method: [{text}]");
-						break;
-					//Other: [Packet]
-					case "otherText":
-						outpostData.Add($"Other: [{formField.ControlContent}]");
-						break;
-					//OpCall: [KZ6DM]
-					case "operatorCallsign":
-						outpostData.Add($"OpCall: [{formField.ControlContent}]");
-						break;
-					//OpName: [Poul Hansen]
-					case "operatorName":
-						outpostData.Add($"OpName: [{formField.ControlContent}]");
-						break;
-					//OpDate: [02/02/2015]
-					case "operatorDate":
-						//formField.ControlContent = OperatorDate;
-						outpostData.Add($"OpDate: [{formField.ControlContent}]");
-						break;
-					//OpTime: [1920]
-					case "operatorTime":
-						//formField.ControlContent = OperatorTime;
-						outpostData.Add($"OpTime: [{formField.ControlContent}]");
-						break;
-				}
-			}
-			outpostData.Add("#EOF");
-
-			//return outpostData;
-		}
-
-		public override string CreateOutpostData(ref PacketMessage packetMessage)
-		{
-			List<string> outpostData = new List<string>();
-
-			outpostData.Add("!PACF! " + packetMessage.Subject);
-			outpostData.Add("# EOC MESSAGE FORM ");
-			outpostData.Add("# JS-ver. PR-4.3-3.2, 07/18/17");
-			outpostData.Add("# FORMFILENAME: Message.html");
-
-			CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
-
-			return CreateOutpostMessageBody(outpostData);
-		}
+            return CreateOutpostMessageBody(outpostData);
+        }
 
 		public override FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
 		{
