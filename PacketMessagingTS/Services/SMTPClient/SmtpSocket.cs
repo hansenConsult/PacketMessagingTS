@@ -78,20 +78,19 @@ namespace PacketMessagingTS.Services.SMTPClient
             {
 				//this.hostName = new HostName("mail3.intermedia.net");
 
-				if (this.userName.Contains("hansenca"))
-				{
-					await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, new HostName("mail3.intermedia.net"));
-				}
-				else
-				{
+				//if (this.userName.Contains("hansenca"))
+				//{
+				//	await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, new HostName("mail3.intermedia.net"));
+				//}
+				//else
+				//{
 					await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, this.hostName);
-				}
+				//}
 
 			}
             catch (Exception ex)
             {
                 _logHelper.Log(LogLevel.Error, ex.Message);
-                Debug.WriteLine(ex.Message);
                 throw;
             }
 
@@ -174,8 +173,7 @@ namespace PacketMessagingTS.Services.SMTPClient
 
                                 response.Values.Add(r);
 
-                                _logHelper.Log(LogLevel.Error, "{0}{1}", ((int)code).ToString(), stringBuilder.ToString());
-                                Debug.WriteLine("{0}{1}", ((int)code).ToString(), stringBuilder.ToString());
+                                _logHelper.Log(LogLevel.Trace, $"{((int)code).ToString()} {stringBuilder.ToString()}");
 
                                 stringBuilder = new StringBuilder();
                                 code = SmtpCode.None;

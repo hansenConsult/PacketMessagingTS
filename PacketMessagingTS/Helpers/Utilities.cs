@@ -99,6 +99,22 @@ namespace PacketMessagingTS.Helpers
             await contentDialog.ShowAsync();
         }
 
+        public static async Task<bool> ShowYesNoMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
+        {
+            ContentDialog contentDialog = new ContentDialog()
+            {
+                Title = title,
+                Content = dialogMessage,
+                CloseButtonText = "No",
+                PrimaryButtonText = "Yes",
+            };
+            ContentDialogResult result = await contentDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+                return true;
+            else
+                return false;
+        }
+
         public static int GetProperty(string propertyName)
         {
             if (App.Properties != null && App.Properties.ContainsKey(propertyName))

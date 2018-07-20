@@ -139,11 +139,21 @@ namespace PacketMessagingTS.Views
             SettingsPivot.SelectedIndex = (int)e.Parameter;
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             StopDeviceWatchers();
             StopHandlingAppEvents();
 
+            if (_TNCSettingsViewModel.IsAppBarSaveEnabled)
+            {
+                bool save = await Utilities.ShowYesNoMessageDialogAsync("Save changes?");
+                if (save)
+                {
+                    appBarSaveTNC_ClickAsync(this, null);
+                }
+                // Disable Save button
+                _TNCSettingsViewModel.ResetChangedProperty();
+            }
             base.OnNavigatingFrom(e);
         }
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -169,6 +179,8 @@ namespace PacketMessagingTS.Views
                     //    //        SettingsCommandBar.Visibility = Visibility.Collapsed;
                     //    //        break;
             }
+            // Disable Save button
+            _TNCSettingsViewModel.ResetChangedProperty();
         }
         #region General
         private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
@@ -774,6 +786,26 @@ namespace PacketMessagingTS.Views
         //    appBarSaveTNC.IsEnabled = false;
         //}
 
+        private void SetMailControlsEditState(bool enabledState)
+        {
+            mailPortString.IsEnabled = enabledState;
+            mailUserName.IsEnabled = enabledState;
+            mailPassword.IsEnabled = enabledState;
+            if (enabledState)
+            {
+                mailIsSSL.Visibility = Visibility.Visible;
+                mailServerComboBox.Visibility = Visibility.Visible;
+                mailServerComboBox.IsEnabled = false;
+                //mailServer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                mailIsSSL.Visibility = Visibility.Collapsed;
+                mailServerComboBox.Visibility = Visibility.Visible;
+                mailServer.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private void SetMailControlsEnabledState(bool enabledState)
         {
             mailPortString.IsEnabled = enabledState;
@@ -789,6 +821,7 @@ namespace PacketMessagingTS.Views
             {
                 mailIsSSL.Visibility = Visibility.Collapsed;
                 mailServerComboBox.Visibility = Visibility.Visible;
+                mailServerComboBox.IsEnabled = true;
                 mailServer.Visibility = Visibility.Collapsed;
             }
         }
@@ -805,7 +838,8 @@ namespace PacketMessagingTS.Views
                     SetMailControlsEnabledState(false);
                     break;
                 case TNCState.EMailEdit:
-                    SetMailControlsEnabledState(true);
+                    //SetMailControlsEnabledState(true);
+                    SetMailControlsEditState(true);
                     break;
                 case TNCState.EMailDelete:
                     SetMailControlsEnabledState(false);
@@ -918,7 +952,7 @@ namespace PacketMessagingTS.Views
                         UpdateMailState(TNCState.EMail);
                         EMailSettings.Visibility = Visibility.Visible;
                         PivotTNC.Visibility = Visibility.Collapsed;
-                        mailServerComboBox.SelectedIndex = Convert.ToInt32(_TNCSettingsViewModel.MailAccountSelectedIndex);
+                        mailServerComboBox.SelectedIndex = _TNCSettingsViewModel.MailAccountSelectedIndex;
                     }
                     else
                     {
@@ -1095,7 +1129,7 @@ namespace PacketMessagingTS.Views
             var eMailTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
             eMailTNC.MailUserName = ((TextBox)sender).Text;
             eMailTNC.Name = $"E-Mail-{eMailTNC.MailUserName}";
-            await TNCDeviceArray.Instance.SaveAsync();
+            //await TNCDeviceArray.Instance.SaveAsync();
 
             TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
         }
@@ -1156,7 +1190,19 @@ namespace PacketMessagingTS.Views
 
         private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
         {
-            if (_tncState == TNCState.EMailDelete)
+            if (_tncState == TNCState.EMail)
+            {
+                // Server changed
+                EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
+                TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
+                tncDevice.MailUserName = emailAccount.MailUserName;
+                tncDevice.Name = $"{SharedData.EMail}-" + emailAccount.MailUserName;
+                await TNCDeviceArray.Instance.SaveAsync();
+
+                //TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                TNCDeviceListSource.Source = TNCDeviceArray.Instance.TNCDeviceList;
+            }
+            else if (_tncState == TNCState.EMailDelete)
             {
                 EmailAccountArray.Instance.EmailAccountList.Remove(_TNCSettingsViewModel.CurrentMailAccount);
                 await EmailAccountArray.Instance.SaveAsync();
@@ -1175,7 +1221,7 @@ namespace PacketMessagingTS.Views
                     }
                 }
                 await EmailAccountArray.Instance.SaveAsync();
-                TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[Convert.ToInt32(_TNCSettingsViewModel.TNCDeviceSelectedIndex)];
+                TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
                 tncDevice.MailUserName = emailAccount.MailUserName;
                 tncDevice.Name += "-" + emailAccount.MailUserName;
                 await TNCDeviceArray.Instance.SaveAsync();

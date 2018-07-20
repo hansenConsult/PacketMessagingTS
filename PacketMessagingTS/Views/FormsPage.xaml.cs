@@ -503,7 +503,7 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                //_packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
+                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_";
 
                 _packetForm.MessageReceivedTime = DateTime.Now;
                 switch (_messageOrigin)
@@ -524,15 +524,14 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
+                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
             }
-
-            _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
 
             if (!_loadMessage)
             {          
                 _packetMessage = new PacketMessage();
 
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+                //_packetAddressForm.MessageSubject = _packetForm.CreateSubject();
 
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
@@ -567,16 +566,23 @@ namespace PacketMessagingTS.Views
                 _packetMessage.MessageBody = _packetForm.CreateOutpostData(ref _packetMessage);
             }
 
+            TextBlock messageBody = new TextBlock()
+            {
+                Text = _packetMessage.MessageBody,
+            };
+            ScrollViewer.SetVerticalScrollBarVisibility(messageBody, ScrollBarVisibility.Visible); // Does not work
+
+            //_packetMessage.MessageBody
             ContentDialog outpostDataDialog = new ContentDialog()
             {
                 Title = "Outpost Message",
-                Content = _packetMessage.MessageBody,
+                Content = messageBody,
                 CloseButtonText = "Cancel",
                 IsPrimaryButtonEnabled = true,
                 PrimaryButtonText = "Copy",
             };
             ContentDialogResult result = await outpostDataDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
+            if (result == ContentDialogResult.Primary)      // Copy also copies the invisible part
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;

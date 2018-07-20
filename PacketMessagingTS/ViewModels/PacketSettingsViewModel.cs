@@ -65,7 +65,15 @@ namespace PacketMessagingTS.ViewModels
             {
                 currentProfile = value;
 
-                CurrentTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == currentProfile.TNC).FirstOrDefault();
+                foreach (TNCDevice tnc in TNCDeviceArray.Instance.TNCDeviceList)
+                {
+                    if (tnc.Name == currentProfile.TNC || tnc.Name.Contains(SharedData.EMail))
+                    {
+                        CurrentTNC = tnc;
+                        break;
+                    }
+                }
+                //CurrentTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(t => t.Name == currentProfile.TNC).FirstOrDefault();
                 CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
                 Name = currentProfile.Name;
                 TNC = currentProfile.TNC;

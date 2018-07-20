@@ -433,16 +433,24 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 GetProperty(ref mailAccountSelectedIndex);
-                if (mailAccountSelectedIndex >= 0)
-                {
-                    CurrentMailAccount = EmailAccountArray.Instance.EmailAccounts[mailAccountSelectedIndex];
-                }
+                //if (mailAccountSelectedIndex >= 0)
+                //{
+                //    CurrentMailAccount = EmailAccountArray.Instance.EmailAccounts[mailAccountSelectedIndex];
+                //}
                 return mailAccountSelectedIndex;
             }
             set
             {
                 SetProperty(ref mailAccountSelectedIndex, value, true);
-                CurrentMailAccount = EmailAccountArray.Instance.EmailAccounts[mailAccountSelectedIndex];
+
+                EmailAccount mailAccount = EmailAccountArray.Instance.EmailAccounts[mailAccountSelectedIndex];
+                MailServer = mailAccount.MailServer;
+                MailPort = mailAccount.MailServerPort;
+                IsMailSSL = mailAccount.MailIsSSLField;
+                MailUserName = mailAccount.MailUserName;
+                MailPassword = mailAccount.MailPassword;
+
+                CurrentMailAccount = mailAccount;
             }
         }
 
@@ -454,11 +462,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref currentMailAccount, value);
 
-                MailServer = currentMailAccount.MailServer;
-                MailPort = currentMailAccount.MailServerPort;
-                IsMailSSL = currentMailAccount.MailIsSSLField;
-                MailUserName = currentMailAccount.MailUserName;
-                MailPassword = currentMailAccount.MailPassword;
             }
         }
 
@@ -480,8 +483,11 @@ namespace PacketMessagingTS.ViewModels
                 //		break;
                 //	}
                 //}
-                bool changed = CurrentMailAccount.MailServer != mailServer;
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                if (CurrentMailAccount != null)
+                {
+                    bool changed = CurrentMailAccount.MailServer != mailServer;
+                    IsAppBarSaveEnabled = SaveEnabled(changed);
+                }
 
                 Services.SMTPClient.SmtpClient.Instance.Server = MailServer;
             }
@@ -512,8 +518,11 @@ namespace PacketMessagingTS.ViewModels
                 //if (MailPortString != MailPort.ToString())
                 //    MailPortString = MailPort.ToString();
 
-                bool changed = CurrentMailAccount.MailServerPort != mailPort;
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                if (CurrentMailAccount != null)
+                {
+                    bool changed = CurrentMailAccount.MailServerPort != mailPort;
+                    IsAppBarSaveEnabled = SaveEnabled(changed);
+                }
 
                 Services.SMTPClient.SmtpClient.Instance.Port = MailPort;
             }
@@ -527,9 +536,12 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref isMailSSL, value);
 
-                bool changed = CurrentMailAccount.MailIsSSLField != isMailSSL;
+                if (CurrentMailAccount != null)
+                {
+                    bool changed = CurrentMailAccount.MailIsSSLField != isMailSSL;
+                    IsAppBarSaveEnabled = SaveEnabled(changed);
+                }
 
-                IsAppBarSaveEnabled = SaveEnabled(changed);
                 Services.SMTPClient.SmtpClient.Instance.IsSsl = IsMailSSL;
             }
         }
@@ -542,8 +554,11 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref mailUserName, value);
 
-                bool changed = CurrentMailAccount.MailUserName != mailUserName;
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                if (CurrentMailAccount != null)
+                {
+                    bool changed = CurrentMailAccount.MailUserName != mailUserName;
+                    IsAppBarSaveEnabled = SaveEnabled(changed);
+                }
 
                 Services.SMTPClient.SmtpClient.Instance.UserName = MailUserName;
             }
@@ -557,9 +572,11 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref mailPassword, value);
 
-                bool changed = CurrentMailAccount.MailPassword != mailPassword;
-
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                if (CurrentMailAccount != null)
+                {
+                    bool changed = CurrentMailAccount.MailPassword != mailPassword;
+                    IsAppBarSaveEnabled = SaveEnabled(changed);
+                }
 
                 Services.SMTPClient.SmtpClient.Instance.Password = MailPassword;
             }
