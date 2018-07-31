@@ -124,7 +124,6 @@ namespace PacketMessagingTS.Models
 			catch (Exception e)
 			{
                 _logHelper.Log(LogLevel.Error, $"Failed to read TNC data file {e}");
-                Debug.WriteLine($"Failed to read TNC data file {e}");
 			}
 			if (_instance.TNCDevices == null || _instance.TNCDevices.Length == 0)
 			{

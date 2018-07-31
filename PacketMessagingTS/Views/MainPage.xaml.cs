@@ -82,9 +82,10 @@ namespace PacketMessagingTS.Views
             //    case "pivotItemOutBox":
             //        //dataGridOutbox.ItemsSource = _messageObservableCollection;
             //        break;
-            //    case "pivotItemDrafts":
-            //        //_mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
-            //        break;
+                //case "pivotItemDrafts":
+                //    draftsDataGrid.ItemsSource = messagesInFolder;
+                //    //_mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
+                //    break;
             //    case "pivotItemArchive":
             //        //dataGridArchived.ItemsSource = _messageObservableCollection;
             //        break;
@@ -232,6 +233,19 @@ namespace PacketMessagingTS.Views
                 string s = ex.ToString();
             }
             await RefreshDataGridAsync(pivotItem);
+        }
+
+        private void DataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (PacketMessage packetMessage in e.AddedItems)
+            {
+                _selectedMessages.Add(packetMessage);
+            }
+            foreach (PacketMessage packetMessage in e.RemovedItems)
+            {
+                _selectedMessages.Remove(packetMessage);
+            }
+            _mainViewModel.SelectedItems = _selectedMessages;
         }
     }
 }

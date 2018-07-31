@@ -7,6 +7,8 @@
       xmlns:core="using:Telerik.Data.Core"
       xmlns:vm="using:PacketMessagingTS.ViewModels"
       xmlns:helpers="using:PacketMessagingTS.Helpers"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:shared="using:SharedCode"
       Style="{StaticResource PageStyle}"
       mc:Ignorable="d">
     
@@ -16,6 +18,8 @@
         <helpers:BooleanToStringConverter x:Key="BooleanToStringConverter"
                                        TrueValue="Active"
                                        FalseValue="Retired" />
+
+
 
         <helpers:CellStyleSelector x:Key="ForegroundSelector">
             <helpers:CellStyleSelector.MessageOpened>
@@ -249,14 +253,6 @@
                     </tg:RadDataGrid.Commands>
 
                     <tg:RadDataGrid.Columns>
-                        <!--<tg:DataGridTemplateColumn Header="Create Time">
-                            <tg:DataGridTemplateColumn.CellContentTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding CreateTime, Mode=OneWay, Converter={StaticResource DatetimeConverter}}"
-                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                </DataTemplate>
-                            </tg:DataGridTemplateColumn.CellContentTemplate>
-                        </tg:DataGridTemplateColumn>-->
                         <tg:DataGridTextColumn PropertyName="CreateTimeAsString" Header="Create Time" SizeMode="Fixed" Width="114"/>
                         <tg:DataGridTextColumn PropertyName="Subject" Header="Subject" SizeMode="Fixed" Width="300"/>
                         <tg:DataGridTextColumn PropertyName="MessageNumber" Header="Msg.No." SizeMode="Auto" CanUserGroup="False"/>
@@ -264,6 +260,26 @@
                         <tg:DataGridTextColumn PropertyName="MessageFrom" Header="From" SizeMode="Auto"/>
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>
+                <!--<controls:DataGrid x:Name="draftsDataGrid" CanUserReorderColumns="True" CanUserResizeColumns="True" SelectionMode="Extended"
+                                   ItemsSource="{Binding}"
+                                   SelectionChanged="DataGrid_SelectionChanged_1">
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn x:Name="createdTime" Header="Created Time" Binding="{Binding MessageCreateTime}" Width="auto"/>
+                        <controls:DataGridTextColumn Header="Subject" Binding="{Binding MessageSubject}" Width="100*"/>
+                        <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" Width="auto"/>
+                        <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" Width="30*"/>
+                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" Width="30*"/>
+                        <controls:DataGridTextColumn Header="BBS" Binding="{Binding BBSConnectName}" Width="auto"/>
+                        <controls:DataGridTextColumn x:Name="size" Header="Size" Binding="{Binding MessageSize}" Width="auto"/>
+                    </controls:DataGrid.Columns>
+                    <controls:DataGrid.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
+                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                        </MenuFlyout>
+                    </controls:DataGrid.ContextFlyout>
+                </controls:DataGrid>-->
             </PivotItem>
 
             <!--  Archived Items  -->

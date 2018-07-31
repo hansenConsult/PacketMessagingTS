@@ -437,11 +437,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         var operatorDateField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
                         if (operatorDateField != null)
                         {
-                            operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d2}";
+                            operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                         }
                         var operatorTimeField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
                         if (operatorTimeField != null)
-                            operatorTimeField.ControlContent = $"{now.Hour:d2}{now.Minute:d2}";
+                            operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
                         formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
                         if (formControl == null)
@@ -730,11 +730,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 var operatorDateField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
                 if (operatorDateField != null)
                 {
-                    operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year - 2000):d2}";
+                    operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year):d4}";
                 }
                 var operatorTimeField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
                 if (operatorTimeField != null)
-                    operatorTimeField.ControlContent = $"{now.Hour:d2}{now.Minute:d2}";
+                    operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
                 formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
                 if (formControl == null)
@@ -808,12 +808,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
             if (_packetMessagesToSend.Count == 0)
             {
                 tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
-                if (tncDevice.Name.Contains(SharedData.EMail))
-                {
-                    await Utilities.ShowMessageDialogAsync("Use TNC other than E-Email");
+                //if (tncDevice.Name.Contains(SharedData.EMail))
+                //{
+                //    await Utilities.ShowMessageDialogAsync("Use TNC to send message. Not E-Email");
                     return;
-                }
-                bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+                //}
+                //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
             }
             else
             {

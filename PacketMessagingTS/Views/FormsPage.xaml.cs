@@ -423,10 +423,10 @@ namespace PacketMessagingTS.Views
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
             DateTime now = DateTime.Now;
-            _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
-            _packetForm.MsgTime = $"{now.Hour:d2}{now.Minute:d2}";
-            _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
-            _packetForm.OperatorTime = $"{now.Hour:d2}{now.Minute:d2}";
+            _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+            _packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+            _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+            _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
             _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
             _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
 
@@ -536,10 +536,10 @@ namespace PacketMessagingTS.Views
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
                 DateTime now = DateTime.Now;
-                _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
-                _packetForm.MsgTime = $"{now.Hour:d2}{now.Minute:d2}";
-                _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year - 2000:d2}";
-                _packetForm.OperatorTime = $"{now.Hour:d2}{now.Minute:d2}";
+                _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+                _packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+                _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+                _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
                 _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
             }
