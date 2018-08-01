@@ -68,8 +68,8 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref source, value);
         }
 
-        private ObservableCollection<PacketMessage> draftsSource;
-        public ObservableCollection<PacketMessage> DraftsSource
+        private List<PacketMessage> draftsSource;
+        public List<PacketMessage> DraftsSource
         {
             get => draftsSource;
             set => SetProperty(ref draftsSource, value);

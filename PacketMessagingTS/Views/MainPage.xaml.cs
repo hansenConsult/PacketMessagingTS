@@ -17,6 +17,9 @@ using PacketMessagingTS.Services;
 using SharedCode;
 using Telerik.UI.Xaml.Controls.Grid;
 
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using System.Linq;
+
 namespace PacketMessagingTS.Views
 {
     public sealed partial class MainPage : Page
@@ -25,6 +28,8 @@ namespace PacketMessagingTS.Views
 
         public MainViewModel _mainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
+        List<PacketMessage> _messagesInFolder;
+        Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumn _lastSortColumn = null;
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
         PacketMessage _packetMessageClicked;
 
@@ -52,6 +57,8 @@ namespace PacketMessagingTS.Views
                         break;
                     case "pivotItemDrafts":
                         item.Tag = SharedData.DraftMessagesFolder;
+                        draftsDataGrid.Columns[0].SortDirection = DataGridSortDirection.Ascending;
+                        _lastSortColumn = draftsDataGrid.Columns[0];
                         break;
                     case "pivotItemArchive":
                         item.Tag = SharedData.ArchivedMessagesFolder;
@@ -66,33 +73,35 @@ namespace PacketMessagingTS.Views
 
         private async Task RefreshDataGridAsync(PivotItem pivotItem)
         {
-            List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)pivotItem.Tag);
+            _messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)pivotItem.Tag);
 
             //ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
-            _mainViewModel.Source = new ObservableCollection<PacketMessage>(messagesInFolder);
+            _mainViewModel.Source = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
-            //switch (pivotItem.Name)
-            //{
-            //    case "pivotItemInBox":
-            //        //dataGridInbox.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemSent":
-            //        //dataGridSent.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemOutBox":
-            //        //dataGridOutbox.ItemsSource = _messageObservableCollection;
-            //        break;
-                //case "pivotItemDrafts":
-                //    draftsDataGrid.ItemsSource = messagesInFolder;
-                //    //_mainViewModel.DraftsSource = new ObservableCollection<PacketMessage>(messagesInFolder);
-                //    break;
-            //    case "pivotItemArchive":
-            //        //dataGridArchived.ItemsSource = _messageObservableCollection;
-            //        break;
-            //    case "pivotItemDeleted":
-            //        //dataGridDeleted.ItemsSource = _messageObservableCollection;
-            //        break;
-            //}
+            switch (pivotItem.Name)
+            {
+                //    case "pivotItemInBox":
+                //        //dataGridInbox.ItemsSource = _messageObservableCollection;
+                //        break;
+                //    case "pivotItemSent":
+                //        //dataGridSent.ItemsSource = _messageObservableCollection;
+                //        break;
+                //    case "pivotItemOutBox":
+                //        //dataGridOutbox.ItemsSource = _messageObservableCollection;
+                //        break;
+                case "pivotItemDrafts":
+                    //DataGrid draftsDataGrid = new DataGrid();
+                    draftsDataGrid.ItemsSource = _messagesInFolder;
+                    //_mainViewModel.DraftsSource = _messagesInFolder;
+                    break;
+                    //    case "pivotItemArchive":
+                    //        //dataGridArchived.ItemsSource = _messageObservableCollection;
+                    //        break;
+                    //    case "pivotItemDeleted":
+                    //        //dataGridDeleted.ItemsSource = _messageObservableCollection;
+                    //        break;
+            }
+
         }
 
         private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -233,6 +242,40 @@ namespace PacketMessagingTS.Views
                 string s = ex.ToString();
             }
             await RefreshDataGridAsync(pivotItem);
+        }
+
+        public object GetDynamicSortProperty(object item, string propName)
+        {
+            //Use reflection to get order type
+            return item.GetType().GetProperty(propName).GetValue(item);
+        }
+
+        private void dg_Sorting(object sender, DataGridColumnEventArgs e)
+        {
+            if (_lastSortColumn == null || _lastSortColumn.Tag.ToString() == e.Column.Tag.ToString())
+            {
+                if (e.Column.SortDirection == DataGridSortDirection.Ascending)
+                    e.Column.SortDirection = DataGridSortDirection.Descending;
+                else
+                    e.Column.SortDirection = DataGridSortDirection.Ascending;
+            }
+            else
+            {
+                _lastSortColumn.SortDirection = null;
+                e.Column.SortDirection = DataGridSortDirection.Ascending;
+            }
+
+            IOrderedEnumerable<PacketMessage> sortedItems = null;
+            if (e.Column.SortDirection == DataGridSortDirection.Ascending)
+            {
+                sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, e.Column.Tag.ToString()) ascending select item;
+            }
+            else
+            {
+                sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, e.Column.Tag.ToString()) descending select item;
+            }
+            draftsDataGrid.ItemsSource = new ObservableCollection<PacketMessage>(sortedItems);
+            _lastSortColumn = e.Column;
         }
 
         private void DataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
