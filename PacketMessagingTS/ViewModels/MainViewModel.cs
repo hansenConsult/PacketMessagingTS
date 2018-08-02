@@ -45,6 +45,9 @@ namespace PacketMessagingTS.ViewModels
 
         public void OpenMessageFromDoubleClick(PacketMessage packetMessage)
         {
+            if (packetMessage == null)
+                return;
+
             string folder = ((StorageFolder)MainPagePivotSelectedItem.Tag).Path;
             string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
 
@@ -68,11 +71,11 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref source, value);
         }
 
-        private List<PacketMessage> draftsSource;
-        public List<PacketMessage> DraftsSource
+        private ObservableCollection<PacketMessage> dataGridSource;
+        public ObservableCollection<PacketMessage> DataGridSource
         {
-            get => draftsSource;
-            set => SetProperty(ref draftsSource, value);
+            get => dataGridSource;
+            set => SetProperty(ref dataGridSource, value);
         }
 
         private int mainPagePivotSelectedIndex;

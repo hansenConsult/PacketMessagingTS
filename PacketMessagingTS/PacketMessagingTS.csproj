@@ -96,7 +96,7 @@
       <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.5</Version>
+      <Version>6.1.7</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
       <Version>3.1.0-preview1</Version>
@@ -134,6 +134,7 @@
     <Compile Include="Helpers\CellStyleSelector.cs" />
     <Compile Include="Helpers\ComportComparer.cs" />
     <Compile Include="Helpers\CustomCellDoubleTapped.cs" />
+    <Compile Include="Helpers\DateTimeConverter.cs" />
     <Compile Include="Helpers\DeviceListEntry.cs" />
     <Compile Include="Helpers\DispatcherTaskExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
@@ -188,7 +189,6 @@
     <Compile Include="ViewModels\PacketSettingsViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\TelerikDataGridViewModel.cs" />
     <Compile Include="ViewModels\TNCSettingsViewModel.cs" />
     <Compile Include="ViewModels\ToolsViewModel.cs" />
     <Compile Include="ViewModels\WebViewViewModel.cs" />
@@ -215,9 +215,6 @@
     </Compile>
     <Compile Include="Views\ShellPage.xaml.cs">
       <DependentUpon>ShellPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TelerikDataGridPage.xaml.cs">
-      <DependentUpon>TelerikDataGridPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ToolsPage.xaml.cs">
       <DependentUpon>ToolsPage.xaml</DependentUpon>
@@ -294,10 +291,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\TelerikDataGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

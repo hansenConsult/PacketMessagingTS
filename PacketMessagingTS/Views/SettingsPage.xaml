@@ -13,7 +13,7 @@
     d:DesignWidth="700" d:DesignHeight="850">
     
     <Page.Resources>
-        <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+        <!--<helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />-->
         <helper:VisibilityConverter x:Key="VisibilityConverter"/>
         <helper:ComboBoxItemConverter x:Key="ComboBoxItemConverter"/>
         <!--<helper:StringIntConverter x:Key="StringIntConverter" />-->
