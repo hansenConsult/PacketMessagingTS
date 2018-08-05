@@ -130,10 +130,8 @@
     </Compile>
     <Compile Include="Helpers\AddressConverter.cs" />
     <Compile Include="Helpers\AreaConverter.cs" />
-    <Compile Include="Helpers\BooleanToValueConverter.cs" />
-    <Compile Include="Helpers\CellStyleSelector.cs" />
     <Compile Include="Helpers\ComportComparer.cs" />
-    <Compile Include="Helpers\CustomCellDoubleTapped.cs" />
+    <Compile Include="Helpers\DataGridSortData.cs" />
     <Compile Include="Helpers\DateTimeConverter.cs" />
     <Compile Include="Helpers\DeviceListEntry.cs" />
     <Compile Include="Helpers\DispatcherTaskExtensions.cs" />

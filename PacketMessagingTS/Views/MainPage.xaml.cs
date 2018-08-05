@@ -8,6 +8,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 using MetroLog;
 using System.Threading.Tasks;
@@ -15,10 +16,11 @@ using System.Collections.ObjectModel;
 using System.IO;
 using PacketMessagingTS.Services;
 using SharedCode;
-//using Telerik.UI.Xaml.Controls.Grid;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System.Linq;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace PacketMessagingTS.Views
 {
@@ -28,12 +30,11 @@ namespace PacketMessagingTS.Views
 
         public MainViewModel _mainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
+        PivotItem _currentPivotItem;
+
         List<PacketMessage> _messagesInFolder;
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
-        PacketMessage _packetMessageClicked;
-
-        //ObservableCollection<PacketMessage> _messageObservableCollection;
-        //ObservableCollection<PacketMessage> messageFolderCollection;
+        PacketMessage _packetMessageRightClicked;
 
         public MainPage()
         {
@@ -43,204 +44,133 @@ namespace PacketMessagingTS.Views
 
             foreach (PivotItem item in MainPagePivot.Items)
             {
+                int sortColumn = -1;
+                DataGridSortDirection? sortDirection = DataGridSortDirection.Descending;
                 switch (item.Name)
-                {
+                {           
                     case "pivotItemInBox":
                         item.Tag = SharedData.ReceivedMessagesFolder;
-                        dataGridInbox.Columns[1].SortDirection = DataGridSortDirection.Descending;
-                        dataGridInbox.Tag = dataGridInbox.Columns[1];   // Default sort column
+                        sortColumn = 1;
+                        dataGridInbox.Columns[sortColumn].SortDirection = sortDirection;
                         break;
                     case "pivotItemSent":
                         item.Tag = SharedData.SentMessagesFolder;
-                        dataGridSent.Columns[1].SortDirection = DataGridSortDirection.Descending;
-                        dataGridSent.Tag = dataGridSent.Columns[1];
+                        sortColumn = 1;
+                        dataGridSent.Columns[sortColumn].SortDirection = sortDirection;
                         break;
                     case "pivotItemOutBox":
                         item.Tag = SharedData.UnsentMessagesFolder;
-                        dataGridOutbox.Columns[0].SortDirection = DataGridSortDirection.Descending;
-                        dataGridOutbox.Tag = dataGridDrafts.Columns[0];
+                        sortColumn = 0;
+                        dataGridOutbox.Columns[sortColumn].SortDirection = sortDirection;
                         break;
                     case "pivotItemDrafts":
                         item.Tag = SharedData.DraftMessagesFolder;
-                        dataGridDrafts.Columns[0].SortDirection = DataGridSortDirection.Descending;
-                        dataGridDrafts.Tag = dataGridDrafts.Columns[0];
+                        sortColumn = 0;
+                        dataGridDrafts.Columns[sortColumn].SortDirection = sortDirection;
                         break;
                     case "pivotItemArchive":
                         item.Tag = SharedData.ArchivedMessagesFolder;
-                        // No default sorting
+                        sortDirection = null;   // No default sorting
                         break;
                     case "pivotItemDeleted":
                         item.Tag = SharedData.DeletedMessagesFolder;
-                        // No default sorting
+                        sortDirection = null;   // No default sorting
                         break;
                 }
+                bool success = DataGridSortData.DataGridSortDataDictionary.TryAdd(item.Name, new DataGridSortData(item.Name, sortColumn, sortDirection));
             }
 
         }
 
-        private async Task RefreshDataGridAsync(PivotItem pivotItem)
+        public DataGrid FindDataGrid(DependencyObject panelName)
         {
-            _messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)pivotItem.Tag);
+            DataGrid dataGrid = null;
 
-            //ObservableCollection<PacketMessage> messageObservableCollection = new ObservableCollection<PacketMessage>(messagesInFolder);
-            //_mainViewModel.Source = new ObservableCollection<PacketMessage>(_messagesInFolder);
+            var count = VisualTreeHelper.GetChildrenCount(panelName);
+            DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
+
+            count = VisualTreeHelper.GetChildrenCount(control);
+            control = VisualTreeHelper.GetChild(control, 0);
+
+            count = VisualTreeHelper.GetChildrenCount(control);
+            control = VisualTreeHelper.GetChild(control, 0);
+
+            if (control is DataGrid)
+            {
+                dataGrid = control as DataGrid;
+            }
+            return dataGrid;
+        }
+
+        private async Task RefreshDataGridAsync()
+        {
+            _messagesInFolder = await PacketMessage.GetPacketMessages(_currentPivotItem.Tag as StorageFolder);
+
             _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
             DataGridColumn sortColumn = null;
-            switch (pivotItem.Name)
-            {
-                case "pivotItemInBox":
-                    sortColumn = dataGridInbox.Tag as DataGridColumn;
-                    break;
-                case "pivotItemSent":
-                    sortColumn = dataGridSent.Tag as DataGridColumn;
-                    break;
-                case "pivotItemOutBox":
-                    sortColumn = dataGridOutbox.Tag as DataGridColumn;
-                    break;
-                case "pivotItemDrafts":
-                    sortColumn = dataGridDrafts.Tag as DataGridColumn;
-                    break;
-                case "pivotItemArchive":
-                    //dataGridArchived.ItemsSource = _messageObservableCollection;
-                    break;
-                case "pivotItemDeleted":
-                    break;
-            }
-            if (sortColumn != null)
-            {
-                SortColumn(sortColumn);
-            }
+            //switch (_currentPivotItem.Name)
+            //{
+            //    case "pivotItemInBox":
+            //        sortColumn = dataGridInbox.Tag as DataGridColumn;
+            //        break;
+            //    case "pivotItemSent":
+            //        sortColumn = dataGridSent.Tag as DataGridColumn;
+            //        break;
+            //    case "pivotItemOutBox":
+            //        sortColumn = dataGridOutbox.Tag as DataGridColumn;
+            //        break;
+            //    case "pivotItemDrafts":
+            //        sortColumn = dataGridDrafts.Tag as DataGridColumn;
+            //        break;
+            //    case "pivotItemArchive":
+            //        break;
+            //    case "pivotItemDeleted":
+            //        break;
+            //}
+            //if (sortColumn != null)
+            //{
+            //    SortColumn(sortColumn);
+            //}
+            DataGrid dataGrid = FindDataGrid(_currentPivotItem);
+            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortColumnNumber;
+            if (sortColumnNumber < 0)
+                return;
 
- 
+            sortColumn = dataGrid.Columns[sortColumnNumber];
+            SortColumn(sortColumn);
         }
 
         private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _selectedMessages.Clear();
 
-            PivotItem pivotItem = (PivotItem)e.AddedItems[0];
+            _currentPivotItem = (PivotItem)e.AddedItems[0];
 
-            await RefreshDataGridAsync(pivotItem);
+            await RefreshDataGridAsync();
             //_mainViewModel.RefreshDataGridAsync(); // problem on startup because MainPagePivotSelectedItem is null
         }
 
-        //private void DataGrid_SelectionChanged(object sender, DataGridSelectionChangedEventArgs e)
-        //{
-        //    foreach (PacketMessage packetMessage in e.AddedItems)
-        //    {
-        //        _selectedMessages.Add(packetMessage);
-        //    }
-        //    foreach (PacketMessage packetMessage in e.RemovedItems)
-        //    {
-        //        _selectedMessages.Remove(packetMessage);
-        //    }
-        //    _mainViewModel.SelectedItems = _selectedMessages;
-        //    //ObservableCollection<object> selectedItemsCollection = ((RadDataGrid)sender).SelectedItems;
-        //}
-
-        private void OpenMessage()
+        private void OpenMessage(PacketMessage packetMessage)
         {
-            if (_selectedMessages.Count == 1)
-            {
-                string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
-                string packetMessagePath = Path.Combine(folder, _selectedMessages[0].FileName);
+            string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
+            string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
 
-                NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
-            }
+            NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
         }
 
-        private async void AppBarMainPage_DeleteItemAsync(object sender, RoutedEventArgs e)
+        private async Task DeleteMessageAsync(PacketMessage packetMessage)
         {
-            PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
-            StorageFolder folder = (StorageFolder)pivotItem.Tag;
+            StorageFolder folder = (StorageFolder)_currentPivotItem.Tag;
             bool permanentlyDelete = false;
             if (folder == SharedData.DeletedMessagesFolder)
             {
                 permanentlyDelete = true;
             }
 
-            //IList<Object> selectedMessages = null;
-            //     selectedMessages = _currentListView.SelectedItems;
-
-            foreach (PacketMessage packetMessage in _selectedMessages)
-            {
-                try
-                {
-                    var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
-                    if (permanentlyDelete)
-                    {
-                        await file?.DeleteAsync();
-                    }
-                    else
-                    {
-                        await file?.MoveAsync(SharedData.DeletedMessagesFolder);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
-                    await file?.DeleteAsync();
-
-                    string s = ex.ToString();
-                    continue;
-                }
-            }
-            await RefreshDataGridAsync(pivotItem);
-        }
-
-        private void AppBarMainPage_SendReceive(object sender, RoutedEventArgs e)
-        {
-            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-            communicationsService.BBSConnectAsync2();
-        }
-
-        private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
-        {
-            _mainViewModel.OpenMessageFromDoubleClick();
-        }
-
-        //private void DataGridInbox_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        //{
-        //    var physicalPoint = e.GetCurrentPoint(sender as RadDataGrid);
-        //    var point = new Point { X = physicalPoint.Position.X, Y = physicalPoint.Position.Y };
-        //    _packetMessageClicked = (sender as RadDataGrid).HitTestService.RowItemFromPoint(point) as PacketMessage;
-        //}
-
-        private async void AppBarMailPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
-        {
-            PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
-            StorageFolder folder = (StorageFolder)pivotItem.Tag;
-
-            var file = await folder.CreateFileAsync(_packetMessageClicked.FileName, CreationCollisionOption.OpenIfExists);
-
-            await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
-
-            await RefreshDataGridAsync(pivotItem);
-        }
-
-        private void AppBarMainPage_OpenMessageFromContectMenu(object sender, RoutedEventArgs e)
-        {
-            //DataGrid dataGrid = ((UIElement)sender).p
-            if (_packetMessageClicked == null && _mainViewModel.SelectedItems != null)
-            {
-                _packetMessageClicked = _mainViewModel.SelectedItems[0];
-            }
-            _mainViewModel.OpenMessageFromDoubleClick(_packetMessageClicked);
-        }
-
-        private async void AppBarMainPage_DeleteItemFromContectMenuAsync(object sender, RoutedEventArgs e)
-        {
-            PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
-            StorageFolder folder = (StorageFolder)pivotItem.Tag;
-            bool permanentlyDelete = false;
-            if (folder == SharedData.DeletedMessagesFolder)
-            {
-                permanentlyDelete = true;
-            }
             try
             {
-                var file = await folder.CreateFileAsync(_packetMessageClicked.FileName, CreationCollisionOption.OpenIfExists);
+                var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
                 if (permanentlyDelete)
                 {
                     await file?.DeleteAsync();
@@ -252,12 +182,58 @@ namespace PacketMessagingTS.Views
             }
             catch (Exception ex)
             {
-                var file = await folder.CreateFileAsync(_packetMessageClicked.FileName, CreationCollisionOption.OpenIfExists);
+                var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
                 await file?.DeleteAsync();
 
                 string s = ex.ToString();
             }
-            await RefreshDataGridAsync(pivotItem);
+        }
+
+        private async void AppBarMainPage_DeleteItemAsync(object sender, RoutedEventArgs e)
+        {
+            foreach (PacketMessage packetMessage in _selectedMessages)
+            {
+                await DeleteMessageAsync(packetMessage);
+            }
+            await RefreshDataGridAsync();
+        }
+
+        private void AppBarMainPage_SendReceive(object sender, RoutedEventArgs e)
+        {
+            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
+            communicationsService.BBSConnectAsync2();
+        }
+
+        private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
+        {
+            if (_selectedMessages != null && _selectedMessages.Count == 1)
+            {
+                OpenMessage(_selectedMessages[0]);
+            }
+        }
+
+        private async void AppBarMailPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
+        {
+            //PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
+            StorageFolder folder = (StorageFolder)_currentPivotItem.Tag;
+
+            var file = await folder.CreateFileAsync(_packetMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+
+            await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+
+            await RefreshDataGridAsync();
+        }
+
+        private void AppBarMainPage_OpenMessageFromContectMenu(object sender, RoutedEventArgs e)
+        {
+            OpenMessage(_packetMessageRightClicked);
+        }
+
+        private async void AppBarMainPage_DeleteItemFromContectMenuAsync(object sender, RoutedEventArgs e)
+        {
+            await DeleteMessageAsync(_packetMessageRightClicked);
+
+            await RefreshDataGridAsync();
         }
 
         public object GetDynamicSortProperty(object item, string propName)
@@ -268,6 +244,9 @@ namespace PacketMessagingTS.Views
 
         private void SortColumn(DataGridColumn column)
         {
+            if (column.SortDirection == null)
+                return;
+
             IOrderedEnumerable<PacketMessage> sortedItems = null;
             if (column.SortDirection == DataGridSortDirection.Ascending)
             {
@@ -280,9 +259,15 @@ namespace PacketMessagingTS.Views
             _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(sortedItems);
         }
 
-        private void dg_Sorting(object sender, DataGridColumnEventArgs e)
+        private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
         {
-            if ((((DataGrid)sender).Tag as DataGridColumn).Tag == e.Column.Tag) // Sorting on same column
+            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortColumnNumber;
+            if (sortColumnNumber < 0)
+            {
+                // There is no default sorting column for this data grid. Select current column.
+                sortColumnNumber = e.Column.DisplayIndex;
+            }
+            if ((sender as DataGrid).Columns[sortColumnNumber].Header == e.Column.Header) // Sorting on same column, switch SortDirection
             {
                 if (e.Column.SortDirection == DataGridSortDirection.Ascending)
                     e.Column.SortDirection = DataGridSortDirection.Descending;
@@ -291,20 +276,22 @@ namespace PacketMessagingTS.Views
             }
             else
             {
-                e.Column.SortDirection = DataGridSortDirection.Ascending;
+                // Sorting on a new column. Use that columns SortDirection
+                e.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortDirection;
             }
 
             SortColumn(e.Column);
 
             // If sort column has changed remove the sort icon from the previous column
-            if ((((DataGrid)sender).Tag as DataGridColumn).Tag != e.Column.Tag)
+            if ((sender as DataGrid).Columns[sortColumnNumber].Header != e.Column.Header)
             {
-                (((DataGrid)sender).Tag as DataGridColumn).SortDirection = null;
+                (sender as DataGrid).Columns[sortColumnNumber].SortDirection = null;
             }
-            ((DataGrid)sender).Tag = e.Column;
+            DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortColumnNumber = e.Column.DisplayIndex;
+            DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortDirection = e.Column.SortDirection;
         }
 
-        private void DataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach (PacketMessage packetMessage in e.AddedItems)
             {
@@ -317,11 +304,27 @@ namespace PacketMessagingTS.Views
             _mainViewModel.SelectedItems = _selectedMessages;
         }
 
-        private void draftsDataGrid_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        private void DataGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            _mainViewModel.OpenMessageFromDoubleClick(((DataGrid)sender).SelectedItem as PacketMessage);
+            TextBlock grid = e.OriginalSource as TextBlock;
+            PacketMessage pktmsg = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
+            _mainViewModel.OpenMessageFromDoubleClick(pktmsg);
         }
 
+        private void DataGridInbox_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            DataGridRow row = e.Row;
+           // Get the DataRow corresponding to the DataGridRow that is loading.
+           PacketMessage item = row.DataContext as PacketMessage;
+            if (!(bool)item?.MessageOpened)
+            {
+                row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
+            }
+        }
 
+        private void DataGridInbox_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            _packetMessageRightClicked = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
+        }
     }
 }

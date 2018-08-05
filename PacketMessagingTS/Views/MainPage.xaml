@@ -4,8 +4,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:tg="using:Telerik.UI.Xaml.Controls.Grid"
-      xmlns:core="using:Telerik.Data.Core"
-      xmlns:vm="using:PacketMessagingTS.ViewModels"
       xmlns:helpers="using:PacketMessagingTS.Helpers"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:shared="using:SharedCode"
@@ -15,15 +13,15 @@
     <Page.Resources>
         <helpers:AreaConverter x:Key="Converter1"/>
 
-        <helpers:BooleanToStringConverter x:Key="BooleanToStringConverter"
+        <!--<helpers:BooleanToStringConverter x:Key="BooleanToStringConverter"
                                        TrueValue="Active"
-                                       FalseValue="Retired" />
+                                       FalseValue="Retired" />-->
 
         <helpers:DateTimeConverter x:Key="dateTimeConverter" />
 
 
 
-        <helpers:CellStyleSelector x:Key="ForegroundSelector">
+        <!--<helpers:CellStyleSelector x:Key="ForegroundSelector">
             <helpers:CellStyleSelector.MessageOpened>
                 <Style TargetType="TextBlock">
                     <Setter Property="Foreground" Value="Black"/>
@@ -36,7 +34,7 @@
                     <Setter Property="Margin" Value="10"/>
                 </Style>
             </helpers:CellStyleSelector.MessageUnopened>
-        </helpers:CellStyleSelector>
+        </helpers:CellStyleSelector>-->
     </Page.Resources>
     
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
@@ -110,11 +108,13 @@
                                    SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
-                                   Sorting="dg_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged_1"
-                                   DoubleTapped="draftsDataGrid_DoubleTapped" >
+                                   Sorting="DataGrid_Sorting"
+                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   DoubleTapped="DataGrid_DoubleTapped"
+                                   LoadingRow="DataGridInbox_LoadingRow" RightTapped="DataGridInbox_RightTapped"
+                                   >
                     <controls:DataGrid.Columns>
-                        <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}" CanUserSort="True" Width="Auto" Tag="Area"/>
+                        <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}"  CanUserSort="True" Width="Auto" Tag="Area"/>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime"/>
                         <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding JNOSDate, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="JNOSDate"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -179,9 +179,10 @@
                                    SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
-                                   Sorting="dg_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged_1"
-                                   DoubleTapped="draftsDataGrid_DoubleTapped" >
+                                   Sorting="DataGrid_Sorting"
+                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   DoubleTapped="DataGrid_DoubleTapped"
+                                   RightTapped="DataGridInbox_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime"/>
                         <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding SentTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="SentTime"/>
@@ -243,9 +244,10 @@
                                    SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
-                                   Sorting="dg_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged_1"
-                                   DoubleTapped="draftsDataGrid_DoubleTapped" >
+                                   Sorting="DataGrid_Sorting"
+                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   DoubleTapped="DataGrid_DoubleTapped"
+                                   RightTapped="DataGridInbox_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -304,9 +306,10 @@
                                    SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
-                                   Sorting="dg_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged_1"
-                                   DoubleTapped="draftsDataGrid_DoubleTapped" >
+                                   Sorting="DataGrid_Sorting"
+                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   DoubleTapped="DataGrid_DoubleTapped"
+                                   RightTapped="DataGridInbox_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -364,9 +367,10 @@
                                    SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
-                                   Sorting="dg_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged_1"
-                                   DoubleTapped="draftsDataGrid_DoubleTapped" >
+                                   Sorting="DataGrid_Sorting"
+                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   DoubleTapped="DataGrid_DoubleTapped"
+                                   RightTapped="DataGridInbox_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}" CanUserSort="True" Width="Auto"  Tag="Area"/>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTimeAsString}" CanUserSort="True" Width="SizeToCells" Tag="ReceivedTime"/>
@@ -427,9 +431,10 @@
                                    CanUserReorderColumns="True" CanUserResizeColumns="True" SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
-                                   Sorting="dg_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged_1"
-                                   DoubleTapped="draftsDataGrid_DoubleTapped">
+                                   Sorting="DataGrid_Sorting"
+                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   DoubleTapped="DataGrid_DoubleTapped"
+                                   RightTapped="DataGridInbox_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
