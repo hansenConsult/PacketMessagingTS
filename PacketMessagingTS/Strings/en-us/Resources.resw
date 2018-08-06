@@ -181,10 +181,6 @@
     <value>WebView</value>
     <comment>Navigation view item name for WebView</comment>
   </data>
-  <data name="Shell_TelerikDataGrid.Content" xml:space="preserve">
-    <value>TelerikDataGrid</value>
-    <comment>Navigation view item name for TelerikDataGrid</comment>
-  </data>
   <data name="MasterDetail_NoSelection.Text" xml:space="preserve">
     <value>Select an item from the list.</value>
     <comment>No selection text for MasterDetail</comment>

@@ -140,13 +140,13 @@
                                              Style="{StaticResource MuniStatusTextBox}" 
                                              TextChanged="Subject_Changed" Tag="13,required,Enter the Incident Name."/>
                                 </StackPanel>
-                                <Grid>
+                                <Grid HorizontalAlignment="Center">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="130"/>
-                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="0.2*"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal" >
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" >
                                         <TextBlock Text="Municipality Name/Unincorporated:" Style="{StaticResource MuniStatusFieldTextRequired}"/>
                                         <ComboBox Name="municipalityName" Width="205"  
                                                   ItemsSource="{x:Bind Municipalities}"
@@ -156,15 +156,17 @@
                                                   Tag="14,conditionallyrequired,Select a Municipality Name." />
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                        <TextBlock Text="Date" VerticalAlignment="Center" Style="{StaticResource MuniStatusFieldTextRequired}"/>
+                                        <TextBlock Text="Date" VerticalAlignment="Center" Margin="20,0,0,0"
+                                                   Style="{StaticResource MuniStatusFieldTextRequired}"/>
                                         <TextBox Name="msgDate" Text="{x:Bind MsgDate, Mode=TwoWay}" PlaceholderText="mm/dd/yy" 
                                                  Style="{StaticResource MuniStatusTextBox}" 
                                                  Tag="15,required,Enter the date." VerticalContentAlignment="Center" 
                                                  TextChanged="MsgDate_TextChanged"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                        <TextBlock Text="Time" VerticalAlignment="Center" Style="{StaticResource MuniStatusFieldTextRequired}"/>
-                                        <TextBox Name="msgTime"  PlaceholderText="hhmm" 
+                                        <TextBlock Text="Time" VerticalAlignment="Center" Margin="20,0,0,0"
+                                                   Style="{StaticResource MuniStatusFieldTextRequired}"/>
+                                        <TextBox Name="msgTime"  PlaceholderText="hh:mm" 
                                                  Style="{StaticResource MuniStatusTextBox}" 
                                                  Text="{x:Bind MsgTime, Mode=TwoWay}"
                                                  Tag="16,required,Enter the time." VerticalContentAlignment="Center"/>
@@ -207,7 +209,8 @@
                                 <TextBox Grid.Column="1" Grid.Row="3" Name="secEMContactName" 
                                          Style="{StaticResource MuniStatusTextBox}" Tag="21"/>
                                 <TextBlock Grid.Column="2" Grid.Row="3" Text="Secondary EM Contact Phone:" Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Column="3" Grid.Row="3" Name="secEMContactPhone" 
+                                <TextBox Grid.Column="3" Grid.Row="3" Name="secEMContactPhone"
+                                         InputScope="TelephoneNumber"
                                          Style="{StaticResource MuniStatusTextBox}" Tag="22"/>
                             </Grid>
                         </Border>
@@ -488,7 +491,7 @@
                             <ColumnDefinition Width="52"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="64"/>
-                            <ColumnDefinition Width="76"/>
+                            <ColumnDefinition Width="94"/>
                             <ColumnDefinition Width="64"/>
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,0,1,1" ></Border>
@@ -504,19 +507,25 @@
                                      Padding="8,0,0,0" HorizontalAlignment="Left" Tag="71"/>
                         <Border Grid.Column="4" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,0,1,1" ></Border>
                         <TextBlock Grid.Column="4" Text="Call:" Margin="5,0,0,0" VerticalAlignment="Center" Padding="0,0,0,1"/>
-                        <TextBox Grid.Column="5" Name="operatorCallsign" Text="{x:Bind OperatorCallsign, Mode=TwoWay}" 
+                        <TextBox Grid.Column="5" Name="operatorCallsign" Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
+                                 VerticalAlignment="Center"
                                  BorderThickness="0" MinWidth="40" Tag="72"/>
                         <TextBlock Grid.Column="6" Text="Name:"  Margin="5,0,0,0" VerticalAlignment="Center" Padding="0,0,0,1" />
                         <TextBox Grid.Column="7" Name="operatorName" Text="{x:Bind OperatorName, Mode=TwoWay}" 
                                  Margin="0" BorderThickness="0" VerticalContentAlignment="Center" Tag="73"/>
                         <Border Grid.Column="8" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,0,1,1" ></Border>
-                        <TextBlock Grid.Column="8" Text="Submitted:"  Margin="5,0,0,0" VerticalAlignment="Center" Style="{StaticResource EOC213RRFieldText}"/>
+                        <TextBlock Grid.Column="8" Text="Submitted:"  Margin="5,0,0,0" VerticalAlignment="Center" 
+                                   Style="{StaticResource EOC213RRFieldText}"/>
                         <TextBox Grid.Column="9" Name="operatorDate" Text="{x:Bind OperatorDate, Mode=TwoWay}" 
                                  BorderThickness="0" Tag="74"/>
                         <TextBox Grid.Column="10" Name="operatorTime" Text="{x:Bind OperatorTime, Mode=TwoWay}" 
                                  BorderThickness="0" Tag="75"/>
                     </Grid>
                     <TextBlock Text="Page 2 of 2" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                    <TextBlock HorizontalAlignment="Right" Margin="0,12,0,0" FontFamily="Helvetica" FontSize="11"
+                               FontWeight="Bold">
+                               <Underline>SCCo EOC SCCo OA Municipal Status Version 20130101 (PR-4.4-1.9, 06/29/18)</Underline>
+                    </TextBlock>
                 </StackPanel>
             </StackPanel>
         </Border>

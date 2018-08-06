@@ -478,7 +478,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         async void OnSerialPortErrorReceivedAsync(object sender, SerialErrorReceivedEventArgs e)
         {
-            log.Error($"SerialPort Error: {e.EventType.ToString()}");
+            _logHelper.Log(LogLevel.Fatal, $"SerialPort Error: {e.EventType.ToString()}");
             _error = true;
             await Utilities.ShowMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "TNC Connect Error");
             _serialPort.Close();

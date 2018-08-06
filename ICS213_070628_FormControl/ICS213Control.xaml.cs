@@ -7,7 +7,7 @@ using SharedCode;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace ICS213FormControl
+namespace ICS213_070628_FormControl
 {
 	[FormControl(
 		FormControlName = "XSC_ICS-213_Message_v070628",

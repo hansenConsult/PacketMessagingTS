@@ -439,6 +439,10 @@ namespace FormControlBaseClass
                     }
                 }
             }
+            else if (control is AutoSuggestBox)
+            {
+                return $"{id}: [{formField.ControlContent}]";
+            }
             else if (control is RadioButton || control is CheckBox)
             {
                 if (formField.ControlContent == "True")
@@ -456,6 +460,10 @@ namespace FormControlBaseClass
                 if (data.Length == 2)
                 {
                     return $"{id}: [{data[0]}}}{data[1]}]";
+                }
+                else if (data[0] == "-1")
+                {
+                    return $"{id}: [ }}0]";
                 }
                 else
                 {

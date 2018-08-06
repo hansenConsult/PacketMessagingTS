@@ -30,7 +30,7 @@ namespace EOC213RRFormControl
         }
 
         public string IncidentName
-		{ get => GetTextBoxString(incidentName); set => SetTextBoxString(incidentName, value); }
+		{ get => incidentName.Text; set => incidentName.Text = value; }
 
 		public override string PacFormName => "XSC_EOC-213RR_v1706";
 

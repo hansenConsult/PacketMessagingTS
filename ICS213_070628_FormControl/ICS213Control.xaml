@@ -1,6 +1,6 @@
 ﻿<MyBaseNamespace:FormControlBase
 	x:Name="ICS213"
-    x:Class="ICS213FormControl.ICS213Control"
+    x:Class="ICS213_070628_FormControl.ICS213Control"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ICS213FormControl"

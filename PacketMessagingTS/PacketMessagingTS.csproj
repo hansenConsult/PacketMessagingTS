@@ -318,13 +318,13 @@
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ICS213FormControl\ICS213FormControl.csproj">
-      <Project>{eba5e558-4804-4914-87ed-efbfa45e2069}</Project>
-      <Name>ICS213FormControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ICS213RRFormControl\ICS213RR1706FormControl.csproj">
       <Project>{93f74750-00f2-44d3-bd5b-189487733a59}</Project>
       <Name>ICS213RR1706FormControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICS213_070628_FormControl\ICS213_070628_FormControl.csproj">
+      <Project>{268fbd5c-fbd7-46c3-834a-a8e83b2904f0}</Project>
+      <Name>ICS213_070628_FormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\ICS309Control\ICS309Control.csproj">
       <Project>{622803d9-5907-4ef3-bd6a-187ef8d7953a}</Project>
