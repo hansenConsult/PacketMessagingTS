@@ -13,7 +13,7 @@ namespace CityScanFormControl
 {
 	[FormControl(
 		FormControlName = "city-scan",
-		FormControlMenuName = "City Scan/Flash Report",
+		FormControlMenuName = "",
 		FormControlType = FormControlAttribute.FormType.CountyForm)
 	]
 	public partial class CityScanControl : FormControlBase

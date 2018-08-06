@@ -13,23 +13,10 @@ namespace OAMunicipalStatusFormControl
     /// 
 
     [FormControl(
-        FormControlName = "OAMuniStatus",
+        FormControlName = "XSC_OA_MuniStatus_v20130101",
         FormControlMenuName = "OA Municipal Status",
         FormControlType = FormControlAttribute.FormType.CountyForm)
     ]
-
-    //public class ComboBoxItemConvert : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, string language)
-    //    {
-    //        return value;
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    //    {
-    //        return value as ComboBoxItem;
-    //    }
-    //}
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
@@ -55,6 +42,13 @@ namespace OAMunicipalStatusFormControl
                 "Unincorporated"
         };
 
+        string[] OfficeStatus = new string[]
+        {
+                "Unknown",
+                "Open",
+                "Closed"
+        };
+
         string[] UnknownYesNo = new string[] {
                 "Unknown",
                 "Yes",
@@ -65,6 +59,7 @@ namespace OAMunicipalStatusFormControl
                 "Unknown",
                 "Monitor",
                 "Minimal",
+                "Partial",
                 "Full"
         };
 
@@ -83,54 +78,9 @@ namespace OAMunicipalStatusFormControl
 
             InitializeControls();
 
-            ReceivedOrSent = "sent";
-            HowReceivedSent = "packet";
+            sent.IsChecked = true; ;
+            packet.IsChecked = true;
 
-            municipalityName.ItemsSource = Municipalities;
-            municipalityName.SelectedIndex = 0;
-
-            officeStatus.ItemsSource = UnknownYesNo;
-            officeStatus.SelectedIndex = 0;
-
-            eocOpen.ItemsSource = UnknownYesNo;
-            eocOpen.SelectedIndex = 0;
-            activationLevel.ItemsSource = ActivationLevel;
-            activationLevel.SelectedIndex = 0;
-            stateOfEmergency.ItemsSource = UnknownYesNo;
-            stateOfEmergency.SelectedIndex = 0;
-
-            comboBoxCommunications.ItemsSource = CurrentSituation;
-            comboBoxCommunications.SelectedIndex = 0;
-            comboBoxDebris.ItemsSource = CurrentSituation;
-            comboBoxDebris.SelectedIndex = 0;
-            comboBoxFlooding.ItemsSource = CurrentSituation;
-            comboBoxFlooding.SelectedIndex = 0;
-            comboBoxHazmat.ItemsSource = CurrentSituation;
-            comboBoxHazmat.SelectedIndex = 0;
-            comboBoxEmergencyServices.ItemsSource = CurrentSituation;
-            comboBoxEmergencyServices.SelectedIndex = 0;
-            comboBoxCasualties.ItemsSource = CurrentSituation;
-            comboBoxCasualties.SelectedIndex = 0;
-            comboBoxUtilitiesGas.ItemsSource = CurrentSituation;
-            comboBoxUtilitiesGas.SelectedIndex = 0;
-            comboBoxUtilitiesElectric.ItemsSource = CurrentSituation;
-            comboBoxUtilitiesElectric.SelectedIndex = 0;
-            comboBoxInfrastructurePower.ItemsSource = CurrentSituation;
-            comboBoxInfrastructurePower.SelectedIndex = 0;
-            comboBoxInfrastructureWater.ItemsSource = CurrentSituation;
-            comboBoxInfrastructureWater.SelectedIndex = 0;
-            comboBoxInfrastructureSewer.ItemsSource = CurrentSituation;
-            comboBoxInfrastructureSewer.SelectedIndex = 0;
-            comboBoxSearchAndRescue.ItemsSource = CurrentSituation;
-            comboBoxSearchAndRescue.SelectedIndex = 0;
-            comboBoxTransportationsRoads.ItemsSource = CurrentSituation;
-            comboBoxTransportationsRoads.SelectedIndex = 0;
-            comboBoxTransportationsBridges.ItemsSource = CurrentSituation;
-            comboBoxTransportationsBridges.SelectedIndex = 0;
-            comboBoxCivilUnrest.ItemsSource = CurrentSituation;
-            comboBoxCivilUnrest.SelectedIndex = 0;
-            comboBoxAnimalIssues.ItemsSource = CurrentSituation;
-            comboBoxAnimalIssues.SelectedIndex = 0;
         }
 
         //public string SenderMsgNo
@@ -176,11 +126,11 @@ namespace OAMunicipalStatusFormControl
         { get => GetTextBoxString(incidentName); }
 
         public string MunicipalityName
-        { get => (municipalityName.SelectedIndex != 0 ? "" : municipalityName.SelectedItem as string); }
+        { get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
 
-        public override string PacFormName => "XSC_OA_MuniStatus";
+        public override string PacFormName => "XSC_OA_MuniStatus_v20130101";
 
-        public override string PacFormType => "OAMuniStatus";
+        public override string PacFormType => "OA Municipal Status";
 
         public override string CreateSubject()
         {
@@ -304,32 +254,14 @@ namespace OAMunicipalStatusFormControl
             return ValidationResultMessage;
         }
 
-        //protected override List<string> CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
-        //{
-        //    foreach (FormField formField in packetMessage.FormFieldArray)
-        //    {
-        //        if (string.IsNullOrEmpty(formField.ControlContent))
-        //            continue;
-
-        //        string data = CreateOutpostDataString(formField);
-        //        if (string.IsNullOrEmpty(data))
-        //        {
-        //            continue;
-        //        }
-        //        outpostData.Add(data);
-        //    }
-        //    outpostData.Add("#EOF");
-        //    return outpostData;
-        //}
-
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
             outpostData = new List<string>
             {
                 "!PACF! " + packetMessage.Subject,
                 "# JS:SC-OA-Muni Status (which4)",
-                "# JS-ver. PR-4.3-1.8, 09/29/17",
-                "# FORMFILENAME: XSC_OA_MuniStatus_v1708.html"
+                "# JS-ver. PR-4.4-1.9, 06/29/18",
+                "# FORMFILENAME: XSC_OA_MuniStatus_v20130101.html"
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

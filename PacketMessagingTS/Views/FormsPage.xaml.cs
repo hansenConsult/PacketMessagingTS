@@ -97,6 +97,10 @@ namespace PacketMessagingTS.Views
 
             foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
             {
+                if (string.IsNullOrEmpty(formControlAttribute.FormControlMenuName))
+                {
+                    continue;
+                }
                 PivotItem pivotItem = CreatePivotItem(formControlAttribute);
                 MyPivot.Items.Add(pivotItem);
             }

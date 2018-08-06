@@ -117,6 +117,8 @@ namespace FormControlBaseClass
 			textBox.Text = text;
 		}
 
+        public int GetComboBoxSelectedIndex(ComboBox comboBox) => comboBox.SelectedIndex;
+
 		object GetCBSelectedItem(ComboBox comboBox) => comboBox.SelectedItem;
 
 		public string GetComboBoxSelectedItem(ComboBox comboBox)
@@ -448,6 +450,18 @@ namespace FormControlBaseClass
                     return "";
                 }
             }
+            else if (control is ComboBox comboBox)
+            {
+                var data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (data.Length == 2)
+                {
+                    return $"{id}: [{data[0]}}}{data[1]}]";
+                }
+                else
+                {
+                    return "";
+                }
+            }
             return "";
         }
 
@@ -518,7 +532,7 @@ namespace FormControlBaseClass
 				}
 				else if (formControlsList[i].InputControl is ComboBox comboBox)
                 {
-					formField.ControlContent = GetComboBoxSelectedItem(comboBox);
+					formField.ControlContent = $"{GetComboBoxSelectedItem(comboBox)},{comboBox.SelectedIndex}";
 				}
                 else if (formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
                 {
@@ -564,7 +578,8 @@ namespace FormControlBaseClass
 				}
 				else if (control is ComboBox comboBox)
 				{
-                    comboBox.SelectedValue = formField.ControlContent;
+                    var data = formField.ControlContent.Split(new char[] { ',' });
+                    comboBox.SelectedItem = data[0];
                 }
 				else if (control is ToggleButtonGroup toggleButtonGroup)
 				{

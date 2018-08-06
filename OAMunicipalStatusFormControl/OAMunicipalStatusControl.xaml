@@ -94,7 +94,9 @@
                                                                        Tag="required,Indicate Msg. Handling Order."/>
                                         <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="IMMEDIATE" Tag="7" Checked="Subject_Changed"/>
                                         <RadioButton x:Name="priority" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="PRIORITY" Tag="8" Checked="Subject_Changed"/>
-                                        <RadioButton x:Name="routine" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="ROUTINE" Tag="9" Checked="Subject_Changed"/>
+                                        <RadioButton x:Name="routine" GroupName="handlingOrder" 
+                                                     Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
+                                                     Padding="4" Content="ROUTINE" Tag="9" Checked="Subject_Changed"/>
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
@@ -134,7 +136,9 @@
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBlock Text="Incident Name:" FontFamily="Arial" FontSize="8" FontStyle="Italic" FontWeight="Normal" Foreground="Red" VerticalAlignment="Center" />
-                                    <TextBox Name="incidentName" Width="300" Style="{StaticResource MuniStatusTextBox}" TextChanged="Subject_Changed" Tag="13,required,Enter the Incident Name."/>
+                                    <TextBox Name="incidentName" Width="300" 
+                                             Style="{StaticResource MuniStatusTextBox}" 
+                                             TextChanged="Subject_Changed" Tag="13,required,Enter the Incident Name."/>
                                 </StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -145,6 +149,8 @@
                                     <StackPanel Grid.Column="0" Orientation="Horizontal" >
                                         <TextBlock Text="Municipality Name/Unincorporated:" Style="{StaticResource MuniStatusFieldTextRequired}"/>
                                         <ComboBox Name="municipalityName" Width="205"  
+                                                  ItemsSource="{x:Bind Municipalities}"
+                                                  SelectedItem="SELECT the Municipality"
                                                   Style="{StaticResource MuniStatusComboBox}" SelectedIndex="-1" 
                                                   SelectionChanged="Subject_Changed" 
                                                   Tag="14,conditionallyrequired,Select a Municipality Name." />
@@ -183,20 +189,26 @@
                                 <TextBlock Grid.Column="0" Text="Contact Information" Style="{StaticResource MuniStatusHeaderText}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="EOC Phone:" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBox Grid.Column="1" Grid.Row="1" Name="eocPhone" 
-                                         Style="{StaticResource MuniStatusTextBox}" InputScope="TelephoneNumber" Tag="17"/>
+                                         Style="{StaticResource MuniStatusTextBox}" InputScope="TelephoneNumber" 
+                                         Tag="17"/>
                                 <TextBlock Grid.Column="2" Grid.Row="1" Text="EOC Fax:" 
                                            Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
                                 <TextBox Grid.Column="3" Grid.Row="1" Name="eocFax" 
-                                         Style="{StaticResource MuniStatusTextBox}" InputScope="TelephoneNumber" Tag="18"/>
+                                         Style="{StaticResource MuniStatusTextBox}" InputScope="TelephoneNumber" 
+                                         Tag="18"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Primary EM Contact Name:" Style="{StaticResource MuniStatusFieldTextRequired}"/>
-                                <TextBox Grid.Column="1" Grid.Row="2" Name="primEMContactName" Style="{StaticResource MuniStatusTextBox}" Tag="19,required,Enter the Primary EM Contact Name."/>
+                                <TextBox Grid.Column="1" Grid.Row="2" Name="primEMContactName" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="19,required,Enter the Primary EM Contact Name."/>
                                 <TextBlock Grid.Column="2" Grid.Row="2" Text="Primary EM Contact Phone:" Style="{StaticResource MuniStatusFieldTextRequired}" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Column="3" Grid.Row="2" Name="primEMContactPhone" Style="{StaticResource MuniStatusTextBox}" 
+                                <TextBox Grid.Column="3" Grid.Row="2" Name="primEMContactPhone" 
+                                         Style="{StaticResource MuniStatusTextBox}" 
                                          InputScope="TelephoneNumber" Tag="20,required,Enter the Primary EM Contact Phone No."/>
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Secondary EM Contact Name:" Style="{StaticResource MuniStatusFieldText}"/>
-                                <TextBox Grid.Column="1" Grid.Row="3" Name="secEMContactName" Style="{StaticResource MuniStatusTextBox}" Tag="19"/>
+                                <TextBox Grid.Column="1" Grid.Row="3" Name="secEMContactName" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="21"/>
                                 <TextBlock Grid.Column="2" Grid.Row="3" Text="Secondary EM Contact Phone:" Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Column="3" Grid.Row="3" Name="secEMContactPhone" Style="{StaticResource MuniStatusTextBox}" Tag="20"/>
+                                <TextBox Grid.Column="3" Grid.Row="3" Name="secEMContactPhone" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="22"/>
                             </Grid>
                         </Border>
                         <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="1,0,1,1">
@@ -216,16 +228,22 @@
                                 <TextBlock Grid.Column="0" Text="Government Office Status" Style="{StaticResource MuniStatusHeaderText}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Office Status:" Style="{StaticResource MuniStatusFieldText}"/>
                                 <ComboBox Grid.Column="1" Grid.Row="1" Name="officeStatus"  
+                                          ItemsSource="{x:Bind OfficeStatus}"
+                                          SelectedItem="Unknown"
                                           Style="{StaticResource MuniStatusComboBox}"
                                           Tag="23" HorizontalAlignment="Left"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Expected to Open Date: (MM/DD/YY)" Style="{StaticResource MuniStatusFieldText}"/>
-                                <TextBox Grid.Column="1" Grid.Row="2" Name="officeOpenDate" Style="{StaticResource MuniStatusTextBox}" Tag="24"/>
+                                <TextBox Grid.Column="1" Grid.Row="2" Name="officeOpenDate" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="24"/>
                                 <TextBlock Grid.Column="2" Grid.Row="2" Text="Expected to Open Time: (HH:MM)" Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Column="3" Grid.Row="2" Name="officeOpenTime" Style="{StaticResource MuniStatusTextBox}" Tag="25"/>
+                                <TextBox Grid.Column="3" Grid.Row="2" Name="officeOpenTime" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="25"/>
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Expected to Close Date: (MM/DD/YY)" Style="{StaticResource MuniStatusFieldText}"/>
-                                <TextBox Grid.Column="1" Grid.Row="3" Name="officeCloseDate" Style="{StaticResource MuniStatusTextBox}" Tag="26"/>
+                                <TextBox Grid.Column="1" Grid.Row="3" Name="officeCloseDate" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="26"/>
                                 <TextBlock Grid.Column="2" Grid.Row="3" Text="Expected to Close Time: (HH:MM)" Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Column="3" Grid.Row="3" Name="officeCloseTime" Style="{StaticResource MuniStatusTextBox}" Tag="27"/>
+                                <TextBox Grid.Column="3" Grid.Row="3" Name="officeCloseTime" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="27"/>
                             </Grid>
                         </Border>
                         <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="1,0,1,1">
@@ -245,6 +263,8 @@
                                 <TextBlock Grid.Column="0" Text="EOC Status" Style="{StaticResource MuniStatusHeaderText}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="EOC Open:" Style="{StaticResource MuniStatusFieldTextRequired}"/>
                                 <ComboBox Grid.Column="1" Grid.Row="1" Name="eocOpen" 
+                                          ItemsSource="{x:Bind UnknownYesNo}"
+                                          SelectedItem="Unknown"
                                           Style="{StaticResource MuniStatusComboBox}" 
                                           Tag="28,conditionallyrequired,Select EOC Open: Yes or No." 
                                           HorizontalAlignment="Left" SelectionChanged="eocOpen_SelectionChanged"/>
@@ -252,7 +272,10 @@
                                     <TextBlock Text="Activation Level:" Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
                                     <TextBlock Text="(Required if EOC is Open)" Style="{StaticResource MuniStatusFieldTextRequired}" HorizontalAlignment="Right"/>
                                 </StackPanel>
-                                <ComboBox Grid.Column="3" Grid.Row="1" Name="activationLevel" Style="{StaticResource MuniStatusComboBox}" IsEnabled="False" 
+                                <ComboBox Grid.Column="3" Grid.Row="1" Name="activationLevel" 
+                                          ItemsSource="{x:Bind ActivationLevel}"
+                                          SelectedItem="Unknown"
+                                          Style="{StaticResource MuniStatusComboBox}" IsEnabled="False" 
                                           Tag="29,conditionallyrequired,Select an Activation Level." HorizontalAlignment="Left"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Expected to Open Date: (MM/DD/YY)" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBox Grid.Column="1" Grid.Row="2" Name="eocOpenDate" 
@@ -282,6 +305,8 @@
                                 <TextBlock Grid.Column="0" Text="Proclamations" Style="{StaticResource MuniStatusHeaderText}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="State of Emergency" Style="{StaticResource MuniStatusFieldTextRequired}"/>
                                 <ComboBox Grid.Column="1" Grid.Row="1" Name="stateOfEmergency" 
+                                          ItemsSource="{x:Bind UnknownYesNo}"
+                                          SelectedItem="Unknown"
                                           Style="{StaticResource MuniStatusComboBox}" 
                                           Tag="34,conditionallyrequired,Select the State of Emergency: Yes or No." 
                                           HorizontalAlignment="Left"/>
@@ -334,46 +359,64 @@
                             <TextBlock Grid.Column="2" Grid.Row="1" Text="Comments" Style="{StaticResource MuniStatusFieldText}" FontWeight="Bold" Margin=" 10,2,2,2"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Communications" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="2" Name="comboBoxCommunications" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       Tag="36"/>
                             <TextBox Grid.Column="2" Grid.Row="2" Name="commentsCommunications" Style="{StaticResource MuniStatusCommentsText}" Tag="37,conditionallyrequired,Enter a Comment for Communications" Margin="10,2,2,2" />
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Debris" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="3" Name="comboBoxDebris" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       Tag="38"/>
                             <TextBox Grid.Column="2" Grid.Row="3" Name="commentsDebris" Style="{StaticResource MuniStatusCommentsText}" Tag="39,conditionallyrequired,Enter a Comment for Debris"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Flooding" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="4" Name="comboBoxFlooding" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="40"/>
                             <TextBox Grid.Column="2" Grid.Row="4" Name="commentsFlooding" Style="{StaticResource MuniStatusCommentsText}" Tag="41,conditionallyrequired,Enter a Comment for Flooding"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="Hazmat" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="5" Name="comboBoxHazmat" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="42"/>
                             <TextBox Grid.Column="2" Grid.Row="5" Name="commentsHazmat" Style="{StaticResource MuniStatusCommentsText}" Tag="43,conditionallyrequired,Enter a Comment for Hazmat"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Emergency Services" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="6"  Name="comboBoxEmergencyServices" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="44"/>
                             <TextBox Grid.Column="2" Grid.Row="6" Name="commentsEmergencyServices" Style="{StaticResource MuniStatusCommentsText}" Tag="45,conditionallyrequired,Enter a Comment for Emergency Services"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Casualties" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="7" Name="comboBoxCasualties" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="46" />
                             <TextBox Grid.Column="2" Grid.Row="7" Name="commentsCasualties" Style="{StaticResource MuniStatusCommentsText}" Tag="47,conditionallyrequired,Enter a Comment for Casualities"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="Utilities (Gas)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="8" Name="comboBoxUtilitiesGas" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="48" />
                             <TextBox Grid.Column="2" Grid.Row="8" Name="commentsUtilitiesGas" AcceptsReturn="True" Style="{StaticResource MuniStatusCommentsText}" Tag="49,conditionallyrequired,Enter a Comment for Utilities (Gss)"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="Utilities (Electric)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="9" Name="comboBoxUtilitiesElectric" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="50"/>
                             <TextBox Grid.Column="2" Grid.Row="9" Name="commentsUtilitiesElectric" Style="{StaticResource MuniStatusCommentsText}" Tag="51,conditionallyrequired,Enter a Comment for Utilities (Electric)"/>
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="Infrastructure (Power)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="10" Name="comboBoxInfrastructurePower" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="52"/>
                             <TextBox Grid.Column="2" Grid.Row="10" Name="commentsInfrastructurePower" Style="{StaticResource MuniStatusCommentsText}" Tag="53,conditionallyrequired,Enter a Comment for Infrastructure (Power)"/>
@@ -382,6 +425,8 @@
                                 <TextBlock Text="(Water Systems)" Style="{StaticResource MuniStatusFieldText}"/>
                             </StackPanel>
                             <ComboBox Grid.Column="1" Grid.Row="11" Name="comboBoxInfrastructureWater" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="54"/>
                             <TextBox Grid.Column="2" Grid.Row="11" Name="commentsInfrastructureWater" Style="{StaticResource MuniStatusCommentsText}" Tag="55,conditionallyrequired,Enter a Comment for Infrastructure (Water Systems)"/>
@@ -390,31 +435,43 @@
                                 <TextBlock Text="(Sewer Systems)" Style="{StaticResource MuniStatusFieldText}"/>
                             </StackPanel>
                             <ComboBox Grid.Column="1" Grid.Row="12" Name="comboBoxInfrastructureSewer" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="56"/>
                             <TextBox Grid.Column="2" Grid.Row="12" Name="commentsInfrastructureSewer" Style="{StaticResource MuniStatusCommentsText}" Tag="57,conditionallyrequired,Enter a Comment for Infrastructure (Sewer Systems)"/>
                             <TextBlock Grid.Column="0" Grid.Row="13" Text="Search and Rescue" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="13" Name="comboBoxSearchAndRescue" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="58"/>
                             <TextBox Grid.Column="2" Grid.Row="13" Name="commentsSearchAndRescue" Style="{StaticResource MuniStatusCommentsText}" Tag="59,conditionallyrequired,Enter a Comment for Search and Rescue"/>
                             <TextBlock Grid.Column="0" Grid.Row="14" Text="Transportations (Roads)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="14" Name="comboBoxTransportationsRoads" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="60"/>
                             <TextBox Grid.Column="2" Grid.Row="14" Name="commentsTransportationsRoads" Style="{StaticResource MuniStatusCommentsText}" Tag="61,conditionallyrequired,Enter a Comment for Transportation (Roads)"/>
                             <TextBlock Grid.Column="0" Grid.Row="15" Text="Transportations (Bridges)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="15" Name="comboBoxTransportationsBridges" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="62"/>
                             <TextBox Grid.Column="2" Grid.Row="15" Name="commentsTransportationsBridges" Style="{StaticResource MuniStatusCommentsText}" Tag="63,conditionallyrequired.Enter a Comment for Transportation (Bridges)"/>
                             <TextBlock Grid.Column="0" Grid.Row="16" Text="Civil Unrest" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="16" Name="comboBoxCivilUnrest" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="64"/>
                             <TextBox Grid.Column="2" Grid.Row="16" Name="commentsCivilUnrest" Style="{StaticResource MuniStatusCommentsText}" Tag="43,conditionallyrequired,Enter a Comment for Civil Unrest"/>
                             <TextBlock Grid.Column="0" Grid.Row="17" Text="Animal Issues" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="17" Name="comboBoxAnimalIssues" 
+                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="66"/>
                             <TextBox Grid.Column="2" Grid.Row="17" Name="commentsAnimalIssues" Style="{StaticResource MuniStatusCommentsText}" Tag="43,conditionallyrequired.Enter a Comment for Animal Issues"/>
@@ -436,28 +493,28 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1,0,1,1" ></Border>
                         <RadioButton Grid.Column="0" Name="received" GroupName="receivedOrSent" Content="Rcv'd" 
-                                     Margin="8,0,0,0" Tag="40"/>
-                        <RadioButton Grid.Column="1" Name="sent" GroupName="receivedOrSent" Content="Sent" Tag="41" />
+                                     Margin="8,0,0,0" Tag="68"/>
+                        <RadioButton Grid.Column="1" Name="sent" GroupName="receivedOrSent" Content="Sent" Tag="69" />
                         <Border Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,1,1" ></Border>
                         <RadioButton Grid.Column="2" Name="voice" GroupName="howRecevedSent" Content="Voice" 
                                      MinWidth="75" Width="60" Margin="5,0,0,0" Padding="8,0,0,0" 
-                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Tag="42"/>
+                                     VerticalAlignment="Center" VerticalContentAlignment="Center" Tag="70"/>
                         <RadioButton Grid.Column="3" Name="packet" GroupName="howRecevedSent" Content="Packet" 
                                      MinWidth="75"  VerticalContentAlignment="Center" VerticalAlignment="Center" 
-                                     Padding="8,0,0,0" HorizontalAlignment="Left" Tag="43"/>
+                                     Padding="8,0,0,0" HorizontalAlignment="Left" Tag="71"/>
                         <Border Grid.Column="4" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,0,1,1" ></Border>
                         <TextBlock Grid.Column="4" Text="Call:" Margin="5,0,0,0" VerticalAlignment="Center" Padding="0,0,0,1"/>
                         <TextBox Grid.Column="5" Name="operatorCallsign" Text="{x:Bind OperatorCallsign, Mode=TwoWay}" 
-                                 BorderThickness="0" MinWidth="40" Tag="44"/>
+                                 BorderThickness="0" MinWidth="40" Tag="72"/>
                         <TextBlock Grid.Column="6" Text="Name:"  Margin="5,0,0,0" VerticalAlignment="Center" Padding="0,0,0,1" />
                         <TextBox Grid.Column="7" Name="operatorName" Text="{x:Bind OperatorName, Mode=TwoWay}" 
-                                 Margin="0" BorderThickness="0" VerticalContentAlignment="Center" Tag="45"/>
+                                 Margin="0" BorderThickness="0" VerticalContentAlignment="Center" Tag="73"/>
                         <Border Grid.Column="8" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,0,1,1" ></Border>
                         <TextBlock Grid.Column="8" Text="Submitted:"  Margin="5,0,0,0" VerticalAlignment="Center" Style="{StaticResource EOC213RRFieldText}"/>
                         <TextBox Grid.Column="9" Name="operatorDate" Text="{x:Bind OperatorDate, Mode=TwoWay}" 
-                                 BorderThickness="0" Tag="46"/>
+                                 BorderThickness="0" Tag="74"/>
                         <TextBox Grid.Column="10" Name="operatorTime" Text="{x:Bind OperatorTime, Mode=TwoWay}" 
-                                 BorderThickness="0" Tag="47"/>
+                                 BorderThickness="0" Tag="75"/>
                     </Grid>
                     <TextBlock Text="Page 2 of 2" HorizontalAlignment="Center" Margin="0,4,0,0"/>
                 </StackPanel>

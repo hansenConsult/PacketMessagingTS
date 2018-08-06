@@ -111,8 +111,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
 					if (formControl == null)
 					{
+                        _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
 						await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
-						log.Error($"Form {pktMsg.PacFormName} not found");
 						return ;
 					}
 					break;
@@ -190,7 +190,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
 							if (formControl == null)
 							{
-								await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
+                                _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
+                                await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
 								return;
 							}
 							break;
@@ -374,6 +375,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         }
                         if (!_deviceFound)
                         {
+                            _logHelper.Log(LogLevel.Warn, $"TNC not found. Sending the message via e-mail");
                             await Utilities.ShowMessageDialogAsync($"TNC not found. Sending the message via e-mail");
                         }
                         else
@@ -446,6 +448,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
                         if (formControl == null)
                         {
+                            _logHelper.Log(LogLevel.Error, $"Form {packetMessage.PacFormName} not found");
                             MessageDialog messageDialog = new MessageDialog($"Form {packetMessage.PacFormName} not found");
                             await messageDialog.ShowAsync();
                             continue;
@@ -811,14 +814,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //if (tncDevice.Name.Contains(SharedData.EMail))
                 //{
                 //    await Utilities.ShowMessageDialogAsync("Use TNC to send message. Not E-Email");
-                    return;
+                //    return;
                 //}
-                //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+                bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
             }
             else
             {
+                //tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
                 tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
                 bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
+                //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
             }
             TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
             // Collect remaining messages to be sent

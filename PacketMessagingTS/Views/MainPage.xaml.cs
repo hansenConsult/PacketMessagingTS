@@ -198,10 +198,12 @@ namespace PacketMessagingTS.Views
             await RefreshDataGridAsync();
         }
 
-        private void AppBarMainPage_SendReceive(object sender, RoutedEventArgs e)
+        private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
         {
             Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
             communicationsService.BBSConnectAsync2();
+
+            await RefreshDataGridAsync();
         }
 
         private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)

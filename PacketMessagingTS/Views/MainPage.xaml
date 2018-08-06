@@ -466,7 +466,7 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
                 </AppBarButton.Icon>
             </AppBarButton>-->
-            <AppBarButton Label="Send/Receive" Icon="Send" Click="AppBarMainPage_SendReceive" />
+            <AppBarButton Label="Send/Receive" Icon="Send" Click="AppBarMainPage_SendReceiveAsync" />
             <AppBarButton Label="Delete" Icon="Delete" Click="AppBarMainPage_DeleteItemAsync" HorizontalAlignment="Right" />
         </CommandBar>
     </RelativePanel>

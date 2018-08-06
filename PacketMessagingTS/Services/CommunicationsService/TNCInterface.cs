@@ -352,7 +352,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							receiptMessage.MessageSize = receiptMessage.Size;
 							_logHelper.Log(LogLevel.Info, $"Delivered msg: {receiptMessage.MessageBody}");   // Disable if not testing
 							//SendMessage(ref receiptMessage);		// Disabled for testing
-							_packetMessagesSent.Add(receiptMessage);
+							//_packetMessagesSent.Add(receiptMessage);
 						}
 					}
 					catch (Exception e)
