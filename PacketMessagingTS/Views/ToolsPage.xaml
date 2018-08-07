@@ -1,20 +1,20 @@
-﻿<Page
-    x:Class="PacketMessagingTS.Views.ToolsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:PacketMessagingTS.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:data="using:PacketMessagingTS.Models"
-        xmlns:converters="using:PacketMessagingTS.Helpers"
+﻿<Page x:Class="PacketMessagingTS.Views.ToolsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:PacketMessagingTS.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:data="using:PacketMessagingTS.Models"
+      xmlns:converters="using:PacketMessagingTS.Helpers"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 
-    mc:Ignorable="d"
-    d:DesignWidth="760"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      mc:Ignorable="d"
+      d:DesignWidth="760"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <!--<converters:DateTimeConverter x:Key="DatetimeConverter"/>-->
-        <converters:TimeConverter x:Key="TimeConverter"/>
+        <!--<converters:DateTimeConverter x:Key="datetimeConverter"/>-->
+        <converters:TimeConverter x:Key="timeConverter"/>
 
         <Style x:Key="ListBoxHeader" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial"/>
@@ -102,7 +102,7 @@
                     <ColumnDefinition Width="1.2*" MinWidth="70"/>
                     <ColumnDefinition Width="4*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{x:Bind Time, Converter={StaticResource TimeConverter}}" 
+                <TextBlock Grid.Column="0" Text="{x:Bind Time, Converter={StaticResource timeConverter}}" 
                            Style="{StaticResource LogListBoxText}"  />
                 <TextBlock Grid.Column="1" Text="{x:Bind FromCallsign}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0"/>
                 <TextBlock Grid.Column="2" Text="{x:Bind FromMessageNumber}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0" />
@@ -264,7 +264,7 @@
                                     <TextBlock Grid.Column="0" Text="5." Style="{StaticResource MediumText}" Margin="4,0,0,0"/>
                                     <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center" Style="{StaticResource MediumText}"/>
                                 </Grid>
-                                <Grid >
+                                <!--<Grid >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="8*"/>
                                         <ColumnDefinition Width="12*"/>
@@ -303,11 +303,30 @@
                                     <Border Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,1,0,1">
                                         <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
                                     </Border>
-                                </Grid>
-                                <ListView x:Name="logEntries" Height="590"
+                                </Grid>-->
+                                <!--<ListView x:Name="logEntries" Height="590"
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
-                                          />
+                                          />-->
+                                <controls:DataGrid x:Name="ics309DataGrid" Height="500"
+                                   ItemsSource="{x:Bind _toolsViewModel.CommLogEntryCollection, Mode=OneWay}"
+                                   HorizontalScrollBarVisibility="Auto"
+                                   VerticalScrollBarVisibility="Auto"
+                                   CanUserResizeColumns="True"
+                                   SelectionMode="Single"
+                                   AutoGenerateColumns="False"                                  
+                                   CanUserSortColumns="False"
+                                   >
+                                   <controls:DataGrid.Columns>
+                                        <controls:DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource timeConverter}}" />
+                                        <controls:DataGridTextColumn Header="From" Binding="{Binding FromCallsign}" />
+                                        <controls:DataGridTextColumn Header="Msg #" Binding="{Binding FromMessageNumber}" />
+                                        <controls:DataGridTextColumn Header="To" Binding="{Binding ToCallsign}" />
+                                        <controls:DataGridTextColumn Header="Msg #" Binding="{Binding ToMessageNumber}" />
+                                        <controls:DataGridTextColumn Header="Subject" Binding="{Binding Message}" Width="1*"/>
+                                    </controls:DataGrid.Columns>
+                                </controls:DataGrid>
+
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="3*"/>
@@ -330,7 +349,8 @@
                                     </Border>
                                 </Grid>
                             </StackPanel>
-                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,8" />
+                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)"
+                                       FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
                         </StackPanel>
                     </ScrollViewer>
                     <CommandBar x:Name="ButtomCommandBarICS309" Margin="-12,0,-12,0"

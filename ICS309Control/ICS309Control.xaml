@@ -5,6 +5,7 @@
     xmlns:local="using:ICS309UserControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     d:DesignHeight="1000"
     d:DesignWidth="800">
@@ -215,7 +216,23 @@
                                           ItemsSource="{x:Bind CommLogMessagesCollection, Mode=OneWay}"                          
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
                                           />
-                    <Grid>
+                <!--<controls:DataGrid x:Name="dataGridInbox" Height="590"
+                                   ItemsSource="{x:Bind CommLogMessagesCollection, Mode=OneWay}"
+                                   HorizontalScrollBarVisibility="Auto"
+                                   VerticalScrollBarVisibility="Auto"
+                                   CanUserResizeColumns="True"
+                                   SelectionMode="Single"
+                                   AutoGenerateColumns="False"                                  
+                                   CanUserSortColumns="True"
+                                   Sorting="DataGrid_Sorting"
+                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   >
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn Header="Time"  Binding="{Binding Time, Converter={StaticResource TimeConverter}}"/>
+                        <controls:DataGridTextColumn Binding="{Binding FromCallsign}" />
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>-->
+                <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="2*"/>
@@ -237,7 +254,8 @@
                         </Border>
                     </Grid>
                 </StackPanel>
-                <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" Foreground="Gray" Margin="10,16,0,8" />
+                <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)" 
+                           FontFamily="Helvetica" FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
             </StackPanel>
         </ScrollViewer>
 

@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Windows.Storage;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.Storage.Search;
 using System.Collections.ObjectModel;
 using System.Text;
 
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.Graphics.Printing;
+using Windows.Graphics.Printing.OptionDetails;
+using Windows.UI.Xaml.Printing;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+
+using MetroLog;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
 using SharedCode;
-using Windows.UI.Xaml.Navigation;
-using Windows.Graphics.Printing;
-using Windows.Graphics.Printing.OptionDetails;
-using MetroLog;
-using Windows.UI.Xaml.Printing;
-using System.Threading;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -460,6 +461,9 @@ namespace PacketMessagingTS.Views
         public ToolsPage()
         {
             this.InitializeComponent();
+
+            //_toolsViewModel.commLogEntryCollection = new ObservableCollection<CommLogEntry>();
+            //ics309DataGrid.Columns[0].SortDirection = DataGridSortDirection.Descending;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -647,7 +651,10 @@ namespace PacketMessagingTS.Views
                 _toolsViewModel.PageNo = 1;
                 pageNoOf.Text = _toolsViewModel.PageNoAsString;
 
-                await BuildLogDataSetAsync(_toolsViewModel.OperationalPeriodStart, _toolsViewModel.OperationalPeriodEnd);
+                if (_toolsViewModel.OperationalPeriodStart != null && _toolsViewModel.OperationalPeriodEnd != null)
+                {
+                    await BuildLogDataSetAsync(_toolsViewModel.OperationalPeriodStart, _toolsViewModel.OperationalPeriodEnd);
+                }
             }
         }
 
@@ -670,7 +677,8 @@ namespace PacketMessagingTS.Views
             }
             List<CommLogEntry> sortedList = Sort_List(CommLog.Instance.CommLogEntryList);
 
-            CommLogMessagesCollection.Source = new ObservableCollection<CommLogEntry>(sortedList);
+            //CommLogMessagesCollection.Source = new ObservableCollection<CommLogEntry>(sortedList);
+            _toolsViewModel.CommLogEntryCollection = new ObservableCollection<CommLogEntry>(sortedList);
 
         }
 
@@ -718,7 +726,10 @@ namespace PacketMessagingTS.Views
             _toolsViewModel.OperationalPeriodStart = operationalPeriodStart;
             _toolsViewModel.OperationalPeriodEnd = operationalPeriodEnd;
 
-            await BuildLogDataSetAsync(operationalPeriodStart, operationalPeriodEnd);
+            if (operationalPeriodEnd - operationalPeriodStart > new TimeSpan(0, 0, 0))
+            {
+                await BuildLogDataSetAsync(operationalPeriodStart, operationalPeriodEnd);
+            }
         }
 
         private void IncidentName_TextChanged(object sender, TextChangedEventArgs e)

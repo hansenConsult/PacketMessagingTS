@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
+using ICS309UserControl;
 
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class ToolsViewModel :  BaseViewModel
+    public class ContinuationViewModel : BaseViewModel
     {
         public string incidentName = "";
         public string IncidentName
@@ -98,4 +100,5 @@ namespace PacketMessagingTS.ViewModels
         }
 
     }
+
 }

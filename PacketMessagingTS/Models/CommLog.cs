@@ -245,34 +245,44 @@ namespace PacketMessagingTS.Models
 		public void AddCommLogEntry(PacketMessage packetMessage, DateTime startTime, DateTime endTime)
 		{
 			CommLogEntry commLogEntry = null;
-			if (packetMessage.SentTime != null && (packetMessage.SentTime > startTime && packetMessage.SentTime < endTime))
-			{
-				// This message was sent
-				string messageTo = packetMessage.MessageTo.Substring(0, (packetMessage.MessageTo.IndexOf('@') == -1 ? packetMessage.MessageTo.Length : packetMessage.MessageTo.IndexOf('@')));
-				commLogEntry = new CommLogEntry()
-				{
-					Time = packetMessage.SentTime ,
-					FromCallsign = "",
-					FromMessageNumber = packetMessage.MessageNumber,
-					ToCallsign = packetMessage.MessageTo.Substring(0, (packetMessage.MessageTo.IndexOf('@') == -1 ? packetMessage.MessageTo.Length : packetMessage.MessageTo.IndexOf('@'))),
-					ToMessageNumber = packetMessage.ReceiverMessageNumber,
-					Message = packetMessage.Subject,
-				};
-			}
-			else if (packetMessage.ReceivedTime != null && (packetMessage.ReceivedTime > startTime && packetMessage.ReceivedTime < endTime))
-			{
-				string fromMessageNumber = packetMessage.Subject.Substring(0, (packetMessage.Subject.IndexOf('_') == -1 ? 0 : packetMessage.Subject.IndexOf('_')));
-				// This message was received
-				commLogEntry = new CommLogEntry()
-				{
-					Time = packetMessage.ReceivedTime,
-					FromCallsign = packetMessage.MessageFrom.Substring(0, (packetMessage.MessageFrom.IndexOf('@') == -1 ? packetMessage.MessageFrom.Length : packetMessage.MessageFrom.IndexOf('@'))),
-					FromMessageNumber = packetMessage.Subject.Substring(0, (packetMessage.Subject.IndexOf('_') == -1 ? 0 : packetMessage.Subject.IndexOf('_'))),
-					ToCallsign = "",
-					ToMessageNumber = packetMessage.MessageNumber,
-					Message = packetMessage.Subject,
-				};
-			}
+            try
+            {
+                if (packetMessage.SentTime != null && (packetMessage.SentTime > startTime && packetMessage.SentTime < endTime))
+                {
+                    // This message was sent
+                    string messageTo = packetMessage.MessageTo.Substring(0, (packetMessage.MessageTo.IndexOf('@') == -1 ? packetMessage.MessageTo.Length : packetMessage.MessageTo.IndexOf('@')));
+                    commLogEntry = new CommLogEntry()
+                    {
+                        Time = packetMessage.SentTime,
+                        FromCallsign = "",
+                        FromMessageNumber = packetMessage.MessageNumber,
+                        ToCallsign = packetMessage.MessageTo.Substring(0, (packetMessage.MessageTo.IndexOf('@') == -1 ? packetMessage.MessageTo.Length : packetMessage.MessageTo.IndexOf('@'))),
+                        ToMessageNumber = packetMessage.ReceiverMessageNumber,
+                        Message = packetMessage.Subject,
+                    };
+                }
+                else if (packetMessage.ReceivedTime != null && (packetMessage.ReceivedTime > startTime && packetMessage.ReceivedTime < endTime))
+                {
+                    //string fromMessageNumber = packetMessage.Subject.Substring(0, (packetMessage.Subject.IndexOf('_') == -1 ? 0 : packetMessage.Subject.IndexOf('_')));
+                    // This message was received
+                    // Remove "DELIVERED:"
+                    string subjectFiltered = packetMessage.Subject.Substring(packetMessage.Subject.IndexOf(':') == -1 || packetMessage.Subject.IndexOf(':') > 9  ? 0 : packetMessage.Subject.IndexOf(':') + 2);
+
+                    commLogEntry = new CommLogEntry()
+                    {
+                        Time = packetMessage.ReceivedTime,
+                        FromCallsign = packetMessage.MessageFrom.Substring(0, (packetMessage.MessageFrom.IndexOf('@') == -1 ? packetMessage.MessageFrom.Length : packetMessage.MessageFrom.IndexOf('@'))),
+                        FromMessageNumber = subjectFiltered.Substring(0, (packetMessage.Subject.IndexOf('_') == -1 ? subjectFiltered.Length : subjectFiltered.IndexOf('_'))),
+                        ToCallsign = "",
+                        ToMessageNumber = packetMessage.MessageNumber,
+                        Message = packetMessage.Subject,
+                    };
+                }
+            }
+            catch
+            {
+                int e = 0;
+            }
 			if (commLogEntry != null)
 			{
 				commLogEntryListField.Add(commLogEntry);
