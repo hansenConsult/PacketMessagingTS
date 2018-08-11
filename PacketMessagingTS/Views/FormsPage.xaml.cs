@@ -61,6 +61,8 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
+
         private enum MessageOrigin
         {
             Archived,
@@ -103,7 +105,7 @@ namespace PacketMessagingTS.Views
                     continue;
                 }
                 PivotItem pivotItem = CreatePivotItem(formControlAttribute);
-                MyPivot.Items.Add(pivotItem);
+                FormsPagePivot.Items.Add(pivotItem);
             }
         }
 
@@ -364,7 +366,10 @@ namespace PacketMessagingTS.Views
             printHelper.RegisterForPrinting();
 
             if (e.Parameter == null)
+            {
+                FormsPagePivot.SelectedIndex = _formsViewModel.FormsPagePivotSelectedIndex;
                 return;
+            }
 
             int index = 0;
             string packetMessagePath = e.Parameter as string;
@@ -372,11 +377,11 @@ namespace PacketMessagingTS.Views
             _packetMessage.MessageOpened = true;
             string directory = Path.GetDirectoryName(packetMessagePath);
             _loadMessage = true;
-            foreach (PivotItem pivotItem in MyPivot.Items)
+            foreach (PivotItem pivotItem in FormsPagePivot.Items)
             {
                 if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
                 {
-                    MyPivot.SelectedIndex = index;
+                    FormsPagePivot.SelectedIndex = index;
                     break;
                 }
                 index++;
@@ -406,13 +411,14 @@ namespace PacketMessagingTS.Views
             {
                 printHelper.UnregisterForPrinting();
             }
+            _formsViewModel.FormsPagePivotSelectedIndex = FormsPagePivot.SelectedIndex;
 
             base.OnNavigatedFrom(e);
         }
 
         private async Task InitializeFormControlAsync()
         {
-            PivotItem pivotItem = MyPivot.SelectedItem as PivotItem;
+            PivotItem pivotItem = FormsPagePivot.SelectedItem as PivotItem;
             string pivotItemName = pivotItem.Name;
 
             _packetAddressForm = new SendFormDataControl();
@@ -479,7 +485,7 @@ namespace PacketMessagingTS.Views
         }
 
         // TODO insert InitializeFormControlAsync, maybe
-        private async void MyPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+        private async void FormsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             _packetAddressForm = new SendFormDataControl();
 
@@ -553,6 +559,8 @@ namespace PacketMessagingTS.Views
                 FillFormFromPacketMessage();
                 _loadMessage = false;
             }
+
+            //_formsViewModel.FormsPagePivotSelectedIndex = FormsPagePivot.SelectedIndex;
 
             // Initialize print content for this scenario
             //if (_packetForm.GetType() == typeof(ICS213Control))

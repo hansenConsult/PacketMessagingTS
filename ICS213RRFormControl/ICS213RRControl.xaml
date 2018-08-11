@@ -64,7 +64,7 @@
                             <ColumnDefinition Width="10*"/>
                             <ColumnDefinition Width="11*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0">
+                        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">
                             <StackPanel >
                                 <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Situation Severity" Foreground="LightSalmon" Margin="5"/>
                                 <MyNamespace:ToggleButtonGroup x:Name="severity"
@@ -155,7 +155,7 @@
                                 <TextBlock Text=" (Completed by OA EOC)" Style="{StaticResource EOC213RRHeaderItalic}"/>
                             </StackPanel>
                         </Grid>
-                        <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,1">
+                        <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,1,1">
                             <StackPanel >
                                 <TextBlock Style="{StaticResource EOC213RRFieldHeaderRequired}">
                                     <Run Text="5. Requested by" />
@@ -167,7 +167,7 @@
                                          Margin="5,2" Tag="16,required,Enter 5. Requested By." />
                             </StackPanel>
                         </Border>
-                        <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="1,0">
+                        <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,1,0">
                             <StackPanel >
                                 <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                                     <Run Text="6. Prepared by"/>
@@ -176,7 +176,7 @@
                                 <TextBox Name="preparedBy" FontFamily="Helvetica" FontSize="14" MinHeight="50" AcceptsReturn="True" Margin="5,2" Tag="17"/>
                             </StackPanel>
                         </Border>
-                        <Border Grid.Column="0" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <Border Grid.Column="0" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0">
                             <StackPanel >
                                 <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                                     <Run Text="6. Approved by"/>
@@ -202,7 +202,8 @@
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource EOC213RRFieldHeader}">
+                                <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource EOC213RRFieldHeader}"
+                                           HorizontalAlignment="Center">
                                     <Underline>How to use EOC form 213RR</Underline>
                                 </TextBlock>
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Purpose:" Style="{StaticResource EOC213RRFieldHeader}"/>
@@ -386,7 +387,7 @@
                     </Grid>
 
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,0,1">
                         <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" CheckedControlName="{x:Bind ReceivedOrSent}"/>
                         <RadioButton Name="received" GroupName="receivedOrSent" Content="Rcv'd"  MinWidth="70" Margin="5,0,0,0" Padding="5,5,0,0" Tag="40"/>
@@ -417,9 +418,14 @@
                                  PlaceholderText="hhmm" Margin="0" BorderBrush="White" Tag="47"/>
                     </StackPanel>
                 </StackPanel>
-                <TextBlock Text="Last Revised 06/17   EOC Form 213RR   Page 1 of 2 (pg. 2 at EOC)" 
+                <TextBlock Text="Paper Form: Last Revised 06/17   EOC Form 213RR   Page 1 of 2 (pg. 2 at EOC)" 
                            Style="{StaticResource EOC213RRFieldLabel}" 
                            Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Right" Margin="0,12,0,0" FontFamily="Helvetica" FontSize="11"
+                               FontWeight="Bold">
+                               <Underline>SCCo EOC Resource Request 213RR 08/17 (PR-4.4-2.98, 06/29/18)</Underline>
+                </TextBlock>
+
             </StackPanel>
         </Border>
     </StackPanel>

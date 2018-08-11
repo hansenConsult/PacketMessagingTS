@@ -9,7 +9,17 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    class FormsPageViewModel : BaseViewModel
+    public class FormsViewModel : BaseViewModel
     {
+        private int formsPagePivotSelectedIndex;
+        public int FormsPagePivotSelectedIndex
+        {
+            get => GetProperty(ref formsPagePivotSelectedIndex);
+            set
+            {
+                SetProperty(ref formsPagePivotSelectedIndex, value, true);
+            }
+        }
+
     }
 }

@@ -8,15 +8,13 @@ namespace PacketMessagingTS.Helpers
 {
     public static class Utilities
     {
-
         public static string GetMessageNumberPacket(bool markAsUsed = false) => GetMessageNumber(markAsUsed) + "P";
 
         public static string GetMessageNumber(bool reserveMessageNumber = false)
         {
             string messageNumberString;
 
-            //int messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
-            int messageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
+            int messageNumber = Convert.ToInt32(GetProperty("MessageNumber"));
             if (messageNumber == default(int))
             {
                 messageNumber = 100;
@@ -36,7 +34,6 @@ namespace PacketMessagingTS.Helpers
                 //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
                 App.Properties["MessageNumber"] = messageNumber;
             }
-
             return messageNumberString;
         }
 

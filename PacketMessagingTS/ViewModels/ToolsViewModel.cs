@@ -12,10 +12,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ToolsViewModel : BaseViewModel
     {
-        public ObservableCollection<CommLogEntry> commLogEntryCollection = new ObservableCollection<CommLogEntry>();
+        private ObservableCollection<CommLogEntry> commLogEntryCollection = new ObservableCollection<CommLogEntry>();
         public ObservableCollection<CommLogEntry> CommLogEntryCollection
         {
-            get => commLogEntryCollection; set => SetProperty(ref commLogEntryCollection, value);
+            get => commLogEntryCollection;
+            set => SetProperty(ref commLogEntryCollection, value);
         }
 
         private string incidentName = "";

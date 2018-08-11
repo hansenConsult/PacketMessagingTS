@@ -678,7 +678,7 @@ namespace PacketMessagingTS.Views
             List<CommLogEntry> sortedList = Sort_List(CommLog.Instance.CommLogEntryList);
 
             //CommLogMessagesCollection.Source = new ObservableCollection<CommLogEntry>(sortedList);
-            _toolsViewModel.CommLogEntryCollection = new ObservableCollection<CommLogEntry>(sortedList);
+            _toolsViewModel.CommLogEntryCollection  = new ObservableCollection<CommLogEntry>(sortedList);
 
         }
 

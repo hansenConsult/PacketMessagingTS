@@ -89,6 +89,7 @@ namespace PacketMessagingTS.ViewModels
                 MainPagePivotSelectedItem = MainPagePivot.Items[mainPagePivotSelectedIndex] as PivotItem;
             }
         }
+
         public PivotItem MainPagePivotSelectedItem { get; set; }
 
         public IList<PacketMessage> SelectedItems { get; set; }

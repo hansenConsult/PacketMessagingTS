@@ -26,5 +26,10 @@ namespace PacketMessagingTS.Helpers
             SortColumnNumber = sortColumn;
             SortDirection = sortDirection;
         }
+
+        public async Task SaveDataGridSortSettingsAsync()
+        {
+            await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "DataGridSortSettings", DataGridSortDataDictionary);
+        }
     }
 }

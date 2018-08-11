@@ -29,8 +29,8 @@ namespace EOC213RRFormControl
             HowReceivedSent = "packet";
         }
 
-        public string IncidentName
-		{ get => incidentName.Text; set => incidentName.Text = value; }
+  //      public string IncidentName
+		//{ get => incidentName.Text; set => incidentName.Text = value; }
 
 		public override string PacFormName => "XSC_EOC-213RR_v1706";
 
@@ -38,7 +38,7 @@ namespace EOC213RRFormControl
 
         public override string CreateSubject()
 		{
-			return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_EOC213RR_" + IncidentName);
+			return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_EOC213RR_" + incidentName.Text);
 		}
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

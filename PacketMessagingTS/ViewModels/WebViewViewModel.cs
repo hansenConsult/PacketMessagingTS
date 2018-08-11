@@ -12,13 +12,14 @@ namespace PacketMessagingTS.ViewModels
     {
         // TODO WTS: Set the URI of the page to show by default   ms-appx
         //private const string DefaultUrl = "https://developer.microsoft.com/en-us/windows/apps";
-        private const string DefaultUrl = "ms-appdata:///local/PacFORMS/Message.html";
-        //private const string DefaultUrl = "ms-appdata:///local/Message.html";
+
+        //private const string DefaultUrl = "ms-appdata:///local/PacFORMS/XSC_ICS-213_Message_v070628.html";
+        private const string DefaultUrl = "ms-appdata:///local/PacFORMS/XSC_EOC-213RR_v1708.html";
+        //private const string DefaultUrl = "ms-appdata:///local/PacFORMS/BedStatus.html";
 
 
 
         private Uri _source;
-
         public Uri Source
         {
             get { return _source; }
@@ -26,7 +27,6 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private bool _isLoading;
-
         public bool IsLoading
         {
             get

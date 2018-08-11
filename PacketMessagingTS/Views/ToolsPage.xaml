@@ -46,7 +46,7 @@
             <TextBlock Text="{Binding}" FontSize="14" FontFamily="Arial" FontWeight="Bold"/>
         </DataTemplate>
 
-        <DataTemplate x:Name="ics309ListViewHeaderTemplate">
+        <!--<DataTemplate x:Name="ics309ListViewHeaderTemplate">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="8*"/>
@@ -87,12 +87,12 @@
                     <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
                 </Border>
             </Grid>
-        </DataTemplate>
+        </DataTemplate>-->
 
         <CollectionViewSource x:Name="LogFilesCollection"  IsSourceGrouped="False" />
         <CollectionViewSource x:Name="TestFilesCollection"  IsSourceGrouped="False" />
-        <CollectionViewSource x:Name="CommLogMessagesCollection" IsSourceGrouped="False"/>
-        <DataTemplate x:Name="ics309ListViewTemplate" x:DataType="data:CommLogEntry">
+        <!--<CollectionViewSource x:Name="CommLogMessagesCollection" IsSourceGrouped="False"/>-->
+        <!--<DataTemplate x:Name="ics309ListViewTemplate" x:DataType="data:CommLogEntry">
             <Grid x:Name="nameInboxTemplate" HorizontalAlignment="Stretch" Margin="-12,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.8*" MinWidth="50"/>
@@ -108,11 +108,11 @@
                 <TextBlock Grid.Column="2" Text="{x:Bind FromMessageNumber}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0" />
                 <TextBlock Grid.Column="3" Text="{x:Bind ToCallsign}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0" />
                 <TextBlock Grid.Column="4" Text="{x:Bind ToMessageNumber}" Style="{StaticResource LogListBoxText}" Padding="5,0,5,0"/>
-                <!--<Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,1,0,1">-->
+                --><!--<Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,1,0,1">--><!--
                 <TextBlock Grid.Column="5" Text="{x:Bind Message}" Style="{StaticResource LogListBoxText}" HorizontalAlignment="Left" Padding="5,0,5,0"/>
-                <!--</Border>-->
+                --><!--</Border>--><!--
             </Grid>
-        </DataTemplate>
+        </DataTemplate>-->
     </Page.Resources>
 
     <RelativePanel RequestedTheme = "Light">
@@ -194,18 +194,22 @@
                 </Grid>
             </PivotItem>
             <!--ICS 309-->
-            <PivotItem x:Uid="Tools_ICS309">
-                <RelativePanel x:Name="PrintableArea" Margin="0,12,0,0">
+            <PivotItem x:Uid="Tools_ICS309" >
+                <RelativePanel x:Name="PrintableArea" Margin="0,12,0,0"
+                               >
                     <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                     Place your content here.
                     -->
-                    <ScrollViewer x:Name="ICS309ScrollViewer" Margin="0,0,0,0"
-                                  RelativePanel.Above="ButtomCommandBarICS309"
+                    <RelativePanel x:Name="aroundScrollviewer"
+                                   RelativePanel.AlignTopWithPanel="True">
+                    <ScrollViewer x:Name="ICS309ScrollViewer" 
+                                  
                                   RelativePanel.AlignTopWithPanel="True"
-                                  VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" VerticalAlignment="Center"  >
-                        <StackPanel x:Name="ICS309StackPanel"
-                                    
+                                  VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" >
+                        <RelativePanel x:Name="ICS309StackPanel"
+                                    VerticalAlignment="Stretch"
+                                      
                                     >
                             <StackPanel x:Name="ICS309MainForm"
                                         BorderBrush="Black" BorderThickness="2">
@@ -309,20 +313,20 @@
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
                                           />-->
                                 <controls:DataGrid x:Name="ics309DataGrid" Height="500"
-                                   ItemsSource="{x:Bind _toolsViewModel.CommLogEntryCollection, Mode=OneWay}"
-                                   HorizontalScrollBarVisibility="Auto"
-                                   VerticalScrollBarVisibility="Auto"
-                                   CanUserResizeColumns="True"
-                                   SelectionMode="Single"
-                                   AutoGenerateColumns="False"                                  
-                                   CanUserSortColumns="False"
-                                   >
-                                   <controls:DataGrid.Columns>
-                                        <controls:DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource timeConverter}}" />
+                                                   ItemsSource="{x:Bind _toolsViewModel.CommLogEntryCollection, Mode=OneWay}"
+                                                   HorizontalScrollBarVisibility="Auto"
+                                                   VerticalScrollBarVisibility="Auto"
+                                                   CanUserResizeColumns="True"
+                                                   SelectionMode="Single"
+                                                   AutoGenerateColumns="False"                                  
+                                                   CanUserSortColumns="False" Margin="0,0,20,0"
+                                                   >
+                                    <controls:DataGrid.Columns>
+                                        <controls:DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource timeConverter}}" IsReadOnly="True"/>
                                         <controls:DataGridTextColumn Header="From" Binding="{Binding FromCallsign}" />
-                                        <controls:DataGridTextColumn Header="Msg #" Binding="{Binding FromMessageNumber}" />
+                                        <controls:DataGridTextColumn Header="From Msg#" Binding="{Binding FromMessageNumber}" IsReadOnly="True"/>
                                         <controls:DataGridTextColumn Header="To" Binding="{Binding ToCallsign}" />
-                                        <controls:DataGridTextColumn Header="Msg #" Binding="{Binding ToMessageNumber}" />
+                                        <controls:DataGridTextColumn Header="To Msg#" Binding="{Binding ToMessageNumber}" IsReadOnly="True"/>
                                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Message}" Width="1*"/>
                                     </controls:DataGrid.Columns>
                                 </controls:DataGrid>
@@ -349,10 +353,12 @@
                                     </Border>
                                 </Grid>
                             </StackPanel>
-                            <TextBlock Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)"
+                            <TextBlock RelativePanel.Below="ICS309MainForm"
+                                       Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)"
                                        FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
-                        </StackPanel>
+                        </RelativePanel>
                     </ScrollViewer>
+                    </RelativePanel>
                     <CommandBar x:Name="ButtomCommandBarICS309" Margin="-12,0,-12,0"
                    				    RelativePanel.AlignBottomWithPanel="True"
 				                    RelativePanel.AlignRightWithPanel="True"
@@ -366,7 +372,6 @@
                                       HorizontalAlignment="Right" Click="AppBarPrintICS309_ClickAsync"/>
                         <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
                     </CommandBar>
-
                 </RelativePanel>
             </PivotItem>
             <!--Test receive Outpost data-->

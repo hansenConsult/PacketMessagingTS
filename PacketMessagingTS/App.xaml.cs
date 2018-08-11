@@ -181,6 +181,8 @@ namespace PacketMessagingTS
 
             Singleton<MainViewModel>.Instance.MainPagePivotSelectedIndex = Utilities.GetProperty("MainPagePivotSelectedIndex");
 
+            Singleton<FormsViewModel>.Instance.FormsPagePivotSelectedIndex = Utilities.GetProperty("FormsPagePivotSelectedIndex");
+
             Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Utilities.GetProperty("TacticalCallsignSelectedIndex");
 
             bool displayIdentity = Properties.TryGetValue("DisplayIdentityAtStartup", out object displayIdentityAtStartup);

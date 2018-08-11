@@ -11,13 +11,13 @@
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <!--  content  -->
-        <Pivot x:Name="MyPivot" Grid.Row="1" Height="auto"
+        <Pivot x:Name="FormsPagePivot" Grid.Row="1" Height="auto"
                RelativePanel.AlignTopWithPanel="True"
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
-               SelectionChanged="MyPivot_SelectionChangedAsync">
+               SelectionChanged="FormsPagePivot_SelectionChangedAsync">
             <!--Simple Message-->
             <!--<PivotItem x:Name="SimpleMessage" DataContext="{Binding FormsPartViewModel}" Header="Simple Message">
 				<ScrollViewer Margin="0,12,-12,0" HorizontalContentAlignment="Left"
