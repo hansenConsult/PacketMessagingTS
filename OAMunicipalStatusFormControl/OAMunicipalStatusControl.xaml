@@ -74,7 +74,7 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Situation Severity" Foreground="LightSalmon" Margin="5"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="severity"
                                                                        CheckedControlName="{x:Bind Severity, Mode=TwoWay}" 
-                                                                       Tag="required,Indicate Situation Severity."/>
+                                                                       Tag="-1,required,Indicate Situation Severity."/>
                                         <RadioButton x:Name="emergency" GroupName="severity" 
                                                      Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
                                                      Content="EMERGENCY" Checked="Subject_Changed" 
@@ -91,7 +91,7 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Msg. Handling Order" Foreground="LightSalmon" Margin=" 5"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                        CheckedControlName="{x:Bind HandlingOrder, Mode=TwoWay}" 
-                                                                       Tag="required,Indicate Msg. Handling Order."/>
+                                                                       Tag="-1,required,Indicate Msg. Handling Order."/>
                                         <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="IMMEDIATE" Tag="7" Checked="Subject_Changed"/>
                                         <RadioButton x:Name="priority" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="PRIORITY" Tag="8" Checked="Subject_Changed"/>
                                         <RadioButton x:Name="routine" GroupName="handlingOrder" 
@@ -102,11 +102,11 @@
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <StackPanel x:Name="msgRequest" Grid.Column="3">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="Message requests" Margin="5"/>
-                                        <MyNamespace:ToggleButtonGroup x:Name="action"/>
+                                        <MyNamespace:ToggleButtonGroup x:Name="action" Tag="-1"/>
                                         <StackPanel Orientation="Horizontal"/>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,10,0,0" />
                                         <StackPanel Orientation="Horizontal">
-                                            <MyNamespace:ToggleButtonGroup x:Name="reply"/>
+                                            <MyNamespace:ToggleButtonGroup x:Name="reply" Tag="-1"/>
                                             <RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="30" Tag="10"/>
                                             <!--<Border BorderBrush="LightGray" BorderThickness="2">-->
                                             <TextBox x:Name="replyBy"  Width="40"  HorizontalAlignment="Left"  VerticalAlignment="Center" Height="16.986" Tag="11" />
@@ -470,14 +470,14 @@
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="64"/>
-                            <TextBox Grid.Column="2" Grid.Row="16" Name="commentsCivilUnrest" Style="{StaticResource MuniStatusCommentsText}" Tag="43,conditionallyrequired,Enter a Comment for Civil Unrest"/>
+                            <TextBox Grid.Column="2" Grid.Row="16" Name="commentsCivilUnrest" Style="{StaticResource MuniStatusCommentsText}" Tag="65,conditionallyrequired,Enter a Comment for Civil Unrest"/>
                             <TextBlock Grid.Column="0" Grid.Row="17" Text="Animal Issues" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="17" Name="comboBoxAnimalIssues" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
                                       Tag="66"/>
-                            <TextBox Grid.Column="2" Grid.Row="17" Name="commentsAnimalIssues" Style="{StaticResource MuniStatusCommentsText}" Tag="43,conditionallyrequired.Enter a Comment for Animal Issues"/>
+                            <TextBox Grid.Column="2" Grid.Row="17" Name="commentsAnimalIssues" Style="{StaticResource MuniStatusCommentsText}" Tag="67,conditionallyrequired.Enter a Comment for Animal Issues"/>
                         </Grid>
                     </Border>
                     <Grid >

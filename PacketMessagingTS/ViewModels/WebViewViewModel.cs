@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Collections.Generic;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -83,26 +85,71 @@ namespace PacketMessagingTS.ViewModels
             set { SetProperty(ref _failedMesageVisibility, value); }
         }
 
-        private ICommand _navCompleted;
+        public bool PopulateEmptyForm
+        { get; set; }
 
+        private ICommand _navCompleted;
         public ICommand NavCompletedCommand
         {
             get
             {
                 if (_navCompleted == null)
                 {
-                    _navCompleted = new RelayCommand<WebViewNavigationCompletedEventArgs>(NavCompleted);
+                    _navCompleted = new RelayCommand<WebViewNavigationCompletedEventArgs>(NavCompletedAsync);
                 }
 
                 return _navCompleted;
             }
         }
 
-        private void NavCompleted(WebViewNavigationCompletedEventArgs e)
+        public List<string> InlList { get; set; }    // List of index
+        public List<string> InrList { get; set; }   // List of values
+
+        private string[] PrepareParameters(List<string> sourceList, int startIndex, int parameterCount)
+        {
+            string[] parameterArray = new string[parameterCount + 1];
+            parameterArray[0] = startIndex.ToString();
+            for (int i = startIndex, j = 1; i < parameterCount + startIndex; i++, j++)
+            {
+                parameterArray[j] = sourceList[i];
+            }
+            return parameterArray;
+        }
+
+        const int maxParameterCount = 5;
+        private async Task SetPacFormDataArrayAsync(string functionName, List<string> parameters)
+        {
+            for (int i = 0; i < parameters.Count + maxParameterCount; i += maxParameterCount)
+            {//35 - 10 * 5
+                int parameterCount = Math.Min(maxParameterCount, parameters.Count - i);
+                if (parameterCount <= 0)
+                    break;
+
+                string[] functionParameters = PrepareParameters(parameters, i, parameterCount);
+                string jsFunctionName = functionName + $"{parameterCount}";
+                await _webView.InvokeScriptAsync(jsFunctionName, functionParameters);   // LoadInrArray5
+            }
+        }
+
+        private async void NavCompletedAsync(WebViewNavigationCompletedEventArgs e)
         {
             IsLoading = false;
             OnPropertyChanged(nameof(BrowserBackCommand));
             OnPropertyChanged(nameof(BrowserForwardCommand));
+            if (PopulateEmptyForm)
+            {
+                string[] args = new string[] { Utilities.GetMessageNumberPacket(),
+                                    Singleton<IdentityViewModel>.Instance.UserCallsign,
+                                    Singleton<IdentityViewModel>.Instance.UserName };
+                await _webView.InvokeScriptAsync("SetMessageNumber", args);
+            }
+            else
+            {
+                await SetPacFormDataArrayAsync("LoadInlArray", InlList);
+                await SetPacFormDataArrayAsync("LoadInrArray", InrList);
+                string[] args = new string[] { "0" };
+                await _webView.InvokeScriptAsync("PopulateForm", args);
+            }
         }
 
         private ICommand _navFailed;
@@ -165,7 +212,6 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private ICommand _browserForwardCommand;
-
         public ICommand BrowserForwardCommand
         {
             get
@@ -180,7 +226,6 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private ICommand _refreshCommand;
-
         public ICommand RefreshCommand
         {
             get

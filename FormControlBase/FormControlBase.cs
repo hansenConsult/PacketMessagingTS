@@ -153,7 +153,7 @@ namespace FormControlBaseClass
 
 		public void InitializeControls()
 		{
-			foreach (FormControl formControl in formControlsList)
+			foreach (FormControl formControl in _formControlsList)
 			{
 				Control control = formControl.InputControl;
 
@@ -171,7 +171,7 @@ namespace FormControlBaseClass
 				}
 				else if (control is ToggleButtonGroup toggleButtonGroup)
 				{
-                    toggleButtonGroup.Initialize(radioButtonsList, control.Name);
+                    toggleButtonGroup.Initialize(_radioButtonsList, control.Name);
 				}
 				else if (control is CheckBox checkBox)
 				{
@@ -192,7 +192,7 @@ namespace FormControlBaseClass
 		}
 
 		public List<FormControl> FormControlsList
-        { get => formControlsList; }
+        { get => _formControlsList; }
 
         public string ValidationResultMessage
         { get => validationResultMessage; set => validationResultMessage = value; }
@@ -295,6 +295,7 @@ namespace FormControlBaseClass
             foreach (FormField formField in formFields)
             {
                 (string id, Control control) = GetTagIndex(formField);
+                formField.PacFormIndex = Convert.ToInt32(id == "" ? "-1" : id);
 
                 if (control is ToggleButtonGroup)
                 {
@@ -347,7 +348,7 @@ namespace FormControlBaseClass
             Control control = null;
             try
             {
-                FormControl formControl = formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
                 control = formControl?.InputControl;
 
                 string tag = (string)control.Tag;
@@ -366,6 +367,7 @@ namespace FormControlBaseClass
                 return ("", control);
             }
         }
+
         public static string GetTagIndex(Control control)
         {
             try
@@ -389,8 +391,8 @@ namespace FormControlBaseClass
 
         public string GetTagErrorMessage(FormField formField)
         {
-            string name = formControlsList[1].InputControl.Name;
-            FormControl formControl = formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+            string name = _formControlsList[1].InputControl.Name;
+            FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
             Control control = formControl.InputControl;
             string tag = control.Tag as string;
             if (string.IsNullOrEmpty(tag))
@@ -486,14 +488,26 @@ namespace FormControlBaseClass
 
 		public FormField[] CreateEmptyFormFieldsArray()
 		{
-			FormField[] formFields = new FormField[formControlsList.Count];
+			FormField[] formFields = new FormField[_formControlsList.Count];
 
-            for (int i = 0; i < formControlsList.Count; i++)
+            for (int i = 0; i < _formControlsList.Count; i++)
             {
+                int tagIndex;
+                string tagIndexString = GetTagIndex(_formControlsList[i].InputControl);
+                if (string.IsNullOrEmpty(tagIndexString))
+                {
+                    tagIndex = -1;
+
+                }
+                else
+                {
+                    tagIndex = Convert.ToInt32(tagIndexString);
+                }
                 FormField formField = new FormField()
                 {
-                    ControlName = formControlsList[i].InputControl.Name,
+                    ControlName = _formControlsList[i].InputControl.Name,
                     ControlContent = "",
+                    PacFormIndex = tagIndex,
                 };
                 formFields.SetValue(formField, i);
 
@@ -503,13 +517,13 @@ namespace FormControlBaseClass
 
 		public FormField[] CreateFormFieldsInXML()
 		{
-			FormField[] formFields = new FormField[formControlsList.Count];
+			FormField[] formFields = new FormField[_formControlsList.Count];
 
-			for (int i = 0; i < formControlsList.Count; i++)
+			for (int i = 0; i < _formControlsList.Count; i++)
 			{
-                FormField formField = new FormField() { ControlName = formControlsList[i].InputControl.Name };
+                FormField formField = new FormField() { ControlName = _formControlsList[i].InputControl.Name };
 
-                if (formControlsList[i].InputControl is TextBox textBox)
+                if (_formControlsList[i].InputControl is TextBox textBox)
                 {
 					formField.ControlContent = textBox.Text;
 					//if (((TextBox)formFieldsList[i]).IsSpellCheckEnabled)
@@ -534,23 +548,23 @@ namespace FormControlBaseClass
 					//	}
 					//}
 				}
-				else if (formControlsList[i].InputControl is AutoSuggestBox autoSuggestBox)
+				else if (_formControlsList[i].InputControl is AutoSuggestBox autoSuggestBox)
 				{
 					formField.ControlContent = autoSuggestBox.Text;
 				}
-				else if (formControlsList[i].InputControl is ComboBox comboBox)
+				else if (_formControlsList[i].InputControl is ComboBox comboBox)
                 {
 					formField.ControlContent = $"{GetComboBoxSelectedItem(comboBox)},{comboBox.SelectedIndex}";
 				}
-                else if (formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
+                else if (_formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
                 {
 					formField.ControlContent = toggleButtonGroup.GetRadioButtonCheckedState();
 				}
-                else if (formControlsList[i].InputControl is CheckBox checkBox)
+                else if (_formControlsList[i].InputControl is CheckBox checkBox)
                 {
 					formField.ControlContent = checkBox.IsChecked.ToString();
 				}
-                else if (formControlsList[i].InputControl is RadioButton radioButton)
+                else if (_formControlsList[i].InputControl is RadioButton radioButton)
                 {
                     formField.ControlContent = radioButton.IsChecked.ToString();
                 }
@@ -563,7 +577,7 @@ namespace FormControlBaseClass
 		{
 			foreach (FormField formField in formFields)
 			{
-				FormControl formControl = formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+				FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
 
 				Control control = formControl?.InputControl;
 
@@ -607,9 +621,13 @@ namespace FormControlBaseClass
 			if (startIndex != -1 && endIndex != -1)
 			{
                 if (field.Substring(startIndex + 1, endIndex - startIndex - 1).StartsWith("\\n"))
+                {
                     return field.Substring(startIndex + 3, endIndex - startIndex - 3);
+                }
                 else
+                {
                     return field.Substring(startIndex + 1, endIndex - startIndex - 1);
+                }
 			}
 			else
 			{
@@ -617,7 +635,7 @@ namespace FormControlBaseClass
 			}
 		}
 
-		protected string GetOutpostValue(string fieldIdent, ref string[] msgLines)
+		public string GetOutpostValue(string fieldIdent, ref string[] msgLines)
 		{
 			for (int i = 4; i < msgLines.Length; i++)
 			{
@@ -642,7 +660,7 @@ namespace FormControlBaseClass
                 {
                     HandlingOrder = "immediate";
                 }
-                foreach (FormControl formControl in formControlsList)
+                foreach (FormControl formControl in _formControlsList)
                 {
                     if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
                     {

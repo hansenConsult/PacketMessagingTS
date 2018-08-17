@@ -505,6 +505,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _packetMessagesSent.Clear();
             _packetMessagesReceived.Clear();
 
+            if (string.IsNullOrEmpty(_bbsConnectName))
+                return;
+
             Parity parity = _TncDevice.CommPort.Parity;
             ushort dataBits = _TncDevice.CommPort.Databits;
             StopBits stopBits = _TncDevice.CommPort.Stopbits;

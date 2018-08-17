@@ -1,43 +1,22 @@
 <!DOCTYPE html>
 <html><head>
-<title>EOC Resource Request  Form (EOC FORM 213RR)</title>
+<title>Santa Clara OA Municipal Status</title>
 <meta http-equiv="Content-type" content="text/html; charset=windows-1252">
 <!--
-EOCResourceRequest.html - JS: format. Form developed from the SCCo EOC Resource Request
-  Form (EOC Form 213RR) by Phil Henderson, KF6ZSQ
+XSC_OA_Muni_Status_v1708.html - JS: format. Form developed from printout from WebEOC
+   by Phil Henderson, KF6ZSQ, Initial work 08-26-17
 
-  03/07/17 by HPH - Initiated form from Acrobat version obtained from Michael Fox
-  03/08/17 by HPH - Added Second page - No form fields in this page. Added button
-                    to hide or unhide second page.  Second page appears when form
-                    is launched.  If hidden, then submitted, page 2 will appear
-                    when printed even if it was hidden upon submitting.
-                    Added "required" fields, guessing which should be required.
-  03/09/17 by HPH - Made some form field size changes.  Added 3 text fields
-                    for 5. Tracking Number.  Waiting from County to
-                    clarify required fields and if the format for 5. is correct.
-                    Added class="nowrap" to radio button areas.
-  03/11/17 by HPH - Changed word from Logistics to Resource on footer.
-  04/04/17 by HPH - Changed subject line ID to EOC213RR..., and modifid second page so that
-                    it does NOT display on startup, but will upon print.
-  04/26/17 by MEF - Changed font and field sizes for APL compatibility, consistency with other forms
-                    Fixed numerous HTML errors (missing closing tags, etc.)
-                    Added color section banners on page 2 to match original form
-                    Added missing signature in field 22
-  04/27/17 by MEF - Set "Display/Hide Page 2" button to not display in printout
-  04/29/17 by MEF - Fix typo in How to use instructions.
-  05/21/17 by HPH - Add missing textarea for 9.
-  05/23/17 by HPH - Fixed text area name for 11. from Tarea9 to Tarea11.
-  06-16-17 by HPH - Modified verson to PacRELEASE 4.2
-  07-18-17 by HPH - Removed 50 char. limit for !PACF! record (Incident Name)
-  08-10-17 by HPH - Updating with changes for 6/17 version
-  08-11-17 by HPH - Converted 16. to check boxes, removed "button" to show page 2 (no page 2)
-                    fixed date errors in JS IDs
-  08-11-17 by HPH - Modifications to some field sizes
-  08-12-17 by HPH - Added ID line to the right at end of document.
-  08-12-17 by MEF - Clean up HTML errors (missing closing tags, capitalization, etc.)
-  08-14-17 by HPH - Update required list of form fields
-  08-14-17 by MEF - Fix spelling errors, adjust field sizes for better printing
-  09-15-17 by HPH - Fixed error on line 455 that should have been fradio and was not; I# 11 works (Poul Hansen found it)
+  08/26/17 by HPH - Initiated form from WebEOC printout from Michael Fox
+  08/31/17 by MEF - Fix mis-matched tags, spelling, formatting
+  09/04/17 by MEF - Fix shading on pg 2 banner, oper-input font & field size, footer line
+  09-04-17 by HPH - Fixed double header (JShead) and tail (JStail)
+  09-07-17 by HPH - Removed"(000)000-0000" as a value, added a note to include area code.
+                    Added print instructions to remove area code message from first page
+                    and required instruction at top of second page.
+  09-16-17 by HPH - Added Date and Time after Muni Name, removed comment about area code.
+  09-29-17 by HPH - Fixed some spelling errors and modified some syntax.
+  06-29-18 by MEF - Changed PacRelease from 4.3 to 4.4; Changed original form version to 20130101
+
 
 -->
 <style type="text/css">
@@ -65,7 +44,8 @@ EOCResourceRequest.html - JS: format. Form developed from the SCCo EOC Resource 
   .table4 { font-size: 11pt; font-weight: normal;  }
   .req-table { font-weight: bold; }
 
-  .red { color: red; }
+  .red { color: red; font-style: italic; }
+  .blue {color: blue; }
   .italic {font-style: italic; font-weight: normal; font-size: 8pt; color: black;}
 
   .city-button   { font-size:  9pt; }
@@ -83,7 +63,7 @@ EOCResourceRequest.html - JS: format. Form developed from the SCCo EOC Resource 
   .sec-title     { font-size:  9pt; font-weight: bold; background-color: #DDDDDD; }
 
   .lineht {line-height: 240%;}
-  #Page2 { display: none; }
+
  @media print { footer {page-break-after: always;} }
 </style>
 
@@ -92,17 +72,19 @@ EOCResourceRequest.html - JS: format. Form developed from the SCCo EOC Resource 
 Where changes to a JavaScript function need to be made, a comment will be inserted there
   to describe what needs to be done.
 -->
-<style type="text/css" media="print">
+<style type="text/css" media="screen">
+#Header2 { display: none; }
+</style>
 
-  .header, .trailer { display: none;  }
+<style type="text/css" media="print">
+  .header, .trailer, .blankit { display: none;  }
   .red    { color: black; }
   .table4 { color: black; }
   hr      { color: black }
   input, select, textarea { color: black; background: none; }
   .title-text   { color: black; }
   .oper-input   { color: black; }
-  #show-hide-p2 { display: none; }
-  #Page2        { display: block; }
+
 </style>
 
 <script language="JavaScript">
@@ -111,10 +93,10 @@ Where changes to a JavaScript function need to be made, a comment will be insert
 // The first 2 records below are required.  They are part of the first 2 # records
 //  in the ASCII file sent to Outpost.
 //
-var JSid = "EOC Resource Request (which4)";
-var JSver = "JS-ver. PR-4.3-2.8, 09/15/17";
-var JShead = "<span class=\"js-head-text\">JavaScript Version PR-4.3-2.8 for Amateur Radio Packet Transmission, 09/15/17 - <b>PacRELEASE 4.3</b></span>";
-var JStail = "(PR-4.3-2.8, 09/15/17)";
+var JSid = "SC-OA-Muni Status (which4)";
+var JSver = "JS-ver. PR-4.4-1.9, 06/29/18";
+var JShead = "<span class=\"js-head-text\">JavaScript Version PR-4.4-1.9 for Amateur Radio Packet Transmission, 06/29/18 - <b>PacRELEASE 4.4</b></span>";
+var JStail = "(PR-4.4-1.9, 06/29/18)";
 
 fromlocal = 0;  // =0 for call to pac-read with No !OUTPOST! record; >0 if so. Reset fm pac-read.
 
@@ -122,7 +104,7 @@ var SHtoggle = 0;
 
 function ShowHide()
   {
-       if (SHtoggle == 0)
+       if (SHtoggle === 0)
         { document.getElementById("Page2").style.display="block";
           SHtoggle = 1;
         }
@@ -133,7 +115,7 @@ function ShowHide()
   }
 
 function lockUnlockMsg(checkbox) {
-     if (checkbox.checked == 1)
+     if (checkbox.checked === 1)
         { document.getElementById('RSmsgno').disabled = false;
           document.getElementById('SRmsgno').disabled = false;
         }
@@ -150,7 +132,7 @@ function emerg()
  var whichway, ascii, thisurl;
  thisurl = "";
  function geturl()
-  { if (thisurl != "") { return thisurl; }
+  { if (thisurl !== "") { return thisurl; }
     var res = new Array(), tem = new Array();
     var a=document.URL;
     tem = a.split(/\?/);
@@ -177,7 +159,7 @@ function emerg()
 
  function Browser()
   { var bb = navigator.appName;
-    if (bb.indexOf("Microsoft") != -1)
+    if (bb.indexOf("Microsoft") !== -1)
     {
       return true;
     }
@@ -218,19 +200,19 @@ function emerg()
   the form field names that you will use in your form to auto load the date and
   time in your form when the form is initially loaded.
 */
-         if (dum1 == 0)     // datetime(0) is called at form load
+         if (dum1 === 0)     // datetime(0) is called at form load
           { document.forms[0].date3.value=dat;
             document.forms[0].time3.value=tim;
             document.forms[0].odate.value=dat;
             document.forms[0].otime.value=tim;
           } else
-         if(dum1 == 1)     // datetime(1) is called to update values when the form is submitted
+         if(dum1 === 1)     // datetime(1) is called to update values when the form is submitted
           { document.forms[0].date3.value=dat;
             document.forms[0].time3.value=tim;
             document.forms[0].odate.value=dat;
             document.forms[0].otime.value=tim;
           } else
-         if (dum1 == 2)   // datetime(2) is called if testvalues fails (not all required fields are filled)
+         if (dum1 === 2)   // datetime(2) is called if testvalues fails (not all required fields are filled)
           { // document.forms[0].Datt1.value="";
             // document.forms[0].Timm1.value="";
           }
@@ -252,7 +234,7 @@ function emerg()
 function wrap(inStr, cols)
   { var i, n, itot, str, res, cvt;
     words = new Array;
-    if (inStr == "") { return inStr; }
+    if (inStr === "") { return inStr; }
     if (cols < 0)
      { cols=Math.abs(cols);
 //       inStr = inStr.replace(/%BF/g, "%37BF");  // removes %BF typed by user NEW
@@ -292,7 +274,7 @@ function wrap(inStr, cols)
       irows = msg.rows;
       str = str.replace(/\xBF/g,"\\n");  // Converts all inverted ? to \n from old versions, 7/23/13
       str = str.replace(/\\n/g, "\n");
-      if (str.charAt(0) == "\n")      // Removes inverted \n at 1st Chr.
+      if (str.charAt(0) === "\n")      // Removes inverted \n at 1st Chr.
        { str = str.substring(1); }
       parl = countlines(str);
       tsl = str.length;
@@ -340,9 +322,9 @@ function wrap(inStr, cols)
 
  function out(win, text, param)
   { var str, val;
-    if (param == "") { return; }
+    if (param === "") { return; }
     str = text+": ["+param+"]\n";
-    if (whichway == 0)
+    if (whichway === 0)
      { win.document.write(str);
      } else
      { ascii += str;
@@ -359,7 +341,7 @@ function wrap(inStr, cols)
           j=1;
         }
      }
-    if (j == 0) { out(win,text,"") }
+    if (j === 0) { out(win,text,"") }
    }
 
  function fradio(param, max)
@@ -371,7 +353,7 @@ function wrap(inStr, cols)
           j=1;
         }
      }
-    if (j == 0) { val = ""; }
+    if (j === 0) { val = ""; }
     return val;
    }
 
@@ -390,21 +372,37 @@ function fdropdown(param)
  function testvalues()
   { var str;
     str = "";
-    if (Fmsgno == "")    { str="Enter a Message Number."; }
-    if (Fsever == "")    { str=str+"\n Indicate Situation Severity."; }
-    if (Fhandling == "") { str=str+"\n Indicate Msg. Handling Order."; }
-    if (FIncName == "")  { str=str+"\n Enter the Incident Name."; }
-    if (Fdate3 == "")    { str=str+"\n Enter the Date Initialized."; }
-    if (Ftime3 == "")    { str=str+"\n Enter the Time Initialized."; }
-    if (FReqBy5 == "")   { str=str+"\n Enter 5. Requested By."; }
-    if (FQuan1 == "")   { str=str+"\n Enter 8. Qty/Unit."; }
-    if (FDescrip1 == "")   { str=str+"\n Enter 9. Resource Description."; }
-    if (FDtTim1== "")   { str=str+"\n Enter 10. Arrival Date/Time."; }
-    if (FPri == "")   { str=str+"\n Select 11. Priority."; }
-    if (FTarea13 == "")   { str=str+"\n Enter 13. Delivery to."; }
-    if (FTarea14 == "")   { str=str+"\n Enter 14. Location."; }
+    if (Fmsgno === "")    { str="Enter a Message Number."; }
+    if (Fsever === "")    { str=str+"\n Indicate Situation Severity."; }
+    if (Fhandling === "") { str=str+"\n Indicate Msg. Handling Order."; }
+    if (FIncidName === "")  { str=str+"\n Enter the Incident Name."; }
+    if (Fcitylist ==="0") { str=str+"\n Select a Municipality Name."; }
+    if (Fdate3 === "")    { str=str+"\n Enter the date."; }
+    if (Ftime3 === "")    { str=str+"\n Enter the time."; }
+    if (FEMname === "") { str=str+"\n Enter the Primary EM Contact Name."; }
+    if (FEMphone === "") { str=str+"\n Enter the Primary EM Contact Phone No."; }
+    if (FEOCStat === "Unknown") { str=str+"\n Select EOC Open: Yes or No."; }
+    if (FEOCStat === "Yes" && FActLevel === "Unknown") { str=str+"\n Select an Activation Level."; }
+    if (FEmergState === "Unknown") { str=str+"\n Select the State of Emergency: Yes or No."; }
+    if (FEmergState === "Yes" && FProcSent === "") { str=str+"\n Enter how the Proclammation is being sent or \"None\"."; }
+    if ((FComDD === "Problem" || FComDD === "Failure") && FTaComm === "") { str=str+"\n Enter a Comment for Communications"; }
+    if ((FDebrisDD === "Problem" || FDebrisDD === "Failure") && FTaDebris === "") { str=str+"\n Enter a Comment for Debris "; }
+    if ((FFloodDD === "Problem" || FFloodDD === "Failure") && FTaFlood === "") { str=str+"\n Enter a Comment for Flooding"; }
+    if ((FHazDD === "Problem" || FHazDD === "Failure") && FTaHaz === "") { str=str+"\n Enter a Comment for Hazmat"; }
+    if ((FEmServDD === "Problem" || FEmServDD === "Failure") && FTaEmServ === "") { str=str+"\n Enter a Comment for Emergency Services"; }
+    if ((FCasualDD === "Problem" || FCasualDD === "Failure") && FTaCasual === "") { str=str+"\n Enter a Comment for Casualities"; }
+    if ((FUtilGasDD === "Problem" || FUtilGasDD === "Failure") && FTaUtilGas === "") { str=str+"\n Enter a Comment for Utilities (Gss)"; }
+    if ((FUtilElecDD === "Problem" || FUtilElecDD === "Failure") && FTaUtilElec === "") { str=str+"\n Enter a Comment for Utilities (Electric)"; }
+    if ((FInfraPowDD === "Problem" || FInfraPowDD === "Failure") && FTaInfraPow === "") { str=str+"\n Enter a Comment for Infrastructure (Power)"; }
+    if ((FInfraWaterDD === "Problem" || FInfraWaterDD === "Failure") && FTaInfraWater === "") { str=str+"\n Enter a Comment for Infrastructure (Water Systems)"; }
+    if ((FInfraSewerDD === "Problem" || FInfraSewerDD === "Failure") && FTaInfraSewer === "") { str=str+"\n Enter a Comment for Infrastructure (Sewer Systems)"; }
+    if ((FSeaRescuDD === "Problem" || FSeaRescuDD === "Failure") && FTaSeaRescu === "") { str=str+"\n Enter a Comment for Search and Rescue"; }
+    if ((FTransRoadsDD === "Problem" || FTransRoadsDD === "Failure") && FTaTransRoads === "") { str=str+"\n Enter a Comment for Transportation (Roads)"; }
+    if ((FTranBrDD === "Problem" || FTranBrDD === "Failure") && FTaTranBr === "") { str=str+"\n Enter a Comment for Transportation (Bridges)"; }
+    if ((FCivUnrDD === "Problem" || FCivUnrDD === "Failure") && FTaCivUnr === "") { str=str+"\n Enter a Comment for Civil Unrest"; }
+    if ((FAnimIssueDD === "Problem" || FAnimIssueDD === "Failure") && FTaAnimIssue === "") { str=str+"\n Enter a Comment for Animal Issues"; }
 
-    if (str == "")
+    if (str === "")
      { return true;
      } else
      { // datetime(2);
@@ -437,7 +435,7 @@ function fdropdown(param)
   }
 
  var pacf = "";
- function newwin(theway)
+ function newwin(theway)    // theway = 1 on send to outpost
   { datetime(1);
     whichway = theway;
 
@@ -446,29 +444,62 @@ function fdropdown(param)
  Fmsgno = trim(document.forms[0].msgno.value); // TEXT
  Fsever = fradio(document.forms[0].sever,3);
  Fhandling = fradio(document.forms[0].handling,3);
- FIncName = trim(document.forms[0].IncName.value);
+ FIncidName = trim(document.forms[0].IncidName.value);
+ Fcitylist = fdropdown(document.forms[0].citylist);
  Fdate3 = trim(document.forms[0].date3.value);
  Ftime3 = trim(document.forms[0].time3.value);
- FReqBy5 = trim(document.forms[0].ReqBy5.value);
- FQuan1 = trim(document.forms[0].Quan1.value);
- FDescrip1 = trim(document.forms[0].Descrip1.value);
- FDtTim1 = trim(document.forms[0].DtTim1.value);
- FPri = fradio(document.forms[0].Pri,4);
- FTarea13 = trim(document.forms[0].Tarea13.value);
- FTarea14 = trim(document.forms[0].Tarea14.value);
+ FEMname = trim(document.forms[0].EMname.value);
+ FEMphone = trim(document.forms[0].EMphone.value);
+ FEOCStat= fdropdown(document.forms[0].EOCStat);
+ FActLevel = fdropdown(document.forms[0].ActLevel);
+ FProcSent = trim(document.forms[0].ProcSent.value);
+ FEmergState = fdropdown(document.forms[0].EmergState);
+ FComDD = fdropdown(document.forms[0].ComDD);
+ FTaComm = trim(document.forms[0].TaComm.value);
+ FDebrisDD = fdropdown(document.forms[0].DebrisDD);
+ FTaDebris = trim(document.forms[0].TaDebris.value);
+ FFloodDD = fdropdown(document.forms[0].FloodDD);
+ FTaFlood = trim(document.forms[0].TaFlood.value);
+ FHazDD = fdropdown(document.forms[0].HazDD);
+ FTaHaz = trim(document.forms[0].TaHaz.value);
+ FEmServDD = fdropdown(document.forms[0].EmServDD);
+ FTaEmServ = trim(document.forms[0].TaEmServ.value);
+ FCasualDD = fdropdown(document.forms[0].CasualDD);
+ FTaCasual = trim(document.forms[0].TaCasual.value);
+ FUtilGasDD = fdropdown(document.forms[0].UtilGasDD);
+ FTaUtilGas = trim(document.forms[0].TaUtilGas.value);
+ FUtilElecDD = fdropdown(document.forms[0].UtilElecDD);
+ FTaUtilElec = trim(document.forms[0].TaUtilElec.value);
+ FInfraPowDD = fdropdown(document.forms[0].InfraPowDD);
+ FTaInfraPow = trim(document.forms[0].TaInfraPow.value);
+ FInfraWaterDD = fdropdown(document.forms[0].InfraWaterDD);
+ FTaInfraWater = trim(document.forms[0].TaInfraWater.value);
+ FInfraSewerDD = fdropdown(document.forms[0].InfraSewerDD);
+ FTaInfraSewer = trim(document.forms[0].TaInfraSewer.value);
+ FSeaRescuDD = fdropdown(document.forms[0].SeaRescuDD);
+ FTaSeaRescu = trim(document.forms[0].TaSeaRescu.value);
+ FTransRoadsDD = fdropdown(document.forms[0].TransRoadsDD);
+ FTaTransRoads = trim(document.forms[0].TaTransRoads.value);
+ FTranBrDD = fdropdown(document.forms[0].TranBrDD);
+ FTaTranBr = trim(document.forms[0].TaTranBr.value);
+ FCivUnrDD = fdropdown(document.forms[0].CivUnrDD);
+ FTaCivUnr = trim(document.forms[0].TaCivUnr.value);
+ FAnimIssueDD = fdropdown(document.forms[0].AnimIssueDD);
+ FTaAnimIssue = trim(document.forms[0].TaAnimIssue.value);
 
 /*
   Next 5 lines are for added info after the !PACF! record sent to Outpost
   The variable pacf, below, is composed of several components a, b, c & d
   variable d usually describes the form
 */
-   d = "EOC213RR";  // Modified as per MMEF, 4-4-17
+   d = "OAMuniStat";
    a = Fmsgno.substring(0);
    b = Fsever.substring(0,1);
    c = Fhandling.substring(0,1);
-   pacf = a+"_"+b+"/"+c+"_"+d+"_"+FIncName;
+   e = Fcitylist;
+   pacf = a+"_"+b+"/"+c+"_"+d+"_"+e+"_"+FIncidName;
 //
- if (whichway == 1)
+ if (whichway === 1)
   { ascii = poundstuff();
     NewWin = 0;
   } else
@@ -526,7 +557,7 @@ function fdropdown(param)
 //
  listels();
 
- if (whichway == 0)
+ if (whichway === 0)
   { NewWin.document.write("#EOF\n");
   } else
   { ascii += "#EOF\n";
@@ -622,7 +653,7 @@ function qs()
     //writeels(); // Uncomment when you want to check all elements
     qs(); // Do Not remove this function call. Used by Outpost to pass data.
     num = document.forms[0].msgno.value;
-    if (num == "$$") { writeels(); }
+    if (num === "$$") { writeels(); }
 
   } //End Custom
 
@@ -651,12 +682,12 @@ function testreply()
         nam = document.forms[0].elements[i].name;
         val = document.forms[0].elements[i].value;
         str = i+",  "+typ+", &nbsp; "+nam+",  &nbsp; "+val+", &nbsp; ";
-        if (typ == "radio" || typ == "checkbox")
+        if (typ === "radio" || typ === "checkbox")
           { chk = document.forms[0].elements[i].checked;
             str = str+"["+chk+"], ";
           }
-        if (typ=="select-one")
-		 { indx = document.forms[0].elements[i].selectedIndex;
+        if (typ === "select-one")
+		{ indx = document.forms[0].elements[i].selectedIndex;
            str = str+lb+indx;
          }
         str = str+",<br>";
@@ -666,8 +697,8 @@ function testreply()
     Ele.document.close();
    }
 
- var inl = new Array();
- var inr = new Array();
+ var inl = new Array(); // Index
+ var inr = new Array(); // Value
 
  function outels()   //  Used to fill form fields by pac-read
   { var inn, typ, val, indx, nam, chk, nidx, k, lb;
@@ -676,23 +707,28 @@ function testreply()
     lb = "}";
     inn = inl.length;
     // alert(inn+" "+inl[0]+" "+ inl[1]);
+     alert(inn + " " + inl[0] + " " + inr[0]);
     for (i=0; i<inn; i++)
-     { k = inl[i];
-       typ = document.forms[0].elements[k].type;
-	   nam = document.forms[0].elements[k].name;
-	   if (typ == "radio" || typ == "checkbox")
-	     { document.forms[0].elements[k].checked=inr[i];
-	     } else if (typ == "text" || typ == "hidden")
-	     { document.forms[0].elements[k].value=inr[i];
-	     }else if (typ == "textarea")
-         {  ms2 = unwrap(inr[i],document.forms[0].elements[k]);
-            document.forms[0].elements[k].value=ms2;
-	     } else if (typ=="select-one")
-	     { if (inr[i].indexOf(lbo) > -1) { lb=lbo; }
-	       dum = inr[i].split(lb);
-	       indx = dum[1];
-	       document.forms[0].elements[k].selectedIndex=indx;
-	     }
+    {
+        k = inl[i];
+        typ = document.forms[0].elements[k].type;
+        nam = document.forms[0].elements[k].name;
+        if (typ === "radio" || typ === "checkbox") {
+            document.forms[0].elements[k].checked = inr[i];
+        }
+        else if (typ === "text" || typ === "hidden") {
+            document.forms[0].elements[k].value = inr[i];
+        }
+        else if (typ === "textarea") {
+            ms2 = unwrap(inr[i], document.forms[0].elements[k]);
+            document.forms[0].elements[k].value = ms2;
+        }
+        else if (typ === "select-one") {
+            if (inr[i].indexOf(lbo) > -1) { lb = lbo; }
+            dum = inr[i].split(lb);
+            indx = dum[1];
+            document.forms[0].elements[k].selectedIndex = indx;
+        }
      }
    testreply();
   }
@@ -708,46 +744,47 @@ function testreply()
       {
         typ = document.forms[0].elements[i].type;
         nam = document.forms[0].elements[i].name;
-        if (typ == "radio" || typ == "checkbox")
+        if (typ === "radio" || typ === "checkbox")
           { chk = document.forms[0].elements[i].checked;
             out(NewWin,i,chk);
 //            test=chk+" "+typ+" "+nam;
 //            out(NewWin,i,test);
-          } else if (typ == "button")
+          } else if (typ === "button")
           { continue;       // Button will not show in Ascii file.
           } else
           {  val = document.forms[0].elements[i].value;
-            if (typ == "text" || typ == "textarea" || typ == "hidden")
+            if (typ === "text" || typ === "textarea" || typ === "hidden")
              { val = trim(val);
-               if (nam == "odate" || nam == "otime")
+               if (nam === "odate" || nam === "otime")
                 { val = val+yen+nam;
                 }
              }
-            if (typ == "textarea")
+            if (typ === "textarea")
              { val = wrap(val,-50);
-             }
-            if (typ=="select-one")
+              }
+            if (typ ==="select-one")
               { indx = document.forms[0].elements[i].selectedIndex;
                 val = val+lb+indx;
               }
             out(NewWin,i,val);
           }
       }
-    if (document.forms[0].msgno.value == "$$") { writeels(); }
+    if (document.forms[0].msgno.value === "$$") { writeels(); }
    }
 
 // -->
 </script>
+    <script src="js/AddedForWebView.js"></script>
 
 <!-- PART1 -->
 </head>
 <body onload="hide_message(); datetime(0); custom();" bgcolor="#ffffff">
 <!-- PART2 -->
 <center>
-<table class="banner-table" width="100%">
+<table class="banner-table" width="75%">
   <tbody><tr><td><center>
     <span class="title-text">County of Santa Clara Emergency Operations Center<br>
-    RESOURCE REQUEST FORM (EOC FORM 213RR)</span>
+     SCC OA MUNICIPAL STATUS</span>
     <div class="js-head-text header">
       <script language="JavaScript"> // put in header area
         document.write(JShead);
@@ -773,9 +810,9 @@ function testreply()
 <form name="theForm">
 <center>
 
-<span class="red header"><b>Items in RED <i>Italics</i> and marked with * are Required</b></span>
+<span class="red header"><b>Items in RED <i>Italics</i>  are Required</b></span>
 <!-- Message Numbers -->
-<table class="msgno" width="100%">
+<table class="msgno">
   <tbody><tr>
     <td nowrap="nowrap" align="right">A.) When Receiving, &nbsp;<br>Sender's Msg. No. &nbsp;</td>
     <td nowrap="nowrap" align="left"><input size="11" name="RSmsgno" tabindex="1" id="RSmsgno" disabled="true" type="text"></td>
@@ -794,7 +831,7 @@ function testreply()
 
 <!-- Severity, Handling Order, Reply -->
 <!--<center>-->
-<table class="table1" width="100%" border="1">
+<table class="table1" border="1">
 <!---
 <tr class="header">
 -->
@@ -826,145 +863,370 @@ function testreply()
   </tr>
 </tbody></table>
 
-
-<center>
 <!--  End of common header information, Beginning of basic form -->
-<table class="table1" width="100%" border="1">
-  <tbody><tr valign="top" align="left">
-    <td class="red" width="35%">1. Incident Name<br>
-         <textarea name="IncName" rows="2" cols="50"></textarea></td>
-    <td class="red" width="20%">2. Date Initiated<span class="nowrap"><br> <input name="date3" size="12" value="08/14/2017" type="text"></span></td>
-    <td class="red" width="20%">3. Time Initiated<span class="nowrap"><br> <input name="time3" size="10" value="19:52" type="text"></span></td>
-    <td width="25%" bgcolor="#EEEEEE">4. Tracking Number<br><span class="italic">(Completed by OA EOC)</span></td>
+
+<!-- Page 1 Content Starts -->
+<center>
+
+<!-- Table Start:  Page 1 Info Fields -->
+<table class="table2" border="1">
+  <!-- Incident Information -->
+  <tbody><tr>
+    <td class="red" align="center"><b>Incident Name:</b> <input name="IncidName" size="70" type="text"><br><br>
+	    <span class="red"><b>Municipality Name / Unincorporated: </b></span>
+	    <select name="citylist">
+	      <option value="0" selected="selected">SELECT the Municipality</option>
+	      <option value="Campbell">Campbell</option>
+	      <option value="Cupertino">Cupertino</option>
+	      <option value="Gilroy">Gilroy</option>
+	      <option value="Loma Prieta">Loma Prieta</option>
+	      <option value="Los Altos">Los Altos</option>
+	      <option value="Los Altos Hills">Los Altos Hills</option>
+	      <option value="Los Gatos/Monte Sereno">Los Gatos/Monte Sereno</option>
+	      <option value="Milpitas">Milpitas</option>
+	      <option value="Morgan Hill">Morgan Hill</option>
+	      <option value="Mountain View">Mountain View</option>
+	      <option value="NASA-Ames">NASA-Ames</option>
+	      <option value="Palo Alto">Palo Alto</option>
+	      <option value="San Jose">San Jose</option>
+	      <option value="Santa Clara">Santa Clara</option>
+	      <option value="Saratoga">Saratoga</option>
+	      <option value="Stanford">Stanford</option>
+	      <option value="Sunnyvale">Sunnyvale</option>
+	      <option value="Other">Unincorporated</option>
+      </select>
+
+    &nbsp; &nbsp; &nbsp; <span class="red"><b>Date </b></span><input type="text" name="date3" size="12">
+    &nbsp; &nbsp; <span class="red"><b>Time </b></span><input type="text" name="time3" size="7">
+
+   </td>
   </tr>
 
   <tr>
-    <td width="35%"><span class="red">5.Requested By </span><span class="italic">(Name, agency, position, email, phone)</span>
-      <table>
-        <tbody><tr><td><textarea name="ReqBy5" cols="50" rows="5"></textarea></td></tr>
-      </tbody></table>
-      <hr width="100%">
-       6. Prepared by <span class="italic">(Name, position, email, phone)</span>
-      <table>
-        <tbody><tr><td><textarea name="PrepBy6" cols="50" rows="4"></textarea></td></tr>
-      </tbody></table>
-      <hr width="100%">
-       7. Approved by <span class="italic">(Name, position, email, phone)</span>
-	    <table>
-	      <tbody><tr><td><textarea name="ApprovBy7" cols="50" rows="4"></textarea></td></tr>
-	    </tbody></table>
-    </td>
-
-    <td colspan="3" width="65%" valign="top">
-      <table class="table2">
-        <tr>
-          <td width="12%">&nbsp;</td>
-          <td><b><u>How to use the EOC Form 213RR</u></b></td>
-        </tr>
-        <tr>
-          <td valign="top" nowrap="nowrap"><b>Purpose: </b>&nbsp;</td>
-          <td valign="top">The EOC 213RR is used to request non-mutual aid supplies, services, personnel, teams,
-            equipment, utilities, fuel, facilities, or any other resource or incident management activity required
-            from the Operational Area (OA.)</td>
-        </tr>
-
-        <tr>
-          <td valign="top" nowrap="nowrap"><b>When to use: </b></td>
-          <td valign="top">The Form 213RR may be used anytime during any Operational Period. If the OA EOC is
-            not activated the Duty Officer will serve to coordinate the request.</td>
-        </tr>
-        <tr>
-          <td valign="top" nowrap="nowrap"><b>Prepared by: </b></td>
-          <td valign="top">Any EOC position or agency requesting resources from the OA EOC.</td>
-        </tr>
-        <tr>
-          <td valign="top" nowrap="nowrap"><b>Approved by: </b></td>
-          <td>Section Chief of the requesting EOC or Supervising Official at Requesting Agency</td>
-        </tr>
-        <tr>
-          <td valign="top" nowrap="nowrap"><b>Routed to: </b></td>
-          <td valign="top">Planning Section Resource Status Unit-&gt;Logistics Section -&gt; Finance/Admin
-            Section -&gt; EOC Director -&gt; Planning -&gt; Intelligence Section</td>
-        </tr>
-        <tr>
-          <td valign="top" nowrap="nowrap"><b>Filed with: </b></td>
-          <td valign="top">Planning Section Documentation Unit.</td>
-        </tr>
-        <tr>
-          <td valign="top" nowrap="nowrap"><b>User Notes: </b></td>
-          <td valign="top">The Form 213RR is a two-sided form. Side one is completed by the requestor. &nbsp; Side
-            two is completed by the OA EOC.<br>
-            <b>Please check that both sides are available.</b></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</tbody></table>
-
-<span class="s1-title-text">Requesting Agency / EOC Section<br>REQUESTED SOURCE DETAILS</span>
-
-<table width="100%" border="1">
-  <tbody><tr class="s2-title-text" align="center">
-    <td class="red"><b>8. Qty/Unit</b></td>
-    <td class="red"><b>9. Resource Description</b>
-      <span class="italic">(Kind/Type. if applicable)</span></td>
-    <td class="red"><b>10. Arrival</b> <span class="italic">(date/time)</span></td>
-    <td class="red"><b>11. Priority</b></td>
-    <td><b>12. Est'd Cost</b></td>
-  </tr>
-  <tr align="left">
-    <td><textarea name="Quan1" rows="6" cols="10"></textarea></td>
-    <td><textarea name="Descrip1" cols="60" rows="6" wrap="soft"></textarea></td>
-    <td><textarea name="DtTim1" rows="6" cols="20"></textarea></td>
-    <td class="nowrap">
-      <table>
-       <tbody><tr><td>Now </td><td>         <input name="Pri" value="Now" type="radio"></td></tr>
-       <tr><td>High (0-4 hrs.)</td><td>     <input name="Pri" value="High" type="radio"></td></tr>
-       <tr><td>Medium (5-12 hrs.) </td><td> <input name="Pri" value="Medium" type="radio"></td></tr>
-       <tr><td>Low (12+hrs.) </td><td>      <input name="Pri" value="Low" type="radio"></td></tr>
-      </tbody></table>
-    </td>
-    <td><textarea name="Cost1" rows="6" cols="12"></textarea></td>
-  </tr>
-</tbody></table>
-
-<table class="table1" width="100%" border="1">
-  <tbody><tr><td align="left"><span class="red">13. Delivery to</span><span class="italic">
-       (name, agency, position, email, phone)</span><br>
-       <textarea name="Tarea13" rows="6" cols="60" wrap="soft"></textarea></td>
-      <td><span class="red"> 14. Location </span><span class="italic">(address or Lat/long., site type)</span><br>
-      <textarea name="Tarea14" rows="6" cols="60" wrap="soft"></textarea></td>
-  </tr>
-
-  <tr><td colspan="2" align="left">15. Suitable Substitutes / Suggested Sources
-       <span class="italic">(name, source, website)</span><br>
-       <textarea name="Tarea15" rows="4" cols="100" wrap="soft"></textarea></td>
-  </tr>
-
-  <tr>
-    <td align="left">16. Supplement Requirements <span class="italic">(Include details in #17)</span>
-      <table>
+    <td>
+      <center>
+      <!-- Table Start: Contact Information, Government Office Status, EOC Status, Proclamations -->
+      <table class="table2" border="0">
+        <!-- Contact Information -->
         <tbody><tr>
-          <td><input name="SupReq1" value="equip. operator" type="checkbox"> Equipment Operator</td>
-          <td><input name="SupReq2" value="Lodging" type="checkbox"> Lodging</td></tr>
+          <td class="table3">Contact Information</td>
+
+        </tr>
         <tr>
-          <td><input name="SupReq3" value="Fuel" type="checkbox"> Fuel &nbsp; &gt;&gt;type
-              <input name="ftype" size="20" type="text"></td>
-          <td><input name="SupReq4" value="Power" type="checkbox">Power</td></tr>
+          <td><b>EOC Phone: </b> </td>
+          <td><input name="EOCPhone" size="16"  type="text"></td>
+          <td>&nbsp;  </td>
+          <td align="right"><b>EOC Fax: </b></td>
+          <td><input size="16" name="EOCFax"  type="text"></td>
+        </tr>
         <tr>
-          <td><input name="SupReq5" value="meals" type="checkbox"> Meals</td>
-	        <td><input name="SupReq6" value="maint" type="checkbox"> Maintenance</td></tr>
+          <td class="red"><b>Primary EM Contact Name:  </b></td>
+          <td><input name="EMname" size="30" type="text"></td>
+          <td>&nbsp;  </td>
+	        <td class="red" align="right"><b>Primary EM Contact Phone: </b></td>
+	        <td><input name="EMphone" size="16"  type="text"></td>
+        </tr>
         <tr>
-          <td><input name="SupReq7" value="water" type="checkbox"> Water</td>
-	        <td><input name="SupReq8" value="Other" type="checkbox"> Other <span class="italic">(put details in #17)</span></td></tr>
-      </tbody></table></td>
-    <td align="left">17. Special Instructions<br>
-         <textarea name="Special17" rows="7" cols="65"></textarea></td>
+          <td><b>Secondary EM Contact Name: </b> </td>
+          <td><input name="SecEMname" size="30" type="text"></td>
+          <td>&nbsp;  </td>
+	        <td align="right"><b>Secondary EM Contact Phone: </b></td>
+	        <td><input name="SecEMphone" size="16"  type="text"></td>
+        </tr>
+        <!-- Government Office Status -->
+        <tr>
+          <td colspan="5" class="table3"><hr>Government Office Status</td>
+        </tr>
+        <tr>
+          <td><b>Office Status:</b></td>
+          <td><select name="OffStat">
+                <option value="Unknown" selected="selected">Unknown</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+              </select></td>
+          <td>&nbsp;  </td>
+          <td>&nbsp;  </td>
+        </tr>
+        <tr>
+          <td><b>Expected to Open Date: </b>(MM/DD/YY)</td>
+          <td><input name="ExOpDt" size="12" type="text"></td>
+          <td> &nbsp; &nbsp; </td>
+          <td><b>Expected to Open Time: </b>(HH:MM)</td>
+          <td><input name="ExOpTim" size="8" type="text"></td>
+        </tr>
+        <tr>
+          <td><b>Expected to Close Date: </b>(MM/DD/YY)</td>
+          <td><input name="ExCloDt" size="12" type="text"></td>
+          <td> &nbsp; &nbsp; </td>
+          <td><b>Expected to Close Time: </b>(HH:MM)</td>
+          <td><input name="ExCloTim" size="8" type="text"></td>
+        </tr>
+        <!-- EOC Status -->
+        <tr>
+          <td colspan="5" class="table3"><hr>EOC Status</td>
+	      </tr>
+	      <tr>
+          <td class="red"><b>EOC Open:</b></td>
+          <td><select name="EOCStat">
+	               <option value="Unknown" selected="selected">Unknown</option>
+	               <option value="Yes">Yes</option>
+	               <option value="No">No</option>
+	            </select></td>
+          <td>&nbsp;  </td>
+          <td align="right"><b>Activation Level:</b><br><span class="red">(Required if EOC is Open)</span></td>
+	        <td><select name="ActLevel">
+	              <option value="Unknown" selected="selected">Unknown</option>
+	              <option value="Monitor">Monitor</option>
+	              <option value="Minimal">Minimal</option>
+	              <option value="Partial">Partial</option>
+	              <option value="Full">Full</option>
+	            </select></td>
+	      </tr>
+	      <tr>
+          <td><b>Expected to Open Date: </b>(MM/DD/YY)</td>
+          <td><input name="EOCExOpDt" size="12" type="text"></td>
+          <td> &nbsp; &nbsp; </td>
+	        <td><b>Expected to Open Time: </b>(HH:MM)</td>
+	        <td><input name="EOCExOpTim" size="8" type="text"></td>
+	      </tr>
+	      <tr>
+          <td><b>Expected to Close Date: </b>(MM/DD/YY)</td>
+          <td><input name="EOCExCloDt" size="12" type="text"></td>
+          <td> &nbsp; &nbsp; </td>
+	        <td><b>Expected to Close Time: </b>(HH:MM)</td>
+	        <td><input name="EOCExCloTim" size="8" type="text"></td>
+        </tr>
+        <!-- Proclamatons -->
+        <tr>
+          <td colspan="5" class="table3"><hr>Proclamations</td>
+	      </tr>
+	      <tr>
+          <td class="red"><b>State of Emergency</b></td>
+          <td><select name="EmergState">
+	              <option value="Unknown" selected="selected">Unknown</option>
+	              <option value="Yes">Yes</option>
+	              <option value="No">No</option>
+	           </select></td>
+	        <td>&nbsp;</td>
+	        <td>&nbsp;</td>
+	      </tr>
+	     <tr>
+         <td colspan="5"><b>Send a copy of your Proclamation to the county EOC (fax, e-mail, ...)</b></td>
+       </tr>
+       <tr>
+         <td><b>Indicate how sent (method/to): </b></td>
+         <td colspan="4"><input name="ProcSent" size="60" type="text"></td>
+  	   </tr>
+     </tbody></table>
+     <!-- Table End: Contact Information, Government Office Status, EOC Status, Proclamations -->
+     </center>
+   </td></tr>
+</tbody></table>
+
+<!-- Table End:  Page 1 Info Fields -->
+<footer>
+  <span class="js-head-text"> Page 1 of 2<br/></span>
+</footer>
+</center>
+    <div style="page-break-after:always;"></div>
+<!-- Page 1 Content Ends -->
+
+
+<!-- Page 2 Starts -->
+<div id="Header2">
+<table class="banner-table" width="75%">
+  <tbody><tr><td><center>
+    <span class="title-text">County of Santa Clara Emergency Operations Center<br>
+     SCC OA MUNICIPAL STATUS</span>
+  </center></td></tr></tbody>
+</table>
+</div>
+
+<!-- Page 2 Info Fields Outer Table Starts -->
+<table class="table2" border="1">
+  <tbody><tr>
+    <td>
+      <center>
+      <!-- Page 2 Info Fields Inner Table Starts -->
+      <table class="table2">
+        <tbody><tr>
+          <td colspan="3"><span class="table3">Current Situation</span>
+           <span class="red blankit"> -- Note: if "Problem" or "Failure" is selected under Status, a Comment is required.</span></td>
+        </tr>
+        <tr>
+          <td align="left"><b>Type</b></td><td><b>Status</b></td><td><b>Comments</b></td>
+        </tr>
+        <tr>
+          <td><b>Communications &nbsp; </b></td>
+          <td><select name="ComDD">
+                <option value="Unknown" selected="selected">Unknown</option>
+                <option value="Normal">Normal</option>
+                <option value="Problem">Problem</option>
+                <option value="Failure">Failure</option>
+              </select> &nbsp;</td>
+          <td><textarea name="TaComm" rows="2" cols="70"></textarea></td>
+        </tr>
+        <tr>
+          <td><b>Debris &nbsp; </b></td>
+          <td><select name="DebrisDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaDebris" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Flooding &nbsp; </b></td>
+          <td><select name="FloodDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaFlood" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Hazmat &nbsp; </b></td>
+          <td><select name="HazDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaHaz" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Emergency Services &nbsp; </b></td>
+          <td><select name="EmServDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaEmServ" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Casualties &nbsp; </b></td>
+          <td><select name="CasualDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaCasual" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Utilities (Gas) &nbsp; </b></td>
+          <td><select name="UtilGasDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaUtilGas" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Utilities (Electric) &nbsp; </b></td>
+          <td><select name="UtilElecDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaUtilElec" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Infrastructure (Power) &nbsp; </b></td>
+          <td><select name="InfraPowDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaInfraPow" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Infrastructure<br>(Water Systems) &nbsp; </b></td>
+          <td><select name="InfraWaterDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaInfraWater" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Infrastructure<br>(Sewer Systems) &nbsp; </b></td>
+          <td><select name="InfraSewerDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaInfraSewer" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Search and Rescue &nbsp; </b></td>
+          <td><select name="SeaRescuDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaSeaRescu" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Transportations (Roads) &nbsp; </b></td>
+          <td><select name="TransRoadsDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+   	            <option value="Normal">Normal</option>
+	   	          <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaTransRoads" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Transportation (Bridges) &nbsp; </b></td>
+          <td><select name="TranBrDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaTranBr" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Civil Unrest &nbsp; </b></td>
+          <td><select name="CivUnrDD">
+    		        <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+    		        <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaCivUnr" rows="2" cols="70"></textarea></td>
+		    </tr>
+        <tr>
+          <td><b>Animal Issues &nbsp; </b></td>
+          <td><select name="AnimIssueDD">
+		            <option value="Unknown" selected="selected">Unknown</option>
+		            <option value="Normal">Normal</option>
+		            <option value="Problem">Problem</option>
+		            <option value="Failure">Failure</option>
+		          </select> &nbsp;</td>
+		      <td><textarea name="TaAnimIssue" rows="2" cols="70"></textarea></td>
+		    </tr>
+      </tbody></table>
+      <!-- Page 2 Info Fields Inner Table Ends -->
+      </center>
+    </td>
   </tr>
 </tbody></table>
+<!-- Page 2 Info Fields Outer Table Ends -->
 
 <!-- Operator Area -->
-<table class="table2" border="1">
+<br>
+<table class="oper-input" border="1">
   <tbody><tr>
     <td valign="middle" nowrap="nowrap">
       <input name="recsent" value="Received" type="radio">Rcv'd&nbsp;
@@ -978,8 +1240,8 @@ function testreply()
     <!-- Outpost State, Date, Time -->
     <td valign="middle" nowrap="nowrap">
       <span id="senddt" style="display:block;">
-        &nbsp;Submitted <input name="odate" size="11" disabled="disabled" class="oper-input" value="08/14/2017" type="text">
-        <input name="otime" size="6" disabled="disabled" class="oper-input" value="19:52" type="text">
+        &nbsp;Submitted <input name="odate" size="11" disabled="disabled" class="oper-input"  type="text">
+        <input name="otime" size="6" disabled="disabled"  type="text">
       </span>
       <!-- Need to handle the third option:  "Sent" -->
       <span id="outpostdt" style="display:none;">
@@ -987,26 +1249,19 @@ function testreply()
         <input name="ortime" size="6" disabled="disabled" class="oper-input" type="text">
       </span>
     </td>
-  <!--
-    <td>
-      <input type="button" id="show-hide-p2" onClick="ShowHide();" class="button1" value="Display/Hide Page 2">
-    </td>
-  -->
+
   </tr>
 </tbody></table>
-
-<!-- <footer> -->
-  <span class="js-head-text">Paper Form: Last Revised 6/17 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EOC Form 213RR
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Page 1 of 2 (pg. 2 at EOC)<br></span>
+ <span class="js-head-text"> Page 2 of 2<br></span>
     <p>
  <!-- Form Version Information -->
  </p><div class="form-ver-text" align="right">
-   SCCo EOC Resource Request 213RR 06/17
+   SCCo EOC SCCo OA Municipal Status Version 20130101
    <script type="text/javascript">
      document.write(JStail);
    </script>
   </div>
-<!-- </footer> -->
+
 
 </center>
 
@@ -1039,6 +1294,8 @@ function testreply()
 </form>
 </div>
 </center>
-</body>
-</html>
+
+
+</center>
+</body></html>
 <!-- PART4 -->

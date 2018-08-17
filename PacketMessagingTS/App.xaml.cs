@@ -185,6 +185,8 @@ namespace PacketMessagingTS
 
             Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Utilities.GetProperty("TacticalCallsignSelectedIndex");
 
+            await UpdatePacFormsFiles.SyncPacFormFoldersAsync();
+
             bool displayIdentity = Properties.TryGetValue("DisplayIdentityAtStartup", out object displayIdentityAtStartup);
             bool displayProfiles = Properties.TryGetValue("DisplayProfileOnStart", out object displayProfileOnStart);
             if (displayIdentity && (bool)displayIdentityAtStartup)

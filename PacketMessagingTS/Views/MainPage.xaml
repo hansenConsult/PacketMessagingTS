@@ -110,7 +110,8 @@
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
                                    DoubleTapped="DataGrid_DoubleTapped"
-                                   LoadingRow="DataGridInbox_LoadingRow" RightTapped="DataGridInbox_RightTapped"
+                                   LoadingRow="DataGridInbox_LoadingRow"
+                                   RightTapped="DataGrid_RightTapped"
                                    >
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}"  CanUserSort="True" Width="Auto" Tag="Area"/>
@@ -127,7 +128,8 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -182,7 +184,7 @@
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
                                    DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGridInbox_RightTapped">
+                                   RightTapped="DataGrid_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime"/>
                         <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding SentTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="SentTime"/>
@@ -197,7 +199,7 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -248,7 +250,7 @@
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
                                    DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGridInbox_RightTapped">
+                                   RightTapped="DataGrid_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -262,7 +264,7 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -311,7 +313,7 @@
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
                                    DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGridInbox_RightTapped">
+                                   RightTapped="DataGrid_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -323,7 +325,7 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -373,7 +375,7 @@
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
                                    DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGridInbox_RightTapped">
+                                   RightTapped="DataGrid_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}" CanUserSort="True" Width="Auto"  Tag="Area"/>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTimeAsString}" CanUserSort="True" Width="SizeToCells" Tag="ReceivedTime"/>
@@ -389,7 +391,7 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -439,7 +441,7 @@
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
                                    DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGridInbox_RightTapped">
+                                   RightTapped="DataGrid_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -452,7 +454,7 @@
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMailPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>

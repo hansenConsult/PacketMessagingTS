@@ -1,98 +1,114 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
 <head>
+<title> Bed Status PacFORM</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>EOC Logistics - Supply and Services Request Form</title>
-<!-- EOC Logistics - Supply Request form, 11/01/12
-     12/27/12 - modified to 2 msg. nos. and inserted ( * ) for required fields
-     12/29/12 - Modified back to 3 message numbers,
+<!-- HaveBed.html form for MHOC (Medical Health Operations Center), 10/25/12
+     Converted to JS: version to fix leaving out "replyyn"
      Modified  by J Clark to work with FF 2 on W2K, 1/10/13
-     07/05/13 by HPH dropdown index to }, odate flag to {
-     07/09/13 by HPH to convert '] to ''] and ] to ']; all reversed thru pac-read
+     Modifiec 7/5/13 by HPH for 7 bit update
+     Modified 7/9/13 by HPH for user '] to ''] and ] '] and back from pac-read
      07/15/13 by HPH, added a fix to trim to add a blank to the end of the string if a
         backtick is the last character
-     07/19/13 by HPH, changed Version number to start with PR-3.9...
-     07/23/12 by HPH, Added command to unwrap to convert inverted ? to \n for input from old forms
+     07/19/13 by HPH, changed the version number to start with PR-3.9...
      07/23/13 by HPH added test for yen in outels to be compatible with old versions
-     09/23/14 by HPH, No change, updated version to 4.0
+     08/18/14 by HPH re-ordered the order of the Bed lines as per John Montes
+     08/19/14 by HPH Renamed Avail24 to Avail and Capability to Capacity
+     09/24/14 by HPH Updated list of hospitals: Lucille Packard, School of Medicine
      10/1/14 by HPH, change Receiving to Receiver's in "When Sending Message" msg. no, field
      10/27/14 by HPH, Fixed typo "Senders's" to "Sender's"
      01/11/15 by HPH, Fixed JS function geturl to remove problem with a slash in Outpost ID user name
-     01/19/17 by MEF - Consistent indent level of 2 spaces for HTML code
+     02/23/15 by HPH, Reformating layout, adding some fields to be more compagible with EMResource
+     03/02/15 by HPH, Corrected definition wording for Decon as per John Altieri
+     10/23/15 by HPH, Modified the header to reflect the name of the html file.
+     12/17/15 by HPH, At MEF's request changed PR 4.2 to 4.1 for Hospital Net release
+     01/05/16 by HPH, Correct spelling at item 16, update to ver 4.1-1,4
+     01/05/16 by HPH, Replace "/" to " or" in Hosp. Status dropdown (Outpost error)
+     01/10/16 BY HPH, Update tabinex for all form fields including dropdowns
+     01-11-16 by HPH, Remove auto expand from dropdowns, effects selection, fix Ascii form Tab
+     02-26-16 by HPH, Modified media="print" to include style statements to enable black test for printing
+     01-19-17 by MEF - Consistent indent level of 2 spaces for HTML code
                      - Eliminated variety of HTML errors:  closed tags, quotes, etc.
                      - Eliminated depricated <FONT> tag
                      - Eliminated use of serif font for more consistent look and feel
                      - Resized most items for more reliable printing
                      - Turn off input field backgrounds and set red to black for printing
-                     - Bumped version to 4.1-2.6
-     03/10/17 by HPH - Modified alignment of the Message line, increased version.
-
+                     - White text on dark gray background now prints black on light gray
+                     - Bumped version to 4.1-1.9
+     06-16-17 by HPH - Modified verson to PacRELEASE 4.2
+     07-18-17 by HPH - Removed 50 char. limit for !PACF! record (Hospital Name)
+     08-16-17 by HPH - Changed PacRelease from 4.2 to 4.3 - no other changes made
+     06/29/18 by MEF - Changed PacRelease from 4.3 to 4.4 - no other changes made
 -->
 
 <style type="text/css">
 
-  body { font-size: 10pt; font-weight: normal;  color: black; font-family: Helvetica, Arial, sans-serif; }
+  body { font-size: 10pt; font-weight: normal; color: black; font-family: Helvetica, Arial, sans-serif; }
 
-  input, textarea, select { font-weight: bold; background: #ffffdd; }
-  /* select { width: 300px; } */
+  input, textarea, select, radio { font-weight: bold; }
 
-  hr { color:red }
+  .tab0   { font-size: 10pt; }
+  .msgno  { font-size: 10pt; color: black; text-align: right;}
+  .table1 { font-size:  9pt; }
+  .table2 { font-size:  8pt; }
 
-  table, button { font-size:8pt; font-weight:bold; }
+  .banner-table { background: #B24F18; }
 
-  .banner-table { background: #DDDDDD; }
+  .tab1  { font-size:  9pt; font-weight: bold;   color: white;   background-color:#444444; }
+  .tab1r { font-size:  8pt; font-weight: normal; color: #ff6666; background-color:#444444; }
+  .tab2  { font-size:  9pt; font-weight: normal; color: black;   background-color:#ffffbb; }
+  .tab3  { font-size:  9pt; font-weight: normal; }
+  .tab4  { font-size: 10pt; font-weight: normal; color: white;   background-color:#444444;}
 
-  .msgno  { font-size:  9pt; text-align: right; }
-  .table1 { font-size:  8pt; }
-  .table2 { font-size:  8pt; font-weight: normal; }
-  .table3 { font-size:  8pt; }
-  .table4 { font-size:  8pt; }
-  .req-table { font-weight: bold; }
+  th        { font-size: 12pt; font-weight: bold;   color: black; background: #DDDDDD; }
+
+  A         { font-size: 10pt; font-weight: normal; color: white; text-decoration: none; }
+  A:hover   { font-weight: bold; font-style: italic; }
+  .th-link  { font-size: 12pt; font-weight: bold; color: black; }
+
+  input, textarea, select, radio { font-weight: bold; background: #ffffdd }
 
   .red { color: red; }
 
-  .city-button   { font-size:  9pt; }
-
-  .title-text    { font-size: 14pt; font-weight: bold; color: blue; }
-  .s1-title-text { font-size: 12pt; font-weight: bold;  }
-  .s2-title-text { font-size:  9pt; font-weight: normal;  }
-  .js-head-text  { font-size:  9pt; }
-  .js-error-text { font-size: 12pt; font-weight: bold;  color: red; }
+  .title-text    { font-size: 14pt; font-weight: bold;   color: white; }
+  .s1-title-text { font-size: 12pt; font-weight: bold;   color: white; }
+  .s2-title-text { font-size:  9pt; font-weight: normal; color: white; }
+  .js-head-text  { font-size:  9pt; color: yellow; }
+  .js-error-text { font-size: 12pt; font-weight: bold;   color: red; }
   .sm-text       { font-size:  8pt; }
   .status-title  { font-size: 14pt; font-weight: bold;  }
+  .md-input      { font-size:  9pt; font-weight: normal; }
   .oper-input    { font-size:  8pt; font-weight: normal; }
   .submit-text   { font-size: 10pt; color: red; }
-  .form-ver-text { font-size:  8pt; font-weight: bold; text-decoration: underline; }
-  .sec-title     { font-size:  9pt; font-weight: bold; background-color: #DDDDDD; }
-
-  .lineht {line-height:240%;}
+  .form-ver-text { font-size: 8pt;  font-weight: bold; text-decoration: underline; }
 
 </style>
-<!--
-From this point, the JavaScript is common for all JS: forms (new method for pac-read)
-Where changes to a JavaScript function need to be made, a comment will be inserted there
-  to describe what needs to be done.
--->
+
 <style type="text/css" media="print">
+
   .header, .trailer { display: none;  }
+  .banner-table { background: #eeaa86; }
   .red { color: black; }
-  .table4 { color: black; }
-  hr { color: black }
   input, select, textarea { color: black; background: none; }
-  .title-text { color: black; }
-  .oper-input { color: black; }
+  .title-text, .s1-title-text, .s2-title-text { color: black; }
+
+  .oper-input   { color: black; }
+  .tab1, .tab1r { color: black; background: #DDDDDD; }
+  .tab2         { color: black; background: none; }
+  .tab2, .tab3, { color: black; background: none; }
+  .tab4         { color: black; background: #EEEEEE; }
+  A { font-weight: bold; color: black; }
+
 </style>
 
 <script language="JavaScript">
 // <!--
 
-// The first 2 records below are required.  They are part of the first 2 # records
-//  in the ASCII file sent to Outpost.
-//
-var JSid = "EOC Logistics Request (which4)";
-var JSver = "JS-ver. PR-4.1-2.7, 03/10/17";
-var JShead = "<span class=\"js-head-text\">JavaScript Version PR-4.1-2.7 for Amateur Radio Packet Transmission, 03/10/17 - <b>PacRELEASE 4.1</b></span>";
-var JStail = "(PR-4.1-2.7, 03/10/17)";
+// var JSid = "HAVE BEDS STATUS (which5)";
+var JSid = "BEDS STATUS (which4)";
+var JSver = "JS-ver. PR-4.4-1.10, 06/29/18, PR4.4";
+var JShead = "<span class=\"js-head-text\">JavaScript Version PR4.4-1.10 for Amateur Radio Packet Transmission, 06/29/18 - <b>PacRELEASE 4.4</b></span>";
+var JStail = "(PR-4.4-1.10, 06/29/18)";
 
 fromlocal = 0;  // =0 for call to pac-read with No !OUTPOST! record; >0 if so. Reset fm pac-read.
 
@@ -118,12 +134,12 @@ function emerg()
     var res = new Array(), tem = new Array();
     var a=document.URL;
     tem = a.split(/\?/);
-  //  alert(a+", T0:"+tem[0]+", T1:"+tem[1]);
+ //   alert(a+", T0:"+tem[0]+", T1:"+tem[1]);
     a = tem[0];
     a = a.replace(/\\/g,"\/");
     res = a.split(/\//g);
     var l = res.length-1;
-  //  alert(a+", "+l+", "+res[0]+","+res[l]);
+ //   alert(a+", "+l+", "+res[0]+","+res[l]);
     return res[l];
   }
 
@@ -164,7 +180,7 @@ function emerg()
          var day  = zerofill(Today.getDate());
          var hr1 = Today.getHours();
          var min = zerofill(Today.getMinutes());
-/*                             // This section commented out may be useful to some forms.
+/*
          if (hr1 >12)
           { hr = hr1 - 12;
             ampm = " PM";
@@ -177,32 +193,24 @@ function emerg()
          var dat = month+"/"+day+"/"+year;
          var tim = hr1+":"+min;
          var dtim=dat+" @ "+tim;
-/*
- The form field names Datt1 and Timm1 may need to be changed to be compatible with
-  the form field names that you will use in your form to auto load the date and
-  time in your form when the form is initially loaded.
-*/
-         if (dum1 == 0)     // datetime(0) is called at form load
-          { // document.forms[0].Datt1.value=dat;
-            // document.forms[0].Timm1.value=tim;
+         document
+         if (dum1 == 0)
+          { document.forms[0].update.value=dtim;
             document.forms[0].odate.value=dat;
             document.forms[0].otime.value=tim;
           } else
-         if(dum1 == 1)     // datetime(1) is called to update values when the form is submitted
-          { // document.forms[0].Datt1.value=dat;
-            // document.forms[0].Timm1.value=tim;
+         if(dum1 == 1)
+          { document.forms[0].update.value=dtim;
             document.forms[0].odate.value=dat;
             document.forms[0].otime.value=tim;
           } else
-         if (dum1 == 2)   // datetime(2) is called if testvalues fails (not all required fields are filled)
-          { // document.forms[0].Datt1.value="";
-            // document.forms[0].Timm1.value="";
+         if (dum1 == 2)
+          { document.forms[0].update.value="";
           }
-
        }
 
    function trim(strval)              // Trims leading and trailing blanks
-   {                                  // [ ]  changed to (( & )) " changed to '
+   {
      strval = strval.replace(/\`\]/g, "\x87")  // New - temp.
      strval = strval.replace(/\]/g, "`]");     // New
      strval = strval.replace(/\x87/g, "``]");  // New
@@ -213,7 +221,7 @@ function emerg()
      return strval;
    }
 
-function wrap(inStr, cols)
+  function wrap(inStr, cols)
   { var i, n, itot, str, res, cvt;
     words = new Array;
     if (inStr == "") { return inStr; }
@@ -256,6 +264,7 @@ function wrap(inStr, cols)
       irows = msg.rows;
       str = str.replace(/\xBF/g,"\\n");  // Converts all inverted ? to \n from old versions, 7/23/13
       str = str.replace(/\\n/g, "\n");
+//      str = str.replace(/%37/g, "%");     // NEW
       if (str.charAt(0) == "\n")      // Removes inverted \n at 1st Chr.
        { str = str.substring(1); }
       parl = countlines(str);
@@ -298,6 +307,7 @@ function wrap(inStr, cols)
        }
       return i;
   }
+
 
  sepChar = String.fromCharCode(167);
  instr="";
@@ -345,11 +355,7 @@ function fdropdown(param)
     val =param.options[indx].value;
     return val;
   }
-/*
- This function tests to make sure that required fields are filled in properly.
- My mehtod is to take a form field name like msgno and create a variable called Fmsgno.
- See function newwin below, where the F<names> are defined.
- */
+
 
  function testvalues()
   { var str;
@@ -357,10 +363,9 @@ function fdropdown(param)
     if (Fmsgno == "") { str="Enter a Message Number."; }
     if (Fsever == "") { str=str+"\n Indicate Situation Severity."; }
     if (Fhandling == "") { str=str+"\n Indicate Msg. Handling Order."; }
-    if (FItemRequest == "") { str=str+"\n Enter The Item/Service Requested."; }
-    if (FReqName == "") { str=str+"\n Enter the Requestors Name."; }
-    if (Freqest == "") { str=str+"\n Enter or Select the Requesting Section or Agency"; }
-    if (FAuthor == "") { str=str+"\n Enter the name of the Authorizing person."; }
+    if (Fhospname == "") { str=str+"\n Enter or Select the Hospital from the dropdown list."; }
+    if (Fhccstat == "") { str=str+"\n Select the Hospital Status from the dropdown list."; }
+    if (Fhosp1 == "") { str=str+"\n The By User field can not be empty. \n   Use the SELECT the HOSPITAL dropdown to populate."; }
     if (str == "")
      { return true;
      } else
@@ -399,24 +404,20 @@ function fdropdown(param)
     whichway = theway;
 
 // Required form fields are defined here and are tested in testvalues
-// variable to the left of = is the same as the form field name with F added at the beginning.
+// variable to the left of = is the same as the form field name with Fadded at the beginning.
  Fmsgno = trim(document.forms[0].msgno.value); // TEXT
  Fsever = fradio(document.forms[0].sever,3);
  Fhandling = fradio(document.forms[0].handling,3);
- FItemRequest = trim(document.forms[0].ItemRequest.value);
- FReqName = trim(document.forms[0].ReqName.value);
- Freqest = trim(document.forms[0].reqest.value);
- FAuthor = trim(document.forms[0].Author.value);
-/*
-  Next 5 lines are for added info after the !PACF! record sent to Outpost
-  The variable pacf, below, is composed of several components a, b, c & d
-  variable d usually describes the form
-*/
-   d = "EOC Logistics Req";
+ Fhospname = trim(document.forms[0].hospname.value); // TEXT
+ Fhccstat = trim(document.forms[0].hccstat.value); // TEXT
+ Fhosp1 = trim(document.forms[0].hosp1.value); // TEXT
+
+// Next 5 lines are for added info after !PACF!
+   d = "Bed-Status";
    a = Fmsgno.substring(0);
    b = Fsever.substring(0,1);
    c = Fhandling.substring(0,1);
-   pacf = a+"_"+b+"/"+c+"_"+d+"_"+Freqest.substring(0,40);
+   pacf = a+"_"+b+"/"+c+"_"+d+"_"+Fhospname;
 //
  if (whichway == 1)
   { ascii = poundstuff();
@@ -428,7 +429,7 @@ function fdropdown(param)
  NewWin = window.open("", null, "height=600,width=700,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes,resizable=yes");
  NewWin.document.write("<" + "html>\n");
  NewWin.document.write("<" + "head>\n");
- NewWin.document.write("<title>EOC Logistics Request</title>\n");
+ NewWin.document.write("<title>Bed Status Form</title>\n");
  var bbb = Browser();
  if (bbb)
   {
@@ -446,12 +447,12 @@ function fdropdown(param)
  NewWin.document.write("<" + "/head> \n");
  if (bbb)
   {
-    NewWin.document.write('<'+'body  bgcolor="#ffffff" onLoad="ClipBoard()">\n');
+    NewWin.document.write('<' + 'body  bgcolor="#ffffff" onLoad="ClipBoard()">\n');
     NewWin.document.write('<SPAN ID="copytext" STYLE="background-color:lightblue">\n');
     NewWin.document.write('<TEXTAREA ID="holdtext" STYLE="display:none;"> </TEXTAREA>\n');
   }
  else
-  { NewWin.document.write('<'+'body>\n');
+  { NewWin.document.write('<' + 'body>\n');
   }
  NewWin.document.write("<pre>\n");
  NewWin.document.write("!PACF! "+pacf+"\n# JS:"+JSid+"\n");
@@ -530,51 +531,6 @@ function qs()
      }
   }
 
-    var rtoggle = 0;
-    function RSwitch()
-     { var em;
-       if (rtoggle == 0)
-        { document.getElementById("rnorm").style.display="none";
-          document.getElementById("rdrop").style.display="block";
-          document.forms[0].b1.value="Display Manual Entry";
-          document.forms[0].citylist[0].selected=true;
-          em=document.getElementById("email1").value;
-          if (em != "")
-           { document.getElementById("email2").value=em;
-           }
-          rtoggle = 1;
-        }
-       else
-        { document.getElementById("rnorm").style.display="block";
-          document.getElementById("rdrop").style.display="none";
-          document.forms[0].b1.value="Display List of Cities";
-          em=document.getElementById("email2").value;
-		  if (em != "")
-		   { document.getElementById("email1").value=em;
-           }
-          rtoggle = 0;
-        }
-       return false;
-     }
-
-    function rbacktonorm()
-     { var dum=document.forms[0].citylist.value;
-           document.forms[0].reqest.value=dum;
-           document.forms[0].b1.value="Display Manual Entry"
-           RSwitch();
-     }
-
-  var ttoggle = 0;
-  var ftoggle = 0;
-
- function custom()
-  { var i, num;
-    // writeels(); // Uncomment when you want to check all elements
-    qs(); // Do Not remove this function call. Used by Outpost to pass data.
-    num = document.forms[0].msgno.value;
-    if (num == "$$") { writeels(); }
-  } //End Custom
-
 function testreply()
   { if (fromlocal > 0 )
     {
@@ -584,15 +540,27 @@ function testreply()
    return;
   }
 
-  function writeels()   //  Displays all form field values as a disagnostice tool
+  var ttoggle = 0;
+  var ftoggle = 0;
+
+ function custom()
+  { var i, num;
+    // writeels(); // Uncomment when you want to check all elements
+   // for (i=0; i<20; i++) { comar[i]=""; }
+    qs(); // Do Not remove this function call. Used by Outpost to pass data.
+    num = document.forms[0].msgno.value;
+    if (num == "$$") { writeels(); }
+  } //End Custom
+
+  function writeels()
    { var n,typ,val, nam, str, lb;
      n = document.forms[0].elements.length;
      EleWin = window.open("", null, "height=600,width=700,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes,resizable=yes");
-     EleWin.document.write("<" + "html>\n<" + "head>\n<title>Element List</title>\n</head>\n");
+     EleWin.document.write("<" + "html>\n" + "<head>\n<title>Element List</title>\n</head>\n");
      EleWin.document.write("<" + "body>\n<b>ELEMENT LIST for "+geturl()+"<p>Ele. Index, Type, Name, Value</b><p>");
      for (i=0; i<n; i++)
-      { // lb = String.fromCharCode(163); // English pound sign - to flag select index
-        lb = "}"; // Right brace flag index
+      { //lb = String.fromCharCode(163); // English pound sign - to flag select index
+        lb = "}";
         typ = document.forms[0].elements[i].type;
         nam = document.forms[0].elements[i].name;
         val = document.forms[0].elements[i].value;
@@ -615,7 +583,7 @@ function testreply()
  var inl = new Array();
  var inr = new Array();
 
- function outels()   //  Used to fill form fields by pac-read
+ function outels()
   { var inn, typ, val, indx, nam, chk, nidx, k, lb;
     var dum = new Array();
     lbo= String.fromCharCode(163);
@@ -643,12 +611,12 @@ function testreply()
    testreply();
   }
 
-  function listels()  //  Writes ASCII file when  form is submitted to send to pac-read.
+  function listels()
    { var n,typ,val,indx, nam, chk, nidx, k, lb;
      n = document.forms[0].elements.length;
     // lb = String.fromCharCode(163); // English pound sign - to flag select index
+    // yen = String.fromCharCode(165); // Yen sign to flag odate or otime parameter
      lb = "}";
-    //  yen = String.fromCharCode(165); // Yen sign to flag odate or otime parameter
      yen = "{";
      for (i=0; i<n; i++)
       {
@@ -663,7 +631,8 @@ function testreply()
           {  val = document.forms[0].elements[i].value;
             if (typ == "text" || typ == "textarea" || typ == "hidden")
              { val = trim(val);
-               if (nam == "odate" || nam == "otime")
+         //      if (nam == "odate" || nam == "otime"
+               if (nam == "odate" || nam == "otime" || nam == "ocall" || nam == "oname") // test 12/16/14
                 { val = val+yen+nam;
                 }
              }
@@ -683,25 +652,77 @@ function testreply()
 // -->
 </SCRIPT>
 
+
+
+   <script language="JavaScript">
+ // <!--
+    function assign1()
+     { var hh,temp;
+       hh=document.forms[0].hosplist.value;
+       temp="HCC: "+hh;
+       document.forms[0].hosp1.value=temp;
+       document.forms[0].hospname.value=hh;
+//       unexpand(documnt.forms[0].hosp1);
+     }
+
+    function assign2()
+     { var hh,temp;
+       hh=document.forms[0].status.value;
+       document.forms[0].hccstat.value=hh;
+//       unexpand(documnt.forms[0].status);
+     }
+
+  var help = new Array();
+  help[1]="Adult ICU:\nBeds that can support critically ill/injured "+
+          "patients, including ventilator support.";
+  help[2]="Burn:\nThought of as Burn ICU beds either approved by the American Burn\n"+
+          "Association or self-designated.\n(These beds are NOT to be included in other ICU"+
+          "bed counts.)";
+  help[3]="Medical and Surgical (Med/Surg):\nAlso thought of as \"Ward\" beds.";
+  help[4]="Airborne Infection Isolation:\nBeds provided with negative airflow, providing "+
+          "respiratory isolation.\nNOTE: This value may represent available beds included in "+
+          "\nthe counts of other bed categories.";
+  help[5]="Operating Rooms:\nAn operating room that is equipped and staffed and could be "+
+          "\nmade available for patient care in a short period of time.";
+  help[6]="Pediatric Intensive Care:\nAs for Adult ICU, but for patients 17 years and younger.";
+  help[7]="Pediatrics:\n\"Ward Medical/Surgical\" beds for patients 17 and younger.";
+  help[8]="Psychiatric:\n\"Ward\" beds on a closed/locked psychiatric unit or ward beds where"+
+          "\na patient will be attended by a sitter.";
+  help[9]="Decon:\n  Decontamination area for patients who were exposed to chemical, biological or radiological contamination.";
+  help[10]="Vents:\n  Beds with ventilators that can support critically ill/injured patients.";
+
+  function doAlert(num)
+   { if(num > 0)
+      { alert(help[num]);
+      } else
+      { alert("Bed Type Definitions\n\n"+help[1]+"\n\n"+help[2]+"\n\n"+help[3]+"\n\n"+help[4]+"\n\n"+help[5]+"\n\n"+
+         help[6]+"\n\n"+help[7]+"\n\n"+help[8]+"\n\n"+help[9]+"\n\n"+help[10]);
+      }
+   }
+
+   // -->
+ </SCRIPT>
+<!-- End of specific Style and Javascript for the HaveBeds form -->
 <!-- PART1 -->
 </head>
 <body bgcolor="#ffffff" onLoad="hide_message(); datetime(0); custom();">
 <!-- PART2 -->
 <center>
-<table class=banner-table width="100%">
+<table class="banner-table" width="100%">
   <tr><td><center>
-    <span class="title-text">EOC Logistics - Supply and Services Request Form</span>
-    <div class="js-head-text header">
+    <span class="title-text">Bed STATUS REPORT FORM</span><br>
+    <span class="s1-title-text">Medical Health Operations Center Beds Status Form</span>
+    <div class="header">
       <script language="JavaScript"> // put in header area
         document.write(JShead);
       </script><br>
-      <span class="s2-title-text">(For the manual saving of the ASCII output, this form is best used with Microsoft Internet Explorer)</span>
+      <span class="s2-title-text">
+      (For the manual saving of the ASCII output, this form is best used with Microsoft Internet Explorer)</span>
       <div id="errormessage1" name="errormessage1" align="center">
-        <p><p>
         <hr color="red" size="3">
         <span class="js-error-text">
-        JAVASCRIPT IS NOT ENABLED IN THIS BROWSER.<br>
-        THIS FORM WILL NOT WORK WITHOUT JAVASCRIPT ENABLED.</span>
+          JAVASCRIPT IS NOT ENABLED IN THIS BROWSER.<br>
+          THIS FORM WILL NOT WORK WITHOUT JAVASCRIPT ENABLED.</span>
         <hr color="red" size="3">
         <p><p>
       </div>
@@ -709,24 +730,22 @@ function testreply()
   </center></td></tr>
 </table>
 
-<span class="header">
+<p>
 <!-- PART3 -->
-
-</span>
+<p>
 <form name="theForm">
-<center>
-
-<span class="red header"><b>Items in RED <i>Italics</i> and marked with * are Required</b></span>
+<!--<center>-->
+<span class="red header"><b>Items in RED are Required</b></span>
 
 <!-- Message Numbers -->
-<table class="msgno" width="100%">
+<table class="msgno">
   <tr>
-    <td nowrap align="right">A.) When Receiving,<br>Sender's Msg. No.</td>
-    <td nowrap align="left"><input type="text" size="11" name="RSmsgno" tabindex="1" id="RSmsgno" disabled="true"></td>
-    <td nowrap align="right">&nbsp;&nbsp;&nbsp;&nbsp;<span class="red"><b>B.) Message<br>Number</b></span></td>
-    <td nowrap align="left"><input type="text" size="11" name="msgno"  tabindex="2"></td>
-    <td nowrap align="right">&nbsp;&nbsp;&nbsp;&nbsp;C.) When Sending,<br>Receiver's Msg. No.</td>
-    <td nowrap align="left"><input type="text" size="11" name="SRmsgno" tabindex="3" id="SRmsgno" disabled="true"></td>
+    <td nowrap>A.) When Receiving,<br>Sender's Msg. No.</td>
+    <td nowrap><input type="text" size="11" name="RSmsgno" tabindex="1" id="RSmsgno" disabled="true"></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;<span class="red"><b>B.) Message<br>Number</b></span></td>
+    <td nowrap><input type="text" size="11" name="msgno"  tabindex="2"></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;C.) When Sending,<br>Receiver's Msg. No.</td>
+    <td nowrap><input type="text" size="11" name="SRmsgno" tabindex="3" id="SRmsgno" disabled="true"></td>
   </tr>
 </table>
 
@@ -738,7 +757,7 @@ function testreply()
 
 <!-- Severity, Handling Order, Reply -->
 <!--<center>-->
-<table border="1" class="table1" width="100%">
+<table border="1" class="table1" >
 <!---
 <tr class="header">
 -->
@@ -770,202 +789,154 @@ function testreply()
   </tr>
 </table>
 
+<div>&nbsp;</div>  <!-- spacer -->
+<!--</center>-->
 
-<center>
-<!--  End of common header information, Beginning of basic form -->
+<!-- Hospital and Status selection -->
+<!--<center>-->
+<div class="header">
+  <select name="hosplist"  tabindex="21" onChange="assign1()">
+    <option value="0">SELECT the HOSPITAL</option>
+    <option value="El Camino Hospital Los Gatos">El Camino Hospital Los Gatos</option>
+    <option value="El Camino Hospital Mountain View">El Camino Hospital Mountain View</option>
+    <option value="Good Samaritan Hospital">Good Samaritan Hospital</option>
+    <option value="Kaiser San Jose Medical Center">Kaiser San Jose Medical Center</option>
+    <option value="Kaiser Santa Clara Hospital">Kaiser Santa Clara Hospital</option>
+    <option value="Lucile Packard Children's Hospital">Lucile Packard Children's Hospital</option>
+    <option value="O'Connor Hospital">O'Connor Hospital</option>
+    <option value="Palo Alto Veterans Hospital">Palo Alto Veterans Hospital</option>
+    <option value="Regional San Jose Medical Center">Regional San Jose Medical Center</option>
+    <option value="Saint Louise Regional Hospital">Saint Louise Regional Hospital</option>
+    <option value="Stanford Hospital">Stanford Hospital</option>
+    <option value="Stanford School of Medicine">Stanford School of Medicine</option>
+    <option value="Valley Medical Center">Valley Medical Center</option>
+  </select>
+  &nbsp; &nbsp; &nbsp; &nbsp;
+  <select name="status"  tabindex="22"  onChange= "assign2()">
+    <option value="0">SELECT the Hospital Status</option>
+    <option value="Available">Available</option>
+    <option value="Drill or Exercise">Drill or Exercise</option>
+    <option value="Full Activation">Full Activation</option>
+    <option value="Monitoring">Monitoring</option>
+    <option value="Not Activated">Not Activated</option>
+    <option value="Unavailable">Unavailable</option>
+  </select>
+  <div>&nbsp;</div>  <!-- spacer -->
+</div>
 
-<table border="1" width="100%">
-  <tr>
-    <td nowrap><span class="red"><i>ITEM/SVC REQUESTED:* </i></span></td>
-    <td nowrap><input type="text" name="ItemRequest" size="80" tabindex="20"></td></tr>
-  <tr>
-    <td nowrap><span class="red"><i>REQUESTOR:* </i></span></td>
-    <td nowrap>&nbsp;Name: <input type="text" name="ReqName" size="40" tabindex="21"> &nbsp; &nbsp; &nbsp;
-    Phone No.:  <input type="text" name="Phone" size="18" tabindex="22"></td></tr>
-  <tr>
-    <td><span class="red"><i>SECTION/AGENCY:* </i></span><br>
-      <input type="button" onClick="RSwitch();" id="button" name="b1"  value="Display List of Cities" class="city-button header"></td>
-    <td nowrap>
-      <div ID="rnorm" style="display:block;" >
-        <input type="text" name="reqest" size="28" tabindex="23">&nbsp; &nbsp; &nbsp;
-        Email: <input type="text" id="email1" name="Email" size="40" tabindex="24">
-      </div>
-      <div ID="rdrop" style="display:none;">
-        <select name="citylist" onChange="rbacktonorm()">
-          <option value="0">SELECT the CITY</option>
-          <option value="Campbell">Campbell</option>
-          <option value="Cupertino">Cupertino</option>
-          <option value="Gilroy">Gilroy</option>
-          <option value="Loma Prieta">Loma Prieta</option>
-          <option value="Los Altos">Los Altos</option>
-          <option value="Los Altos Hills">Los Altos Hills</option>
-          <option value="Los Gatos/Monte Sereno">Los Gatos/Monte Sereno</option>
-          <option value="Milpitas">Milpitas</option>
-          <option value="Morgan Hill">Morgan Hill</option>
-          <option value="Mountain View">Mountain View</option>
-          <option value="NASA-Ames">NASA-Ames</option>
-          <option value="Palo Alto">Palo Alto</option>
-          <option value="San Jose">San Jose</option>
-          <option value="Santa Clara">Santa Clara</option>
-          <option value="Saratoga">Saratoga</option>
-          <option value="Stanford">Stanford</option>
-          <option value="Sunnyvale">Sunnyvale</option>
-        </select>
-      &nbsp; &nbsp; &nbsp;
-      Email: <input type="text" id="email2" name="Email" size="40">
-    </div></td></tr>
-  <tr>
-    <td>ITEM/SERVICE<br>DESCRIPTION:</td>
-    <td nowrap><textarea name="Descrip" rows="2" cols="70" tabindex="25"></textarea></td></tr>
-  <tr>
-    <td>PURPOSE:</td>
-    <td nowrap><textarea name="Purpose" rows="2" cols="70" tabindex="26"></textarea></td></tr>
-  <tr>
-    <td>QUANTITY:</td>
-    <td nowrap><input type="text" name="Quantity" size="30" tabindex="27">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size:
-    <input type="text" name="Size" size="30" tabindex="28"></td></tr>
-  <tr>
-    <td>WHEN NEEDED:</td>
-    <td nowrap>
-      &nbsp;Date (mm/dd/yy) <input type="text" name="Datt" size="10" tabindex="29">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Time (24hr) <input type="text" name="Timm" size="6" tabindex="30">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="PickDel" value="Pick">Pickup
-      &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="PickDel" value="Del" checked>Delivery</td></tr>
-  <tr>
-    <td>DELIVERY LOCATION</td>
-    <td nowrap class="lineht">&nbsp;Address: &nbsp;<input type="text" name="Address" size="70" tabindex="31"><br>
-      &nbsp;Cross St.: <input type="text" name="Cross" size="70" tabindex="32"></td></tr>
-  <tr>
-    <td>RECEIVER: </td>
-    <td nowrap>
-      <table width="100%">
-        <tr>
-          <td nowrap>&nbsp;Name/Position:</td>
-          <td colspan="3"><input type="text" name="RecName" size="65" tabindex="33"></td></tr>
-        <tr>
-          <td nowrap>&nbsp;Phone Number:</td>
-          <td><input type="text" name="RecPhone" size="16" tabindex="34"> </td>
-          <td>Email:</td>
-          <td><input type="text" name="RecEmail" size="40" tabindex="35"></td></tr>
-        <tr>
-          <td nowrap>&nbsp;Cell Number:</td>
-          <td><input type="text" name="CellNo" size="16" tabindex="36"></td>
-          <td>Radio:</td>
-          <td><input type="text" name="Frequency" size="40" tabindex="37"></td></tr>
-      </table></td></tr>
-  <tr>
-    <td>ADDITIONAL DETAILS /<br>COMMENTS</td>
-    <td nowrap><textarea name="Additional" rows="2" cols="70" tabindex="38"></textarea></td></tr>
-  <tr>
-    <td nowrap><span class="red"><i>AUTHORIZATION-Name:* </i></span></td>
-    <td nowrap><input type="text" name="Author" size="80" tabindex="39"></td></tr>
+<table border="1">
+  <tr class="tab1">
+    <td nowrap>Emergency Department <span class="tab1r header">(Required)</span></td>
+    <td nowrap>Status <span class="tab1r header">(Required)</span></td>
+    <!-- <td nowrap>Comment</td> -->
+    <td nowrap>Last Update</td>
+    <td nowrap>By User <span class="tab1r header">(Required)</span></td>
+  </tr>
+  <tr class="tab2">
+    <td nowrap><input type="text" size="31" name="hospname" tabindex="23" class="md-input"></td>
+    <td nowrap><input type="text" size="13" name="hccstat" tabindex="24" class="md-input"></td>
+    <!--  <td nowrap><input type="text" size="5" name="comment" class="md-input"></td> -->
+    <td nowrap><input type="text" size="18" name="update" tabindex="25" class="md-input"></td>
+    <td nowrap><input type="text" size="37" name="hosp1" tabindex="26" class="md-input"></td>
+  </tr>
 </table>
 
-<!--
-<hr size="5">
--->
+<p>
 
-<!-- EOC Logistics Use Only Section -->
-<div class="sec-title" align="center"><b>EOC LOGISTICS USE ONLY</b></div>
-
-<table class="table3" width="100%" border="1">
-  <tr>
-    <td nowrap>DATE/TIME RECEIVED:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> LOG NO.:</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>DATE/TIME ORDERED:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> BY: </td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>SUPPLIER/PROVIDER:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> VENDOR NO.:</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>ADDRESS:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> PHONE NO.</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>CONTACT PERSON:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> CELL NO. </td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>PURCHASE ORDER NUMBER:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> EMAIL: </td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>AUTHORIZED SIGNATURE:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> AMOUNT $:</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>&nbsp;</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> ETA:</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-</table>
-
-<!-- Finance Use Only Section -->
-<div class="sec-title" align="center"><b>FINANCE USE ONLY</b></div>
-
-<table  width="100%" border="1">
-  <tr>
-    <td nowrap>INDEX CODE:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap>&nbsp; </td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>VENDOR INVOICE NO::</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> VOUCHER NO.</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>DATE PAID:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> TOTAL AMOUNT:</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
-  <tr>
-    <td nowrap>INPUT BY:</td>
-    <td nowrap width="35%" height="20">&nbsp;</td>
-    <td nowrap> DATE COMPLETE:</td>
-    <td nowrap width="35%">&nbsp;</td></tr>
+<!-- Status Summary Table -->
+<div class="header">Click on <b>Bed Type</b> label to display the definition.</div>
+<table class="tab3" border="1">
+ <tr>
+   <th nowrap><a href="#" onClick="doAlert(0)"><span class="th-link">Bed Capacity</span></a></th>
+   <th nowrap>Nbr.</th>
+   <th nowrap><a href="#" onClick="doAlert(0)"><span class="th-link">Bed Availability</span></a></th>
+   <th nowrap>Nbr.</th></tr>
+ <tr>
+   <td nowrap class="tab4">1. <a href="#" onClick="doAlert(1)">Bed Capacity: Adult ICU</a></td>
+   <td nowrap><input type="text" size="4" name="bedadulticu" tabindex="31"></td>
+   <td nowrap class="tab4">9.&nbsp; <a href="#" onClick="doAlert(1)">Bed Avail: Adult ICU</a></td>
+   <td nowrap><input type="text" size="4" name="adicu" tabindex="41"></td></tr>
+ <tr>
+   <td nowrap class="tab4">2. <a href="#" onClick="doAlert(2)">Bed Capacity: Burn</a></td>
+   <td nowrap><input type="text" size="4" name="bedburn" tabindex="32"></td>
+   <td nowrap class="tab4">10. <a href="#" onClick="doAlert(2)">Bed Avail: Burn</a></td>
+   <td nowrap><input type="text" size="4" name="burns" tabindex="42"></td></tr>
+ <tr>
+   <td nowrap class="tab4">3. <a href="#" onClick="doAlert(3)">Bed Capacity: Medical/Surgical</a></td>
+   <td nowrap><input type="text" size="4" name="bedmedsurg" tabindex="33"></td>
+   <td nowrap class="tab4">11. <a href="#" onClick="doAlert(3)">Bed Avail: Medical/Surgical</a></td>
+   <td nowrap><input type="text" size="4" name="medsurg" tabindex="43"></td></tr>
+ <tr>
+   <td nowrap class="tab4">4. <a href="#" onClick="doAlert(4)">Bed Capacity: Neg Flow Isolation</a></td>
+   <td nowrap><input type="text" size="4" name="bednegfloi" tabindex="34"></td>
+   <td nowrap class="tab4">12. <a href="#" onClick="doAlert(4)">Bed Avail: Neg Flow Isolation</a></td>
+   <td nowrap><input type="text" size="4" name="negflow" tabindex="44"></td></tr>
+ <tr>
+   <td nowrap class="tab4">5. <a href="#" onClick="doAlert(5)">Bed Capacity: Operating Room</a></td>
+   <td nowrap><input type="text" size="4" name="bedor" tabindex="35"></td>
+   <td nowrap class="tab4">13. <a href="#" onClick="doAlert(5)">Bed Avail: Operating Room</a></td>
+   <td nowrap><input type="text" size="4" name="or" tabindex="45"></td></tr>
+ <tr>
+   <td nowrap class="tab4">6. <a href="#" onClick="doAlert(6)">Bed Capacity: Pediatric ICU</a></td>
+   <td nowrap><input type="text" size="4" name="bedpedicu" tabindex="36"></td>
+   <td nowrap class="tab4">14. <a href="#" onClick="doAlert(6)">Bed Avail: Pediatric ICU</a></td>
+   <td nowrap><input type="text" size="4" name="picu" tabindex="46"></td></tr>
+ <tr>
+   <td nowrap class="tab4">7. <a href="#" onClick="doAlert(7)">Bed Capacity: Pediatrics</a></td>
+   <td nowrap><input type="text" size="4" name="bedped" tabindex="37"></td>
+   <td nowrap class="tab4">15. <a href="#" onClick="doAlert(7)">Bed Avail: Pediatrics</a></td>
+   <td nowrap><input type="text" size="4" name="peds" tabindex="47"></td></tr>
+ <tr>
+   <td nowrap class="tab4">8. <a href="#" onClick="doAlert(8)">Bed Capacity: Psychiatric</a></td>
+   <td nowrap><input type="text" size="4" name="bedpsyc" tabindex="38"></td>
+   <td nowrap class="tab4">16. <a href="#" onClick="doAlert(8)">Bed Avail: Psychiatric</a></td>
+   <td nowrap><input type="text" size="4" name="psych" tabindex="48"></td></tr>
+ <tr>
+   <td nowrap colspan="2"></td><td class="tab4">17. <a href="#" onClick="doAlert(9)">Decon</a></td>
+   <td nowrap>
+     <select name="decon" tabindex="49">
+       <option value="0">Select DECON</option>
+       <option value="Exceeded">Exceeded</option>
+       <option value="Full">Full</option>
+       <option value="Inactive">Inactive</option>
+       <option value="Open">Open</option>
+     </select></td></tr>
+ <tr>
+   <td nowrap colspan="2"></td><td class="tab4">18. <a href="#" onClick="doAlert(10)">Vents</a></td>
+   <td nowrap><input type="text" size="4" name="vents" tabindex="50"></td></tr>
+ <tr>
+   <td nowrap colspan="4" align="center"><b>Comment: </b><textarea rows="3" cols="70" wrap="soft" name="fincomment" tabindex="51"></textarea></td></tr>
 </table>
 
 <!-- Operator Area -->
 <table border="1" class="table2">
   <tr >
     <td nowrap valign="middle">
-      <input type="radio" name="recsent" value="Received" >Rcv'd&nbsp;
-      <input type="radio" name="recsent" value="Sent" checked>Sent&nbsp;</td>
+      <input type="radio" name="recsent" value="Received" tabindex="60">Rcv'd&nbsp;
+      <input type="radio" name="recsent" value="Sent" checked tabindex="61">Sent&nbsp;</td>
     <td nowrap valign="middle">
-      <input type="radio" name="method" value="Voice">Voice&nbsp;
-      <input type="radio" name="method" value="Packet" checked>Packet&nbsp;</td>
+      <input type="radio" name="method" value="Voice" tabindex="62">Voice&nbsp;
+      <input type="radio" name="method" value="Packet" checked tabindex="63">Packet&nbsp;</td>
     <td nowrap valign="middle">
-      &nbsp;Call <input type="text" name="ocall" size="9" class="oper-input">
-      &nbsp;Name <input type="text" name="oname" size="20" class="oper-input"></td>
+      &nbsp;Call <input type="text" name="ocall" size="9" class="oper-input" tabindex="64">
+      &nbsp;Name <input type="text" name="oname" size="20" class="oper-input" tabindex="65"></td>
     <!-- Outpost State, Date, Time -->
     <td nowrap valign="middle">
       <span id="senddt" style="display:block;">
-        &nbsp;Submitted <input type="text" name="odate" size="9" disabled class="oper-input">
-        <input type="text" name="otime" size="5" disabled class="oper-input">
+        &nbsp;Submitted <input type="text" name="odate" size="9" disabled class="oper-input" tabindex="66">
+        <input type="text" name="otime" size="5" disabled class="oper-input" tabindex="67">
       </span>
       <!-- Need to handle the third option:  "Sent" -->
       <span id="outpostdt" style="display:none;">
-        &nbsp;Received <input type="text" name="ordate" size="9" disabled class="oper-input" >
-        <input type="text" name="ortime" size="5"  disabled class="oper-input">
+        &nbsp;Received <input type="text" name="ordate" size="9" disabled class="oper-input" tabindex="68">
+        <input type="text" name="ortime" size="5"  disabled class="oper-input" tabindex="69">
       </span></td></tr>
 </table>
 
 <!-- Form Version Information -->
+<br>
 <div align="right" class="form-ver-text">
-  SCCo EOC Logistics Request
+  SCCo MHOC Bed Status
   <script type="text/javascript">
     document.write(JStail);
   </script>
@@ -973,12 +944,11 @@ function testreply()
 
 <!--  Addition for saving to Outpost -->
 </form>
-
 <!-- PART3.1 -->
 <div class="trailer">
 <form name="submitmachine" method="post" action="http://127.0.0.1:9334/send" onSubmit="return testvalues()">
 
-<p>
+<br>
 <table width="70%">
   <tr><td><span class="submit-text">
     <p>Below you will see two SUBMIT buttons.  The one on the left, when Submitted, will
@@ -989,14 +959,13 @@ function testreply()
     OpDirect must be running to make this work or nothing is saved.</p></span></td></tr>
 </table>
 
-<p>
-
-<input type="button" value="SUBMIT the Form: Manual Copy & Save" onClick="newwin(0)">
+<br>
+<input type="button" value="SUBMIT the Form: Manual Copy & Save" onClick="newwin(0)" tabindex="100">
 <input type="hidden" name="formtext" value="snafutextnotchanged">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-<input type="submit" value="SUBMIT the Form to Outpost" onClick="newwin(1)">
+<input type="submit" value="SUBMIT the Form to Outpost" onClick="newwin(1)" tabindex="102">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-<input type="reset" value="Clear Input" onClick="resetforms();">
+<input type="reset" value="Clear Input" onClick="resetforms();" tabindex="103">
 
 </form>
 </div>

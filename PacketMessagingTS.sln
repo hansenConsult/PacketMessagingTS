@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketMessagingTS", "PacketMessagingTS\PacketMessagingTS.csproj", "{A0511FEF-BCBA-4A66-AE99-12ACD5A49595}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EBA5E558-4804-4914-87ED-EFBFA45E2069} = {EBA5E558-4804-4914-87ED-EFBFA45E2069}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormControlBase", "FormControlBase\FormControlBase.csproj", "{54CD4D6D-9D4F-4270-907A-D6B5EBA3518F}"
 EndProject

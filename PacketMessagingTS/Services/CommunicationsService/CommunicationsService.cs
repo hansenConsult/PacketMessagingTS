@@ -831,7 +831,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
             await tncInterface.BBSConnectThreadProcAsync();
 
             Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
-            _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs.ConnectName}. Connect time = {tncInterface.BBSDisconnectTime - tncInterface.BBSConnectTime}");
+            if (!string.IsNullOrEmpty(bbs?.Name))
+            {
+                _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs?.ConnectName}. Connect time = {tncInterface.BBSDisconnectTime - tncInterface.BBSConnectTime}");
+            }
 
             // Move sent messages from unsent folder to the Sent folder
             foreach (PacketMessage packetMsg in tncInterface.PacketMessagesSent)

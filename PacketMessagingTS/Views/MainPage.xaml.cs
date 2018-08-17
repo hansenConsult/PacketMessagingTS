@@ -214,7 +214,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private async void AppBarMailPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
+        private async void AppBarMainPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
         {
             //PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
             StorageFolder folder = (StorageFolder)_currentPivotItem.Tag;
@@ -236,6 +236,15 @@ namespace PacketMessagingTS.Views
             await DeleteMessageAsync(_packetMessageRightClicked);
 
             await RefreshDataGridAsync();
+        }
+
+        private void AppBarMainPage_OpenInWebView(object sender, RoutedEventArgs e)
+        {
+            string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
+            string packetMessagePath = Path.Combine(folder, _packetMessageRightClicked.FileName);
+
+            NavigationService.Navigate(typeof(WebViewPage), packetMessagePath);
+
         }
 
         public object GetDynamicSortProperty(object item, string propName)
@@ -308,9 +317,16 @@ namespace PacketMessagingTS.Views
 
         private void DataGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            TextBlock grid = e.OriginalSource as TextBlock;
-            PacketMessage pktmsg = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
-            _mainViewModel.OpenMessageFromDoubleClick(pktmsg);
+            try
+            {
+                TextBlock grid = e.OriginalSource as TextBlock;
+                PacketMessage pktmsg = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
+                _mainViewModel.OpenMessageFromDoubleClick(pktmsg);
+            }
+            catch
+            {
+                return;
+            }
         }
 
         private void DataGridInbox_LoadingRow(object sender, DataGridRowEventArgs e)
@@ -324,9 +340,17 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void DataGridInbox_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void DataGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            _packetMessageRightClicked = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
+            try
+            {
+                _packetMessageRightClicked = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
+            }
+            catch
+            {
+                return;
+            }
         }
+
     }
 }

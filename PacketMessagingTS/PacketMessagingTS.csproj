@@ -145,6 +145,7 @@
     <Compile Include="Helpers\SharedData.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\TimeConverter.cs" />
+    <Compile Include="Helpers\UpdatePacFormsFiles.cs" />
     <Compile Include="Helpers\Utilities.cs" />
     <Compile Include="Models\AddressBook.cs" />
     <Compile Include="Models\BBSData.cs" />
@@ -353,10 +354,11 @@
     <Content Include="Assets\CountyTacticalCallsigns.xml" />
     <Content Include="Assets\EmailAccounts.xml" />
     <Content Include="Assets\NonCountyTacticalCallsigns.xml" />
-    <Content Include="Assets\PacFORMS\city-scan.html" />
-    <Content Include="Assets\PacFORMS\EOCLogisticsRequest.html" />
-    <Content Include="Assets\PacFORMS\Message.html" />
-    <Content Include="Assets\PacFORMS\XSC_EOC-213RR_v1706.html" />
+    <Content Include="Assets\PacFORMS\BedStatus.html" />
+    <Content Include="Assets\PacFORMS\js\AddedForWebView.js" />
+    <Content Include="Assets\PacFORMS\XSC_EOC-213RR_v1708.html" />
+    <Content Include="Assets\PacFORMS\XSC_ICS-213_Message_v070628.html" />
+    <Content Include="Assets\PacFORMS\XSC_OA_MuniStatus_v20130101.html" />
     <Content Include="Assets\Tactical_Calls.txt" />
     <Content Include="Assets\TNCData.xml">
       <SubType>Designer</SubType>

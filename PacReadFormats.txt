@@ -1,0 +1,65 @@
+1 type=text, name=msgnovalue=6DM-194P
+6 type=radio, name=severvalue=true
+9 type=radio, name=handlingvalue=true
+13 type=text, name=IncidNamevalue=Incident
+14 type=select-one, name=citylistvalue=Mountain View}10
+15 type=text, name=date3value=08/05/2018
+16 type=text, name=time3value=18:35
+19 type=text, name=EMnamevalue=Phil
+20 type=text, name=EMphonevalue=1234567890
+23 type=select-one, name=OffStatvalue=Unknown}0
+28 type=select-one, name=EOCStatvalue=No}2
+29 type=select-one, name=ActLevelvalue=Unknown}0
+34 type=select-one, name=EmergStatevalue=No}2
+
+02:08 PM 8/14/2018
+
+!PACF! 6DM-422P_O/R_OAMuniStat_Mountain View_Incident
+# JS:SC-OA-Muni Status (which4)
+# JS-ver. PR-4.4-1.9, 06/29/18
+# FORMFILENAME: XSC_OA_MuniStatus_v20130101.html
+0: [6DM-194P]
+1: [6DM-422P]
+6: [true]
+9: [true]
+13: [Incident]
+14: [Mountain View}10]
+15: [08/13/2018]
+16: [13:32]
+19: [Phil]
+20: [1234567890]
+23: [Unknown}0]
+28: [No}2]
+29: [Unknown}0]
+34: [No}2]
+36: [Unknown}0]
+38: [Unknown}0]
+40: [Unknown}0]
+42: [Unknown}0]
+44: [Unknown}0]
+46: [Unknown}0]
+48: [Unknown}0]
+50: [Unknown}0]
+52: [Unknown}0]
+54: [Unknown}0]
+56: [Unknown}0]
+58: [Unknown}0]
+60: [Unknown}0]
+62: [Unknown}0]
+64: [Unknown}0]
+66: [Unknown}0]
+68: [true]
+71: [true]
+72: [KZ6DM]
+73: [Poul Hansen]
+74: [08/13/2018{odate]
+75: [13:32{otime]
+76: [8/5/2018]
+77: [18:51]
+#EOF
+
+
+Submit: 08/05/2018  18:36 | |    Sent(BBS): 8/5/2018  18:36    Rcv'd: 8/5/2018  18:51 | KZ6DM | Poul Hansen 
+
+inl[] is values as string
+inr[] is index as integer08:08 PM 8/13/2018

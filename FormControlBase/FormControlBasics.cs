@@ -18,8 +18,8 @@ namespace FormControlBaseClass
         public static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
         public static SolidColorBrush _lightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
 
-        protected List<FormControl> formControlsList = new List<FormControl>();
-        protected List<RadioButton> radioButtonsList = new List<RadioButton>();
+        protected List<FormControl> _formControlsList = new List<FormControl>();
+        protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
 
 
         protected string validationResultMessage;
@@ -40,14 +40,14 @@ namespace FormControlBaseClass
                                             || control is CheckBox || control is ToggleButtonGroup)
                 {
                     FormControl formControl = new FormControl((Control)control);
-                    formControlsList.Add(formControl);
+                    _formControlsList.Add(formControl);
                 }
                 else if (control is RadioButton)
                 {
                     FormControl formControl = new FormControl((Control)control);
-                    formControlsList.Add(formControl);
+                    _formControlsList.Add(formControl);
 
-                    radioButtonsList.Add((RadioButton)control);
+                    _radioButtonsList.Add((RadioButton)control);
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace FormControlBaseClass
         {
             validationResultMessage = errorText;
             //bool result = true;
-            foreach (FormControl formControl in formControlsList)
+            foreach (FormControl formControl in _formControlsList)
             {
                 Control control = formControl.InputControl;
                 string tag = control.Tag as string;
