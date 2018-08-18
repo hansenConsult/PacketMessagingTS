@@ -359,12 +359,12 @@ namespace FormControlBaseClass
                 }
                 else
                 {
-                    return ("", control);
+                    return ("-1", control);
                 }
             }
             catch
             {
-                return ("", control);
+                return ("-1", control);
             }
         }
 
@@ -380,12 +380,12 @@ namespace FormControlBaseClass
                 }
                 else
                 {
-                    return "";
+                    return "-1";
                 }
             }
             catch
             {
-                return "";
+                return "-1";
             }
         }
 
