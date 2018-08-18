@@ -309,10 +309,6 @@
     <Compile Include="Helpers\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CityScanFormControl\CityScanFormControl.csproj">
-      <Project>{ecdd9858-2441-4cb2-b859-172265ec7c7b}</Project>
-      <Name>CityScanFormControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
