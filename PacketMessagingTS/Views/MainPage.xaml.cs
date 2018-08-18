@@ -240,10 +240,17 @@ namespace PacketMessagingTS.Views
 
         private void AppBarMainPage_OpenInWebView(object sender, RoutedEventArgs e)
         {
-            string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
-            string packetMessagePath = Path.Combine(folder, _packetMessageRightClicked.FileName);
+            try
+            {
+                string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
+                string packetMessagePath = Path.Combine(folder, _packetMessageRightClicked.FileName);
 
-            NavigationService.Navigate(typeof(WebViewPage), packetMessagePath);
+                NavigationService.Navigate(typeof(WebViewPage), packetMessagePath);
+            }
+            catch
+            {
+                return;
+            }
 
         }
 

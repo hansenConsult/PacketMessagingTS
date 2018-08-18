@@ -58,21 +58,19 @@ namespace PacketMessagingTS.Views
 
         private async void WebViewPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
-            StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets\\Pacforms");
+            //StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets\\Pacforms");
 
             PivotItem pivotItem = (PivotItem)e.AddedItems[0];
             switch (pivotItem.Name)
             {
                 case "webViewPivotItemICS213":
-                    ViewModel.Source = new Uri("ms-appdata:///local/PacFORMS/XSC_ICS-213_Message_v070628.html");
+                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_ICS-213_Message_v070628.html");
                     break;
                 case "webViewPivotItemICS213RR":
-                    ViewModel.Source = new Uri("ms-appdata:///local/PacFORMS/XSC_EOC-213RR_v1708.html");
+                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_EOC-213RR_v1708.html");
                     break;
                 case "webViewPivotItemMuniStatus":
-                    //ms-appx-web:///
-                    ViewModel.Source = new Uri("ms-appx-web:///assets/PacFORMS/XSC_OA_MuniStatus_v20130101.html");
-                    //ViewModel.Source = new Uri("ms-appdata:///local/PacFORMS/XSC_OA_MuniStatus_v20130101.html");
+                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_MuniStatus_v20130101.html");
                     break;
             }
         }
