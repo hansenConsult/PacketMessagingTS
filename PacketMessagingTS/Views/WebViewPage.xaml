@@ -87,7 +87,9 @@
             <PivotItem Header="ICS-213 Resource Request" x:Name="webViewPivotItemICS213RR"/>
             <PivotItem Header="OA Municipal Status" x:Name="webViewPivotItemMuniStatus"/>
         </Pivot>
-        <WebView Grid.Row="1" x:Name="webView" Source="{x:Bind ViewModel.Source, Mode=OneWay}">
+        <WebView Grid.Row="1" x:Name="webView"
+                 Source="{x:Bind ViewModel.Source, Mode=OneWay}"
+                 ScriptNotify="WebView_ScriptNotifyAsync">
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="NavigationCompleted">
                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.NavCompletedCommand}"/>

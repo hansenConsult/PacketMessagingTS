@@ -70,6 +70,9 @@ namespace PacketMessagingTS.Controls
             get => messageTNC;
             set
             {
+                if (string.IsNullOrEmpty(value))
+                    return;
+
                 Set(ref messageTNC, value);
 
                 if (messageTNC.Contains(SharedData.EMail))

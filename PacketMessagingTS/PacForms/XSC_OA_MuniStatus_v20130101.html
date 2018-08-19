@@ -1271,26 +1271,38 @@ function testreply()
 <!-- PART3.1 -->
 <center>
 <div class="trailer">
-<form name="submitmachine" method="post" action="http://127.0.0.1:9334/send" onsubmit="return testvalues()">
+    <form name="submitmachine" method="post" action="http://127.0.0.1:9334/send" onsubmit="return testvalues()">
 
-<table width="70%">
-  <tbody><tr><td><span class="submit-text">
-    <p>Below you will see two SUBMIT buttons.  The one on the left, when Submitted, will
-    open a new window with the ASCII text so you can manually capture, copy, paste and
-    save the text.  Follow instructions in red in that window.</p>
-    <p>The SUBMIT button to the right will automatically transfer the ASCII text extracted
-    from the form to the Outpost database via via OpDirect.
-    OpDirect must be running to make this work or nothing is saved.</p></span></td></tr>
-</tbody></table>
+        <table width="70%">
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="submit-text">
+                            <p>
+                                Below you will see two SUBMIT buttons.  The one on the left, when Submitted, will
+                                open a new window with the ASCII text so you can manually capture, copy, paste and
+                                save the text.  Follow instructions in red in that window.
+                            </p>
+                            <p>
+                                The SUBMIT button to the right will automatically transfer the ASCII text extracted
+                                from the form to the Outpost database via via OpDirect.
+                                OpDirect must be running to make this work or nothing is saved.
+                            </p>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-<input value="SUBMIT the Form: Manual Copy &amp; Save" onclick="newwin(0)" type="button">
-<input name="formtext" value="snafutextnotchanged" type="hidden">
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-<input value="SUBMIT the Form to Outpost" onclick="newwin(1)" type="submit">
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-<input value="Clear Input" onclick="resetforms();" type="reset">
+        <input value="SUBMIT the Form: Manual Copy &amp; Save" onclick="newwin(0)" type="button">
+        <input name="formtext" value="snafutextnotchanged" type="hidden">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <!--<input value="SUBMIT the Form to Outpost" onclick="newwin(1)" type="submit">-->
+        <input value="SUBMIT the Form to Outpost" onclick="SubmitForm()" type="button">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <input value="Clear Input" onclick="resetforms();" type="reset">
 
-</form>
+    </form>
 </div>
 </center>
 

@@ -601,10 +601,9 @@ namespace PacketMessagingTS.Views
             PacketMessage message = new PacketMessage()
             {
                 ReceivedTime = DateTime.Parse(messageReceivedTime.Text),
-                MessageNumber = Helpers.Utilities.GetMessageNumberPacket(),
+                MessageNumber = Utilities.GetMessageNumberPacket(),
                 TNCName = "E-Mail-" + Singleton<TNCSettingsViewModel>.Instance.CurrentMailAccount.MailUserName,
-
-        };
+            };
             message.MessageBody = $"Date: {message.ReceivedTime}\r\n";
             message.MessageBody += $"From: {messageTo.Text}\r\n";
             message.MessageBody += $"To: {messageFrom.Text}\r\n";

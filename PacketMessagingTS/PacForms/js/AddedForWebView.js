@@ -79,3 +79,9 @@ function LoadInrArray5(startIndex, p1, p2, p3, p4, p5) {
 function PopulateForm(val) {
     outels();
 }
+
+function SubmitForm() {
+    newwin(1);
+
+    window.external.notify(ascii);
+}
