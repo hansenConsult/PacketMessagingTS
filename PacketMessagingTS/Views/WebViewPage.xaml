@@ -82,7 +82,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Pivot x:Name="webViewPivot"
-               SelectionChanged="WebViewPivot_SelectionChangedAsync">
+               SelectionChanged="WebViewPivot_SelectionChanged">
             <PivotItem Header="ICS-213 Message Form" x:Name="webViewPivotItemICS213"/>
             <PivotItem Header="ICS-213 Resource Request" x:Name="webViewPivotItemICS213RR"/>
             <PivotItem Header="OA Municipal Status" x:Name="webViewPivotItemMuniStatus"/>

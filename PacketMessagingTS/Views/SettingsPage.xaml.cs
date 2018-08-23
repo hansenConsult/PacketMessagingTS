@@ -1123,7 +1123,7 @@ namespace PacketMessagingTS.Views
             //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
         }
 
-        private async void MailUserName_TextChangedAsync(object sender, TextChangedEventArgs e)
+        private void MailUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Update TNC mail name
             var eMailTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();

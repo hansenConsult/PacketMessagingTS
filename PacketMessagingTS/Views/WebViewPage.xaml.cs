@@ -66,10 +66,8 @@ namespace PacketMessagingTS.Views
 
         }
 
-        private async void WebViewPivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+        private void WebViewPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //StorageFolder folder = await Package.Current.InstalledLocation.GetFolderAsync("Assets\\Pacforms");
-
             PivotItem pivotItem = (PivotItem)e.AddedItems[0];
             switch (pivotItem.Name)
             {
@@ -91,6 +89,10 @@ namespace PacketMessagingTS.Views
             List<string> inrList = new List<string>();
 
             FormField[] formFields = packetMessage.FormFieldArray;
+            if (packetMessage.MessageBody == null)
+            {
+                packetMessage.MessageBody = formControl.CreateOutpostData(ref packetMessage);
+            }
             string[] msgLines = packetMessage.MessageBody.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             string value = "";
@@ -147,7 +149,7 @@ namespace PacketMessagingTS.Views
                     //pktMsg.MessageSubject = pktMsg.MessageSubject.Replace('\t', ' ');
                     subjectFound = true;
                 }
-                else if (msgLines[i].StartsWith("!PACF!") && !subjectFound)
+                else if (msgLines[i].StartsWith("!PACF!") && !subjectFound)     // Added
                 {
                     pktMsg.Subject = msgLines[i].Substring(7);
                     subjectFound = true;
@@ -170,6 +172,7 @@ namespace PacketMessagingTS.Views
                 }
             }
             pktMsg.PacFormName = formControl.PacFormName;
+            pktMsg.PacFormType = formControl.PacFormType;       // Added line
             pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines);
             //pktMsg.ReceivedTime = packetMessage.ReceivedTime;
             pktMsg.CreateFileName();
@@ -220,8 +223,8 @@ namespace PacketMessagingTS.Views
             //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             //await communicationsService.CreatePacketMessageFromMessageAsync(packetMessage);
             await CreatePacketMessageFromMessageAsync(packetMessage, folderPath);
-            string packetMessagePath = Path.Combine(folderPath, packetMessage.FileName);
 
+            string packetMessagePath = Path.Combine(folderPath, packetMessage.FileName);
             NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
         }
     }

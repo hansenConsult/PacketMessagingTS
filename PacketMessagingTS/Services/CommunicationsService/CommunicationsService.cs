@@ -340,7 +340,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 {
                     _serialPort = new SerialPort(Singleton<TNCSettingsViewModel>.Instance.CurrentTNCDevice.CommPort.Comport);
                 }
-                catch (IOException e)
+                catch 
                 {
                     _deviceFound = false;
                 }

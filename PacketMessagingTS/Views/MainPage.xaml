@@ -200,6 +200,7 @@
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
                             <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -265,6 +266,7 @@
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
                             <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -326,6 +328,7 @@
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
                             <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -392,6 +395,7 @@
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
                             <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
@@ -455,6 +459,7 @@
                             <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
                             <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
                             <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
