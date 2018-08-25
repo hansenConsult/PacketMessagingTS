@@ -139,8 +139,8 @@ namespace PacketMessagingTS.ViewModels
             if (PopulateEmptyForm)
             {
                 string[] args = new string[] { Utilities.GetMessageNumberPacket(),
-                                    Singleton<IdentityViewModel>.Instance.UserCallsign,
-                                    Singleton<IdentityViewModel>.Instance.UserName };
+                                    Singleton<IdentityViewModel>.Instance.UserCallsign ?? "",
+                                    Singleton<IdentityViewModel>.Instance.UserName ?? ""};
                 await _webView.InvokeScriptAsync("SetMessageNumber", args);
             }
             else

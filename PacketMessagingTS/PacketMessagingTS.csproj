@@ -358,6 +358,7 @@
     <Content Include="PacForms\XSC_EOC-213RR_v1708.html" />
     <Content Include="PacForms\XSC_ICS-213_Message_v070628.html" />
     <Content Include="PacForms\XSC_OA_MuniStatus_v20130101.html" />
+    <Content Include="PacForms\XSC_OA_ShelterStatus.html" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

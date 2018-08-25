@@ -80,6 +80,9 @@ namespace PacketMessagingTS.Views
                 case "webViewPivotItemMuniStatus":
                     ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_MuniStatus_v20130101.html");
                     break;
+                case "webViewPivotItemShelterStatus":
+                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_ShelterStatus.html");
+                    break;
             }
         }
 

@@ -86,6 +86,7 @@
             <PivotItem Header="ICS-213 Message Form" x:Name="webViewPivotItemICS213"/>
             <PivotItem Header="ICS-213 Resource Request" x:Name="webViewPivotItemICS213RR"/>
             <PivotItem Header="OA Municipal Status" x:Name="webViewPivotItemMuniStatus"/>
+            <PivotItem Header="Shelter Status" x:Name="webViewPivotItemShelterStatus"/>
         </Pivot>
         <WebView Grid.Row="1" x:Name="webView"
                  Source="{x:Bind ViewModel.Source, Mode=OneWay}"
