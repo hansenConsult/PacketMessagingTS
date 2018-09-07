@@ -7,6 +7,10 @@ using PacketMessagingTS.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Windows.Storage;
+using Windows.ApplicationModel;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -15,8 +19,8 @@ namespace PacketMessagingTS.ViewModels
         // TODO WTS: Set the URI of the page to show by default   ms-appx
         //private const string DefaultUrl = "https://developer.microsoft.com/en-us/windows/apps";
 
-        //private const string DefaultUrl = "ms-appdata:///local/PacFORMS/XSC_ICS-213_Message_v070628.html";
-        private const string DefaultUrl = "ms-appdata:///local/PacFORMS/XSC_EOC-213RR_v1708.html";
+        private const string DefaultUrl = "ms-appdata:///local/PacFORMS/XSC_ICS-213_Message_v070628.html";
+        //private const string DefaultUrl = "ms-appdata:///local/PacFORMS/XSC_EOC-213RR_v1708.html";
         //private const string DefaultUrl = "ms-appdata:///local/PacFORMS/BedStatus.html";
 
 
@@ -26,6 +30,17 @@ namespace PacketMessagingTS.ViewModels
         {
             get { return _source; }
             set { SetProperty(ref _source, value); }
+        }
+
+        private string _sourceUrl;
+        public string SourceUrl
+        {
+            get => _sourceUrl;
+            set
+            {
+                _sourceUrl = value;
+                Source = new Uri(value);
+            }
         }
 
         private bool _isLoading;
@@ -239,6 +254,73 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+//<!-- PART1 -->
+//</head>
+//<body class="tcolorff" onLoad="hide_message(); datetime(0); custom();">
+//<!-- PART2 -->
+//<center>
+
+//<!-- PART1 -->
+//<script language = "JavaScript" type="text/javascript">
+// // <!--
+//inl=[3,5,8,11,18,20,21,23,24,25,26,31,33,41,48,49,50,51,52,53];
+//inr=["6DM-123M","08/28/2018","true","true","0823","Operations","Operations}2","Planning","Planning}3","MTVEOC","Radio Room","Subject","\nMessage","true","true","Packet","KZ6DM","Poul Hansen","08/28/2018","0824"];
+//  fromlocal = 0;
+// function fillvalue()
+//        {
+//            var mssg, ms2;
+//            thisurl = "XSC_ICS-213_Message_v070628.html";
+//            outels();
+//        }
+//// -->
+//</SCRIPT>
+//</head>
+//<body text = "#000000" bgcolor="#FFFFFF" onLoad="hide_message(); fillvalue()">
+//<center>
+
+
+        public async Task<string> CreateSourceFormAsync()
+        {
+            // Parse for PacForms browser
+            // Open form and insert message no, user callsign and User
+            //string sourceUrl = File.ReadAllText(SourceUrl);
+            StorageFolder pacFormsLocation = await Package.Current.InstalledLocation.GetFolderAsync("PacForms");
+            StorageFile pacForm = await pacFormsLocation.TryGetItemAsync("XSC_ICS-213_Message_v070628.html") as StorageFile;
+
+            string sourceUrl = File.ReadAllText(pacForm.Path);
+
+            int part1Index = sourceUrl.IndexOf("PART1 -->");    // Substitute text between PART1 and PART2
+            string searchString = "</head>";
+            string searchStringPart2 = "<!-- PART2 -->";
+            part1Index = sourceUrl.IndexOf(searchString, part1Index);
+            int part2Index = sourceUrl.IndexOf(searchStringPart2, part1Index);
+
+            StringBuilder openEmptyScript = new StringBuilder();
+            openEmptyScript.AppendLine("<script language = \"JavaScript\" type = \"text/javascript\" >");
+
+            string msgNumber = Utilities.GetMessageNumberPacket();
+            string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign ?? "";
+            string userName = Singleton<IdentityViewModel>.Instance.UserName ?? "";
+            string qsValues = $"\"{msgNumber}\",\"{userCallsign}\",\"{userName}\"";
+
+            openEmptyScript.AppendLine("qsParm = [0,1,2];");
+            openEmptyScript.AppendLine($"qsVal = [{qsValues}];");
+            openEmptyScript.AppendLine("qsN = 3;");
+            openEmptyScript.AppendLine("function fillvalue()");
+            openEmptyScript.AppendLine("{");
+            openEmptyScript.AppendLine("    var mssg, ms2;");
+            openEmptyScript.AppendLine("    thisurl = \"XSC_ICS - 213_Message_v070628.html\";");
+            openEmptyScript.AppendLine("    assignq();");
+            openEmptyScript.AppendLine("}");
+            openEmptyScript.AppendLine("</SCRIPT>");
+            openEmptyScript.AppendLine("</head>");
+            openEmptyScript.AppendLine("<body text = \"#000000\" bgcolor=\"#FFFFFF\" onLoad=\"hide_message(); fillvalue()\">");
+            sourceUrl = sourceUrl.Remove(part1Index, part2Index - part1Index);
+            sourceUrl = sourceUrl.Insert(part1Index, openEmptyScript.ToString());
+
+            return sourceUrl;
+        }
+
         private ICommand _openInBrowserCommand;
 
         public ICommand OpenInBrowserCommand
@@ -247,6 +329,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (_openInBrowserCommand == null)
                 {
+                    //Uri sourceForm = new Uri(CreateSourceForm());
                     _openInBrowserCommand = new RelayCommand(async () => await Windows.System.Launcher.LaunchUriAsync(Source));
                 }
 
@@ -259,6 +342,7 @@ namespace PacketMessagingTS.ViewModels
         public WebViewViewModel()
         {
             IsLoading = true;
+            SourceUrl = DefaultUrl;
             Source = new Uri(DefaultUrl);
         }
 

@@ -322,6 +322,8 @@
         var JShead = "Ver. PR-4.4-4.3, 05/02/18";
         var JStail = "(PR-4.4-4.3, 05/02/18)";
 
+        fromlocal = 0;  // =0 for call to pac-read with No !OUTPOST! record; >0 if so. Reset fm pac-read.
+
         function lockUnlockMsg(checkbox) {
             if (checkbox.checked === 1) {
                 document.getElementById('RSmsgno').disabled = false;
@@ -374,7 +376,7 @@
         }
 
         function zerofill(val) {
-            if (val > 9) { return "" + val }
+            if (val > 9) { return "" + val; }   // Added semocolon
             return "0" + val;
         }
 
@@ -416,7 +418,7 @@
         function trim(strval)              // Trims leading and trailing blanks
         {
             if (treply === 0) {
-                strval = strval.replace(/\`\]/g, "\x87")  // New - temp.
+                strval = strval.replace(/\`\]/g, "\x87");  // New - temp.  PEH added semicolon
                 strval = strval.replace(/\]/g, "`]");     // New
                 strval = strval.replace(/\x87/g, "``]");  // New
             }
@@ -533,7 +535,7 @@
                     j = 1;
                 }
             }
-            if (j === 0) { out(win, text, "") }
+            if (j === 0) { out(win, text, ""); }    // Addded semicolon
         }
 
         function fradio(param, max) {
@@ -859,7 +861,7 @@
             var n, typ, val, nam, str, lb, i;
 
             n = document.forms[0].elements.length;
-            javascript: void (window.open());
+            javascript: void window.open();     // Removed extra ()
             Ele = window.open("", null, "height=600,width=700,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes,resizable=yes");
             Ele.document.write("<" + "html>\n" + "<head>\n<title>Element List</title>\n</head>\n");
             Ele.document.write("<" + "body>\n<b>ELEMENT LIST for " + geturl() + "<p>Ele. Index, Type, Name, Value</b><p>");
@@ -993,7 +995,7 @@
             &nbsp; By Phil Henderson, KF6ZSQ<br>
             (This form works with Outpost/OpDirect for Automatic ASCII text save)</span><br>
             <div id="errormessage1" class="talignc">
-              <p>&nbsp;</p><p>&nbsp;</p><hr style="color=red; border-width:3px;">
+              <p>&nbsp;</p><p>&nbsp;</p><hr style="color:red; border-width:3px;">   
                 <span class="js-error-text red">JAVASCRIPT IS NOT ENABLED IN THIS BROWSER.<br>
                 THIS FORM WILL NOT WORK WITHOUT JAVASCRIPT ENABLED.</span>
                 <hr class="red; hrsiz"><p>&nbsp;</p><p>&nbsp;</p>

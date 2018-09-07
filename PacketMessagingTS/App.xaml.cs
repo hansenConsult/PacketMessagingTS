@@ -36,6 +36,7 @@ namespace PacketMessagingTS
             InitializeComponent();
 
             EnteredBackground += App_EnteredBackground;
+            //Suspending += App_SuspendingAsync;
 
             // Deferred execution until used. Check https://msdn.microsoft.com/library/dd642331(v=vs.110).aspx for further info on Lazy<T> class.
             _activationService = new Lazy<ActivationService>(CreateActivationService);
@@ -218,11 +219,25 @@ namespace PacketMessagingTS
         private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
         {
             var deferral = e.GetDeferral();
-            await Helpers.Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
-            deferral.Complete();
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
+
+            await Helpers.Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+
+
+            deferral.Complete();
+        }
+
+        private async void App_SuspendingAsync(object sender, SuspendingEventArgs args)
+        {
+            SuspendingDeferral deferral = args.SuspendingOperation.GetDeferral();
+            await Helpers.Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
+
+            deferral.Complete();
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)

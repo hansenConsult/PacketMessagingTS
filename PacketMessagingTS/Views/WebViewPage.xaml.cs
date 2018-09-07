@@ -66,13 +66,20 @@ namespace PacketMessagingTS.Views
 
         }
 
-        private void WebViewPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void WebViewPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PivotItem pivotItem = (PivotItem)e.AddedItems[0];
             switch (pivotItem.Name)
             {
                 case "webViewPivotItemICS213":
-                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_ICS-213_Message_v070628.html");
+                    ViewModel.SourceUrl = "ms-appx-web:///PacFORMS/XSC_ICS-213_Message_v070628.html";
+
+                    string html = await ViewModel.CreateSourceFormAsync();
+                    string path = SharedData.TestFilesFolder.Path;
+                    string fileName = "html.html";
+                    string filePath = Path.Combine(path, fileName);
+                    File.WriteAllText(filePath, html);
+
                     break;
                 case "webViewPivotItemICS213RR":
                     ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_EOC-213RR_v1708.html");

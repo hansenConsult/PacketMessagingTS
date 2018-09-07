@@ -126,6 +126,7 @@
 
         .banner-table {
             background: #DDDDDD;
+            width: 75%;
         }
 
         .js-head-text {
@@ -233,7 +234,7 @@
         }
 
         function zerofill(val) {
-            if (val > 9) { return "" + val }
+            if (val > 9) { return "" + val; }
             return "0" + val;
         }
 
@@ -281,7 +282,7 @@
 
         function trim(strval)              // Trims leading and trailing blanks
         {
-            strval = strval.replace(/\`\]/g, "\x87")  // New - temp.
+            strval = strval.replace(/\`\]/g, "\x87");  // New - temp.
             strval = strval.replace(/\]/g, "`]");     // New
             strval = strval.replace(/\x87/g, "``]");  // New
             strval = strval.replace(/\s*$/, "");
@@ -402,7 +403,7 @@
                     j = 1;
                 }
             }
-            if (j === 0) { out(win, text, "") }
+            if (j === 0) { out(win, text, ""); }
         }
 
         function fradio(param) {
@@ -726,7 +727,7 @@
 <!-- PART2 -->
 
     <center>
-        <table class="banner-table" width="75%">
+        <table class="banner-table" >
             <tbody>
                 <tr>
                     <td>
