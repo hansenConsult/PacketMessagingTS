@@ -279,15 +279,14 @@ namespace PacketMessagingTS.ViewModels
 //<center>
 
 
-        public async Task<string> CreateSourceFormAsync()
+        public async Task<string> CreateSourceFormAsync(string pacForm, string msgNumber, string userCallsign, string userName)
         {
             // Parse for PacForms browser
             // Open form and insert message no, user callsign and User
-            //string sourceUrl = File.ReadAllText(SourceUrl);
             StorageFolder pacFormsLocation = await Package.Current.InstalledLocation.GetFolderAsync("PacForms");
-            StorageFile pacForm = await pacFormsLocation.TryGetItemAsync("XSC_ICS-213_Message_v070628.html") as StorageFile;
+            StorageFile pacFormFile = await pacFormsLocation.TryGetItemAsync(pacForm) as StorageFile;
 
-            string sourceUrl = File.ReadAllText(pacForm.Path);
+            string sourceUrl = File.ReadAllText(pacFormFile.Path);
 
             int part1Index = sourceUrl.IndexOf("PART1 -->");    // Substitute text between PART1 and PART2
             string searchString = "</head>";
@@ -297,24 +296,17 @@ namespace PacketMessagingTS.ViewModels
 
             StringBuilder openEmptyScript = new StringBuilder();
             openEmptyScript.AppendLine("<script language = \"JavaScript\" type = \"text/javascript\" >");
-
-            string msgNumber = Utilities.GetMessageNumberPacket();
-            string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign ?? "";
-            string userName = Singleton<IdentityViewModel>.Instance.UserName ?? "";
-            string qsValues = $"\"{msgNumber}\",\"{userCallsign}\",\"{userName}\"";
-
-            openEmptyScript.AppendLine("qsParm = [0,1,2];");
-            openEmptyScript.AppendLine($"qsVal = [{qsValues}];");
-            openEmptyScript.AppendLine("qsN = 3;");
             openEmptyScript.AppendLine("function fillvalue()");
             openEmptyScript.AppendLine("{");
-            openEmptyScript.AppendLine("    var mssg, ms2;");
-            openEmptyScript.AppendLine("    thisurl = \"XSC_ICS - 213_Message_v070628.html\";");
-            openEmptyScript.AppendLine("    assignq();");
+            openEmptyScript.AppendLine($"    document.forms[0].msgno.value = \"{msgNumber}\";");
+            openEmptyScript.AppendLine($"    document.forms[0].ocall.value = \"{userCallsign}\";");
+            openEmptyScript.AppendLine($"    document.forms[0].oname.value = \"{userName}\";");
             openEmptyScript.AppendLine("}");
-            openEmptyScript.AppendLine("</SCRIPT>");
+            openEmptyScript.AppendLine("</script>");
             openEmptyScript.AppendLine("</head>");
-            openEmptyScript.AppendLine("<body text = \"#000000\" bgcolor=\"#FFFFFF\" onLoad=\"hide_message(); fillvalue()\">");
+            openEmptyScript.AppendLine("<body text = \"#000000\" bgcolor=\"#FFFFFF\" onLoad=\"hide_message(); datetime(0); fillvalue(); custom();\">");
+            //openEmptyScript.AppendLine("<body text = \"#000000\" bgcolor=\"#FFFFFF\" onLoad=\"hide_message(); datetime(0); custom();\">");
+
             sourceUrl = sourceUrl.Remove(part1Index, part2Index - part1Index);
             sourceUrl = sourceUrl.Insert(part1Index, openEmptyScript.ToString());
 

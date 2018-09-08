@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Navigation;
 using MetroLog;
 using System.Threading.Tasks;
 using MessageFormControl;
+using System.Diagnostics;
+using Windows.System;
 
 namespace PacketMessagingTS.Views
 {
@@ -74,11 +76,20 @@ namespace PacketMessagingTS.Views
                 case "webViewPivotItemICS213":
                     ViewModel.SourceUrl = "ms-appx-web:///PacFORMS/XSC_ICS-213_Message_v070628.html";
 
-                    string html = await ViewModel.CreateSourceFormAsync();
+                    string msgNumber = Utilities.GetMessageNumberPacket();
+                    string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign ?? "";
+                    string userName = Singleton<IdentityViewModel>.Instance.UserName ?? "";
+
+                    string html = await ViewModel.CreateSourceFormAsync("XSC_ICS-213_Message_v070628.html", msgNumber, userCallsign, userName);
                     string path = SharedData.TestFilesFolder.Path;
-                    string fileName = "html.html";
+                    string fileName = "XSC_ICS-213_Message_v070628.html";
                     string filePath = Path.Combine(path, fileName);
                     File.WriteAllText(filePath, html);
+
+                    StorageFolder pacFormsLocation = await ApplicationData.Current.LocalFolder.GetFolderAsync("TestFiles");
+                    StorageFile pacFormFile = await pacFormsLocation.TryGetItemAsync(fileName) as StorageFile;
+
+                    await Launcher.LaunchFileAsync(pacFormFile);
 
                     break;
                 case "webViewPivotItemICS213RR":
