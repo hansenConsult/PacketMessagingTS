@@ -335,6 +335,10 @@
       <Project>{58e010dc-1e9f-4d3f-9828-415f67b1229f}</Project>
       <Name>OAMunicipalStatus20130101FormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OAShelterStatus\OAShelterStatus20130814FormControl.csproj">
+      <Project>{b261c7fb-85b0-4d56-b536-d9b7856d6e79}</Project>
+      <Name>OAShelterStatus20130814FormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
       <Name>SharedCode</Name>

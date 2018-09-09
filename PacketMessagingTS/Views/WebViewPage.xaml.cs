@@ -75,7 +75,7 @@ namespace PacketMessagingTS.Views
             {
                 case "webViewPivotItemICS213":
                     ViewModel.SourceUrl = "ms-appx-web:///PacFORMS/XSC_ICS-213_Message_v070628.html";
-
+                    /* test code for Edge 
                     string msgNumber = Utilities.GetMessageNumberPacket();
                     string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign ?? "";
                     string userName = Singleton<IdentityViewModel>.Instance.UserName ?? "";
@@ -90,7 +90,7 @@ namespace PacketMessagingTS.Views
                     StorageFile pacFormFile = await pacFormsLocation.TryGetItemAsync(fileName) as StorageFile;
 
                     await Launcher.LaunchFileAsync(pacFormFile);
-
+                    */
                     break;
                 case "webViewPivotItemICS213RR":
                     ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_EOC-213RR_v1708.html");

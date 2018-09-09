@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{268FBD5C-FBD7-46C3-834A-A8E83B2904F0}</ProjectGuid>
+    <ProjectGuid>{B261C7FB-85B0-4D56-B536-D9B7856D6E79}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ICS213_070628_FormControl</RootNamespace>
-    <AssemblyName>ICS213_070628_FormControl</AssemblyName>
+    <RootNamespace>OAShelterStatusFormControl</RootNamespace>
+    <AssemblyName>OAShelterStatusFormControl</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
@@ -26,7 +26,6 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,7 +35,6 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -108,11 +106,11 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ICS213Control.xaml.cs">
-      <DependentUpon>ICS213Control.xaml</DependentUpon>
+    <Compile Include="OAShelterStatus20180822FormControl.xaml.cs">
+      <DependentUpon>OAShelterStatus20180822FormControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\ICS213_070628_FormControl.rd.xml" />
+    <EmbeddedResource Include="Properties\OAShelterStatus.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
@@ -120,9 +118,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ICS213Control.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="OAShelterStatus20180822FormControl.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

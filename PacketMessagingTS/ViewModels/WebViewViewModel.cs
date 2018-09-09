@@ -117,7 +117,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public List<string> InlList { get; set; }    // List of index
+        public List<string> InlList { get; set; }    // List of indexes
         public List<string> InrList { get; set; }   // List of values
 
         private string[] PrepareParameters(List<string> sourceList, int startIndex, int parameterCount)
@@ -135,7 +135,7 @@ namespace PacketMessagingTS.ViewModels
         private async Task SetPacFormDataArrayAsync(string functionName, List<string> parameters)
         {
             for (int i = 0; i < parameters.Count + maxParameterCount; i += maxParameterCount)
-            {//35 - 10 * 5
+            {
                 int parameterCount = Math.Min(maxParameterCount, parameters.Count - i);
                 if (parameterCount <= 0)
                     break;
@@ -253,32 +253,7 @@ namespace PacketMessagingTS.ViewModels
                 return _refreshCommand;
             }
         }
-
-//<!-- PART1 -->
-//</head>
-//<body class="tcolorff" onLoad="hide_message(); datetime(0); custom();">
-//<!-- PART2 -->
-//<center>
-
-//<!-- PART1 -->
-//<script language = "JavaScript" type="text/javascript">
-// // <!--
-//inl=[3,5,8,11,18,20,21,23,24,25,26,31,33,41,48,49,50,51,52,53];
-//inr=["6DM-123M","08/28/2018","true","true","0823","Operations","Operations}2","Planning","Planning}3","MTVEOC","Radio Room","Subject","\nMessage","true","true","Packet","KZ6DM","Poul Hansen","08/28/2018","0824"];
-//  fromlocal = 0;
-// function fillvalue()
-//        {
-//            var mssg, ms2;
-//            thisurl = "XSC_ICS-213_Message_v070628.html";
-//            outels();
-//        }
-//// -->
-//</SCRIPT>
-//</head>
-//<body text = "#000000" bgcolor="#FFFFFF" onLoad="hide_message(); fillvalue()">
-//<center>
-
-
+        /* Edge test code
         public async Task<string> CreateSourceFormAsync(string pacForm, string msgNumber, string userCallsign, string userName)
         {
             // Parse for PacForms browser
@@ -312,7 +287,7 @@ namespace PacketMessagingTS.ViewModels
 
             return sourceUrl;
         }
-
+        */
         private ICommand _openInBrowserCommand;
 
         public ICommand OpenInBrowserCommand
@@ -321,7 +296,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (_openInBrowserCommand == null)
                 {
-                    //Uri sourceForm = new Uri(CreateSourceForm());
                     _openInBrowserCommand = new RelayCommand(async () => await Windows.System.Launcher.LaunchUriAsync(Source));
                 }
 
