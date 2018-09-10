@@ -114,5 +114,11 @@ namespace OAShelterStatusFormControl
 
         }
 
+        private void capacity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int occupancyInt = string.IsNullOrEmpty(occupancy.Text) ? 0 : Convert.ToInt32(occupancy.Text);
+            int capacityInt = string.IsNullOrEmpty(capacity.Text) ? 0 : Convert.ToInt32(capacity.Text);
+            availablity.Text = (capacityInt - occupancyInt).ToString();
+        }
     }
 }

@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
-    mc:Ignorable="d" Height="1602" Width="777">
+    mc:Ignorable="d" Height="1718" Width="784.75">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -29,7 +29,9 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" Foreground="Black" Text="OA Shelter STATUS" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
+                        <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                                   Foreground="Black" Text="OA Shelter Status" 
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel>
                                 <TextBlock FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Text="Sender's msg #:"/>
@@ -112,8 +114,10 @@
                         </Border>
                     </StackPanel>
                     <StackPanel >
-                        <TextBlock Text="Incident" FontWeight="Bold" FontSize="14" Margin="0,16,0,0"/>
-                        <Line />
+                        <TextBlock FontWeight="Bold" FontSize="14" Margin="0,16,0,0">
+                            <Underline>Incident</Underline>
+                        </TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,5,0,10"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.4*"/>
@@ -125,10 +129,11 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Text="Incident Name:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,0,0" />
-                            <TextBox Name="incidentName"  Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" />
+                            <TextBox Name="incidentName"  Grid.Column="2" Margin="5,0,0,0"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Municipality Name:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,0,0" />
-                            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" Orientation="Horizontal">
                                 <ComboBox 
                                           ItemsSource="{x:Bind Path=Municipalities}" 
                                           SelectedItem="SELECT the Municipality"
@@ -149,12 +154,11 @@
                             </StackPanel>
                         </Grid>
                     </StackPanel>
-                    <Line Stroke="Black" StrokeThickness="1" Margin="5,10,5,10"  />
                     <StackPanel Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
                     </StackPanel>
-                    <Line Stroke="Black"  StrokeThickness="1" Margin="5,10,5,10"  />
-                    <StackPanel >
+                    <StackPanel Margin="0,10,0,0" >
                         <TextBlock FontWeight="Bold" ><Underline><Run Text="Shelter"/></Underline></TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,5,5,10"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.4*"/>
@@ -172,41 +176,41 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Shelter Type:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Column="1" Grid.Row="0" 
+                            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
                                       ItemsSource="{x:Bind Path=ShelterTypes}" 
                                       SelectedItem="Type 1" Tag="17"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Shelter Status:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <ComboBox Grid.Column="1" Grid.Row="1"
+                            <ComboBox Grid.Column="1" Grid.Row="1" Margin="5,0,0,0"
                                       ItemsSource="{x:Bind Path=ShelterStatuses}" 
                                       SelectedItem="Closed" Tag="18"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Name:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Tag="19"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" Tag="19"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Address:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="3" Tag="20"/>
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" Tag="20"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="City:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="4" Tag="21"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0" Tag="21"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="State:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="5" Tag="22"/>
+                            <TextBox Grid.Column="1" Grid.Row="5" Margin="5,0,0,0" Tag="22"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Zip:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="6" Tag="23"/>
-                            <TextBlock Grid.Column="0" Grid.Row="7" Text="Latitude:" 
+                            <TextBox Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Tag="23"/>
+                            <TextBlock Grid.Column="0" Grid.Row="7" Margin="5,0,0,0" Text="Latitude:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal">
+                            <StackPanel Grid.Column="1" Grid.Row="7" Margin="5,0,0,0" Orientation="Horizontal">
                                 <TextBox Width="150" Tag="24"/>
-                                <TextBlock Text="Longitude:" VerticalAlignment="Center" />
-                                <TextBox Width="150" Tag="25"/>
+                                <TextBlock Text="   Longitude:" VerticalAlignment="Center" />
+                                <TextBox Width="150" Margin="5,0,0,0" Tag="25"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
-                    <Line Stroke="Black"  StrokeThickness="1" Margin="5,10,5,10"  />
-                    <StackPanel >
-                        <TextBlock FontWeight="Bold" ><Underline><Run Text="Shelter Information"/></Underline></TextBlock>
+                    <StackPanel Margin="0,10,0,0" >
+                        <TextBlock FontWeight="Bold" ><Underline>Shelter Information</Underline></TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,8,0,10"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.4*"/>
@@ -227,42 +231,53 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Capacity:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="0" Width="56" HorizontalAlignment="Left" Tag="26"/>
+                            <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="26"
+                                     TextChanged="capacity_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Occupancy:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="1" Width="56" HorizontalAlignment="Left" Tag="27"/>
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Availability:" 
-                                       HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="2" Width="56" HorizontalAlignment="Left" Tag="28"/>
+                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" Orientation="Horizontal">
+                                <TextBox x:Name="occupancy" Width="56" HorizontalAlignment="Left" Tag="27"
+                                         TextChanged="capacity_TextChanged"/>
+                                <TextBlock Text="       Availability" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <TextBox x:Name="availablity" Margin="5,0,0,0" Width="56" HorizontalAlignment="Left" Tag="28"/>
+                                <TextBlock Margin="5,0,0,0" Text="(Automatically computed)" VerticalAlignment="Center" />
+                            </StackPanel>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Meals Served (last 24 hours):" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="3" Width="56" HorizontalAlignment="Left" Tag="29"/>
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="29"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="NSS Number:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="4" Width="56" HorizontalAlignment="Left" Tag="30"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="30"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="Pet Friendly:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" Grid.Row="5" Tag="31"/>
+                            <CheckBox Grid.Column="1" Grid.Row="5" Margin="5,0,0,0" Tag="31"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Basic Safety Inspection:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" Grid.Row="6" Tag="32"/>
+                            <CheckBox Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Tag="32"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="ATC 20 Inspection:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" Grid.Row="7" Tag="33"/>
+                            <CheckBox Grid.Column="1" Grid.Row="7" Margin="5,0,0,0" Tag="33"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="Available Services:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="8" Width="56" HorizontalAlignment="Left" Tag="34"/>
+                            <TextBox Grid.Column="1" Grid.Row="8" Margin="5,0,0,0" Height="74"
+                                     AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
+                                     HorizontalAlignment="Stretch" Tag="34"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="MOU:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="9" Width="56" HorizontalAlignment="Left" Tag="35"/>
+                            <TextBox Grid.Column="1" Grid.Row="9" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="35"/>
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="Floor Plan:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="10" Width="56" HorizontalAlignment="Left" Tag="36"/>
+                            <TextBox Grid.Column="1" Grid.Row="10" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="36"/>
                         </Grid>
                     </StackPanel>
-                    <Line Stroke="Black"  StrokeThickness="1" Margin="5,10,5,10"  />
-                    <StackPanel >
+                    <StackPanel Margin="0,10,0,0" >
                         <TextBlock FontWeight="Bold" ><Underline><Run Text="Contact Information"/></Underline></TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,8,0,10"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.4*"/>
@@ -278,32 +293,42 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Managed By:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Column="1" Grid.Row="0"
+                            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
                                       ItemsSource="{x:Bind Path=Managers}" 
                                       SelectedItem="American Red Cross" 
                                       Tag="37"/>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Managed By Detail:" 
+                            <TextBlock Grid.Column="0" Grid.Row="1" Margin="5,0,0,0"
+                                       Text="Managed By Detail:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="1" Width="56" HorizontalAlignment="Left" Tag="38"/>
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Primary Contact:" 
+                            <TextBox Grid.Column="1" Grid.Row="1" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="38"/>
+                            <TextBlock Grid.Column="0" Grid.Row="2" Margin="5,0,0,0"
+                                       Text="Primary Contact:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="2" Width="56" HorizontalAlignment="Left" Tag="39"/>
-                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Primary Phone:" 
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="39"/>
+                            <TextBlock Grid.Column="0" Grid.Row="3" Margin="5,0,0,0"
+                                       Text="Primary Phone:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="3" Width="56" HorizontalAlignment="Left" Tag="40"/>
-                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Secondary Contact:" 
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="40"/>
+                            <TextBlock Grid.Column="0" Grid.Row="4" Margin="5,0,0,0"
+                                       Text="Secondary Contact:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="4" Width="56" HorizontalAlignment="Left" Tag="41"/>
-                            <TextBlock Grid.Column="0" Grid.Row="5" Text="Secondary Phone:" 
+                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="41"/>
+                            <TextBlock Grid.Column="0" Grid.Row="5" 
+                                       Margin="5,0,0,0" Text="Secondary Phone:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="5" Width="56" HorizontalAlignment="Left" Tag="42"/>
+                            <TextBox Grid.Column="1" Grid.Row="5" Margin="5,0,0,0"
+                                     Width="56" HorizontalAlignment="Left" Tag="42"/>
                         </Grid>
                     </StackPanel>
-                    <Line Stroke="Black"  StrokeThickness="1" Margin="5,10,5,10"  />
                     <StackPanel >
-                        <TextBlock FontWeight="Bold" >
+                        <TextBlock FontWeight="Bold" Margin="0,10,0,0" >
                             <Underline><Run Text="Amateur Radio Contact Information"/></Underline>
                         </TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,8,0,10"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.4*"/>
@@ -316,44 +341,58 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Tactical Call Sign:" 
+                            <TextBlock Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"
+                                       Text="Tactical Call Sign:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="0" Tag="43"/>
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
+                                     Width="100" HorizontalAlignment="Left" Tag="43"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Repeater Call Sign:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Tag="44"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" Margin="5,0,0,0"
+                                     Width="100" Tag="44" HorizontalAlignment="Left"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Repeater Input:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Tag="45"/>
+                            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" >
+                                <TextBox Margin="5,0,0,0"
+                                         Width="160" Tag="45"/>
+                                <TextBlock Text="(include input CTCSS tone)" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Repeater Output:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="3" Tag="46"/>
+                            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" >
+                                <TextBox Margin="5,0,0,0" Width="160" Tag="46"/>
+                                <TextBlock Text="(include output CTCSS tone, if equipped)" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Offset:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="4" Tag="47"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0"
+                                     Width="160"  Tag="47" HorizontalAlignment="Left"/>
                         </Grid>
                     </StackPanel>
-                    <Line Stroke="Black"  StrokeThickness="1" Margin="5,10,5,10"  />
-                    <StackPanel >
+                    <StackPanel Margin="0,10,0,0"  >
                         <TextBlock FontWeight="Bold" >
                             <Underline><Run Text="Comments"/></Underline>
                         </TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,8,0,10"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.4*"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="33*"/>
+                                <ColumnDefinition Width="181*"/>
+                                <ColumnDefinition Width="535*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Comments:" HorizontalAlignment="Right" />
-                            <TextBox Grid.Column="1" Grid.Row="0" Height="74"
+                            <TextBlock Grid.Column="1" Grid.Row="0" Text="Comments:" HorizontalAlignment="Left" Margin="106,0,0,0" VerticalAlignment="Stretch" />
+                            <TextBox Grid.Column="2" Grid.Row="0" Height="74"
                                      AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
-                                     PlaceholderText="Enter comments here" Tag="48"/>
-                            <CheckBox Grid.Column="1" Grid.Row="1" Content="Remove from list" Tag="49" />
+                                     PlaceholderText="Enter comments here" Tag="48" HorizontalAlignment="Stretch" Margin="5,0,0,0" VerticalAlignment="Stretch"/>
+                            <CheckBox Grid.Column="2" Grid.Row="1" Margin="5,0,0,0"
+                                      Content="Remove from list" Tag="49" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </Grid>
                     </StackPanel>
+                    <Border BorderBrush="Black" BorderThickness="0,1,0,0" Margin="0,8,0,10"/>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="78"/>
