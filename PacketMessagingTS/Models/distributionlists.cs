@@ -72,11 +72,11 @@ namespace PacketMessagingTS.Models
 		{
 			get
 			{
-				if (_instance == null)
+				if (_instance is null)
 				{
 					lock (_syncRoot)
 					{
-						if (_instance == null)
+						if (_instance is null)
 							_instance = new DistributionListArray();
 					}
 				}
@@ -194,13 +194,13 @@ namespace PacketMessagingTS.Models
 			try
 			{
 				var storageItem = await localFolder.TryGetItemAsync(distributionListsFileName);
-				if (storageItem == null)
+				if (storageItem is null)
 					return;
 
 				file = await localFolder.GetFileAsync(distributionListsFileName);
 				using (FileStream reader = new FileStream(file.Path, FileMode.Open))
 				{
-					if (ArrayOfDistributionLists == null)
+					if (ArrayOfDistributionLists is null)
 					{
 						ArrayOfDistributionLists = new DistributionList[0];
 					}

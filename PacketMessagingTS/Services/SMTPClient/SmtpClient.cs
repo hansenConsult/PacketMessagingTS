@@ -32,11 +32,11 @@ namespace PacketMessagingTS.Services.SMTPClient
 		{
 			get
 			{
-				if (_instance == null)
+				if (_instance is null)
 				{
 					lock (_syncRoot)
 					{
-						if (_instance == null)
+						if (_instance is null)
 							_instance = new SmtpClient();
 					}
 				}

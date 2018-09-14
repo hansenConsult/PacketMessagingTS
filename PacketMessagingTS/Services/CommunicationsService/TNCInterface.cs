@@ -286,8 +286,18 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			}
 			_serialPort.ReadTimeout = 5000;
 		}
+/*
+        SP pktmon@w2xsc.ampr.org
+        DELIVERED: MON-716P: _O/R_SCCo ARES/RACES Packet Check-in Report For: Monday, June 26, 2017. Total = 21 call signs /23 check-ins    (Subject line)
+        !LMI!6DM-105P!DR!7/10/2017 6:35:51 PM   (local time received)
+        Your Message
+        To: KZ6DM
+        Subject: MON-716P: _O/R_SCCo ARES/RACES Packet Check-in Report For: Monday, June 26, 2017. Total = 21 call signs /23 check-ins
+        was delivered on 7/10/2017 6:35:51 PM
+        Recipient's Local Message ID: 6DM-105P
+*/
 
-		private void SendMessageReceipts()
+        private void SendMessageReceipts()
 		{
 			if (Singleton<PacketSettingsViewModel>.Instance.SendReceipt)
 			{
@@ -576,21 +586,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				}
 
 				_connectState = ConnectState.ConnectStateBBSConnect;
-                string readConnectText = _serialPort.ReadTo(") >");      // read connect response
-                Debug.WriteLine(readConnectText + _BBSPrompt);
+                string readConnectText = _serialPort.ReadTo(") >");      // read connect response  
+                //Debug.WriteLine(readConnectText + _BBSPrompt);
                 log.Info(readText + "\n" + readConnectText + _BBSPrompt);
-                _serialPort.ReadTimeout = readTimeout;
+                _serialPort.ReadTimeout = readTimeout;     
 
                 readText = _serialPort.ReadTo("\n");	// Next command
-                Debug.WriteLine(readText + "\n");
+                //Debug.WriteLine(readText + "\n");
 
                 _serialPort.Write("XM 0\r\x05");
                 readText = _serialPort.ReadLine();      // Read command
-                Debug.WriteLine(readText);
+                //Debug.WriteLine(readText);
                 log.Info(readText);
 
                 readCmdText = _serialPort.ReadLine();	// Read prompt
-                Debug.WriteLine(readCmdText);
+                //Debug.WriteLine(readCmdText);
                 log.Info(readCmdText);
 
                 _logHelper.Log(LogLevel.Info, $"Messages to send: {_packetMessagesToSend.Count}");
@@ -602,8 +612,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         _logHelper.Log(LogLevel.Error, $"Error detected in send messages");
                         break;
                     }
-					
-					if (_bbsConnectName.Contains(packetMessage.BBSName))
+
+                    if (_bbsConnectName.Contains(packetMessage.BBSName))
                     {
                         _serialPort.ReadTimeout = 240000;
                         try
@@ -631,7 +641,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             log.Error("Send message exception:", e);
                             _serialPort.DiscardInBuffer();
                             _serialPort.DiscardOutBuffer();
-							_error = true; 
+                            _error = true; 
                         }
                         _serialPort.ReadTimeout = 5000;
                     }
@@ -650,14 +660,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         ReceiveMessages(area);
                     }
                 }
-				//SendMessageReceipts();					// Send message receipts
-			
-				_serialPort.Write("B\r\x05");				// Disconnect from BBS (JNOS)
+                //SendMessageReceipts();					// Send message receipts
+                
+                _serialPort.Write("B\r\x05");				// Disconnect from BBS (JNOS)
 
 				readText = _serialPort.ReadLine();           // Read command
                 //Debug.WriteLine(readText);
                 log.Info(readText);
-Disconnect:
+                Disconnect:
 				readText = _serialPort.ReadLine();           // Read disconnect response
                 //Console.WriteLine(readText);
                 log.Info(readText);
@@ -665,7 +675,7 @@ Disconnect:
                 BBSDisconnectTime = DateTime.Now;
 				//serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
 
-				SendMessageReceipts();          // TODO testing
+				//SendMessageReceipts();          // TODO testing
 
 				_serialPort.ReadTimeout = 5000;
 				readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Next command

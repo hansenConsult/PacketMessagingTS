@@ -79,11 +79,11 @@ namespace PacketMessagingTS.Models
         {
             get
             {
-                if (_instance == null)
+                if (_instance is null)
                 {
                     lock (_syncRoot)
                     {
-                        if (_instance == null)
+                        if (_instance is null)
                             _instance = new ProfileArray();
                     }
                 }
@@ -99,7 +99,7 @@ namespace PacketMessagingTS.Models
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
                 var storageItem = await localFolder.TryGetItemAsync(profileFileName);
-                if (storageItem == null)
+                if (storageItem is null)
                 {
                     // Create a new profile file with a default entry
                     Profile profile = new Profile()

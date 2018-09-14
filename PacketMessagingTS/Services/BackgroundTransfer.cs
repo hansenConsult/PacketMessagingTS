@@ -34,11 +34,11 @@ namespace PacketMessagingTS.Models
 
         public static BackgroundTransfer CreateBackgroundTransfer()
         {
-            if (backgroundTransfer == null)
+            if (backgroundTransfer is null)
             { 
                 lock (singletonCreationLock)
                 {
-                    if (backgroundTransfer == null)
+                    if (backgroundTransfer is null)
                     {
                         backgroundTransfer = new BackgroundTransfer();
                     }
@@ -326,7 +326,7 @@ namespace PacketMessagingTS.Models
                 return false;
             }
 
-            if (download == null)
+            if (download is null)
             {
                 //rootPage.ShowMessageBox(String.Format($"Error: {title}: {error}"));
             }

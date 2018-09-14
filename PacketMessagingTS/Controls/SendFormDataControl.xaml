@@ -27,7 +27,7 @@
         <TextBlock x:Name="labelTNC" 
                    RelativePanel.AlignVerticalCenterWith="labelBBS" 
                    RelativePanel.RightOf="textBoxMessageBBS"  Text="TNC:" Margin="30,0,0,0" />
-        <ComboBox x:Name="comboBoxMessageTNC"
+        <ComboBox x:Name="comboBoxMessageTNC" Visibility="Collapsed"
                   RelativePanel.AlignVerticalCenterWith="labelBBS" 
                   RelativePanel.RightOf="labelTNC" 
                   RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
@@ -38,6 +38,12 @@
                   Tag="required,Please select a TNC"  BorderThickness="2"  
                   HorizontalAlignment="Stretch"  Margin="12.333,0,0,0"
                   />
+        <TextBox x:Name="textBoxMessageTNC" Visibility="Visible"
+                 RelativePanel.AlignVerticalCenterWith="labelBBS" 
+                 RelativePanel.RightOf="labelTNC" 
+                 RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
+                 Text="{x:Bind MessageTNC, Mode=TwoWay}"
+                 HorizontalAlignment="Stretch"  Margin="12.333,0,0,0"/>
         <TextBlock x:Name="labelFrom" 
                    RelativePanel.AlignVerticalCenterWith="textBoxMessageFrom" Text="From:" />
         <TextBox x:Name="textBoxMessageFrom" 
@@ -61,7 +67,7 @@
                         Text="{x:Bind MessageTo, Mode=TwoWay}"/>
         <ToggleSwitch x:Name="toSelection" Margin="12,-3,0,2" 
                       RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.Below="comboBoxMessageTNC"
+                      RelativePanel.AlignVerticalCenterWith="labelFrom"
                       Header=""
                       OffContent="Distribution List" OnContent="Individuals" Height="32" 
                       HorizontalAlignment="Right" Padding="0,-3,0,0"

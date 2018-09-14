@@ -24,7 +24,7 @@ namespace PacketMessagingTS.ViewModels
 
         //public async Task RefreshDataGridAsync()
         //{
-        //    if (MainPagePivotSelectedItem == null)
+        //    if (MainPagePivotSelectedItem is null)
         //        return;
 
         //    List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((StorageFolder)MainPagePivotSelectedItem.Tag);
@@ -45,7 +45,7 @@ namespace PacketMessagingTS.ViewModels
 
         public void OpenMessageFromDoubleClick(PacketMessage packetMessage)
         {
-            if (packetMessage == null)
+            if (packetMessage is null)
                 return;
 
             string folder = ((StorageFolder)MainPagePivotSelectedItem.Tag).Path;

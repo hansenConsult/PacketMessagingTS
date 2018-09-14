@@ -37,7 +37,7 @@ namespace PacketMessagingTS.Views
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter == null)
+            if (e.Parameter is null)
             {
                 ViewModel.PopulateEmptyForm = true;
                 return;
@@ -99,7 +99,7 @@ namespace PacketMessagingTS.Views
                     ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_MuniStatus_v20130101.html");
                     break;
                 case "webViewPivotItemShelterStatus":
-                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_ShelterStatus.html");
+                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_ShelterStatus_v20130814.html");
                     break;
             }
         }
@@ -110,7 +110,7 @@ namespace PacketMessagingTS.Views
             List<string> inrList = new List<string>();
 
             FormField[] formFields = packetMessage.FormFieldArray;
-            if (packetMessage.MessageBody == null)
+            if (packetMessage.MessageBody is null)
             {
                 packetMessage.MessageBody = formControl.CreateOutpostData(ref packetMessage);
             }
@@ -183,7 +183,7 @@ namespace PacketMessagingTS.Views
                     pktMsg.PacFormName = formName;
 
                     formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
-                    if (formControl == null)
+                    if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
                         await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");

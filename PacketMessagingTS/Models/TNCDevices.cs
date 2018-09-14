@@ -75,11 +75,11 @@ namespace PacketMessagingTS.Models
         {
             get
             {
-                if (_instance == null)
+                if (_instance is null)
                 {
                     lock (_syncRoot)
                     {
-                        if (_instance == null)
+                        if (_instance is null)
                             _instance = new TNCDeviceArray();
                     }
                 }
@@ -94,7 +94,7 @@ namespace PacketMessagingTS.Models
             try
 			{
 				var storageItem = await localFolder.TryGetItemAsync(tncFileName);
-				if (storageItem == null)
+				if (storageItem is null)
 				{
 					// Copy the file from the install folder to the local folder
 					var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
@@ -125,7 +125,7 @@ namespace PacketMessagingTS.Models
 			{
                 _logHelper.Log(LogLevel.Error, $"Failed to read TNC data file {e}");
 			}
-			if (_instance.TNCDevices == null || _instance.TNCDevices.Length == 0)
+			if (_instance.TNCDevices is null || _instance.TNCDevices.Length == 0)
 			{
 				//System.Windows.MessageDialog.Show(tncFileName + " missing");
 				log.Error(tncFileName + " missing");

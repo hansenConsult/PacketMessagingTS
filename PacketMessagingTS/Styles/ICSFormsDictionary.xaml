@@ -82,7 +82,7 @@
     <Style x:Key="MuniStatusFieldTextRequired" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Ariel"/>
         <Setter Property="FontStyle" Value="Italic"/>
-        <Setter Property="FontSize" Value="9"/>
+        <Setter Property="FontSize" Value="11"/>
         <Setter Property="Foreground" Value="Red"/>
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -91,7 +91,7 @@
     <Style x:Key="MuniStatusFieldText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Ariel"/>
         <Setter Property="FontStyle" Value="Normal"/>
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="11"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -126,7 +126,17 @@
         <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="2"/>
     </Style>
-    
+
+    <Style x:Key="ShelterStatusHeaderText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Ariel"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="5,2,2,2"/>
+    </Style>
+
     <Style x:Key="TextC12" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Courier New"/>
         <Setter Property="FontSize" Value="12"/>

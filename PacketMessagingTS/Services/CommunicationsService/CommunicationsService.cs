@@ -49,11 +49,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public static CommunicationsService CreateInstance()
 		{
-            if (_communicationsService == null)
+            if (_communicationsService is null)
             {
                 lock (singletonCreationLock)
                 {
-                    if (_communicationsService == null)
+                    if (_communicationsService is null)
                     {
                         _communicationsService = new CommunicationsService();
                     }
@@ -109,7 +109,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     pktMsg.PacFormName = formName;
 
                     formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
-					if (formControl == null)
+					if (formControl is null)
 					{
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
 						await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
@@ -188,7 +188,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             pktMsg.PacFormName = formName;
 
                             formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
-							if (formControl == null)
+							if (formControl is null)
 							{
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
                                 await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
@@ -429,7 +429,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     {
                         // Add Outpost message format by Filling the MessageBody field in packetMessage. 
                         PacketMessage packetMessage = PacketMessage.Open(file);
-                        if (packetMessage == null)
+                        if (packetMessage is null)
                         {
                             continue;
                         }
@@ -446,7 +446,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
                         formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
-                        if (formControl == null)
+                        if (formControl is null)
                         {
                             _logHelper.Log(LogLevel.Error, $"Form {packetMessage.PacFormName} not found");
                             MessageDialog messageDialog = new MessageDialog($"Form {packetMessage.PacFormName} not found");
@@ -722,7 +722,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 // Add Outpost message format by Filling the MessageBody field in packetMessage. 
                 PacketMessage packetMessage = PacketMessage.Open(file);
-                if (packetMessage == null)
+                if (packetMessage is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Error opening message file {file}");
                     continue;
@@ -740,7 +740,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
                 formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
-                if (formControl == null)
+                if (formControl is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");
                     await Utilities.ShowMessageDialogAsync($"Form {packetMessage.PacFormName} not found");

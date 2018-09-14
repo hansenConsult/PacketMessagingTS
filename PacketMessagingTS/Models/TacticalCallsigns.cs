@@ -174,7 +174,7 @@ namespace PacketMessagingTS.Models
 			StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
 			IStorageItem tactiCallsMasterFile = await localFolder.TryGetItemAsync(TactiCallsMasterFileName);
-			if (tactiCallsMasterFile == null)
+			if (tactiCallsMasterFile is null)
 			{
 				// Copy from install folder
 				var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
@@ -206,7 +206,7 @@ namespace PacketMessagingTS.Models
 				{
 					fileInfo = new FileInfo(tacticalCallFile.Path);
 				}
-				if (tacticalCallFile == null || fileInfo?.Length == 0)
+				if (tacticalCallFile is null || fileInfo?.Length == 0)
                 {
 					if (tacticalCallsignData.RawDataFileName == "Tactical_Calls.txt")
 					{
@@ -216,11 +216,11 @@ namespace PacketMessagingTS.Models
 					{
 						tacticalCallsigns = null;// await CreateFromBulletinAsync(tacticalCallsignData); Exception here
 					}
-                    if (tacticalCallsigns == null)
+                    if (tacticalCallsigns is null)
                     {
 						// Copy from data folder
 						tacticalCallFile = await localFolder.TryGetItemAsync(tacticalCallsignData.FileName);
-                        if (tacticalCallFile == null)
+                        if (tacticalCallFile is null)
                         {
                             // Copy the file from the install folder to the local folder
                             var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
@@ -653,7 +653,7 @@ namespace PacketMessagingTS.Models
 						ParseHospitals(ref tacticalCallsigns, pdfText);
 						StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 						var storageItem = await localFolder.TryGetItemAsync(TactiCallsMasterFileName);
-						if (storageItem == null)
+						if (storageItem is null)
 						{
 
 							StorageFile tacticalfile = await localFolder.GetFileAsync(TactiCallsMasterFileName);
@@ -739,7 +739,7 @@ namespace PacketMessagingTS.Models
 		{
 			//Read the bulletin file
 			PacketMessage tacticalCallsBulletin = await FindLatestBulletinAsync(tacticalCallsignData);
-			if (tacticalCallsBulletin == null)
+			if (tacticalCallsBulletin is null)
 			{
                 // If none are found download pdf file  BulletinFileName = "http://www.scc-ares-races.org/netscripts/HospitalNetScriptApr2015.pdf"
                 if (tacticalCallsignData.BulletinFileName.StartsWith("http"))
@@ -753,7 +753,7 @@ namespace PacketMessagingTS.Models
 
 			string bulletin = tacticalCallsBulletin?.MessageBody;
 
-			if (bulletin == null)
+			if (bulletin is null)
 				return null;
 
 			string primaryBBS = "";

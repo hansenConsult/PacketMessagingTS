@@ -183,7 +183,7 @@ namespace CityScanFormControl
 		{
             foreach (FormField formField in packetMessage.FormFieldArray)
 			{
-				if (formField.ControlContent == null || formField.ControlContent.Length == 0)
+				if (formField.ControlContent is null || formField.ControlContent.Length == 0)
 					continue;
 
 				switch (formField.ControlName)

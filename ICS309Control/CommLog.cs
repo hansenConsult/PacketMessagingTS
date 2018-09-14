@@ -76,7 +76,8 @@ namespace ICS309UserControl
 		[System.Xml.Serialization.XmlIgnore]
 		public List<CommLogEntry> CommLogEntryList
 		{
-			get => commLogEntryListField == null ? commLogEntryListField = new List<CommLogEntry>() : commLogEntryListField;
+			get => commLogEntryListField is
+                null ? commLogEntryListField = new List<CommLogEntry>() : commLogEntryListField;
 			set
 			{
 				commLogEntryListField = value;
@@ -187,7 +188,7 @@ namespace ICS309UserControl
 			try
 			{
 				var storageItem = await localFolder.TryGetItemAsync(commLogFileName);
-				if (storageItem == null)
+				if (storageItem is null)
 					return null;
 
 				file = await localFolder.GetFileAsync(commLogFileName);

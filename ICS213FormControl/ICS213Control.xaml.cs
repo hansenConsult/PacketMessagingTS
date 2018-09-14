@@ -179,7 +179,7 @@ namespace ICS213FormControl
 
 		//protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
 		//{
-  //          if (packetMessage.FormFieldArray == null)
+  //          if (packetMessage.FormFieldArray is null)
   //          {
   //              // This may happen if called from view Outpost Data
   //              packetMessage.FormFieldArray = CreateFormFieldsInXML();
@@ -188,7 +188,7 @@ namespace ICS213FormControl
 
   //          foreach (FormField formField in packetMessage.FormFieldArray)
 		//	{
-		//		if (formField.ControlContent == null || formField.ControlContent.Length == 0)
+		//		if (formField.ControlContent is null || formField.ControlContent.Length == 0)
 		//			continue;
 
 		//		switch (formField.ControlName)

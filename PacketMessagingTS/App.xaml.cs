@@ -127,7 +127,7 @@ namespace PacketMessagingTS
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             Properties = await localFolder.ReadAsync<Dictionary<string, object>>(PropertiesDictionaryFileName);
-            if (Properties == null)
+            if (Properties is null)
             {
                 Properties = new Dictionary<string, object>();
             }

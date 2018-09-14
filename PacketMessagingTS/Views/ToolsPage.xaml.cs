@@ -275,7 +275,7 @@ namespace PacketMessagingTS.Views
             // Recreate content only when :
             // - there is no current page description
             // - the current page description doesn't match the new one
-            if (currentPageDescription == null || !currentPageDescription.Equals(pageDescription))
+            if (currentPageDescription is null || !currentPageDescription.Equals(pageDescription))
             {
                 ClearPageCollection();
 

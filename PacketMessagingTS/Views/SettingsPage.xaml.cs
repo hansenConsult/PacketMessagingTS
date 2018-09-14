@@ -133,7 +133,7 @@ namespace PacketMessagingTS.Views
 
             DeviceListSource.Source = _listOfDevices;       // Temporary TODO remove
 
-            if (e.Parameter == null)
+            if (e.Parameter is null)
                 return;
 
             SettingsPivot.SelectedIndex = (int)e.Parameter;
@@ -631,7 +631,7 @@ namespace PacketMessagingTS.Views
                 var match = FindDevice(deviceInformation.Id);
 
                 // Add the device if it's new
-                if (match == null)
+                if (match is null)
                 {
                     // Create a new element for this device interface, and queue up the query of its
                     // device information
@@ -936,7 +936,7 @@ namespace PacketMessagingTS.Views
 
         private void ConnectDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if ((PivotItem)PivotTNC.SelectedItem == null)
+            //if ((PivotItem)PivotTNC.SelectedItem is null)
             //    return;
 
             if (e.AddedItems.Count > 0)

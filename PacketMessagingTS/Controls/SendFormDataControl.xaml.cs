@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using FormControlBaseClass;
 using PacketMessagingTS.Models;
 using System.ComponentModel;
@@ -15,10 +16,20 @@ namespace PacketMessagingTS.Controls
 {
     public sealed partial class SendFormDataControl : FormControlBasics
     {
-        public SendFormDataControl()
+        public SendFormDataControl(bool loadMessage = false)
         {
             this.InitializeComponent();
 
+            if (loadMessage)
+            {
+                comboBoxMessageTNC.Visibility = Visibility.Collapsed;
+                textBoxMessageTNC.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                comboBoxMessageTNC.Visibility = Visibility.Visible;
+                textBoxMessageTNC.Visibility = Visibility.Collapsed;
+            }
             ScanControls(messageInfo);
 
             MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;

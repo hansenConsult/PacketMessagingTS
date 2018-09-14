@@ -457,7 +457,7 @@ namespace SharedCode
 			{
 				FileName = MessageNumber + "_" + PacFormType + ".xml";
 			}
-			else if (MessageNumber == null || MessageNumber?.Length == 0)
+			else if (MessageNumber is null || MessageNumber?.Length == 0)
 			{
 				var messageDialog = new MessageDialog("Message number does not exist.\nContact support.");
 				await messageDialog.ShowAsync();
@@ -486,10 +486,6 @@ namespace SharedCode
 			{
                 _logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, {e}");
 			}
-			//finally
-			//{
-			//    reader?.Dispose();
-			//}
 			return null;
 		}
 
@@ -584,7 +580,7 @@ namespace SharedCode
 
 		public static async Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
 		{
-            if (storageFolder == null)
+            if (storageFolder is null)
                 return null;
 
 			List<PacketMessage> packetMessages = new List<PacketMessage>();
@@ -605,7 +601,6 @@ namespace SharedCode
 			}
 			return packetMessages;
 		}
-
 	}
 
 
@@ -617,7 +612,6 @@ namespace SharedCode
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public sealed partial class FormField
     {
-
         private string controlNameField;
 
         private string controlContentField;

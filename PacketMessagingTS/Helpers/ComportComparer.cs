@@ -11,9 +11,9 @@ namespace PacketMessagingTS.Helpers
             string x1 = x.Substring(comString.Length);
             string y1 = y.Substring(comString.Length);
 
-            if (x == null)
+            if (x is null)
             {
-                if (y == null)
+                if (y is null)
                 {
                     // If x is null and y is null, they're
                     // equal. 
@@ -29,7 +29,7 @@ namespace PacketMessagingTS.Helpers
             else
             {
                 // If x is not null...
-                if (y == null)
+                if (y is null)
                 // ...and y is null, x is greater.
                 {
                     return 1;

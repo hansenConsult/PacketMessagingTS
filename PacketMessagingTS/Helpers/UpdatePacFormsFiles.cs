@@ -37,7 +37,7 @@ namespace PacketMessagingTS.Helpers
     //    //        foreach (StorageFile localFile in localPacForms)
     //    //        {
     //    //            IStorageItem fileInlocalFolder = await localPacFormsFolder.TryGetItemAsync(localFile.Name);
-    //    //            if (fileInlocalFolder == null)
+    //    //            if (fileInlocalFolder is null)
     //    //            {
     //    //                await file.CopyAsync(localPacFormsFolder, file.Name, NameCollisionOption.ReplaceExisting);
     //    //                break;

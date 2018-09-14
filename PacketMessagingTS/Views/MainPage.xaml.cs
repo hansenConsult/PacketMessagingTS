@@ -262,7 +262,7 @@ namespace PacketMessagingTS.Views
 
         private void SortColumn(DataGridColumn column)
         {
-            if (column.SortDirection == null)
+            if (column.SortDirection is null)
                 return;
 
             IOrderedEnumerable<PacketMessage> sortedItems = null;

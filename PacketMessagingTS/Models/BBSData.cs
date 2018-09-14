@@ -96,11 +96,11 @@ namespace PacketMessagingTS.Models
         {
             get
             {
-                if (_instance == null)
+                if (_instance is null)
                 {
                     lock (_syncRoot)
                     {
-                        if (_instance == null)
+                        if (_instance is null)
                             _instance = new BBSDefinitions();
                     }
                 }
@@ -114,7 +114,7 @@ namespace PacketMessagingTS.Models
 			try
 			{
 				var storageItem = await localFolder.TryGetItemAsync(bbsFileName);
-				if (storageItem == null)
+				if (storageItem is null)
 				{
 					// Copy the file from the install folder to the local folder
 					var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
@@ -178,7 +178,7 @@ namespace PacketMessagingTS.Models
 		//{
 		//	string bulletin = bbsBulletin.MessageBody;
 
-		//	if (bulletin == null)
+		//	if (bulletin is null)
 		//		return null;
 
 		//	int start = 0;

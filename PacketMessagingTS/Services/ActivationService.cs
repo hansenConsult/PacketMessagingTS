@@ -37,7 +37,7 @@ namespace PacketMessagingTS.Services
 
                 // Do not repeat app initialization when the Window already has content,
                 // just ensure that the window is active
-                if (Window.Current.Content == null)
+                if (Window.Current.Content is null)
                 {
                     // Create a Frame to act as the navigation context and navigate to the first page
                     Window.Current.Content = _shell?.Value ?? new Frame();

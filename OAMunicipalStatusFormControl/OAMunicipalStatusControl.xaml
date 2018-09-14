@@ -147,7 +147,7 @@
                                         <ColumnDefinition Width="0.2*"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" >
-                                        <TextBlock Text="Municipality Name/Unincorporated:" Style="{StaticResource MuniStatusFieldTextRequired}"/>
+                                        <TextBlock Text="Municipality Name/Unincorporated:" Style="{StaticResource MuniStatusFieldTextRequired}" />
                                         <ComboBox Name="municipalityName" Width="205"  
                                                   ItemsSource="{x:Bind Municipalities}"
                                                   SelectedItem="SELECT the Municipality"

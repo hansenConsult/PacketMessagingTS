@@ -51,11 +51,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		public static BluetoothManager GetInstance()
 		{
-			if (instance == null)
+			if (instance is null)
 			{
 				lock (singletonCreationLock)
 				{
-					if (instance == null)
+					if (instance is null)
 					{
 						instance = new BluetoothManager();
 					}

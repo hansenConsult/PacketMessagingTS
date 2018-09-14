@@ -132,7 +132,7 @@ namespace PacketMessagingTS.Views
         private void ScanFormAttributes()
         {
             IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
-            if (files == null)
+            if (files is null)
                 return;
 
             foreach (StorageFile file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
@@ -266,7 +266,7 @@ namespace PacketMessagingTS.Views
             foreach (FormField formField in _packetMessage.FormFieldArray)
             {
                 FormControl formControl = _packetForm.FormControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                if (formControl == null)
+                if (formControl is null)
                     continue;
 
                 Control control = formControl?.InputControl;
@@ -308,7 +308,7 @@ namespace PacketMessagingTS.Views
         {
             FormControlBase formControl = null;
             IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
-            if (files == null)
+            if (files is null)
                 return null;
 
             Type foundType = null;
@@ -365,7 +365,7 @@ namespace PacketMessagingTS.Views
             printHelper = new PrintHelper(this);
             printHelper.RegisterForPrinting();
 
-            if (e.Parameter == null)
+            if (e.Parameter is null)
             {
                 FormsPagePivot.SelectedIndex = _formsViewModel.FormsPagePivotSelectedIndex;
                 return;
@@ -423,7 +423,7 @@ namespace PacketMessagingTS.Views
 
             _packetAddressForm = new SendFormDataControl();
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
-            if (_packetForm == null)
+            if (_packetForm is null)
             {
                 MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
                 await messageDialog.ShowAsync();
@@ -487,12 +487,12 @@ namespace PacketMessagingTS.Views
         // TODO insert InitializeFormControlAsync, maybe
         private async void FormsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
-            _packetAddressForm = new SendFormDataControl();
+            _packetAddressForm = new SendFormDataControl(_loadMessage);
 
             PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
             string pivotItemName = pivotItem.Name;
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
-            if (_packetForm == null)
+            if (_packetForm is null)
             {
                 MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
                 await messageDialog.ShowAsync();

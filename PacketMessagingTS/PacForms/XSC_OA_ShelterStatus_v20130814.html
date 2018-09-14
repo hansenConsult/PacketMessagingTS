@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Santa Clara OA Shelter Status</title>
+    <meta http-equiv="Content-type" content="text/html; charset=windows-1252">
+    <!-- JS: Form  10/17/12 - Ver 2.0 Does not require additonal subroutine
+         to pac-read.exe.
+         1/11/13 -  Fixed some JS '<' as per Clark problem
+         07/22/13 - Modified textarea LF flag from Inv. ? to \n for 7 bit problem
+         07/22/13 - Changed trim: user '] to ''] and ] to ']; all reversed thru pac-read
+         07/22/13 by HPH, added a fix to trim to add a blank to the end of the string if a
+            backtick is the last character
+         07/23/12 by HPH, Added command to unwrap to convert inverted ? to \n for input from old forms
+         09/23/14 by HPH, No change, revised version to 4.0
+         10/1/14 by HPH, change Receiving to Receiver's in "When Sending Message" msg. no, field
+         10/27/14 by HPH, Fixed typo "Senders's" to "Sender's"
+         01/11/15 by HPH, Fixed JS function geturl to remove problem with a slash in Outpost ID user name
+         08/25/18 by MEF, Adjusted fonts, alignment, ...
+         08/27/18 by HPH, Fixed text string for PACF record; added page skip ahead of Contace Info.
+         08/27/18 by MEF, Adjusted PACF record, removed dup JStail, fixed version dates
+         08/28/18 by HPH, Fixed 2nd header, Moved "Availability"
+         08/28/18 by MEF, Fixed 2nd header shading; adjusted field sizes, comments
+         08/29/18 by MEF, Update original form version date (20130814)
+     -->
+    <style type="text/css">
+
+              body {
+                  font-size: 9pt;
+                  font-weight: normal;
+                  color: black;
+                  font-family: Helvetica, Arial, sans-serif;
+              }
+
+              input, textarea, select {
+                  font-size: 9pt;
+                  font-weight: bold;
+                  background: #ffffdd;
+                  font-family: Consolas, "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+              }
+              /* select { width: 300px; } */
+
+              hr {
+                  color: black
+              }
+
+              table {
+                  font-size: 8pt;
+                  font-weight: bold;
+              }
+
+              .msgno {
+                  font-size: 9pt;
+                  text-align: center;
+              }
+
+              .table1 {
+                  font-size: 9pt;
+                  font-weight: bold;
+              }
+
+              .table2 {
+                  font-size: 8pt;
+                  font-weight: bold;
+              }
+
+              .table3 {
+                  font-size: 9pt;
+                  font-weight: bold;
+              }
+
+              .red {
+                  color: red;
+                  font-style: italic;
+              }
+
+              .gray {
+                  color: gray;
+              }
+
+              .italic {
+                  font-style: italic;
+                  font-weight: normal;
+                  font-size: 8pt;
+                  color: black;
+              }
+
+              .title-text {
+                  font-size: 12pt;
+                  font-weight: bold;
+                  color: blue;
+              }
+
+              .s1-title-text {
+                  font-size: 11pt;
+                  font-weight: bold;
+              }
+
+              .s2-title-text {
+                  font-size: 9pt;
+                  font-weight: normal;
+              }
+
+              .js-head-text {
+                  font-size: 9pt;
+                  font-weight: bold;
+              }
+
+              .js-error-text {
+                  font-size: 12pt;
+                  font-weight: bold;
+                  color: red;
+              }
+
+              .sm-text {
+                  font-size: 8pt;
+              }
+
+              .status-title {
+                  font-size: 12pt;
+                  font-weight: bold;
+              }
+
+              .oper-input {
+                  font-size: 8pt;
+                  font-weight: normal;
+              }
+
+              .submit-text {
+                  font-size: 10pt;
+                  color: red;
+              }
+
+              .form-ver-text {
+                  font-size: 8pt;
+                  font-weight: bold;
+                  text-decoration: underline;
+              }
+
+              .sec-title {
+                  font-size: 11pt;
+                  font-weight: bold;
+              }
+
+              .submit-button {
+                  font-size: 10pt;
+                  font-weight: bold;
+              }
+
+              /* Phil's styles that don't seem to be used
+        #button { font-weight:bold; font-size:12pt; font-family:Times New Roman,Serif }
+        .msgno {font-family: arial; font-size: 9pt; color:black; text-align:right;}
+        .reply{ background-color: yellow; display:none;}
+        */
+              .banner-shade {
+                  background: #DDDDDD;
+              }
+    </style>
+
+    <style type="text/css" media="screen">
+        #Header2, #Header2A, #Header2B {
+            display: none;
+        }
+    </style>
+
+    <style type="text/css" media="print">
+        .header, .trailer {
+            display: none;
+        }
+
+        .red {
+            color: black;
+        }
+
+        hr {
+            color: black
+        }
+
+        input, select, textarea {
+            color: black;
+            background: none;
+        }
+
+        .title-text {
+            color: black;
+        }
+    </style>
+
+    <script language="JavaScript">
+        // <!--
+
+        var JSid = "SC OA Shelter Status (which4)";
+        var JSver = "JS-ver. PR-4.4-3.6, 08-29-18";
+        var JShead = "<span class=\"js-head-text\">JavaScript Version PR-4.4-3.6 for Amateur Radio Packet Transmission, 08/29/18 - <b>PacRELEASE 4.4</b></span>";
+        var JStail = "SCCo OA Shelter Status Form Version 20130814 (PR-4.4-3.6, 08/29/18)";
+        var JSTopHead = "County of Santa Clara Emergency Operations Center<br>Santa Clara OA Shelter Status";
+
+        fromlocal = 0;  // =0 for call to pac-read with No !OUTPOST! record; >0 if so. Reset fm pac-read.
+
+        function lockUnlockMsg(checkbox) {
+            if (checkbox.checked === 1) {
+                document.getElementById('RSmsgno').disabled = false;
+                document.getElementById('SRmsgno').disabled = false;
+            }
+            else {
+                document.getElementById('RSmsgno').disabled = true;
+                document.getElementById('SRmsgno').disabled = true;
+            }
+        }
+
+        function emerg() {
+        document.forms[0].handling[0].checked = true;
+        }
+
+        var whichway, ascii, thisurl;
+        thisurl = "";
+        function geturl() {
+            if (thisurl !== "") { return thisurl; }
+            var res = new Array(), tem = new Array();
+            var a = document.URL;
+            tem = a.split(/\?/);
+            //  alert(a+", T0:"+tem[0]+", T1:"+tem[1]);
+            a = tem[0];
+            a = a.replace(/\\/g, "\/");
+            res = a.split(/\//g);
+            var l = res.length - 1;
+            //  alert(a+", "+l+", "+res[0]+","+res[l]);
+            return res[l];
+        }
+
+
+        function resetforms() {
+        document.forms[0].reset();
+            document.forms[1].reset();
+            datetime(0);  // added 4/17/10
+        }
+
+        function hide_message() {
+            document.getElementById('errormessage1').style.display = 'none';
+        }
+
+        function Browser() {
+            var bb = navigator.appName;
+            if (bb.indexOf("Microsoft") !== -1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function zerofill(val) {
+            if (val > 9) { return "" + val; }
+            return "0" + val;
+        }
+
+        function datetime(dum1)  // Parameter added 1/11/11 to update Operator send date/time
+        {
+            var hr, ampm;
+            var Today = new Date();
+            var month = zerofill(Today.getMonth() + 1);
+            var year = Today.getFullYear();
+            var day = zerofill(Today.getDate());
+            var hr1 = Today.getHours();
+            var min = zerofill(Today.getMinutes());
+            var sec = zerofill(Today.getSeconds());
+            /*
+                     if (hr1 >12)
+                      { hr = hr1 - 12;
+                        ampm = " PM";
+                      } else
+                      { hr = hr1;
+                        ampm = " AM";
+                      }
+            */
+            hr1 = zerofill(hr1);
+            var dat = month + "/" + day + "/" + year;
+            var tim = hr1 + ":" + min;
+            if (dum1 === 0) {
+                document.forms[0].Date.value = dat;
+                document.forms[0].Time.value = tim;
+                document.forms[0].odate.value = dat;
+                document.forms[0].otime.value = tim;
+            } else
+                if (dum1 === 1) {
+                document.forms[0].odate.value = dat;
+                    document.forms[0].otime.value = tim;
+                    document.forms[0].ordate.value = dat;
+                    document.forms[0].ortime.value = tim;
+                } else
+                    if (dum1 === 2) {
+                    document.forms[0].odate.value = "";
+                        document.forms[0].otime.value = "";
+                        document.forms[0].ordate.value = "";
+                        document.forms[0].ortime.value = "";
+                    }
+        }
+
+        function trim(strval)              // Trims leading and trailing blanks
+        {
+            strval = strval.replace(/\`\]/g, "\x87"); // New - temp.
+            strval = strval.replace(/\]/g, "`]");     // New
+            strval = strval.replace(/\x87/g, "``]");  // New
+            strval = strval.replace(/\s*$/, "");
+            strval = strval.replace(/^\s*/, "");
+            strval = strval.replace(/\`$/, "` ");  // adds a last backtick with backtick blank
+            return strval;
+        }
+
+        function wrap(inStr, cols) {
+            var i, n, itot, str, res, cvt;
+            words = new Array;
+            if (inStr === "") { return inStr; }
+            if (cols < 0) {
+                cols = Math.abs(cols);
+                //       inStr = inStr.replace(/%BF/g, "%37BF");  // removes %BF typed by user NEW
+                //       inStr = inStr.replace(/\n/g,"\xBF");   // Inverted ?
+                inStr = inStr.replace(/\n/g, "\\n");      //NEW
+                inStr = inStr.replace(/\r/g, "");
+                //       inStr = "\xBF"+inStr;                  // Inverted ?
+                inStr = "\\n" + inStr;                    // NEW
+            } else {
+                inStr = inStr.replace(/\n|\r/g, " ");
+            }
+            words = inStr.split(" ");
+            iwd = words.length;
+            n = inStr.length;
+            i = 0;
+            k = 0;
+            res = "";
+            blk = "";
+            itot = 0;
+            for (i = 0; i < iwd; i++) {
+                if (itot >= cols) {
+                words[i] = words[i] + "\n";
+                    itot = 0;
+                }
+                itot = itot + words[i].length + 1;
+                res = res + blk + words[i];
+                blk = " ";
+            }
+            return res;
+        }
+
+        var itot;
+        function unwrap(str, msg) {
+            var i, n, nl, iwd, k;
+            words = new Array;
+            icols = msg.cols;
+            irows = msg.rows;
+            str = str.replace(/\xBF/g, "\\n");  // Converts all inverted ? to \n from old versions, 7/23/13
+            str = str.replace(/\\n/g, "\n");
+            //      str = str.replace(/%37/g, "%");     // NEW
+            if (str.charAt(0) === "\n")      // Removes inverted \n at 1st Chr.
+            { str = str.substring(1); }
+            parl = countlines(str);
+            tsl = str.length;
+            nrows = Math.ceil(tsl / icols);
+            words = str.split(" ");
+            iwd = words.length;
+            n = str.length;
+            //    if (n <= icols) { return inStr }
+            i = 0;
+            k = 0;
+            nl = 0;
+            res = "";
+            itot = 0;
+            for (i = 0; i < iwd; i++) {
+                if (itot >= icols) {
+                    nl++;
+                    itot = 0;
+                }
+                itot = itot + words[i].length + 1;
+            }
+            itot = nl + parl + 1;
+            if (nrows > itot) { itot = nrows; }
+            //  alert(nl+" "+parl+" "+irows+" "+icols+" "+nrows )
+            str = str.replace(/\n/g, "\r\n");
+            if (itot > irows) { msg.rows = itot; }
+            return str;
+        }
+
+        function countlines(inStr) {
+            var i, n, m;
+            n = 0;
+            i = 0;
+            m = inStr.indexOf("\n", n);
+            while (m >= 0) {
+                i++;
+                n = m + 1;
+                m = inStr.indexOf("\n", n);
+            }
+            return i;
+        }
+
+        sepChar = String.fromCharCode(167);
+        instr = "";
+
+        function out(win, text, param) {
+            var str, val, str1;
+            if (param === "") { return; }
+            str = text + ": [" + param + "]\n";
+            //  str1 = text+":["+param+"]";
+            if (whichway === 0) {
+                win.document.write(str);
+            } else {
+                ascii += str;
+            }
+        }
+
+        function radio(win, param, text) {
+            var i, val, j, max;
+            max = param.length;
+            j = 0;
+            for (i = 0; i < max; i++) {
+                if (param[i].checked) {
+                    val = param[i].value;
+                    out(win, text, val);
+                    j = 1;
+                }
+            }
+            if (j === 0) { out(win, text, ""); }
+        }
+
+        function fradio(param) {
+            var i, val, j, max;
+            max = param.length;
+            j = 0;
+            for (i = 0; i < max; i++) {
+                if (param[i].checked) {
+                    val = param[i].value;
+                    j = 1;
+                }
+            }
+            if (j === 0) { val = ""; }
+            return val;
+        }
+
+        function fdropdown(param) {
+            var indx, val;
+            indx = param.selectedIndex;
+            val = param.options[indx].value;
+            return val;
+        }
+
+        function testvalues() {
+            var str;
+            str = "";
+            if (Fmsgno === "") { str = "Enter a Message Number."; }
+            if (Fsever === "") { str = str + "\n Indicate Situation Severity."; }
+            if (Fhandling === "") { str = str + "\n Indicate Msg. Handling Order."; }
+            if (Fincident === "") { str = str + "\n Enter an Incident."; }
+            if (Fcitylist === "0") { str = str + "\n Select your Municipality."; }
+            //    if (Fcitylist ==="Other" && Fother =="")
+            //        { str=str+"\n Enter a value for Other."; }
+            if (str === "") {
+                return true;
+            } else {
+                datetime(2);
+                alert(str);
+                return false;
+            }
+        }
+
+        function checkbox(param) {
+            if (param) {
+                return "checked";
+            } else {
+                return "";
+            }
+        }
+
+        function gatherdata() {
+            document.forms[1].formtext.value = ascii;
+            return;
+        }
+
+        function poundstuff() {
+            var reqStr = "!PACF! " + pacf + "\n" + "# JS:" + JSid + "\n" + "# " + JSver + "\n" +
+                "# FORMFILENAME: " + geturl() + "\n";
+            //   "# Form Item numbers are followed by a colon (:)\n"+
+            //   "# Answers are enclosed in brackets ( [ ] )\n"+
+            //   "# Note: The symbol "+"\xBF"+" is NOT a bug. It is used in Textarea formatting.\n";
+            return reqStr;
+        }
+
+        var pacf = "";
+        function newwin(theway) {
+            datetime(1);
+            whichway = theway;
+
+            // Required form fields are defined here and are tested in testvalues
+            // variable to the left of = is the same as the form field name with Fadded at the beginning.
+            Fcitylist = fdropdown(document.forms[0].citylist);
+            // Fother = trim(document.forms[0].other.value);
+            Fmsgno = trim(document.forms[0].msgno.value); // TEXT
+            Fsever = fradio(document.forms[0].sever);
+            Fhandling = fradio(document.forms[0].handling);
+            Fincident = trim(document.forms[0].incident.value);
+            // End of list of Required Form fields
+
+            // Next 5 lines are for added info after !PACF!
+            d = "OAShelterStat";
+            a = Fmsgno.substring(0);
+            b = Fsever.substring(0, 1);
+            c = Fhandling.substring(0, 1);
+            pacf = a + "_" + b + "/" + c + "_" + d + "_" + Fincident;
+            //
+            if (whichway === 1) {
+                ascii = poundstuff();
+                NewWin = 0;
+            } else {
+                if (!testvalues()) { return; }
+
+                NewWin = window.open("", null, "height=600,width=700,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes,resizable=yes");
+                // NewWin.document.write("Content-type: text/plain");
+                NewWin.document.write("<" + "html>");
+                NewWin.document.write("<" + "head>\n");
+                NewWin.document.write("<title>Santa Clara OA Shelter Status</title>\n");
+                var bbb = Browser();
+                if (bbb) {
+                    NewWin.document.write('<S' + 'CRIPT LANGUAGE="JavaScript" type="text/javascript">\n');
+
+                    NewWin.document.write("function ClipBoard()\n");
+                    NewWin.document.write(" { \n");
+                    NewWin.document.write("   holdtext.innerText = copytext.innerText; \n");
+                    NewWin.document.write("   Copied = holdtext.createTextRange(); \n");
+                    NewWin.document.write('   Copied.execCommand("Copy"); \n');
+                    NewWin.document.write(" } \n");
+
+                    NewWin.document.write("</S" + "CRIPT> \n");
+                }
+                NewWin.document.write("<" + "/head> \n");
+                if (bbb) {
+                    NewWin.document.write('<' + 'body  bgcolor="#ffffff" onLoad="ClipBoard()">\n');
+                    NewWin.document.write('<SPAN ID="copytext" STYLE="background-color:lightblue">\n');
+                    NewWin.document.write('<TEXTAREA ID="holdtext" STYLE="display:none;"> </TEXTAREA>\n');
+                }
+                else {
+                    NewWin.document.write('<' + 'body>\n');
+                }
+                NewWin.document.write("<pre>\n");
+                NewWin.document.write("!PACF! " + pacf + "\n# JS:" + JSid + "\n");
+                NewWin.document.write("# " + JSver + "\n");
+                NewWin.document.write("# FORMFILENAME: " + geturl() + "\n");
+                /*
+                if (bbb)
+                 { NewWin.document.write('<font color="red"># \n');
+                   NewWin.document.write("# THE LIGHT BLUE HIGHLIGHTED TEXT HAS BEEN AUTOMATICALLY COPIED \n");
+                   NewWin.document.write("# to the Clipboard.  To save it to a file, you must \n");
+                 }
+                else
+                 { NewWin.document.write('<font color="red"># TO COPY THE TEXT IN THIS WINDOW, FOCUS THIS WINDOW, THEN:\n');
+                   NewWin.document.write("# Select All ASCII Text by typing Ctrl-A, then Ctrl-C to Copy.\n");
+                 }
+                NewWin.document.write("# Next, RUN WordPad or Notepad and DO Ctrl-V to Paste into the editor body.\n");
+                NewWin.document.write("# Then DO Save-As to a TEXT Document file, or Paste directly into Outpost.</font>\n");
+                NewWin.document.write("# Form Item numbers are followed by a colon (:)\n");
+                NewWin.document.write("# Answers are enclosed in brackets ( [ ] )\n");
+                NewWin.document.write("# Note: The symbol "+"\xBF"+" is NOT a bug. It is used in Textarea formatting.\n");
+                */
+            }  // end of else loop where whichway == 0
+            //
+            listels();
+
+            if (whichway === 0) {
+                NewWin.document.write("#EOF\n");
+            } else {
+                ascii += "#EOF\n";
+                gatherdata();
+                return;
+            }
+            //
+            NewWin.document.write("</pre>\n");
+            if (bbb) { NewWin.document.write("</SPAN>"); }
+            NewWin.document.write("</body>");
+            NewWin.document.write("</html>");
+            NewWin.document.close();
+        }
+
+        //
+        var qsParm = new Array();
+        var qsVal = new Array();
+        var qsN;
+        function qs() {
+            var n = 0;
+            var query = window.location.search.substring(1);
+            query = query.replace(/%20/g, "");
+            var leng = query.length;
+            // alert("Query="+query+", "+leng);
+            if (leng <= 1) { return; }
+            var parms = query.split('&');
+            qsN = parms.length;
+            for (var i = 0; i < qsN; i++) {
+                var pos = parms[i].indexOf('=');
+                if (pos > 0) {
+                    qsParm[i] = parms[i].substring(0, pos);
+                    qsVal[i] = parms[i].substring(pos + 1);
+                    qsVal[i] = decodeURI(qsVal[i]);
+                    qsVal[i] = qsVal[i].replace(/\+/g, " ");
+                }
+            }
+            assignq();
+        }
+
+        function assignq() {
+            var i, j, dum;
+            for (i = 0; i < qsN; i++) {
+                if (!document.forms[0][qsParm[i]]) {
+                    alert(">>> Form Field name \'" + qsParm[i] + "\' does NOT exist.");
+                } else {
+                document.forms[0][qsParm[i]].value = qsVal[i];
+                }
+            }
+        }
+
+        function available() {
+            var a, b;
+            a = document.forms[0].Capacity.value - 0;
+            b = document.forms[0].Occupancy.value - 0;
+            document.forms[0].Available.value = a - b;
+            if (b > a) {
+                alert("NOTE: Occupancy is GREATER THAN Capacity!");
+            }
+        }
+
+        function custom() {
+            var num;
+            qs(); // Do Not remove this function call. Used by Outpost to pass data.
+            num = document.forms[0].msgno.value;
+            if (num === "$$") { writeels(); }
+            //    writeels(); // Uncomment when you want to check all elements
+        } //End Custom
+        //
+
+        function testreply() {
+            if (fromlocal > 0) {
+                document.getElementById("senddt").style.display = "none";
+                document.getElementById("outpostdt").style.display = "block";
+            }
+            return;
+        }
+
+        function writeels() {
+            var n, typ, val, nam, str, lb;
+            n = document.forms[0].elements.length;
+            EleWin = window.open("", null, "height=600,width=700,status=yes,toolbar=yes,menubar=yes,location=no,scrollbars=yes,resizable=yes");
+            EleWin.document.write("<html>\n<head>\n<title>Element List</title>\n</head>\n");
+            EleWin.document.write("<body>\n<b>ELEMENT LIST for " + geturl() + "<p>Ele. Index, Type, Name, Value</b><p>");
+            for (i = 0; i < n; i++) { // lb = String.fromCharCode(163); // English pound sign - to flag select index
+                lb = "}"; // Single right brace to flag index
+                typ = document.forms[0].elements[i].type;
+                nam = document.forms[0].elements[i].name;
+                val = document.forms[0].elements[i].value;
+                str = i + ", " + typ + ", &nbsp; " + nam + ",  &nbsp; " + val + ", &nbsp; ";
+                if (typ === "radio" || typ === "checkbox") {
+                    chk = document.forms[0].elements[i].checked;
+                    str = str + "[" + chk + "], ";
+                }
+                if (typ === "select-one") {
+                    indx = document.forms[0].elements[i].selectedIndex;
+                    str = str + lb + indx;
+                }
+                str = str + ",<br>";
+                EleWin.document.write(str);
+            }
+            EleWin.document.write("</body>\n</html>\n");
+            EleWin.document.close();
+        }
+
+        var inl = new Array();
+        var inr = new Array();
+
+        function outels() {
+            var inn, typ, val, indx, nam, chk, nidx, k, lb;
+            var dum = new Array();
+            // lb= String.fromCharCode(163);
+            lb = "}";
+            inn = inl.length;
+            // alert(inn+" "+inl[0]+" "+ inl[1]);
+            for (i = 0; i < inn; i++) {
+                k = inl[i];
+                typ = document.forms[0].elements[k].type;
+                nam = document.forms[0].elements[k].name;
+                if (typ === "radio" || typ === "checkbox") {
+                document.forms[0].elements[k].checked = inr[i];
+                } else if (typ === "text" || typ === "hidden") {
+                document.forms[0].elements[k].value = inr[i];
+                } else if (typ === "textarea") {
+                    ms2 = unwrap(inr[i], document.forms[0].elements[k]);
+                    document.forms[0].elements[k].value = ms2;
+                } else if (typ === "select-one") {
+                    dum = inr[i].split(lb);
+                    indx = dum[1];
+                    document.forms[0].elements[k].selectedIndex = indx;
+                }
+            }
+            testreply();
+        }
+
+        function listels() {
+            var n, typ, val, indx, nam, chk, nidx, k, lb;
+            n = document.forms[0].elements.length;
+            //  lb = String.fromCharCode(163); // English pound sign - to flag select index
+            //  yen = String.fromCharCode(165); // Yen sign to flag odate or otime parameter
+            lb = "}";
+            yen = "{";
+            for (i = 0; i < n; i++) {
+                typ = document.forms[0].elements[i].type;
+                nam = document.forms[0].elements[i].name;
+                if (typ === "radio" || typ === "checkbox") {
+                    chk = document.forms[0].elements[i].checked;
+                    out(NewWin, i, chk);
+                    //            test=chk+" "+typ+" "+nam;
+                    //            out(NewWin,i,test);
+                } else {
+                    val = document.forms[0].elements[i].value;
+                    if (typ === "text" || typ === "textarea" || typ === "hidden") {
+                        val = trim(val);
+                        if (nam === "odate" || nam === "otime" || nam === "ocall" || nam === "oname") {
+                            val = val + yen + nam;
+                        }
+                    }
+                    if (typ === "textarea") {
+                        val = wrap(val, -50);
+                    }
+                    if (typ === "select-one") {
+                        indx = document.forms[0].elements[i].selectedIndex;
+                        val = val + lb + indx;
+                    }
+                    out(NewWin, i, val);
+                }
+            }
+            if (document.forms[0].msgno.value === "$$") { writeels(); }
+        }
+
+        // -->
+    </script>
+    <script src="js/AddedForWebView.js"></script>
+    <!-- PART1 -->
+</head>
+<body bgcolor="#ffffff" onLoad="hide_message(); datetime(0); custom();">
+<!-- PART2 -->
+
+<center>
+<table class="banner-shade" width="100%">
+  <tbody><tr><td><center>
+    <span class="title-text">
+      <script language="JavaScript"> // put in header area
+        document.write(JSTopHead);
+      </script>
+    </span>
+    <div class="js-head-text header">
+      <script language="JavaScript"> // put in header area
+        document.write(JShead);
+      </script><br>
+      <span class="s2-title-text">(For the manual saving of the ASCII output, this form is best used with Microsoft Internet Explorer)</span>
+      <div id="errormessage1" name="errormessage1" align="center">
+        <p>&nbsp;</p>
+        <hr size="3" color="red">
+        <span class="js-error-text">
+        JAVASCRIPT IS NOT ENABLED IN THIS BROWSER.<br>
+        THIS FORM WILL NOT WORK WITHOUT JAVASCRIPT ENABLED.</span>
+        <hr size="3" color="red">
+        <p>&nbsp;</p>
+      </div>
+    </div>
+  </center></td></tr>
+</tbody></table>
+
+<!-- PART3 -->
+
+  </center>
+<form name="Form1">
+
+<center>
+
+<span class="red header"><b>Items in RED <i>Italics</i>  are Required</b></span>
+
+<!-- Start of RACES Header -->
+<!-- Message Numbers -->
+<table class="msgno">
+  <tr>
+    <td nowrap="nowrap" align="right">A.) When Receiving, <br>Sender's Msg. No. </td>
+    <td nowrap="nowrap" align="left"><input size="12" name="RSmsgno" tabindex="1" id="RSmsgno" disabled="true" type="text"></td>
+    <td nowrap="nowrap" align="right"><span class="red"><b>B.) Message <br>Number </b></span></td>
+    <td nowrap="nowrap" align="left"><input size="12" name="msgno" tabindex="2" type="text"></td>
+    <td nowrap="nowrap" align="right">&nbsp;C.) When Sending, <br>Receiver's Msg. No.</td>
+    <td nowrap="nowrap" align="left"><input size="12" name="SRmsgno" tabindex="3" id="SRmsgno" disabled="true" type="text"></td>
+  </tr>
+</table>
+
+<div class="header">
+  <span style="font-size:8pt">
+    <input name="unlockmsg1" value="1" onclick="lockUnlockMsg(this)" type="checkbox">Unlock msg. nos. A.) &amp; C.)
+  </span>
+</div>
+
+<!-- Severity, Handling Order, Reply -->
+<table class="table1" border="1">
+  <tr valign="top">
+    <td nowrap="nowrap">
+      <span class="red"><b>D.) Situation Severity </b></span><span class="header">(Select One)</span><br>
+      <input name="sever" value="EMERGENCY" tabindex="6" onclick="emerg()" type="radio">
+        <b>EMERGENCY</b>&nbsp;<span class="sm-text">(e.g., Life Threat)</span><br>
+      <input name="sever" value="URGENT" tabindex="7" type="radio">
+        <b>URGENT</b>&nbsp;<span class="sm-text">(e.g., Property Threat)</span><br>
+      <input name="sever" value="OTHER" tabindex="8" type="radio">
+        <b>OTHER</b>&nbsp;<span class="sm-text">(All Others)</span><br>
+    </td>
+    <td nowrap="nowrap">
+      <span class="red"><b>E.) Msg. Handling Order </b></span><span class="header">(Select One)</span><br>
+      <input name="handling" value="IMMEDIATE" tabindex="9" type="radio">
+        <b>IMMEDIATE</b>&nbsp;<span class="sm-text">(As Soon as Possible)</span><br>
+      <input name="handling" value="PRIORITY" tabindex="10" type="radio">
+        <b>PRIORITY</b>&nbsp;<span class="sm-text">(Less Than One Hour)</span><br>
+      <input name="handling" value="ROUTINE" tabindex="11" type="radio">
+        <b>ROUTINE</b>&nbsp;<span class="sm-text">(More Than One Hour)</span><br>
+    </td>
+    <td nowrap="nowrap"><b>F.) Message Requests You to:<br><br>
+      &nbsp;&nbsp;REPLY</b> (Check one)<br>
+      <input name="replyyn" value="Yes" tabindex="14" type="radio"><b>Yes, by</b>
+      <input name="replyby" size="17" tabindex="15" type="text">&nbsp;
+      <input name="replyyn" value="No" tabindex="16" type="radio"><b>No&nbsp;</b>
+    </td>
+  </tr>
+</table>
+
+</center>
+<!-- End of RACES Header -->
+
+<hr color="black" size="5">
+
+<!-- Start of User Data Fields -->
+<table border="0" align="center" width="90%"><tr><td>
+
+  <br>
+  <span class="sec-title" align="left">Incident</span>
+  <hr class="gray">
+
+  <table border="0" class="table3">
+    <tr>
+      <td nowrap align="right" width="200px" class="red"><b>Incident Name:</b></td>
+      <td nowrap align="left"><input name="incident" size="70" type="text"></td>
+    </tr>
+    <tr>
+      <td	nowrap align="right" width="200px" class="red"><b>Municipality Name:</b></td>
+      <td nowrap align="left">
+        <select name="citylist">
+	        <option value="0" selected="selected">SELECT the Municipality</option>
+	        <option value="Campbell">Campbell</option>
+    	    <option value="Cupertino">Cupertino</option>
+	        <option value="Gilroy">Gilroy</option>
+	        <option value="Loma Prieta">Loma Prieta</option>
+    	    <option value="Los Altos">Los Altos</option>
+	        <option value="Los Altos Hills">Los Altos Hills</option>
+	        <option value="Los Gatos/Monte Sereno">Los Gatos/Monte Sereno</option>
+    	    <option value="Milpitas">Milpitas</option>
+	        <option value="Morgan Hill">Morgan Hill</option>
+	        <option value="Mountain View">Mountain View</option>
+    	    <option value="NASA-Ames">NASA-Ames</option>
+	        <option value="Palo Alto">Palo Alto</option>
+	        <option value="San Jose">San Jose</option>
+          <option value="Santa Clara">Santa Clara</option>
+	        <option value="Saratoga">Saratoga</option>
+	        <option value="Stanford">Stanford</option>
+          <option value="Sunnyvale">Sunnyvale</option>
+	        <option value="Other">Unincorporated</option>
+        </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="red"><b>Date: </b></span><input type="text" name="Date" size="12">
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="red"><b>Time (24hr): </b></span><input type="text" name="Time" size="7">
+      </td>
+    </tr>
+  </table>
+
+  <br>
+  <span class="sec-title" align="left">Shelter</span>
+  <hr class="gray">
+
+  <table border="0" class="table2">
+    <tr>
+      <td nowrap align="right" width="200px">Shelter Type:</td>
+      <td nowrap align="left">
+        <select name="ShelterType">
+          <option value="Type 1">Type 1</option>
+          <option value="Type 2">Type 2</option>
+          <option value="Type 3">Type 3</option>
+          <option value="Type 4">Type 4</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Shelter Status:</td>
+      <td nowrap align="left">
+        <select name="ShelterStat">
+          <option value="Closed">Closed</option>
+          <option value="Full">Full</option>
+          <option value="Open">Open</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Name:</td>
+      <td nowrap align="left"><input type="text" name="ShelterName" size="50"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Address:</td>
+      <td nowrap align="left"><input type="text" name="ShelterAddress" size="50"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">City:</td>
+      <td nowrap align="left"><input type="text" name="ShelterCity" size="50"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">State:</td>
+      <td nowrap align="left"><input type="text" name="ShelterState" size="50"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Zip:</td>
+      <td nowrap align="left"><input type="text" name="ShelterZip" size="50"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Latitude:</td>
+      <td nowrap align="left"><input type="text" name="Latitude" size="14">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longitude: <input type="text" name="Longitude" size="14">
+      </td>
+    </tr>
+  </table>
+
+  <br>
+  <span class="sec-title" align="left">Shelter Information</span>
+  <hr class="gray">
+
+  <table border="0" class="table2">
+    <tr>
+      <td nowrap align="right" width="200px">Capacity:</td>
+      <td nowrap align="left"><input type="text" name="Capacity" size="6" onChange="available()"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Occupancy:</td>
+      <td nowrap align="left">
+        <input type="text" name="Occupancy" size="6" onChange="available()">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Availability: <input type="text" name="Available" size="6" value="0" disabled> (Automatically computed)
+      </td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Meals Served (last 24 hours):</td>
+      <td nowrap align="left"><input type="text" name="Meals" size="50"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">NSS Number:</td>
+      <td nowrap align="left"><input type="text" name="NSSNum" size="50"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Pet Friendly:</td>
+      <td nowrap align="left"><input type="checkbox" name="Pet"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Basic Safety Inspection:</td>
+      <td nowrap align="left"><input type="checkbox" name="SafetyInspec"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">ATC 20 Inspection:</td>
+      <td nowrap align="left"><input type="checkbox" name="ATCInspec"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Available Services:</td>
+      <td nowrap align="left"><textarea name="AvailServices" cols="50" rows="3"></textarea></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">MOU:</td>
+      <td nowrap align="left"><input type="text" name="Mou" size="50"> (Identify how submitted)</td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Floor Plan:</td>
+      <td nowrap align="left"><input type="text" name="FloorPlan" size="50"> (Identify how submitted)</td>
+    </tr>
+  </table>
+
+  <!-- Table End:  Page 1  -->
+  <footer id="Header2A">
+    <hr>
+    <center>
+    <span class="js-head-text"> Page 1 of 2<br/></span>
+    </center>
+  </footer>
+
+  <!-- Page 1 Content Ends -->
+
+  <div style="page-break-after:always;"></div>
+
+  <!-- Page 2 Starts -->
+  <div id="Header2" class="banner-shade">
+    <center>
+    <span class="title-text">
+      <script language="JavaScript"> // put in header area
+        document.write(JSTopHead);
+      </script>
+    </span>
+    </center>
+  </div>
+
+  <br>
+  <span class="sec-title" align="left">Contact Information</span>
+  <hr class="gray">
+
+  <table border="0" class="table2">
+    <tr>
+      <td nowrap align="right" width="200px">Managed By:</td>
+      <td nowrap align="left">
+        <select name="ManagedByt">
+          <option value="American Red Cross">American Red Cross</option>
+          <option value="Private">Private</option>
+          <option value="Community">Community</option>
+          <option value="Government">Government</option>
+          <option value="Other">Other</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Managed By Detail:</td>
+      <td nowrap align="left"><input type="text" name="ByDetail" size="40"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Primary Contact:</td>
+      <td nowrap align="left"><input type="text" name="PrimeCt" size="40"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Primary Phone:</td>
+      <td nowrap align="left"><input type="text" name="PrimePhn" size="40"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Secondary Contact:</td>
+      <td nowrap align="left"><input type="text" name="SecCt" size="40"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Secondary Phone:</td>
+      <td nowrap align="left"><input type="text" name="SecPhn" size="40"></td>
+    </tr>
+  </table>
+
+  <br>
+  <span class="sec-title" align="left">Amateur Radio Contact Information</span>
+  <hr class="gray">
+
+  <table border="0" class="table2">
+    <tr>
+      <td nowrap align="right" width="200px">Tactical Call Sign:</td>
+      <td nowrap align="left"><input type="text" name="TactCS" size="30"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Repeater Call Sign:</td>
+      <td nowrap align="left"><input type="text" name="RptCS" size="30"></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Repeater Input:</td>
+      <td nowrap align="left"><input type="text" name="RptInput" size="30"> (include input CTCSS tone)</td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Repeater Output:</td>
+      <td nowrap align="left"><input type="text" name="RptOutput" size="30"> (include output CTCSS tone, if equipped)</td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">Offset:</td>
+      <td nowrap align="left"><input type="text" name="Offset" size="30"></td>
+    </tr>
+  </table>
+
+  <br>
+  <span class="sec-title" align="left">Comments</span>
+  <hr class="gray">
+
+  <table border="0" class="table2">
+    <tr>
+      <td nowrap align="right" width="200px" valign="top">Comments:</td>
+      <td nowrap align="left"><textarea name="DebrisCom" cols="60" rows="3"></textarea></td>
+    </tr>
+    <tr>
+      <td nowrap align="right" width="200px">&nbsp;</td>
+      <td nowrap align="left"><input type="checkbox" name="RmvFromList">Remove from list</td>
+    </tr>
+  </table>
+
+</td></tr></table>
+<!-- End of User Data Fields -->
+
+<hr color="black" size="5">
+
+<!-- Start of Operator Area -->
+<br>
+<center>
+<table class="oper-input" border="1">
+  <tr>
+    <td valign="middle" nowrap="nowrap">
+      <input name="recsent" value="Received" type="radio">Rcv'd&nbsp;
+      <input name="recsent" value="Sent" checked="checked" type="radio">Sent&nbsp;</td>
+    <td valign="middle" nowrap="nowrap">
+      <input name="method" value="Voice" type="radio">Voice&nbsp;
+      <input name="method" value="Packet" checked="checked" type="radio">Packet&nbsp;</td>
+    <td valign="middle" nowrap="nowrap">
+      &nbsp;Call<input name="ocall" size="9" class="oper-input" type="text">
+      &nbsp;Name<input name="oname" size="25" class="oper-input" type="text"></td>
+    <!-- Outpost State, Date, Time -->
+    <td valign="middle" nowrap="nowrap">
+      <span id="senddt" style="display:block;">
+        &nbsp;Submitted<input name="odate" size="11" disabled="disabled" class="oper-input"  type="text">
+        <input name="otime" size="6" disabled="disabled"  type="text">
+      </span>
+      <!-- Need to handle the third option:  "Sent" -->
+      <span id="outpostdt" style="display:none;">
+        &nbsp;Received<input name="ordate" size="11" disabled="disabled" class="oper-input" type="text">
+        <input name="ortime" size="6" disabled="disabled" class="oper-input" type="text">
+      </span>
+    </td>
+
+  </tr>
+</table>
+<span id="Header2B" class="js-head-text"> Page 2 of 2<br/></span>
+</center>
+<!-- End of Operator Area -->
+
+<br>
+<div class="form-ver-text" align="right" >
+   <script type="text/javascript">
+     document.write(JStail);
+   </script>
+  </div>
+
+<!-- PART3.1 -->
+<!--  Addition for saving to Outpost -->
+</form>
+
+<div class="trailer">
+<form name="submitmachine" method="post" action="http://localhost:9334/send" onSubmit="return testvalues()">
+<center>
+
+<hr width="70%">
+<table width="75%" >
+  <tr><td>
+    <span class="submit-text">
+      <p>Below you will see two SUBMIT buttons.  The one on the left, when Submitted, will
+         open a new window with the ASCII text so you can manually capture, copy, paste and
+         save the text.  Follow instructions in red in that window.</p>
+      <p>The SUBMIT button to the right will automatically transfer the ASCII text extracted
+        from the form to the Outpost database via via OpDirect.
+         OpDirect must be running to make this work or nothing is saved.</p>
+    </span>
+  </td></tr>
+</table>
+<hr width="70%">
+
+<input class="submit-button" type="button" value="SUBMIT the Form: Manual Copy & Save" onClick="newwin(0)">
+<input class="submit-button" type="hidden" name="formtext" VALUE="snafutextnotchanged">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<input class="submit-button" type="SUBMIT" value="SUBMIT the Form to Outpost" onClick="newwin(1)">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<input class="submit-button" type="RESET" value="Clear Input" onClick="resetforms();">
+<br><br>
+
+</center>
+
+</form>
+</div>
+</body>
+</html>
+<!-- PART4 -->

@@ -74,11 +74,11 @@ namespace PacketMessagingTS.Models
         {
             get
             {
-                if (_instance == null)
+                if (_instance is null)
                 {
                     lock (_syncRoot)
                     {
-                        if (_instance == null)
+                        if (_instance is null)
                             _instance = new AddressBook();
                     }
                 }
@@ -97,13 +97,13 @@ namespace PacketMessagingTS.Models
             try
             {
                 var storageItem = await localFolder.TryGetItemAsync(addressBookFileName);
-                if (storageItem == null)
+                if (storageItem is null)
                     return;
 
                 StorageFile file = await localFolder.GetFileAsync(addressBookFileName);
                 using (FileStream reader = new FileStream(file.Path, FileMode.Open))
                 {
-                    if (UserAddressEntries == null)
+                    if (UserAddressEntries is null)
                     {
                         UserAddressEntries = new AddressBookEntry[0];
                     }
@@ -125,7 +125,7 @@ namespace PacketMessagingTS.Models
 
         public async Task SaveAsync()
         {
-            if (UserAddressEntries == null || UserAddressEntries.Length == 0)
+            if (UserAddressEntries is null || UserAddressEntries.Length == 0)
                 return;
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -149,7 +149,7 @@ namespace PacketMessagingTS.Models
             _addressDictionary = new Dictionary<string, AddressBookEntry>();
             foreach (var tacticalCallsignData in App._TacticalCallsignDataList)
             {
-                if (tacticalCallsignData.TacticalCallsigns == null)
+                if (tacticalCallsignData.TacticalCallsigns is null)
                     continue;
 
                 foreach (TacticalCall tacticalCall in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
@@ -170,7 +170,7 @@ namespace PacketMessagingTS.Models
 
                     string activeBBS = tacticalCall.PrimaryBBSActive ? tacticalCall.PrimaryBBS : tacticalCall.SecondaryBBS;
                     _addressDictionary.TryGetValue(entry.Callsign, out AddressBookEntry newEntry);
-                    if (newEntry == null)
+                    if (newEntry is null)
                     {
                         _addressDictionary.Add(entry.Callsign, entry);
                     }
@@ -182,7 +182,7 @@ namespace PacketMessagingTS.Models
                 foreach (var entry in UserAddressEntries)
                 {
                     _addressDictionary.TryGetValue(entry.Callsign, out AddressBookEntry newEntry);
-                    if (newEntry == null)
+                    if (newEntry is null)
                     {
                         _addressDictionary.Add(entry.Callsign, entry);
                     }
@@ -345,7 +345,7 @@ namespace PacketMessagingTS.Models
 			}
 
 			_addressDictionary.TryGetValue(addressBookEntry.Callsign, out AddressBookEntry oldAddressBookEntry);
-            if (oldAddressBookEntry == null)
+            if (oldAddressBookEntry is null)
             {
                 //string temp = addressBookEntry.Callsign.Substring(index + 1);
                 //temp = temp.ToLower();
@@ -362,7 +362,7 @@ namespace PacketMessagingTS.Models
 
                 _addressDictionary.Add(addressBookEntry.Callsign, addressBookEntry);
                 // Insert in userAddressBook
-                if (UserAddressEntries == null)
+                if (UserAddressEntries is null)
                 {
                     UserAddressEntries = new AddressBookEntry[0];
                 }
@@ -387,7 +387,7 @@ namespace PacketMessagingTS.Models
 
 			string callsign = address.Substring(0, index);
             _addressDictionary.TryGetValue(callsign, out AddressBookEntry addressBookEntry);
-            if (addressBookEntry == null)
+            if (addressBookEntry is null)
             {
                 string temp = address.Substring(index + 1);
                 temp = temp.ToLower();
@@ -410,7 +410,7 @@ namespace PacketMessagingTS.Models
                 };
                 _addressDictionary.Add(callsign, entry);
                 // Insert in userAddressBook
-                if (UserAddressEntries == null)
+                if (UserAddressEntries is null)
                 {
                     UserAddressEntries = new AddressBookEntry[0];
                 }

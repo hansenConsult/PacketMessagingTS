@@ -53,7 +53,7 @@ namespace PacketMessagingTS.Services
         {
             var task = BackgroundTasks.FirstOrDefault(b => b.Match(taskInstance?.Task?.Name));
 
-            if (task == null)
+            if (task is null)
             {
                 // This condition should not be met. It is it it means the background task to start was not found in the background tasks managed by this service.
                 // Please check CreateInstances to see if the background task was properly added to the BackgroundTasks property.

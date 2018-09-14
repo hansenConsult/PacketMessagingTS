@@ -73,11 +73,11 @@ namespace PacketMessagingTS.Models
 		{
 			get
 			{
-				if (_instance == null)
+				if (_instance is null)
 				{
 					lock (_syncRoot)
 					{
-						if (_instance == null)
+						if (_instance is null)
 							_instance = new EmailAccountArray();
 					}
 				}
@@ -93,7 +93,7 @@ namespace PacketMessagingTS.Models
 			try
 			{
 				var storageItem = await localFolder.TryGetItemAsync(emailAccountsFileName);
-				if (storageItem == null)
+				if (storageItem is null)
 				{
 					// Copy the file from the install folder to the local folder
 					StorageFolder folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
@@ -129,7 +129,7 @@ namespace PacketMessagingTS.Models
 
 		public async Task SaveAsync()
 		{
-			if (EmailAccounts == null || EmailAccounts.Length == 0)
+			if (EmailAccounts is null || EmailAccounts.Length == 0)
 				return;
 
             EmailAccounts = EmailAccountList.ToArray();
@@ -155,7 +155,7 @@ namespace PacketMessagingTS.Models
 
 		public List<string> GetMailServers(string partialName = null)
 		{
-			if (EmailAccounts == null || EmailAccounts.Length == 0)
+			if (EmailAccounts is null || EmailAccounts.Length == 0)
 				return null;
 
 			List<string> matches = new List<string>();
@@ -172,7 +172,7 @@ namespace PacketMessagingTS.Models
 
 		public List<EmailAccount> GetMailAccounts(string partialServerName = null)
 		{
-			if (EmailAccounts == null || EmailAccounts.Length == 0)
+			if (EmailAccounts is null || EmailAccounts.Length == 0)
 				return null;
 
 			List<EmailAccount> matches = new List<EmailAccount>();
@@ -271,7 +271,7 @@ namespace PacketMessagingTS.Models
 		public override bool Equals(Object obj)
 		{
 			//Check for null and compare run-time types.
-			if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+			if ((obj is null) || !this.GetType().Equals(obj.GetType()))
 			{
 				return false;
 			}

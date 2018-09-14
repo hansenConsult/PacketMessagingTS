@@ -109,7 +109,7 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         public virtual void UnregisterForPrinting()
         {
-            if (_printDocument == null)
+            if (_printDocument is null)
             {
                 return;
             }
@@ -154,7 +154,7 @@ namespace PacketMessagingTS.Helpers
         /// <param name="page">The page to print</param>
         public virtual void PreparePrintContent(FormsPage page)
         {
-            if (_firstPage == null)
+            if (_firstPage is null)
             {
                 _firstPage = page;
             }
@@ -304,7 +304,7 @@ namespace PacketMessagingTS.Helpers
             //RichTextBlockOverflow textLink;
 
             // Check if this is the first page ( no previous RichTextBlockOverflow)
-            //if (lastRTBOAdded == null)
+            //if (lastRTBOAdded is null)
             {
                 // If this is the first page add the specific scenario content
                 page = _firstPage;

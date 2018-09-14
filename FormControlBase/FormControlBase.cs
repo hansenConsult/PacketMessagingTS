@@ -266,7 +266,7 @@ namespace FormControlBaseClass
 
 		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
-            if (packetMessage.FormFieldArray == null)
+            if (packetMessage.FormFieldArray is null)
             {
                 // This may happen if called from view Outpost Data
                 packetMessage.FormFieldArray = CreateFormFieldsInXML();
@@ -540,7 +540,7 @@ namespace FormControlBaseClass
 					//			int spellingErrorLength = ((TextBox)formFieldsList[i]).GetSpellingErrorLength(spellingErrorIndex);
 					//			string misSpelledWord = ((TextBox)formFieldsList[i]).Text.Substring(spellingErrorIndex, spellingErrorLength);
 					//			j += spellingErrorLength;
-					//			if (formField.MisSpells == null || formField.MisSpells.Length == 0)
+					//			if (formField.MisSpells is null || formField.MisSpells.Length == 0)
 					//				formField.MisSpells = misSpelledWord;
 					//			else
 					//				formField.MisSpells += (", " + misSpelledWord);
@@ -581,7 +581,7 @@ namespace FormControlBaseClass
 
 				Control control = formControl?.InputControl;
 
-				if (control is null || formField.ControlContent == null)
+				if (control is null || formField.ControlContent is null)
 					continue;
 
 				if (control is TextBox textBox)

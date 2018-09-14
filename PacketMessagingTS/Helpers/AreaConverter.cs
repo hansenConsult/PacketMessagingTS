@@ -17,7 +17,7 @@ namespace PacketMessagingTS.Helpers
 				//return value;
 				return "B";
 			}
-			else if (value == null)
+			else if (value is null)
 			{
 				//((PacketMessage)value).Area = "";
 				//return value;

@@ -120,5 +120,6 @@ namespace OAShelterStatusFormControl
             int capacityInt = string.IsNullOrEmpty(capacity.Text) ? 0 : Convert.ToInt32(capacity.Text);
             availablity.Text = (capacityInt - occupancyInt).ToString();
         }
+
     }
 }

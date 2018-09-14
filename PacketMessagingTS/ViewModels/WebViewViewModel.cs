@@ -108,7 +108,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_navCompleted == null)
+                if (_navCompleted is null)
                 {
                     _navCompleted = new RelayCommand<WebViewNavigationCompletedEventArgs>(NavCompletedAsync);
                 }
@@ -173,7 +173,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_navFailed == null)
+                if (_navFailed is null)
                 {
                     _navFailed = new RelayCommand<WebViewNavigationFailedEventArgs>(NavFailed);
                 }
@@ -194,7 +194,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_retryCommand == null)
+                if (_retryCommand is null)
                 {
                     _retryCommand = new RelayCommand(Retry);
                 }
@@ -217,7 +217,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_browserBackCommand == null)
+                if (_browserBackCommand is null)
                 {
                     _browserBackCommand = new RelayCommand(() => _webView?.GoBack(), () => _webView?.CanGoBack ?? false);
                 }
@@ -231,7 +231,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_browserForwardCommand == null)
+                if (_browserForwardCommand is null)
                 {
                     _browserForwardCommand = new RelayCommand(() => _webView?.GoForward(), () => _webView?.CanGoForward ?? false);
                 }
@@ -245,7 +245,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_refreshCommand == null)
+                if (_refreshCommand is null)
                 {
                     _refreshCommand = new RelayCommand(() => _webView?.Refresh());
                 }
@@ -294,7 +294,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_openInBrowserCommand == null)
+                if (_openInBrowserCommand is null)
                 {
                     _openInBrowserCommand = new RelayCommand(async () => await Windows.System.Launcher.LaunchUriAsync(Source));
                 }

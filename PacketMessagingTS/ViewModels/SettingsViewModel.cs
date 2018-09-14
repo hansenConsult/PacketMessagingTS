@@ -35,7 +35,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_switchThemeCommand == null)
+                if (_switchThemeCommand is null)
                 {
                     _switchThemeCommand = new RelayCommand<ElementTheme>(
                         async (param) =>

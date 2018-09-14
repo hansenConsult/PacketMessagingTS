@@ -118,8 +118,9 @@ namespace ToggleButtonGroupControl
 
 			public void SetRadioButtonCheckedState(string name)
 			{
-				if (name == null || name.Length == 0)
-					return;
+				//if (name is null || name.Length == 0)
+                if ((name?.Length ?? 0) == 0)
+                    return;
 
 				// First character must be lower case
 				string firstCharacter = name.Substring(0, 1);
@@ -150,7 +151,7 @@ namespace ToggleButtonGroupControl
 
         public bool Validate()
         {
-            if (GetRadioButtonCheckedState() == null)
+            if (GetRadioButtonCheckedState() is null)
             {
                 foreach (RadioButton radioButton in _radioButtonGroup)
                 {

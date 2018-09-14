@@ -195,7 +195,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 tacticalPrimaryActive = value;
-                if (_callsignData == null)
+                if (_callsignData is null)
                 {
                     _callsignData = Views.SettingsPage.listOfTacticallsignsArea[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArray[TacticalCallsignSelectedIndex];
                 }

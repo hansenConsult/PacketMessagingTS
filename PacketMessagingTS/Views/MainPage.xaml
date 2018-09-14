@@ -191,7 +191,7 @@
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
                         <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="auto" Tag="MessageNumber"/>
                         <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" CanUserSort="True" Width="76" Tag="MessageTo"/>
-                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageSize}" CanUserSort="True" Width="76" Tag="MessageSize"/>
+                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="76" Tag="MessageSize"/>
                         <controls:DataGridTextColumn Header="BBS" Binding="{Binding BBSName}" CanUserSort="True" Width="Auto" Tag="BBSName"/>
                         <controls:DataGridTextColumn Header="Size" Binding="{Binding MessageSize}" CanUserSort="True" Width="Auto" Tag="MessageSize"/>
                     </controls:DataGrid.Columns>
