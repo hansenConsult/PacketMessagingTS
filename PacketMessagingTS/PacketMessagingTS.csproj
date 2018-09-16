@@ -361,6 +361,7 @@
     <Content Include="PacForms\js\AddedForWebView.js" />
     <Content Include="PacForms\XSC_EOC-213RR_v1708.html" />
     <Content Include="PacForms\XSC_ICS-213_Message_v070628.html" />
+    <Content Include="PacForms\XSC_OA_AlliedHealthStatus.html" />
     <Content Include="PacForms\XSC_OA_MuniStatus_v20130101.html" />
     <Content Include="PacForms\XSC_OA_ShelterStatus_v20130814.html" />
     <Content Include="Properties\Default.rd.xml" />

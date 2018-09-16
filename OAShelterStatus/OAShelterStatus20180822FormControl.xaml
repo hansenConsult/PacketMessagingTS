@@ -8,9 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
-    mc:Ignorable="d" 
-    d:DesignWidth="780"
-    d:DesignHeight="auto" Height="1767" Width="787" Margin="0,0,0,0"
+    mc:Ignorable="d" Height="1877.25" Width="782.25" 
     >
     <!--Height="1718" Width="784.75"-->
 
@@ -23,7 +21,8 @@
     </MyBaseNamespace:FormControlBase.Resources>
 
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="OAShelterStatusControl" >
-        <Border x:Name="FormOAShelterStatus" Padding="15" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" >
+        <!--<Border x:Name="FormOAMuniStatus" BorderBrush="Black" BorderThickness="1" Padding="15" >-->
+        <Border x:Name="FormOAShelterStatus" BorderBrush="White" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <StackPanel>
                 <Border BorderBrush="Black" BorderThickness="1,1,1,0">
                     <Grid>
@@ -190,35 +189,42 @@
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Shelter Type:" 
                                        Style="{StaticResource MuniStatusFieldText}"
                                        HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="13"/>
-                            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
+                            <ComboBox Grid.Column="1" Grid.Row="0" Margin="2"
                                       ItemsSource="{x:Bind Path=ShelterTypes}" 
                                       SelectedItem="Type 1" Tag="17"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Shelter Status:" FontSize="13"
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <ComboBox Grid.Column="1" Grid.Row="1" Margin="5,0,0,0"
+                            <ComboBox Grid.Column="1" Grid.Row="1" Margin="2"
                                       ItemsSource="{x:Bind Path=ShelterStatuses}" 
                                       SelectedItem="Closed" Tag="18"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Name:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" FontFamily="Arial" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" Tag="19"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" 
+                                     Style="{StaticResource MuniStatusTextBox}" Tag="19"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Address:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="3" Margin="5,0,0,0" Tag="20"/>
+                            <TextBox Grid.Column="1" Grid.Row="3" 
+                                     Style="{StaticResource MuniStatusTextBox}" Tag="20"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="City:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0" Tag="21"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" 
+                                     Style="{StaticResource MuniStatusTextBox}" Tag="21"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="State:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="5" Margin="5,0,0,0" Tag="22"/>
+                            <TextBox Grid.Column="1" Grid.Row="5" 
+                                     Style="{StaticResource MuniStatusTextBox}" Tag="22"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Zip:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Tag="23"/>
+                            <TextBox Grid.Column="1" Grid.Row="6" 
+                                     Style="{StaticResource MuniStatusTextBox}" Tag="23"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Margin="5,0,0,0" Text="Latitude:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <StackPanel Grid.Column="1" Grid.Row="7" Margin="5,0,0,0" Orientation="Horizontal">
-                                <TextBox Width="150" Tag="24"/>
+                            <StackPanel Grid.Column="1" Grid.Row="7"  Orientation="Horizontal">
+                                <TextBox Width="150" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="24"/>
                                 <TextBlock Text="   Longitude:" VerticalAlignment="Center" />
-                                <TextBox Width="150" Margin="5,0,0,0" Tag="25"/>
+                                <TextBox Width="150" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="25"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -245,46 +251,53 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Capacity:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
+                            <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="0" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="56" HorizontalAlignment="Left" Tag="26"
                                      TextChanged="capacity_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Occupancy:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,0,0,0" Orientation="Horizontal">
-                                <TextBox x:Name="occupancy" Width="56" HorizontalAlignment="Left" Tag="27"
+                            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                                <TextBox x:Name="occupancy" Width="56" HorizontalAlignment="Left" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="27"
                                          TextChanged="capacity_TextChanged"/>
                                 <TextBlock Text="       Availability" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                <TextBox x:Name="availablity" Margin="5,0,0,0" Width="56" HorizontalAlignment="Left" Tag="28"/>
+                                <TextBox x:Name="availablity" Width="56" HorizontalAlignment="Left" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="28"/>
                                 <TextBlock Margin="5,0,0,0" Text="(Automatically computed)" VerticalAlignment="Center" />
                             </StackPanel>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Meals Served (last 24 hours):" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="3" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="3" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="56" HorizontalAlignment="Left" Tag="29"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="NSS Number:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="4" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="56" HorizontalAlignment="Left" Tag="30"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="Pet Friendly:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" Grid.Row="5" Margin="5,0,0,0" Tag="31"/>
+                            <CheckBox Grid.Column="1" Grid.Row="5" Margin="2,0,0,0" Tag="31"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Basic Safety Inspection:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Tag="32"/>
+                            <CheckBox Grid.Column="1" Grid.Row="6" Margin="2,0,0,0" Tag="32"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="ATC 20 Inspection:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" Grid.Row="7" Margin="5,0,0,0" Tag="33"/>
+                            <CheckBox Grid.Column="1" Grid.Row="7" Margin="2,0,0,0" Tag="33"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="Available Services:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="8" Margin="5,0,0,0" Height="74"
+                            <TextBox Grid.Column="1" Grid.Row="8" Height="74"
                                      AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
-                                     HorizontalAlignment="Stretch" Tag="34"/>
+                                     HorizontalAlignment="Stretch" 
+                                     Style="{StaticResource MuniStatusTextBox}" Tag="34"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="MOU:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             <RelativePanel Grid.Column="1" Grid.Row="9" >
-                                <TextBox x:Name="mouTextBox" Margin="5,0,0,0"
+                                <TextBox x:Name="mouTextBox" 
                                          RelativePanel.AlignLeftWithPanel="True"
                                          RelativePanel.LeftOf="mouTextBlock"
+                                         Style="{StaticResource MuniStatusTextBox}"
                                          Tag="35" />
                                 <TextBlock x:Name="mouTextBlock" Margin="5,0,0,0" 
                                            RelativePanel.AlignRightWithPanel="True"
@@ -294,9 +307,9 @@
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="Floor Plan:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             <RelativePanel Grid.Column="1" Grid.Row="10" >
-                                <TextBox Margin="5,0,0,0"
-                                         RelativePanel.AlignLeftWithPanel="True"
+                                <TextBox RelativePanel.AlignLeftWithPanel="True"
                                          RelativePanel.LeftOf="floorPlanTextBlock"
+                                         Style="{StaticResource MuniStatusTextBox}"
                                          Tag="36"/>
                                 <TextBlock x:Name="floorPlanTextBlock" Margin="5,0,0,0" 
                                            RelativePanel.AlignRightWithPanel="True"
@@ -323,34 +336,39 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Managed By:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
+                            <ComboBox Grid.Column="1" Grid.Row="0" Margin="2"
                                       ItemsSource="{x:Bind Path=Managers}" 
                                       SelectedItem="American Red Cross" 
                                       Tag="37" Width="260"/>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Margin="5,0,0,0"
+                            <TextBlock Grid.Column="0" Grid.Row="1" 
                                        Text="Managed By Detail:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="1" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="1" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="400" HorizontalAlignment="Left" Tag="38"/>
-                            <TextBlock Grid.Column="0" Grid.Row="2" Margin="5,0,0,0"
+                            <TextBlock Grid.Column="0" Grid.Row="2" 
                                        Text="Primary Contact:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="2" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="2" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="400" HorizontalAlignment="Left" Tag="39"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Margin="5,0,0,0"
                                        Text="Primary Phone:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="3" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="3" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="400" HorizontalAlignment="Left" Tag="40" />
-                            <TextBlock Grid.Column="0" Grid.Row="4" Margin="5,0,0,0"
+                            <TextBlock Grid.Column="0" Grid.Row="4" 
                                        Text="Secondary Contact:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="4" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="400" HorizontalAlignment="Left" Tag="41"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" 
-                                       Margin="5,0,0,0" Text="Secondary Phone:" 
+                                       Text="Secondary Phone:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="5" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="5"
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="400" HorizontalAlignment="Left" Tag="42"/>
                         </Grid>
                     </StackPanel>
@@ -374,29 +392,33 @@
                             <TextBlock Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"
                                        Text="Tactical Call Sign:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Grid.Row="0" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="0" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="100" HorizontalAlignment="Left" Tag="43"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Repeater Call Sign:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Margin="5,0,0,0"
+                            <TextBox Grid.Column="1" Grid.Row="1" 
+                                     Style="{StaticResource MuniStatusTextBox}"
                                      Width="100" Tag="44" HorizontalAlignment="Left"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Repeater Input:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" >
-                                <TextBox Margin="5,0,0,0"
-                                         Width="160" Tag="45"/>
+                                <TextBox Width="160" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="45"/>
                                 <TextBlock Text="(include input CTCSS tone)" Margin="5,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Repeater Output:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" >
-                                <TextBox Margin="5,0,0,0" Width="160" Tag="46"/>
+                                <TextBox Width="160" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="46"/>
                                 <TextBlock Text="(include output CTCSS tone, if equipped)" Margin="5,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Offset:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,0,0,0"
-                                     Width="160"  Tag="47" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" Width="160"  
+                                     Style="{StaticResource MuniStatusTextBox}" 
+                                     Tag="47" HorizontalAlignment="Left"/>
                         </Grid>
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0"  >
@@ -417,8 +439,9 @@
                             <TextBlock Grid.Column="1" Grid.Row="0" Text="Comments:" HorizontalAlignment="Left" Margin="106,0,0,0" VerticalAlignment="Stretch" />
                             <TextBox Grid.Column="2" Grid.Row="0" Height="74"
                                      AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
-                                     PlaceholderText="Enter comments here" Tag="48" HorizontalAlignment="Stretch" Margin="5,0,0,0" VerticalAlignment="Stretch"/>
-                            <CheckBox Grid.Column="2" Grid.Row="1" Margin="5,0,0,0"
+                                     PlaceholderText="Enter comments here" Tag="48" HorizontalAlignment="Stretch" 
+                                     Style="{StaticResource MuniStatusTextBox}" VerticalAlignment="Stretch"/>
+                            <CheckBox Grid.Column="2" Grid.Row="1" Margin="2,0,0,0"
                                       Content="Remove from list" Tag="49" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </Grid>
                     </StackPanel>

@@ -1,5 +1,4 @@
 ﻿
-
 function SetMessageNumber(messageNumber, callsign, name) {
     document.forms[0].msgno.value = messageNumber;
     document.forms[0].ocall.value = callsign;
