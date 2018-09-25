@@ -32,6 +32,7 @@ namespace PacketMessagingTS.Views
 
         PivotItem _currentPivotItem;
 
+        List<string> _bulletinList;
         List<PacketMessage> _messagesInFolder;
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
         PacketMessage _packetMessageRightClicked;
@@ -216,12 +217,21 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarMainPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
         {
-            //PivotItem pivotItem = (PivotItem)MainPagePivot.SelectedItem;
             StorageFolder folder = (StorageFolder)_currentPivotItem.Tag;
 
-            var file = await folder.CreateFileAsync(_packetMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
-
-            await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+            //if (_mainViewModel.SelectedItems.Count > 1)
+            //{
+                foreach (PacketMessage packetMessage in _mainViewModel.SelectedItems)
+                {
+                    var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
+                    await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+                }
+            //}
+            //else
+            //{
+            //    var file = await folder.CreateFileAsync(_packetMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+            //    await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+            //}
 
             await RefreshDataGridAsync();
         }

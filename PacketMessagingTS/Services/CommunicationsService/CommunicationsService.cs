@@ -76,8 +76,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			{
 				if (msgLines[i].StartsWith("Date:"))
 				{
-					string startpos = new string(new char[] { 'D','a','t','e',':',' ' });
-					pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(startpos.Length));
+                    string startpos = "Date: ";
+                    bool success = DateTime.TryParse(msgLines[i].Substring(startpos.Length), out DateTime JNOSDate);
+                    pktMsg.JNOSDate = (success ? JNOSDate : (DateTime?)null);
 				}
 				else if (msgLines[i].StartsWith("From:"))
 					pktMsg.MessageFrom = msgLines[i].Substring(6);

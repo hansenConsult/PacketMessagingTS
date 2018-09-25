@@ -173,25 +173,37 @@
                 <!--</Grid>-->
             </PivotItem>
             <!--Convert ASCII data-->
-            <PivotItem x:Uid="Tools_ConvertText">
-                <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                    <!--
-                    The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
-                    Place your content here.
-                    -->
-                    <ScrollViewer>
-                        <StackPanel Margin="0,5,0,0">
-                            <TextBox x:Name="messageTo" Header="To:" Margin="0,5,0,0" />
-                            <TextBox x:Name="messageFrom" Header="From:" Margin="0,5,0,0" />
-                            <TextBox x:Name="messageReceivedTime" Header="Time" Margin="0,5,0,0" />
-                            <TextBox x:Name="messageSubject" Header="Subject:" Margin="0,5,0,0" />
-                            <TextBox x:Name="PacFormText" Header="Message:" Height="auto" AcceptsReturn="True" Margin="0,6,0,0"/>
-                            <Button x:Name="buttonShowForm" Content="Convert To Form" Click="ConvertToForm_Click" Margin="0,5,0,0"/>
-                            <Button x:Name="buttonConvertFromBase64" Content="Convert From Base64" Click="ConvertFromBase64_Click"  Margin="0,5,0,0"/>
-                        </StackPanel>
-                    </ScrollViewer>
+            <PivotItem x:Uid="Tools_ConvertText" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                <RelativePanel>
+                    <StackPanel x:Name="convertTextPanel" Margin="0,5,0,0"
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.AlignRightWithPanel="True"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <TextBox x:Name="messageTo" Header="To:" Margin="0,5,0,0" />
+                        <TextBox x:Name="messageFrom" Header="From:" Margin="0,5,0,0" />
+                        <TextBox x:Name="messageReceivedTime" Header="Time" Margin="0,5,0,0" />
+                        <TextBox x:Name="messageSubject" Header="Subject:" Margin="0,5,0,0" />
+                            <TextBox x:Name="PacFormText" Header="Message:" Height="auto" AcceptsReturn="True"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,6,0,0"/>
+                        <Button x:Name="buttonShowForm" Content="Convert To Form"
+                                Click="ConvertToForm_Click" Margin="0,20,0,0"/>
+                        <Button x:Name="buttonConvertFromBase64" Content="Convert From Base64"
+                                Click="ConvertFromBase64_Click"  Margin="0,10,0,0"/>
+                    </StackPanel>
 
-                </Grid>
+                    <CommandBar x:Name="ButtomCommandBarConvert" Margin="-12,0,-12,0"
+                            	    RelativePanel.AlignBottomWithPanel="True"
+				                    RelativePanel.AlignRightWithPanel="True"
+                                    RelativePanel.AlignLeftWithPanel="True">
+                        <AppBarButton x:Name="appBarViewForm" Label="Open" Icon="View"
+                                      HorizontalAlignment="Right"
+                                      />
+                        <AppBarButton x:Name="appBarSaveForm" Label="Save" Icon="Save" 
+                                      />
+                        <AppBarButton x:Name="appBarPrintForm" Label="Print" Icon="Print"
+                                      />
+                </CommandBar>
+                </RelativePanel>
             </PivotItem>
             <!--ICS 309-->
             <PivotItem x:Uid="Tools_ICS309" >

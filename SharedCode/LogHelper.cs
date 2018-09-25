@@ -39,7 +39,7 @@ namespace SharedCode
                     _log.Info($" {sourceLineNumber} | {message}");
                     break;
                 case LogLevel.Warn:
-                    _log.Warn($"{sourceLineNumber} | {message}");
+                    _log.Warn($" {sourceLineNumber} | {message}");
                     break;
                 case LogLevel.Error:
                     _log.Error($" {sourceLineNumber} | {message}");

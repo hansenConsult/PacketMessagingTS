@@ -188,6 +188,8 @@ namespace PacketMessagingTS
 
             //await UpdatePacFormsFiles.SyncPacFormFoldersAsync();
 
+            BulletinHelpers.CreateBulletinDictionaryFromFiles();
+
             bool displayIdentity = Properties.TryGetValue("DisplayIdentityAtStartup", out object displayIdentityAtStartup);
             bool displayProfiles = Properties.TryGetValue("DisplayProfileOnStart", out object displayProfileOnStart);
             if (displayIdentity && (bool)displayIdentityAtStartup)
@@ -225,6 +227,7 @@ namespace PacketMessagingTS
 
             await Helpers.Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
 
+            Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }
@@ -236,6 +239,8 @@ namespace PacketMessagingTS
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
+
+            Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }

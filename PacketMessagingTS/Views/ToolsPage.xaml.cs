@@ -557,53 +557,56 @@ namespace PacketMessagingTS.Views
             }
         }
 
+        //packetMsg.MessageBody = "
+        //Message #1 \r\n
+        //Date: Mon, 01 Feb 2016 12:29:03 PST\r\n
+        //From: kz6dm @w3xsc.ampr.org\r\n
+        //To: kz6dm\r\n
+        //Subject: 6DM-907P_O/R_ICS213_Check-in\r\n
+        //!PACF!6DM-907P_O/R_ICS213_Check-in\r\n
+        //# EOC MESSAGE FORM \r\n
+        //# JS-ver. PR-4.1-3.1, 01/19/17,\r\n
+        //# FORMFILENAME: Message.html\r\n
+        //MsgNo: [6DM - 907P]\r\n
+        //1a.: [02/01/2016]\r\n
+        //1b.: [1219]\r\n4.: [OTHER]\r\n5.: [ROUTINE]\r\n7.: [Operations]\r\n9a.: [MTVEOC]\r\n8.: [Operations]\r\n9b.: [HOSECM]\r\n10.: [Check-in]\r\n12.: [\\nMonday Check-in]\r\nRec-Sent: [sent]\r\nMethod: [Other]\r\nOther: [Packet]\r\nOpCall: [KZ6DM]\r\nOpName: [Poul Hansen]\r\nOpDate: []\r\nOpTime: []\r\n# EOF\r\n";
+
+        // read data
+        //!PACF!6DM - 681P_O / R_ICS213_ghjhgj
+        //# EOC MESSAGE FORM 
+        //# JS-ver. PR-4.1-3.1, 01/19/17
+        //# FORMFILENAME: Message.html
+        //MsgNo: [6DM - 681P]
+        //1a.: [03/01/18]
+        //1b.: [1650]
+        //4.: [OTHER]
+        //5.: [ROUTINE]
+        //9a.: [gfhjgfj]
+        //9b.: [gfhjgfhj]
+        //10.: [ghjhgj]
+        //12.: [\nghjghj]
+        //Rec-Sent: [sent]
+        //Method: [Other]
+        //Other: [Packet]
+        //OpCall: [KZ6DM]
+        //OpName: [Poul Hansen]
+        //OpDate: [03/01/2018]
+        //OpTime: [1652]
+        //#EOF
+
         private async void ConvertToForm_Click(object sender, RoutedEventArgs e)
         {
-            //packetMsg.MessageBody = "
-            //Message #1 \r\n
-            //Date: Mon, 01 Feb 2016 12:29:03 PST\r\n
-            //From: kz6dm @w3xsc.ampr.org\r\n
-            //To: kz6dm\r\n
-            //Subject: 6DM-907P_O/R_ICS213_Check-in\r\n
-            //!PACF!6DM-907P_O/R_ICS213_Check-in\r\n
-            //# EOC MESSAGE FORM \r\n
-            //# JS-ver. PR-4.1-3.1, 01/19/17,\r\n
-            //# FORMFILENAME: Message.html\r\n
-            //MsgNo: [6DM - 907P]\r\n
-            //1a.: [02/01/2016]\r\n
-            //1b.: [1219]\r\n4.: [OTHER]\r\n5.: [ROUTINE]\r\n7.: [Operations]\r\n9a.: [MTVEOC]\r\n8.: [Operations]\r\n9b.: [HOSECM]\r\n10.: [Check-in]\r\n12.: [\\nMonday Check-in]\r\nRec-Sent: [sent]\r\nMethod: [Other]\r\nOther: [Packet]\r\nOpCall: [KZ6DM]\r\nOpName: [Poul Hansen]\r\nOpDate: []\r\nOpTime: []\r\n# EOF\r\n";
-
-            // read data
-            //!PACF!6DM - 681P_O / R_ICS213_ghjhgj
-            //# EOC MESSAGE FORM 
-            //# JS-ver. PR-4.1-3.1, 01/19/17
-            //# FORMFILENAME: Message.html
-            //MsgNo: [6DM - 681P]
-            //1a.: [03/01/18]
-            //1b.: [1650]
-            //4.: [OTHER]
-            //5.: [ROUTINE]
-            //9a.: [gfhjgfj]
-            //9b.: [gfhjgfhj]
-            //10.: [ghjhgj]
-            //12.: [\nghjghj]
-            //Rec-Sent: [sent]
-            //Method: [Other]
-            //Other: [Packet]
-            //OpCall: [KZ6DM]
-            //OpName: [Poul Hansen]
-            //OpDate: [03/01/2018]
-            //OpTime: [1652]
-            //#EOF
 
             // Find type
             // do a navigate to forms with index and form id (maybe file name}
+            bool success = DateTime.TryParse(messageReceivedTime.Text, out DateTime receivedTime);
             PacketMessage message = new PacketMessage()
             {
-                ReceivedTime = DateTime.Parse(messageReceivedTime.Text),
+                ReceivedTime = success ? receivedTime : (DateTime?)null,
                 MessageNumber = Utilities.GetMessageNumberPacket(),
-                TNCName = "E-Mail-" + Singleton<TNCSettingsViewModel>.Instance.CurrentMailAccount.MailUserName,
+                TNCName = "",
             };
+
             message.MessageBody = $"Date: {message.ReceivedTime}\r\n";
             message.MessageBody += $"From: {messageTo.Text}\r\n";
             message.MessageBody += $"To: {messageFrom.Text}\r\n";

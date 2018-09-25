@@ -94,6 +94,35 @@ namespace PacketMessagingTS.ViewModels
 
         public IList<PacketMessage> SelectedItems { get; set; }
 
+        public async void UpdateDownloadedBulletinsAsync()
+        {
+            PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+            string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            BulletinHelpers.BulletinDictionary = new Dictionary<string, List<string>>();
+
+            foreach (PivotItem pivotItem in MainPagePivot.Items)
+            {
+                if (pivotItem.Name == "pivotItemInBox" || pivotItem.Name == "pivotItemArchive")
+                {
+                    List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages(pivotItem.Tag as StorageFolder);
+                    foreach (PacketMessage packetMessage in messagesInFolder)
+                    {
+                        foreach (string area in areas)
+                        {
+                            if (packetMessage.Area == area)
+                            {
+                                if (!BulletinHelpers.BulletinDictionary.TryGetValue(area, out List<string> bulletinList))
+                                    BulletinHelpers.BulletinDictionary[area] = new List<string>();
+                                BulletinHelpers.BulletinDictionary[area].Add(packetMessage.Subject);
+                            }
+                        }
+                    }
+                }
+            }
+            // Save lists
+            BulletinHelpers.SaveBulletinDictionary(areas);
+        }
 
     }
 }
