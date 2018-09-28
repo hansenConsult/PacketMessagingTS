@@ -131,31 +131,30 @@
                                       Header="W1XSC Status"
                                       OffContent="Down" OnContent="Up"
                                       IsOn="{x:Bind _settingsViewModel.W1XSCStatusUp, Mode=TwoWay}"
-                                      Toggled="BBSPrimaryStatus_Toggled"/>
+                                      />
                         <ToggleSwitch x:Name="w2xscPrimaryStatus" 
                                       RelativePanel.Below="w1xscPrimaryStatus"
                                       Header="W2XSC Status"
                                       OffContent="Down" OnContent="Up"
                                       IsOn="{x:Bind _settingsViewModel.W2XSCStatusUp, Mode=TwoWay}"
-                                      Toggled="BBSPrimaryStatus_Toggled"/>
+                                      />
                         <ToggleSwitch x:Name="w3xscPrimaryStatus" 
                                       RelativePanel.Below="w2xscPrimaryStatus"
                                       Header="W3XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{x:Bind _settingsViewModel.W3XSCStatusUp, Mode=TwoWay}"
-                                      Toggled="BBSPrimaryStatus_Toggled"/>
+                                      IsOn="{x:Bind _settingsViewModel.W3XSCStatusUp, Mode=TwoWay}"/>
                         <ToggleSwitch x:Name="w4xscPrimaryStatus" 
                                       RelativePanel.Below="w3xscPrimaryStatus"
                                       Header="W4XSC Status"
                                       OffContent="Down" OnContent="Up"
                                       IsOn="{x:Bind _settingsViewModel.W4XSCStatusUp, Mode=TwoWay}"
-                                      Toggled="BBSPrimaryStatus_Toggled"/>
+                                      />
                         <ToggleSwitch x:Name="w5xscPrimaryStatus" 
                                       RelativePanel.Below="w4xscPrimaryStatus"
                                       Header="W5XSC Status"
                                       OffContent="Down" OnContent="Up"
                                       IsOn="{x:Bind _settingsViewModel.W5XSCStatusUp, Mode=TwoWay}"
-                                      Toggled="BBSPrimaryStatus_Toggled"/>
+                                      />
 
                     </StackPanel>
                 </StackPanel>

@@ -36,7 +36,7 @@ namespace PacketMessagingTS.Views
         public SettingsViewModel _settingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
         public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
-        public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton < TNCSettingsViewModel>.Instance;
+        public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
 
@@ -183,10 +183,10 @@ namespace PacketMessagingTS.Views
             _TNCSettingsViewModel.ResetChangedProperty();
         }
         #region General
-        private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
-        {
-            ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-        }
+        //private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
+        //{
+        //    ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+        //}
 
         #endregion General
         #region Identity

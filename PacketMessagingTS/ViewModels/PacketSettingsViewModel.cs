@@ -73,7 +73,16 @@ namespace PacketMessagingTS.ViewModels
                         break;
                     }
                 }
-                //CurrentTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(t => t.Name == currentProfile.TNC).FirstOrDefault();
+                int i = 0;
+                for (; i < TNCDeviceArray.Instance.TNCDeviceList.Count; i++)
+                {
+                    if (TNCDeviceArray.Instance.TNCDeviceList[i].Name == currentProfile.TNC)
+                        break;
+                }
+                if (i == TNCDeviceArray.Instance.TNCDeviceList.Count)
+                    i = 0;
+
+                Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = i;
                 CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
                 Name = currentProfile.Name;
                 TNC = currentProfile.TNC;

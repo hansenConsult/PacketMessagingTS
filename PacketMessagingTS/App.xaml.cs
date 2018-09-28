@@ -173,10 +173,11 @@ namespace PacketMessagingTS
             Singleton<SettingsViewModel>.Instance.W4XSCStatusUp = Utilities.GetProperty<bool>("W4XSCStatusUp");
             Singleton<SettingsViewModel>.Instance.W5XSCStatusUp = Utilities.GetProperty<bool>("W5XSCStatusUp");
 
+            // Selected Profile selects TNC device (maybe mail
+            //Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
 
-            Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
-
-            Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Utilities.GetProperty("MailAccountSelectedIndex");
+            // ToDO Set while the list is filled or by profile?
+            //Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Utilities.GetProperty("MailAccountSelectedIndex");
 
             Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
 
@@ -191,16 +192,17 @@ namespace PacketMessagingTS
             BulletinHelpers.CreateBulletinDictionaryFromFiles();
 
             bool displayIdentity = Properties.TryGetValue("DisplayIdentityAtStartup", out object displayIdentityAtStartup);
+            bool callsignExist = Properties.TryGetValue("UserCallsign", out object userCallsign);
             bool displayProfiles = Properties.TryGetValue("DisplayProfileOnStart", out object displayProfileOnStart);
-            if (displayIdentity && (bool)displayIdentityAtStartup)
-            {
+            // Show Identity dialog if Call-sign is empty
+            if (displayIdentity && (bool)displayIdentityAtStartup || !callsignExist || string.IsNullOrEmpty((string)userCallsign))
+            { 
                 NavigationService.Navigate(typeof(SettingsPage), 1);
             }
             else if (displayProfiles && (bool)displayProfileOnStart)
             {
                 NavigationService.Navigate(typeof(SettingsPage), 2);
             }
-
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

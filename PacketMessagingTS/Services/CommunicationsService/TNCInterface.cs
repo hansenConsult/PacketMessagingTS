@@ -283,16 +283,20 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			}
 			_serialPort.ReadTimeout = 5000;
 		}
-/*
-        SP pktmon@w2xsc.ampr.org
-        DELIVERED: MON-716P: _O/R_SCCo ARES/RACES Packet Check-in Report For: Monday, June 26, 2017. Total = 21 call signs /23 check-ins    (Subject line)
-        !LMI!6DM-105P!DR!7/10/2017 6:35:51 PM   (local time received)
+        /*
+        SP kz6dm@w3xsc.ampr.org
+        DELIVERED: 5DM-002_O/R_OAAlliedHealth_Facility Type_Facility Name
+        !LMI!6DM-526P!DR!9/14/2018 6:51:22 PM
         Your Message
         To: KZ6DM
-        Subject: MON-716P: _O/R_SCCo ARES/RACES Packet Check-in Report For: Monday, June 26, 2017. Total = 21 call signs /23 check-ins
-        was delivered on 7/10/2017 6:35:51 PM
-        Recipient's Local Message ID: 6DM-105P
-*/
+        Subject: 5DM-002_O/R_OAAlliedHealth_Facility Type_Facility Name
+        was delivered on 9/14/2018 6:51:22 PM
+        Recipient's Local Message ID: 6DM-526P
+        /EX
+        Subject:
+        Enter message.  End with /EX or ^Z in first column (^A aborts):
+        Msg queued
+        */
 
         private void SendMessageReceipts()
 		{
@@ -301,7 +305,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				// do not send received receipt for receive receipt messages
 				foreach (PacketMessage pktMsg in _packetMessagesReceived)
 				{
-					if (pktMsg.Area.Length > 0)			// Do not send receipt for bulletins
+					if (pktMsg.Area.Length > 0 || pktMsg.Subject.Contains("DELIVERED:"))	// Do not send receipt for bulletins
 						continue;
 
 					try
@@ -326,41 +330,41 @@ namespace PacketMessagingTS.Services.CommunicationsService
 							}
 						}
 
-						if (!pktMsg.Subject.Contains("DELIVERED:") && pktMsg.Area.Length == 0)
-						{
-                            PacketMessage receiptMessage = new PacketMessage()
-                            {
-                                PacFormName = "SimpleMessage",
-                                PacFormType = "SimpleMessage",
-                                MessageNumber = Utilities.GetMessageNumberPacket(true),
-                                BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
-                                TNCName = _TncDevice.Name,
-                                MessageTo = pktMsg.MessageFrom,
-                                MessageFrom = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign
-                                        ? Singleton<IdentityViewModel>.Instance.TacticalCallsign
-                                        : Singleton<IdentityViewModel>.Instance.UserCallsign,
-                                Subject = $"DELIVERED: {pktMsg.Subject}",
-                            };
+                        PacketMessage receiptMessage = new PacketMessage()
+                        {
+                            PacFormName = "SimpleMessage",
+                            PacFormType = "SimpleMessage",
+                            MessageNumber = Utilities.GetMessageNumberPacket(true),
+                            BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
+                            TNCName = _TncDevice.Name,
+                            MessageTo = pktMsg.MessageFrom,
+                            MessageFrom = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign
+                                    ? Singleton<IdentityViewModel>.Instance.TacticalCallsign
+                                    : Singleton<IdentityViewModel>.Instance.UserCallsign,
+                            Subject = $"DELIVERED: {pktMsg.Subject}",
+                        };
 
-							FormField[] formFields = new FormField[1];
+						FormField[] formFields = new FormField[1];
 
-							FormField formField = new FormField();
-							formField.ControlName = "messageBody";
-							formField.ControlContent = "Your message was delivered to:\r\n";
-							formField.ControlContent += $"{pktMsg.MessageTo} at {receiptMessage.JNOSDate}\r\n";
-							formField.ControlContent += $"{pktMsg.MessageFrom} assigned Msg ID: {receiptMessage.MessageNumber}\r\n";
-							formFields[0] = formField;
+						FormField formField = new FormField();
+						formField.ControlName = "messageBody";
+                        formField.ControlContent = $"!LMI!{pktMsg.MessageNumber}!DR!{DateTime.Now.ToString()}";
+                        formField.ControlContent += $"Your Message";
+                        formField.ControlContent += $"To: {pktMsg.MessageTo}";
+                        formField.ControlContent += $"Subject: {pktMsg.Subject}";
+                        formField.ControlContent += $"was delivered on {DateTime.Now.ToString()}"; // 7/10/2017 6:35:51 PM
+                        formField.ControlContent += $"Recipient's Local Message ID: {pktMsg.MessageNumber}";
+                        formFields[0] = formField;
 
-							receiptMessage.FormFieldArray = formFields;
-							MessageControl packetForm = new MessageControl();
-							receiptMessage.MessageBody = packetForm.CreateOutpostData(ref receiptMessage);
-							receiptMessage.CreateFileName();
-							receiptMessage.SentTime = DateTime.Now;
-							receiptMessage.MessageSize = receiptMessage.Size;
-							_logHelper.Log(LogLevel.Info, $"Delivered msg: {receiptMessage.MessageBody}");   // Disable if not testing
-							//SendMessage(ref receiptMessage);		// Disabled for testing
-							//_packetMessagesSent.Add(receiptMessage);
-						}
+						receiptMessage.FormFieldArray = formFields;
+						MessageControl packetForm = new MessageControl();
+						receiptMessage.MessageBody = packetForm.CreateOutpostData(ref receiptMessage);
+						receiptMessage.CreateFileName();
+						receiptMessage.SentTime = DateTime.Now;
+						receiptMessage.MessageSize = receiptMessage.Size;
+						_logHelper.Log(LogLevel.Info, $"Delivered msg: {receiptMessage.MessageBody}");   // Disable if not testing
+						//SendMessage(ref receiptMessage);		// Disabled for testing
+						//_packetMessagesSent.Add(receiptMessage);
 					}
 					catch (Exception e)
 					{
@@ -386,17 +390,18 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public bool IsBulletinDownLoaded(string area, string bulletinSubject)
         {
-            //_logHelper.Log(LogLevel.Info, $"Bulletin subject: {bulletinSubject}");
-
-            return true;
+            //return true;
 
             if (string.IsNullOrEmpty(area))
                 return false;
 
             foreach (string subject in BulletinHelpers.BulletinDictionary[area])
             {
-                if (subject == bulletinSubject)
+                _logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
+                if (subject.Trim() == bulletinSubject.Trim())
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -693,7 +698,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				readText = _serialPort.ReadLine();           // Read command
                 //Debug.WriteLine(readText);
                 _logHelper.Log(LogLevel.Info, readText);
-                Disconnect:
+Disconnect:
 				readText = _serialPort.ReadLine();           // Read disconnect response
                 //Console.WriteLine(readText);
                 _logHelper.Log(LogLevel.Info, readText);
@@ -701,7 +706,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 BBSDisconnectTime = DateTime.Now;
 				//serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
 
-				//SendMessageReceipts();          // TODO testing
+				SendMessageReceipts();          // TODO testing
 
 				_serialPort.ReadTimeout = 5000;
 				readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Next command

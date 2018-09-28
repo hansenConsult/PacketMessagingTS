@@ -1013,7 +1013,7 @@ namespace PacketMessagingTS.Views
             {
                 textBoxTestFileName.Text = textBoxTestFileName.Text.Substring(0, index) + ".txt";
             }
-            StorageFile file = await SharedData.TestFilesFolder.CreateFileAsync(textBoxTestFileName.Text);
+            StorageFile file = await SharedData.TestFilesFolder.CreateFileAsync(textBoxTestFileName.Text, CreationCollisionOption.ReplaceExisting);
             if (file != null)
             {
                 await FileIO.WriteTextAsync(file, receivedMessage.Text);

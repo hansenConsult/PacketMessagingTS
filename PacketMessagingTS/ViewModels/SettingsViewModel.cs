@@ -68,7 +68,7 @@ namespace PacketMessagingTS.ViewModels
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
-        private bool w1XSCStatusUp;
+        private bool w1XSCStatusUp = true;
         public bool W1XSCStatusUp
         {
             get
@@ -84,7 +84,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public bool w2XSCStatusUp;
+        public bool w2XSCStatusUp = true;
         public bool W2XSCStatusUp
         {
             get
@@ -100,7 +100,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public bool w3XSCStatusUp;
+        public bool w3XSCStatusUp = true;
         public bool W3XSCStatusUp
         {
             get
@@ -116,7 +116,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public bool w4XSCStatusUp;
+        public bool w4XSCStatusUp = true;
         public bool W4XSCStatusUp
         {
             get
@@ -131,7 +131,7 @@ namespace PacketMessagingTS.ViewModels
                 AddressBook.Instance.UpdateForBBSStatusChange("W4XSC", W4XSCStatusUp);
             }
         }
-        public bool w5XSCStatusUp;
+        public bool w5XSCStatusUp = true;
         public bool W5XSCStatusUp
         {
             get

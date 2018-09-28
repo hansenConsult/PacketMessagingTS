@@ -42,7 +42,6 @@ namespace PacketMessagingTS.ViewModels
                 else
                 {
                     SetProperty(ref tncDeviceSelectedIndex, value, true);
-                    //if (!TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex].Name.Contains(SharedData.EMail))
                 }
                 CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
             }
@@ -56,26 +55,48 @@ namespace PacketMessagingTS.ViewModels
             {
                 currentTNCDevice = value;
 
-                TNCInitCommandsPre = currentTNCDevice.InitCommands.Precommands;
-                TNCInitCommandsPost = currentTNCDevice.InitCommands.Postcommands;
-                IsToggleSwitchOn = currentTNCDevice.CommPort.IsBluetooth;
-                TNCComPort = currentTNCDevice.CommPort.Comport;
-                TNCComName = currentTNCDevice.CommPort.BluetoothName;
-                TNCComBaudRate = currentTNCDevice.CommPort.Baudrate;
-                TNCComDatabits = currentTNCDevice.CommPort.Databits;
-                TNCComStopbits = currentTNCDevice.CommPort.Stopbits;
-                TNCComParity = currentTNCDevice.CommPort.Parity;
-                TNCComHandshake = currentTNCDevice.CommPort.Flowcontrol;
-                TNCCommandsMyCall = currentTNCDevice.Commands.MyCall;
-                TNCCommandsConnect = currentTNCDevice.Commands.Connect;
-                TNCCommandsRetry = currentTNCDevice.Commands.Retry;
-                TNCCommandsConversMode = currentTNCDevice.Commands.Conversmode;
-                TNCCommandsDateTime = currentTNCDevice.Commands.Datetime;
-                TNCPromptsCommand = currentTNCDevice.Prompts.Command;
-                TNCPromptsTimeout = currentTNCDevice.Prompts.Timeout;
-                TNCPromptsConnected = currentTNCDevice.Prompts.Connected;
-                TNCPromptsDisconnected = currentTNCDevice.Prompts.Disconnected;
-
+                if (currentTNCDevice.Name.Contains(SharedData.EMail))
+                {
+                    // Update email account index
+                    string mailPreample = SharedData.EMail + '-';
+                    string mailUserName;
+                    int index = currentTNCDevice.Name.IndexOf(mailPreample);
+                    if (index == 0)
+                    {
+                        mailUserName = currentTNCDevice.Name.Substring(mailPreample.Length);
+                        int i = 0;
+                        for (; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
+                        {
+                            if (EmailAccountArray.Instance.EmailAccounts[i].MailUserName == mailUserName)
+                            {
+                                break;
+                            }
+                        }
+                        MailAccountSelectedIndex = i;
+                    }
+                }
+                else
+                {
+                    TNCInitCommandsPre = currentTNCDevice.InitCommands.Precommands;
+                    TNCInitCommandsPost = currentTNCDevice.InitCommands.Postcommands;
+                    IsToggleSwitchOn = currentTNCDevice.CommPort.IsBluetooth;
+                    TNCComPort = currentTNCDevice.CommPort.Comport;
+                    TNCComName = currentTNCDevice.CommPort.BluetoothName;
+                    TNCComBaudRate = currentTNCDevice.CommPort.Baudrate;
+                    TNCComDatabits = currentTNCDevice.CommPort.Databits;
+                    TNCComStopbits = currentTNCDevice.CommPort.Stopbits;
+                    TNCComParity = currentTNCDevice.CommPort.Parity;
+                    TNCComHandshake = currentTNCDevice.CommPort.Flowcontrol;
+                    TNCCommandsMyCall = currentTNCDevice.Commands.MyCall;
+                    TNCCommandsConnect = currentTNCDevice.Commands.Connect;
+                    TNCCommandsRetry = currentTNCDevice.Commands.Retry;
+                    TNCCommandsConversMode = currentTNCDevice.Commands.Conversmode;
+                    TNCCommandsDateTime = currentTNCDevice.Commands.Datetime;
+                    TNCPromptsCommand = currentTNCDevice.Prompts.Command;
+                    TNCPromptsTimeout = currentTNCDevice.Prompts.Timeout;
+                    TNCPromptsConnected = currentTNCDevice.Prompts.Connected;
+                    TNCPromptsDisconnected = currentTNCDevice.Prompts.Disconnected;
+                }
                 ResetChangedProperty();
             }
         }
