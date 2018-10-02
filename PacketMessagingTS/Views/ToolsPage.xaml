@@ -427,6 +427,10 @@
                                 RelativePanel.AlignRightWithPanel="True"
                                 RelativePanel.AlignBottomWithPanel="True"
                                 Content="Test Received Message" Margin="0,10,5,10" Click="TestReceivedMessage_Click" />
+                        <Button x:Name="testDeliveredMessage"                                 
+                                RelativePanel.LeftOf="testReceivedMessage"
+                                RelativePanel.AlignBottomWithPanel="True"
+                                Content="Test Delivered Message" Margin="0,10,10,10" Click="TestDeliveredMessage_Click" />
                     </RelativePanel>
                     <CommandBar x:Name="ButtomCommandBarTest" Margin="-12,0,-12,0"
                    				    RelativePanel.AlignBottomWithPanel="True"

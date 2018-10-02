@@ -990,7 +990,7 @@ namespace PacketMessagingTS.Views
                 //#EOF
 
                 //";
-                Services.CommunicationsService.CommunicationsService communicationService = Services.CommunicationsService.CommunicationsService.CreateInstance();
+                CommunicationsService communicationService = CommunicationsService.CreateInstance();
                 communicationService._packetMessagesReceived.Add(packetMsg);
                 communicationService.ProcessReceivedMessagesAsync();
             }
@@ -999,6 +999,32 @@ namespace PacketMessagingTS.Views
                 //BBSConnect();
             }
 
+        }
+
+        private void TestDeliveredMessage_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime dateTime = DateTime.Now;
+            PacketMessage packetMsg = new PacketMessage()
+            {
+                MessageBody = receivedMessage.Text,
+                ReceivedTime = dateTime,
+                BBSName = BBSDefinitions.Instance.BBSDataList[2].Name,
+                TNCName = TNCDeviceArray.Instance.TNCDeviceList[1].Name,
+                MessageNumber = Helpers.Utilities.GetMessageNumberPacket(true),
+                Area = "",
+                MessageSize = receivedMessage.Text.Length,
+            };
+
+            List<PacketMessage> packetMessagesReceived = new List<PacketMessage>();
+            packetMessagesReceived.Add(packetMsg);
+            TNCInterface tncInterface = new TNCInterface();
+            TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
+            string messageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS.Name;
+            tncInterface.SendMessageReceipts(messageBBS, ref tncDevice, "", packetMessagesReceived);
+            foreach (PacketMessage packetMessage in tncInterface.PacketMessagesSent)
+            {
+                packetMessage.Save(SharedData.SentMessagesFolder.Path);
+            }
         }
 
         private async void AppBarButtonTest_SaveFileAsync(object sender, RoutedEventArgs e)

@@ -13,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Core;
 
 using SharedCode;
+using System.Text;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -35,7 +36,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
         ConnectState _connectState;
 
         List<PacketMessage> _packetMessagesSent = new List<PacketMessage>();
-        List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
         List<PacketMessage> _packetMessagesToSend;
 
         string _bbsConnectName = "";
@@ -66,8 +66,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public List<PacketMessage> PacketMessagesSent => _packetMessagesSent;
 
-        public List<PacketMessage> PacketMessagesReceived => _packetMessagesReceived;
-
         public DateTime BBSConnectTime
         { get; set; }
 
@@ -79,6 +77,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		public bool Cancel
 		{ get { return _error; } set { _error = value; } }
+
+        private List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
+        public List<PacketMessage> PacketMessagesReceived { get => _packetMessagesReceived; set => _packetMessagesReceived = value; }
 
         private string KPC3Plus()
         {
@@ -298,20 +299,31 @@ namespace PacketMessagingTS.Services.CommunicationsService
         Msg queued
         */
 
+        // For testing SendMessageReceipts()
+        public void SendMessageReceipts(string messageBBS, ref TNCDevice tncDevice, string areas, List<PacketMessage> packetMessagesReceived)
+        {
+            _bbsConnectName = messageBBS + "-1";
+            _TncDevice = tncDevice;
+            _Areas = areas;
+
+            PacketMessagesReceived = packetMessagesReceived;
+            SendMessageReceipts();
+        }
+
         private void SendMessageReceipts()
 		{
 			if (Singleton<PacketSettingsViewModel>.Instance.SendReceipt)
 			{
 				// do not send received receipt for receive receipt messages
-				foreach (PacketMessage pktMsg in _packetMessagesReceived)
+				foreach (PacketMessage pktMsg in PacketMessagesReceived)
 				{
-					if (pktMsg.Area.Length > 0 || pktMsg.Subject.Contains("DELIVERED:"))	// Do not send receipt for bulletins
+					if (pktMsg.Area.Length > 0)	// Do not send receipt for bulletins
 						continue;
 
 					try
 					{
 						// Find the Subject line
-						string[] msgLines = pktMsg.MessageBody.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+						string[] msgLines = pktMsg.MessageBody.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 						for (int i = 0; i < Math.Min(msgLines.Length, 10); i++)
 						{
 							if (msgLines[i].StartsWith("Date:"))
@@ -329,12 +341,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 								break;
 							}
 						}
+                        if (pktMsg.Subject.Contains("DELIVERED:"))
+                            continue;
 
                         PacketMessage receiptMessage = new PacketMessage()
                         {
                             PacFormName = "SimpleMessage",
                             PacFormType = "SimpleMessage",
-                            MessageNumber = Utilities.GetMessageNumberPacket(true),
+                            MessageNumber = Utilities.GetMessageNumberPacket(),
                             BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
                             TNCName = _TncDevice.Name,
                             MessageTo = pktMsg.MessageFrom,
@@ -348,12 +362,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 						FormField formField = new FormField();
 						formField.ControlName = "messageBody";
-                        formField.ControlContent = $"!LMI!{pktMsg.MessageNumber}!DR!{DateTime.Now.ToString()}";
-                        formField.ControlContent += $"Your Message";
-                        formField.ControlContent += $"To: {pktMsg.MessageTo}";
-                        formField.ControlContent += $"Subject: {pktMsg.Subject}";
-                        formField.ControlContent += $"was delivered on {DateTime.Now.ToString()}"; // 7/10/2017 6:35:51 PM
-                        formField.ControlContent += $"Recipient's Local Message ID: {pktMsg.MessageNumber}";
+                        StringBuilder controlContent = new StringBuilder();
+                        controlContent.AppendLine($"!LMI!{pktMsg.MessageNumber}!DR!{DateTime.Now.ToString()}");
+                        controlContent.AppendLine("Your Message");
+                        controlContent.AppendLine($"To: {pktMsg.MessageTo}");
+                        controlContent.AppendLine($"Subject: {pktMsg.Subject}");
+                        controlContent.AppendLine($"was delivered on {DateTime.Now.ToString()}"); // 7/10/2017 6:35:51 PM
+                        controlContent.AppendLine($"Recipient's Local Message ID: {pktMsg.MessageNumber}");
+                        formField.ControlContent = controlContent.ToString();
                         formFields[0] = formField;
 
 						receiptMessage.FormFieldArray = formFields;
@@ -362,9 +378,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 						receiptMessage.CreateFileName();
 						receiptMessage.SentTime = DateTime.Now;
 						receiptMessage.MessageSize = receiptMessage.Size;
-						_logHelper.Log(LogLevel.Info, $"Delivered msg: {receiptMessage.MessageBody}");   // Disable if not testing
-						//SendMessage(ref receiptMessage);		// Disabled for testing
-						//_packetMessagesSent.Add(receiptMessage);
+                        //_logHelper.Log(LogLevel.Info, $"Message To: {receiptMessage.MessageTo}");       // Disable if not testing
+                        //_logHelper.Log(LogLevel.Info, $"Message Body: { receiptMessage.MessageBody}");  // Disable if not testing
+						//SendMessage(ref receiptMessage);		    // Disabled for testing
+						_packetMessagesSent.Add(receiptMessage);
 					}
 					catch (Exception e)
 					{
@@ -397,7 +414,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             foreach (string subject in BulletinHelpers.BulletinDictionary[area])
             {
-                _logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
+                //_logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
                 if (subject.Trim() == bulletinSubject.Trim())
                 {
                     return true;
@@ -494,7 +511,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                             packetMessage.MessageBody = readText.Substring(0, readText.Length - 3); // Remove beginning of prompt
                             packetMessage.ReceivedTime = DateTime.Now;
-                            _packetMessagesReceived.Add(packetMessage);
+                            PacketMessagesReceived.Add(packetMessage);
                             if (area.Length == 0)
                             {
                                 _serialPort.Write("K " + msgIndex + "\r\x05");
@@ -545,7 +562,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         public async Task BBSConnectThreadProcAsync()
         {
             _packetMessagesSent.Clear();
-            _packetMessagesReceived.Clear();
+            PacketMessagesReceived.Clear();
 
             if (string.IsNullOrEmpty(_bbsConnectName))
                 return;
@@ -571,17 +588,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
             try
             {
                 _connectState = ConnectState.ConnectStateNone;
-           
+
                 _serialPort.Open();
 
                 _connectState = ConnectState.ConnectStatePrepareTNCType;
                 if (_TncDevice.Name == "XSC_Kantronics_KPC3-Plus")
                 {
-					readCmdText = KPC3Plus();
+                    readCmdText = KPC3Plus();
                 }
                 else if (_TncDevice.Name == "XSC_Kenwood_TM-D710A" || _TncDevice.Name == "XSC_Kenwood_TH-D72A")
                 {
-					readCmdText = Kenwood();
+                    readCmdText = Kenwood();
                 }
                 // Send Precommands
                 string preCommands = _TncDevice.InitCommands.Precommands;
@@ -603,8 +620,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 int readTimeout = _serialPort.ReadTimeout;
                 _serialPort.ReadTimeout = 120000;
                 BBSConnectTime = DateTime.Now;
-				_connectState = ConnectState.ConnectStateBBSTryConnect;
-				_serialPort.Write("connect " + _bbsConnectName + "\r");
+                _connectState = ConnectState.ConnectStateBBSTryConnect;
+                _serialPort.Write("connect " + _bbsConnectName + "\r");
 
                 //readText = _serialPort.ReadLine();			// Read command
                 //_logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);		// log last Write command
@@ -620,7 +637,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 string readConnectText = _serialPort.ReadTo(") >");      // read connect response  
                 //Debug.WriteLine(readConnectText + _BBSPrompt);
                 _logHelper.Log(LogLevel.Info, readText + "\n" + readConnectText + _BBSPrompt);
-                _serialPort.ReadTimeout = readTimeout;     
+                _serialPort.ReadTimeout = readTimeout;
 
                 readText = _serialPort.ReadTo("\n");	// Next command
                 //Debug.WriteLine(readText + "\n");
@@ -672,7 +689,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             _logHelper.Log(LogLevel.Info, $"Send message exception: {e.Message}");
                             _serialPort.DiscardInBuffer();
                             _serialPort.DiscardOutBuffer();
-                            _error = true; 
+                            _error = true;
                         }
                         _serialPort.ReadTimeout = 5000;
                     }
@@ -692,25 +709,26 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     }
                 }
                 //SendMessageReceipts();					// Send message receipts
-                
-                _serialPort.Write("B\r\x05");				// Disconnect from BBS (JNOS)
 
-				readText = _serialPort.ReadLine();           // Read command
+                _serialPort.Write("B\r");               // Disconnect from BBS (JNOS)
+
+                readText = _serialPort.ReadLine();           // Read command
                 //Debug.WriteLine(readText);
                 _logHelper.Log(LogLevel.Info, readText);
-Disconnect:
-				readText = _serialPort.ReadLine();           // Read disconnect response
+                Disconnect:
+                readText = _serialPort.ReadLine();           // Read disconnect command
                 //Console.WriteLine(readText);
                 _logHelper.Log(LogLevel.Info, readText);
 
+                readText = _serialPort.ReadLine();           // Read disconnect response
+                _logHelper.Log(LogLevel.Info, readText);
+
                 BBSDisconnectTime = DateTime.Now;
-				//serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
+                //serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
 
-				SendMessageReceipts();          // TODO testing
-
-				_serialPort.ReadTimeout = 5000;
-				readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Next command
-                Debug.WriteLine(readCmdText + _TNCPrompt);
+                _serialPort.ReadTimeout = 5000;
+                readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Next command
+                //Debug.WriteLine(readCmdText + _TNCPrompt);
 
                 // Send PostCommands
                 string postCommands = _TncDevice.InitCommands.Postcommands;
@@ -728,21 +746,21 @@ Disconnect:
 
                     readCmdText = _serialPort.ReadTo(_TNCPrompt);	// Next command
                 }
-				// Enter converse mode and send FCC call sign
-				_connectState = ConnectState.ConnectStateConverseMode;
-				_serialPort.Write(_TncDevice.Commands.Conversmode + "\r");
-				readText = _serialPort.ReadLine();       // Read command
+                // Enter converse mode and send FCC call sign
+                _connectState = ConnectState.ConnectStateConverseMode;
+                _serialPort.Write(_TncDevice.Commands.Conversmode + "\r");
+                readText = _serialPort.ReadLine();       // Read command
                 _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
 
-				string fccId = $"FCC Station ID = {Singleton<IdentityViewModel>.Instance.UserCallsign}";
-				_serialPort.Write(fccId + "\r");
-				readText = _serialPort.ReadLine();
+                string fccId = $"FCC Station ID = {Singleton<IdentityViewModel>.Instance.UserCallsign}";
+                _serialPort.Write(fccId + "\r");
+                readText = _serialPort.ReadLine();
                 _logHelper.Log(LogLevel.Info, readText);
-				_serialPort.Write("\x03\r");						// Ctrl-C exits converse mode
-				readCmdText = _serialPort.ReadTo(_TNCPrompt);
+                _serialPort.Write("\x03\r");                        // Ctrl-C exits converse mode
+                readCmdText = _serialPort.ReadTo(_TNCPrompt);
                 _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt);
-			}
-			catch (Exception e)
+            }
+            catch (Exception e)
             {
                 //Console.WriteLine($"Serial port exception: {e.GetType().ToString()}");
                 _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())} {e.Message}");
@@ -754,10 +772,10 @@ Disconnect:
                 {
                     await Utilities.ShowMessageDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "BBS Connect Error");
                 }
-				else if (_connectState == ConnectState.ConnectStateConverseMode)
-				{
+                else if (_connectState == ConnectState.ConnectStateConverseMode)
+                {
                     await Utilities.ShowMessageDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "TNC Converse Error");
-				}
+                }
                 //else if (e.Message.Contains("not exist"))
                 else if (e.GetType() == typeof(IOException))
                 {
@@ -768,15 +786,19 @@ Disconnect:
                     await Utilities.ShowMessageDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "TNC Connect Error");
                 }
                 //_serialPort.Write("B\r\n");
+                //_serialPort.Close();
+            }
+            finally
+            {
                 _serialPort.Close();
             }
-            _serialPort.Close();
 
+            SendMessageReceipts();          // TODO testing
             //CloseDlgWindow(ConnectDlg);
         }
 
-		#region IDisposable Support
-		private bool disposedValue = false; // To detect redundant calls
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
 
 		protected virtual void Dispose(bool disposing)
 		{
