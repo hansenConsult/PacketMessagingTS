@@ -129,6 +129,7 @@
     <Compile Include="Helpers\AddressConverter.cs" />
     <Compile Include="Helpers\AreaConverter.cs" />
     <Compile Include="Helpers\BulletinHelpers.cs" />
+    <Compile Include="Helpers\RowStyleSelector.cs" />
     <Compile Include="Helpers\ComportComparer.cs" />
     <Compile Include="Helpers\DataGridSortData.cs" />
     <Compile Include="Helpers\DateTimeConverter.cs" />

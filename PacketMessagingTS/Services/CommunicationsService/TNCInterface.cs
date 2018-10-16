@@ -188,7 +188,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.Write("D\r");
 
             string readText = _serialPort.ReadLine();
-            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
             readText = _serialPort.ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
@@ -198,7 +198,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.Write("b\r");
 
             readText = _serialPort.ReadLine();
-            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
             readText = _serialPort.ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
@@ -208,7 +208,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.Write("Echo on\r");
 
             readText = _serialPort.ReadLine();
-            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
             readText = _serialPort.ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
@@ -225,7 +225,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
 
             readText = _serialPort.ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
             readText = _serialPort.ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
@@ -235,7 +235,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.Write("Mon off\r");
 
             readText = _serialPort.ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
             readText = _serialPort.ReadLine();       // Result for Mon off
             _logHelper.Log(LogLevel.Info, readText);
@@ -247,7 +247,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.Write("daytime " + dayTime + "\r");
 
             readText = _serialPort.ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+            _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
             // Note no command response
 
             readCmdText = _serialPort.ReadTo(_TNCPrompt);	// Ready for pre commands
@@ -606,13 +606,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _connectState = ConnectState.ConnectStatePrepare;
                 foreach (string commandLine in preCommandLines)
                 {
-                    _serialPort.Write(commandLine + "\r");
+                    _serialPort.Write(commandLine + "\r\n");
 
                     readText = _serialPort.ReadLine();       // Read command
-                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
-                    readText = _serialPort.ReadLine();       // Result for command
-                    _logHelper.Log(LogLevel.Info, readText);
+                    if (!commandLine.Contains("daytime"))   // daytime has no result
+                    {
+                        readText = _serialPort.ReadLine();       // Result for command
+                        _logHelper.Log(LogLevel.Info, readText);
+                    }
 
                     readCmdText = _serialPort.ReadTo(_TNCPrompt);	// Next command
                 }
@@ -623,8 +626,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _connectState = ConnectState.ConnectStateBBSTryConnect;
                 _serialPort.Write("connect " + _bbsConnectName + "\r");
 
-                //readText = _serialPort.ReadLine();			// Read command
-                //_logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);		// log last Write command
+                readText = _serialPort.ReadLine();			// Read command
+                _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText + "\r\n");		// log last Write command
 
                 //readText = _serialPort.ReadLine();			// Read command response
                 //if (readText.ToLower().Contains(_TncDevice.Prompts.Timeout))
@@ -636,7 +639,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _connectState = ConnectState.ConnectStateBBSConnect;
                 string readConnectText = _serialPort.ReadTo(") >");      // read connect response  
                 //Debug.WriteLine(readConnectText + _BBSPrompt);
-                _logHelper.Log(LogLevel.Info, readText + "\n" + readConnectText + _BBSPrompt);
+                _logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText + _BBSPrompt);
                 _serialPort.ReadTimeout = readTimeout;
 
                 readText = _serialPort.ReadTo("\n");	// Next command
@@ -708,7 +711,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         ReceiveMessages(area);
                     }
                 }
-                //SendMessageReceipts();					// Send message receipts
+                SendMessageReceipts();					// Send message receipts
 
                 _serialPort.Write("B\r");               // Disconnect from BBS (JNOS)
 
@@ -717,7 +720,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Info, readText);
                 Disconnect:
                 readText = _serialPort.ReadLine();           // Read disconnect command
-                //Console.WriteLine(readText);
                 _logHelper.Log(LogLevel.Info, readText);
 
                 readText = _serialPort.ReadLine();           // Read disconnect response
@@ -728,7 +730,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 _serialPort.ReadTimeout = 5000;
                 readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Next command
-                //Debug.WriteLine(readCmdText + _TNCPrompt);
 
                 // Send PostCommands
                 string postCommands = _TncDevice.InitCommands.Postcommands;
@@ -739,7 +740,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _serialPort.Write(commandLine + "\r");
 
                     readText = _serialPort.ReadLine();				// Read command
-                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
                     readText = _serialPort.ReadLine();              // Command result
                     _logHelper.Log(LogLevel.Info, readText);
@@ -750,7 +751,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _connectState = ConnectState.ConnectStateConverseMode;
                 _serialPort.Write(_TncDevice.Commands.Conversmode + "\r");
                 readText = _serialPort.ReadLine();       // Read command
-                _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + readText);
+                _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
 
                 string fccId = $"FCC Station ID = {Singleton<IdentityViewModel>.Instance.UserCallsign}";
                 _serialPort.Write(fccId + "\r");
@@ -793,7 +794,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _serialPort.Close();
             }
 
-            SendMessageReceipts();          // TODO testing
+            //SendMessageReceipts();          // TODO testing
             //CloseDlgWindow(ConnectDlg);
         }
 

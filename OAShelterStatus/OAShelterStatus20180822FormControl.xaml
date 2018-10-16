@@ -160,7 +160,7 @@
                                 <TextBlock Margin="10,0,0,0" Text="Time (24hr):" 
                                            Style="{StaticResource MuniStatusFieldTextRequired}"
                                            VerticalAlignment="Center" />
-                                <TextBox x:Name="MsgTime"  HorizontalAlignment="Stretch" 
+                                <TextBox x:Name="msgTime"  HorizontalAlignment="Stretch" 
                                          VerticalAlignment="Stretch"
                                          Style="{StaticResource MuniStatusTextBox}" Tag="16,required,Enter the time."/>
                             </StackPanel>

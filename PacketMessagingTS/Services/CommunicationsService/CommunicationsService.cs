@@ -254,51 +254,55 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     };
                     string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
 
+                    bool toFound = false;
 					bool subjectFound = false;
 					for (int i = 0; i < Math.Min(msgLines.Length, 20); i++)
 					{
-						if (msgLines[i].StartsWith("Date:"))
-						{
-							pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
-						}
-						else if (msgLines[i].StartsWith("From:"))
-							pktMsg.MessageFrom = msgLines[i].Substring(6);
-						else if (msgLines[i].StartsWith("To:"))
-							pktMsg.MessageTo = msgLines[i].Substring(4);
-						else if (msgLines[i].StartsWith("Cc:"))
-						{
-							pktMsg.MessageTo += (", " + msgLines[i].Substring(4));
-							while (msgLines[i + 1].Length == 0)
-							{
-								i++;
-							}
-							if (msgLines[i + 1][0] == ' ')
-							{
-								pktMsg.MessageTo += msgLines[i + 1].TrimStart(new char[] { ' ' });
-							}
-						}
-						else if (!subjectFound && msgLines[i].StartsWith("Subject:"))
-						{
-							pktMsg.Subject = msgLines[i].Substring(9);
-							//pktMsg.MessageSubject = pktMsg.MessageSubject.Replace('\t', ' ');
-							subjectFound = true;
-						}
-						else if (msgLines[i].StartsWith("# FORMFILENAME:"))
-						{
-							string html = ".html";
-							string formName = msgLines[i].Substring(16).TrimEnd(new char[] { ' ' });
-							formName = formName.Substring(0, formName.Length - html.Length);
+                        if (msgLines[i].StartsWith("Date:"))
+                        {
+                            pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
+                        }
+                        else if (msgLines[i].StartsWith("From:"))
+                            pktMsg.MessageFrom = msgLines[i].Substring(6);
+                        else if (!toFound && msgLines[i].StartsWith("To:"))
+                        {
+                            pktMsg.MessageTo = msgLines[i].Substring(4);
+                            toFound = true;
+                        }
+                        else if (msgLines[i].StartsWith("Cc:"))
+                        {
+                            pktMsg.MessageTo += (", " + msgLines[i].Substring(4));
+                            while (msgLines[i + 1].Length == 0)
+                            {
+                                i++;
+                            }
+                            if (msgLines[i + 1][0] == ' ')
+                            {
+                                pktMsg.MessageTo += msgLines[i + 1].TrimStart(new char[] { ' ' });
+                            }
+                        }
+                        else if (!subjectFound && msgLines[i].StartsWith("Subject:"))
+                        {
+                            pktMsg.Subject = msgLines[i].Substring(9);
+                            //pktMsg.MessageSubject = pktMsg.MessageSubject.Replace('\t', ' ');
+                            subjectFound = true;
+                        }
+                        else if (msgLines[i].StartsWith("# FORMFILENAME:"))
+                        {
+                            string html = ".html";
+                            string formName = msgLines[i].Substring(16).TrimEnd(new char[] { ' ' });
+                            formName = formName.Substring(0, formName.Length - html.Length);
                             pktMsg.PacFormName = formName;
 
                             formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
-							if (formControl is null)
-							{
+                            if (formControl is null)
+                            {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
                                 await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
-								return;
-							}
-							break;
-						}
+                                return;
+                            }
+                            break;
+                        }
 					}
 
                     //pktMsg.MessageNumber = GetMessageNumberPacket();		// Filled in BBS connection
@@ -559,13 +563,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
             // Move sent messages from unsent folder to the Sent folder
             foreach (PacketMessage packetMsg in tncInterface.PacketMessagesSent)
             {
-                _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
+                try
+                {
+                    _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
 
-                var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
-                await file.DeleteAsync();
+                    var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
+                    await file.DeleteAsync();
 
-                // Do a save to ensure that updates from tncInterface.BBSConnect are saved
-                packetMsg.Save(SharedData.SentMessagesFolder.Path);
+
+                    // Do a save to ensure that updates from tncInterface.BBSConnect are saved
+                    packetMsg.Save(SharedData.SentMessagesFolder.Path);
+                }
+                catch (Exception e)
+                {
+                    _logHelper.Log(LogLevel.Error, $"Exception {e.Message}");
+                }
             }
             _packetMessagesReceived = tncInterface.PacketMessagesReceived;
             ProcessReceivedMessagesAsync();

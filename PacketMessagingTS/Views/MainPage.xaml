@@ -18,22 +18,24 @@
 
         <helpers:DateTimeConverter x:Key="dateTimeConverter" />
 
+        <Style x:Key="rowStyleKey" TargetType="controls:DataGridRow">
+                <Setter Property="Background" Value="White"/>
+        </Style>
 
-
-        <!--<helpers:CellStyleSelector x:Key="ForegroundSelector">
-            <helpers:CellStyleSelector.MessageOpened>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="Black"/>
-                    <Setter Property="Margin" Value="10"/>
+        
+        <!--<helpers:RowStyleSelector x:Key="BackgroundSelector" >
+            <helpers:RowStyleSelector.MessageUnopened>
+                <Style TargetType="controls:DataGridRow">
+                    <Setter Property="Background" Value="White"/>
                 </Style>
-            </helpers:CellStyleSelector.MessageOpened>
-            <helpers:CellStyleSelector.MessageUnopened>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="Green"/>
-                    <Setter Property="Margin" Value="10"/>
+            </helpers:RowStyleSelector.MessageUnopened>
+            <helpers:RowStyleSelector.MessageOpened>
+                <Style TargetType="controls:DataGridRow">
+                    <Setter Property="Background" Value="BlanchedAlmond"/>
                 </Style>
-            </helpers:CellStyleSelector.MessageUnopened>
-        </helpers:CellStyleSelector>-->
+            </helpers:RowStyleSelector.MessageOpened>
+        </helpers:RowStyleSelector>-->
+        
     </Page.Resources>
     
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
@@ -109,10 +111,18 @@
                                    CanUserSortColumns="True"
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
+                                   LoadingRow="DataGrid_LoadingRow"
+                                   UnloadingRow="DataGrid_UnloadingRow"
                                    DoubleTapped="DataGrid_DoubleTapped"
-                                   LoadingRow="DataGridInbox_LoadingRow"
-                                   RightTapped="DataGrid_RightTapped"
+                                   RightTapped="DataGrid_RightTapped"                                   
                                    >
+                    
+                    <!--<controls:DataGrid.RowStyle>
+                        <Style TargetType="controls:DataGridRow">
+                            <Setter Property="Background" Value="White"/>
+                            
+                        </Style>
+                    </controls:DataGrid.RowStyle>-->
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}"  CanUserSort="True" Width="Auto" Tag="Area"/>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime"/>
@@ -184,6 +194,8 @@
                                    Sorting="DataGrid_Sorting"
                                    SelectionChanged="DataGrid_SelectionChanged"
                                    DoubleTapped="DataGrid_DoubleTapped"
+                                   LoadingRow="DataGrid_LoadingRow"
+                                   UnloadingRow="DataGrid_UnloadingRow"
                                    RightTapped="DataGrid_RightTapped">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime"/>

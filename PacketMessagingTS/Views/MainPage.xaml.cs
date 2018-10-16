@@ -21,21 +21,26 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System.Linq;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using System.Threading;
 
 namespace PacketMessagingTS.Views
 {
     public sealed partial class MainPage : Page
     {
-        private ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
 
         public MainViewModel _mainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
+        private readonly object _lock = new object();
         PivotItem _currentPivotItem;
 
         List<string> _bulletinList;
         List<PacketMessage> _messagesInFolder;
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
         PacketMessage _packetMessageRightClicked;
+
 
         public MainPage()
         {
@@ -154,7 +159,7 @@ namespace PacketMessagingTS.Views
 
         private void OpenMessage(PacketMessage packetMessage)
         {
-            string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
+            string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
             string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
 
             NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
@@ -162,7 +167,7 @@ namespace PacketMessagingTS.Views
 
         private async Task DeleteMessageAsync(PacketMessage packetMessage)
         {
-            StorageFolder folder = (StorageFolder)_currentPivotItem.Tag;
+            StorageFolder folder = _currentPivotItem.Tag as StorageFolder;
             bool permanentlyDelete = false;
             if (folder == SharedData.DeletedMessagesFolder)
             {
@@ -233,7 +238,7 @@ namespace PacketMessagingTS.Views
             //    await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
             //}
 
-            await RefreshDataGridAsync();
+             await RefreshDataGridAsync();
         }
 
         private void AppBarMainPage_OpenMessageFromContectMenu(object sender, RoutedEventArgs e)
@@ -346,15 +351,19 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void DataGridInbox_LoadingRow(object sender, DataGridRowEventArgs e)
+        private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            DataGridRow row = e.Row;
-           // Get the DataRow corresponding to the DataGridRow that is loading.
-           PacketMessage item = row.DataContext as PacketMessage;
-            if (!(bool)item?.MessageOpened)
+            PacketMessage packetMesage = e.Row.DataContext as PacketMessage;
+
+            if (!(bool)packetMesage?.MessageOpened)
             {
-                row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
+                e.Row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
             }
+        }
+
+        private void DataGrid_UnloadingRow(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridRowEventArgs e)
+        {
+            e.Row.Background = new SolidColorBrush(Colors.White);
         }
 
         private void DataGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)

@@ -20,6 +20,7 @@ namespace PacketMessagingTS.ViewModels
         
         public MainViewModel()
         {
+            SelectedItems = new List<PacketMessage>();
         }
 
         //public async Task RefreshDataGridAsync()

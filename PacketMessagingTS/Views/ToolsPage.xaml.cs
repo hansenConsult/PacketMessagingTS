@@ -151,7 +151,7 @@ namespace PacketMessagingTS.Views
         /// The print settings customization can be done when the print document source is requested.
         /// </summary>
         /// <param name="sender">The print manager for which a print task request was made.</param>
-        /// <param name="e">The print taks request associated arguments.</param>
+        /// <param name="e">The print task request associated arguments.</param>
         protected override void PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs e)
         {
             PrintTask printTask = null;
@@ -327,7 +327,7 @@ namespace PacketMessagingTS.Views
             viewablePage.SetValue(Canvas.LeftProperty, pageDescription.Margin.Width);
             viewablePage.SetValue(Canvas.TopProperty, pageDescription.Margin.Height);
 
-            // The image "frame" which also acts as a viewport
+            // The image "frame" which also acts as a view port
             Grid photoView = new Grid
             {
                 Width = pageDescription.PictureViewSize.Width,
@@ -377,7 +377,7 @@ namespace PacketMessagingTS.Views
         /// in the form of an UIElement, to an instance of PrintDocument.
         /// PrintDocument subsequently converts the UIElement into a page that the Windows print system can deal with.
         /// </summary>
-        /// <param name="sender">The print documet.</param>
+        /// <param name="sender">The print document.</param>
         /// <param name="e">Arguments containing the requested page preview.</param>
         protected async override void GetPrintPreviewPage(object sender, GetPreviewPageEventArgs e)
         {
@@ -532,7 +532,10 @@ namespace PacketMessagingTS.Views
             try
             {
                 _selectedFile = (StorageFile)e.AddedItems[0];
-                logFileTextBox.Text = await FileIO.ReadTextAsync(_selectedFile);
+                string temp = await FileIO.ReadTextAsync(_selectedFile);
+                temp = temp.Replace("\r\r\n", "\r\n");
+                temp = temp.Replace('\0', ' ');
+                logFileTextBox.Text = temp;
             }
             catch (UnauthorizedAccessException)
             {
@@ -1077,41 +1080,30 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private async void AppBarButton_SaveFileAsync(object sender, RoutedEventArgs e)
+        private async void AppBarButton_DeleteLogFileAsync(object sender, RoutedEventArgs e)
         {
-            //if (_currentPivotItem.Name == "testReceive")
-            //{
-            //    StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            //    string fileName = textBoxTestFileName.Text + ".txt";
-            //    StorageFile file = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-            //    if (file != null)
-            //    {
-            //        await FileIO.WriteTextAsync(file, receivedMessage.Text);
-            //    }
-            //    else
-            //    {
-            //        return;
-            //    }
-            //}
-        }
-
-        private async void AppBarButton_DeleteFileAsync(object sender, RoutedEventArgs e)
-        {
-            //if (_currentPivotItem.Name == "testReceive")
-            //{
-            //    StorageFile deleteFile = comboBoxTestFiles.SelectedItem as StorageFile;
-
-            //    await deleteFile.DeleteAsync();
-
-            //    await UpdateTestFileListAsync();
-            //}
-            //else
-            {
                 StorageFile deleteFile = logFilesComboBox.SelectedItem as StorageFile;
 
                 await deleteFile.DeleteAsync();
 
                 await UpdateFileListAsync();
+        }
+
+        private async void AppBarButton_DeleteFileAsync(object sender, RoutedEventArgs e)
+        {
+            StorageFile fileToDelete;
+            switch (_currentPivotItem.Name)
+            {
+                case "testReceive":
+                    fileToDelete = comboBoxTestFiles.SelectedItem as StorageFile;
+                    await fileToDelete.DeleteAsync();
+                    await UpdateTestFileListAsync();
+                    break;
+                case "logFile":
+                    fileToDelete = logFilesComboBox.SelectedItem as StorageFile;
+                    await fileToDelete.DeleteAsync();
+                    await UpdateFileListAsync();
+                    break;
             }
         }
 

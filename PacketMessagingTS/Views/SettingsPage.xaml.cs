@@ -514,7 +514,7 @@ namespace PacketMessagingTS.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="deviceInformationUpdate"></param>
-        private async void OnDeviceRemovedAsync(DeviceWatcher sender, DeviceInformationUpdate deviceInformationUpdate)
+        private void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate deviceInformationUpdate)
         {
             try
             {
@@ -522,8 +522,8 @@ namespace PacketMessagingTS.Views
                 //    CoreDispatcherPriority.Normal,
                 //    new DispatchedHandler(async () =>
                 //    {
-                        RemoveDeviceFromList(deviceInformationUpdate.Id);
-                    //}));
+                RemoveDeviceFromList(deviceInformationUpdate.Id);
+                //}));
             }
             catch (Exception e)
             {
@@ -616,9 +616,9 @@ namespace PacketMessagingTS.Views
         /// <param name="deviceSelector">The AQS used to create the device watcher</param>
         private void AddDeviceWatcher(DeviceWatcher deviceWatcher, String deviceSelector)
         {
-            deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(this.OnDeviceAddedAsync);
-            deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(this.OnDeviceRemovedAsync);
-            deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(this.OnDeviceEnumerationCompleteAsync);
+            deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(OnDeviceAddedAsync);
+            deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
+            deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(OnDeviceEnumerationCompleteAsync);
 
             mapDeviceWatchersToDeviceSelector.Add(deviceWatcher, deviceSelector);
         }
@@ -662,14 +662,14 @@ namespace PacketMessagingTS.Views
                     {
                         // USB serial port
                         SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
-                    if (serialDevice != null)
-                    {
-                        CollectionOfSerialDevices.Add(serialDevice.PortName);
-                        ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s, _comportComparer);
-                        serialDevice.Dispose();     // Necessary to avoid crash on removed device
+                        if (serialDevice != null)
+                        {
+                            CollectionOfSerialDevices.Add(serialDevice.PortName);
+                            ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s, _comportComparer);
+                            serialDevice.Dispose();     // Necessary to avoid crash on removed device
+                        }
                     }
                 }
-            }
             }
             catch (Exception e)
             {
