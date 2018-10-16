@@ -310,7 +310,7 @@ namespace PacketMessagingTS.Views
         /// <param name="photoNumber">The photo number.</param>
         /// <param name="pageDescription">The description of the printer page.</param>
         /// <returns>A task that will return the page.</returns>
-        private async Task<UIElement> GeneratePageAsync(int photoNumber, PageDescription pageDescription)
+        private UIElement GeneratePage(int photoNumber, PageDescription pageDescription)
         {
             Canvas page = new Canvas
             {
@@ -379,7 +379,7 @@ namespace PacketMessagingTS.Views
         /// </summary>
         /// <param name="sender">The print document.</param>
         /// <param name="e">Arguments containing the requested page preview.</param>
-        protected async override void GetPrintPreviewPage(object sender, GetPreviewPageEventArgs e)
+        protected override void GetPrintPreviewPage(object sender, GetPreviewPageEventArgs e)
         {
             // Store a local copy of the request count to use later to determine if the computed page is out of date.
             // If the page preview is unavailable an async operation will generate the content.
@@ -401,7 +401,7 @@ namespace PacketMessagingTS.Views
             if (!pageReady)
             {
                 // The page is not available yet.
-                page = await GeneratePageAsync(pageNumber, currentPageDescription);
+                page = GeneratePage(pageNumber, currentPageDescription);
 
                 // If the ticket changed discard the result since the content is outdated.
                 if (Interlocked.CompareExchange(ref requestNumber, requestNumber, requestCount) != requestCount)

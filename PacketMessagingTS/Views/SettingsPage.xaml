@@ -353,13 +353,14 @@
 										 IsReadOnly="True" TextWrapping="Wrap" 
 										 VerticalAlignment="Center"
                                          Text="{x:Bind _packetSettingsViewModel.BBSDescription, Mode=TwoWay}"/>
-                                <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Height="23"  Width="85"
+                                <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:"
+                                           VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Width="85" Height="28"
 									     HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center"
-                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency1, Mode=TwoWay}"/>
+                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency1, Mode=OneWay}"/>
                                 <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="48,0,0,0"
 										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
-                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency2, Mode=TwoWay}"/>
+                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency2, Mode=OneWay}"/>
                                 <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4"  Height="23" Width="270"
 										 Text="{x:Bind _packetSettingsViewModel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 

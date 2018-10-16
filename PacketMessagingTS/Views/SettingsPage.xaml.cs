@@ -552,7 +552,7 @@ namespace PacketMessagingTS.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void OnDeviceEnumerationCompleteAsync(DeviceWatcher sender, Object args)
+        private void OnDeviceEnumerationComplete(DeviceWatcher sender, Object args)
         {
             _isAllDevicesEnumerated = true;
 
@@ -618,7 +618,7 @@ namespace PacketMessagingTS.Views
         {
             deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(OnDeviceAddedAsync);
             deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
-            deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(OnDeviceEnumerationCompleteAsync);
+            deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(OnDeviceEnumerationComplete);
 
             mapDeviceWatchersToDeviceSelector.Add(deviceWatcher, deviceSelector);
         }

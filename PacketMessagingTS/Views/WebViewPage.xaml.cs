@@ -68,7 +68,7 @@ namespace PacketMessagingTS.Views
 
         }
 
-        private async void WebViewPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void WebViewPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PivotItem pivotItem = (PivotItem)e.AddedItems[0];
             switch (pivotItem.Name)

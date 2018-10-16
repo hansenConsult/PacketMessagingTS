@@ -36,7 +36,7 @@ namespace PacketMessagingTS.Views
         private readonly object _lock = new object();
         PivotItem _currentPivotItem;
 
-        List<string> _bulletinList;
+        //List<string> _bulletinList;
         List<PacketMessage> _messagesInFolder;
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
         PacketMessage _packetMessageRightClicked;

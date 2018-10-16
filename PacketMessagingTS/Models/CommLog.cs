@@ -281,7 +281,7 @@ namespace PacketMessagingTS.Models
             }
             catch
             {
-                int e = 0;
+                
             }
 			if (commLogEntry != null)
 			{
