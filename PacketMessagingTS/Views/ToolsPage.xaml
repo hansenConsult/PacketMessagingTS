@@ -123,8 +123,9 @@
                RelativePanel.AlignTopWithPanel="True"
                Margin="{StaticResource EightTopMargin}"
                SelectionChanged="ToolsPagePivot_SelectionChangedAsync">
+            
             <!--Log File-->
-            <PivotItem x:Uid="Tools_ViewLogFile">
+            <PivotItem x:Uid="Tools_ViewLogFile" Header="View Log File">
                 <RelativePanel x:Name="logFilePivotPanel" 
 							   HorizontalAlignment="Stretch"
 							   >
@@ -172,6 +173,7 @@
 
                 <!--</Grid>-->
             </PivotItem>
+            
             <!--Convert ASCII data-->
             <PivotItem x:Uid="Tools_ConvertText" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
                 <RelativePanel>
@@ -205,8 +207,9 @@
                 </CommandBar>
                 </RelativePanel>
             </PivotItem>
+            
             <!--ICS 309-->
-            <PivotItem x:Uid="Tools_ICS309" >
+            <PivotItem x:Name="ics309" Header="ICS 309">
                 <RelativePanel x:Name="PrintableArea" Margin="0,12,0,0"
                                >
                     <!--
@@ -324,11 +327,12 @@
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
                                           />-->
-                                <controls:DataGrid x:Name="ics309DataGrid" Height="500"
+                                    <controls:DataGrid x:Name="ics309DataGrid" Height="500"
                                                    ItemsSource="{x:Bind _toolsViewModel.CommLogEntryCollection, Mode=OneWay}"
                                                    HorizontalScrollBarVisibility="Auto"
                                                    VerticalScrollBarVisibility="Auto"
                                                    CanUserResizeColumns="True"
+                                                   IsReadOnly="True"
                                                    SelectionMode="Single"
                                                    AutoGenerateColumns="False"                                  
                                                    CanUserSortColumns="False" Margin="0,0,20,0"
@@ -377,7 +381,7 @@
                                     RelativePanel.AlignLeftWithPanel="True"
                                 >
                         <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
-                        <AppBarButton x:Name="appBarOpenICS309" Label="Print" Icon="OpenFile" HorizontalAlignment="Right" />
+                        <AppBarButton x:Name="appBarOpenICS309" Label="Print" Icon="OpenFile" />
                         <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" HorizontalAlignment="Right" />
                         <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print"
                                       Visibility="{Binding ICS309PrintButtonVisible, Mode=TwoWay}"
@@ -386,6 +390,7 @@
                     </CommandBar>
                 </RelativePanel>
             </PivotItem>
+            
             <!--Test receive Outpost data-->
             <PivotItem x:Name="testReceive" Header="Test Receive">
                 <RelativePanel x:Name="testReceivePanel">
@@ -444,10 +449,8 @@
                         <AppBarButton x:Name="appBarSeleteTest" Label="Delete" Icon="Delete"
                                       Click="AppBarButton_DeleteFileAsync"  />
                     </CommandBar>
-
                 </RelativePanel>
             </PivotItem>
-
         </Pivot>
     </RelativePanel>
 </Page>

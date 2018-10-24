@@ -95,7 +95,7 @@ namespace PacketMessagingTS.ViewModels
 
         public IList<PacketMessage> SelectedItems { get; set; }
 
-        public async void UpdateDownloadedBulletinsAsync()
+        public async Task UpdateDownloadedBulletinsAsync()
         {
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
             string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);

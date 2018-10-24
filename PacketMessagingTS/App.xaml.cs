@@ -227,9 +227,9 @@ namespace PacketMessagingTS
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
-            await Helpers.Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+            await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
 
-            Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+            await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }
@@ -242,7 +242,7 @@ namespace PacketMessagingTS
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
-            Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+            //Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }

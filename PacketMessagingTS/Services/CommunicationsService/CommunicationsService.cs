@@ -567,7 +567,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 {
                     _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
 
-                    var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
+                    StorageFile file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
                     await file.DeleteAsync();
 
 

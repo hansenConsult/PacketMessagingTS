@@ -21,9 +21,7 @@ namespace PacketMessagingTS.Helpers
             
             foreach (string area in areas)
             {
-                string fileName = BulletinFilePrefix + area;
-                string filePath = Path.Combine(localFolder.Path, fileName);
-
+                string filePath = Path.Combine(localFolder.Path, GetBulletinFileName(area));
                 try
                 {
                     File.WriteAllLines(filePath, BulletinDictionary[area]);
@@ -40,24 +38,27 @@ namespace PacketMessagingTS.Helpers
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
             string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            BulletinHelpers.BulletinDictionary = new Dictionary<string, List<string>>();
+            BulletinDictionary = new Dictionary<string, List<string>>();
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             string[] areaBulletin;
             foreach (string area in areas)
             {
-                string fileName = BulletinFilePrefix + area;
-                string filePath = Path.Combine(localFolder.Path, fileName);
+                string filePath = Path.Combine(localFolder.Path, GetBulletinFileName(area));
 
                 try
                 {
-                    areaBulletin = File.ReadAllLines(filePath);
-                    foreach (string subject in areaBulletin)
+                    if (File.Exists(filePath))
                     {
-                        if (!BulletinDictionary.TryGetValue(area, out List<string> bulletinList))
-                            BulletinDictionary[area] = new List<string>();
-
-                        BulletinDictionary[area].Add(subject);
+                        areaBulletin = File.ReadAllLines(filePath);
+                        foreach (string subject in areaBulletin)
+                        {
+                            if (!BulletinDictionary.TryGetValue(area, out List<string> bulletinList))
+                            {
+                                BulletinDictionary[area] = new List<string>();
+                            }
+                            BulletinDictionary[area].Add(subject);
+                        }
                     }
                 }
                 catch
@@ -67,5 +68,9 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
+        private static string GetBulletinFileName(string area)
+        {
+            return BulletinFilePrefix + area + ".txt";
+        }
     }
 }

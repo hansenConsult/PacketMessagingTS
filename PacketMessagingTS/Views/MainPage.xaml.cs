@@ -243,6 +243,9 @@ namespace PacketMessagingTS.Views
 
         private void AppBarMainPage_OpenMessageFromContectMenu(object sender, RoutedEventArgs e)
         {
+            if (_packetMessageRightClicked == null)
+                return;
+
             OpenMessage(_packetMessageRightClicked);
         }
 

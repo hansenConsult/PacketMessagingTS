@@ -532,7 +532,7 @@ namespace SharedCode
 			}
 			catch (Exception e)
 			{
-                _logHelper.Log(LogLevel.Error, $"Failed to save {filePath}", e.Message);
+                _logHelper.Log(LogLevel.Error, $"Failed to save {filePath}, {e.Message}");
 			}
 
 			// Now replace tab characters with escaped tab character
@@ -554,7 +554,7 @@ namespace SharedCode
 			}
 			catch (Exception e)
 			{
-                _logHelper.Log(LogLevel.Error, $"Failed to read {filePath} for substituting tab characters, {e}");
+                _logHelper.Log(LogLevel.Error, $"Failed to read {filePath} for substituting tab characters, {e.Message}");
 			}
 
 			if (tabCharacterFound)
@@ -572,7 +572,7 @@ namespace SharedCode
 				}
 				catch (Exception e)
 				{
-                    _logHelper.Log(LogLevel.Error, $"Failed to write {filePath} with escaped tab characters {e}");
+                    _logHelper.Log(LogLevel.Error, $"Failed to write {filePath} with escaped tab characters {e.Message}");
 				}
 			}
 		}

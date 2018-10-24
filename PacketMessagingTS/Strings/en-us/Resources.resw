@@ -269,20 +269,12 @@
     <value>Convert Text</value>
     <comment>Convert text to Form and Convert from Base64</comment>
   </data>
-  <data name="Tools_ICS309.Header" xml:space="preserve">
-    <value>ICS 309</value>
-    <comment>Show form ICS 309</comment>
-  </data>
   <data name="Tools_ViewLogFile.Header" xml:space="preserve">
     <value>View Log File</value>
     <comment>Log file viewer</comment>
   </data>
   <data name="Tools_ConvertText.Name" xml:space="preserve">
     <value>ConvertToFromPacForm</value>
-    <comment>Name of tab</comment>
-  </data>
-  <data name="Tools_ICS309.Name" xml:space="preserve">
-    <value>ics309</value>
     <comment>Name of tab</comment>
   </data>
   <data name="Tools_TestReceive.Header" xml:space="preserve">

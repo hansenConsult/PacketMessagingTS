@@ -263,14 +263,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				_serialPort.Write(packetMessage.Subject + "\r");
 				_serialPort.Write(packetMessage.MessageBody + "\r\x1a\r\x05");
 
-				string readText = _serialPort.ReadLine();       // Read SP
-                _logHelper.Log(LogLevel.Info, readText);
+				//string readText = _serialPort.ReadLine();       // Read SP
+                //_logHelper.Log(LogLevel.Info, readText);
 
-				readText = _serialPort.ReadTo(_BBSPrompt);      // read response
+				string readText = _serialPort.ReadTo(_BBSPrompt);      // read response
                 _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
 
-				readText = _serialPort.ReadTo("\n");         // Next command
-                _logHelper.Log(LogLevel.Info, readText + "\n");
+				//readText = _serialPort.ReadTo("\n");         // Next command
+                //_logHelper.Log(LogLevel.Info, readText + "\n");
 
 				packetMessage.SentTime = DateTime.Now;
 				_packetMessagesSent.Add(packetMessage);
@@ -348,7 +348,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         {
                             PacFormName = "SimpleMessage",
                             PacFormType = "SimpleMessage",
-                            MessageNumber = Utilities.GetMessageNumberPacket(),
+                            MessageNumber = Utilities.GetMessageNumberPacket(true),
                             BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
                             TNCName = _TncDevice.Name,
                             MessageTo = pktMsg.MessageFrom,
@@ -380,8 +380,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 						receiptMessage.MessageSize = receiptMessage.Size;
                         //_logHelper.Log(LogLevel.Info, $"Message To: {receiptMessage.MessageTo}");       // Disable if not testing
                         //_logHelper.Log(LogLevel.Info, $"Message Body: { receiptMessage.MessageBody}");  // Disable if not testing
-						//SendMessage(ref receiptMessage);		    // Disabled for testing
-						_packetMessagesSent.Add(receiptMessage);
+						SendMessage(ref receiptMessage);		    // Disabled for testing
+						//_packetMessagesSent.Add(receiptMessage);
 					}
 					catch (Exception e)
 					{
@@ -458,11 +458,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _serialPort.Write("LM\r");
                 }
                 readText = _serialPort.ReadTo(") >");      // read response
-                //Debug.WriteLine(readText + _BBSPrompt);
                 _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
 
                 readCmdText = _serialPort.ReadTo("\n");         // Next command
-                //Debug.WriteLine(readCmdText + "\n");
 
                 // read messages
                 string[] lines = readText.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -532,7 +530,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				_error = true;
 			}
 			_serialPort.ReadTimeout = 5000;
-
         }
 
         async void OnSerialPortErrorReceivedAsync(object sender, SerialErrorReceivedEventArgs e)
@@ -711,15 +708,18 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         ReceiveMessages(area);
                     }
                 }
-                SendMessageReceipts();					// Send message receipts
+                if (!_error)
+                {
+                    SendMessageReceipts();                  // Send message receipts
+                }
 
-                _serialPort.Write("B\r");               // Disconnect from BBS (JNOS)
+                _serialPort.Write("B\r");                   // Disconnect from BBS (JNOS)
 
                 readText = _serialPort.ReadLine();           // Read command
                 //Debug.WriteLine(readText);
                 _logHelper.Log(LogLevel.Info, readText);
-                Disconnect:
                 readText = _serialPort.ReadLine();           // Read disconnect command
+
                 _logHelper.Log(LogLevel.Info, readText);
 
                 readText = _serialPort.ReadLine();           // Read disconnect response

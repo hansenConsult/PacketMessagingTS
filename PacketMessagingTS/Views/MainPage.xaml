@@ -106,6 +106,7 @@
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
                                    CanUserReorderColumns="True" CanUserResizeColumns="True"
+                                   IsReadOnly="True"
                                    SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
@@ -116,18 +117,11 @@
                                    DoubleTapped="DataGrid_DoubleTapped"
                                    RightTapped="DataGrid_RightTapped"                                   
                                    >
-                    
-                    <!--<controls:DataGrid.RowStyle>
-                        <Style TargetType="controls:DataGridRow">
-                            <Setter Property="Background" Value="White"/>
-                            
-                        </Style>
-                    </controls:DataGrid.RowStyle>-->
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}"  CanUserSort="True" Width="Auto" Tag="Area"/>
-                        <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime"/>
-                        <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding JNOSDate, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="JNOSDate"/>
-                        <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
+                        <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime" />
+                        <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding JNOSDate, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="JNOSDate" />
+                        <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject" />
                         <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="auto" Tag="MessageNumber"/>
                         <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" CanUserSort="True" Width="76" Tag="MessageTo"/>
                         <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="76" Tag="MessageFrom"/>
