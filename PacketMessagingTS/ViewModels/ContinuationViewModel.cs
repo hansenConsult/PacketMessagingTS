@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
-using ICS309UserControl;
+//using ICS309UserControl;
 
 
 namespace PacketMessagingTS.ViewModels

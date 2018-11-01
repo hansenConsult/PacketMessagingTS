@@ -173,7 +173,7 @@ namespace PacketMessagingTS
             Singleton<SettingsViewModel>.Instance.W4XSCStatusUp = Utilities.GetProperty<bool>("W4XSCStatusUp");
             Singleton<SettingsViewModel>.Instance.W5XSCStatusUp = Utilities.GetProperty<bool>("W5XSCStatusUp");
 
-            // Selected Profile selects TNC device (maybe mail
+            // Selected Profile selects TNC device (maybe mail)
             //Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
 
             // ToDO Set while the list is filled or by profile?
@@ -242,7 +242,7 @@ namespace PacketMessagingTS
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
-            //Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+            //await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }

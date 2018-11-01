@@ -352,7 +352,7 @@ namespace PacketMessagingTS.Views
             //        VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center
             //    };
 
-            //    // Use the real image size when croping or if the image is smaller then the target area (prevent a scale-up).
+            //    // Use the real image size when cropping or if the image is smaller then the target area (prevent a scale-up).
             //    if (photoScale == Scaling.Crop ||
             //        (bitmap.PixelWidth <= pageDescription.PictureViewSize.Width &&
             //        bitmap.PixelHeight <= pageDescription.PictureViewSize.Height))
@@ -461,7 +461,9 @@ namespace PacketMessagingTS.Views
         public ToolsPage()
         {
             this.InitializeComponent();
-
+#if !DEBUG
+            testReceive.Header = "";
+#endif
             //_toolsViewModel.commLogEntryCollection = new ObservableCollection<CommLogEntry>();
             //ics309DataGrid.Columns[0].SortDirection = DataGridSortDirection.Descending;
         }
@@ -641,7 +643,9 @@ namespace PacketMessagingTS.Views
             }
             else if (_currentPivotItem.Name == "testReceive")
             {
+#if DEBUG
                 await UpdateTestFileListAsync();
+#endif
             }
             else if (_currentPivotItem.Name == "ics309")
             {
@@ -746,15 +750,16 @@ namespace PacketMessagingTS.Views
         {
             _toolsViewModel.RadioNetName = radioNetName.Text;
         }
-        #region ICS309
+#region ICS309
 
         private async void AppBarPrintICS309_ClickAsync(object sender, RoutedEventArgs e)
         {
             //printHelper?.PreparePrintContent(this);
             await printHelper.ShowPrintUIAsync();
         }
-        #endregion ICS309
+#endregion ICS309
 
+#if DEBUG
         /// <summary>
         /// 
         /// </summary>
@@ -778,6 +783,7 @@ namespace PacketMessagingTS.Views
                 comboBoxTestFiles.SelectedIndex = _selectedFileIndex;
             }
         }
+#endif
 
         private async void TestFilesComboBox_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
@@ -1030,8 +1036,10 @@ namespace PacketMessagingTS.Views
             }
         }
 
+
         private async void AppBarButtonTest_SaveFileAsync(object sender, RoutedEventArgs e)
         {
+#if DEBUG
             // Make sure the extension is .txt
             int index = textBoxTestFileName.Text.IndexOf('.');
             if (index < 0)
@@ -1051,10 +1059,12 @@ namespace PacketMessagingTS.Views
             {
                 return;
             }
+#endif
         }
 
         private async void AppBarButtonTest_OpenFileAsync(object sender, RoutedEventArgs e)
         {
+#if DEBUG
             StorageFile file = await SharedData.TestFilesFolder.TryGetItemAsync(textBoxTestFileName.Text) as StorageFile;
             if (file != null)
             {
@@ -1064,6 +1074,7 @@ namespace PacketMessagingTS.Views
             {
                 return;
             }
+#endif
         }
 
         private async void AppBarButton_OpenFileAsync(object sender, RoutedEventArgs e)
@@ -1094,11 +1105,13 @@ namespace PacketMessagingTS.Views
             StorageFile fileToDelete;
             switch (_currentPivotItem.Name)
             {
+#if DEBUG
                 case "testReceive":
                     fileToDelete = comboBoxTestFiles.SelectedItem as StorageFile;
                     await fileToDelete.DeleteAsync();
                     await UpdateTestFileListAsync();
                     break;
+#endif
                 case "logFile":
                     fileToDelete = logFilesComboBox.SelectedItem as StorageFile;
                     await fileToDelete.DeleteAsync();

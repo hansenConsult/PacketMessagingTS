@@ -21,7 +21,7 @@ namespace PacketMessagingTS.Helpers
             
             foreach (string area in areas)
             {
-                string filePath = Path.Combine(localFolder.Path, GetBulletinFileName(area));
+                string filePath = Path.Combine(localFolder.Path, GetBulletinsFileName(area));
                 try
                 {
                     File.WriteAllLines(filePath, BulletinDictionary[area]);
@@ -44,7 +44,7 @@ namespace PacketMessagingTS.Helpers
             string[] areaBulletin;
             foreach (string area in areas)
             {
-                string filePath = Path.Combine(localFolder.Path, GetBulletinFileName(area));
+                string filePath = Path.Combine(localFolder.Path, GetBulletinsFileName(area));
 
                 try
                 {
@@ -68,7 +68,7 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        private static string GetBulletinFileName(string area)
+        private static string GetBulletinsFileName(string area)
         {
             return BulletinFilePrefix + area + ".txt";
         }
