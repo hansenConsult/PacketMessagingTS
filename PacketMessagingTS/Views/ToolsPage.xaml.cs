@@ -90,6 +90,7 @@ namespace PacketMessagingTS.Views
         }
     }
 
+    /*
     class ICS309PrintHelper : PrintHelper
     {
         /// <summary>
@@ -442,7 +443,7 @@ namespace PacketMessagingTS.Views
 
 
     }
-
+    */
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -455,7 +456,7 @@ namespace PacketMessagingTS.Views
         private int _selectedFileIndex;
         PivotItem _currentPivotItem;
 
-        private ICS309PrintHelper printHelper;
+        //private ICS309PrintHelper printHelper;
 
 
         public ToolsPage()
@@ -483,16 +484,16 @@ namespace PacketMessagingTS.Views
             // is not supported, but it's okay to register for them anyway.
 
             // Initialize common helper class and register for printing
-            printHelper = new ICS309PrintHelper(this);
-            printHelper.RegisterForPrinting();
+            //printHelper = new ICS309PrintHelper(this);
+            //printHelper.RegisterForPrinting();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (printHelper != null)
-            {
-                printHelper.UnregisterForPrinting();
-            }
+            //if (printHelper != null)
+            //{
+            //    printHelper.UnregisterForPrinting();
+            //}
 
             base.OnNavigatedFrom(e);
         }
@@ -755,7 +756,7 @@ namespace PacketMessagingTS.Views
         private async void AppBarPrintICS309_ClickAsync(object sender, RoutedEventArgs e)
         {
             //printHelper?.PreparePrintContent(this);
-            await printHelper.ShowPrintUIAsync();
+            //await printHelper.ShowPrintUIAsync();
         }
 #endregion ICS309
 

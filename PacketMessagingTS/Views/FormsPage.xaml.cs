@@ -84,7 +84,7 @@ namespace PacketMessagingTS.Views
 
         private List<FormControlAttributes> _formControlAttributeList;
 
-        private PrintHelper printHelper;
+        //private PrintHelper printHelper;
 
         public FormControlBase PacketForm
         {
@@ -362,8 +362,8 @@ namespace PacketMessagingTS.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Initialize common helper class and register for printing
-            printHelper = new PrintHelper(this);
-            printHelper.RegisterForPrinting();
+            //printHelper = new PrintHelper(this);
+            //printHelper.RegisterForPrinting();
 
             if (e.Parameter is null)
             {
@@ -407,10 +407,10 @@ namespace PacketMessagingTS.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (printHelper != null)
-            {
-                printHelper.UnregisterForPrinting();
-            }
+            //if (printHelper != null)
+            //{
+            //    printHelper.UnregisterForPrinting();
+            //}
             _formsViewModel.FormsPagePivotSelectedIndex = FormsPagePivot.SelectedIndex;
 
             base.OnNavigatedFrom(e);
@@ -566,7 +566,7 @@ namespace PacketMessagingTS.Views
             //if (_packetForm.GetType() == typeof(ICS213Control))
             {
                 //ContinuationPage continuationPage = new ContinuationPage(this);
-                printHelper?.PreparePrintContent(this);
+                //printHelper?.PreparePrintContent(this);
             }
         }
 
@@ -650,7 +650,7 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
         {
-            await printHelper.ShowPrintUIAsync();
+            //await printHelper.ShowPrintUIAsync();
         }
 
     }
