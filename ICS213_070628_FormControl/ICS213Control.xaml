@@ -10,7 +10,7 @@
 
     mc:Ignorable="d"
     d:DesignHeight="1100"
-    d:DesignWidth="750">
+    d:DesignWidth="650">
 
 	<MyBaseNamespace:FormControlBase.Resources>
 
