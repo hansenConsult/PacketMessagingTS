@@ -9,7 +9,7 @@
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
 
     mc:Ignorable="d"
-    d:DesignHeight="1100"
+    d:DesignHeight="1500"
     d:DesignWidth="650">
 
 	<MyBaseNamespace:FormControlBase.Resources>

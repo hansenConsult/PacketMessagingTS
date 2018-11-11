@@ -114,8 +114,12 @@
             </Grid>
         </DataTemplate>-->
     </Page.Resources>
-
+    
     <RelativePanel RequestedTheme = "Light">
+
+        <StackPanel x:Name="printContainer" Opacity="0"
+                    RelativePanel.Below="Tools">
+        </StackPanel>
 
         <Pivot x:Name="Tools"
                RelativePanel.AlignBottomWithPanel="True"
@@ -327,7 +331,7 @@
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
                                           />-->
-                                    <controls:DataGrid x:Name="ics309DataGrid" Height="500"
+                                <controls:DataGrid x:Name="ics309DataGrid" Height="500"
                                                    ItemsSource="{x:Bind _toolsViewModel.CommLogEntryCollection, Mode=OneWay}"
                                                    HorizontalScrollBarVisibility="Auto"
                                                    VerticalScrollBarVisibility="Auto"
@@ -339,10 +343,10 @@
                                                    >
                                     <controls:DataGrid.Columns>
                                         <controls:DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource timeConverter}}" IsReadOnly="True"/>
-                                        <controls:DataGridTextColumn Header="From" Binding="{Binding FromCallsign}" />
-                                        <controls:DataGridTextColumn Header="From Msg#" Binding="{Binding FromMessageNumber}" IsReadOnly="True"/>
-                                        <controls:DataGridTextColumn Header="To" Binding="{Binding ToCallsign}" />
-                                        <controls:DataGridTextColumn Header="To Msg#" Binding="{Binding ToMessageNumber}" IsReadOnly="True"/>
+                                        <controls:DataGridTextColumn Header="From" Binding="{Binding FromCallsign}" MaxWidth="110"/>
+                                        <controls:DataGridTextColumn Header="From Msg#" Binding="{Binding FromMessageNumber}" MaxWidth="110"/>
+                                        <controls:DataGridTextColumn Header="To" Binding="{Binding ToCallsign}" MaxWidth="110"/>
+                                        <controls:DataGridTextColumn Header="To Msg#" Binding="{Binding ToMessageNumber}" Width="110"/>
                                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Message}" Width="1*"/>
                                     </controls:DataGrid.Columns>
                                 </controls:DataGrid>

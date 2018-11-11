@@ -127,6 +127,9 @@
     <Compile Include="Controls\ContentDialogAddressBookEntry.xaml.cs">
       <DependentUpon>ContentDialogAddressBookEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ICS309ControlForPrint.xaml.cs">
+      <DependentUpon>ICS309ControlForPrint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SendFormDataControl.xaml.cs">
       <DependentUpon>SendFormDataControl.xaml</DependentUpon>
     </Compile>
@@ -222,6 +225,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ICS309ControlForPrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SendFormDataControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

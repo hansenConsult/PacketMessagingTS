@@ -38,7 +38,7 @@ namespace PacketMessagingTS.ViewModels
         public DateTime OperationalPeriodEnd
         {
             get => GetProperty(ref operationalPeriodEnd);
-            set => SetProperty(ref operationalPeriodEnd, value, true);
+            set => SetProperty(ref operationalPeriodEnd, value);
         }
 
         public string radioOperator;
