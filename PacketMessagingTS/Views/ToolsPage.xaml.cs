@@ -10,10 +10,12 @@ using Windows.Storage.Search;
 using System.Collections.ObjectModel;
 using System.Text;
 
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Graphics.Printing;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Graphics.Printing.OptionDetails;
 using Windows.UI.Xaml.Printing;
 using Microsoft.Toolkit.Uwp;
@@ -26,8 +28,6 @@ using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Views;
 using SharedCode;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.UI.Popups;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -298,18 +298,19 @@ namespace PacketMessagingTS.Views
             else if (_currentPivotItem.Name == "ics309")
             {
                 incidentName.Text = _toolsViewModel.IncidentName;
-                operationalPeriod.Text = FormatDateTime(_toolsViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_toolsViewModel.OperationalPeriodEnd);
-                
-                radioNetName.Text = _toolsViewModel.RadioNetName;
+                _toolsViewModel.OperationalPeriod = FormatDateTime(_toolsViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_toolsViewModel.OperationalPeriodEnd);
+                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+                {
+                    _toolsViewModel.RadioNetName = $"{Singleton<IdentityViewModel>.Instance.TacticalAgencyName},  {Singleton<IdentityViewModel>.Instance.TacticalCallsign}";
+                }
                 _toolsViewModel.RadioOperator = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
-                radioOperator.Text = _toolsViewModel.RadioOperator;
                 _toolsViewModel.RadioOperator = radioOperator.Text;
-                _toolsViewModel.DateTimePrepared = DateTime.Now;
-                dateTimePrepared.Text = FormatDateTime(DateTime.Now);
-                preparedByNameCallsign.Text = radioOperator.Text;
+                _toolsViewModel.DateTimePrepared = FormatDateTime(DateTime.Now);
+                //preparedByNameCallsign.Text = radioOperator.Text;
+                _toolsViewModel.PreparedByNameCallsign = _toolsViewModel.RadioOperator;
                 _toolsViewModel.TotalPages = 1;
                 _toolsViewModel.PageNo = 1;
-                pageNoOf.Text = _toolsViewModel.PageNoAsString;
+                //pageNoOf.Text = _toolsViewModel.PageNoAsString;
 
                 if (_toolsViewModel.OperationalPeriodStart != null && _toolsViewModel.OperationalPeriodEnd != null)
                 {

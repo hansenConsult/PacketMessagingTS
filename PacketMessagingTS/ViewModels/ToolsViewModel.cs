@@ -49,18 +49,35 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref operationalPeriodEnd, value, true);
         }
 
+        private string operationalPeriod;
+        public string OperationalPeriod
+        {
+            get => GetProperty(ref operationalPeriod);
+            set => SetProperty(ref operationalPeriod, value);
+        }
+
         private string radioOperator;
         public string RadioOperator
         {
             get => GetProperty(ref radioOperator);
             set
             {
-                SetProperty(ref radioOperator, value, true);
+                SetProperty(ref radioOperator, value);
             }
         }
 
-        private DateTime dateTimePrepared;
-        public DateTime DateTimePrepared
+        private string preparedByNameCallsign;
+        public string PreparedByNameCallsign
+        {
+            get => GetProperty(ref preparedByNameCallsign);
+            set
+            {
+                SetProperty(ref preparedByNameCallsign, value);
+            }
+        }
+
+        private string dateTimePrepared;
+        public string DateTimePrepared
         {
             get => GetProperty(ref dateTimePrepared);
             set
@@ -96,7 +113,8 @@ namespace PacketMessagingTS.ViewModels
             get => pageNoAsString;
             set
             {
-                pageNoAsString = $"Page {value} of {TotalPages.ToString()}";
+                //pageNoAsString = $"Page {value} of {TotalPages.ToString()}";
+                SetProperty(ref pageNoAsString, $"Page {value} of {TotalPages.ToString()}");
             }
         }
 

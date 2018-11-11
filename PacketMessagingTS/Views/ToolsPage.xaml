@@ -253,12 +253,14 @@
                                         <TextBox x:Name="incidentName"  BorderBrush="White"
                                                  Header="1. Incident name and Activation Number" 
                                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}"
-                                                 TextChanged="IncidentName_TextChanged"/>
+                                                 Text="{x:Bind _toolsViewModel.IncidentName, Mode=TwoWay}" 
+                                                 />
                                     </Border>
                                     <Border Grid.Column="2" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <TextBox x:Name="operationalPeriod"  BorderBrush="White"
                                                  Header="2. Operational Period (Date/Time)" 
                                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                                 Text="{x:Bind _toolsViewModel.OperationalPeriod, Mode=TwoWay}"
                                                  TextChanged="OperationalPeriod_TextChangedAsync"/>
                                     </Border>
                                 </Grid>
@@ -271,12 +273,14 @@
                                         <TextBox x:Name="radioNetName" BorderBrush="White"
                                              Header="3. Radio Net Name (for NCOs)  or Position/Tactical Call" 
                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}"
-                                             TextChanged="RadioNetName_TextChanged"/>
+                                                 Text="{x:Bind _toolsViewModel.RadioNetName, Mode=TwoWay}"
+                                             />
                                     </Border>
                                     <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <TextBox x:Name="radioOperator" BorderBrush="White"
-                                                 Text="{}" Header="4. Radio Operator (Name, Call Sign)" 
-                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
+                                                 Header="4. Radio Operator (Name, Call Sign)" 
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                                 Text="{x:Bind _toolsViewModel.RadioOperator, Mode=OneWay}" />
                                     </Border>
                                 </Grid>
                                 <Grid Background="LightGray" Margin="0" >
@@ -331,7 +335,7 @@
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
                                           />-->
-                                <controls:DataGrid x:Name="ics309DataGrid" Height="500"
+                                <controls:DataGrid x:Name="ics309DataGrid" Height="600"
                                                    ItemsSource="{x:Bind _toolsViewModel.CommLogEntryCollection, Mode=OneWay}"
                                                    HorizontalScrollBarVisibility="Auto"
                                                    VerticalScrollBarVisibility="Auto"
@@ -360,16 +364,19 @@
                                     <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
                                         <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
                                                  Header="6. Prepared By (Name, Call Sign)" 
-                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                                 Text="{x:Bind _toolsViewModel.PreparedByNameCallsign, Mode=TwoWay}"/>
                                     </Border>
                                     <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
                                         <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
                                                  Header="7. Date $ Time Prepared" 
-                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                                 Text="{x:Bind _toolsViewModel.DateTimePrepared, Mode=TwoWay}"/>
                                     </Border>
                                     <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
-                                        <TextBox x:Name="pageNoOf" BorderBrush="White" 
-                                                 Text="{Binding PageNoAsString, Mode=OneWay}"  Header="8."  HeaderTemplate="{StaticResource isc309HeaderTemplate}" Margin="0,-0.8,0.2,0.4"/>
+                                        <TextBox x:Name="pageNoOf" BorderBrush="White"
+                                                 Header="8."  HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                                 Text="{x:Bind _toolsViewModel.PageNoAsString, Mode=OneWay}"  Margin="0,-0.8,0.2,0.4"/>
                                     </Border>
                                 </Grid>
                             </StackPanel>
