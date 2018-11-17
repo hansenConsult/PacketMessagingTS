@@ -13,12 +13,18 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.ViewModels;
+
+
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace ICS309PrintControl
+namespace PacketMessagingTS.Views
 {
-    public sealed partial class ICS309ControlForPrint : UserControl
+    public sealed partial class ICS309ControlForPrint : Page
     {
+        public ToolsViewModel _toolsViewModel { get; } = Singleton<ToolsViewModel>.Instance;
+
         public ICS309ControlForPrint()
         {
             this.InitializeComponent();

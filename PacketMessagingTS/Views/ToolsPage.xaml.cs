@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Graphics.Printing;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Graphics.Printing.OptionDetails;
 using Windows.UI.Xaml.Printing;
 using Microsoft.Toolkit.Uwp;
@@ -34,6 +33,59 @@ using SharedCode;
 
 namespace PacketMessagingTS.Views
 {
+    class StandardOptionsPrintHelper : PrintHelper
+    {
+        public StandardOptionsPrintHelper(Page scenarioPage) : base(scenarioPage) { }
+
+        /// <summary>
+        /// This is the event handler for PrintManager.PrintTaskRequested.
+        /// In order to ensure a good user experience, the system requires that the app handle the PrintTaskRequested event within the time specified by PrintTaskRequestedEventArgs.Request.Deadline.
+        /// Therefore, we use this handler to only create the print task.
+        /// The print settings customization can be done when the print document source is requested.
+        /// </summary>
+        /// <param name="sender">PrintManager</param>
+        /// <param name="e">PrintTaskRequestedEventArgs</param>
+        protected override void PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs e)
+        {
+            PrintTask printTask = null;
+            printTask = e.Request.CreatePrintTask("C# Printing SDK Sample", sourceRequestedArgs =>
+            {
+                IList<string> displayedOptions = printTask.Options.DisplayedOptions;
+
+                // Choose the printer options to be shown.
+                // The order in which the options are appended determines the order in which they appear in the UI
+                displayedOptions.Clear();
+                displayedOptions.Add(StandardPrintTaskOptions.Copies);
+                displayedOptions.Add(StandardPrintTaskOptions.Orientation);
+                displayedOptions.Add(StandardPrintTaskOptions.ColorMode);
+                //displayedOptions.Add(StandardPrintTaskOptions.MediaSize);
+                //displayedOptions.Add(StandardPrintTaskOptions.Collation);
+                //displayedOptions.Add(StandardPrintTaskOptions.Duplex);
+
+                // Preset the default value of the printer option
+                printTask.Options.MediaSize = PrintMediaSize.NorthAmericaLetter;
+                printTask.Options.Orientation = PrintOrientation.Portrait;
+                printTask.Options.ColorMode = PrintColorMode.Monochrome;
+
+                // Print Task event handler is invoked when the print job is completed.
+                //printTask.Completed += async (s, args) =>
+                //{
+                //    // Notify the user when the print operation fails.
+                //    if (args.Completion == PrintTaskCompletion.Failed)
+                //    {
+                //DispatcherHelper.ExecuteOnUIThreadAsynch
+                //        await scenarioPage.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                //        {
+                //            MainPage.Current.NotifyUser("Failed to print.", NotifyType.ErrorMessage);
+                //        });
+                //    }
+                //};
+
+                sourceRequestedArgs.SetSource(printDocumentSource);
+            });
+        }
+    }
+
     /// <summary>
     /// Photo size options
     /// </summary>
@@ -104,7 +156,7 @@ namespace PacketMessagingTS.Views
         private int _selectedFileIndex;
         PivotItem _currentPivotItem;
 
-        //private ICS309PrintHelper printHelper;
+        private PrintHelper printHelper;
 
 
         public ToolsPage()
@@ -120,7 +172,8 @@ namespace PacketMessagingTS.Views
         {
             if (PrintManager.IsSupported())
             {
-                _toolsViewModel.ICS309PrintButtonVisible = true;      }
+                _toolsViewModel.ICS309PrintButtonVisible = true;
+            }
             else
             {
                 // Remove the print button
@@ -131,16 +184,18 @@ namespace PacketMessagingTS.Views
             // is not supported, but it's okay to register for them anyway.
 
             // Initialize common helper class and register for printing
-            //printHelper = new ICS309PrintHelper(this);
-            //printHelper.RegisterForPrinting();
+            //printHelper = new PrintHelper(this);
+            // Set options here
+            printHelper = new StandardOptionsPrintHelper(this);
+            printHelper.RegisterForPrinting();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //if (printHelper != null)
-            //{
-            //    printHelper.UnregisterForPrinting();
-            //}
+            if (printHelper != null)
+            {
+                printHelper.UnregisterForPrinting();
+            }
 
             base.OnNavigatedFrom(e);
         }
@@ -316,7 +371,11 @@ namespace PacketMessagingTS.Views
                 {
                     await BuildLogDataSetAsync(_toolsViewModel.OperationalPeriodStart, _toolsViewModel.OperationalPeriodEnd);
                 }
+
+                // Initialize print content for this scenario
+                printHelper.PreparePrintContent(new ICS309ControlForPrint());
             }
+
         }
 
         private async Task BuildLogDataSetAsync(DateTime startTime, DateTime endTime)
@@ -408,44 +467,44 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarPrintICS309_ClickAsync(object sender, RoutedEventArgs e)
         {
-            PrintHelperOptions defaultPrintHelperOptions = new PrintHelperOptions();
-            defaultPrintHelperOptions.MediaSize = PrintMediaSize.NorthAmericaLetter;
-            defaultPrintHelperOptions.ColorMode = PrintColorMode.Monochrome;
+            //PrintHelperOptions defaultPrintHelperOptions = new PrintHelperOptions();
+            //defaultPrintHelperOptions.MediaSize = PrintMediaSize.NorthAmericaLetter;
+            //defaultPrintHelperOptions.ColorMode = PrintColorMode.Monochrome;
 
-            //_printHelper = new PrintHelper(PrintableArea, defaultPrintHelperOptions);
-            _printHelper = new PrintHelper(printContainer, defaultPrintHelperOptions);
-            ICS309ControlForPrint ics309ControlForPrint = new ICS309ControlForPrint();
-            _printHelper.AddFrameworkElementToPrint(ics309ControlForPrint);
+            ////_printHelper = new PrintHelper(PrintableArea, defaultPrintHelperOptions);
+            //_printHelper = new PrintHelper(PrintCanvas, defaultPrintHelperOptions);
+            //ICS309ControlForPrint ics309ControlForPrint = new ICS309ControlForPrint();
+            //_printHelper.AddFrameworkElementToPrint(ics309ControlForPrint);
 
-            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
-            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
-            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            //_printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            //_printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+            //_printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
 
-            //printHelper?.PreparePrintContent(this);
-            await _printHelper.ShowPrintUIAsync("ICS309");
+            ////printHelper?.PreparePrintContent(this);
+            await printHelper.ShowPrintUIAsync();
         }
 
         private void PrintHelper_OnPrintSucceeded()
         {
-            _printHelper.Dispose();
+            //_printHelper.Dispose();
             //var dialog = new MessageDialog("Printing done.");
             //await dialog.ShowAsync();
         }
 
         private async void PrintHelper_OnPrintFailed()
         {
-            _printHelper.Dispose();
-            var dialog = new MessageDialog("Printing failed.");
-            await dialog.ShowAsync();
+            //_printHelper.Dispose();
+            //var dialog = new MessageDialog("Printing failed.");
+            //await dialog.ShowAsync();
         }
 
         private void PrintHelper_OnPrintCanceled()
         {
-            _printHelper.Dispose();
+            //_printHelper.Dispose();
 
-            _printHelper.OnPrintFailed -= PrintHelper_OnPrintFailed;
-            _printHelper.OnPrintSucceeded -= PrintHelper_OnPrintSucceeded;
-            _printHelper.OnPrintCanceled -= PrintHelper_OnPrintCanceled;
+            //_printHelper.OnPrintFailed -= PrintHelper_OnPrintFailed;
+            //_printHelper.OnPrintSucceeded -= PrintHelper_OnPrintSucceeded;
+            //_printHelper.OnPrintCanceled -= PrintHelper_OnPrintCanceled;
 
         }
 

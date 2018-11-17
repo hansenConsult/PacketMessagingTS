@@ -115,29 +115,6 @@ namespace PacketMessagingTS.Views
             _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
             DataGridColumn sortColumn = null;
-            //switch (_currentPivotItem.Name)
-            //{
-            //    case "pivotItemInBox":
-            //        sortColumn = dataGridInbox.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemSent":
-            //        sortColumn = dataGridSent.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemOutBox":
-            //        sortColumn = dataGridOutbox.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemDrafts":
-            //        sortColumn = dataGridDrafts.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemArchive":
-            //        break;
-            //    case "pivotItemDeleted":
-            //        break;
-            //}
-            //if (sortColumn != null)
-            //{
-            //    SortColumn(sortColumn);
-            //}
             DataGrid dataGrid = FindDataGrid(_currentPivotItem);
             int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortColumnNumber;
             if (sortColumnNumber < 0)

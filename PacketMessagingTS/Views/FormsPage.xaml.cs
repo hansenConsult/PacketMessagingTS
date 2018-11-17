@@ -23,7 +23,6 @@ using SharedCode;
 using MessageFormControl;
 //using ICS213FormControl;
 using ICS213_070628_FormControl;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml.Media;
 
 
@@ -653,29 +652,16 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
         {
-            Panel container = null;
-            PivotItem pivotItem = FormsPagePivot.SelectedItem as PivotItem;
+            //await printHelper.ShowPrintUIAsync();
+            //if (container != null)
+            //{
+            //    PrintHelperOptions defaultPrintHelperOptions = new PrintHelperOptions();
+            //    defaultPrintHelperOptions.MediaSize = Windows.Graphics.Printing.PrintMediaSize.NorthAmericaLetter;
+            //    defaultPrintHelperOptions.ColorMode = Windows.Graphics.Printing.PrintColorMode.Monochrome; 
 
-            var count = VisualTreeHelper.GetChildrenCount(pivotItem);
-
-            //for (int i = 0; i < count; i++)
-            {
-                DependencyObject control = VisualTreeHelper.GetChild(pivotItem, 0);
-
-                {
-                    container = control as Panel;
-                }
-            }
-
-            if (container != null)
-            {
-                PrintHelperOptions defaultPrintHelperOptions = new PrintHelperOptions();
-                defaultPrintHelperOptions.MediaSize = Windows.Graphics.Printing.PrintMediaSize.NorthAmericaLetter;
-                defaultPrintHelperOptions.ColorMode = Windows.Graphics.Printing.PrintColorMode.Monochrome; 
-
-                PrintHelper printHelper = new PrintHelper(container, defaultPrintHelperOptions);
-                await printHelper.ShowPrintUIAsync((FormsPagePivot.SelectedItem as PivotItem).Header as string, true);
-            }
+            //    PrintHelper printHelper = new PrintHelper(container, defaultPrintHelperOptions);
+            //    await printHelper.ShowPrintUIAsync((FormsPagePivot.SelectedItem as PivotItem).Header as string, true);
+            //}
         }
 
     }

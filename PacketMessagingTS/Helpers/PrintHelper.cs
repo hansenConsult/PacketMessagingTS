@@ -1,8 +1,4 @@
-﻿using FormControlBaseClass;
-using MetroLog;
-using PacketMessagingTS.Views;
-using SharedCode;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Graphics.Printing;
@@ -10,39 +6,39 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
 
+using PacketMessagingTS.Helpers;
+
+
 namespace PacketMessagingTS.Helpers
 {
     public class PrintHelper
     {
-        protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PrintHelper>();
-        protected static LogHelper _logHelper = new LogHelper(log);
-
         /// <summary>
         /// The percent of app's margin width, content is set at 85% (0.85) of the area's width
         /// </summary>
-        protected double _ApplicationContentMarginLeft = 0.075;
+        protected double ApplicationContentMarginLeft = 0.075;
 
         /// <summary>
         /// The percent of app's margin height, content is set at 94% (0.94) of that area's height
         /// </summary>
-        protected double _ApplicationContentMarginTop = 0.03;
+        protected double ApplicationContentMarginTop = 0.03;
         
         /// <summary>
         /// PrintDocument is used to prepare the pages for printing.
         /// Prepare the pages to print in the handlers for the Paginate, GetPreviewPage, and AddPages events.
         /// </summary>
-        protected PrintDocument _printDocument;     // Required
+        protected PrintDocument printDocument;
 
         /// <summary>
         /// Marker interface for document source
         /// </summary>
-        protected IPrintDocumentSource _printDocumentSource;    // Required
+        protected IPrintDocumentSource printDocumentSource;
 
         /// <summary>
         /// A list of UIElements used to store the print preview pages.  This gives easy access
         /// to any desired preview page.
         /// </summary>
-        internal List<UIElement> _printPreviewPages;
+        internal List<UIElement> printPreviewPages;
 
         // Event callback which is called after print preview pages are generated.  Photos scenario uses this to do filtering of preview pages
         protected event EventHandler PreviewPagesCreated;
@@ -51,32 +47,22 @@ namespace PacketMessagingTS.Helpers
         /// First page in the printing-content series
         /// From this "virtual sized" paged content is split(text is flowing) to "printing pages"
         /// </summary>
-        protected FrameworkElement _firstPage;
+        protected FrameworkElement firstPage;
 
         /// <summary>
         ///  A reference back to the scenario page used to access XAML elements on the scenario page
         /// </summary>
-        protected Page _scenarioPage;
-
-        ///// <summary>
-        /////  A hidden canvas used to hold pages we wish to print
-        ///// </summary>
-        //protected Canvas PrintCanvas
-        //{
-        //    get
-        //    {
-        //        return ((FormsPage)_scenarioPage).PacketForm.FindName("PrintCanvas") as Canvas;
-        //    }
-        //}
+        protected Page scenarioPage;
 
         /// <summary>
-        /// Constructor
+        ///  A hidden canvas used to hold pages we wish to print
         /// </summary>
-        /// <param name="scenarioPage">The scenario page constructing us</param>
-        public PrintHelper(FormsPage scenarioPage)
+        protected Canvas PrintCanvas
         {
-            _scenarioPage = scenarioPage;
-            _printPreviewPages = new List<UIElement>();
+            get
+            {
+                return scenarioPage.FindName("PrintCanvas") as Canvas;
+            }
         }
 
         /// <summary>
@@ -85,8 +71,8 @@ namespace PacketMessagingTS.Helpers
         /// <param name="scenarioPage">The scenario page constructing us</param>
         public PrintHelper(Page scenarioPage)
         {
-            _scenarioPage = scenarioPage;
-            _printPreviewPages = new List<UIElement>();
+            this.scenarioPage = scenarioPage;
+            printPreviewPages = new List<UIElement>();
         }
 
         /// <summary>
@@ -94,11 +80,11 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         public virtual void RegisterForPrinting()
         {
-            _printDocument = new PrintDocument();
-            _printDocumentSource = _printDocument.DocumentSource;
-            _printDocument.Paginate += CreatePrintPreviewPages;
-            _printDocument.GetPreviewPage += GetPrintPreviewPage;
-            _printDocument.AddPages += AddPrintPages;
+            printDocument = new PrintDocument();
+            printDocumentSource = printDocument.DocumentSource;
+            printDocument.Paginate += CreatePrintPreviewPages;
+            printDocument.GetPreviewPage += GetPrintPreviewPage;
+            printDocument.AddPages += AddPrintPages;
 
             PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested += PrintTaskRequested;
@@ -109,40 +95,32 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         public virtual void UnregisterForPrinting()
         {
-            if (_printDocument is null)
+            if (printDocument == null)
             {
                 return;
             }
 
-            _printDocument.Paginate -= CreatePrintPreviewPages;
-            _printDocument.GetPreviewPage -= GetPrintPreviewPage;
-            _printDocument.AddPages -= AddPrintPages;
+            printDocument.Paginate -= CreatePrintPreviewPages;
+            printDocument.GetPreviewPage -= GetPrintPreviewPage;
+            printDocument.AddPages -= AddPrintPages;
 
             // Remove the handler for printing initialization.
             PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested -= PrintTaskRequested;
 
-            //PrintCanvas?.Children.Clear();
+            PrintCanvas.Children.Clear();
         }
 
         public async Task ShowPrintUIAsync()
         {
-            if (PrintManager.IsSupported())
+            // Catch and print out any errors reported
+            try
             {
-                // Catch and print out any errors reported
-                try
-                {
-                    await PrintManager.ShowPrintUIAsync();
-                }
-                catch (Exception e)
-                {
-                    _logHelper.Log(LogLevel.Error, "Error printing: " + e.Message + ", hr=" + e.HResult);
-                    await Utilities.ShowMessageDialogAsync("Error printing" + e.Message);
-                }
+                await PrintManager.ShowPrintUIAsync();
             }
-            else
+            catch (Exception e)
             {
-                await Utilities.ShowMessageDialogAsync("Printing is not supported on this device");
+                //MainPage.Current.NotifyUser("Error printing: " + e.Message + ", hr=" + e.HResult, NotifyType.ErrorMessage);
             }
         }
 
@@ -152,18 +130,20 @@ namespace PacketMessagingTS.Helpers
         /// Scenario 5 uses a different approach
         /// </summary>
         /// <param name="page">The page to print</param>
-        public virtual void PreparePrintContent(FormsPage page)
+        public virtual void PreparePrintContent(Page page)
         {
-            if (_firstPage is null)
+            if (firstPage == null)
             {
-                _firstPage = page;
+                firstPage = page;
+             //   StackPanel header = (StackPanel)firstPage.FindName("Header");
+             //   header.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
 
             // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
             // through layout so that the linked containers correctly distribute the content inside them.
-            //PrintCanvas.Children.Add(_firstPage);
-            //PrintCanvas.InvalidateMeasure();
-            //PrintCanvas.UpdateLayout();
+            PrintCanvas.Children.Add(firstPage);
+            PrintCanvas.InvalidateMeasure();
+            PrintCanvas.UpdateLayout();
         }
 
         /// <summary>
@@ -171,38 +151,26 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         /// <param name="sender">PrintManager</param>
         /// <param name="e">PrintTaskRequestedEventArgs </param>
-        protected virtual void PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs e)   // Required 1.called
+        protected virtual void PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs e)
         {
             PrintTask printTask = null;
-            printTask = e.Request.CreatePrintTask("Print Form", sourceRequestedArgs =>
+            printTask = e.Request.CreatePrintTask("C# Printing SDK Sample", sourceRequested =>
             {
-                IList<string> displayedOptions = printTask.Options.DisplayedOptions;
-
-                // Choose the printer options to be shown.
-                // The order in which the options are appended determines the order in which they appear in the UI
-                displayedOptions.Clear();
-                displayedOptions.Add(Windows.Graphics.Printing.StandardPrintTaskOptions.Copies);
-                displayedOptions.Add(StandardPrintTaskOptions.ColorMode);
-
-                // Preset the default value of the printer option
-                printTask.Options.MediaSize = PrintMediaSize.NorthAmerica9x11;
-                printTask.Options.ColorMode = PrintColorMode.Monochrome;                
-
                 // Print Task event handler is invoked when the print job is completed.
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
                     if (args.Completion == PrintTaskCompletion.Failed)
                     {
-                        await _scenarioPage.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-                        {
-                            _logHelper.Log(LogLevel.Error, "Failed to print.");
-                            await Utilities.ShowMessageDialogAsync("Failed to print.");
-                        });
+                        await Utilities.ShowMessageDialogAsync("Failed to print.");
+                        //await scenarioPage.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                        //{
+                        //    MainPage.Current.NotifyUser("Failed to print.", NotifyType.ErrorMessage);
+                        //});
                     }
                 };
 
-                sourceRequestedArgs.SetSource(_printDocumentSource);
+                sourceRequested.SetSource(printDocumentSource);
             });
         }
 
@@ -211,15 +179,15 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         /// <param name="sender">PrintDocument</param>
         /// <param name="e">Paginate Event Arguments</param>
-        protected virtual void CreatePrintPreviewPages(object sender, PaginateEventArgs e)  // Required  2. called
+        protected virtual void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
         {
-            lock (_printPreviewPages)
+            lock (printPreviewPages)
             {
                 // Clear the cache of preview pages
-                _printPreviewPages.Clear();
+                printPreviewPages.Clear();
 
                 // Clear the print canvas of preview pages
-                //PrintCanvas?.Children.Clear();
+                PrintCanvas.Children.Clear();
 
                 // This variable keeps track of the last RichTextBlockOverflow element that was added to a page which will be printed
                 //RichTextBlockOverflow lastRTBOOnPage;
@@ -232,6 +200,7 @@ namespace PacketMessagingTS.Helpers
 
                 // We know there is at least one page to be printed. passing null as the first parameter to
                 // AddOnePrintPreviewPage tells the function to add the first page.
+
                 //lastRTBOOnPage = AddOnePrintPreviewPage(null, pageDescription);
                 AddOnePrintPreviewPage(null, pageDescription);
 
@@ -244,13 +213,13 @@ namespace PacketMessagingTS.Helpers
 
                 if (PreviewPagesCreated != null)
                 {
-                    PreviewPagesCreated.Invoke(_printPreviewPages, null);
+                    PreviewPagesCreated.Invoke(printPreviewPages, null);
                 }
 
                 PrintDocument printDoc = (PrintDocument)sender;
 
                 // Report the number of preview pages created
-                printDoc.SetPreviewPageCount(_printPreviewPages.Count, PreviewPageCountType.Intermediate);
+                printDoc.SetPreviewPageCount(printPreviewPages.Count, PreviewPageCountType.Intermediate);
             }
         }
 
@@ -261,10 +230,10 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         /// <param name="sender">PrintDocument</param>
         /// <param name="e">Arguments containing the preview requested page</param>
-        protected virtual void GetPrintPreviewPage(object sender, GetPreviewPageEventArgs e)    // Required
+        protected virtual void GetPrintPreviewPage(object sender, GetPreviewPageEventArgs e)
         {
             PrintDocument printDoc = (PrintDocument)sender;
-            printDoc.SetPreviewPage(e.PageNumber, _printPreviewPages[e.PageNumber - 1]);
+            printDoc.SetPreviewPage(e.PageNumber, printPreviewPages[e.PageNumber - 1]);
         }
 
         /// <summary>
@@ -274,13 +243,13 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         /// <param name="sender">PrintDocument</param>
         /// <param name="e">Add page event arguments containing a print task options reference</param>
-        protected virtual void AddPrintPages(object sender, AddPagesEventArgs e)    // Required
+        protected virtual void AddPrintPages(object sender, AddPagesEventArgs e)
         {
-            // Loop over all of the preview pages and add each one to  add each page to be printed
-            for (int i = 0; i < _printPreviewPages.Count; i++)
+            // Loop over all of the preview pages and add each one to add each page to be printed
+            for (int i = 0; i < printPreviewPages.Count; i++)
             {
                 // We should have all pages ready at this point...
-                _printDocument.AddPage(_printPreviewPages[i]);
+                printDocument.AddPage(printPreviewPages[i]);
             }
             
             PrintDocument printDoc = (PrintDocument)sender;
@@ -295,19 +264,19 @@ namespace PacketMessagingTS.Helpers
         /// </summary>
         /// <param name="lastRTBOAdded">Last RichTextBlockOverflow element added in the current content</param>
         /// <param name="printPageDescription">Printer's page description</param>
-        protected virtual void AddOnePrintPreviewPage(RichTextBlockOverflow lastRTBOAdded, PrintPageDescription printPageDescription)
+        protected virtual RichTextBlockOverflow AddOnePrintPreviewPage(RichTextBlockOverflow lastRTBOAdded, PrintPageDescription printPageDescription)
         {
             // XAML element that is used to represent to "printing page"
-            FrameworkElement page;
+            FrameworkElement page = null;
 
             // The link container for text overflowing in this page
             //RichTextBlockOverflow textLink;
 
             // Check if this is the first page ( no previous RichTextBlockOverflow)
-            //if (lastRTBOAdded is null)
+            if (lastRTBOAdded == null)
             {
                 // If this is the first page add the specific scenario content
-                page = _firstPage;
+                page = firstPage;
 
                 // Hide footer since we don't know yet if it will be displayed (this might not be the last page) - wait for layout
                 //StackPanel footer = (StackPanel)page.FindName("Footer");
@@ -323,27 +292,27 @@ namespace PacketMessagingTS.Helpers
             page.Width = printPageDescription.PageSize.Width;
             page.Height = printPageDescription.PageSize.Height;
 
-            StackPanel printableArea = ((FormsPage)page).PacketForm.FindName("PrintableArea") as StackPanel;
+            StackPanel printableArea = (StackPanel)page.FindName("PrintableArea");
 
             // Get the margins size
             // If the ImageableRect is smaller than the app provided margins use the ImageableRect
-            double marginWidth = Math.Max(printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Width, printPageDescription.PageSize.Width * _ApplicationContentMarginLeft * 2);
-            double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * _ApplicationContentMarginTop * 2);
+            double marginWidth = Math.Max(printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Width, printPageDescription.PageSize.Width * ApplicationContentMarginLeft * 2);
+            double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
             // Set-up "printable area" on the "paper"
-            printableArea.Width = _firstPage.Width - marginWidth;
-            printableArea.Height = _firstPage.Height - marginHeight;
+            printableArea.Width = firstPage.Width - marginWidth;
+            printableArea.Height = firstPage.Height - marginHeight;
 
             // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
             // through layout so that the linked containers correctly distribute the content inside them.
-            //PrintCanvas.Children.Add(page);
-            //PrintCanvas.InvalidateMeasure();
-            //PrintCanvas.UpdateLayout();
+            PrintCanvas.Children.Add(page);
+            PrintCanvas.InvalidateMeasure();
+            PrintCanvas.UpdateLayout();
 
-            // Find the last text container and see if the content is overflowing
+            //// Find the last text container and see if the content is overflowing
             //textLink = (RichTextBlockOverflow)page.FindName("ContinuationPageLinkedContainer");
 
-            // Check if this is the last page
+            //// Check if this is the last page
             //if (!textLink.HasOverflowContent && textLink.Visibility == Windows.UI.Xaml.Visibility.Visible)
             //{
             //    StackPanel footer = (StackPanel)page.FindName("Footer");
@@ -352,9 +321,10 @@ namespace PacketMessagingTS.Helpers
             //}
 
             // Add the page to the page preview collection
-            _printPreviewPages.Add(printableArea);
+            printPreviewPages.Add(page);
 
             //return textLink;
+            return null;
         }
     }
 }

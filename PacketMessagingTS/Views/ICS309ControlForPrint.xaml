@@ -1,5 +1,5 @@
-﻿<UserControl
-    x:Class="PacketMessagingTS.Controls.ICS309ControlForPrint"
+﻿<Page
+    x:Class="PacketMessagingTS.Views.ICS309ControlForPrint"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PacketMessagingTS.Controls"
@@ -11,7 +11,7 @@
     d:DesignHeight="1100"
     d:DesignWidth="650">
 
-    <UserControl.Resources>
+    <Page.Resources>
         <!--<converters:DateTimeConverter x:Key="datetimeConverter"/>-->
         <converters:TimeConverter x:Key="timeConverter"/>
 
@@ -36,7 +36,7 @@
         </Style>
 
         <DataTemplate x:Name="isc309HeaderTemplate">
-            <TextBlock Text="{Binding}" FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Black" Margin="4,0,0,0"/>
+            <TextBlock Text="{Binding}" FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" Margin="4,0,0,0"/>
         </DataTemplate>
         <DataTemplate x:Name="isc309MediumTextTemplate">
             <TextBlock Text="{Binding}" FontSize="10" FontFamily="Arial" FontWeight="Bold"/>
@@ -44,9 +44,9 @@
         <DataTemplate x:Name="isc309LargeTextTemplate">
             <TextBlock Text="{Binding}" FontSize="14" FontFamily="Arial" FontWeight="Bold"/>
         </DataTemplate>
-    </UserControl.Resources>
+    </Page.Resources>
 
-    <StackPanel x:Name="printableArea">
+    <StackPanel x:Name="PrintableArea">
         <StackPanel x:Name="ICS309MainForm1"
                             BorderBrush="Black" BorderThickness="2">
 
@@ -56,7 +56,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
+                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
                     <TextBlock Margin="10,4,10,-4.4" HorizontalAlignment="Center" 
                                Style="{StaticResource MediumText}">
                                 <Run Text="COMM Log" FontSize="14"/>
@@ -66,7 +66,7 @@
                                   <Run Text="  ARES/RACES"/>
                     </TextBlock>
                 </Border>
-                <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
+                <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
                     <TextBox x:Name="incidentName1"  BorderBrush="White"
                              Header="1. Incident name and Activation Number" 
                              HeaderTemplate="{StaticResource isc309HeaderTemplate}"
@@ -105,7 +105,7 @@
             <TextBlock Grid.Column="0" Text="5." Style="{StaticResource MediumText}" Margin="4,0,0,0"/>
             <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center" Style="{StaticResource MediumText}"/>
         </Grid>
-        <controls:DataGrid x:Name="ics309DataGrid1" Height="800"
+        <controls:DataGrid x:Name="ics309DataGrid1" Height="768"
                                        ItemsSource="{x:Bind _toolsViewModel.CommLogEntryCollection, Mode=OneWay}"
                                        HorizontalScrollBarVisibility="Hidden"
                                        VerticalScrollBarVisibility="Hidden"
@@ -153,6 +153,6 @@
         </StackPanel>
         <TextBlock RelativePanel.Below="ICS309MainForm1"
                                        Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)"
-                                       FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
+                                       FontSize="11" Foreground="DarkGray"  Margin="10,16,0,8" />
     </StackPanel>
-</UserControl>
+</Page>
