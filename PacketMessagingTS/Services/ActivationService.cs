@@ -41,15 +41,15 @@ namespace PacketMessagingTS.Services
                 {
                     // Create a Frame to act as the navigation context and navigate to the first page
                     Window.Current.Content = _shell?.Value ?? new Frame();
-                    NavigationService.NavigationFailed += (sender, e) =>
-                    {
-                        throw e.Exception;
-                    };
-                    NavigationService.Navigated += Frame_Navigated;
-                    if (SystemNavigationManager.GetForCurrentView() != null)
-                    {
-                        SystemNavigationManager.GetForCurrentView().BackRequested += ActivationService_BackRequested;
-                    }
+                    //NavigationService.NavigationFailed += (sender, e) =>
+                    //{
+                    //    throw e.Exception;
+                    //};
+                    //NavigationService.Navigated += Frame_Navigated;
+                    //if (SystemNavigationManager.GetForCurrentView() != null)
+                    //{
+                    //    SystemNavigationManager.GetForCurrentView().BackRequested += ActivationService_BackRequested;
+                    //}
                 }
             }
 
@@ -81,7 +81,7 @@ namespace PacketMessagingTS.Services
         {
             await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync();
             await ThemeSelectorService.InitializeAsync();
-            await Task.CompletedTask;
+            //await Task.CompletedTask;
         }
 
         private async Task StartupAsync()
@@ -101,19 +101,28 @@ namespace PacketMessagingTS.Services
             return args is IActivatedEventArgs;
         }
 
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack ?
-                AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-        }
+        //internal async Task ActivateFromShareTargetAsync(ShareTargetActivatedEventArgs activationArgs)
+        //{
+        //    var shareTargetHandler = GetActivationHandlers().FirstOrDefault(h => h.CanHandle(activationArgs));
+        //    if (shareTargetHandler != null)
+        //    {
+        //        await shareTargetHandler.HandleAsync(activationArgs);
+        //    }
+        //}
 
-        private void ActivationService_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-                e.Handled = true;
-            }
-        }
+        //private void Frame_Navigated(object sender, NavigationEventArgs e)
+        //{
+        //    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack ?
+        //        AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        //}
+
+        //private void ActivationService_BackRequested(object sender, BackRequestedEventArgs e)
+        //{
+        //    if (NavigationService.CanGoBack)
+        //    {
+        //        NavigationService.GoBack();
+        //        e.Handled = true;
+        //    }
+        //}
     }
 }

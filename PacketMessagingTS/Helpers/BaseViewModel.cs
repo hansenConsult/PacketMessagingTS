@@ -8,6 +8,8 @@ namespace PacketMessagingTS.Helpers
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        //public event PropertyChangedEventHandler PropertyChanged;
+
         Dictionary<string, bool> SaveEnabledDictionary;
 
         Dictionary<string, object> _properties = App.Properties;

@@ -1,8 +1,6 @@
 ﻿using System;
 
 using PacketMessagingTS.ViewModels;
-
-using Windows.Foundation.Metadata;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Views
@@ -14,17 +12,8 @@ namespace PacketMessagingTS.Views
         public ShellPage()
         {
             InitializeComponent();
-            HideNavViewBackButton();
             DataContext = ViewModel;
-            ViewModel.Initialize(shellFrame, navigationView);
-        }
-
-        private void HideNavViewBackButton()
-        {
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
-            {
-                navigationView.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
-            }
+            ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
         }
     }
 }

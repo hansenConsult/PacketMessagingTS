@@ -1,5 +1,7 @@
-﻿using System;
-
+﻿using PacketMessagingTS.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -41,7 +43,16 @@ namespace PacketMessagingTS.Services
 
         public static bool CanGoForward => Frame.CanGoForward;
 
-        public static void GoBack() => Frame.GoBack();
+        public static bool GoBack()
+        {
+            if (CanGoBack)
+            {
+                Frame.GoBack();
+                return true;
+            }
+
+            return false;
+        }
 
         public static void GoForward() => Frame.GoForward();
 
@@ -67,6 +78,8 @@ namespace PacketMessagingTS.Services
         public static bool Navigate<T>(object parameter = null, NavigationTransitionInfo infoOverride = null)
             where T : Page
             => Navigate(typeof(T), parameter, infoOverride);
+
+
 
         private static void RegisterFrameEvents()
         {
