@@ -35,8 +35,8 @@ namespace PacketMessagingTS
         {
             InitializeComponent();
 
-            EnteredBackground += App_EnteredBackground;
-            //Suspending += App_SuspendingAsync;
+            //EnteredBackground += App_EnteredBackground;
+            Suspending += App_SuspendingAsync;
 
             // Deferred execution until used. Check https://msdn.microsoft.com/library/dd642331(v=vs.110).aspx for further info on Lazy<T> class.
             _activationService = new Lazy<ActivationService>(CreateActivationService);
@@ -236,13 +236,14 @@ namespace PacketMessagingTS
 
         private async void App_SuspendingAsync(object sender, SuspendingEventArgs args)
         {
-            SuspendingDeferral deferral = args.SuspendingOperation.GetDeferral();
-            await Helpers.Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+            var deferral = args.SuspendingOperation.GetDeferral();
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
-            //await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+            await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+
+            await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }

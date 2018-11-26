@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using MetroLog;
+using SharedCode;
+
 using Windows.ApplicationModel.Background;
 using Windows.System.Threading;
 
@@ -9,6 +12,9 @@ namespace PacketMessagingTS.BackgroundTasks
 {
     public sealed class BackgroundTask1 : BackgroundTask
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundTask1>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
         public static string Message { get; set; }
 
         private volatile bool _cancelRequested = false;
@@ -58,6 +64,8 @@ namespace PacketMessagingTS.BackgroundTasks
                 //// subscribe to the Progress and Completed events.
                 //// You can do this via "BackgroundTaskService.GetBackgroundTasksRegistration"
 
+                _logHelper.Log(LogLevel.Info, "Entered background task");
+
                 _taskInstance = taskInstance;
                 ThreadPoolTimer.CreatePeriodicTimer(new TimerElapsedHandler(SampleTimerCallback), TimeSpan.FromSeconds(1));
             });
@@ -65,7 +73,7 @@ namespace PacketMessagingTS.BackgroundTasks
 
         public override void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-           // TODO WTS: Insert code to handle the cancelation request here.
+           // TODO WTS: Insert code to handle the cancellation request here.
            // Documentation: https://docs.microsoft.com/windows/uwp/launch-resume/handle-a-cancelled-background-task
         }
 
@@ -82,7 +90,7 @@ namespace PacketMessagingTS.BackgroundTasks
 
                 if (_cancelRequested)
                 {
-                    Message = $"Background Task {_taskInstance.Task.Name} cancelled";
+                    Message = $"Background Task {_taskInstance.Task.Name} canceled";
                 }
                 else
                 {
