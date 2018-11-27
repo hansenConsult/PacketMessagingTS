@@ -88,6 +88,16 @@ namespace PacketMessagingTS.ViewModels
                 TNC = currentProfile.TNC;
                 BBSSelectedValue = currentProfile.BBS;
                 DefaultTo = currentProfile.SendTo;
+                if (Name.Contains("Monday Night"))
+                {
+                    IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+                    string userFirstName = instance.UserName;
+                    int index = userFirstName.IndexOf(' ');
+                    userFirstName = userFirstName.Substring(0, index);
+                    DefaultSubject = $"Practice {instance.UserCallsign}, {userFirstName}, {instance.UserCity}, {DateTime.Now.Month}/{DateTime.Now.Day}/{DateTime.Now.Year - 2000}";
+                }
+
+                //DefaultSubject = currentProfile.Subject;
 
                 ResetChangedProperty();
             }
@@ -186,6 +196,20 @@ namespace PacketMessagingTS.ViewModels
 
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
+        }
+
+        private string defaultSubject;
+        public string DefaultSubject
+        {
+            get => defaultSubject;
+            set
+            {
+                SetProperty(ref defaultSubject, value);
+
+                //bool changed = CurrentProfile.Subject != defaultSubject;
+                //IsAppBarSaveEnabled = SaveEnabled(changed);
+            }
+
         }
 
         private bool displayProfileOnStart;

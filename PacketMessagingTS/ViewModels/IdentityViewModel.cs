@@ -41,6 +41,13 @@ namespace PacketMessagingTS.ViewModels
             set { SetProperty(ref userName, value, true); }
         }
 
+        string userCity;
+        public string UserCity
+        {
+            get => GetProperty(ref userCity);
+            set { SetProperty(ref userCity, value, true); }
+        }
+
         string userMsgPrefix;
         public string UserMsgPrefix
         {

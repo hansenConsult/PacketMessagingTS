@@ -14,11 +14,15 @@ using PacketMessagingTS.Helpers;
 using Windows.Storage;
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
+using SharedCode;
 
 namespace PacketMessagingTS
 {
     public sealed partial class App : Application
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
+        private static LogHelper _logHelper = new LogHelper(log);
+ 
         public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
         public static List<TacticalCallsignData> _TacticalCallsignDataList;
 
@@ -35,7 +39,7 @@ namespace PacketMessagingTS
         {
             InitializeComponent();
 
-            //EnteredBackground += App_EnteredBackground;
+            EnteredBackground += App_EnteredBackground;
             Suspending += App_SuspendingAsync;
 
             // Deferred execution until used. Check https://msdn.microsoft.com/library/dd642331(v=vs.110).aspx for further info on Lazy<T> class.
@@ -125,6 +129,9 @@ namespace PacketMessagingTS
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            _logHelper.Log(LogLevel.Info, "");
+            _logHelper.Log(LogLevel.Info, "Packet Messaging Application started");
+
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             Properties = await localFolder.ReadAsync<Dictionary<string, object>>(PropertiesDictionaryFileName);
             if (Properties is null)
@@ -224,6 +231,8 @@ namespace PacketMessagingTS
         {
             var deferral = e.GetDeferral();
 
+            _logHelper.Log(LogLevel.Trace, "Entered App_EnteredBackground");
+
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
@@ -238,18 +247,22 @@ namespace PacketMessagingTS
         {
             var deferral = args.SuspendingOperation.GetDeferral();
 
+            _logHelper.Log(LogLevel.Trace, "Entered App_SuspendingAsync");
+
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
-            await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+            //await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
 
-            await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+            //await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
+            _logHelper.Log(LogLevel.Trace, "Entered OnBackgroundActivated");
+
             await ActivationService.ActivateAsync(args);
         }
     }

@@ -11,7 +11,7 @@
     xmlns:xaml="using:Windows.UI.Xaml"
     mc:Ignorable="d"
     d:DesignWidth="700" d:DesignHeight="850">
-    
+
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
         <helper:VisibilityConverter x:Key="VisibilityConverter"/>
@@ -19,7 +19,7 @@
         <!--<helper:StringIntConverter x:Key="StringIntConverter" />-->
 
         <!--Do not change. Used for synchronizing two UI controls-->
-        <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" /> 
+        <CollectionViewSource x:Name="TacticalCallsignsSource"  IsSourceGrouped="False" />
 
         <CollectionViewSource x:Name="TNCDeviceListSource"  />
         <CollectionViewSource x:Name="DeviceListSource"  />
@@ -178,8 +178,13 @@
 									 VerticalContentAlignment="Center" Margin="0,1"
 									 Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="189" />
                             <TextBlock x:Name="labelUserName" RelativePanel.AlignVerticalCenterWith="textBoxUserName" Text="User Name:" />
-                            <TextBox x:Name="textBoxUserPrefix" 
+                            <TextBox x:Name="textBoxUserCity" 
 									 RelativePanel.Below="textBoxUserName" RelativePanel.AlignLeftWith="textBoxUsercallsign"
+									 VerticalContentAlignment="Center" Margin="0,1"
+									 Text="{Binding UserCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="189" />
+                            <TextBlock x:Name="labelUserCity" RelativePanel.AlignVerticalCenterWith="textBoxUserCity" Text="User City:" />
+                            <TextBox x:Name="textBoxUserPrefix" 
+									 RelativePanel.Below="textBoxUserCity" RelativePanel.AlignLeftWith="textBoxUsercallsign"
 									 VerticalContentAlignment="Center" 
 									 Text="{Binding UserMsgPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="58" BorderThickness="2" Margin="0,1" Padding="10,3,10,5"/>
                             <TextBlock x:Name="labelUserPrefix"
@@ -317,8 +322,8 @@
 										 PlaceholderText="Enter profile name"
 										 Visibility="Collapsed" IsSpellCheckEnabled="True" />
                             </RelativePanel>
-                            <Grid x:Name="panelProfileGrid" Margin="12"
-								  RelativePanel.Below="panelProfileSelection">
+                            <Grid x:Name="panelProfileGrid"
+								  RelativePanel.Below="panelProfileSelection" Height="331" Margin="0,0,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width ="1*"/>
                                     <ColumnDefinition Width="2.4*"/>
@@ -327,6 +332,7 @@
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="100"/>
+                                    <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                 </Grid.RowDefinitions>
@@ -365,6 +371,10 @@
                                 <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4"  Height="23" Width="270"
 										 Text="{x:Bind _packetSettingsViewModel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
 										  />
+                                <TextBlock x:Name="label3" Grid.Column="0" Grid.Row="5"  Text="Default Subject:" VerticalAlignment="Center" />
+                                <TextBox x:Name="textBoxSubject"  Grid.Column="1" Grid.Row="5"  Height="23" Width="270"
+										 Text="{x:Bind _packetSettingsViewModel.DefaultSubject, Mode=TwoWay}"
+                                         VerticalAlignment="Center" />
                                 <!--TextChanged="TextBoxTo_TextChanged"-->
                             </Grid>
                             <ToggleSwitch x:Name="displayProfileOnStart" Header="Display on start" Margin="8"
@@ -472,7 +482,7 @@
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Comm Port:" HorizontalAlignment="Left" 
 														       VerticalAlignment="Center" />
-                                                    
+
                                                     <!--ItemsSource="{x:Bind DeviceListSource.View, Mode=OneWay}"-->
 
                                                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort"

@@ -107,7 +107,7 @@ namespace PacketMessagingTS.Models
                         Name = "Default",
                         BBS = BBSDefinitions.Instance.BBSDataArray[0].Name,
                         TNC = TNCDeviceArray.Instance.TNCDeviceList.ToArray()[0].Name,
-                        SendTo = "",
+                        Subject = "",
                     };
 
 					_instance = new ProfileArray();
@@ -195,10 +195,12 @@ namespace PacketMessagingTS.Models
 
 		private string sendToField;
 
-		//private bool selectedField;
+        private string subjectField;
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
+        //private bool selectedField;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
 		public string Name
 		{
 			get
@@ -253,20 +255,34 @@ namespace PacketMessagingTS.Models
 			}
 		}
 
-		/// <remarks/>
-		//[System.Xml.Serialization.XmlAttributeAttribute()]
-		//public bool Selected
-		//{
-		//	get
-		//	{
-		//		return this.selectedField;
-		//	}
-		//	set
-		//	{
-		//		this.selectedField = value;
-		//	}
-		//}
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Subject
+        {
+            get
+            {
+                return this.subjectField;
+            }
+            set
+            {
+                this.subjectField = value;
+            }
+        }
 
-		public override string ToString() => Name;
+        /// <remarks/>
+        //[System.Xml.Serialization.XmlAttributeAttribute()]
+        //public bool Selected
+        //{
+        //	get
+        //	{
+        //		return this.selectedField;
+        //	}
+        //	set
+        //	{
+        //		this.selectedField = value;
+        //	}
+        //}
+
+        public override string ToString() => Name;
 	}
 }
