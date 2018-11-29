@@ -79,7 +79,7 @@ namespace PacketMessagingTS.ViewModels
                     if (TNCDeviceArray.Instance.TNCDeviceList[i].Name == currentProfile.TNC)
                         break;
                 }
-                if (i == TNCDeviceArray.Instance.TNCDeviceList.Count)
+                if (i >= TNCDeviceArray.Instance.TNCDeviceList.Count || i < 0)
                     i = 0;
 
                 Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = i;
@@ -88,16 +88,15 @@ namespace PacketMessagingTS.ViewModels
                 TNC = currentProfile.TNC;
                 BBSSelectedValue = currentProfile.BBS;
                 DefaultTo = currentProfile.SendTo;
-                if (Name.Contains("Monday Night"))
+                if (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE"))
                 {
                     IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
-                    string userFirstName = instance.UserName;
-                    int index = userFirstName.IndexOf(' ');
-                    userFirstName = userFirstName.Substring(0, index);
-                    DefaultSubject = $"Practice {instance.UserCallsign}, {userFirstName}, {instance.UserCity}, {DateTime.Now.Month}/{DateTime.Now.Day}/{DateTime.Now.Year - 2000}";
+                    DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, {DateTime.Now.Month}/{DateTime.Now.Day}/{DateTime.Now.Year - 2000}";
                 }
-
-                //DefaultSubject = currentProfile.Subject;
+                else
+                {
+                    DefaultSubject = "";
+                }
 
                 ResetChangedProperty();
             }

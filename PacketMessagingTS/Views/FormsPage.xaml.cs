@@ -93,7 +93,7 @@ namespace PacketMessagingTS.Views
 
         public FormsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             _formControlAttributeList = new List<FormControlAttributes>();
             ScanFormAttributes();
@@ -367,10 +367,12 @@ namespace PacketMessagingTS.Views
 
             if (e.Parameter is null)
             {
+                // Open an empty form
                 FormsPagePivot.SelectedIndex = _formsViewModel.FormsPagePivotSelectedIndex;
                 return;
             }
 
+            // Open a form with content
             int index = 0;
             string packetMessagePath = e.Parameter as string;
             _packetMessage = PacketMessage.Open(packetMessagePath);
@@ -468,6 +470,7 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
+
                 _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
             }
         }
@@ -507,7 +510,9 @@ namespace PacketMessagingTS.Views
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
-        
+
+            string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")
             {
@@ -515,7 +520,10 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(1, _packetForm);
 
                 _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_";
-
+                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+                {
+                    _packetAddressForm.MessageSubject += practiceSubject;
+                }
                 _packetForm.MessageReceivedTime = DateTime.Now;
                 switch (_messageOrigin)
                 {
@@ -542,8 +550,6 @@ namespace PacketMessagingTS.Views
             {          
                 _packetMessage = new PacketMessage();
 
-                //_packetAddressForm.MessageSubject = _packetForm.CreateSubject();
-
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
                 DateTime now = DateTime.Now;
@@ -553,6 +559,38 @@ namespace PacketMessagingTS.Views
                 _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
                 _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+
+                _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
+                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+                {
+                    _packetForm.Severity = "other";
+                    _packetForm.HandlingOrder = "routine";
+
+                    foreach (FormField formField in _packetMessage.FormFieldArray)
+                    {
+                        FormControl formControl = _packetForm.FormControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                        if (formControl is null)
+                            continue;
+
+                        Control control = formControl?.InputControl;
+                        bool controlFound = false;
+                        switch (control.Name)
+                        {
+                            case "subject":
+                                (control as TextBox).Text = practiceSubject;
+                                controlFound = true;
+                                break;
+                            case "incidentName":
+                                (control as TextBox).Text = practiceSubject;
+                                controlFound = true;
+                                break;
+                        }
+                        if (controlFound)
+                        {
+                            break;
+                        }
+                    }
+                }
             }
             else 
             {

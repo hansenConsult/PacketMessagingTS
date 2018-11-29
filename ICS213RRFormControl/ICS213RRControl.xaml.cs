@@ -29,8 +29,17 @@ namespace EOC213RRFormControl
             HowReceivedSent = "packet";
         }
 
-  //      public string IncidentName
-		//{ get => incidentName.Text; set => incidentName.Text = value; }
+		public override string Severity
+		{
+			get { return severity.GetRadioButtonCheckedState(); }
+			set { severity.SetRadioButtonCheckedState(value); }
+		}
+
+		public override string HandlingOrder
+		{
+			get { return handlingOrder.GetRadioButtonCheckedState(); }
+			set { handlingOrder.SetRadioButtonCheckedState(value); }
+		}
 
 		public override string PacFormName => "XSC_EOC-213RR_v1706";
 

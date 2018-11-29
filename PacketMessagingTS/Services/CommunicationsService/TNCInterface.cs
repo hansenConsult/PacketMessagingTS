@@ -407,8 +407,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public bool IsBulletinDownLoaded(string area, string bulletinSubject)
         {
-            //return true;
-
             if (string.IsNullOrEmpty(area))
                 return false;
 

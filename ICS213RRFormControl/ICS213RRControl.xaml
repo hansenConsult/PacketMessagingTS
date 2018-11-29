@@ -70,14 +70,15 @@
                                 <MyNamespace:ToggleButtonGroup x:Name="severity"
                                                                CheckedControlName ="{x:Bind Severity, Mode=TwoWay}" 
                                                                Tag="required,Indicate Situation Severity."/>
-                                <RadioButton x:Name="emergency" GroupName="severity" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
-                                             Content="EMERGENCY" Tag="4" Checked="Subject_Changed" 
-									ToolTipService.ToolTip="Life threat"/>
-                                <RadioButton x:Name="urgent" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="URGENT" Tag="5" Checked="Subject_Changed"
-									ToolTipService.ToolTip="Property threat"/>
-                                <RadioButton x:Name="other" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" Margin="10,2" Padding="4" Content="OTHER" Tag="6" Checked="Subject_Changed"
-									ToolTipService.ToolTip="All other"/>
+                                <RadioButton x:Name="emergency" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
+                                             Margin="10,0" Padding="4" Content="EMERGENCY" Tag="4" Checked="Subject_Changed" 
+									         ToolTipService.ToolTip="Life threat"/>
+                                <RadioButton x:Name="urgent" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
+                                             Margin="10,0" Padding="4" Content="URGENT" Tag="5" Checked="Subject_Changed"
+									         ToolTipService.ToolTip="Property threat"/>
+                                <RadioButton x:Name="other" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
+                                             Margin="10,2" Padding="4" Content="OTHER" Tag="6" Checked="Subject_Changed"
+									         ToolTipService.ToolTip="All other"/>
                             </StackPanel>
                         </Border>
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
@@ -399,7 +400,7 @@
                         <RadioButton Name="packet" GroupName="howRecevedSent" Content="Packet" MinWidth="75" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Padding="5,5,0,0" Tag="43"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,0,1">
-                        <TextBlock Text="Call:"  Margin="5,0,0,0" VerticalAlignment="Center" Padding="0,0,0,1"/>
+                        <TextBlock Text="Call:"  Margin="5,0,0,0" VerticalAlignment="Center" />
                         <TextBox Name="operatorCallsign" 
                                  Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
                                  Margin="0"  BorderBrush="White" Tag="44"/>
@@ -415,7 +416,7 @@
                                  PlaceholderText="mm/dd/yy" Margin="0" BorderBrush="White" Tag="46"/>
                         <TextBox Name="operatorTime" 
                                  Text="{x:Bind OperatorTime}"
-                                 PlaceholderText="hhmm" Margin="0" BorderBrush="White" Tag="47"/>
+                                 PlaceholderText="hhmm" Margin="0" BorderBrush="White" Tag="47" HorizontalAlignment="Left"/>
                     </StackPanel>
                 </StackPanel>
                 <TextBlock Text="Paper Form: Last Revised 06/17   EOC Form 213RR   Page 1 of 2 (pg. 2 at EOC)" 

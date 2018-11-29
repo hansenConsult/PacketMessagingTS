@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
+using MetroLog;
+using SharedCode;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -12,6 +13,9 @@ namespace PacketMessagingTS.Helpers
     // More details regarding storing and retrieving app data at https://docs.microsoft.com/windows/uwp/app-settings/store-and-retrieve-app-data
     public static class SettingsStorageExtensions
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<App>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
         private const string FileExtension = ".json";
 
         public static bool IsRoamingStorageAvailable(this ApplicationData appData)
@@ -21,10 +25,22 @@ namespace PacketMessagingTS.Helpers
 
         public static async Task SaveAsync<T>(this StorageFolder folder, string name, T content)
         {
-            var file = await folder.CreateFileAsync(GetFileName(name), CreationCollisionOption.ReplaceExisting);
-            var fileContent = await Json.StringifyAsync(content);
+            try
+            {
+                if (content is Dictionary<string, object>)
+                {
+                    _logHelper.Log(LogLevel.Error, $"Before Saving Profile file, count = {(content as Dictionary<string, object>).Count} items.");
+                }
+                StorageFile file = await folder.CreateFileAsync(GetFileName(name), CreationCollisionOption.ReplaceExisting);
+                string fileContent = await Json.StringifyAsync(content);
 
-            await FileIO.WriteTextAsync(file, fileContent);
+                await FileIO.WriteTextAsync(file, fileContent);
+                _logHelper.Log(LogLevel.Error, $"Saved Profile file, size {fileContent.Length} bytes.");
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"Error saving {name}. {e.Message}");
+            }
         }
 
         public static async Task<T> ReadAsync<T>(this StorageFolder folder, string name)

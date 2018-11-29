@@ -63,10 +63,16 @@ namespace ICS213_070628_FormControl
         }
 
         public override string Severity
-        { get { return severity.GetRadioButtonCheckedState(); } set { severity.SetRadioButtonCheckedState(value); } }
+        {
+			get { return severity.GetRadioButtonCheckedState(); }
+			set { severity.SetRadioButtonCheckedState(value); }
+		}
 
         public override string HandlingOrder
-        { get { return handlingOrder.GetRadioButtonCheckedState(); } set { handlingOrder.SetRadioButtonCheckedState(value); } }
+        {
+			get { return handlingOrder.GetRadioButtonCheckedState(); }
+			set { handlingOrder.SetRadioButtonCheckedState(value); }
+		}
 
         public override string OperatorTime
         {

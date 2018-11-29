@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using MetroLog;
 using PacketMessagingTS.Activation;
 using PacketMessagingTS.Helpers;
-
+using SharedCode;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -17,6 +17,9 @@ namespace PacketMessagingTS.Services
     // For more information on application activation see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/activation.md
     internal class ActivationService
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ActivationService>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
         private readonly App _app;
         private readonly Lazy<UIElement> _shell;
         private readonly Type _defaultNavItem;
@@ -30,6 +33,8 @@ namespace PacketMessagingTS.Services
 
         public async Task ActivateAsync(object activationArgs)
         {
+            //_logHelper.Log(LogLevel.Trace, "Entered ActivateAsync");
+
             if (IsInteractive(activationArgs))
             {
                 // Initialize things like registering background task before the app is loaded
@@ -58,7 +63,7 @@ namespace PacketMessagingTS.Services
 
             if (activationHandler != null)
             {
-                await activationHandler.HandleAsync(activationArgs);
+                //await activationHandler.HandleAsync(activationArgs);
             }
 
             if (IsInteractive(activationArgs))

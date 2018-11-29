@@ -114,7 +114,9 @@ namespace PacketMessagingTS.ViewModels
                             if (packetMessage.Area == area)
                             {
                                 if (!BulletinHelpers.BulletinDictionary.TryGetValue(area, out List<string> bulletinList))
+                                {
                                     BulletinHelpers.BulletinDictionary[area] = new List<string>();
+                                }
                                 BulletinHelpers.BulletinDictionary[area].Add(packetMessage.Subject);
                             }
                         }

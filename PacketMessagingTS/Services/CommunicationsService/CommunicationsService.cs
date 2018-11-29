@@ -237,6 +237,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		{
 			if (_packetMessagesReceived.Count() > 0)
 			{
+                bool updateBulletinList = false;
 				foreach (PacketMessage packetMessageOutpost in _packetMessagesReceived)
 				{
 					FormControlBase formControl = new MessageControl();
@@ -329,8 +330,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         await ProcessMessagesMarkedDeliveredAsync(pktMsg);
 					}
                     pktMsg.Save(SharedData.ReceivedMessagesFolder.Path);
+
+                    if (!string.IsNullOrEmpty(pktMsg.Area))
+                    {
+                        updateBulletinList |= true;
+                    }
                 }
                 //RefreshDataGrid();      // Display newly added messages
+                if (updateBulletinList)
+                {
+                    await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+                }
             }
         }
 

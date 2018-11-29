@@ -639,26 +639,36 @@ namespace PacketMessagingTS.Views
 
                     // Add the new element to the end of the list of devices
                     _listOfDevices.Add(match);
-
-                    if (deviceInformation.Pairing.IsPaired)
+                }
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
+            }
+        
+            if (deviceInformation.Pairing.IsPaired)
+            {
+                // Bluetooth device
+                try
+                {
+                    if (deviceInformation.Kind == DeviceInformationKind.AssociationEndpoint)
                     {
-                        // Bluetooth device
-                        try
-                        {
-                            if (deviceInformation.Kind == DeviceInformationKind.AssociationEndpoint)
-                            {
-                                //_listOfBluetoothDevices.Add(deviceInformation);
-                                //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
-                                CollectionOfBluetoothDevices.Add(deviceInformation);
-                                ComNameListSource.Source = CollectionOfBluetoothDevices;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            _logHelper.Log(LogLevel.Error, $"Add Bluetooth device: { ex.Message}");
-                        }
+                        //_listOfBluetoothDevices.Add(deviceInformation);
+                        //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
+                        CollectionOfBluetoothDevices.Add(deviceInformation);
+                        ComNameListSource.Source = CollectionOfBluetoothDevices;
                     }
-                    else
+                }
+                catch (Exception ex)
+                {
+                    _logHelper.Log(LogLevel.Error, $"Add Bluetooth device: { ex.Message}");
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (!deviceInformation.Id.Contains("Bluetooth"))
                     {
                         // USB serial port
                         SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
@@ -670,10 +680,10 @@ namespace PacketMessagingTS.Views
                         }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                _logHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
+                catch (Exception e)
+                {
+                    _logHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
+                }
             }
         }
 

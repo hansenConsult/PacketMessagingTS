@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using PacketMessagingTS.Services;
 
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.ApplicationModel.ExtendedExecution;
+using Windows.UI.Core;
 
 using MetroLog;
 using MetroLog.Targets;
@@ -20,9 +25,11 @@ namespace PacketMessagingTS
 {
     public sealed partial class App : Application
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<App>();
         private static LogHelper _logHelper = new LogHelper(log);
- 
+
+        private SuspendingDeferral suspendDeferral;
+
         public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
         public static List<TacticalCallsignData> _TacticalCallsignDataList;
 
@@ -214,6 +221,8 @@ namespace PacketMessagingTS
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
+            _logHelper.Log(LogLevel.Trace, "Entered OnActivated");
+
             await ActivationService.ActivateAsync(args);
         }
 
@@ -229,34 +238,104 @@ namespace PacketMessagingTS
 
         private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
         {
-            var deferral = e.GetDeferral();
+            Deferral deferral = e.GetDeferral();
 
             _logHelper.Log(LogLevel.Trace, "Entered App_EnteredBackground");
 
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
-
-            await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
-
-            await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
-
-            deferral.Complete();
-        }
-
-        private async void App_SuspendingAsync(object sender, SuspendingEventArgs args)
-        {
-            var deferral = args.SuspendingOperation.GetDeferral();
-
-            _logHelper.Log(LogLevel.Trace, "Entered App_SuspendingAsync");
-
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
+            //StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            //await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
             //await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
 
             //await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
+        }
+
+        private async void App_SuspendingAsync(object sender, SuspendingEventArgs args)
+        {
+            try
+            {
+                suspendDeferral = args.SuspendingOperation.GetDeferral();
+
+                //DateTimeOffset deadline = args.SuspendingOperation.Deadline;
+                _logHelper.Log(LogLevel.Trace, $"Entered App_SuspendingAsync.");
+
+                using (var session = new ExtendedExecutionSession())
+                {
+                    session.Reason = ExtendedExecutionReason.SavingData;
+                    session.Description = "Saving application state.";
+                    session.Revoked += ExtendedExecutionSessionRevoked;
+
+                    ExtendedExecutionResult result = await session.RequestExtensionAsync();
+                    switch (result)
+                    {
+                        case ExtendedExecutionResult.Allowed:
+                            // We can perform a longer save operation (e.g., upload to the cloud).
+                            try
+                            {
+                                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                                await localFolder.SaveAsync(PropertiesDictionaryFileName, Properties);
+
+                                await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+                            }
+                            catch (TaskCanceledException te)
+                            {
+                                _logHelper.Log(LogLevel.Trace, $"Extended Execution Error. {te.Message}");
+                            }
+                            break;
+                        default:
+                        case ExtendedExecutionResult.Denied:
+                            // We must perform a fast save operation.
+                            _logHelper.Log(LogLevel.Trace, $"Extended Execution denied");
+                            //MainPage.DisplayToast("Performing a fast save operation.");
+                            //await Task.Delay(TimeSpan.FromSeconds(1));
+                            //MainPage.DisplayToast("Fast save complete.");
+                            break;
+                    }
+
+                    session.Revoked -= ExtendedExecutionSessionRevoked;
+                }
+
+                //StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                //await localFolder.SaveAsync(PropertiesDictionaryFileName, Properties);
+
+                //await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+
+                //await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"App_SuspendingAsync exception. {e.Message}");
+            }
+            finally
+            {
+                suspendDeferral?.Complete();
+                suspendDeferral = null;
+            }
+        }
+
+        private void ExtendedExecutionSessionRevoked(object sender, ExtendedExecutionRevokedEventArgs args)
+        {
+            //If session is revoked, make the OnSuspending event handler stop or the application will be terminated
+            //if (cancellationTokenSource != null) { cancellationTokenSource.Cancel(); }
+
+            switch (args.Reason)
+            {
+                case ExtendedExecutionRevokedReason.Resumed:
+                    // A resumed app has returned to the foreground
+                    _logHelper.Log(LogLevel.Error, $"Extended execution revoked due to returning to foreground.");
+                    break;
+
+                case ExtendedExecutionRevokedReason.SystemPolicy:
+                    //An app can be in the foreground or background when a revocation due to system policy occurs
+                    _logHelper.Log(LogLevel.Error, $"Extended execution revoked due to system policy.");
+                    break;
+            }
+
+            suspendDeferral?.Complete();
+            suspendDeferral = null;
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
