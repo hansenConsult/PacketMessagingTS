@@ -1,4 +1,6 @@
-﻿using PacketMessagingTS.ViewModels;
+﻿using MetroLog;
+using PacketMessagingTS.ViewModels;
+using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +13,9 @@ namespace PacketMessagingTS.Helpers
 {
     public class BulletinHelpers
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BulletinHelpers>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
         public static Dictionary<string, List<string>> BulletinDictionary;
 
         public const string BulletinFilePrefix = "BulletinFile";
@@ -24,11 +29,17 @@ namespace PacketMessagingTS.Helpers
                 string filePath = Path.Combine(localFolder.Path, GetBulletinsFileName(area));
                 try
                 {
-                    File.WriteAllLines(filePath, BulletinDictionary[area]);
+                    bool success = BulletinDictionary.TryGetValue(area, out List<string> areaBulletinList);
+                    if (success && !(areaBulletinList is null))
+                    {
+                        //File.WriteAllLines(filePath, BulletinDictionary[area]);
+                        File.WriteAllLines(filePath, areaBulletinList);
+                    }
                 }
-                catch
+                catch (Exception e)
                 {
-                    continue;
+                    //continue;
+                    _logHelper.Log(LogLevel.Error, $"Error saving Bulletin Dictionary, {e.Message}");
                 }
             }
         }

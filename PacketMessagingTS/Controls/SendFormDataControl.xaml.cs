@@ -32,22 +32,14 @@ namespace PacketMessagingTS.Controls
             }
             ScanControls(messageInfo);
 
-            MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS?.Name;
             AddressBook.Instance.UserBBS = MessageBBS;
             MessageTNC = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
             MessageTo = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.SendTo;
 
             IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
             MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
-            //if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
-            //{
-            //    MessageFrom = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
-            //}
-            //else
-            //{
-            //    MessageFrom = Singleton<IdentityViewModel>.Instance.UserCallsign;
-            //}
-            if (!string.IsNullOrEmpty(MessageBBS))
+            if (string.IsNullOrEmpty(MessageBBS))
             {
                 MessageBBS = AddressBook.Instance.GetBBS(MessageFrom);
             }

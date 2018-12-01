@@ -132,7 +132,12 @@ namespace PacketMessagingTS.ViewModels
 
         public ObservableCollection<BBSData> BBSDataCollection
         {
-            get => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+            get
+            {
+                ObservableCollection<BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+                bbsDataCollection.Add(null);
+                return bbsDataCollection;
+            }
         }
 
         private string bbsSelectedValue;
