@@ -132,12 +132,14 @@ namespace PacketMessagingTS.ViewModels
 
         public ObservableCollection<BBSData> BBSDataCollection
         {
-            get
-            {
-                ObservableCollection<BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
-                bbsDataCollection.Add(null);
-                return bbsDataCollection;
-            }
+            get => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+            //{
+            //    ObservableCollection<BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+            //    BBSData bbsData = new BBSData();
+            //    bbsData.Name = "Get from Address Book";
+            //    bbsDataCollection.Add(bbsData);
+            //    return bbsDataCollection;
+            //}
         }
 
         private string bbsSelectedValue;
@@ -164,6 +166,8 @@ namespace PacketMessagingTS.ViewModels
                 BBSFrequency1 = currentBBS?.Frequency1;
                 BBSFrequency2 = currentBBS?.Frequency2;
 
+                bool changed = CurrentBBS.Name != currentProfile.BBS;            
+                IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
 
@@ -197,7 +201,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref defaultTo, value);
 
                 bool changed = CurrentProfile.SendTo != defaultTo;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }

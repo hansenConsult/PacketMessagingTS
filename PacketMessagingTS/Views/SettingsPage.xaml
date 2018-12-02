@@ -353,7 +353,7 @@
 										  SelectedValuePath = "Name"
                                           SelectedValue="{x:Bind _packetSettingsViewModel.BBSSelectedValue, Mode=TwoWay}"
                                           SelectedItem="{x:Bind _packetSettingsViewModel.CurrentBBS, Mode=TwoWay}"
-										  VerticalAlignment="Center" Width="120"   />
+										  VerticalAlignment="Center" Width="200"   />
                                 <!--SelectionChanged="ComboBoxBBS_SelectionChanged"/>-->
                                 <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Description:"  HorizontalAlignment="Left" Margin="0,6,5,0" />
                                 <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" Width="270" Height="88"

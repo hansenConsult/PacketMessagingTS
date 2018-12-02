@@ -7,14 +7,12 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.Storage;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
-using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.Foundation;
@@ -23,7 +21,6 @@ using Windows.Devices.Bluetooth;
 using MetroLog;
 using SharedCode;
 using PacketMessagingTS.Controls;
-using System.IO.Ports;
 
 namespace PacketMessagingTS.Views
 {
@@ -154,6 +151,17 @@ namespace PacketMessagingTS.Views
                 // Disable Save button
                 _TNCSettingsViewModel.ResetChangedProperty();
             }
+            if (_packetSettingsViewModel.IsAppBarSaveEnabled)
+            {
+                bool save = await Utilities.ShowYesNoMessageDialogAsync("Save changes?");
+                if (save)
+                {
+                    PacketSettingsSave_ClickAsync(this, null);
+                }
+                // Disable Save button
+                _packetSettingsViewModel.ResetChangedProperty();
+            }
+
             base.OnNavigatingFrom(e);
         }
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -316,7 +324,7 @@ namespace PacketMessagingTS.Views
 
             await ProfileArray.Instance.SaveAsync();
 
-            //_packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+            _packetSettingsViewModel.ResetChangedProperty();
             //comboBoxProfiles.SelectedIndex = index;
 
         }

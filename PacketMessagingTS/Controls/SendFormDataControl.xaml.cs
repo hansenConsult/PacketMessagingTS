@@ -33,13 +33,13 @@ namespace PacketMessagingTS.Controls
             ScanControls(messageInfo);
 
             MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS?.Name;
-            AddressBook.Instance.UserBBS = MessageBBS;
+            //AddressBook.Instance.UserBBS = MessageBBS;
             MessageTNC = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
             MessageTo = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.SendTo;
 
             IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
             MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
-            if (string.IsNullOrEmpty(MessageBBS))
+            if (!MessageBBS.Contains("XSC"))
             {
                 MessageBBS = AddressBook.Instance.GetBBS(MessageFrom);
             }
