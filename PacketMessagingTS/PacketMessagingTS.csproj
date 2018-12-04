@@ -168,7 +168,6 @@
     <Compile Include="Services\MessageDataService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\OnBackgroundEnteringEventArgs.cs" />
-    <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Services\SMTPClient\SmtpClient.cs" />
     <Compile Include="Services\SMTPClient\SmtpCode.cs" />
     <Compile Include="Services\SMTPClient\SmtpMessage.cs" />

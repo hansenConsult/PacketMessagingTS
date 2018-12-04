@@ -84,7 +84,7 @@ namespace PacketMessagingTS.Services
 
         private async Task InitializeAsync()
         {
-            await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync();
+            //await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync();
             await ThemeSelectorService.InitializeAsync();
             await Task.CompletedTask;
         }
