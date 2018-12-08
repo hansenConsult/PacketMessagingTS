@@ -91,7 +91,8 @@ namespace PacketMessagingTS.ViewModels
                 if (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE"))
                 {
                     IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
-                    DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, {DateTime.Now.Month}/{DateTime.Now.Day}/{DateTime.Now.Year - 2000}";
+                    DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, " +
+                                     $"{DateTime.Now.Month:d2}/{DateTime.Now.Day:d2}/{DateTime.Now.Year - 2000:d2}";
                 }
                 else
                 {
@@ -209,14 +210,7 @@ namespace PacketMessagingTS.ViewModels
         public string DefaultSubject
         {
             get => defaultSubject;
-            set
-            {
-                SetProperty(ref defaultSubject, value);
-
-                //bool changed = CurrentProfile.Subject != defaultSubject;
-                //IsAppBarSaveEnabled = SaveEnabled(changed);
-            }
-
+            set => defaultSubject = value;
         }
 
         private bool displayProfileOnStart;

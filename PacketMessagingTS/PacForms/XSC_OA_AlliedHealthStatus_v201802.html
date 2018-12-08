@@ -1,279 +1,103 @@
 <!DOCTYPE html>
 <html><head>
-    <title>Santa Clara OA Allied Health Status Report Form</title>
-    <meta http-equiv="Content-type" content="text/html; charset=windows-1252">
-    <!--
-    XSC_OA_AlliedHealthStatus.html - JS: format. Form developed Acrobat version
-       by Phil Henderson, KF6ZSQ, Initial work 09-11-18
+<title>Santa Clara OA Allied Health Status Report Form</title>
+<meta http-equiv="Content-type" content="text/html; charset=windows-1252">
+<!--
+XSC_OA_AlliedHealthStatus.html - JS: format. Form developed Acrobat version
+   by Phil Henderson, KF6ZSQ, Initial work 09-11-18
+   09/23/18 MEF: Clean up HTML, typos, consistent fonts, ...
+   09/25/18 HPH: Fixed first section e-mail <input fields, expanded & added float:right
+                 Fixed Header duplicates
+   11/30/18 HPH: Added missing </form> for the first <form...> set!
 
+-->
+<style type="text/css">
 
+  body { font-size: 9pt; font-weight: normal;  color: black; font-family: Helvetica, Arial, sans-serif; }
 
+  input, textarea, select { font-size: 9pt; font-weight: bold; background: #ffffdd;
+     font-family: Consolas, "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace"; }
+  /* select { width: 300px; } */
 
-    -->
-    <style type="text/css">
+  hr { color:black }
 
-        body {
-            font-size: 9pt;
-            font-weight: normal;
-            color: black;
-            font-family: Helvetica, Arial, sans-serif;
-        }
+  table { font-size: 8pt; font-weight: bold; }
+  .button1 { font-size: 8pt; font-weight: normal; }
+  .nowrap { white-space: nowrap; }
+  .banner-table { background: blue; }
+  .plan-intel-banner { background: #EEEEEE; }
+  .logistics-banner  { background: #FFCC33; }
+  .fin-admin-banner  { background: #FFFF99; }
 
-        input, textarea, select {
-            font-size: 9pt;
-            font-weight: bold;
-            background: #ffffdd;
-            font-family: Consolas, "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
-        }
-        /* select { width: 300px; } */
+  .msgno  { font-size:  9pt; text-align: center; }
+  .table1 { font-size:  9pt; font-weight: bold; }
+  .table2 { font-size:  9pt; font-weight: normal; }
+  .table3 { font-size: 11pt; font-weight: bold; }
+  .table4 { font-size: 11pt; font-weight: normal;  }
+  .table5 { font-size:  8pt; font-weight:normal; background-color: #fffff6; }
+  .table5b { font-size: 8pt; font-weight:bold; background-color: #fffff6; }
+  .table6 { font-size: 7pt; font-weight:normal; background-color: #fffff6; }
+  .table7 { font-size: 8pt; font-weight:bold; background-color: #DDDDDD; }
+  .table8 { font-size: 7pt; font-weight:normal; background-color: #DDDDDD; }
+  .req-table { font-weight: bold; }
 
-        hr {
-            color: black
-        }
+  .red { color: red; font-style: italic; }
+  .redA { color: red; font-weight: bold; }
+  .blue {color: blue; }
+  .italic {font-style: italic; font-weight: normal; font-size: 8pt; color: black;}
 
-        table {
-            font-size: 8pt;
-            font-weight: bold;
-        }
+  .city-button   { font-size:  9pt; }
 
-        .button1 {
-            font-size: 8pt;
-            font-weight: normal;
-        }
+  .title-text    { font-size: 12pt; font-weight: bold; color: white; }
+  .title-textA   { font-size: 10pt; font-weight: bold; color: white; background-color: blue;}
+  .s1-title-text { font-size: 11pt; font-weight: bold;  }
+  .s2-title-text { font-size:  9pt; font-weight: normal;  }
+  .js-head-text  { font-size:  9pt; font-weight: bold; color: #CCCCCC;}
+  .js-error-text { font-size: 12pt; font-weight: bold;  color: red; }
+  .sm-text       { font-size:  8pt; }
+  .status-title  { font-size: 12pt; font-weight: bold;  }
+  .oper-input    { font-size:  8pt; font-weight: normal; }
+  .submit-text   { font-size: 10pt; color: red; }
+  .form-ver-text { font-size:  8pt; font-weight: bold; text-decoration: underline; }
+  .sec-title     { font-size:  9pt; font-weight: bold; background-color: #DDDDDD; }
+  .ljustify      { text-align: left; }
 
-        .nowrap {
-            white-space: nowrap;
-        }
+  .lineht {line-height: 240%;}
 
-        .banner-table {
-            background: blue;
-        }
+ @media print { footer {page-break-after: always;} }
+</style>
 
-        .plan-intel-banner {
-            background: #EEEEEE;
-        }
+<!--
+>From this point, the JavaScript is common for all JS: forms (new method for pac-read)
+Where changes to a JavaScript function need to be made, a comment will be inserted there
+  to describe what needs to be done.
+-->
+<style type="text/css" media="screen">
+  #Header2 { display: none; }
+</style>
 
-        .logistics-banner {
-            background: #FFCC33;
-        }
+<style type="text/css" media="print">
+  .banner-table { background: LightBlue; }
+  .header, .trailer, .blankit { display: none;  }
+  .red    { color: black; }
+  .table4 { color: black; }
+  hr      { color: black }
+  input, select, textarea { color: black; background: none; }
+  .title-text   { color: black; }
+  .oper-input   { color: black; }
 
-        .fin-admin-banner {
-            background: #FFFF99;
-        }
+</style>
 
-        .msgno {
-            font-size: 9pt;
-            text-align: center;
-        }
-
-        .table1 {
-            font-size: 9pt;
-            font-weight: bold;
-        }
-
-        .table2 {
-            font-size: 9pt;
-            font-weight: normal;
-        }
-
-        .table3 {
-            font-size: 11pt;
-            font-weight: bold;
-        }
-
-        .table4 {
-            font-size: 11pt;
-            font-weight: normal;
-        }
-
-        .table5 {
-            font-size: 9pt;
-            font-weight: normal;
-            background-color: #fffff6;
-        }
-
-        .table5b {
-            font-size: 8pt;
-            font-weight: bold;
-            background-color: #fffff6;
-        }
-
-        .table6 {
-            font-size: 7pt;
-            font-weight: normal;
-            background-color: #fffff6;
-        }
-
-        .table7 {
-            font-size: 8pt;
-            font-weight: bold;
-            background-color: #DDDDDD;
-        }
-
-        .table8 {
-            font-size: 7pt;
-            font-weight: normal;
-            background-color: #DDDDDD;
-        }
-
-        .req-table {
-            font-weight: bold;
-        }
-
-        .red {
-            color: red;
-            font-style: italic;
-        }
-
-        .redA {
-            color: red;
-            font-weight: bold;
-        }
-
-        .blue {
-            color: blue;
-        }
-
-        .italic {
-            font-style: italic;
-            font-weight: normal;
-            font-size: 8pt;
-            color: black;
-        }
-
-        .city-button {
-            font-size: 9pt;
-        }
-
-        .title-text {
-            font-size: 12pt;
-            font-weight: bold;
-            color: white;
-        }
-
-        .title-textA {
-            font-size: 10pt;
-            font-weight: bold;
-            color: white;
-            background-color: blue;
-        }
-
-        .s1-title-text {
-            font-size: 11pt;
-            font-weight: bold;
-        }
-
-        .s2-title-text {
-            font-size: 9pt;
-            font-weight: normal;
-        }
-
-        .js-head-text {
-            font-size: 9pt;
-            font-weight: bold;
-            color: #CCCCCC;
-        }
-
-        .js-error-text {
-            font-size: 12pt;
-            font-weight: bold;
-            color: red;
-        }
-
-        .sm-text {
-            font-size: 8pt;
-        }
-
-        .status-title {
-            font-size: 12pt;
-            font-weight: bold;
-        }
-
-        .oper-input {
-            font-size: 8pt;
-            font-weight: normal;
-        }
-
-        .submit-text {
-            font-size: 10pt;
-            color: red;
-        }
-
-        .form-ver-text {
-            font-size: 8pt;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        .sec-title {
-            font-size: 9pt;
-            font-weight: bold;
-            background-color: #DDDDDD;
-        }
-
-        .lineht {
-            line-height: 240%;
-        }
-
-        @media print {
-            footer {
-                page-break-after: always;
-            }
-        }
-    </style>
-
-    <!--
-    >From this point, the JavaScript is common for all JS: forms (new method for pac-read)
-    Where changes to a JavaScript function need to be made, a comment will be inserted there
-      to describe what needs to be done.
-    -->
-    <style type="text/css" media="screen">
-        #Header2 {
-            display: none;
-        }
-    </style>
-
-    <style type="text/css" media="print">
-        .header, .trailer, .blankit {
-            display: none;
-        }
-
-        .red {
-            color: black;
-        }
-
-        .table4 {
-            color: black;
-        }
-
-        hr {
-            color: black
-        }
-
-        input, select, textarea {
-            color: black;
-            background: none;
-        }
-
-        .title-text {
-            color: black;
-        }
-
-        .oper-input {
-            color: black;
-        }
-    </style>
-
-    <script language="JavaScript">
+<script language="JavaScript">
 // <!--
 
 // The first 2 records below are required.  They are part of the first 2 # records
 //  in the ASCII file sent to Outpost.
 //
-var JSid = "SC-OA-Allied Status (which4)";
-var JSver = "JS-ver. PR-4.4-1.0, 09/11/18";
-var JShead = "<span class=\"js-head-text\">JavaScript Version PR-4.4-1.0 for Amateur Radio Packet Transmission, 09/11/18 - <b>PacRELEASE 4.4</b></span>";
-var JStail = "(PR-4.4-1.0, 09/11/18)";
+var JSid = "SCCo OA Allied Health Status (which4)";
+var JSver = "JS-ver. PR-4.4-1.3, 11/30/18";
+var JShead = "<span class=\"js-head-text\">JavaScript Version PR-4.4-1.3 for Amateur Radio Packet Transmission, 11/30/18 - <b>PacRELEASE 4.4</b></span>";
+var JStail = "(PR-4.4-1.3, 11/30/18)";
 var JSTopHead = "County of Santa Clara Emergency Operations Center<br>ALLIED HEALTH STATUS REPORT SHORT FORM";
 
 fromlocal = 0;  // =0 for call to pac-read with No !OUTPOST! record; >0 if so. Reset fm pac-read.
@@ -887,26 +711,28 @@ function testreply()
    }
 
 // -->
-    </script>
+</script>
     <script src="js/AddedForWebView.js"></script>
-    <!-- PART1 -->
+<!-- PART1 -->
 </head>
 <body onload="hide_message(); datetime(0); custom();" bgcolor="#ffffff">
 <!-- PART2 -->
 <center>
-<table class="banner-table" width="75%">
+<table class="banner-table" width="100%">
   <tbody><tr><td><center>
     <span class="title-text">
 	   <script language="JavaScript"> // put in header area
 	      document.write(JSTopHead);
 	   </script>
     </span>
+
     <div class="js-head-text header">
       <script language="JavaScript"> // put in header area
         document.write(JShead);
-      </script><br>
+      </script>
+      <br>
       <span class="s2-title-text">(For the manual saving of the ASCII output, this form is best used with Microsoft Internet Explorer)</span>
-      <div id="errormessage1" name="errormessage1" align="center">
+      <div id="errormessage1" name="errormessage1" style="display: none;" align="center">
         <p>&nbsp;</p>
         <hr size="3" color="red">
         <span class="js-error-text">
@@ -983,187 +809,263 @@ function testreply()
 
 <!-- Page 1 Content Starts -->
 <center>
-<hr color="black" size="5">
+<hr size="5" color="black">
 
 <!-- Start of User Data Fields -->
 <!-- First 3 rows in paper form -->
-<table border="1" align="center" width="90%">
-<tr><td width="50%" class="red">FACILITY NAME:<br><input name="FacName" size="50" type="text" ></td>
-    <td class="red">FACILITY TYPE:<br><input name="FacType" size="30" type="text"> </td>
-    <td>DATE:<br><input name="date3" size="10" type="text"> </td>
-    <td>TIME:<br><input name="time3" size="10" type="text"> </td>
-</tr>
-<tr><td>Facility Contact Name:<br><input name="FacContactName" size="50" type="text"></td>
-    <td>Phone #<br><input name="phone" size="16" type="text"></td>
-    <td colspan="2">Fax #<br><input name="fax" size="16" type="text"></td>
-</tr>
-<tr><td>Other Phone, Fax, Cell Phone, Radio:<br><input name="OtherComm" size="50" type="text"></td>
-    <td colspan="3">Incident Name and Date:<br><input name="IncName" size="50" type="text"></td>
-</tr>
-</table>
+<table width="90%" border="1" align="center">
+  <tbody><tr>
+    <td class="red" width="50%">FACILITY NAME:<br><input name="FacName" size="50" type="text"></td>
+    <td class="red">FACILITY TYPE:<br><input name="FacType" size="20" type="text"> </td>
+    <td>DATE:<br><input name="date3" size="10" value="09/23/2018" type="text"> </td>
+    <td>TIME:<br><input name="time3" size="8" value="14:35" type="text"> </td>
+  </tr>
+  <tr>
+    <td>Facility Contact Name:<br><input name="FacContactName" size="50" type="text"></td>
+    <td>Phone #<br><input name="phone" size="20 " type="text"></td>
+    <td colspan="2">Fax #<br><input name="fax" size="20" type="text"></td>
+  </tr>
+  <tr>
+    <td>Other Phone, Fax, Cell Phone, Radio:<br><input name="OtherComm" size="50" type="text"></td>
+    <td colspan="3">Incident Name and Date:<br><input name="IncName" size="45" type="text"></td>
+  </tr>
+</tbody></table>
 
-<!-- Left hand column -->
-<table  border="0" width="90%" >
-<tr ><td width="50%">
-   <table border="1" width="100%">
-   <tr class="sec-title"><td>FACILITY STATATUS</td>
-       <td align="center">CHECK ONE</td>
-   </tr>
-   <tr ><td>GREEN- FULLY FUNCTIONAL</td><td align="center"><input name="FacStat" type="radio" value="green"></td></tr>
-   <tr><td>RED- LIMITED SERVICES</td><td align="center"><input name="FacStat" type="radio" value="RED"></td></tr>
-   <tr><td>BLACK- IMPAIRED / CLOSED</td><td align="center"><input name="FacStat" type="radio" value="BLACK"></td></tr>
+<table width="100%" border="0">
+  <tbody><tr>
+    <!-- Left hand column -->
+    <td valign="top">
+      <table width="100%" border="1">
+        <tbody><tr>
+          <td class="sec-title">FACILITY STATATUS</td>
+          <td class="sec-title" align="center">CHECK ONE</td>
+        </tr>
+        <tr>
+          <td class="table5">GREEN- FULLY FUNCTIONAL</td>
+          <td align="center"><input name="FacStat" value="green" type="radio"></td>
+        </tr>
+        <tr>
+          <td class="table5">RED- LIMITED SERVICES</td>
+          <td align="center"><input name="FacStat" value="RED" type="radio"></td>
+        </tr>
+        <tr>
+          <td class="table5">BLACK- IMPAIRED / CLOSED</td>
+          <td align="center"><input name="FacStat" value="BLACK" type="radio"></td>
+        </tr>
+        <tr class="sec-title"><td colspan="2">FACILITY CONTACT INFORMATION</td></tr>
+        <tr>
+          <td class="table5">EOC MAIN CONTACT NUMBER</td>
+          <td align="right"><input name="eocNum" size="25" type="text"></td>
+          </tr>
+        <tr>
+          <td class="table5">EOC MAIN CONTACT FAX</td>
+          <td align="right"><input name="eocFax" size="25" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5">NAME LIAISON TO PUBLIC HEALTH / MEDICAL HEALTH BRANCH</td>
+          <td align="right"><input name="LiaName" size="25" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5">CONTACT NUMBER</td>
+          <td align="right"><input name="LiaContactNo" size="25" type="text"></td></tr>
+        <tr>
+          <td class="table5">INFORMATION OFFICER NAME</td>
+          <td align="right"><input name="infoOffName" size="25" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5">CONTACT NUMBER</td>
+          <td align="right"><input name="InfoContactNo" size="25" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5" colspan="2">CONTACT EMAIL &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          <input name="InfoEmail" size="75"  type="text" style="float: right"></td>
+        </tr>
+        <tr>
+          <td class="table5">IF EOC IS NOT ACTIVATED, WHO SHOULD BE CONTACTED FOR QUESTIONS / REQUESTS?</td>
+          <td align="right"><input name="EOCName" size="25" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5">CONTACT NUMBER</td>
+          <td align="right"><input name="EOCContactNo" size="25" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5" colspan="2">CONTACT EMAIL &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          <input name="EOCEmail" size="75" type="text" style="float: right"></td>
+        </tr>
+        <tr class="sec-title">
+          <td class="sec-title">FACILITY PATIENT FLOW INFORMATION</td>
+          <td align="right">FACILITY TOTAL</td>
+        </tr>
+        <tr>
+          <td class="table5">PATIENTS TO EVACUATE </td>
+          <td align="right"><input name="Pat1" size="10" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5">PATIENTS INJURED - MINOR </td>
+          <td align="right"><input name="Pat2" size="10" type="text"></td>
+        </tr>
+        <tr>
+          <td class="table5">PATIENTS TRANSFERED OUT OF COUNTY </td>
+          <td align="right"><input name="Pat3" size="10" type="text"></td>
+        </tr>
+        <tr class="table5"><td colspan="2">OTHER PATIENT CARE INFO <input name="OtherInfo" size="75" type="text" style="float: right"></td></tr>
+        <tr class="table5"><td colspan="2" class="sec-title" align="center">DEOC / EOC / DUTY CHIEF USE</td></tr>
+   <!-- Separater at bottom of first column -->
 
-   <tr class="sec-title" ><td colspan="2">FACILITY CONTACT INFORMATION</td></tr>
-   <tr><td>EOC MAIN CONTACT NUMBER</td><td align="center"><input name="eocNum" type="text" size="15"></td></tr>
-   <tr><td>EOC MAIN CONTACT FAX</td><td align="center"><input name="eocFax" type="text" size="15"></td></tr>
-   <tr><td>NAME LIAISON TO PUBLIC HEALTH / MEDICAL HEALTH BRANCH</td>
-        <td align="center"><input name="LiaName" type="text" size="30"></td></tr>
-   <tr><td>CONCACT NUMBER</td><td align="center"><input name="LiaContactNo" type="text" size="15"></td></tr>
-   <tr><td>INFORMATION OFFICER NAME</td><td align="center"><input name="infoOffName" type="text" size="30"></td></tr>
-   <tr><td>CONCACT NUMBER</td><td align="center"><input name="InfoContactNo" type="text" size="15"></td></tr>
-   <tr><td>CONCACT EMAIL</td><td align="center"><input name="InfoEmail" type="text" size="30"></td></tr>
-   <tr><td>IF EOC IS NOT ACTIVATED, WHO SHOULD BE CONTACTED<br>FOR QUESTIONS / REQUESTS?</td>
-       <td align="center"><input name="EOCName" type="text" size="30"></td></tr>
-   <tr><td>CONCACT NUMBER</td><td align="center"><input name="EOCContactNo" type="text" size="15"></td></tr>
-   <tr><td>CONCACT EMAIL</td><td align="center"><input name="EOCEmail" type="text" size="30"></td></tr>
-   <tr class="sec-title"><td>FACILITY PATIENT FLOW INFORMATION</td><td align="right">FACILITY TOTAL</td></tr>
-   <tr><td>PATIENTS TO EVACUATE </td><td align="right"><input name="Pat1" type="text" size="10"></td></tr>
-   <tr><td>PATIENTS INJURED - MINOR </td><td align="right"><input name="Pat2" type="text" size="10"></td></tr>
-   <tr><td>PATIENTS TRANSFERED OUT OF COUNTY </td><td align="right"><input name="Pat3" type="text" size="10"></td></tr>
-   <tr><td colspan="2">OTHER PATIENTS CARE INFORMATION &nbsp; <input name="OtherInfo" type="text" size="50"></td></tr>
-   <tr><td colspan="2" align="center" class="sec-title">DEOC / EOC / DUTY CHIEF USE</td></tr>
-   <tr><td colspan="2" height="163"></td></tr>
+        <tr class="table5"><td colspan="2" height="163"></td></tr>
+      </tbody></table>
+    </td>
+    <!-- Right Hand column -->
+    <td valign="top">
+      <table width="100%" border="1">
+        <tbody><tr class="sec-title">
+          <td>FACILITY -CHECK ATTACHMENTS PROVIDED</td>
+          <td align="center">Yes / No</td>
+        </tr>
+        <tr>
+          <td class="table5">NHICS/ICS ORGANIZATIONAL CHART</td>
+          <td nowrap="nowrap" align="center">Y<input name="ans1" value="yes" type="radio"> &nbsp;N<input name="ans1" value="no" type="radio"></td>
+        </tr>
+        <tr>
+          <td class="table5">DEOC-9A RESOURCE REQUEST FORMS</td>
+          <td nowrap="nowrap" align="center">Y<input name="ans2" value="yes" type="radio">&nbsp;N<input name="ans2" value="no" type="radio"></td>
+        </tr>
+        <tr>
+          <td class="table5">NHICS/ICS STATUS REPORT FORM-STANDARD</td>
+          <td nowrap="nowrap" align="center">Y<input name="ans3" value="yes" type="radio">&nbsp;N<input name="ans3" value="no" type="radio"></td>
+        </tr>
+        <tr>
+          <td class="table5">NHICS/ICS INCIDENT ACTION PLAN</td>
+          <td nowrap="nowrap" align="center">Y<input name="ans4" value="yes" type="radio">&nbsp;N<input name="ans4" value="no" type="radio"></td>
+        </tr>
+        <tr>
+          <td class="table5">PHONE / COMMUICATIONS DIRECTORY</td>
+          <td nowrap="nowrap" align="center">Y<input name="ans5" value="yes" type="radio">&nbsp;N<input name="ans5" value="no" type="radio"></td>
+        </tr>
+        <tr><td colspan="2" class="sec-title" align="center">GENERAL SUMMARY OF SITUATION / CONDITIONS</td></tr>
+        <tr><td colspan="2" align="center"><textarea rows="7" cols="45" name="GenSum"></textarea></td></tr>
+      </tbody></table>
+      <table width="100%" border="1">
+        <tbody><tr>
+          <td class="table5b">SNF BED RESOURCE<br>AVAILABILITY</td>
+          <td class="table6" align="center">Staffed<br>Beds-M</td>
+          <td class="table6" align="center">Staffed<br>Beds-F</td>
+          <td class="table6" align="center">Vacant<br>Beds-M</td>
+          <td class="table6" align="center">Vacant<br>Beds-F</td>
+          <td class="table6" align="center">*Surge #</td>
+        </tr>
+        <tr class="table5">
+          <td>SKILLED NURSING</td>
+          <td align="center"><input name="SN1" size="3" type="text"></td>
+          <td align="center"><input name="SN2" size="3" type="text"></td>
+          <td align="center"><input name="SN3" size="3" type="text"></td>
+          <td align="center"><input name="SN4" size="3" type="text"></td>
+          <td align="center"><input name="SN5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>ASSISTED LIVING</td>
+          <td align="center"><input name="AL1" size="3" type="text"></td>
+          <td align="center"><input name="AL2" size="3" type="text"></td>
+          <td align="center"><input name="AL3" size="3" type="text"></td>
+          <td align="center"><input name="AL4" size="3" type="text"></td>
+          <td align="center"><input name="AL5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>SURGICAL BEDS</td>
+          <td align="center"><input name="SB1" size="3" type="text"></td>
+          <td align="center"><input name="SB2" size="3" type="text"></td>
+          <td align="center"><input name="SB3" size="3" type="text"></td>
+          <td align="center"><input name="SN4" size="3" type="text"></td>
+          <td align="center"><input name="SB5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>SUB-ACUTE</td>
+          <td align="center"><input name="SA1" size="3" type="text"></td>
+          <td align="center"><input name="SA2" size="3" type="text"></td>
+          <td align="center"><input name="SA3" size="3" type="text"></td>
+          <td align="center"><input name="SA4" size="3" type="text"></td>
+          <td align="center"><input name="SA5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>ALZEIMERS / DIMENTIA</td>
+          <td align="center"><input name="AD1" size="3" type="text"></td>
+          <td align="center"><input name="AD2" size="3" type="text"></td>
+          <td align="center"><input name="AD3" size="3" type="text"></td>
+          <td align="center"><input name="AD4" size="3" type="text"></td>
+          <td align="center"><input name="AD5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>PEDIATRIC-SUB ACUTE</td>
+          <td align="center"><input name="PA1" size="3" type="text"></td>
+          <td align="center"><input name="PA2" size="3" type="text"></td>
+          <td align="center"><input name="PA3" size="3" type="text"></td>
+          <td align="center"><input name="PA4" size="3" type="text"></td>
+          <td align="center"><input name="PA5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>PSYCHIATRIC</td>
+          <td align="center"><input name="PS1" size="3" type="text"></td>
+          <td align="center"><input name="PS2" size="3" type="text"></td>
+          <td align="center"><input name="PS3" size="3" type="text"></td>
+          <td align="center"><input name="PS4" size="3" type="text"></td>
+          <td align="center"><input name="PS5" size="3" type="text"></td>
+        </tr>
+        <tr><td colspan="6" align="center">*surge number: &nbsp; # of beds in addition to vacant available beds</td></tr>
+        <tr>
+          <td class="table7">AVAILABLE RESOURCES BY<br>FACILITY TYPE</td>
+          <td class="table8" align="center">CHAIRS/<br>ROOMS</td>
+          <td class="table8" align="center">VACANT<br>CHAIRS/<br>ROOMS</td>
+          <td class="table8" align="center">FRONT<br>DESK<br>STAFF</td>
+          <td class="table8" align="center">MEDICAL<br>SUPPORT<br>STAFF</td>
+          <td class="table8" align="center">PROVIDER<br>STAFF</td>
+        </tr>
+        <tr class="table5">
+          <td>DIALYSIS</td>
+          <td align="center"><input name="DI1" size="3" type="text"></td>
+          <td align="center"><input name="DI2" size="3" type="text"></td>
+          <td align="center"><input name="DI3" size="3" type="text"></td>
+          <td align="center"><input name="DI4" size="3" type="text"></td>
+          <td align="center"><input name="DI5" size="3" type="text"></td>
+        </tr>
+          <tr class="table5">
+          <td>SURGICAL</td>
+          <td align="center"><input name="SU1" size="3" type="text"></td>
+          <td align="center"><input name="SU2" size="3" type="text"></td>
+          <td align="center"><input name="SU3" size="3" type="text"></td>
+          <td align="center"><input name="SU4" size="3" type="text"></td>
+          <td align="center"><input name="SU5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>CLINIC</td>
+          <td align="center"><input name="CL1" size="3" type="text"></td>
+          <td align="center"><input name="CL2" size="3" type="text"></td>
+          <td align="center"><input name="CL3" size="3" type="text"></td>
+          <td align="center"><input name="CL4" size="3" type="text"></td>
+          <td align="center"><input name="CL5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>HOMEHEALTH</td>
+          <td align="center"><input name="HH1" size="3" type="text"></td>
+          <td align="center"><input name="HH2" size="3" type="text"></td>
+          <td align="center"><input name="HH3" size="3" type="text"></td>
+          <td align="center"><input name="HH4" size="3" type="text"></td>
+          <td align="center"><input name="HH5" size="3" type="text"></td>
+        </tr>
+        <tr class="table5">
+          <td>ADULT DAY CARE</td>
+          <td align="center"><input name="DC1" size="3" type="text"></td>
+          <td align="center"><input name="DC2" size="3" type="text"></td>
+          <td align="center"><input name="DC3" size="3" type="text"></td>
+          <td align="center"><input name="DC4" size="3" type="text"></td>
+          <td align="center"><input name="DC5" size="3" type="text"></td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
 
-   </table>
-
-</td>
-
-<!-- Right Hand column -->
-<td valign="top">
-   <table border="1" width="100%" >
-   <tr class="sec-title"><td>FACILITY -CHECK ATTACHMENTS PROVIDED</td>
-       <td  align="center">Yes / No</td>
-   <tr>
-   <tr><td>NHICS/ICS ORGANIZATIONAL CHART</td><td align="center">Yes <input name="ans1" type="radio" value="yes"> &nbsp; &nbsp;
-                                                  No <input name="ans1" type="radio" value="no"></td></tr>
-   <tr><td>DEOC-9A RESOURCE REQUEST FORMS</td><td align="center">Yes <input name="ans2" type="radio" value="yes"> &nbsp; &nbsp;
-                                                  No <input name="ans2" type="radio" value="no"></td></tr>
-   <tr><td>NHICS/ICS STATUS REPORT FORM-STANDARD</td><td align="center">Yes <input name="ans3" type="radio" value="yes"> &nbsp; &nbsp;
-                                                  No <input name="ans3" type="radio" value="no"></td></tr>
-   <tr><td>NHICS/ICS INCIDNT ACTION PLAN</td><td align="center">Yes <input name="ans4" type="radio" value="yes"> &nbsp; &nbsp;
-                                                  No <input name="ans4" type="radio" value="no"></td></tr>
-   <tr><td>PHONE / COMMUICATIONS DIRECTORY</td><td align="center">Yes <input name="ans5" type="radio" value="yes"> &nbsp; &nbsp;
-                                                  No <input name="ans5" type="radio" value="no"></td></tr>
-   <tr><td colspan="2" align="center" class="sec-title">GENERAL SUMMARY OF SITUATION / CONDITIONS</td></tr>
-   <tr><td colspan="2" align="center"><textarea rows="7" cols="70" name="GenSum"></textarea>
-   </table>
-   <table border="1" width="100%" >
-   <tr><td class="table5b">SNF BED RESOURCE<br>AVAILABILITY</td>
-       <td class="table6">Staffed<br>Bed- M</td>
-       <td class="table6">Staffed<br>Bed- F</td>
-       <td class="table6">vacant<br>Beds- M</td>
-       <td class="table6">vacant<br>Beds- F</td>
-       <td class="table6">*Surge #</td>
-   </tr>
-   <tr class="table5"><td>SKILLED NURSING</td>
-       <td align="center"><input name="SN1" type="text" size="3"></td>
-       <td align="center"><input name="SN2" type="text" size="3"></td>
-       <td align="center"><input name="SN3" type="text" size="3"></td>
-       <td align="center"><input name="SN4" type="text" size="3"></td>
-       <td align="center"><input name="SN5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>ASSISTED LIVING</td>
-       <td align="center"><input name="AL1" type="text" size="3"></td>
-       <td align="center"><input name="AL2" type="text" size="3"></td>
-       <td align="center"><input name="AL3" type="text" size="3"></td>
-       <td align="center"><input name="AL4" type="text" size="3"></td>
-       <td align="center"><input name="AL5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>SURGICAL BEDS</td>
-       <td align="center"><input name="SB1" type="text" size="3"></td>
-       <td align="center"><input name="SB2" type="text" size="3"></td>
-       <td align="center"><input name="SB3" type="text" size="3"></td>
-       <td align="center"><input name="SN4" type="text" size="3"></td>
-       <td align="center"><input name="SB5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>SUB-ACUTE</td>
-       <td align="center"><input name="SA1" type="text" size="3"></td>
-       <td align="center"><input name="SA2" type="text" size="3"></td>
-       <td align="center"><input name="SA3" type="text" size="3"></td>
-       <td align="center"><input name="SA4" type="text" size="3"></td>
-       <td align="center"><input name="SA5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>ALZEIMERS / DIMENTIA</td>
-       <td align="center"><input name="AD1" type="text" size="3"></td>
-       <td align="center"><input name="AD2" type="text" size="3"></td>
-       <td align="center"><input name="AD3" type="text" size="3"></td>
-       <td align="center"><input name="AD4" type="text" size="3"></td>
-       <td align="center"><input name="AD5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>PEDIATRIC-SUB ACUTE</td>
-       <td align="center"><input name="PA1" type="text" size="3"></td>
-       <td align="center"><input name="PA2" type="text" size="3"></td>
-       <td align="center"><input name="PA3" type="text" size="3"></td>
-       <td align="center"><input name="PA4" type="text" size="3"></td>
-       <td align="center"><input name="PA5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>PSYCHIATRIC</td>
-       <td align="center"><input name="PS1" type="text" size="3"></td>
-       <td align="center"><input name="PS2" type="text" size="3"></td>
-       <td align="center"><input name="PS3" type="text" size="3"></td>
-       <td align="center"><input name="PS4" type="text" size="3"></td>
-       <td align="center"><input name="PS5" type="text" size="3"></td>
-   </tr>
-   <tr><td align="center" colspan="6">*surge number: &nbsp; # of beds in addition to vacant available beds</td></tr>
-
-   <tr><td class="table7"AVAILABLE RESOURCES BY<br>FACILITY TYPE</td>
-       <td class="table8">CHAIRS/<br>ROOMS</td>
-       <td class="table8">VACANT<br>CHAIRS/<br>ROOMS</td>
-       <td class="table8">FRONT<br>DESK<br>STAFF</td>
-       <td class="table8">MEDICAL<br>SUPPORT<br>STAFF</td>
-       <td class="table8">PROVIDER<br>STAFF</td>
-   </tr>
-   <tr class="table5"><td>DIALYSIS</td>
-       <td align="center"><input name="DI1" type="text" size="3"></td>
-       <td align="center"><input name="DI2" type="text" size="3"></td>
-       <td align="center"><input name="DI3" type="text" size="3"></td>
-       <td align="center"><input name="DI4" type="text" size="3"></td>
-       <td align="center"><input name="DI5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>SURGICAL</td>
-       <td align="center"><input name="SU1" type="text" size="3"></td>
-       <td align="center"><input name="SU2" type="text" size="3"></td>
-       <td align="center"><input name="SU3" type="text" size="3"></td>
-       <td align="center"><input name="SU4" type="text" size="3"></td>
-       <td align="center"><input name="SU5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>CLINIC</td>
-       <td align="center"><input name="CL1" type="text" size="3"></td>
-       <td align="center"><input name="CL2" type="text" size="3"></td>
-       <td align="center"><input name="CL3" type="text" size="3"></td>
-       <td align="center"><input name="CL4" type="text" size="3"></td>
-       <td align="center"><input name="CL5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>HOMEHEALTH</td>
-       <td align="center"><input name="HH1" type="text" size="3"></td>
-       <td align="center"><input name="HH2" type="text" size="3"></td>
-       <td align="center"><input name="HH3" type="text" size="3"></td>
-       <td align="center"><input name="HH4" type="text" size="3"></td>
-       <td align="center"><input name="HH5" type="text" size="3"></td>
-   </tr>
-   <tr class="table5"><td>ADULT DAY CARE</td>
-       <td align="center"><input name="DC1" type="text" size="3"></td>
-       <td align="center"><input name="DC2" type="text" size="3"></td>
-       <td align="center"><input name="DC3" type="text" size="3"></td>
-       <td align="center"><input name="DC4" type="text" size="3"></td>
-       <td align="center"><input name="DC5" type="text" size="3"></td>
-   </tr>
-   </table>
-</td>
-</tr>
-</table>
-<table border="1" width="90%" >
-<tr><td class="redA">Please follow instructions received from email / phone / CAHAM on how
+<table width="90%" border="1">
+<tbody><tr><td class="redA">Please follow instructions received from email / phone / CAHAM on how
 to submit this form. &nbsp; if telepones/fax are not working, use alternate means of
 communication (radio, messenger, ARES/RACES Packet, etc.)  Use the RESOURCE REQUEST FORM
 to request resources.
@@ -1171,7 +1073,7 @@ to request resources.
 <tr><td class="title-textA">ALLIED HEALTH STATUS REPORT FORM - Revised February 2018<br>
 Department Operations Center Form 9 (DEOC-9) [SCCo PacFORMS version]
 </td></tr>
-</table>
+</tbody></table>
 
 
 
@@ -1193,8 +1095,8 @@ Department Operations Center Form 9 (DEOC-9) [SCCo PacFORMS version]
     <!-- Outpost State, Date, Time -->
     <td valign="middle" nowrap="nowrap">
       <span id="senddt" style="display:block;">
-        &nbsp;Submitted <input name="odate" size="11" disabled="disabled" class="oper-input"  type="text">
-        <input name="otime" size="6" disabled="disabled"  type="text">
+        &nbsp;Submitted <input name="odate" size="11" disabled="disabled" class="oper-input" value="09/23/2018" type="text">
+        <input name="otime" size="6" disabled="disabled" value="14:35" type="text">
       </span>
       <!-- Need to handle the third option:  "Sent" -->
       <span id="outpostdt" style="display:none;">
@@ -1209,10 +1111,10 @@ Department Operations Center Form 9 (DEOC-9) [SCCo PacFORMS version]
     <p>
  <!-- Form Version Information -->
  </p><div class="form-ver-text" align="right">
-   SCCo EOC SCCo OA Municipal Status Version 20130101
+   SCCo Allied Health Status Version 201802
    <script type="text/javascript">
      document.write(JStail);
-   </script>
+   </script>(PR-4.4-1.1, 09/23/18)
   </div>
 
 
@@ -1249,6 +1151,7 @@ Department Operations Center Form 9 (DEOC-9) [SCCo PacFORMS version]
 </center>
 
 
-</center>
-</body></html>
+</center></form>
+
+</center></body></html>
 <!-- PART4 -->

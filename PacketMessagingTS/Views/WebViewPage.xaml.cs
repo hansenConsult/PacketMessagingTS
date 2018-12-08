@@ -102,7 +102,7 @@ namespace PacketMessagingTS.Views
                     ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_ShelterStatus_v20130814.html");
                     break;
                 case "webViewPivotItemAlliedHealthStatus":
-                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_AlliedHealthStatus.html");
+                    ViewModel.Source = new Uri("ms-appx-web:///PacFORMS/XSC_OA_AlliedHealthStatus_v201802.html");
                     break;
             }
         }
