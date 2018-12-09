@@ -311,4 +311,8 @@
     <value>Test ICS309</value>
     <comment>Test309</comment>
   </data>
+  <data name="Shell_HospitalForms.Content" xml:space="preserve">
+    <value>Hospital Forms</value>
+    <comment>Navigation view item name for Hospital Forms</comment>
+  </data>
 </root>

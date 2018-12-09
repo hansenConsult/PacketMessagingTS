@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="PacketMessagingTS.Views.HospitalFormsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PacketMessagingTS.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <!--  content  -->
+        <Pivot x:Name="hospitalFormsPagePivot" Grid.Row="1" Height="auto"
+               RelativePanel.AlignTopWithPanel="True"
+               RelativePanel.AlignLeftWithPanel="True"
+               RelativePanel.AlignRightWithPanel="True"
+			   RelativePanel.Above="ButtomCommandBar"
+               FontFamily="Bahnschrift"
+               SelectionChanged="HospitalFormsPagePivot_SelectionChangedAsync"/>
+
+        <CommandBar x:Name="ButtomCommandBar"
+				RelativePanel.AlignBottomWithPanel="True"
+				RelativePanel.AlignRightWithPanel="True"
+				RelativePanel.AlignLeftWithPanel="True">
+            <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
+                          Click="AppBarViewOutpostData_ClickAsync"/>
+            <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"
+                          Click="AppBarSave_ClickAsync"/>
+            <AppBarButton x:Name="appBarPrint" Label="Print Message" Icon="Print" HorizontalAlignment="Right"
+                          Click="AppBarPrint_ClickAsync">
+            </AppBarButton>
+            <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send" Click="AppBarSend_ClickAsync"/>
+        </CommandBar>
+    </RelativePanel>
+</Page>
