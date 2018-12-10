@@ -152,7 +152,7 @@ namespace PacketMessagingTS.Helpers
         /// Scenario 5 uses a different approach
         /// </summary>
         /// <param name="page">The page to print</param>
-        public virtual void PreparePrintContent(FormsPage page)
+        public virtual void PreparePrintContent(Page page)
         {
             if (_firstPage is null)
             {
@@ -323,7 +323,15 @@ namespace PacketMessagingTS.Helpers
             page.Width = printPageDescription.PageSize.Width;
             page.Height = printPageDescription.PageSize.Height;
 
-            StackPanel printableArea = ((FormsPage)page).PacketForm.FindName("PrintableArea") as StackPanel;
+            StackPanel printableArea = null;
+            if (page is FormsPage)
+            {
+                printableArea = ((FormsPage)page).PacketForm.FindName("PrintableArea") as StackPanel;
+            }
+            else
+            {
+                printableArea = ((HospitalFormsPage)page).PacketForm.FindName("PrintableArea") as StackPanel;
+            }
 
             // Get the margins size
             // If the ImageableRect is smaller than the app provided margins use the ImageableRect

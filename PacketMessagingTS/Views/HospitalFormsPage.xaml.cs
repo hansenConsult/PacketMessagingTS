@@ -514,7 +514,7 @@ namespace PacketMessagingTS.Views
             //if (_packetForm.GetType() == typeof(ICS213Control))
             {
                 //ContinuationPage continuationPage = new ContinuationPage(this);
-                //printHelper?.PreparePrintContent(this);
+                printHelper?.PreparePrintContent(this);
             }
         }
 

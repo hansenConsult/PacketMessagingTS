@@ -158,7 +158,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBox Grid.Column="0" Grid.Row="0" x:Name="facilityName" Header="FACILITY NAME:" 
-                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"  BorderBrush="White"
                                  Tag="13,required,Enter the Facility Name." TextChanged="Subject_Changed" Height="50"/>
                         <Grid Grid.Column="1" Grid.Row="0">
                             <Grid.ColumnDefinitions>
@@ -167,10 +167,11 @@
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox Grid.Column="0" x:Name="facilityType" Header="FACILITY TYPE:" 
-                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" Tag="14"/>
-                            <TextBox Grid.Column="1" x:Name="msgDate" Header="DATE:" 
+                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}"  BorderBrush="White"
+                                     Tag="14,required,Enter the Facility Type." TextChanged="Subject_Changed"/>
+                            <TextBox Grid.Column="1" x:Name="msgDate" Header="DATE:"  BorderBrush="White"
                                      HeaderTemplate="{StaticResource isc309HeaderTemplate}" Tag="15"/>
-                            <TextBox Grid.Column="2" x:Name="msgTime" Header="TIME:" 
+                            <TextBox Grid.Column="2" x:Name="msgTime" Header="TIME:"  BorderBrush="White"
                                      HeaderTemplate="{StaticResource isc309HeaderTemplate}" Tag="16"/>
                         </Grid>
                         <TextBox Grid.Column="0" Grid.Row="1" Header="Facility Contact Name:" 
@@ -188,11 +189,11 @@
                                      HeaderTemplate="{StaticResource isc309HeaderTemplate}" Tag="19"/>
                         </Grid>
                         <TextBox Grid.Column="0" Grid.Row="2" x:Name="facilityOther" Header="Other Phone, Fax, Cell Phone, Radio:" 
-                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}"
+                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}"  BorderBrush="White"
                                  />
                         <TextBox Grid.Column="1" Grid.Row="2" x:Name="incidentName" Header="Incident Name and Date:" 
-                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}" 
-                                 BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"  BorderBrush="White"
+                                 />
                         <Border Grid.Column="0" Grid.Row="3"  Background="LightGray"></Border>
                         <Grid Grid.Column="0" Grid.Row="3">
                             <Grid.ColumnDefinitions>
@@ -291,14 +292,15 @@
                                          HorizontalAlignment="Left" Margin="56,0,0,0" VerticalAlignment="Center" Width="30" />
                         </Grid>
 
-                        <Grid Grid.Column="0" Grid.Row="8">
+                        <Grid Grid.Column="0" Grid.Row="8" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="EOC MAIN CONTACT NUMBER" 
                                        VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="0" />
+                            <TextBox Grid.Column="1" Grid.Row="0"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
                             <Grid.ColumnDefinitions>
@@ -320,9 +322,9 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="EOC MAIN CONTACT FAX" 
                                        VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="0" />
+                            <TextBox Grid.Column="1" Grid.Row="0"  BorderBrush="White"/>
                         </Grid>
-                        <Border Grid.Row="9" Grid.Column="1" Background="LightGray"/>
+                        <Border Grid.Row="9" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                         <TextBlock Grid.Row="9" Grid.Column="1" Text="GENERAL SUMMARY OF SITUATION / CONDITIONS" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <Grid Grid.Column="0" Grid.Row="10">
@@ -332,9 +334,11 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="NAME LIAISON TO PUBLIC HEALTH / MEDICAL HEALTH BRANCH" 
                                        TextWrapping="WrapWholeWords" VerticalAlignment="Center" />
-                            <TextBox x:Name="liasonToPublicHealth" Grid.Column="1" Grid.Row="0" />
+                            <TextBox x:Name="liasonToPublicHealth" Grid.Column="1" Grid.Row="0"  BorderBrush="White"/>
                         </Grid>
-                        <TextBox Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" x:Name="summary" />
+                        <Border Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,1">
+                            <TextBox Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" x:Name="summary"  BorderBrush="White" />
+                        </Border>
                         <Grid Grid.Column="0" Grid.Row="11">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
@@ -342,7 +346,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="CONTACT NUMBER" 
                                        TextWrapping="WrapWholeWords" VerticalAlignment="Center" />
-                            <TextBox x:Name="liasonContactNumber" Grid.Column="1" Grid.Row="0" />
+                            <TextBox x:Name="liasonContactNumber" Grid.Column="1" Grid.Row="0"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="12">
                             <Grid.ColumnDefinitions>
@@ -351,7 +355,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="INFORMATION OFFICER NAME" 
                                        TextWrapping="WrapWholeWords" VerticalAlignment="Center" />
-                            <TextBox x:Name="infoOffiverName" Grid.Column="1" Grid.Row="0" />
+                            <TextBox x:Name="infoOffiverName" Grid.Column="1" Grid.Row="0"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="13">
                             <Grid.ColumnDefinitions>
@@ -359,7 +363,7 @@
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="CONTACT NUMBER" VerticalAlignment="Center"  />
-                            <TextBox Grid.Column="1" x:Name="infoOffiverNumber" VerticalAlignment="Stretch" />
+                            <TextBox Grid.Column="1" x:Name="infoOffiverNumber" VerticalAlignment="Center"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="14">
                             <Grid.ColumnDefinitions>
@@ -376,7 +380,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords"
                                        Text="IF EOC IS NOT ACTIVATED, WHO SHOULD BE CONTACTED FOR QUESTIONS / REQUESTS?" />
-                            <TextBox Grid.Column="1" x:Name="altContact" />
+                            <TextBox Grid.Column="1" x:Name="altContact"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Row="15" Grid.Column="1" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="1,0,0,1">
                             <Grid.RowDefinitions>
@@ -397,6 +401,12 @@
                                 <ColumnDefinition Width="1.2*"/>
                                 <ColumnDefinition Width="1.4*"/>
                             </Grid.ColumnDefinitions>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="3" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="4" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="SNF BED RESOURCE AVAILABILITY" 
                                        TextWrapping="WrapWholeWords" FontSize="14"  VerticalAlignment="Center" />
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="Staffed Bed-M" 
@@ -414,27 +424,30 @@
                             <TextBlock Grid.Row="0" Grid.Column="5" Text="*Surge #" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        TextWrapping="WrapWholeWords"  FontSize="10"/>
+                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="SKILLED NURSING"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="3" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="4" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="5" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="ASSISTED LIVING"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="4" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="5" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="SURGICAL BEDS"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="4" VerticalAlignment="Center"  BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="5" VerticalAlignment="Center"  BorderBrush="White"/>
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="SUB-ACUTE"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"/>
@@ -471,7 +484,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords"
                                        Text="CONTACT NUMBER" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" x:Name="altContactNumber" />
+                            <TextBox Grid.Column="1" x:Name="altContactNumber"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="17">
                             <Grid.ColumnDefinitions>
@@ -501,7 +514,7 @@
                             <TextBlock Grid.Column="0" 
                                        Text="PATIENTS TO EVACUATE" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" x:Name="patientsToEvacuate"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="20" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
@@ -511,7 +524,7 @@
                             <TextBlock Grid.Column="0" 
                                        Text="PATIENTS INJURED - MINOR" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" x:Name="patientsInjured"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="21" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
@@ -521,7 +534,7 @@
                             <TextBlock Grid.Column="0" 
                                        Text="PATIENTS TRANSFERED OUT OF COUNTY" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" x:Name="patientsTransferred"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"  BorderBrush="White"/>
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="22" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
@@ -531,7 +544,7 @@
                             <TextBlock Grid.Column="0" 
                                        Text="OTHER PATIENT CARE INFORMATION" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" x:Name="patientInfoOther"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"  BorderBrush="White"/>
                         </Grid>
                         <Border Grid.Row="23" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                         <TextBlock  Grid.Row="23" Grid.Column="0" Text="DEOC/EOC/DUTY CHIEF USE" 
@@ -540,7 +553,7 @@
                         <TextBlock  Grid.Row="23" Grid.Column="1" 
                                     Text="*surge number: # of beds in addition to vacant available beds" 
                                     VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="24" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse" />
+                        <TextBox Grid.Row="24" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse"  BorderBrush="White" />
                         <!--<Border Grid.Row="24" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="1,0,0,1"/>-->
                         <Grid Grid.Row="24" Grid.RowSpan="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <Grid.RowDefinitions>
@@ -559,6 +572,12 @@
                                 <ColumnDefinition Width="1.2*"/>
                                 <ColumnDefinition Width="1.4*"/>
                             </Grid.ColumnDefinitions>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="3" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <Border Grid.Row="0" Grid.Column="4" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="AVAILABLE RESOURCES BY FACILITY TYPE" 
                                        TextWrapping="WrapWholeWords" FontSize="14"  VerticalAlignment="Center" />
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="CHAIRS/ROOMS" 
@@ -576,41 +595,45 @@
                             <TextBlock Grid.Row="0" Grid.Column="5" Text="PROVIDER STAFF" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        TextWrapping="WrapWholeWords"  FontSize="10"/>
+                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="DIALYSIS"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="2" BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" Margin="2" BorderBrush="White"/>
+                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="SURGICAL"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" Margin="2" BorderBrush="White"/>
+                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="CLINIC"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="3" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="4" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="3" Grid.Column="5" VerticalAlignment="Center" Margin="2" BorderBrush="White"/>
+                            <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="HOMEHEALTH"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="4" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="4" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="4" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="4" Grid.Column="4" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="4" Grid.Column="5" VerticalAlignment="Center" Margin="2" BorderBrush="White"/>
                             <TextBlock Grid.Row="5" Grid.Column="0" Text="ADULT DAY CENTER"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="5" Grid.Column="2" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="5" Grid.Column="3" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="5" Grid.Column="4" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="5" Grid.Column="5" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="5" Grid.Column="4" VerticalAlignment="Center" BorderBrush="White"/>
+                            <TextBox Grid.Row="5" Grid.Column="5" VerticalAlignment="Center" BorderBrush="White"/>
                         </Grid>
                     </Grid>
                     <TextBlock TextWrapping="WrapWholeWords" FontSize="12" Foreground="red" Text="Please follow instructions received from email/phone/CAHAN on how to submit this form. If telephones/fax are not working, use alternate means of communication (radio, messenger, etc.) Use the RESOURCE REQUEST FORM to request resources."/>
