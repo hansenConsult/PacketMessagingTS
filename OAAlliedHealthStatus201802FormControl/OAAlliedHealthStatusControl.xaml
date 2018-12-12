@@ -197,9 +197,9 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1"/>
-                        <TextBox Grid.Column="0" Grid.Row="0" x:Name="facilityName" Header="FACILITY NAME:" 
+                        <TextBox Grid.Column="0" Grid.Row="0" x:Name="facilityNameTextBox" Header="FACILITY NAME:" 
                                  HeaderTemplate="{StaticResource alliedHeaderRequiredTemplate}"  BorderBrush="White"
-                                 Margin="2"
+                                 Margin="2" Text="{x:Bind FacilityName, Mode=TwoWay}"
                                  Tag="13,required,Enter the Facility Name." TextChanged="Subject_Changed" />
                         <Grid Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,1">
                             <Grid.ColumnDefinitions>
@@ -207,9 +207,9 @@
                                 <ColumnDefinition Width="1.4*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="facilityType" Header="FACILITY TYPE:" 
+                            <TextBox Grid.Column="0" x:Name="facilityTypeTextBox" Header="FACILITY TYPE:" 
                                      HeaderTemplate="{StaticResource alliedHeaderRequiredTemplate}"  BorderBrush="White"
-                                     Margin="2"
+                                     Margin="2" Text="{x:Bind FacilityType, Mode=TwoWay}"
                                      Tag="14,required,Enter the Facility Type." />
                             <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
                             <TextBox Grid.Column="1" x:Name="msgDate" Header="DATE:"  BorderBrush="White"

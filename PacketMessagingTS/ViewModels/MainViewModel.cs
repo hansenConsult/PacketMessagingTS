@@ -79,7 +79,7 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref dataGridSource, value);
         }
 
-        private int mainPagePivotSelectedIndex;
+        private int mainPagePivotSelectedIndex = Utilities.GetProperty("MainPagePivotSelectedIndex");
         public int MainPagePivotSelectedIndex
         {
             get => GetProperty(ref mainPagePivotSelectedIndex);

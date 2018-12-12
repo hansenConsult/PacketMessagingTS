@@ -195,11 +195,11 @@ namespace PacketMessagingTS
 
             Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
 
-            Singleton<MainViewModel>.Instance.MainPagePivotSelectedIndex = Utilities.GetProperty("MainPagePivotSelectedIndex");
+            //Singleton<MainViewModel>.Instance.MainPagePivotSelectedIndex = Utilities.GetProperty("MainPagePivotSelectedIndex");
 
-            Singleton<FormsViewModel>.Instance.FormsPagePivotSelectedIndex = Utilities.GetProperty("FormsPagePivotSelectedIndex");
+            //Singleton<FormsViewModel>.Instance.FormsPagePivotSelectedIndex = Utilities.GetProperty("FormsPagePivotSelectedIndex");
 
-            Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Utilities.GetProperty("TacticalCallsignSelectedIndex");
+            //Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Utilities.GetProperty("TacticalCallsignSelectedIndex");
 
             //await UpdatePacFormsFiles.SyncPacFormFoldersAsync();
 

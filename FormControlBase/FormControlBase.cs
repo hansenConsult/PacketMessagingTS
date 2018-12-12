@@ -59,9 +59,13 @@ namespace FormControlBaseClass
 
         protected List<string> outpostData;
 
+        private static Dictionary<string, object> _properties = new Dictionary<string, object>();
+        static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
+
+
         public FormControlBase()
 		{
-		}
+        }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
@@ -72,6 +76,50 @@ namespace FormControlBaseClass
 
             storage = value;
             OnPropertyChanged(propertyName);
+        }
+
+        protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
+        {
+            if (_properties != null && _properties.ContainsKey(propertyName))
+            {
+                // Retrieve value from dictionary
+                object o = _properties[propertyName];
+                backingStore = (T)o;
+                return (T)o;
+            }
+            else
+                return backingStore;
+        }
+
+        protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
+                    [CallerMemberName]string propertyName = "", Action onChanged = null)
+        {
+            bool firstTime;
+            if (_propertyFirstTime.ContainsKey(propertyName))
+            {
+                firstTime = _propertyFirstTime[propertyName];
+            }
+            else
+            {
+                firstTime = true;
+            }
+            // Do not update displayed value if not changed or not first time or not forced
+            if (Equals(backingStore, value) && !firstTime && !forceUpdate)
+            {
+                return false;
+            }
+            _propertyFirstTime[propertyName] = false;
+
+            if (persist)
+            {
+                // store value
+                _properties[propertyName] = value;
+            }
+
+            backingStore = value;
+            onChanged?.Invoke();
+            OnPropertyChanged(propertyName);
+            return true;
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -36,7 +36,7 @@ namespace PacketMessagingTS.ViewModels
             //set => SetProperty(ref observableProfileCollection, value);
         }
 
-        private int profileSelectedIndex;
+        private int profileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
         public int ProfileSelectedIndex
         {
             get => GetProperty(ref profileSelectedIndex);

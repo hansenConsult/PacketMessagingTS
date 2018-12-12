@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 using SharedCode;
 using FormControlBaseClass;
+using System.Runtime.CompilerServices;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -58,9 +59,23 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override string PacFormType => "OA Municipal Status";
 
+        private string facilityName;
+        public string FacilityName
+        {
+            get => GetProperty(ref facilityName);
+            set => SetProperty(ref facilityName, value, true);
+        }
+
+        private string facilityType;
+        public string FacilityType
+        {
+            get => GetProperty(ref facilityType);
+            set => SetProperty(ref facilityType, value, true);
+        }
+
         public override string CreateSubject()
         {
-            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAAlliedHealth_" + facilityName.Text + '_' + facilityType.Text);
+            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAAlliedHealth_" + facilityNameTextBox.Text + '_' + facilityTypeTextBox.Text);
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

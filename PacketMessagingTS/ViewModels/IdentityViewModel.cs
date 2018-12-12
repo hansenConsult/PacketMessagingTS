@@ -110,7 +110,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private int tacticalCallsignSelectedIndex;
+        private int tacticalCallsignSelectedIndex = Utilities.GetProperty("TacticalCallsignSelectedIndex");
         public int TacticalCallsignSelectedIndex
         {
             get { return GetProperty(ref tacticalCallsignSelectedIndex); }

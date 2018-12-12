@@ -222,7 +222,7 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarMainPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
         {
-            StorageFolder folder = (StorageFolder)_currentPivotItem.Tag;
+            StorageFolder folder = _currentPivotItem.Tag as StorageFolder;
 
             //if (_mainViewModel.SelectedItems.Count > 1)
             //{

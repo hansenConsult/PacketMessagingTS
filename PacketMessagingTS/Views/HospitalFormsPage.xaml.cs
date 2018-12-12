@@ -516,6 +516,7 @@ namespace PacketMessagingTS.Views
                 //ContinuationPage continuationPage = new ContinuationPage(this);
                 printHelper?.PreparePrintContent(this);
             }
+            _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = ((Pivot)sender).SelectedIndex;
         }
 
         private async void AppBarViewOutpostData_ClickAsync(object sender, RoutedEventArgs e)
