@@ -160,8 +160,7 @@
                                                    Style="{StaticResource MuniStatusFieldTextRequired}"/>
                                         <TextBox Name="msgDate" Text="{x:Bind MsgDate, Mode=TwoWay}" PlaceholderText="mm/dd/yy" 
                                                  Style="{StaticResource MuniStatusTextBox}" 
-                                                 Tag="15,required,Enter the date." VerticalContentAlignment="Center" 
-                                                 TextChanged="MsgDate_TextChanged"/>
+                                                 Tag="15,required,Enter the date." VerticalContentAlignment="Center" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                                         <TextBlock Text="Time" VerticalAlignment="Center" Margin="20,0,0,0"

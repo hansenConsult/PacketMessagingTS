@@ -24,7 +24,7 @@ namespace OAAlliedHealthStatus201802FormControl
                 FormControlName = "XSC_OA_AlliedHealthStatus_v201802",
                 FormControlMenuName = "OA AlliedHealthstatus",
                 FormControlType = FormControlAttribute.FormType.HospitalForm)
-]
+    ]
 
 
 
@@ -38,8 +38,8 @@ namespace OAAlliedHealthStatus201802FormControl
 
             InitializeControls();
 
-            //sent.IsChecked = true; ;
-            //packet.IsChecked = true;
+            sent.IsChecked = true; ;
+            packet.IsChecked = true;
         }
 
         public override string Severity
@@ -58,15 +58,9 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override string PacFormType => "OA Municipal Status";
 
-        public string FacilityName
-        { get => GetTextBoxString(facilityName); }
-
-        public string FacilityType
-        { get => GetTextBoxString(facilityType); }
-
         public override string CreateSubject()
         {
-            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAAlliedHealth_" + FacilityName + '_' + FacilityType);
+            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAAlliedHealth_" + facilityName.Text + '_' + facilityType.Text);
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

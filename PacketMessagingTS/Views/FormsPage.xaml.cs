@@ -211,7 +211,7 @@ namespace PacketMessagingTS.Views
             _formControlAttributeList.AddRange(attributeListTypeNone);
             _formControlAttributeList.AddRange(attributeListTypeCounty);
             _formControlAttributeList.AddRange(attributeListTypeCity);
-            _formControlAttributeList.AddRange(attributeListTypeHospital);
+            //_formControlAttributeList.AddRange(attributeListTypeHospital);
         }
 
         private void CreatePacketMessage()

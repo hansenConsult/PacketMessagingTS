@@ -51,7 +51,7 @@ namespace PacketMessagingTS.Views
 
         private List<FormControlAttributes> _formControlAttributeList;
 
-        public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
+        public HospitalFormsViewModel _hospitalFormsViewModel { get; } = Singleton<HospitalFormsViewModel>.Instance;
 
         public HospitalFormsPage()
         {
@@ -314,7 +314,7 @@ namespace PacketMessagingTS.Views
             if (e.Parameter is null)
             {
                 // Open an empty form
-                hospitalFormsPagePivot.SelectedIndex = _formsViewModel.FormsPagePivotSelectedIndex;
+                hospitalFormsPagePivot.SelectedIndex = _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
                 return;
             }
 
@@ -344,7 +344,7 @@ namespace PacketMessagingTS.Views
             {
                 printHelper.UnregisterForPrinting();
             }
-            _formsViewModel.FormsPagePivotSelectedIndex = hospitalFormsPagePivot.SelectedIndex;
+            _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = hospitalFormsPagePivot.SelectedIndex;
 
             base.OnNavigatedFrom(e);
         }
@@ -508,7 +508,7 @@ namespace PacketMessagingTS.Views
                 _loadMessage = false;
             }
 
-            //_formsViewModel.FormsPagePivotSelectedIndex = FormsPagePivot.SelectedIndex;
+            //_hospitalFormsViewModel.FormsPagePivotSelectedIndex = FormsPagePivot.SelectedIndex;
 
             // Initialize print content for this scenario
             //if (_packetForm.GetType() == typeof(ICS213Control))
