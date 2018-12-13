@@ -29,7 +29,7 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
-        private int tncDeviceSelectedIndex;
+        private int tncDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
         public int TNCDeviceSelectedIndex
         {
             get => GetProperty(ref tncDeviceSelectedIndex);

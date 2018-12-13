@@ -193,7 +193,7 @@ namespace PacketMessagingTS
             // ToDO Set while the list is filled or by profile?
             //Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Utilities.GetProperty("MailAccountSelectedIndex");
 
-            Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+            //Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
 
             //Singleton<MainViewModel>.Instance.MainPagePivotSelectedIndex = Utilities.GetProperty("MainPagePivotSelectedIndex");
 

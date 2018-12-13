@@ -492,6 +492,8 @@ namespace PacketMessagingTS.Views
         {
             _packetAddressForm = new SendFormDataControl(_loadMessage);
 
+            string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+
             PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
             string pivotItemName = pivotItem.Name;
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
@@ -510,8 +512,6 @@ namespace PacketMessagingTS.Views
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
-
-            string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")

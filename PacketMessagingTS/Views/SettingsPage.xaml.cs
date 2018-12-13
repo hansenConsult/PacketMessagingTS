@@ -177,6 +177,9 @@ namespace PacketMessagingTS.Views
 
                     //ResetTNCDeviceChanged();
                     break;
+                case "pivotPacketSettings":
+                    _packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                    break;
                     //    //    case "pivotItemAddressBook":
                     //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
                     //    //        break;

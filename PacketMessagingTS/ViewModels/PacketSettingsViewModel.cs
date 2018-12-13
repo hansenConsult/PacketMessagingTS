@@ -36,7 +36,7 @@ namespace PacketMessagingTS.ViewModels
             //set => SetProperty(ref observableProfileCollection, value);
         }
 
-        private int profileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+        private int profileSelectedIndex;
         public int ProfileSelectedIndex
         {
             get => GetProperty(ref profileSelectedIndex);
@@ -50,7 +50,7 @@ namespace PacketMessagingTS.ViewModels
                 else
                 {
                     _logHelper.Log(LogLevel.Error, $"ProfileSelectedIndex = {value}");
-                    profileSelectedIndex = 0;
+                    ProfileSelectedIndex = 0;
                     SetProperty(ref profileSelectedIndex, 0, true);
                     CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
                 }
@@ -60,7 +60,14 @@ namespace PacketMessagingTS.ViewModels
         private Profile currentProfile;
         public Profile CurrentProfile
         {
-            get => currentProfile;
+            get
+            {
+                if (currentProfile is null)
+                {
+                    ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                }
+                return currentProfile;
+            }
             set
             {
                 currentProfile = value;
@@ -167,7 +174,7 @@ namespace PacketMessagingTS.ViewModels
                 BBSFrequency1 = currentBBS?.Frequency1;
                 BBSFrequency2 = currentBBS?.Frequency2;
 
-                bool changed = CurrentBBS.Name != currentProfile.BBS;            
+                bool changed = CurrentBBS?.Name != currentProfile.BBS;            
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }

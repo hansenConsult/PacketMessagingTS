@@ -32,14 +32,14 @@ namespace PacketMessagingTS.Controls
             }
             ScanControls(messageInfo);
 
-            MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS?.Name;
+            MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
             //AddressBook.Instance.UserBBS = MessageBBS;
             MessageTNC = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
             MessageTo = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.SendTo;
 
             IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
             MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
-            if (!MessageBBS.Contains("XSC"))
+            if (!MessageBBS.Contains("XSC") && !MessageTNC.Contains(SharedData.EMail))
             {
                 MessageBBS = AddressBook.Instance.GetBBS(MessageFrom);
             }
