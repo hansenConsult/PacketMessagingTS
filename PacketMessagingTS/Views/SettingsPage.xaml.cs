@@ -64,7 +64,7 @@ namespace PacketMessagingTS.Views
         // Identity settings
         public static ObservableCollection<TacticalCallsignData> listOfTacticallsignsArea;
 
-        TacticalCallsignData _tacticalCallsignData;
+        //TacticalCallsignData _tacticalCallsignData;
 
         // Profiles settings
         
@@ -104,6 +104,7 @@ namespace PacketMessagingTS.Views
             // Identity initialization
             listOfTacticallsignsArea = new ObservableCollection<TacticalCallsignData>(App._TacticalCallsignDataList);
             _identityViewModel.TacticalCallsignsAreaSource = listOfTacticallsignsArea;
+            //_identityViewModel._tacticalSelectedIndexArray = new int[listOfTacticallsignsArea.Count];
 
             // Distribution Lists Initialization
             distributionListName.ItemsSource = DistributionListArray.Instance.GetDistributionLists();
@@ -172,6 +173,7 @@ namespace PacketMessagingTS.Views
             switch ((SettingsPivot.SelectedItem as PivotItem).Name)
             {
                 case "pivotTNC":
+                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
                     // Select current TNC device
                     comboBoxComPort.SelectedValue = _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport;
 
@@ -179,6 +181,13 @@ namespace PacketMessagingTS.Views
                     break;
                 case "pivotPacketSettings":
                     _packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                    break;
+                case "pivotIdentity":
+                    //_identityViewModel.TacticalCallsignAreaSelectedIndex = Utilities.GetProperty("TacticalCallsignAreaSelectedIndex");
+                    //if (_identityViewModel.TacticalSelectedIndexArray == null)
+                    //{
+                    //    _identityViewModel.TacticalSelectedIndexArray = new int[listOfTacticallsignsArea.Count];
+                    //}
                     break;
                     //    //    case "pivotItemAddressBook":
                     //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
@@ -203,18 +212,17 @@ namespace PacketMessagingTS.Views
         #region Identity
         private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
+            _identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
 
-            _tacticalCallsignData.TacticalCallsignsChanged = false;
-            _identityViewModel._tacticalCallsignData = _tacticalCallsignData;
-            if (_tacticalCallsignData.TacticalCallsigns != null)
+            //_identityViewModel._tacticalCallsignData.TacticalCallsignsChanged = false;
+            if (_identityViewModel._tacticalCallsignData.TacticalCallsigns != null)
             {
-                ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
-                TacticalCallsignsSource.Source = listOfTacticallsigns;
-                //_identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
-                _identityViewModel.TacticalCallsignSelectedIndex = 0;
+                ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_identityViewModel._tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
+                //TacticalCallsignsSource.Source = listOfTacticallsigns;
+                _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
+                //_identityViewModel.TacticalCallsignSelectedIndex = e.AddedItems[0] as int;
             }
-            if (_tacticalCallsignData.AreaName == "Other")
+            if (_identityViewModel._tacticalCallsignData.AreaName == "Other")
             {
                 textBoxTacticalCallsign.Visibility = Visibility.Visible;
                 comboBoxTacticalCallsign.Visibility = Visibility.Collapsed;

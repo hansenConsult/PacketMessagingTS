@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -91,10 +92,38 @@ namespace PacketMessagingTS.Helpers
         {
             if (_properties != null && _properties.ContainsKey(propertyName))
             {
-                // Retrieve value from dictionary
-                object o = _properties[propertyName];
-                backingStore = (T)o;
-                return (T)o;
+                try
+                {
+                    // Retrieve value from dictionary
+                    object o = _properties[propertyName];
+                    backingStore = (T)o;
+                    return (T)o;
+                }
+                catch
+                {
+                    return backingStore;
+                }
+            }
+            else
+                return backingStore;
+        }
+
+        protected int[] GetProperty(ref int[] backingStore, [CallerMemberName]string propertyName = "")
+        {
+            if (_properties != null && _properties.ContainsKey(propertyName))
+            {
+                try
+                {
+                    // Retrieve value from dictionary
+                    var o = _properties[propertyName];
+                    var intArray = JsonConvert.DeserializeObject<int[]>(o.ToString()); 
+                    backingStore = intArray;
+                    return intArray;
+                }
+                catch (Exception e)
+                {
+                    return backingStore;
+                }
             }
             else
                 return backingStore;
@@ -132,16 +161,16 @@ namespace PacketMessagingTS.Helpers
         }
 
 
-        //protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-        //{
-        //    if (Equals(storage, value))
-        //    {
-        //        return;
-        //    }
+        protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
 
-        //    storage = value;
-        //    OnPropertyChanged(propertyName);
-        //}
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName) =>

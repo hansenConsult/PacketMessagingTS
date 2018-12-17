@@ -29,7 +29,7 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
-        private int tncDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
+        private int tncDeviceSelectedIndex;
         public int TNCDeviceSelectedIndex
         {
             get => GetProperty(ref tncDeviceSelectedIndex);
@@ -50,7 +50,14 @@ namespace PacketMessagingTS.ViewModels
         private TNCDevice currentTNCDevice;
         public TNCDevice CurrentTNCDevice
         {
-            get => currentTNCDevice;
+            get
+            {
+                if (currentTNCDevice is null)
+                {
+                    TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
+                }
+                return currentTNCDevice;
+            }
             set
             {
                 currentTNCDevice = value;

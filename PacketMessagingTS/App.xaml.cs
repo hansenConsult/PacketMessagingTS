@@ -36,6 +36,10 @@ namespace PacketMessagingTS
         private const string PropertiesDictionaryFileName = "PropertiesDictionary";
         public static Dictionary<string, object> Properties { get; set; }
 
+        private const string TacticalCallsArrayFileName = "TacticallsArray";
+        public static int[] TacticalCallsArray { get; set; }
+
+
         private Lazy<ActivationService> _activationService;
         private ActivationService ActivationService
         {
@@ -146,6 +150,8 @@ namespace PacketMessagingTS
                 Properties = new Dictionary<string, object>();
             }
 
+            //TacticalCallsArray = await localFolder.ReadAsync<int[]>(TacticalCallsArrayFileName);
+
 #if DEBUG
             SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
 #endif
@@ -186,20 +192,6 @@ namespace PacketMessagingTS
             Singleton<SettingsViewModel>.Instance.W3XSCStatusUp = Utilities.GetProperty<bool>("W3XSCStatusUp");
             Singleton<SettingsViewModel>.Instance.W4XSCStatusUp = Utilities.GetProperty<bool>("W4XSCStatusUp");
             Singleton<SettingsViewModel>.Instance.W5XSCStatusUp = Utilities.GetProperty<bool>("W5XSCStatusUp");
-
-            // Selected Profile selects TNC device (maybe mail)
-            //Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
-
-            // ToDO Set while the list is filled or by profile?
-            //Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = Utilities.GetProperty("MailAccountSelectedIndex");
-
-            //Singleton<PacketSettingsViewModel>.Instance.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
-
-            //Singleton<MainViewModel>.Instance.MainPagePivotSelectedIndex = Utilities.GetProperty("MainPagePivotSelectedIndex");
-
-            //Singleton<FormsViewModel>.Instance.FormsPagePivotSelectedIndex = Utilities.GetProperty("FormsPagePivotSelectedIndex");
-
-            //Singleton<IdentityViewModel>.Instance.TacticalCallsignSelectedIndex = Utilities.GetProperty("TacticalCallsignSelectedIndex");
 
             //await UpdatePacFormsFiles.SyncPacFormFoldersAsync();
 
