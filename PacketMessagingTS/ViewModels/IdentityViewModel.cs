@@ -10,8 +10,6 @@ namespace PacketMessagingTS.ViewModels
         public static TacticalCall _callsignData;
         public TacticalCallsignData _tacticalCallsignData;
 
-        //public int[] _tacticalSelectedIndexArray; 
-
         public IdentityViewModel()
         {
 
@@ -97,6 +95,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tacticalCallsignsSource, value);
+                TacticalCallsignSelectedIndex = TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex];
             }
         }
 
@@ -107,7 +106,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tacticalCallsignAreaSelectedIndex, value, true);
-                //TacticalCallsignSelectedIndex = TacticalSelectedIndexArray[value];
+                //TacticalCallsignsSource = new ObservableCollection<TacticalCall>(TacticalCallsignsAreaSource[value].TacticalCallsigns.TacticalCallsignsArray);
             }
         }
 
@@ -140,16 +139,14 @@ namespace PacketMessagingTS.ViewModels
             get => TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex];
             set
             {
-                //SetProperty(ref tacticalCallsignSelectedIndex, value, true);
-                Set(ref tacticalCallsignSelectedIndex, value);
-
-                TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex] = value;
-                TacticalSelectedIndexArray = TacticalSelectedIndexArray;
-                //_tacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex] = value;
-                // TODO improve on this
-                if (value != -1 && App._TacticalCallsignDataList[TacticalCallsignAreaSelectedIndex].TacticalCallsigns != null)
-                //if (TacticalCallsignsSource != null)
+                if (value != -1)
                 {
+                    //SetProperty(ref tacticalCallsignSelectedIndex, value, true);
+                    TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex] = value;
+                    TacticalSelectedIndexArray = TacticalSelectedIndexArray;
+                    SetProperty(ref tacticalCallsignSelectedIndex, value);
+                    // TODO improve on this
+                    //if (value != -1 && App._TacticalCallsignDataList[TacticalCallsignAreaSelectedIndex].TacticalCallsigns != null)
                     //_callsignData = TacticalCallsignsSource[tacticalCallsignSelectedIndex];
                     //_callsignData = tacticalCallsigns.TacticalCallsignsArray[value];
                     _callsignData = App._TacticalCallsignDataList[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArray[value];
@@ -205,7 +202,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref tacticalCallsign);
             set
             {
-                SetProperty(ref tacticalCallsign, value, true);
+                SetProperty(ref tacticalCallsign, value);
             }
         }
 
@@ -234,42 +231,9 @@ namespace PacketMessagingTS.ViewModels
         private string tacticalMsgPrefix;
         public string TacticalMsgPrefix
         {
-            get { return tacticalMsgPrefix; }
-            set { Set(ref tacticalMsgPrefix, value); }
+            get => tacticalMsgPrefix;
+            set { SetProperty(ref tacticalMsgPrefix, value); }
         }
-
-        //private string tacticalPrimary;
-        //public string TacticalPrimary
-        //{
-        //    get { return tacticalPrimary; }
-        //    set { SetProperty(ref tacticalPrimary, value); }
-        //}
-
-        //private bool tacticalPrimaryActive;
-        //public bool TacticalPrimaryActive
-        //{
-        //    get { return tacticalPrimaryActive; }
-        //    set
-        //    {
-        //        tacticalPrimaryActive = value;
-        //        if (_callsignData is null)
-        //        {
-        //            _callsignData = Views.SettingsPage.listOfTacticallsignsArea[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArray[TacticalCallsignSelectedIndex];
-        //        }
-
-        //        _callsignData.PrimaryBBSActive = tacticalPrimaryActive;
-        //        //_tacticalCallsignData.TacticalCallsignsChanged = true;
-        //        //AddressBook.UpdateEntry(_callsignData);
-        //        SetProperty(ref tacticalPrimaryActive, value);
-        //    }
-        //}
-
-        //private string tacticalSecondary;
-        //public string TacticalSecondary
-        //{
-        //    get { return tacticalSecondary; }
-        //    set { SetProperty(ref tacticalSecondary, value); }
-        //}
 
         private bool displayIdentityAtStartup;
         public bool DisplayIdentityAtStartup

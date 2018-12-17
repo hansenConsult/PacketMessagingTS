@@ -876,8 +876,6 @@ namespace PacketMessagingTS.Models
 
 		private string secondaryBBSField = "";
 
-		//private bool secondaryActiveField;
-
 		//private bool selectedField;
 
 		/// <remarks/>
@@ -963,20 +961,6 @@ namespace PacketMessagingTS.Models
 				this.secondaryBBSField = value;
 			}
 		}
-
-		/// <remarks/>
-		//[System.Xml.Serialization.XmlAttributeAttribute()]
-		//public bool SecondaryBBSActive
-		//{
-		//	get
-		//	{
-		//		return this.secondaryActiveField;
-		//	}
-		//	set
-		//	{
-		//		this.secondaryActiveField = value;
-		//	}
-		//}
 
 		///// <remarks/>
 		//[System.Xml.Serialization.XmlAttributeAttribute()]

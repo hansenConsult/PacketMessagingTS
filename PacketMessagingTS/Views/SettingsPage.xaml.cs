@@ -104,7 +104,6 @@ namespace PacketMessagingTS.Views
             // Identity initialization
             listOfTacticallsignsArea = new ObservableCollection<TacticalCallsignData>(App._TacticalCallsignDataList);
             _identityViewModel.TacticalCallsignsAreaSource = listOfTacticallsignsArea;
-            //_identityViewModel._tacticalSelectedIndexArray = new int[listOfTacticallsignsArea.Count];
 
             // Distribution Lists Initialization
             distributionListName.ItemsSource = DistributionListArray.Instance.GetDistributionLists();
@@ -212,15 +211,21 @@ namespace PacketMessagingTS.Views
         #region Identity
         private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //return;
+
             _identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
+            int addedCount = e.AddedItems.Count;
+            if (e.RemovedItems.Count > 0)
+            {
+                var data = (TacticalCallsignData)e.RemovedItems[0];
+                int deletedCount = e.RemovedItems.Count;
+            }
 
             //_identityViewModel._tacticalCallsignData.TacticalCallsignsChanged = false;
             if (_identityViewModel._tacticalCallsignData.TacticalCallsigns != null)
             {
                 ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_identityViewModel._tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
-                //TacticalCallsignsSource.Source = listOfTacticallsigns;
                 _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
-                //_identityViewModel.TacticalCallsignSelectedIndex = e.AddedItems[0] as int;
             }
             if (_identityViewModel._tacticalCallsignData.AreaName == "Other")
             {

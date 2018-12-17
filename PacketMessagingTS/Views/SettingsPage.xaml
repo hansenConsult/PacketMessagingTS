@@ -214,13 +214,14 @@
 									   VerticalAlignment="Center" 
 									   Text="Tactical Call-sign Area:" />
                             <ComboBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsignArea" 
-									  ItemsSource="{Binding TacticalCallsignsAreaSource, Mode=OneTime}"
+									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsAreaSource, Mode=OneTime}"
 									  DisplayMemberPath = "AreaName"
 									  VerticalContentAlignment="Center"
 									  IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									  SelectedIndex="{x:Bind _identityViewModel.TacticalCallsignAreaSelectedIndex, Mode=TwoWay}"
 									  Margin="5,1,0,1" Background="White" 
-									  SelectionChanged="ComboBoxTacticalCallsignArea_SelectionChanged" Width="220" BorderThickness="2" >
+									  SelectionChanged="ComboBoxTacticalCallsignArea_SelectionChanged"
+                                      Width="220" BorderThickness="2" >
                             </ComboBox>
                             <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelTacticalCallsign" 
 									   VerticalAlignment="Center"
@@ -237,17 +238,17 @@
 									 Text="{x:Bind _identityViewModel.TacticalCallsign, Mode=TwoWay}"
                                      HorizontalAlignment="Left"
 									 IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
-									 Width="133" 
+									 Width="133" Visibility="Collapsed"
 									 BorderThickness="2" Margin="5,1,0,1"
 									 TextChanged="textBoxTacticalCallsign_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="2"  x:Name="labelAdditionalText" 
 									   VerticalAlignment="Center" 
 									   Text="Additional ID text:" />
+                            <!--SelectedValue="{x:Bind _identityViewModel.TacticalAgencyName, Mode=TwoWay}"-->
                             <ComboBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="comboBoxAdditionalText"  
 									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsSource, Mode=OneWay}" 	
 									  DisplayMemberPath = "AgencyName"
                                       SelectedValuePath="AgencyName"
-                                      SelectedValue="{x:Bind _identityViewModel.TacticalAgencyName, Mode=TwoWay}"
                                       SelectedIndex="{x:Bind _identityViewModel.TacticalAgencyNameSelectedIndex, Mode=TwoWay}"
                                       IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									  VerticalContentAlignment="Center" Width="220" 
