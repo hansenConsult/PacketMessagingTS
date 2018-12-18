@@ -82,7 +82,8 @@
 
     <Grid >
         <Pivot x:Name="SettingsPivot"
-            SelectionChanged="SettingsPivot_SelectionChanged">
+               SelectedIndex="{x:Bind _settingsViewModel.SettingsPivotSelectedIndex, Mode=TwoWay}"
+               SelectionChanged="SettingsPivot_SelectionChanged">
 
             <!--Settings-->
             <PivotItem Header="Settings" >

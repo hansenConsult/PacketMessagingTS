@@ -131,9 +131,13 @@ namespace PacketMessagingTS.Views
             DeviceListSource.Source = _listOfDevices;       // Temporary TODO remove
 
             if (e.Parameter is null)
+            {
                 return;
-
-            SettingsPivot.SelectedIndex = (int)e.Parameter;
+            }
+            else
+            {
+                SettingsPivot.SelectedIndex = (int)e.Parameter;
+            }
         }
 
         protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -162,6 +166,8 @@ namespace PacketMessagingTS.Views
                 _packetSettingsViewModel.ResetChangedProperty();
             }
 
+            _settingsViewModel.SettingsPivotSelectedIndex = SettingsPivot.SelectedIndex;
+
             base.OnNavigatingFrom(e);
         }
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -182,11 +188,7 @@ namespace PacketMessagingTS.Views
                     _packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
                     break;
                 case "pivotIdentity":
-                    //_identityViewModel.TacticalCallsignAreaSelectedIndex = Utilities.GetProperty("TacticalCallsignAreaSelectedIndex");
-                    //if (_identityViewModel.TacticalSelectedIndexArray == null)
-                    //{
-                    //    _identityViewModel.TacticalSelectedIndexArray = new int[listOfTacticallsignsArea.Count];
-                    //}
+                    _identityViewModel.TacticalCallsignAreaSelectedIndex = Utilities.GetProperty("TacticalCallsignAreaSelectedIndex");
                     break;
                     //    //    case "pivotItemAddressBook":
                     //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
@@ -211,15 +213,8 @@ namespace PacketMessagingTS.Views
         #region Identity
         private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //return;
-
+            return;
             _identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
-            int addedCount = e.AddedItems.Count;
-            if (e.RemovedItems.Count > 0)
-            {
-                var data = (TacticalCallsignData)e.RemovedItems[0];
-                int deletedCount = e.RemovedItems.Count;
-            }
 
             //_identityViewModel._tacticalCallsignData.TacticalCallsignsChanged = false;
             if (_identityViewModel._tacticalCallsignData.TacticalCallsigns != null)

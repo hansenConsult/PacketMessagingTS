@@ -437,6 +437,20 @@ namespace PacketMessagingTS.Models
                 }
                 tacticalList.Add(tacticalCall);
             }
+            for (int i = 1; i < 10; i++)
+            {
+                string prefix = "MTV";
+                TacticalCall tacticalCall = new TacticalCall()
+                {
+                    TacticalCallsign = prefix + $"{i:d3}",
+                    Prefix = $"{i:d3}",
+                    AgencyName = "Extra",
+                    PrimaryBBS = primaryBBS,
+                    PrimaryBBSActive = true,
+                    SecondaryBBS = secondaryBBS,
+                };
+                tacticalList.Add(tacticalCall);
+            }
             string searchString = "emergency_plan_";
             // Find revision time
             foreach (var line in callsigns)

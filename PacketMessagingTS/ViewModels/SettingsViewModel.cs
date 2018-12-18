@@ -147,5 +147,11 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private int settingsPivotSelectedIndex;
+        public int SettingsPivotSelectedIndex
+        {
+            get => GetProperty(ref settingsPivotSelectedIndex);
+            set => SetProperty(ref settingsPivotSelectedIndex, value, true);
+        }
     }
 }
