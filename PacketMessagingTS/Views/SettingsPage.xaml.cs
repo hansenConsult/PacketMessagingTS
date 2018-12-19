@@ -37,29 +37,8 @@ namespace PacketMessagingTS.Views
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
-
-
-        //private static List<SerialDevice> _listOfSerialDevices = new List<SerialDevice>();
-        //private static ObservableCollection<string> CollectionOfSerialDevices;
-        //private List<DeviceInformation> _listOfBluetoothDevices;
-        //private ObservableCollection<DeviceInformation> CollectionOfBluetoothDevices;
-
         //private SuspendingEventHandler appSuspendEventHandler;
         //private EventHandler<Object> appResumeEventHandler;
-
-        //private ObservableCollection<DeviceListEntry> _listOfDevices;
-
-        //private static Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
-
-        //private static Boolean _watchersSuspended = false;
-        //private static Boolean _watchersStarted = false;
-
-        //ComportComparer _comportComparer;
-
-        ////private string _bluetoothDeviceSelector;
-
-        //// Has all the devices enumerated by the device watcher?
-        //private Boolean _isAllDevicesEnumerated = false;
 
 
         // Identity settings
@@ -176,8 +155,6 @@ namespace PacketMessagingTS.Views
                 case "pivotTNC":
                     _TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
                     // Select current TNC device
-
-                    //ResetTNCDeviceChanged();
                     break;
                 case "pivotPacketSettings":
                     _packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
@@ -196,7 +173,7 @@ namespace PacketMessagingTS.Views
                     //    //        break;
             }
             // Disable Save button
-            _TNCSettingsViewModel.ResetChangedProperty();
+            //_TNCSettingsViewModel.ResetChangedProperty();
         }
         #region General
         //private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)

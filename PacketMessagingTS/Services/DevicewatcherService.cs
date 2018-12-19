@@ -1,29 +1,25 @@
-﻿using System;
+﻿using MetroLog;
+using PacketMessagingTS.Helpers;
+using SharedCode;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using MetroLog;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.ViewModels;
-using SharedCode;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
-namespace PacketMessagingTS.Views
+namespace PacketMessagingTS.Services
 {
-    public sealed partial class ShellPage : Page
+    public class DevicewatcherService
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<DevicewatcherService>();
         private static LogHelper _logHelper = new LogHelper(log);
-
-        public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
 
 
         private SuspendingEventHandler appSuspendEventHandler;
@@ -40,20 +36,8 @@ namespace PacketMessagingTS.Views
 
         ComportComparer _comportComparer = new ComportComparer();
 
-
-
-        public ShellPage()
+        public DevicewatcherService()
         {
-            InitializeComponent();
-            HideNavViewBackButton();
-            DataContext = ViewModel;
-            ViewModel.Initialize(shellFrame, navigationView);
-
-            // Serial ports
-            ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();
-            //_listOfBluetoothDevices = new List<DeviceInformation>();
-            //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
-            //_comportComparer = new ComportComparer();
             _listOfDevices = new List<DeviceListEntry>();
 
             mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
@@ -65,19 +49,10 @@ namespace PacketMessagingTS.Views
             StartHandlingAppEvents();
         }
 
-        private void HideNavViewBackButton()
-        {
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
-            {
-                navigationView.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
-            }
-        }
-
         private void ClearDeviceEntries()
         {
             _listOfDevices.Clear();     // List of all devices
             _listOfSerialPorts.Clear();
-            ViewModel.CollectionOfSerialDevices.Clear();
             //_listOfBluetoothDevices.Clear();
             //CollectionOfBluetoothDevices.Clear();
         }
@@ -192,7 +167,7 @@ namespace PacketMessagingTS.Views
                 }
             }
             _listOfSerialPorts.Sort(_comportComparer);
-            ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
+            //ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
         }
 
         /// <summary>
@@ -272,7 +247,7 @@ namespace PacketMessagingTS.Views
                             match.ComPort = serialDevice.PortName;
                             _listOfSerialPorts.Add(serialDevice.PortName);
                             _listOfSerialPorts.Sort(_comportComparer);
-                            ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
+                            //ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
 
                             serialDevice.Dispose();     // Necessary to avoid crash on removed device
                         }
@@ -290,14 +265,14 @@ namespace PacketMessagingTS.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="deviceInformation"></param>
-        private async void OnDeviceAddedAsync(DeviceWatcher sender, DeviceInformation deviceInformation)
+        private void OnDeviceAdded(DeviceWatcher sender, DeviceInformation deviceInformation)
         {
-            await this.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
-                new DispatchedHandler(() =>
-                {
-                    AddDeviceToListAsync(deviceInformation, mapDeviceWatchersToDeviceSelector[sender]);
-                }));
+            //await this.Dispatcher.RunAsync(
+            //    CoreDispatcherPriority.Normal,
+            //    new DispatchedHandler(() =>
+            //    {
+            AddDeviceToListAsync(deviceInformation, mapDeviceWatchersToDeviceSelector[sender]);
+            //}));
         }
 
 
@@ -386,7 +361,7 @@ namespace PacketMessagingTS.Views
 
         private void AddDeviceWatcher(DeviceWatcher deviceWatcher, String deviceSelector)
         {
-            deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(OnDeviceAddedAsync);
+            deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(OnDeviceAdded);
             deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
             deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(OnDeviceEnumerationComplete);
 

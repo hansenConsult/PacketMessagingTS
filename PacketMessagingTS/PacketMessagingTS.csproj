@@ -166,6 +166,7 @@
     <Compile Include="Services\CommunicationsService\BluetoothManager.cs" />
     <Compile Include="Services\CommunicationsService\CommunicationsService.cs" />
     <Compile Include="Services\CommunicationsService\TNCInterface.cs" />
+    <Compile Include="Services\DevicewatcherService.cs" />
     <Compile Include="Services\MessageDataService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\OnBackgroundEnteringEventArgs.cs" />

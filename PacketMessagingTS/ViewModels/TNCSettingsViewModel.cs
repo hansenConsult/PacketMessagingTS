@@ -123,7 +123,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncInitCommandsPre, value);
 
                 bool changed = CurrentTNCDevice.InitCommands.Precommands != tncInitCommandsPre;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -137,7 +136,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncInitCommandsPost, value);
 
                 bool changed = CurrentTNCDevice.InitCommands.Precommands != tncInitCommandsPre;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -244,7 +242,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncComName, value);
 
                 bool changed = CurrentTNCDevice.CommPort.BluetoothName != tncComName;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -283,7 +280,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncComBaudRate, value);
 
                 bool changed = CurrentTNCDevice.CommPort.Baudrate != tncComBaudRate;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -302,7 +298,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncComDatabits, value);
 
                 bool changed = CurrentTNCDevice.CommPort.Databits != tncComDatabits;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -316,7 +311,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncComStopbits, value);
 
                 bool changed = CurrentTNCDevice.CommPort.Stopbits != tncComStopbits;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -330,7 +324,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncComParity, value);
 
                 bool changed = CurrentTNCDevice.CommPort.Parity != tncComParity;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -344,7 +337,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncComHandshake, value);
 
                 bool changed = CurrentTNCDevice.CommPort.Flowcontrol != tncComHandshake;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
             }
@@ -357,8 +349,8 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tncCommandsMyCall, value);
-                bool changed = CurrentTNCDevice.Commands.MyCall != tncCommandsMyCall;
 
+                bool changed = CurrentTNCDevice.Commands.MyCall != tncCommandsMyCall;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -370,8 +362,8 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tncCommandsConnect, value);
-                bool changed = CurrentTNCDevice.Commands.Connect != value;
 
+                bool changed = CurrentTNCDevice.Commands.Connect != value;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -383,8 +375,8 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tncCommandsRetry, value);
-                bool changed = CurrentTNCDevice.Commands.Retry != tncCommandsRetry;
 
+                bool changed = CurrentTNCDevice.Commands.Retry != tncCommandsRetry;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -396,8 +388,8 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tncCommandsConversMode, value);
-                bool changed = CurrentTNCDevice.Commands.Retry != tncCommandsConversMode;
 
+                bool changed = CurrentTNCDevice.Commands.Conversmode != tncCommandsConversMode;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -409,8 +401,8 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tncCommandsDateTime, value);
-                bool changed = CurrentTNCDevice.Commands.Retry != tncCommandsDateTime;
 
+                bool changed = CurrentTNCDevice.Commands.Datetime != tncCommandsDateTime;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -424,7 +416,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncPromptsCommand, value);
 
                 bool changed = CurrentTNCDevice.Prompts.Command != tncPromptsCommand;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -436,8 +427,8 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tncPromptsTimeout, value);
-                bool changed = CurrentTNCDevice.Prompts.Timeout != tncPromptsTimeout;
 
+                bool changed = CurrentTNCDevice.Prompts.Timeout != tncPromptsTimeout;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -451,7 +442,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncPromptsConnected, value);
 
                 bool changed = CurrentTNCDevice.Prompts.Connected != tncPromptsConnected;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -465,7 +455,6 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncPromptsDisconnected, value);
 
                 bool changed = CurrentTNCDevice.Prompts.Disconnected != tncPromptsDisconnected;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
             }

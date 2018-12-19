@@ -31,17 +31,29 @@ namespace PacketMessagingTS.Helpers
 	/// </summary>
 	public class DeviceListEntry
     {
-        private DeviceInformation device;
-        private String deviceSelector;
+        /// <summary>
+        /// The class is mainly used as a DeviceInformation wrapper so that the UI can bind to a list of these.
+        /// </summary>
+        /// <param name="deviceInformation"></param>
+        /// <param name="deviceSelector">The AQS used to find this device</param>
+        public DeviceListEntry(DeviceInformation deviceInformation, string deviceSelector, string portName = "")
+        {
+            device = deviceInformation;
+            this.deviceSelector = deviceSelector;
+            comPort = portName;
+        }
 
-        public String InstanceId
+        private string deviceSelector;
+
+        public string InstanceId
         {
             get
             {
-                return device.Properties[DeviceProperties.DeviceInstanceId] as String;
+                return device.Properties[DeviceProperties.DeviceInstanceId] as string;
             }
         }
 
+        private DeviceInformation device;
         public DeviceInformation DeviceInformation
         {
             get
@@ -50,7 +62,7 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        public String DeviceSelector
+        public string DeviceSelector
         {
             get
             {
@@ -58,15 +70,11 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        /// <summary>
-        /// The class is mainly used as a DeviceInformation wrapper so that the UI can bind to a list of these.
-        /// </summary>
-        /// <param name="deviceInformation"></param>
-        /// <param name="deviceSelector">The AQS used to find this device</param>
-        public DeviceListEntry(Windows.Devices.Enumeration.DeviceInformation deviceInformation, String deviceSelector)
+        private string comPort;
+        public string ComPort
         {
-            device = deviceInformation;
-            this.deviceSelector = deviceSelector;
+            get => comPort;
+            set => comPort = value;
         }
 
     }

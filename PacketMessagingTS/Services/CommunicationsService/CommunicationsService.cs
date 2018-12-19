@@ -247,6 +247,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         BBSName = packetMessageOutpost.BBSName,
                         TNCName = packetMessageOutpost.TNCName,
                         MessageSize = packetMessageOutpost.MessageSize,
+                        MessageNumber = packetMessageOutpost.MessageNumber,
+                        ReceivedTime = packetMessageOutpost.ReceivedTime,
+                        CreateTime = DateTime.Now,
                         Area = packetMessageOutpost.Area,
                         // Save the original message for post processing (tab characters are lost in the displayed message)
                         MessageBody = packetMessageOutpost.MessageBody,
@@ -309,9 +312,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     //pktMsg.MessageNumber = GetMessageNumberPacket();		// Filled in BBS connection
                     pktMsg.PacFormType = formControl.PacFormType;
                     pktMsg.PacFormName = formControl.PacFormName;
-                    pktMsg.MessageNumber = packetMessageOutpost.MessageNumber;
+                    //pktMsg.MessageNumber = packetMessageOutpost.MessageNumber;
 					pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines);
-					pktMsg.ReceivedTime = packetMessageOutpost.ReceivedTime;
+					//pktMsg.ReceivedTime = packetMessageOutpost.ReceivedTime;
 					if (pktMsg.ReceivedTime != null)
 					{
 						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;

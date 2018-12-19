@@ -453,6 +453,7 @@
                                    DoubleTapped="DataGrid_DoubleTapped"
                                    RightTapped="DataGrid_RightTapped">
                     <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn Header="Received Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="ReceivedTime"/>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
                         <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="auto" Tag="MessageNumber"/>

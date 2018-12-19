@@ -47,6 +47,9 @@ namespace PacketMessagingTS.Helpers
             {
                 saveEnabled |= value;
             }
+            if (saveEnabled)
+                return saveEnabled;
+            else
             return saveEnabled;
         }
 
