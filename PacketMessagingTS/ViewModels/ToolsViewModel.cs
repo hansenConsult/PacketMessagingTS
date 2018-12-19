@@ -14,6 +14,13 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ToolsViewModel : BaseViewModel
     {
+        private int toolsPivotSelectedIndex;
+        public int ToolsPivotSelectedIndex
+        {
+            get => GetProperty(ref toolsPivotSelectedIndex);
+            set => SetProperty(ref toolsPivotSelectedIndex, value, true);
+        }
+
         private ObservableCollection<CommLogEntry> commLogEntryCollection = new ObservableCollection<CommLogEntry>();
         public ObservableCollection<CommLogEntry> CommLogEntryCollection
         {

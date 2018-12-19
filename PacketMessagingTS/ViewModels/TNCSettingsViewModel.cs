@@ -5,28 +5,34 @@ using System.IO.Ports;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using Windows.Devices.SerialCommunication;
+using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.ViewModels
 {
     public class TNCSettingsViewModel : BaseViewModel
     {
-
-
-
         public TNCSettingsViewModel()
         {
 
         }
 
-        public override void ResetChangedProperty()
+        //public override void ResetChangedProperty()
+        //{
+        //    base.ResetChangedProperty();
+        //    IsAppBarSaveEnabled = false;
+        //}
+
+        private int pivotTNCSelectedIndex;
+        public int PivotTNCSelectedIndex
         {
-            base.ResetChangedProperty();
-            IsAppBarSaveEnabled = false;
+            get => GetProperty(ref pivotTNCSelectedIndex);
+            set => SetProperty(ref pivotTNCSelectedIndex, value, true);
         }
 
         private int tncDeviceSelectedIndex;
@@ -169,22 +175,32 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //}
 
+        private ObservableCollection<string> collectionOfSerialDevices;
+        public ObservableCollection<string> CollectionOfSerialDevices
+        {
+            //get => collectionOfSerialDevices;
+            get => Singleton<ShellViewModel>.Instance.CollectionOfSerialDevices;
+            //set => SetProperty(ref collectionOfSerialDevices, value);
+        }
+
         private string tncComPort;
         public string TNCComPort
         {
             get => tncComPort;
             set
             {
-                SetProperty(ref tncComPort, value, false, true);
+                if (value is null || CollectionOfSerialDevices.Count == 0)
+                    return;
+
+                SetProperty(ref tncComPort, value);
 
                 bool changed = CurrentTNCDevice.CommPort.Comport != tncComPort;
-
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
 
-        private Windows.UI.Xaml.Visibility tncComPortVisible;
-        public Windows.UI.Xaml.Visibility TNCComPortVisible
+        private Visibility tncComPortVisible;
+        public Visibility TNCComPortVisible
         {
             get => tncComPortVisible;
             set
@@ -233,8 +249,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private Windows.UI.Xaml.Visibility tncComNameVisible;
-        public Windows.UI.Xaml.Visibility TNCComNameVisible
+        private Visibility tncComNameVisible;
+        public Visibility TNCComNameVisible
         {
             get => tncComNameVisible;
             set

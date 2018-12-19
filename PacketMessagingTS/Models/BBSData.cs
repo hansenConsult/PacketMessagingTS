@@ -174,83 +174,96 @@ namespace PacketMessagingTS.Models
 			}
 		}
 
-		//public static BBSDefinitions CreateFromBulletin(ref PacketMessage bbsBulletin)
-		//{
-		//	string bulletin = bbsBulletin.MessageBody;
+        public BBSData GetBBSFromName(string bbsName)
+        {
+            BBSData retval = null;
+            foreach (BBSData bbsData in BBSDataArray)
+            {
+                if (bbsData.Name == bbsName)
+                {
+                    retval = bbsData;
+                    break;
+                }
+            }
+            return retval;
+        }
+        //public static BBSDefinitions CreateFromBulletin(ref PacketMessage bbsBulletin)
+        //{
+        //	string bulletin = bbsBulletin.MessageBody;
 
-		//	if (bulletin is null)
-		//		return null;
+        //	if (bulletin is null)
+        //		return null;
 
-		//	int start = 0;
-		//	int start2 = 0;
-		//	bulletin = bulletin.Substring(start);
+        //	int start = 0;
+        //	int start2 = 0;
+        //	bulletin = bulletin.Substring(start);
 
-		//	start = bulletin.IndexOf("---------");
-		//	start2 += start;
-		//	string bbsInfo = bulletin.Substring(start);
-		//	start = bbsInfo.IndexOf("\n");
-		//	start2 += start;
-		//	bbsInfo = bbsInfo.Substring(start + 1);
-		//	int end = bbsInfo.IndexOf('*');
-		//	bbsInfo = bbsInfo.Substring(0, end);
+        //	start = bulletin.IndexOf("---------");
+        //	start2 += start;
+        //	string bbsInfo = bulletin.Substring(start);
+        //	start = bbsInfo.IndexOf("\n");
+        //	start2 += start;
+        //	bbsInfo = bbsInfo.Substring(start + 1);
+        //	int end = bbsInfo.IndexOf('*');
+        //	bbsInfo = bbsInfo.Substring(0, end);
 
-		//	BBSData bbsData;
-		//	var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-		//	int bbsCount = lines.Length;
-		//	BBSData[] bbsdataArray = new BBSData[lines.Length + 1];
-		//	int i = 0;
-		//	for (; i < lines.Length; i++)
-		//	{
-		//		var callsign = lines[i].Split(new char[] { ',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        //	BBSData bbsData;
+        //	var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        //	int bbsCount = lines.Length;
+        //	BBSData[] bbsdataArray = new BBSData[lines.Length + 1];
+        //	int i = 0;
+        //	for (; i < lines.Length; i++)
+        //	{
+        //		var callsign = lines[i].Split(new char[] { ',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
-		//		bbsData = new BBSData();
-		//		bbsData.Name = callsign[0];
-		//		bbsData.ConnectName = callsign[1];
-		//		bbsData.Frequency1 = callsign[2];
-		//		bbsData.Frequency2 = callsign[3];
-		//		bbsData.Selected = false;
+        //		bbsData = new BBSData();
+        //		bbsData.Name = callsign[0];
+        //		bbsData.ConnectName = callsign[1];
+        //		bbsData.Frequency1 = callsign[2];
+        //		bbsData.Frequency2 = callsign[3];
+        //		bbsData.Selected = false;
 
-		//		bbsdataArray[i] = bbsData;
-		//	}
-		//	// Location
-		//	bbsInfo = bulletin.Substring(start2 + end);
-		//	start = bbsInfo.IndexOf("---------");
-		//	bbsInfo = bbsInfo.Substring(start);
-		//	start = bbsInfo.IndexOf("\n");
-		//	bbsInfo = bbsInfo.Substring(start + 1);
-		//	string description = "Santa Clara County ARES/RACES PacketSystem. ";
-		//	lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-		//	for (i = 0; i < bbsCount; i++)
-		//	{
-		//		var callsign = lines[i].Split(new string[] { ",", "      ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
-		//		bbsdataArray[i].Description = description + callsign[1];
-		//	}
-		//	bbsdataArray[0].Selected = true;
+        //		bbsdataArray[i] = bbsData;
+        //	}
+        //	// Location
+        //	bbsInfo = bulletin.Substring(start2 + end);
+        //	start = bbsInfo.IndexOf("---------");
+        //	bbsInfo = bbsInfo.Substring(start);
+        //	start = bbsInfo.IndexOf("\n");
+        //	bbsInfo = bbsInfo.Substring(start + 1);
+        //	string description = "Santa Clara County ARES/RACES PacketSystem. ";
+        //	lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        //	for (i = 0; i < bbsCount; i++)
+        //	{
+        //		var callsign = lines[i].Split(new string[] { ",", "      ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+        //		bbsdataArray[i].Description = description + callsign[1];
+        //	}
+        //	bbsdataArray[0].Selected = true;
 
-		//	// Add training BBS
-		//	bbsData = new BBSData();
-		//	bbsData.Name = "W5XSC";
-		//	bbsData.ConnectName = "W5XSC-1";
-		//	bbsdataArray[i] = bbsData;
+        //	// Add training BBS
+        //	bbsData = new BBSData();
+        //	bbsData.Name = "W5XSC";
+        //	bbsData.ConnectName = "W5XSC-1";
+        //	bbsdataArray[i] = bbsData;
 
-		//	BBSDefinitions bbsDefinitions = new BBSDefinitions();
-		//	bbsDefinitions.RevisionTime = bbsBulletin.JNOSDate;
-		//	bbsDefinitions.BBSDataArray = bbsdataArray;
+        //	BBSDefinitions bbsDefinitions = new BBSDefinitions();
+        //	bbsDefinitions.RevisionTime = bbsBulletin.JNOSDate;
+        //	bbsDefinitions.BBSDataArray = bbsdataArray;
 
-		//	return bbsDefinitions;
-		//}
+        //	return bbsDefinitions;
+        //}
 
-		//ICollectionView CreateView()
-		//{
-		//	throw new NotImplementedException();
-		//	//return new MyListCollectionView(this);
-		//	//BBSDataArray.CreateView();
-		//	//return (BBSData[]) CreateView();
+        //ICollectionView CreateView()
+        //{
+        //	throw new NotImplementedException();
+        //	//return new MyListCollectionView(this);
+        //	//BBSDataArray.CreateView();
+        //	//return (BBSData[]) CreateView();
 
 
-		//}
+        //}
 
-		ICollectionView ICollectionViewFactory.CreateView()
+        ICollectionView ICollectionViewFactory.CreateView()
 		{
 			throw new NotImplementedException();
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
@@ -69,5 +70,13 @@ namespace PacketMessagingTS.ViewModels
             var pageType = menuItem.GetValue(NavHelper.NavigateToProperty) as Type;
             return pageType == sourcePageType;
         }
+
+        private ObservableCollection<string> collectionOfSerialDevices;
+        public ObservableCollection<string> CollectionOfSerialDevices
+        {
+            get => collectionOfSerialDevices;
+            set => collectionOfSerialDevices = value;
+        }
+
     }
 }

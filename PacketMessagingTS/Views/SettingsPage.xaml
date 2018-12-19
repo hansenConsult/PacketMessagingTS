@@ -24,7 +24,7 @@
         <CollectionViewSource x:Name="TNCDeviceListSource"  />
         <CollectionViewSource x:Name="DeviceListSource"  />
 
-        <CollectionViewSource x:Name="ComPortListSource" IsSourceGrouped="False"/>
+        <!--<CollectionViewSource x:Name="ComPortListSource" IsSourceGrouped="False"/>-->
         <CollectionViewSource x:Name="ComNameListSource" IsSourceGrouped="False"/>
 
         <CollectionViewSource x:Name="EmailAccountsSource" IsSourceGrouped="False"/>
@@ -443,7 +443,8 @@
                         </SplitView.Pane>
                         <SplitView.Content>
                             <StackPanel>
-                                <Pivot x:Name="PivotTNC"  Margin="12,0,12,0" >
+                                <Pivot x:Name="PivotTNC"  Margin="12,0,12,0"
+                                       SelectedIndex="{x:Bind _TNCSettingsViewModel.PivotTNCSelectedIndex, Mode=TwoWay}">
                                     <PivotItem Header="Init Commands" >
                                         <ScrollViewer Margin="0,0,2,48" 
 												  VerticalScrollBarVisibility="Auto">
@@ -491,8 +492,9 @@
                                                     <!--ItemsSource="{x:Bind DeviceListSource.View, Mode=OneWay}"-->
 
                                                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort"
-                                                              ItemsSource="{x:Bind ComPortListSource.View, Mode=OneWay}"
-                                                              Visibility="{Binding TNCComPortVisible, Mode=OneWay}"
+                                                              ItemsSource="{x:Bind _TNCSettingsViewModel.CollectionOfSerialDevices, Mode=OneWay}"
+                                                              SelectedItem="{x:Bind _TNCSettingsViewModel.TNCComPort, Mode=TwoWay}"
+                                                              Visibility="{x:Bind _TNCSettingsViewModel.TNCComPortVisible, Mode=OneWay}"
 													          Width="100" 
 														      VerticalAlignment="Stretch" 
 														      Margin="0,1,0,3" 	/>
@@ -500,7 +502,7 @@
 													          ItemsSource="{x:Bind ComNameListSource.View, Mode=OneWay}"
                                                               SelectedValuePath = "Name"
                                                               DisplayMemberPath="Name"
-                                                              Visibility="{Binding TNCComNameVisible, Mode=OneWay}"
+                                                              Visibility="{x:Bind _TNCSettingsViewModel.TNCComNameVisible, Mode=OneWay}"
 														      Width="210" 
 														      VerticalAlignment="Stretch" Margin="0,1,0,3"	/>
                                                     <!--SelectionChanged="comboBoxComName_SelectionChanged" />-->
@@ -509,7 +511,7 @@
                                                     <ComboBox Grid.Column="1" Grid.Row="1" x:Name="comboBoxBaudRate"  
 													          ItemsSource="{x:Bind _TNCSettingsViewModel.BaudRatesCollection, Mode=OneTime}"											
 														      Width="100" Margin=" 0,2"
-                                                              SelectedItem="{Binding TNCComBaudRate, Mode=TwoWay}" />
+                                                              SelectedItem="{x:Bind _TNCSettingsViewModel.TNCComBaudRate, Mode=TwoWay}" />
                                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Data Bits:" VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="2" x:Name="comboBoxDatabits"
                                                               ItemsSource="{x:Bind _TNCSettingsViewModel.DatabitsCollection, Mode=OneTime}"

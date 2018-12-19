@@ -32,8 +32,6 @@ namespace PacketMessagingTS.ViewModels
         public List<Profile> ObservableProfileCollection
         {
             get => ProfileArray.Instance.ProfileList;
-            //get => observableProfileCollection;
-            //set => SetProperty(ref observableProfileCollection, value);
         }
 
         private int profileSelectedIndex;
@@ -127,14 +125,20 @@ namespace PacketMessagingTS.ViewModels
 
                 bool changed = CurrentProfile.TNC != tnc;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
-
             }
         }
 
         private TNCDevice currentTNC;
         public TNCDevice CurrentTNC
         {
-            get => currentTNC;
+            get
+            {
+                if (currentTNC is null)
+                {
+                    ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                }
+                return currentTNC;
+            }
             set => currentTNC = value;
         }
 

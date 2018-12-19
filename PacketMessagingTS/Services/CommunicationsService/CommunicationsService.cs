@@ -545,12 +545,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
             if (_packetMessagesToSend.Count == 0)
             {
                 tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
-                //if (tncDevice.Name.Contains(SharedData.EMail))
-                //{
-                //    await Utilities.ShowMessageDialogAsync("Use TNC to send message. Not E-Email");
-                //    return;
-                //}
-                bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+
+                IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+                string MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+                BBSData MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+                if (MessageBBS == null || !MessageBBS.Name.Contains("XSC") && !tncDevice.Name.Contains(SharedData.EMail))
+                {
+                    string bbsName = AddressBook.Instance.GetBBS(MessageFrom);
+                    bbs = BBSDefinitions.Instance.GetBBSFromName(bbsName);
+                }
+                else
+                {
+                    bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+                }
             }
             else
             {

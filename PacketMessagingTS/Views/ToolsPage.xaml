@@ -122,6 +122,7 @@
                RelativePanel.AlignRightWithPanel="True"
                RelativePanel.AlignTopWithPanel="True"
                Margin="{StaticResource EightTopMargin}"
+               SelectedIndex="{x:Bind _toolsViewModel.ToolsPivotSelectedIndex, Mode=TwoWay}"
                SelectionChanged="ToolsPagePivot_SelectionChangedAsync">
             
             <!--Log File-->
