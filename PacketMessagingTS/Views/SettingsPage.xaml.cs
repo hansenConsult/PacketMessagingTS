@@ -213,6 +213,7 @@ namespace PacketMessagingTS.Views
 
         private void ComboBoxTacticalCallsign_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
         {
+            return;
             //_identityViewModel.TacticalCallsignSelectedIndex = -1;
             _identityViewModel.TacticalCallsign = sender.Text;
             TacticalCall tacticalCall = new TacticalCall()
@@ -228,9 +229,17 @@ namespace PacketMessagingTS.Views
         private void textBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
         {
             return;
-            if (textBoxTacticalCallsign.Text.Length == 6)
+            if (((ComboBox)sender).Text.Length == 6)
             {
-                _identityViewModel.TacticalCallsignOther = textBoxTacticalCallsign.Text;
+                _identityViewModel.TacticalCallsign = ((ComboBox)sender).Text;
+                TacticalCall tacticalCall = new TacticalCall()
+                {
+                    TacticalCallsign = ((ComboBox)sender).Text,
+                    AgencyName = "",
+                    Prefix = ((ComboBox)sender).Text.Substring(((ComboBox)sender).Text.Length - 3),
+                };
+                _identityViewModel.TacticalCallsignsSource.Add(tacticalCall);
+                _identityViewModel.TacticalCallsignOther = ((ComboBox)sender).Text;
             }
         }
         #endregion Identity
