@@ -82,7 +82,7 @@ namespace PacketMessagingTS.Views
             ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
 
             // Identity initialization
-            _identityViewModel.TacticalCallsignsAreaSource = new ObservableCollection<TacticalCallsignData>(App._TacticalCallsignDataList);
+            //_identityViewModel.TacticalCallsignsAreaSource = new ObservableCollection<TacticalCallsignData>(App._TacticalCallsignDataList);
 
             // Distribution Lists Initialization
             distributionListName.ItemsSource = DistributionListArray.Instance.GetDistributionLists();
@@ -147,9 +147,6 @@ namespace PacketMessagingTS.Views
         }
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            comboBoxProfiles.Visibility = Visibility.Visible;
-            textBoxNewProfileName.Visibility = Visibility.Collapsed;
-
             switch ((SettingsPivot.SelectedItem as PivotItem).Name)
             {
                 case "pivotTNC":
@@ -157,20 +154,28 @@ namespace PacketMessagingTS.Views
                     // Select current TNC device
                     break;
                 case "pivotPacketSettings":
+                    comboBoxProfiles.Visibility = Visibility.Visible;
+                    textBoxNewProfileName.Visibility = Visibility.Collapsed;
+
                     _packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
                     break;
                 case "pivotIdentity":
-                    _identityViewModel.TacticalCallsignAreaSelectedIndex = Utilities.GetProperty("TacticalCallsignAreaSelectedIndex");
+                    //if (_identityViewModel.TacticalCallsignSelectedIndex == -1)
+                    //{
+                    //    //_identityViewModel.TacticalCallsign = _identityViewModel.TacticalCallsignOther;
+                    //    comboBoxTacticalCallsign.Text = _identityViewModel.TacticalCallsignOther;
+                    //}
+                    //_identityViewModel.TacticalCallsignAreaSelectedIndex = Utilities.GetProperty("TacticalCallsignAreaSelectedIndex");
                     break;
-                    //    //    case "pivotItemAddressBook":
-                    //    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-                    //    //        break;
-                    //    //    case "pivotItemDistributionLists":
-                    //    //        //ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
-                    //    //        break;
-                    //    //    default:
-                    //    //        SettingsCommandBar.Visibility = Visibility.Collapsed;
-                    //    //        break;
+                    //    case "pivotItemAddressBook":
+                    //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+                    //        break;
+                    //    case "pivotItemDistributionLists":
+                    //        //ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
+                    //        break;
+                    //    default:
+                    //        SettingsCommandBar.Visibility = Visibility.Collapsed;
+                    //        break;
             }
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
@@ -183,32 +188,46 @@ namespace PacketMessagingTS.Views
 
         #endregion General
         #region Identity
-        private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            return;
-            _identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
+        //private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+            //_identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
 
-            //_identityViewModel._tacticalCallsignData.TacticalCallsignsChanged = false;
-            if (_identityViewModel._tacticalCallsignData.TacticalCallsigns != null)
+            ////_identityViewModel._tacticalCallsignData.TacticalCallsignsChanged = false;
+            //if (_identityViewModel._tacticalCallsignData.TacticalCallsigns != null)
+            //{
+            //    ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_identityViewModel._tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
+            //    _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
+            //}  TacticalCallsignData> TacticalCallsignData> TacticalCallsignsAreaSource
+            //if (_identityViewModel.TacticalCallsignsAreaSource[_identityViewModel.TacticalCallsignAreaSelectedIndex].AreaName == "Other")
+            //{
+            //    textBoxTacticalCallsign.Visibility = Visibility.Visible;
+            //    comboBoxTacticalCallsign.Visibility = Visibility.Collapsed;
+            //    comboBoxAdditionalText.SelectedItem = null;
+            //}
+            //else
+            //{
+            //    textBoxTacticalCallsign.Visibility = Visibility.Collapsed;
+            //    comboBoxTacticalCallsign.Visibility = Visibility.Visible;
+            //}
+        //}
+
+        private void ComboBoxTacticalCallsign_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
+        {
+            //_identityViewModel.TacticalCallsignSelectedIndex = -1;
+            _identityViewModel.TacticalCallsign = sender.Text;
+            TacticalCall tacticalCall = new TacticalCall()
             {
-                ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_identityViewModel._tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
-                _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
-            }
-            if (_identityViewModel._tacticalCallsignData.AreaName == "Other")
-            {
-                textBoxTacticalCallsign.Visibility = Visibility.Visible;
-                comboBoxTacticalCallsign.Visibility = Visibility.Collapsed;
-                comboBoxAdditionalText.SelectedItem = null;
-            }
-            else
-            {
-                textBoxTacticalCallsign.Visibility = Visibility.Collapsed;
-                comboBoxTacticalCallsign.Visibility = Visibility.Visible;
-            }
+                TacticalCallsign = sender.Text,
+                AgencyName = "",
+                Prefix = sender.Text.Substring(sender.Text.Length - 3),
+            };
+            _identityViewModel.TacticalCallsignsSource.Add(tacticalCall);
+            _identityViewModel.TacticalCallsignOther = sender.Text;
         }
 
         private void textBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
         {
+            return;
             if (textBoxTacticalCallsign.Text.Length == 6)
             {
                 _identityViewModel.TacticalCallsignOther = textBoxTacticalCallsign.Text;
@@ -381,324 +400,6 @@ namespace PacketMessagingTS.Views
             EMailAdd
         }
         TNCState _tncState = TNCState.None;
-
-        //private void ClearDeviceEntries()
-        //{
-        //    _listOfDevices.Clear();     // List of all devices
-        //    //_listOfSerialDevices.Clear();
-        //    _TNCSettingsViewModel.CollectionOfSerialDevices.Clear();
-        //    //_listOfBluetoothDevices.Clear();
-        //    CollectionOfBluetoothDevices.Clear();
-        //}
-
-        //private void InitializeDeviceWatchers()
-        //{
-        //    // Target all Serial Devices present on the system
-        //    string deviceSelector = SerialDevice.GetDeviceSelector();
-
-        //    // Create a device watcher to look for instances of the Serial Device that match the device selector
-        //    // used earlier.
-        //    DeviceWatcher deviceWatcher = DeviceInformation.CreateWatcher(deviceSelector);
-
-        //    // Allow the EventHandlerForDevice to handle device watcher events that relates or effects our device (i.e. device removal, addition, app suspension/resume)
-        //    AddDeviceWatcher(deviceWatcher, deviceSelector);
-
-        //    // Bluetooth devices device selector
-        //    string bluetoothDeviceSelector = BluetoothDevice.GetDeviceSelector();
-        //    deviceWatcher = DeviceInformation.CreateWatcher(bluetoothDeviceSelector);
-        //    AddDeviceWatcher(deviceWatcher, bluetoothDeviceSelector);
-        //}
-
-        //private void StartDeviceWatchers()
-        //{
-        //    // Start all device watchers
-        //    _watchersStarted = true;
-        //    _isAllDevicesEnumerated = false;
-
-        //    foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
-        //    {
-        //        if ((deviceWatcher.Status != DeviceWatcherStatus.Started)
-        //            && (deviceWatcher.Status != DeviceWatcherStatus.EnumerationCompleted))
-        //        {
-        //            deviceWatcher.Start();
-        //        }
-        //    }
-        //}
-
-        /////// <summary>
-        /////// Stops all device watchers.
-        /////// </summary>
-        ////private void StopDeviceWatchers()
-        ////{
-        ////    // Stop all device watchers
-        ////    foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
-        ////    {
-        ////        if ((deviceWatcher.Status == DeviceWatcherStatus.Started)
-        ////            || (deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted))
-        ////        {
-        ////            deviceWatcher.Stop();
-        ////        }
-        ////    }
-
-        ////    // Clear the list of devices so we don't have potentially disconnected devices around
-        ////    ClearDeviceEntries();
-
-        ////    _watchersStarted = false;
-        ////}
-
-        /////// <summary>
-        /////// Searches through the existing list of devices for the first DeviceListEntry that has
-        /////// the specified device Id.
-        /////// </summary>
-        /////// <param name="deviceId">Id of the device that is being searched for</param>
-        /////// <returns>DeviceListEntry that has the provided Id; else a nullptr</returns>
-        ////private DeviceListEntry FindDevice(String deviceId)
-        ////{
-        ////    if (deviceId != null)
-        ////    {
-        ////        foreach (DeviceListEntry entry in _listOfDevices)
-        ////        {
-        ////            if (entry.DeviceInformation.Id == deviceId)
-        ////            {
-        ////                return entry;
-        ////            }
-        ////        }
-        ////    }
-        ////    return null;
-        ////}
-
-        ///////// <summary>
-        ///////// We must stop the DeviceWatchers because device watchers will continue to raise events even if
-        ///////// the app is in suspension, which is not desired (drains battery). We resume the device watcher once the app resumes again.
-        ///////// </summary>
-        ///////// <param name="sender"></param>
-        ///////// <param name="eventArgs"></param>
-        //////private void OnAppSuspension(Object sender, SuspendingEventArgs args)
-        //////{
-        //////    if (_watchersStarted)
-        //////    {
-        //////        _watchersSuspended = true;
-        //////        StopDeviceWatchers();
-        //////    }
-        //////    else
-        //////    {
-        //////        _watchersSuspended = false;
-        //////    }
-        //////}
-
-        ///////// <summary>
-        ///////// See OnAppSuspension for why we are starting the device watchers again
-        ///////// </summary>
-        ///////// <param name="sender"></param>
-        ///////// <param name="args"></param>
-        //////private void OnAppResume(Object sender, Object args)
-        //////{
-        //////    if (_watchersSuspended)
-        //////    {
-        //////        _watchersSuspended = false;
-        //////        StartDeviceWatchers();
-        //////    }
-        //////}
-
-        ///////// <summary>
-        ///////// We will remove the device from the UI
-        ///////// </summary>
-        ///////// <param name="sender"></param>
-        ///////// <param name="deviceInformationUpdate"></param>
-        //////private void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate deviceInformationUpdate)
-        //////{
-        //////    try
-        //////    {
-        //////        //await this.Dispatcher.RunAsync(
-        //////        //    CoreDispatcherPriority.Normal,
-        //////        //    new DispatchedHandler(async () =>
-        //////        //    {
-        //////        RemoveDeviceFromList(deviceInformationUpdate.Id);
-        //////        //}));
-        //////    }
-        //////    catch (Exception e)
-        //////    {
-        //////        _logHelper.Log(LogLevel.Error, $"Remove serial device error, {e.Message}");
-        //////    }
-        //////}
-
-        ///////// <summary>
-        ///////// This function will add the device to the listOfDevices so that it shows up in the UI
-        ///////// </summary>
-        ///////// <param name="sender"></param>
-        ///////// <param name="deviceInformation"></param>
-        //////private async void OnDeviceAddedAsync(DeviceWatcher sender, DeviceInformation deviceInformation)
-        //////{
-        //////    await this.Dispatcher.RunAsync(
-        //////        CoreDispatcherPriority.Normal,
-        //////        new DispatchedHandler(() =>
-        //////        {
-        //////            AddDeviceToListAsync(deviceInformation, mapDeviceWatchersToDeviceSelector[sender]);
-        //////        }));
-        //////}
-
-
-        ///////// <summary>
-        ///////// Notify the UI whether or not we are connected to a device
-        ///////// </summary>
-        ///////// <param name="sender"></param>
-        ///////// <param name="args"></param>
-        //////private void OnDeviceEnumerationComplete(DeviceWatcher sender, Object args)
-        //////{
-        //////    _isAllDevicesEnumerated = true;
-
-        //////    // Select current TNC device
-        //////    //comboBoxComPort.SelectedValue = _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport;
-
-        //////    //await rootPage.Dispatcher.RunAsync(
-        //////    //    CoreDispatcherPriority.Normal,
-        //////    //    new DispatchedHandler(() =>
-        //////    //    {
-        //////    //        isAllDevicesEnumerated = true;
-
-        //////    //    // If we finished enumerating devices and the device has not been connected yet, the OnDeviceConnected method
-        //////    //    // is responsible for selecting the device in the device list (UI); otherwise, this method does that.
-        //////    //    if (EventHandlerForDevice.Current.IsDeviceConnected)
-        //////    //        {
-        //////    //            SelectDeviceInList(EventHandlerForDevice.Current.DeviceInformation.Id);
-
-        //////    //            ButtonDisconnectFromDevice.Content = ButtonNameDisconnectFromDevice;
-
-        //////    //        //rootPage.NotifyUser("Connected to - " +
-        //////    //        //					EventHandlerForDevice.Current.DeviceInformation.Id, NotifyType.StatusMessage);
-
-        //////    //        EventHandlerForDevice.Current.ConfigureCurrentlyConnectedDevice();
-        //////    //        }
-        //////    //        else if (EventHandlerForDevice.Current.IsEnabledAutoReconnect && EventHandlerForDevice.Current.DeviceInformation != null)
-        //////    //        {
-        //////    //        // We will be reconnecting to a device
-        //////    //        ButtonDisconnectFromDevice.Content = ButtonNameDisableReconnectToDevice;
-
-        //////    //        //rootPage.NotifyUser("Waiting to reconnect to device -  " + EventHandlerForDevice.Current.DeviceInformation.Id, NotifyType.StatusMessage);
-        //////    //    }
-        //////    //        else
-        //////    //        {
-        //////    //        //rootPage.NotifyUser("No device is currently connected", NotifyType.StatusMessage);
-        //////    //    }
-        //////    //    }));
-        //////}
-
-        ////private void StartHandlingAppEvents()
-        ////{
-        ////    appSuspendEventHandler = new SuspendingEventHandler(this.OnAppSuspension);
-        ////    appResumeEventHandler = new EventHandler<Object>(this.OnAppResume);
-
-        ////    // This event is raised when the app is exited and when the app is suspended
-        ////    App.Current.Suspending += appSuspendEventHandler;
-        ////    App.Current.Resuming += appResumeEventHandler;
-        ////}
-
-        //private void StopHandlingAppEvents()
-        //{
-        //    // This event is raised when the app is exited and when the app is suspended
-        //    App.Current.Suspending -= appSuspendEventHandler;
-        //    App.Current.Resuming -= appResumeEventHandler;
-        //}
-
-        ///// <summary>
-        ///// Registers for Added, Removed, and Enumerated events on the provided deviceWatcher before adding it to an internal list.
-        ///// </summary>
-        ///// <param name="deviceWatcher"></param>
-        ///// <param name="deviceSelector">The AQS used to create the device watcher</param>
-        //private void AddDeviceWatcher(DeviceWatcher deviceWatcher, String deviceSelector)
-        //{
-        //    deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(OnDeviceAddedAsync);
-        //    deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(OnDeviceRemoved);
-        //    deviceWatcher.EnumerationCompleted += new TypedEventHandler<DeviceWatcher, Object>(OnDeviceEnumerationComplete);
-
-        //    mapDeviceWatchersToDeviceSelector.Add(deviceWatcher, deviceSelector);
-        //}
-
-        //private async void AddDeviceToListAsync(DeviceInformation deviceInformation, string deviceSelector)
-        //{
-        //    try
-        //    {
-        //        // search the device list for a device with a matching interface ID
-        //        var match = FindDevice(deviceInformation.Id);
-
-        //        // Add the device if it's new
-        //        if (match is null)
-        //        {
-        //            // Create a new element for this device interface, and queue up the query of its
-        //            // device information
-        //            match = new DeviceListEntry(deviceInformation, deviceSelector);
-
-        //            // Add the new element to the end of the list of devices
-        //            _listOfDevices.Add(match);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _logHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
-        //    }
-        
-        //    if (deviceInformation.Pairing.IsPaired)
-        //    {
-        //        // Bluetooth device
-        //        try
-        //        {
-        //            if (deviceInformation.Kind == DeviceInformationKind.AssociationEndpoint)
-        //            {
-        //                //_listOfBluetoothDevices.Add(deviceInformation);
-        //                //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>(_listOfBluetoothDevices);
-        //                CollectionOfBluetoothDevices.Add(deviceInformation);
-        //                ComNameListSource.Source = CollectionOfBluetoothDevices;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            _logHelper.Log(LogLevel.Error, $"Add Bluetooth device: { ex.Message}");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            if (!deviceInformation.Id.Contains("Bluetooth"))
-        //            {
-        //                // USB serial port
-        //                SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
-        //                if (serialDevice != null)
-        //                {
-        // //                   _TNCSettingsViewModel.CollectionOfSerialDevices.Add(serialDevice.PortName);
-        //                    //ComPortListSource.Source = _TNCSettingsViewModel.CollectionOfSerialDevices.OrderBy(s => s, _comportComparer);
-        // //                   _TNCSettingsViewModel.CollectionOfSerialDevices = (ObservableCollection<string>)_TNCSettingsViewModel.CollectionOfSerialDevices.OrderBy(s => s, _comportComparer);
-        //                    serialDevice.Dispose();     // Necessary to avoid crash on removed device
-        //                }
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            _logHelper.Log(LogLevel.Error, $"{e.Message}, Device = {deviceInformation.Id}");
-        //        }
-        //    }
-        //}
-
-        //private void RemoveDeviceFromList(String deviceId)
-        //{
-        //    // Remove bluetooth devices as well  TODO
-
-        //    //SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceId);
-
-        //    //if (serialDevice != null)
-        //    //{
-        //    //    //_listOfSerialDevices.Remove(serialDevice);
-        //    //    // Sort list
-        //    //    //_listOfSerialDevices = _listOfSerialDevices.OrderBy(s => s.PortName, comportComparer).ToList();
-        //    //    //CollectionOfSerialDevices = new ObservableCollection<SerialDevice>(_listOfSerialDevices);
-        //    //    CollectionOfSerialDevices.Remove(serialDevice);
-        //    //    ComPortListSource.Source = CollectionOfSerialDevices.OrderBy(s => s.PortName, _comportComparer);
-        //    //}
-        //    // Removes the device entry from the internal list
-        //    var deviceEntry = FindDevice(deviceId);
-
-        //    _listOfDevices.Remove(deviceEntry);
-        //}
 
         private void UpdateTNCFromUI(TNCDevice tncDevice)
         {

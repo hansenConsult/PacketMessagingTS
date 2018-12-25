@@ -47,9 +47,6 @@ namespace PacketMessagingTS.Helpers
             {
                 saveEnabled |= value;
             }
-            if (saveEnabled)
-                return saveEnabled;
-            else
             return saveEnabled;
         }
 
@@ -59,7 +56,6 @@ namespace PacketMessagingTS.Helpers
             get => isAppBarSaveEnabled;
             set => SetProperty(ref isAppBarSaveEnabled, value);
         }
-
 
         public bool GetProperty<T>(string propertyName, out T property)
         {
@@ -119,7 +115,7 @@ namespace PacketMessagingTS.Helpers
                 {
                     // Retrieve value from dictionary
                     var o = _properties[propertyName];
-                    var intArray = JsonConvert.DeserializeObject<int[]>(o.ToString()); 
+                    var intArray = JsonConvert.DeserializeObject<int[]>(o.ToString());
                     backingStore = intArray;
                     return intArray;
                 }
@@ -129,7 +125,14 @@ namespace PacketMessagingTS.Helpers
                 }
             }
             else
+            {
+                backingStore = new int[App._TacticalCallsignDataList.Count];
+                for (int i = 0; i < backingStore.Length; i++)
+                {
+                    backingStore[i] = 0;
+                }
                 return backingStore;
+            }
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,

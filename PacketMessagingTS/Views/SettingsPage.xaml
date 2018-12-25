@@ -9,6 +9,7 @@
     xmlns:vm="using:PacketMessagingTS.ViewModels"
     xmlns:helper="using:PacketMessagingTS.Helpers"
     xmlns:xaml="using:Windows.UI.Xaml"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     d:DesignWidth="700" d:DesignHeight="850">
 
@@ -188,7 +189,8 @@
 									 RelativePanel.Below="textBoxUserCity"
                                      RelativePanel.AlignLeftWith="textBoxUsercallsign"
 									 VerticalContentAlignment="Center" 
-									 Text="{Binding UserMsgPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="58" BorderThickness="2" Margin="0,1" Padding="10,3,10,5"/>
+									 Text="{Binding UserMsgPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="2" Padding="10,3,10,5"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,1,0,1"/>
                             <TextBlock x:Name="labelUserPrefix"
 									   RelativePanel.AlignLeftWithPanel="True"
                                        RelativePanel.AlignVerticalCenterWith="textBoxUserPrefix"										   Text="Message ID Prefix:" />
@@ -200,7 +202,7 @@
                         <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -214,6 +216,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="0" x:Name="labelTacticalCallsignArea" 
 									   VerticalAlignment="Center" 
 									   Text="Tactical Call-sign Area:" />
+                            <!--SelectionChanged="ComboBoxTacticalCallsignArea_SelectionChanged"-->
                             <ComboBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsignArea" 
 									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsAreaSource, Mode=OneTime}"
 									  DisplayMemberPath = "AreaName"
@@ -221,20 +224,22 @@
 									  IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									  SelectedIndex="{x:Bind _identityViewModel.TacticalCallsignAreaSelectedIndex, Mode=TwoWay}"
 									  Margin="5,1,0,1" Background="White" 
-									  SelectionChanged="ComboBoxTacticalCallsignArea_SelectionChanged"
                                       Width="220" BorderThickness="2" >
                             </ComboBox>
                             <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelTacticalCallsign" 
 									   VerticalAlignment="Center"
 									   Text="Tactical Call-sign:" />
+                            <!--Windows10version1809:Text="{x:Bind _identityViewModel.TacticalCallsignOther, Mode=TwoWay}"-->
                             <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
 									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsSource, Mode=OneWay}" 									
 									  IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
-									  DisplayMemberPath="TacticalCallsign"
+									  DisplayMemberPath="TacticalCallsign" IsEditable="True"
 									  SelectedIndex="{x:Bind _identityViewModel.TacticalCallsignSelectedIndex, Mode=TwoWay}"
-									  VerticalContentAlignment="Center"  
+                                      VerticalContentAlignment="Center"  
 									  Width="133" 
-									  BorderThickness="2" Margin="5,1,0,1"   />
+									  BorderThickness="2" Margin="5,1,0,1"
+                                      Windows10version1809:Text="{x:Bind _identityViewModel.TacticalCallsignOther, Mode=TwoWay}"
+                                      Windows10version1809:TextSubmitted="ComboBoxTacticalCallsign_TextSubmitted"/>
                             <TextBox Grid.Column="1" Grid.Row="1"  x:Name="textBoxTacticalCallsign" 
 									 Text="{x:Bind _identityViewModel.TacticalCallsign, Mode=TwoWay}"
                                      HorizontalAlignment="Left"
@@ -251,8 +256,9 @@
 									  DisplayMemberPath = "AgencyName"
                                       SelectedValuePath="AgencyName"
                                       SelectedIndex="{x:Bind _identityViewModel.TacticalAgencyNameSelectedIndex, Mode=TwoWay}"
+                                      Windows10version1809:Text="{x:Bind _identityViewModel.TacticalAgencyName, Mode=TwoWay}"
                                       IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
-									  VerticalContentAlignment="Center" Width="220" 
+									  VerticalContentAlignment="Center" Width="220" IsEditable="True"
 									  Margin="5,1,0,1" BorderThickness="2" />
                             <TextBlock Grid.Column="0" Grid.Row="3" x:Name="labelTacticalPrefix" 
 									   Text="Message ID Prefix:" 
@@ -261,10 +267,9 @@
 									 Text="{x:Bind _identityViewModel.TacticalMsgPrefix, Mode=OneWay}" 									
 								 	 IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									 HorizontalAlignment="Left"
-									 VerticalAlignment="Center" 
+									 VerticalAlignment="Stretch" 
 									 BorderThickness="2" 
-									 Width="58" 
-									 Margin="5,1,0,1" Padding="10,3,12,5" />
+									 Margin="5,1,0,1" Padding="10,3,10,5" />
                             <!--<TextBlock Grid.Column="0" Grid.Row="4" x:Name="labelTacticalPrimary"
 									   VerticalAlignment="Center" 
 									Text="Primary:" />
@@ -328,7 +333,7 @@
                             </RelativePanel>
                             <Grid x:Name="panelProfileGrid"                                 
 								  RelativePanel.Below="panelProfileSelection"
-                                  Height="331" Margin="12,0,0,0">
+                                  Height="331" Margin="12,12,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width ="1*"/>
                                     <ColumnDefinition Width="2.4*"/>
@@ -366,18 +371,18 @@
                                          Text="{x:Bind _packetSettingsViewModel.BBSDescription, Mode=TwoWay}"/>
                                 <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:"
                                            VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Width="85" Height="28"
+                                <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Width="85"
 									     HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center"
-                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency1, Mode=OneWay}"/>
+                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency1, Mode=OneWay}" Height="32"/>
                                 <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="48,0,0,0"
 										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
                                          Text="{x:Bind _packetSettingsViewModel.BBSFrequency2, Mode=OneWay}"/>
                                 <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
-                                <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4"  Height="23" Width="270"
+                                <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4" Width="270"
 										 Text="{x:Bind _packetSettingsViewModel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
 										  />
                                 <TextBlock x:Name="label3" Grid.Column="0" Grid.Row="5"  Text="Default Subject:" VerticalAlignment="Center" />
-                                <TextBox x:Name="textBoxSubject"  Grid.Column="1" Grid.Row="5"  Height="23" Width="270"
+                                <TextBox x:Name="textBoxSubject"  Grid.Column="1" Grid.Row="5" Width="270"
 										 Text="{x:Bind _packetSettingsViewModel.DefaultSubject, Mode=TwoWay}"
                                          VerticalAlignment="Center" />
                                 <!--TextChanged="TextBoxTo_TextChanged"-->
