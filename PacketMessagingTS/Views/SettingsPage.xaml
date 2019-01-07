@@ -229,7 +229,6 @@
                             <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelTacticalCallsign" 
 									   VerticalAlignment="Center"
 									   Text="Tactical Call-sign:" />
-                            <!--Windows10version1809:Text="{x:Bind _identityViewModel.TacticalCallsignOther, Mode=TwoWay}"-->
                             <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
 									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsSource, Mode=OneWay}" 									
 									  IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
@@ -240,6 +239,7 @@
 									  BorderThickness="2" Margin="5,1,0,1"
                                       Windows10version1809:Text="{x:Bind _identityViewModel.TacticalCallsignOther, Mode=TwoWay}"
                                       />
+                            <!--Windows10version1809:Text="{x:Bind _identityViewModel.TacticalCallsignOther, Mode=TwoWay}"-->
                             <!--Windows10version1809:TextSubmitted="ComboBoxTacticalCallsign_TextSubmitted"-->
                             <TextBox Grid.Column="1" Grid.Row="1"  x:Name="textBoxTacticalCallsign" 
 									 Text="{x:Bind _identityViewModel.TacticalCallsign, Mode=TwoWay}"

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +7,11 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
-using Windows.ApplicationModel;
-using Windows.UI.Core;
-using Windows.Foundation;
-using Windows.Devices.Bluetooth;
 
 using MetroLog;
 using SharedCode;
@@ -180,14 +174,14 @@ namespace PacketMessagingTS.Views
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
         }
-        #region General
+#region General
         //private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
         //{
         //    ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
         //}
 
-        #endregion General
-        #region Identity
+#endregion General
+#region Identity
         //private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
             //_identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
@@ -215,15 +209,21 @@ namespace PacketMessagingTS.Views
         {
             return;
             //_identityViewModel.TacticalCallsignSelectedIndex = -1;
-            _identityViewModel.TacticalCallsign = sender.Text;
-            TacticalCall tacticalCall = new TacticalCall()
+            if (sender.Text.Length == 6)
             {
-                TacticalCallsign = sender.Text,
-                AgencyName = "",
-                Prefix = sender.Text.Substring(sender.Text.Length - 3),
-            };
-            _identityViewModel.TacticalCallsignsSource.Add(tacticalCall);
-            _identityViewModel.TacticalCallsignOther = sender.Text;
+
+                //_identityViewModel.TacticalCallsign = sender.Text;
+                TacticalCall tacticalCall = new TacticalCall()
+                {
+                    TacticalCallsign = sender.Text,
+                    AgencyName = "",
+                    Prefix = sender.Text.Substring(sender.Text.Length - 3),
+                };
+                _identityViewModel.TacticalCallsignsSource.Add(tacticalCall);
+                //_identityViewModel.TacticalSelectedIndexArray[_identityViewModel.TacticalCallsignAreaSelectedIndex] = _identityViewModel.TacticalCallsignsSource.IndexOf(tacticalCall);
+                //_identityViewModel.TacticalSelectedIndexArray = _identityViewModel.TacticalSelectedIndexArray;
+                //_identityViewModel.TacticalCallsignOther = sender.Text;
+            }
         }
 
         private void textBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
@@ -242,8 +242,8 @@ namespace PacketMessagingTS.Views
                 _identityViewModel.TacticalCallsignOther = ((ComboBox)sender).Text;
             }
         }
-        #endregion Identity
-        #region Profiles
+#endregion Identity
+#region Profiles
         //private bool _bbsChanged = false;
         //private bool _tncChanged = false;
         //private bool _defaultToChanged = false;
@@ -395,8 +395,8 @@ namespace PacketMessagingTS.Views
             profileSave.IsEnabled = true;
         }
 
-        #endregion
-        #region Interface
+#endregion
+#region Interface
         enum TNCState
         {
             None,
