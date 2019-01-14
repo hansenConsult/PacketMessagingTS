@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="754E5270-DE6A-4358-A338-D7150371D0BD" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>PacketMessagingTS</DisplayName>
-    <PublisherDisplayName>poul_</PublisherDisplayName>
+    <PublisherDisplayName>Poul Hansen, KZ6DM</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

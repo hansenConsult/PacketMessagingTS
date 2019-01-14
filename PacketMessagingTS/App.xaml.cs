@@ -168,6 +168,7 @@ namespace PacketMessagingTS
             {
                 tacticalCallsignType.TacticalCallsigns = await TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
             }
+            await UserCallsigns.OpenAsync();
 
             await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
             await TNCDeviceArray.Instance.OpenAsync();
@@ -209,6 +210,7 @@ namespace PacketMessagingTS
             {
                 NavigationService.Navigate(typeof(SettingsPage), 2);
             }
+            Utilities.SetApplicationTitle();
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

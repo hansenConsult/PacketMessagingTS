@@ -159,6 +159,7 @@
     <Compile Include="Models\SampleOrder.cs" />
     <Compile Include="Models\TacticalCallsigns.cs" />
     <Compile Include="Models\TNCDevices.cs" />
+    <Compile Include="Models\UserCallsigns.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />

@@ -167,6 +167,9 @@ namespace PacketMessagingTS.Views
 
         private async Task DeleteMessageAsync(PacketMessage packetMessage)
         {
+            if (packetMessage is null)
+                return;
+
             StorageFolder folder = _currentPivotItem.Tag as StorageFolder;
             bool permanentlyDelete = false;
             if (folder == SharedData.DeletedMessagesFolder)

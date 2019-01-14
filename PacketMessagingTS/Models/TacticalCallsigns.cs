@@ -424,7 +424,7 @@ namespace PacketMessagingTS.Models
                 TacticalCall tacticalCall = new TacticalCall()
 				{
 					TacticalCallsign = line.Substring(0, 6),
-					Prefix = line.Substring(3, 3),
+					Prefix = line.Substring(3, 3) == "EOC" ? line.Substring(0, 3) : line.Substring(3, 3),
 					AgencyName = line.Substring(8),
 					PrimaryBBS = primaryBBS,
 					PrimaryBBSActive = true,
@@ -497,7 +497,7 @@ namespace PacketMessagingTS.Models
 					{
 						AgencyName = parts[0],
 						TacticalCallsign = callsign,
-						Prefix = callsign.Substring(3, 3),
+						Prefix = callsign.Substring(3, 3) == "EOC" ? callsign.Substring(0, 3) : callsign.Substring(3, 3),
 						PrimaryBBS = primaryBBS,
 						PrimaryBBSActive = true,
 						SecondaryBBS = secondaryBBS,

@@ -43,11 +43,17 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (value < 0 || value >= TNCDeviceArray.Instance.TNCDeviceList.Count)
                 {
-                    SetProperty(ref tncDeviceSelectedIndex, 0, true);
+                    if (SetProperty(ref tncDeviceSelectedIndex, 0, true))
+                    {
+                        Utilities.SetApplicationTitle();
+                    }
                 }
                 else
                 {
-                    SetProperty(ref tncDeviceSelectedIndex, value, true);
+                    if (SetProperty(ref tncDeviceSelectedIndex, value, true))
+                    {
+                        Utilities.SetApplicationTitle();
+                    }
                 }
                 CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
             }

@@ -158,6 +158,7 @@ namespace PacketMessagingTS.Models
                     {
                         Callsign = tacticalCall.TacticalCallsign.ToUpper(),
                         NameDetail = tacticalCall.AgencyName,
+                        Prefix = tacticalCall.Prefix,
                         BBSPrimary = tacticalCall.PrimaryBBS,
                         BBSSecondary = tacticalCall.SecondaryBBS,
                         BBSPrimaryActive = true // tacticalCall.PrimaryBBSActive
@@ -540,6 +541,10 @@ namespace PacketMessagingTS.Models
 
         private string nameField;
 
+        private string cityField;
+
+        private string prefixField;
+
         private string bBSPrimaryField;
 
         private string bBSSecondaryField;
@@ -574,6 +579,21 @@ namespace PacketMessagingTS.Models
             }
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string City
+        {
+            get => cityField;
+            set => cityField = value;
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Prefix
+        {
+            get => prefixField;
+            set => prefixField = value;
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

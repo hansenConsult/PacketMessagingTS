@@ -148,7 +148,7 @@
 										<RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" 
                                                      Margin="10,0,0,0" Content="Yes, by" Tag="14" Width="65" Padding="4" MinWidth="50"/>
 										<TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hhmm" 
-                                                 Height="16.986" UseLayoutRounding="False" 
+                                                 UseLayoutRounding="False" 
                                                  d:LayoutRounding="Auto" VerticalAlignment="Center" Tag="15"/>
 
 										<!--<TextBlock Style="{StaticResource LabelFontTNR12B}" Padding="0, 0" Text=", by" Width="20" />-->

@@ -52,6 +52,26 @@ namespace PacketMessagingTS.Controls
             }
         }
 
+        //private string _addressBookCity;
+        public string AddressBookCity
+        {
+            get => addressBookCity.Text;
+            set
+            {
+                addressBookCity.Text = value;// Set(ref _addressBookName, value);
+            }
+        }
+
+        //private string _addressBookPrefix;
+        public string AddressBookPrefix
+        {
+            get => addressBookPrefix.Text;
+            set
+            {
+                addressBookPrefix.Text = value;// Set(ref _addressBookName, value);
+            }
+        }
+
         //private string selectedPrimaryBBS;
         public string SelectedPrimaryBBS
         {

@@ -1,7 +1,9 @@
-﻿using PacketMessagingTS.ViewModels;
+﻿using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Helpers
@@ -135,6 +137,40 @@ namespace PacketMessagingTS.Helpers
             }
             else
                 return default(T);
+        }
+
+        public static string GetBBSName(out string from, out string tnc)
+        {
+            IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+            from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+
+            string bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail)) 
+            {
+                bbs = AddressBook.Instance.GetBBS(from);
+            }
+            return bbs;
+        }
+
+        public static void SetApplicationTitle()
+        {
+            ApplicationView appView = ApplicationView.GetForCurrentView();
+            appView.Title = "";
+
+            string title = "Packet Messaging, ";
+            title += Singleton<IdentityViewModel>.Instance.UserCallsign;
+            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            {
+                title += " as " + Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+            }
+
+            string bbs = GetBBSName(out string from, out string tnc);
+
+            title += " - " + bbs;
+            title += " - " + tnc;
+
+            appView.Title = title;
         }
     }
 

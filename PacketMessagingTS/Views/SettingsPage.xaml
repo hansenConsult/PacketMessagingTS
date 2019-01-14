@@ -169,25 +169,35 @@
                     <StackPanel>
                         <RelativePanel>
                             <TextBlock x:Name="LabelUserCallsign" RelativePanel.AlignLeftWithPanel="True" Text="User Callsign:" Width="125" Margin="0,10"/>
-                            <TextBox x:Name="textBoxUsercallsign" 
+                            <!--ItemsSource="{x:Bind _identityViewModel.UserCallsignsSource, Mode=OneTime}"-->
+                            <AutoSuggestBox x:Name="comboBoxUsercallsign" 
+									        RelativePanel.RightOf="LabelUserCallsign" 
+									        RelativePanel.AlignVerticalCenterWith="LabelUserCallsign"
+									        VerticalContentAlignment="Center" 
+                                            Text="{x:Bind _identityViewModel.UserCallsign, Mode=TwoWay}"
+                                            HorizontalAlignment="Left" VerticalAlignment="Center" Width="110"
+                                            TextChanged="AutoSuggestBoxUserCallsign_TextChanged"
+                                            SuggestionChosen="AutoSuggestBoxUserCallsign_SuggestionChosen"
+                                            />
+                            <!--<TextBox x:Name="textBoxUsercallsign" Visibility="Collapsed"
 									 RelativePanel.RightOf="LabelUserCallsign" 
 									 RelativePanel.AlignVerticalCenterWith="LabelUserCallsign"
 									 VerticalContentAlignment="Center" 
 									 Text="{Binding UserCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-									 PlaceholderText="Callsign" Margin="0,1" BorderThickness="2" Padding="10,3,10,5" />
+									 PlaceholderText="Callsign" Margin="0,1" BorderThickness="2" Padding="10,3,10,5" />-->
                             <TextBox x:Name="textBoxUserName" 
-									 RelativePanel.Below="textBoxUsercallsign" RelativePanel.AlignLeftWith="textBoxUsercallsign"
+									 RelativePanel.Below="comboBoxUsercallsign" RelativePanel.AlignLeftWith="comboBoxUsercallsign"
 									 VerticalContentAlignment="Center" Margin="0,1"
 									 Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="189" />
                             <TextBlock x:Name="labelUserName" RelativePanel.AlignVerticalCenterWith="textBoxUserName" Text="User Name:" />
                             <TextBox x:Name="textBoxUserCity" 
-									 RelativePanel.Below="textBoxUserName" RelativePanel.AlignLeftWith="textBoxUsercallsign"
+									 RelativePanel.Below="textBoxUserName" RelativePanel.AlignLeftWith="comboBoxUsercallsign"
 									 VerticalContentAlignment="Center" Margin="0,1"
 									 Text="{Binding UserCity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="189" />
                             <TextBlock x:Name="labelUserCity" RelativePanel.AlignVerticalCenterWith="textBoxUserCity" Text="User City:" />
                             <TextBox x:Name="textBoxUserPrefix" 
 									 RelativePanel.Below="textBoxUserCity"
-                                     RelativePanel.AlignLeftWith="textBoxUsercallsign"
+                                     RelativePanel.AlignLeftWith="comboBoxUsercallsign"
 									 VerticalContentAlignment="Center" 
 									 Text="{Binding UserMsgPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="2" Padding="10,3,10,5"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,1,0,1"/>

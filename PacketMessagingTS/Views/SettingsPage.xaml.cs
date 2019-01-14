@@ -144,22 +144,17 @@ namespace PacketMessagingTS.Views
             switch ((SettingsPivot.SelectedItem as PivotItem).Name)
             {
                 case "pivotTNC":
-                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
+                    //_TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
                     // Select current TNC device
                     break;
                 case "pivotPacketSettings":
                     comboBoxProfiles.Visibility = Visibility.Visible;
                     textBoxNewProfileName.Visibility = Visibility.Collapsed;
 
-                    _packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                    //_packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
                     break;
                 case "pivotIdentity":
-                    //if (_identityViewModel.TacticalCallsignSelectedIndex == -1)
-                    //{
-                    //    //_identityViewModel.TacticalCallsign = _identityViewModel.TacticalCallsignOther;
-                    //    comboBoxTacticalCallsign.Text = _identityViewModel.TacticalCallsignOther;
-                    //}
-                    //_identityViewModel.TacticalCallsignAreaSelectedIndex = Utilities.GetProperty("TacticalCallsignAreaSelectedIndex");
+                    _identityViewModel.UserCallsign = Utilities.GetProperty<string>("UserCallsign");
                     break;
                     //    case "pivotItemAddressBook":
                     //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
@@ -174,36 +169,64 @@ namespace PacketMessagingTS.Views
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
         }
-#region General
+        #region General
         //private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
         //{
         //    ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
         //}
 
-#endregion General
-#region Identity
+        #endregion General
+        #region Identity
         //private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
-            //_identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
+        //_identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
 
-            ////_identityViewModel._tacticalCallsignData.TacticalCallsignsChanged = false;
-            //if (_identityViewModel._tacticalCallsignData.TacticalCallsigns != null)
-            //{
-            //    ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_identityViewModel._tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
-            //    _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
-            //}  TacticalCallsignData> TacticalCallsignData> TacticalCallsignsAreaSource
-            //if (_identityViewModel.TacticalCallsignsAreaSource[_identityViewModel.TacticalCallsignAreaSelectedIndex].AreaName == "Other")
-            //{
-            //    textBoxTacticalCallsign.Visibility = Visibility.Visible;
-            //    comboBoxTacticalCallsign.Visibility = Visibility.Collapsed;
-            //    comboBoxAdditionalText.SelectedItem = null;
-            //}
-            //else
-            //{
-            //    textBoxTacticalCallsign.Visibility = Visibility.Collapsed;
-            //    comboBoxTacticalCallsign.Visibility = Visibility.Visible;
-            //}
+        ////_identityViewModel._tacticalCallsignData.TacticalCallsignsChanged = false;
+        //if (_identityViewModel._tacticalCallsignData.TacticalCallsigns != null)
+        //{
+        //    ObservableCollection<TacticalCall> listOfTacticallsigns = new ObservableCollection<TacticalCall>(_identityViewModel._tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray);
+        //    _identityViewModel.TacticalCallsignsSource = listOfTacticallsigns;
+        //}  TacticalCallsignData> TacticalCallsignData> TacticalCallsignsAreaSource
+        //if (_identityViewModel.TacticalCallsignsAreaSource[_identityViewModel.TacticalCallsignAreaSelectedIndex].AreaName == "Other")
+        //{
+        //    textBoxTacticalCallsign.Visibility = Visibility.Visible;
+        //    comboBoxTacticalCallsign.Visibility = Visibility.Collapsed;
+        //    comboBoxAdditionalText.SelectedItem = null;
         //}
+        //else
+        //{
+        //    textBoxTacticalCallsign.Visibility = Visibility.Collapsed;
+        //    comboBoxTacticalCallsign.Visibility = Visibility.Visible;
+        //}
+        //}
+
+        private void AutoSuggestBoxUserCallsign_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                sender.ItemsSource = AddressBook.Instance.GetCallsigns(comboBoxUsercallsign.Text);
+                if ((sender.ItemsSource as List<string>).Count == 0)
+                {
+                    _identityViewModel.UserName = "";
+                    _identityViewModel.UserCity = "";
+                    _identityViewModel.UserMsgPrefix = "";
+                }
+            }
+        }
+
+        private void AutoSuggestBoxUserCallsign_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            // Set sender.Text. You can use args.SelectedItem to build your text string.
+            if (AddressBook.Instance.AddressBookDictionary.TryGetValue(args.SelectedItem as string, out AddressBookEntry value))
+            {
+                _identityViewModel.UserName = value.NameDetail;
+                _identityViewModel.UserCity = value.City;
+            }
+        }
 
         private void ComboBoxTacticalCallsign_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
         {
@@ -981,7 +1004,7 @@ namespace PacketMessagingTS.Views
             _TNCSettingsViewModel.ResetChangedProperty();
         }
         #endregion Interface
-        #region Address Book
+#region Address Book
         AddressBookEntry _selectedEntry;
         private void AddressBookListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1000,6 +1023,8 @@ namespace PacketMessagingTS.Views
             {
                 Callsign = "",
                 NameDetail = "",
+                City = "",
+                Prefix = "",
                 BBSPrimary = "",
                 BBSSecondary = "",
                 BBSPrimaryActive = true
@@ -1012,6 +1037,8 @@ namespace PacketMessagingTS.Views
             {
                 emptyEntry.Callsign = contentDialog.AddressBookCallsign;
                 emptyEntry.NameDetail = contentDialog.AddressBookName;
+                emptyEntry.City = contentDialog.AddressBookCity;
+                emptyEntry.Prefix = contentDialog.AddressBookPrefix;
                 emptyEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
                 emptyEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
                 bool success = addressBook.AddAddressAsync(emptyEntry);
@@ -1048,6 +1075,8 @@ namespace PacketMessagingTS.Views
 
             contentDialog.AddressBookCallsign = _selectedEntry.Callsign;
             contentDialog.AddressBookName = _selectedEntry.NameDetail;
+            contentDialog.AddressBookCity = _selectedEntry.City ?? "";
+            contentDialog.AddressBookPrefix = _selectedEntry.Prefix ?? "";
             contentDialog.SelectedPrimaryBBS = _selectedEntry.BBSPrimary;
             contentDialog.SelectedSecondaryBBS = _selectedEntry.BBSSecondary;
 
@@ -1056,6 +1085,8 @@ namespace PacketMessagingTS.Views
             {
                 _selectedEntry.Callsign = contentDialog.AddressBookCallsign;
                 _selectedEntry.NameDetail = contentDialog.AddressBookName;
+                _selectedEntry.City = contentDialog.AddressBookCity;
+                _selectedEntry.Prefix = contentDialog.AddressBookPrefix;
                 _selectedEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
                 _selectedEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
 
@@ -1075,8 +1106,8 @@ namespace PacketMessagingTS.Views
             addressBookSave.IsEnabled = false;
         }
 
-        #endregion Address Book
-        #region Distribution Lists
+#endregion Address Book
+#region Distribution Lists
         enum DistributionListState
         {
             None,
@@ -1214,7 +1245,7 @@ namespace PacketMessagingTS.Views
             distributionListAddItem.IsEnabled = false;
             distributionListItems.IsReadOnly = true;
         }
-        #endregion Distribution Lists
+#endregion Distribution Lists
 
     }
 }

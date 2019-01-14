@@ -549,18 +549,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
 
-                IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
-                string MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+                //IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+                //string MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+                string bbsName = Utilities.GetBBSName(out string from, out string tnc);
+                string MessageFrom = from;
                 BBSData MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
                 if (MessageBBS == null || !MessageBBS.Name.Contains("XSC") && !tncDevice.Name.Contains(SharedData.EMail))
                 {
-                    string bbsName = AddressBook.Instance.GetBBS(MessageFrom);
+                    //string bbsName = AddressBook.Instance.GetBBS(MessageFrom);
                     bbs = BBSDefinitions.Instance.GetBBSFromName(bbsName);
                 }
                 else
                 {
                     bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
                 }
+                
             }
             else
             {

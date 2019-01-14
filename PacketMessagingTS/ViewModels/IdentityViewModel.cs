@@ -15,16 +15,57 @@ namespace PacketMessagingTS.ViewModels
 
         }
 
+        //public ObservableCollection<UserCallSign> UserCallsignsSource
+        //{
+        //    get => new ObservableCollection<UserCallSign>(UserCallsigns.Instance.UserCallsignsList);
+        //}
+
+        //private int userCallsignSelectedIndex;
+        //public int UserCallsignSelectedIndex
+        //{
+        //    get => GetProperty(ref userCallsignSelectedIndex);
+        //    set
+        //    {
+        //        SetProperty(ref userCallsignSelectedIndex, value, true);
+        //        UserCallsign = UserCallsignsSource[userCallsignSelectedIndex].UserCallsign;
+        //        UserName = UserCallsignsSource[userCallsignSelectedIndex].UserName;
+        //        UserCity = UserCallsignsSource[userCallsignSelectedIndex].UserCity;
+        //    }
+        //}
+
         string userCallsign;
         public string UserCallsign
         {
             get => GetProperty(ref userCallsign);
+            //get
+            //{
+            //    if (string.IsNullOrEmpty(userCallsign))
+            //    {
+            //        UserCallsignSelectedIndex = Utilities.GetProperty("UserCallsignSelectedIndex");
+            //    }
+            //    return userCallsign;
+            //}
             set
             {
-                SetProperty(ref userCallsign, value, true);
-                if (userCallsign.Length > 3)
+                if (SetProperty(ref userCallsign, value, true))
+                //if (SetProperty(ref userCallsign, value))
                 {
-                    UserMsgPrefix = userCallsign.Substring(userCallsign.Length - 3, 3);
+                    Utilities.SetApplicationTitle();
+                }
+
+                if (AddressBook.Instance.AddressBookDictionary.TryGetValue(value, out AddressBookEntry entry))
+                {
+                    UserName = entry.NameDetail;
+                    UserCity = entry.City;
+
+                    if (string.IsNullOrEmpty(entry.Prefix) && userCallsign.Length > 3)
+                    {
+                        UserMsgPrefix = userCallsign.Substring(userCallsign.Length - 3, 3);
+                    }
+                    else
+                    {
+                        UserMsgPrefix = entry.Prefix;
+                    }
                 }
             }
         }
@@ -32,10 +73,12 @@ namespace PacketMessagingTS.ViewModels
         string userName;
         public string UserName
         {
-            get => GetProperty(ref userName);
+            //get => GetProperty(ref userName);
+            get => userName;
             set
             {
-                SetProperty(ref userName, value, true);
+                //SetProperty(ref userName, value, true);
+                SetProperty(ref userName, value);
                 string userFirstName = userName;
                 int index = userFirstName.IndexOf(' ');
                 if (index < 0 && userFirstName.Length > 0)
@@ -56,29 +99,37 @@ namespace PacketMessagingTS.ViewModels
         string userFirstName;
         public string UserFirstName
         {
-            get => GetProperty(ref userFirstName);
-            set { SetProperty(ref userFirstName, value, true); }
+            //get => GetProperty(ref userFirstName);
+            get => userFirstName;
+            //set { SetProperty(ref userFirstName, value, true); }
+            set => SetProperty(ref userFirstName, value);
         }
 
         string userCity;
         public string UserCity
         {
-            get => GetProperty(ref userCity);
-            set { SetProperty(ref userCity, value, true); }
+            get => userCity;
+            set => SetProperty(ref userCity, value);
         }
 
         string userMsgPrefix;
         public string UserMsgPrefix
         {
-            get { return GetProperty(ref userName); }
-            set { SetProperty(ref userMsgPrefix, value, true); }
+            get => userMsgPrefix;
+            set => SetProperty(ref userMsgPrefix, value);
         }
 
         private bool useTacticalCallsign;
         public bool UseTacticalCallsign
         {
             get => GetProperty(ref useTacticalCallsign);
-            set => SetProperty(ref useTacticalCallsign, value, true);
+            set
+            {
+                if (SetProperty(ref useTacticalCallsign, value, true))
+                {
+                    Utilities.SetApplicationTitle();
+                }
+            }
         }
 
         public ObservableCollection<TacticalCallsignData> TacticalCallsignsAreaSource
@@ -94,6 +145,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tacticalCallsignsSource, value);
                 TacticalCallsignSelectedIndex = TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex];
+                Utilities.SetApplicationTitle();
             }
         }
 
