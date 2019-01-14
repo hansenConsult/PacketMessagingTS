@@ -32,23 +32,37 @@ namespace PacketMessagingTS.Controls
         public void OnPropertyChanged(string propertyName) =>
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        //private string _addressBookCallsign;
+        private string addressBookCallsign;
         public string AddressBookCallsign
         {
-            get => addressBookCallsign.Text;
+            get => addressBookCallsign;
             set
             {
-                addressBookCallsign.Text = value;//Set(ref _addressBookCallsign, value);
+                //addressBookCallsign.Text = value;
+                Set(ref addressBookCallsign, value);
+                if (addressBookCallsign.Contains("@"))
+                {
+                    EmailNotEntered = false;
+                }
+                else
+                {
+                    EmailNotEntered = true;
+                    if (!string.IsNullOrEmpty(addressBookCallsign) && addressBookCallsign.Length > 3)
+                    {
+                        AddressBookPrefix = addressBookCallsign.Substring(addressBookCallsign.Length - 3, 3);
+                    }
+                }
             }
         }
 
-        //private string _addressBookName;
+        private string addressBookName;
         public string AddressBookName
         {
-            get => addressBookName.Text;
+            get => addressBookName;
             set
             {
-                addressBookName.Text = value;// Set(ref _addressBookName, value);
+                //addressBookName.Text = value;
+                Set(ref addressBookName, value);
             }
         }
 
@@ -62,24 +76,39 @@ namespace PacketMessagingTS.Controls
             }
         }
 
-        //private string _addressBookPrefix;
+        private string addressBookPrefix;
         public string AddressBookPrefix
         {
-            get => addressBookPrefix.Text;
+            get => addressBookPrefix;
             set
             {
-                addressBookPrefix.Text = value;// Set(ref _addressBookName, value);
+                //addressBookPrefix.Text = value;
+                Set(ref addressBookPrefix, value);
             }
         }
 
-        //private string selectedPrimaryBBS;
-        public string SelectedPrimaryBBS
+        private bool emailNotEntered = true;
+        public bool EmailNotEntered
         {
-            get => addressBookPrimaryBBS.SelectedValue as string;
+            get => emailNotEntered;
             set
             {
-                addressBookPrimaryBBS.SelectedValue = value;
-                //Set(ref selectedPrimaryBBS, value);
+                Set(ref emailNotEntered, value);
+                textBoxPrefix.IsEnabled = emailNotEntered;
+                addressBookPrimaryBBS.IsEnabled = emailNotEntered;
+                addressBookSecondaryBBS.IsEnabled = emailNotEntered;
+            }
+        }
+
+        private string selectedPrimaryBBS;
+        public string SelectedPrimaryBBS
+        {
+            //get => addressBookPrimaryBBS.SelectedValue as string;
+            get => selectedPrimaryBBS;
+            set
+            {
+                //addressBookPrimaryBBS.SelectedValue = value;
+                Set(ref selectedPrimaryBBS, value);
             }
         }
 

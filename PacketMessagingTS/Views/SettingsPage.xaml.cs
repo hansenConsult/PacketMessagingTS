@@ -250,6 +250,7 @@ namespace PacketMessagingTS.Views
                             }
                             else
                             {
+                                await AddressBook.Instance.SaveAsync();
                                 await Utilities.ShowMessageDialogAsync("Call Sign successfully added. Now try to add a user Call Sign again.");
                             }
                         }

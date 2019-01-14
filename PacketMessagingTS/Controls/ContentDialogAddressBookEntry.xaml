@@ -10,12 +10,13 @@
     <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" >
             <TextBlock Text="Call sign or E-Mail:" VerticalAlignment="Center" Width="124"/>
-            <TextBox x:Name="addressBookCallsign" 
-                     Text="{Binding AddressBookCallsign}" Width="200" Margin="5,2,0,0"/>
+            <TextBox x:Name="textBoxCallsign" 
+                     Text="{x:Bind AddressBookCallsign, Mode=TwoWay}" Width="200" Margin="5,2,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Name:" VerticalAlignment="Center" Width="124"/>
-            <TextBox x:Name="addressBookName" Width="200" Margin="5,2,0,0"/>
+            <TextBox Width="200" Margin="5,2,0,0"
+                     Text="{x:Bind addressBookName, Mode=TwoWay}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="City:" VerticalAlignment="Center" Width="124"/>
@@ -23,12 +24,15 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Prefix:" VerticalAlignment="Center" Width="124"/>
-            <TextBox x:Name="addressBookPrefix" Width="116" Margin="5,2,0,0"/>
+            <TextBox x:Name="textBoxPrefix" Width="116" Margin="5,2,0,0"
+                     IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
+                     Text="{x:Bind AddressBookPrefix, Mode=TwoWay}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Primary BBS:" VerticalAlignment="Center" Width="124"/>
             <ComboBox x:Name="addressBookPrimaryBBS" Width="116" Margin="5,2,0,0"
-                      SelectedValue="{Binding SelectedPrimaryBBS, Mode=TwoWay}">
+                      IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
+                      SelectedValue="{x:Bind SelectedPrimaryBBS, Mode=TwoWay}">
                 <x:String>W1XSC</x:String>
                 <x:String>W2XSC</x:String>
                 <x:String>W3XSC</x:String>
@@ -39,6 +43,7 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Secondary BBS:" VerticalAlignment="Center" Width="124"/>
             <ComboBox x:Name="addressBookSecondaryBBS" Width="116" Margin="5,2,0,0"
+                      IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
                       SelectedValue="{Binding SelectedSecondaryBBS, Mode=TwoWay}">
                 <x:String>W1XSC</x:String>
                 <x:String>W2XSC</x:String>
