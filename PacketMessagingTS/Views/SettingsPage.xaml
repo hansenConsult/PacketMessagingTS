@@ -176,7 +176,7 @@
 									        VerticalContentAlignment="Center" 
                                             Text="{x:Bind _identityViewModel.UserCallsign, Mode=TwoWay}"
                                             HorizontalAlignment="Left" VerticalAlignment="Center" Width="110"
-                                            TextChanged="AutoSuggestBoxUserCallsign_TextChanged"
+                                            TextChanged="AutoSuggestBoxUserCallsign_TextChangedAsync"
                                             SuggestionChosen="AutoSuggestBoxUserCallsign_SuggestionChosen"
                                             />
                             <!--<TextBox x:Name="textBoxUsercallsign" Visibility="Collapsed"

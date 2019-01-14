@@ -168,7 +168,7 @@ namespace PacketMessagingTS
             {
                 tacticalCallsignType.TacticalCallsigns = await TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
             }
-            await UserCallsigns.OpenAsync();
+            //await UserCallsigns.OpenAsync();
 
             await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
             await TNCDeviceArray.Instance.OpenAsync();

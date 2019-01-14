@@ -98,6 +98,22 @@ namespace PacketMessagingTS.Helpers
             await contentDialog.ShowAsync();
         }
 
+        public static async Task<bool> ShowOkCancelMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
+        {
+            ContentDialog contentDialog = new ContentDialog()
+            {
+                Title = title,
+                Content = dialogMessage,
+                CloseButtonText = "Cancel",
+                PrimaryButtonText = "OK",
+            };
+            ContentDialogResult result = await contentDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+                return true;
+            else
+                return false;
+        }
+
         public static async Task<bool> ShowYesNoMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
         {
             ContentDialog contentDialog = new ContentDialog()

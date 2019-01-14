@@ -200,7 +200,7 @@ namespace PacketMessagingTS.Views
         //}
         //}
 
-        private void AutoSuggestBoxUserCallsign_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void AutoSuggestBoxUserCallsign_TextChangedAsync(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Only get results when it was a user typing, 
             // otherwise assume the value got filled in by TextMemberPath 
@@ -214,6 +214,46 @@ namespace PacketMessagingTS.Views
                     _identityViewModel.UserName = "";
                     _identityViewModel.UserCity = "";
                     _identityViewModel.UserMsgPrefix = "";
+
+                    bool retval = await Utilities.ShowOkCancelMessageDialogAsync("The Call Sign is not in the Address Book. \nPlease select OK to enter the callsign in the Address Book");
+                    if (retval)
+                    {
+                        AddressBook addressBook = AddressBook.Instance;
+
+                        ContentDialogAddressBookEntry contentDialog = new ContentDialogAddressBookEntry();
+                        AddressBookEntry emptyEntry = new AddressBookEntry()
+                        {
+                            Callsign = "",
+                            NameDetail = "",
+                            City = "",
+                            Prefix = "",
+                            BBSPrimary = "",
+                            BBSSecondary = "",
+                            BBSPrimaryActive = true
+                        };
+                        //SetAddressBookEntryEditData(emptyEntry);
+                        contentDialog.Title = "Add Address Book Entry";
+                        //contentDialog.PrimaryButtonText = "Add";
+                        ContentDialogResult result = await contentDialog.ShowAsync();
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            emptyEntry.Callsign = contentDialog.AddressBookCallsign;
+                            emptyEntry.NameDetail = contentDialog.AddressBookName;
+                            emptyEntry.City = contentDialog.AddressBookCity;
+                            emptyEntry.Prefix = contentDialog.AddressBookPrefix;
+                            emptyEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
+                            emptyEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
+                            bool success = addressBook.AddAddressAsync(emptyEntry);
+                            if (!success)
+                            {
+                                await Utilities.ShowMessageDialogAsync("Error adding a new address book entry.");
+                            }
+                            else
+                            {
+                                await Utilities.ShowMessageDialogAsync("Call Sign successfully added. Now try to add a user Call Sign again.");
+                            }
+                        }
+                    }
                 }
             }
         }

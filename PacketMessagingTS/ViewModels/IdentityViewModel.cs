@@ -73,7 +73,6 @@ namespace PacketMessagingTS.ViewModels
         string userName;
         public string UserName
         {
-            //get => GetProperty(ref userName);
             get => userName;
             set
             {
@@ -99,9 +98,7 @@ namespace PacketMessagingTS.ViewModels
         string userFirstName;
         public string UserFirstName
         {
-            //get => GetProperty(ref userFirstName);
             get => userFirstName;
-            //set { SetProperty(ref userFirstName, value, true); }
             set => SetProperty(ref userFirstName, value);
         }
 
@@ -112,11 +109,11 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref userCity, value);
         }
 
-        string userMsgPrefix;
+        string userPrefix;
         public string UserMsgPrefix
         {
-            get => userMsgPrefix;
-            set => SetProperty(ref userMsgPrefix, value);
+            get => userPrefix;
+            set => SetProperty(ref userPrefix, value);
         }
 
         private bool useTacticalCallsign;
@@ -145,7 +142,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tacticalCallsignsSource, value);
                 TacticalCallsignSelectedIndex = TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex];
-                Utilities.SetApplicationTitle();
             }
         }
 
@@ -292,7 +288,11 @@ namespace PacketMessagingTS.ViewModels
                 }
                 return tacticalCallsign;
             }
-            set => SetProperty(ref tacticalCallsign, value);
+            set
+            {
+                SetProperty(ref tacticalCallsign, value);
+                Utilities.SetApplicationTitle();
+            }
         }
 
         private int tacticalAgencyNameSelectedIndex;
@@ -320,11 +320,11 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private string tacticalMsgPrefix;
+        private string tacticalPrefix;
         public string TacticalMsgPrefix
         {
-            get => tacticalMsgPrefix;
-            set { SetProperty(ref tacticalMsgPrefix, value); }
+            get => tacticalPrefix;
+            set { SetProperty(ref tacticalPrefix, value); }
         }
 
         private bool displayIdentityAtStartup;
