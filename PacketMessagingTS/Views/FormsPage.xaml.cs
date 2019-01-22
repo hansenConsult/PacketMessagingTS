@@ -470,7 +470,6 @@ namespace PacketMessagingTS.Views
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
-
                 _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
             }
         }

@@ -243,7 +243,10 @@ namespace FormControlBaseClass
         { get => _formControlsList; }
 
         public string ValidationResultMessage
-        { get => validationResultMessage; set => validationResultMessage = value; }
+        {
+            get => validationResultMessage;
+            set => validationResultMessage = value;
+        }
 
         public virtual string SenderMsgNo
         { get; set; }
@@ -333,7 +336,6 @@ namespace FormControlBaseClass
                 outpostData.Add(data);
             }
             outpostData.Add("#EOF");
-            //return outpostData;
         }
 
         public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)

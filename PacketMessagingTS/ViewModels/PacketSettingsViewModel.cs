@@ -78,6 +78,7 @@ namespace PacketMessagingTS.ViewModels
                         break;
                     }
                 }
+
                 int i = 0;
                 for (; i < TNCDeviceArray.Instance.TNCDeviceList.Count; i++)
                 {
@@ -85,9 +86,11 @@ namespace PacketMessagingTS.ViewModels
                         break;
                 }
                 if (i >= TNCDeviceArray.Instance.TNCDeviceList.Count || i < 0)
+                {
                     i = 0;
-
+                }
                 Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = i;
+
                 CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
                 Name = currentProfile.Name;
                 TNC = currentProfile.TNC;

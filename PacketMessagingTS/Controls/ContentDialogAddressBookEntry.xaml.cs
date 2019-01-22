@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
@@ -12,9 +8,18 @@ namespace PacketMessagingTS.Controls
 {
     public sealed partial class ContentDialogAddressBookEntry : ContentDialog
     {
+        public static readonly DependencyProperty EmailNotEnteredProperty =
+            DependencyProperty.Register(
+                "EmailNotEntered",
+                typeof(bool),
+                typeof(ContentDialogAddressBookEntry),
+                null);
+
         public ContentDialogAddressBookEntry()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            EmailNotEntered = true;
         }
 
         private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
@@ -38,7 +43,6 @@ namespace PacketMessagingTS.Controls
             get => addressBookCallsign;
             set
             {
-                //addressBookCallsign.Text = value;
                 Set(ref addressBookCallsign, value);
                 if (addressBookCallsign.Contains("@"))
                 {
@@ -49,7 +53,7 @@ namespace PacketMessagingTS.Controls
                     EmailNotEntered = true;
                     if (!string.IsNullOrEmpty(addressBookCallsign) && addressBookCallsign.Length > 3)
                     {
-                        AddressBookPrefix = addressBookCallsign.Substring(addressBookCallsign.Length - 3, 3);
+                        textBoxPrefix.Text = addressBookCallsign.Substring(addressBookCallsign.Length - 3, 3);
                     }
                 }
             }
@@ -61,65 +65,54 @@ namespace PacketMessagingTS.Controls
             get => addressBookName;
             set
             {
-                //addressBookName.Text = value;
                 Set(ref addressBookName, value);
             }
         }
 
-        //private string _addressBookCity;
+        private string addressBookCity;
         public string AddressBookCity
         {
-            get => addressBookCity.Text;
-            set
-            {
-                addressBookCity.Text = value;// Set(ref _addressBookName, value);
-            }
+            get => addressBookCity;
+            set => Set(ref addressBookCity, value);
         }
 
         private string addressBookPrefix;
         public string AddressBookPrefix
         {
             get => addressBookPrefix;
-            set
-            {
-                //addressBookPrefix.Text = value;
-                Set(ref addressBookPrefix, value);
-            }
+            set => Set(ref addressBookPrefix, value);
         }
 
-        private bool emailNotEntered = true;
         public bool EmailNotEntered
         {
-            get => emailNotEntered;
-            set
-            {
-                Set(ref emailNotEntered, value);
-                textBoxPrefix.IsEnabled = emailNotEntered;
-                addressBookPrimaryBBS.IsEnabled = emailNotEntered;
-                addressBookSecondaryBBS.IsEnabled = emailNotEntered;
-            }
+            get { return (bool)GetValue(EmailNotEnteredProperty); }
+            set { SetValue(EmailNotEnteredProperty, value); }
         }
+        //private bool emailNotEntered = true;
+        //public bool EmailNotEntered
+        //{
+        //    get => emailNotEntered;
+        //    set
+        //    {
+        //        Set(ref emailNotEntered, value);
+        //        textBoxPrefix.IsEnabled = emailNotEntered;
+        //        addressBookPrimaryBBS.IsEnabled = emailNotEntered;
+        //        addressBookSecondaryBBS.IsEnabled = emailNotEntered;
+        //    }
+        //}
 
         private string selectedPrimaryBBS;
         public string SelectedPrimaryBBS
         {
-            //get => addressBookPrimaryBBS.SelectedValue as string;
             get => selectedPrimaryBBS;
-            set
-            {
-                //addressBookPrimaryBBS.SelectedValue = value;
-                Set(ref selectedPrimaryBBS, value);
-            }
+            set => Set(ref selectedPrimaryBBS, value);
         }
 
-        //private string selectedSecondaryBBS;
+        private string selectedSecondaryBBS;
         public string SelectedSecondaryBBS
         {
-            get => addressBookSecondaryBBS.SelectedValue as string; //selectedSecondaryBBS;
-            set
-            {
-                addressBookSecondaryBBS.SelectedValue = value;//Set(ref selectedSecondaryBBS, value);
-            }
+            get => selectedSecondaryBBS;
+            set => Set(ref selectedSecondaryBBS, value);
         }
     }
 }

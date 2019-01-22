@@ -45,7 +45,7 @@ namespace PacketMessagingTS.Helpers
             if (startMessageNumber < 0)
             {
                 //messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
-                messageNumber = Utilities.GetProperty("MessageNumber");
+                messageNumber = GetProperty("MessageNumber");
                 messageNumber++;
             }
             else
@@ -73,7 +73,7 @@ namespace PacketMessagingTS.Helpers
             });
         }
 
-        public static async Task ShowMessageDialogAsync(CoreDispatcher dispatcher, string dialogMessage, string title = "Packet Messaging")
+        public static async Task ShowSingleButtonMessageDialogAsync(CoreDispatcher dispatcher, string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
         {
             await dispatcher.RunTaskAsync(async () =>
             {
@@ -87,25 +87,25 @@ namespace PacketMessagingTS.Helpers
             });
         }
 
-        public static async Task ShowMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
+        public static async Task ShowSingleButtonMessageDialogAsync(string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
         {
             ContentDialog contentDialog = new ContentDialog()
             {
                 Title = title,
                 Content = dialogMessage,
-                CloseButtonText = "Close"
+                CloseButtonText = closeButtonText,
             };
             await contentDialog.ShowAsync();
         }
 
-        public static async Task<bool> ShowOkCancelMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
+        public static async Task<bool> ShowDualButtonMessageDialogAsync(string dialogMessage, string primaryButtonText = "OK", string closeButtonText = "Cancel", string title = "Packet Messaging")
         {
             ContentDialog contentDialog = new ContentDialog()
             {
                 Title = title,
                 Content = dialogMessage,
-                CloseButtonText = "Cancel",
-                PrimaryButtonText = "OK",
+                CloseButtonText = closeButtonText,
+                PrimaryButtonText = primaryButtonText,
             };
             ContentDialogResult result = await contentDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
@@ -114,21 +114,21 @@ namespace PacketMessagingTS.Helpers
                 return false;
         }
 
-        public static async Task<bool> ShowYesNoMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
-        {
-            ContentDialog contentDialog = new ContentDialog()
-            {
-                Title = title,
-                Content = dialogMessage,
-                CloseButtonText = "No",
-                PrimaryButtonText = "Yes",
-            };
-            ContentDialogResult result = await contentDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-                return true;
-            else
-                return false;
-        }
+        //public static async Task<bool> ShowYesNoMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
+        //{
+        //    ContentDialog contentDialog = new ContentDialog()
+        //    {
+        //        Title = title,
+        //        Content = dialogMessage,
+        //        CloseButtonText = "No",
+        //        PrimaryButtonText = "Yes",
+        //    };
+        //    ContentDialogResult result = await contentDialog.ShowAsync();
+        //    if (result == ContentDialogResult.Primary)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         public static int GetProperty(string propertyName)
         {
@@ -155,21 +155,34 @@ namespace PacketMessagingTS.Helpers
                 return default(T);
         }
 
-        public static string GetBBSName(out string from, out string tnc)
+        public static (string bbs, string tnc, string from) GetProfileData()
         {
             IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
-            from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+            string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
 
             string bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-            tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
-            if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail)) 
+            string tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail))
             {
                 bbs = AddressBook.Instance.GetBBS(from);
             }
-            return bbs;
+            return (bbs, tnc, from);
         }
+        //public static string GetBBSName(out string from, out string tnc)
+        //{
+        //    IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+        //    from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
 
-        public static void SetApplicationTitle()
+        //    string bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+        //    tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+        //    if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail)) 
+        //    {
+        //        bbs = AddressBook.Instance.GetBBS(from);
+        //    }
+        //    return bbs;
+        //}
+
+        public static void SetApplicationTitle(string bbsName = "")
         {
             ApplicationView appView = ApplicationView.GetForCurrentView();
             appView.Title = "";
@@ -181,9 +194,11 @@ namespace PacketMessagingTS.Helpers
                 title += " as " + Singleton<IdentityViewModel>.Instance.TacticalCallsign;
             }
 
-            string bbs = GetBBSName(out string from, out string tnc);
+            
+            (string bbs, string tnc, string from) = GetProfileData();
+            //string bbs = GetBBSName(out string from, out string tnc);
 
-            title += " - " + bbs;
+            title += " - " + (string.IsNullOrEmpty(bbsName) ? bbs : bbsName);
             title += " - " + tnc;
 
             appView.Title = title;

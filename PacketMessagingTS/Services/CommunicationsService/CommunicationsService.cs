@@ -113,7 +113,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                        await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
+                        await Utilities.ShowSingleButtonMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
                         return;
                     }
                     break;
@@ -302,7 +302,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                                await Utilities.ShowMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
+                                await Utilities.ShowSingleButtonMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
                                 return;
                             }
                             break;
@@ -446,6 +446,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             TNCDevice tncDevice;
             BBSData bbs;
 
+            _logHelper.Log(LogLevel.Info, "Start a new BBS Connection");
             // Collect messages to be sent
             _packetMessagesToSend.Clear();
             List<string> fileTypeFilter = new List<string>() { ".xml" };
@@ -480,7 +481,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (formControl is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");
-                    await Utilities.ShowMessageDialogAsync($"Form {packetMessage.PacFormName} not found");
+                    await Utilities.ShowSingleButtonMessageDialogAsync($"Form {packetMessage.PacFormName} not found");
                     continue;
                 }
                 packetMessage.MessageBody = formControl.CreateOutpostData(ref packetMessage);
@@ -549,10 +550,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
 
-                //IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
-                //string MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
-                string bbsName = Utilities.GetBBSName(out string from, out string tnc);
-                string MessageFrom = from;
+                (string bbsName, string tnc, string MessageFrom) = Utilities.GetProfileData();
+                //string MessageFrom = from;
                 BBSData MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
                 if (MessageBBS == null || !MessageBBS.Name.Contains("XSC") && !tncDevice.Name.Contains(SharedData.EMail))
                 {
@@ -570,6 +569,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
                 tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
                 bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
+                Utilities.SetApplicationTitle(bbs.Name);
                 //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
             }
             TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);

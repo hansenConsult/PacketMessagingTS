@@ -32,13 +32,11 @@ namespace PacketMessagingTS.Controls
             }
             ScanControls(messageInfo);
 
-            MessageBBS = Utilities.GetBBSName(out string from, out string tnc);
+            (string bbs, string tnc, string from) = Utilities.GetProfileData();
+            MessageBBS = bbs; //Utilities.GetBBSName(out string from, out string tnc);
             //AddressBook.Instance.UserBBS = MessageBBS;
             MessageTNC = tnc;
             MessageTo = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.SendTo;
-
-            //IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
-            //MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
             MessageFrom = from;
         }
 
@@ -49,8 +47,8 @@ namespace PacketMessagingTS.Controls
             //set => Set(ref messageSubject, value);
             set
             {
-                messageSubject = value;
-                textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
+                Set(ref messageSubject, value ?? "");
+                //textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
             }
         }
         private string originalBBS;
@@ -59,7 +57,11 @@ namespace PacketMessagingTS.Controls
         public string MessageBBS
         {
             get => messageBBS;
-            set => Set(ref messageBBS, value);
+            set
+            {
+                Set(ref messageBBS, value);
+                Utilities.SetApplicationTitle(messageBBS);
+            }
         }
 
         public ObservableCollection<TNCDevice> DeviceList

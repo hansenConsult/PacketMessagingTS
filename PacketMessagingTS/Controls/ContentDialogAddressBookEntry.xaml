@@ -20,7 +20,8 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="City:" VerticalAlignment="Center" Width="124"/>
-            <TextBox x:Name="addressBookCity" Width="200" Margin="5,2,0,0"/>
+            <TextBox x:Name="textBoxCity" Width="200" Margin="5,2,0,0"
+                     Text="{x:Bind AddressBookCity, Mode=TwoWay}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Prefix:" VerticalAlignment="Center" Width="124"/>
@@ -44,7 +45,7 @@
             <TextBlock Text="Secondary BBS:" VerticalAlignment="Center" Width="124"/>
             <ComboBox x:Name="addressBookSecondaryBBS" Width="116" Margin="5,2,0,0"
                       IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
-                      SelectedValue="{Binding SelectedSecondaryBBS, Mode=TwoWay}">
+                      SelectedValue="{x:Bind SelectedSecondaryBBS, Mode=TwoWay}">
                 <x:String>W1XSC</x:String>
                 <x:String>W2XSC</x:String>
                 <x:String>W3XSC</x:String>

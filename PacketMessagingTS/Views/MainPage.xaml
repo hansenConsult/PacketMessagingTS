@@ -10,7 +10,7 @@
       mc:Ignorable="d">
     
     <Page.Resources>
-        <helpers:AreaConverter x:Key="Converter1"/>
+        <!--<helpers:AreaConverter x:Key="Converter1"/>-->
 
         <!--<helpers:BooleanToStringConverter x:Key="BooleanToStringConverter"
                                        TrueValue="Active"
@@ -276,7 +276,6 @@
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
                 </controls:DataGrid>
-
             </PivotItem>
 
             <!--  Drafts  -->

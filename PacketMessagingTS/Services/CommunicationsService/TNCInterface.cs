@@ -534,7 +534,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         {
             _logHelper.Log(LogLevel.Fatal, $"SerialPort Error: {e.EventType.ToString()}");
             _error = true;
-            await Utilities.ShowMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "TNC Connect Error");
+            await Utilities.ShowSingleButtonMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "Close", "TNC Connect Error");
             _serialPort.Close();
             return;
         }
@@ -765,24 +765,24 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())} {e.Message}");
                 if (_connectState == ConnectState.ConnectStateBBSTryConnect)
                 {
-                    await Utilities.ShowMessageDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "BBS Connect Error");
+                    await Utilities.ShowSingleButtonMessageDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                 }
                 else if (_connectState == ConnectState.ConnectStatePrepareTNCType)
                 {
-                    await Utilities.ShowMessageDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "BBS Connect Error");
+                    await Utilities.ShowSingleButtonMessageDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
                 }
                 else if (_connectState == ConnectState.ConnectStateConverseMode)
                 {
-                    await Utilities.ShowMessageDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "TNC Converse Error");
+                    await Utilities.ShowSingleButtonMessageDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
                 }
                 //else if (e.Message.Contains("not exist"))
                 else if (e.GetType() == typeof(IOException))
                 {
-                    await Utilities.ShowMessageDialogAsync("Looks like the USB cable to the TNC is disconnected", "TNC Connect Error");
+                    await Utilities.ShowSingleButtonMessageDialogAsync("Looks like the USB or serial cable to the TNC is disconnected", "Close", "TNC Connect Error");
                 }
                 else if (e.GetType() == typeof(UnauthorizedAccessException))
                 {
-                    await Utilities.ShowMessageDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "TNC Connect Error");
+                    await Utilities.ShowSingleButtonMessageDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
                 }
                 //_serialPort.Write("B\r\n");
                 //_serialPort.Close();

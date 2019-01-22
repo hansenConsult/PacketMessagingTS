@@ -19,9 +19,9 @@ namespace PacketMessagingTS.Helpers
 {
     public class BaseFormsPage : Page
     {
-        Pivot _formsPagePivot;
+        protected Pivot _formsPagePivot;
         PacketMessage _packetMessage;
-        bool _loadMessage = false;
+        protected bool _loadMessage = false;
 
         protected FormsViewModel _formsViewModel;
 

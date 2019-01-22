@@ -137,12 +137,12 @@ namespace PacketMessagingTS.Helpers
                 catch (Exception e)
                 {
                     _logHelper.Log(LogLevel.Error, "Error printing: " + e.Message + ", hr=" + e.HResult);
-                    await Utilities.ShowMessageDialogAsync("Error printing" + e.Message);
+                    await Utilities.ShowSingleButtonMessageDialogAsync("Error printing" + e.Message);
                 }
             }
             else
             {
-                await Utilities.ShowMessageDialogAsync("Printing is not supported on this device");
+                await Utilities.ShowSingleButtonMessageDialogAsync("Printing is not supported on this device");
             }
         }
 
@@ -197,7 +197,7 @@ namespace PacketMessagingTS.Helpers
                         await _scenarioPage.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                         {
                             _logHelper.Log(LogLevel.Error, "Failed to print.");
-                            await Utilities.ShowMessageDialogAsync("Failed to print.");
+                            await Utilities.ShowSingleButtonMessageDialogAsync("Failed to print.");
                         });
                     }
                 };

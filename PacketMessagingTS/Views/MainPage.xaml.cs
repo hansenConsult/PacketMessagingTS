@@ -33,7 +33,7 @@ namespace PacketMessagingTS.Views
 
         public MainViewModel _mainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
-        private readonly object _lock = new object();
+        //private readonly object _lock = new object();
         PivotItem _currentPivotItem;
 
         //List<string> _bulletinList;
@@ -114,6 +114,11 @@ namespace PacketMessagingTS.Views
 
             _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
+            //string header = _currentPivotItem.Header as string;
+            //int index = header.IndexOf(" (");
+            //header = (_currentPivotItem.Header as string).Substring(0, index < 0 ? header.Length : index);
+            //_currentPivotItem.Header = $"{header} ({_messagesInFolder.Count})";
+
             DataGridColumn sortColumn = null;
             //switch (_currentPivotItem.Name)
             //{
@@ -154,7 +159,6 @@ namespace PacketMessagingTS.Views
             _currentPivotItem = (PivotItem)e.AddedItems[0];
 
             await RefreshDataGridAsync();
-            //_mainViewModel.RefreshDataGridAsync(); // problem on startup because MainPagePivotSelectedItem is null
         }
 
         private void OpenMessage(PacketMessage packetMessage)

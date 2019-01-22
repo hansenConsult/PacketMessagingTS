@@ -32,41 +32,43 @@ namespace PacketMessagingTS.ViewModels
         //        UserCity = UserCallsignsSource[userCallsignSelectedIndex].UserCity;
         //    }
         //}
+        private void GetAddressBookEntry(string userCallsign)
+        {
+            if (AddressBook.Instance.AddressBookDictionary.TryGetValue(userCallsign, out AddressBookEntry entry))
+            {
+                UserName = entry.NameDetail;
+                UserCity = entry.City;
+            }
+            if (string.IsNullOrEmpty(entry.Prefix) && userCallsign.Length > 3)
+            {
+                UserMsgPrefix = userCallsign.Substring(userCallsign.Length - 3, 3);
+            }
+            else
+            {
+                UserMsgPrefix = entry.Prefix;
+            }
+        }
 
         string userCallsign;
         public string UserCallsign
         {
-            get => GetProperty(ref userCallsign);
-            //get
-            //{
-            //    if (string.IsNullOrEmpty(userCallsign))
-            //    {
-            //        UserCallsignSelectedIndex = Utilities.GetProperty("UserCallsignSelectedIndex");
-            //    }
-            //    return userCallsign;
-            //}
+            get
+            {
+                if (string.IsNullOrEmpty(userCallsign))
+                {
+                    GetProperty(ref userCallsign);
+                    GetAddressBookEntry(userCallsign);
+                }
+                return userCallsign;
+            }
             set
             {
                 if (SetProperty(ref userCallsign, value, true))
-                //if (SetProperty(ref userCallsign, value))
                 {
                     Utilities.SetApplicationTitle();
                 }
 
-                if (AddressBook.Instance.AddressBookDictionary.TryGetValue(value, out AddressBookEntry entry))
-                {
-                    UserName = entry.NameDetail;
-                    UserCity = entry.City;
-
-                    if (string.IsNullOrEmpty(entry.Prefix) && userCallsign.Length > 3)
-                    {
-                        UserMsgPrefix = userCallsign.Substring(userCallsign.Length - 3, 3);
-                    }
-                    else
-                    {
-                        UserMsgPrefix = entry.Prefix;
-                    }
-                }
+                GetAddressBookEntry(userCallsign);
             }
         }
 
