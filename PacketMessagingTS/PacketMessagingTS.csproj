@@ -147,7 +147,6 @@
     <Compile Include="Helpers\SharedData.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Helpers\TimeConverter.cs" />
-    <Compile Include="Helpers\UpdatePacFormsFiles.cs" />
     <Compile Include="Helpers\Utilities.cs" />
     <Compile Include="Models\AddressBook.cs" />
     <Compile Include="Models\BBSData.cs" />

@@ -5,22 +5,28 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+
+using FormControlBaseClass;
+
+using MessageFormControl;
+
+using MetroLog;
+
+using PacketMessagingTS.Controls;
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+
+using SharedCode;
+
+using ToggleButtonGroupControl;
+
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
-using PacketMessagingTS.Controls;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
-using PacketMessagingTS.ViewModels;
-using ToggleButtonGroupControl;
-using FormControlBaseClass;
-using MetroLog;
-using SharedCode;
-using MessageFormControl;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -419,16 +425,13 @@ namespace PacketMessagingTS.Views
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
-                MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
-                await messageDialog.ShowAsync();
+                //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
+                //await messageDialog.ShowAsync();
+                await Utilities.ShowSingleButtonMessageDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
 
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
-            //if (!_loadMessage)
-            //{
-            //    _packetMessage = new PacketMessage();
-            //}
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -534,17 +537,18 @@ namespace PacketMessagingTS.Views
             };
             ScrollViewer.SetVerticalScrollBarVisibility(messageBody, ScrollBarVisibility.Visible); // Does not work
 
-            //_packetMessage.MessageBody
-            ContentDialog outpostDataDialog = new ContentDialog()
-            {
-                Title = "Outpost Message",
-                Content = messageBody,
-                CloseButtonText = "Cancel",
-                IsPrimaryButtonEnabled = true,
-                PrimaryButtonText = "Copy",
-            };
-            ContentDialogResult result = await outpostDataDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)      // Copy also copies the invisible part
+            //ContentDialog outpostDataDialog = new ContentDialog()
+            //{
+            //    Title = "Outpost Message",
+            //    Content = messageBody,
+            //    CloseButtonText = "Close",
+            //    IsPrimaryButtonEnabled = true,
+            //    PrimaryButtonText = "Copy",
+            //};
+            //ContentDialogResult result = await outpostDataDialog.ShowAsync();
+            bool result = await Utilities.ShowDualButtonMessageDialogAsync(_packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
+            //if (result == ContentDialogResult.Primary)      // Copy also copies the invisible part
+            if (result)      // Copy also copies the invisible part
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;
@@ -554,48 +558,48 @@ namespace PacketMessagingTS.Views
         }
 
         private async void AppBarSave_ClickAsync(object sender, RoutedEventArgs e)
-            {
-                CreatePacketMessage();
-                DateTime dateTime = DateTime.Now;
-                _packetMessage.CreateTime = DateTime.Now;
+        {
+            CreatePacketMessage();
+            DateTime dateTime = DateTime.Now;
+            _packetMessage.CreateTime = DateTime.Now;
 
-                _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
-                Utilities.MarkMessageNumberAsUsed();
+            _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
+             Utilities.MarkMessageNumberAsUsed();
 
-                // Initialize to an empty form
-                await InitializeFormControlAsync();
-            }
+            // Initialize to an empty form
+            await InitializeFormControlAsync();
+        }
 
         private async void AppBarSend_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            string validationResult = _packetForm.ValidateForm();
+            validationResult = _packetAddressForm.ValidateForm(validationResult);
+            if (!string.IsNullOrEmpty(validationResult))
             {
-                string validationResult = _packetForm.ValidateForm();
-                validationResult = _packetAddressForm.ValidateForm(validationResult);
-                if (!string.IsNullOrEmpty(validationResult))
-                {
-                    //validationResult = "Please fill out the areas in red." + validationResult;
-                    validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
-                    ContentDialog contentDialog = new ContentDialog
-                    {
-                        Title = "Missing input fields",
-                        Content = validationResult,
-                        CloseButtonText = "Close"
-                    };
-                    ContentDialogResult result = await contentDialog.ShowAsync();
-                    return;
-                }
-
-                CreatePacketMessage();
-                _packetMessage.CreateTime = DateTime.Now;
-                Utilities.MarkMessageNumberAsUsed();
-
-                _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
-
-                Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-                communicationsService.BBSConnectAsync2();
-
-                // Create an empty form
-                await InitializeFormControlAsync();
+                    //validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
+                    //ContentDialog contentDialog = new ContentDialog
+                    //{
+                    //    Title = "Missing input fields",
+                    //    Content = validationResult,
+                    //    CloseButtonText = "Close"
+                    //};
+                    //ContentDialogResult result = await contentDialog.ShowAsync();
+                await Utilities.ShowSingleButtonMessageDialogAsync(validationResult, "Close", "Missing input fields");
+                return;
             }
+
+            CreatePacketMessage();
+             _packetMessage.CreateTime = DateTime.Now;
+            Utilities.MarkMessageNumberAsUsed();
+
+            _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
+
+            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
+            communicationsService.BBSConnectAsync2();
+
+            // Create an empty form
+            await InitializeFormControlAsync();
+        }
 
         private async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
             {

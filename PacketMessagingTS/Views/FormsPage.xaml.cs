@@ -262,44 +262,45 @@ namespace PacketMessagingTS.Views
                 _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
             }
 
-            // Below is a workaround for missing event when a field changes
-            foreach (FormField formField in _packetMessage.FormFieldArray)
-            {
-                FormControl formControl = _packetForm.FormControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                if (formControl is null)
-                    continue;
+            //// Below is a workaround for missing event when a field changes
+            //// Fill in the fields that use binding
+            //foreach (FormField formField in _packetMessage.FormFieldArray)
+            //{
+            //    FormControl formControl = _packetForm.FormControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+            //    if (formControl is null)
+            //        continue;
 
-                Control control = formControl?.InputControl;
-                switch (control.Name)
-                {
-                    case "severity":
-                        _packetForm.Severity = (control as ToggleButtonGroup).CheckedControlName;
-                        break;
-                    case "handlingOrder":
-                        _packetForm.HandlingOrder = (control as ToggleButtonGroup).CheckedControlName;
-                        break;
-                    case "msgDate":
-                        _packetForm.MsgDate = (control as TextBox).Text;
-                        break;
-                    case "msgTime":
-                        _packetForm.MsgTime = (control as TextBox).Text;
-                        break;
-                    case "operatorCallsign":
-                        _packetForm.OperatorCallsign = (control as TextBox).Text;
-                        break;
-                    case "operatorName":
-                        _packetForm.OperatorName = (control as TextBox).Text;
-                        break;
-                    case "operatorDate":
-                        _packetForm.OperatorDate = (control as TextBox).Text;
-                        break;
-                    case "operatorTime":
-                        _packetForm.OperatorTime = (control as TextBox).Text;
-                        break;
-                    case null:
-                        continue;
-                }
-            }
+            //    Control control = formControl?.InputControl;
+            //    switch (control.Name)
+            //    {
+            //        case "severity":
+            //            _packetForm.Severity = (control as ToggleButtonGroup).CheckedControlName;
+            //            break;
+            //        case "handlingOrder":
+            //            _packetForm.HandlingOrder = (control as ToggleButtonGroup).CheckedControlName;
+            //            break;
+            //        case "msgDate":
+            //            //_packetForm.MsgDate = (control as TextBox).Text;
+            //            break;
+            //        case "msgTime":
+            //            _packetForm.MsgTime = (control as TextBox).Text;
+            //            break;
+            //        case "operatorCallsign":
+            //            _packetForm.OperatorCallsign = (control as TextBox).Text;
+            //            break;
+            //        case "operatorName":
+            //            _packetForm.OperatorName = (control as TextBox).Text;
+            //            break;
+            //        case "operatorDate":
+            //            _packetForm.OperatorDate = (control as TextBox).Text;
+            //            break;
+            //        case "operatorTime":
+            //            _packetForm.OperatorTime = (control as TextBox).Text;
+            //            break;
+            //        case null:
+            //            continue;
+            //    }
+            //}
         }
 
         // The form control is created based on the control name,
@@ -427,8 +428,10 @@ namespace PacketMessagingTS.Views
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
-                MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
-                await messageDialog.ShowAsync();
+                //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
+                //await messageDialog.ShowAsync();
+                await Utilities.ShowSingleButtonMessageDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+
                 return;
             }
 
@@ -498,16 +501,13 @@ namespace PacketMessagingTS.Views
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
-                MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
-                await messageDialog.ShowAsync();
+                //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
+                //await messageDialog.ShowAsync();
+                await Utilities.ShowSingleButtonMessageDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
 
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
-            //if (!_loadMessage)
-            //{
-            //    _packetMessage = new PacketMessage();
-            //}
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -617,23 +617,24 @@ namespace PacketMessagingTS.Views
                 _packetMessage.MessageBody = _packetForm.CreateOutpostData(ref _packetMessage);
             }
 
-            TextBlock messageBody = new TextBlock()
-            {
-                Text = _packetMessage.MessageBody,
-            };
-            ScrollViewer.SetVerticalScrollBarVisibility(messageBody, ScrollBarVisibility.Visible); // Does not work
+            //TextBlock messageBody = new TextBlock()
+            //{
+            //    Text = _packetMessage.MessageBody,
+            //};
+            //ScrollViewer.SetVerticalScrollBarVisibility(messageBody, ScrollBarVisibility.Visible); // Does not work
 
-            //_packetMessage.MessageBody
-            ContentDialog outpostDataDialog = new ContentDialog()
-            {
-                Title = "Outpost Message",
-                Content = messageBody,
-                CloseButtonText = "Cancel",
-                IsPrimaryButtonEnabled = true,
-                PrimaryButtonText = "Copy",
-            };
-            ContentDialogResult result = await outpostDataDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)      // Copy also copies the invisible part
+            //ContentDialog outpostDataDialog = new ContentDialog()
+            //{
+            //    Title = "Outpost Message",
+            //    Content = messageBody,
+            //    CloseButtonText = "Cancel",
+            //    IsPrimaryButtonEnabled = true,
+            //    PrimaryButtonText = "Copy",
+            //};
+            //ContentDialogResult result = await outpostDataDialog.ShowAsync();
+            //if (result == ContentDialogResult.Primary)      // Copy also copies the invisible part
+            bool result = await Utilities.ShowDualButtonMessageDialogAsync(_packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
+            if (result)
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;
@@ -661,15 +662,15 @@ namespace PacketMessagingTS.Views
             validationResult = _packetAddressForm.ValidateForm(validationResult);
             if (!string.IsNullOrEmpty(validationResult))
             {
-                //validationResult = "Please fill out the areas in red." + validationResult;
                 validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
-                ContentDialog contentDialog = new ContentDialog
-                {
-                    Title = "Missing input fields",
-                    Content = validationResult,
-                    CloseButtonText = "Close"
-                };
-                ContentDialogResult result = await contentDialog.ShowAsync();
+                //ContentDialog contentDialog = new ContentDialog
+                //{
+                //    Title = "Missing input fields",
+                //    Content = validationResult,
+                //    CloseButtonText = "Close"
+                //};
+                //ContentDialogResult result = await contentDialog.ShowAsync();
+                await Utilities.ShowSingleButtonMessageDialogAsync(validationResult, "Close", "Missing input fields");
                 return;
             }
 

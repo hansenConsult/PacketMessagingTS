@@ -16,6 +16,13 @@ namespace PacketMessagingTS.Controls
 {
     public sealed partial class SendFormDataControl : FormControlBasics
     {
+        public static readonly DependencyProperty MessageSubjectProperty =
+                DependencyProperty.Register(
+                "MessageSubject",
+                typeof(string),
+                typeof(SendFormDataControl),
+                null);
+
         public SendFormDataControl(bool loadMessage = false)
         {
             this.InitializeComponent();
@@ -41,16 +48,23 @@ namespace PacketMessagingTS.Controls
         }
 
         private string messageSubject;
+        //public string MessageSubject
+        //{
+        //    get => messageSubject;
+        //    //set => Set(ref messageSubject, value);
+        //    set
+        //    {
+        //        Set(ref messageSubject, value ?? "");
+        //        //textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
+        //    }
+        //}
+
         public string MessageSubject
         {
-            get => messageSubject;
-            //set => Set(ref messageSubject, value);
-            set
-            {
-                Set(ref messageSubject, value ?? "");
-                //textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
-            }
+            get { return (string)GetValue(MessageSubjectProperty); }
+            set { SetValue(MessageSubjectProperty, value ?? ""); }
         }
+
         private string originalBBS;
 
         private string messageBBS;

@@ -56,7 +56,7 @@ namespace PacketMessagingTS.Helpers
             App.Properties["MessageNumber"] = messageNumber;
         }
 
-        // TRhis is just to show a use of ContentDialog.
+        // This is just to show a use of ContentDialog.
         private static async Task<string> GetPinFromUserAsync(CoreDispatcher dispatcher)
         {
             return await dispatcher.RunTaskAsync(async () =>
@@ -100,10 +100,19 @@ namespace PacketMessagingTS.Helpers
 
         public static async Task<bool> ShowDualButtonMessageDialogAsync(string dialogMessage, string primaryButtonText = "OK", string closeButtonText = "Cancel", string title = "Packet Messaging")
         {
+            ContentControl content = new ContentControl();
+            content.Content = new TextBox();
+            ((TextBox)content.Content).AcceptsReturn = true;
+            ((TextBox)content.Content).TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
+            ((TextBox)content.Content).IsReadOnly = true;
+            //ScrollViewer.SetVerticalScrollBarVisibility(content, ScrollBarVisibility.Auto);
+            ((TextBox)content.Content).Text = dialogMessage;
+
             ContentDialog contentDialog = new ContentDialog()
             {
                 Title = title,
-                Content = dialogMessage,
+                //Content = dialogMessage,
+                Content = content,
                 CloseButtonText = closeButtonText,
                 PrimaryButtonText = primaryButtonText,
             };

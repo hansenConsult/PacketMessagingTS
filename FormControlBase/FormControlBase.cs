@@ -257,16 +257,20 @@ namespace FormControlBaseClass
         public virtual string ReceiverMsgNo
         { get; set; }
 
-		public virtual string OperatorName
-		{ get; set; }
-
 		public static string DefaultMessageTo
 		{ get; set; }
 
+        private string msgDate;
         public virtual string MsgDate
-        { get; set; }
+        {
+            get => msgDate;
+            set => Set(ref msgDate, value);
+        }
 
         public virtual string MsgTime
+        { get; set; }
+
+        public virtual string OperatorName
         { get; set; }
 
         private string operatorDate;
@@ -636,14 +640,32 @@ namespace FormControlBaseClass
 
 				if (control is TextBox textBox)
 				{
-                    //if (control.Name == "operatorCallsign")
-                    //{
-                    //    int test = 8;
-                    //}
-                    //textBox.Focus(FocusState.Programmatic);
                     textBox.Text = formField.ControlContent;
-                    //textBox.Focus(FocusState.Unfocused);
-				}
+                    // Fields that use Binding requires special handling
+                    switch (control.Name)
+                    {
+                        case "msgDate":
+                            MsgDate = textBox.Text;
+                            break;
+                        case "msgTime":
+                            MsgTime = textBox.Text;
+                            break;
+                        case "operatorCallsign":
+                            OperatorCallsign = textBox.Text;
+                            break;
+                        case "operatorName":
+                            OperatorName = textBox.Text;
+                            break;
+                        case "operatorDate":
+                            OperatorDate = textBox.Text;
+                            break;
+                        case "operatorTime":
+                            OperatorTime = textBox.Text;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
 				else if (control is AutoSuggestBox autoSuggsetBox)
 				{
 					autoSuggsetBox.Text = formField.ControlContent;
