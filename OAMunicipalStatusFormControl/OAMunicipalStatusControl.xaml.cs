@@ -83,53 +83,8 @@ namespace OAMunicipalStatusFormControl
 
         }
 
-		//public string SenderMsgNo
-		//{ get { return GetTextBoxString(senderMsgNo); } set { SetTextBoxString(senderMsgNo, value); } }
-
-		//public override string MessageNo
-		//{ get => GetTextBoxString(messageNo); set => SetTextBoxString(messageNo, value); }
-
-		//public string ReceiverMsgNo
-		//{ get { return GetTextBoxString(receiverMsgNo); } set { SetTextBoxString(receiverMsgNo, value); } }
-
-		public override string Severity
-		{
-			get { return severity.GetRadioButtonCheckedState(); }
-			set { severity.SetRadioButtonCheckedState(value); }
-		}
-
-		public override string HandlingOrder
-		{
-			get { return handlingOrder.GetRadioButtonCheckedState(); }
-			set { handlingOrder.SetRadioButtonCheckedState(value); }
-		}
-
-		//public override string MsgDate
-		//{ get => GetTextBoxString(msgDate); set => SetTextBoxString(msgDate, value); }
-
-		//public override string MsgTime
-		//{ get => GetTextBoxString(msgTime); set => SetTextBoxString(msgTime, value); }
-
-		//public string ReceivedOrSent
-		//{ get { return receivedOrSent.GetRadioButtonCheckedState(); } set { receivedOrSent.SetRadioButtonCheckedState(value); } }
-
-		//public override string HowReceivedSent
-		//{ get { return howRecevedSent.GetRadioButtonCheckedState(); } set { howRecevedSent.SetRadioButtonCheckedState(value); } }
-
-		//public override string OperatorCallsign
-		//{ get { return GetTextBoxString(operatorCallsign); } set { SetTextBoxString(operatorCallsign, value); } }
-
-		//public override string OperatorDate
-		//{ get { return GetTextBoxString(operatorDate); } set { SetTextBoxString(operatorDate, value); } }
-
-		//public override string OperatorName
-		//{ get { return GetTextBoxString(operatorName); } set { SetTextBoxString(operatorName, value); } }
-
-		//public override string OperatorTime
-		//{ get { return GetTextBoxString(operatorTime); } set { SetTextBoxString(operatorTime, value); } }
-
 		public string IncidentName
-        { get => GetTextBoxString(incidentName); }
+        { get => incidentName.Text; }
 
         public string MunicipalityName
         { get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }

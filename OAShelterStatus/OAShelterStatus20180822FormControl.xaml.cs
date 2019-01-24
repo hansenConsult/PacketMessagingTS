@@ -87,17 +87,17 @@ namespace OAShelterStatusFormControl
             packet.IsChecked = true;
         }
 
-		public override string Severity
-		{
-			get { return severity.GetRadioButtonCheckedState(); }
-			set { severity.SetRadioButtonCheckedState(value); }
-		}
+		//public override string Severity
+		//{
+		//	get { return severity.GetRadioButtonCheckedState(); }
+		//	set { severity.SetRadioButtonCheckedState(value); }
+		//}
 
-		public override string HandlingOrder
-		{
-			get { return handlingOrder.GetRadioButtonCheckedState(); }
-			set { handlingOrder.SetRadioButtonCheckedState(value); }
-		}
+		//public override string HandlingOrder
+		//{
+		//	get { return handlingOrder.GetRadioButtonCheckedState(); }
+		//	set { handlingOrder.SetRadioButtonCheckedState(value); }
+		//}
 
 		public override string PacFormName => "XSC_OA_ShelterStatus_v20130814";
 

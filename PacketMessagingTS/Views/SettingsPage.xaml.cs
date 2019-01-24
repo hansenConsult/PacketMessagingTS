@@ -31,10 +31,6 @@ namespace PacketMessagingTS.Views
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
-        //private SuspendingEventHandler appSuspendEventHandler;
-        //private EventHandler<Object> appResumeEventHandler;
-
-
         // Identity settings
         public static ObservableCollection<TacticalCallsignData> listOfTacticallsignsArea;
 
@@ -94,13 +90,6 @@ namespace PacketMessagingTS.Views
         {
             _settingsViewModel.Initialize();
 
-            // Begin watching out for events
-            //StartHandlingAppEvents();
-
-            // Initialize the desired device watchers so that we can watch for when devices are connected/removed
-            //InitializeDeviceWatchers();
-            //StartDeviceWatchers();
-
             if (e.Parameter is null)
             {
                 return;
@@ -113,9 +102,6 @@ namespace PacketMessagingTS.Views
 
         protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            //StopDeviceWatchers();
-            //StopHandlingAppEvents();
-
             if (_TNCSettingsViewModel.IsAppBarSaveEnabled)
             {
                 bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");

@@ -152,7 +152,7 @@
                                         <MyNamespace:ToggleButtonGroup x:Name="reply" Tag="-1"/>
                                         <RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="30" Tag="10"/>
                                         <!--<Border BorderBrush="LightGray" BorderThickness="2">-->
-                                        <TextBox x:Name="replyBy"  Width="40"  HorizontalAlignment="Left"  VerticalAlignment="Center" Height="16.986" Tag="11" Text="" />
+                                        <TextBox x:Name="replyBy"  PlaceholderText="hhmm"  HorizontalAlignment="Left"  VerticalAlignment="Center" Tag="11" Text="" />
                                         <!--</Border>-->
                                         <RadioButton x:Name="replyNo" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Content="No" Margin="10,0,0,0" Padding="4" MinWidth="50" Tag="12"/>
                                     </StackPanel>

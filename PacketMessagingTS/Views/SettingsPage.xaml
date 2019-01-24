@@ -743,7 +743,6 @@
                                       Click="AddressBookDelete_Click" />
                     </CommandBar>
                 </RelativePanel>
-
             </PivotItem>
 
             <!--Distribution Lists-->

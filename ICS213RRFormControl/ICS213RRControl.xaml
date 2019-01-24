@@ -106,7 +106,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <MyNamespace:ToggleButtonGroup x:Name="reply"/>
                                     <RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="30" Tag="10"/>
-                                    <TextBox x:Name="replyBy"  Width="3.998"  HorizontalAlignment="Left"  PlaceholderText="hhmm" VerticalAlignment="Center" Height="16.986" Tag="11"/>
+                                    <TextBox x:Name="replyBy"  HorizontalAlignment="Left"  PlaceholderText="hhmm" VerticalAlignment="Center" Tag="11"/>
                                     <RadioButton x:Name="replyNo" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Content="No" Margin="10,0,0,0" Padding="4" MinWidth="50" Tag="12"/>
                                 </StackPanel>
                             </StackPanel>
@@ -286,7 +286,7 @@
                             <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" Margin="5,10,5,5" AcceptsReturn="True" Tag="19,required,Enter 8. Qty/Unit." MinWidth="0"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" Margin="5,10,5,5" AcceptsReturn="True" Tag="20,required,Enter 9. Resource Description."/>
                             <TextBox Grid.Column="2" Grid.Row="2" Name="resourceInfoArrival" AcceptsReturn="True" PlaceholderText="mm/dd/yy hhmm" 
-                                     Margin="5,10,5,10" Height="24" VerticalAlignment="Top" Tag="21,required,Enter 10. Arrival Date/Time."/>
+                                     Margin="5,10,5,10" VerticalAlignment="Top" Tag="21,required,Enter 10. Arrival Date/Time."/>
                             <StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" >
                                 <MyNamespace:ToggleButtonGroup x:Name="resourceInfoPriority" Tag="required,Select 11. Priority."/>
                                 <RelativePanel>
