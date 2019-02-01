@@ -113,11 +113,6 @@
     <EmbeddedResource Include="Properties\OAShelterStatus.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.2</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="OAShelterStatus20180822FormControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +131,11 @@
       <Project>{b448e071-59c5-4198-908f-ee3120bf4f7b}</Project>
       <Name>ToggleButtonGroupControl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.1.9</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

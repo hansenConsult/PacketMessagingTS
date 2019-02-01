@@ -569,9 +569,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
                 tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
                 bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
-                Utilities.SetApplicationTitle(bbs.Name);
+                //Utilities.SetApplicationTitle(bbs.Name);
                 //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
             }
+
+            Utilities.SetApplicationTitle(bbs.Name);
+
             TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
             // Collect remaining messages to be sent
             // Process files to be sent via BBS

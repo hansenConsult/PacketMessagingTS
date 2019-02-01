@@ -27,6 +27,9 @@ namespace SharedCode
                 [CallerFilePath] string sourceFilePath = "",
                 [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // Remove trailing characters that results in extra line feeds
+            char[] charsToTrim = { '\r', '\n' };
+            message = message.TrimEnd(charsToTrim);
             switch (logLevel)
             {
                 case LogLevel.Trace:
