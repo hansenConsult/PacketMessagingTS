@@ -264,11 +264,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
             string readText = "";
             while (!readText.Contains(readTo))
             {
-                readText += _serialPort.ReadExisting();
-                //Thread.Sleep(10);
+                string newText = _serialPort.ReadExisting();
+                readText += newText;
+                //if (newText.Length > 0)
+                //{
+                //    _logHelper.Log(LogLevel.Info, newText);
+                //}
+                Thread.Sleep(10);
             }
-            int bytes = _serialPort.BytesToRead;
-            _logHelper.Log(LogLevel.Trace, bytes.ToString());
 
             return readText;
         }
@@ -280,7 +283,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			{
 				_serialPort.Write("SP " + packetMessage.MessageTo + "\r");
 				_serialPort.Write(packetMessage.Subject + "\r");
-				_serialPort.Write(packetMessage.MessageBody + "\r\x1a\r\x05");
+				_serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
 				//string readText = _serialPort.ReadLine();       // Read SP
                 //_logHelper.Log(LogLevel.Info, readText);
@@ -443,8 +446,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private void ReceiveMessages(string area)
         {
             string readText;
-            string readCmdText;
             _serialPort.ReadTimeout = 240000;
+            //_serialPort.ReadTimeout = 10000;
             try
             {
                 if (area.Length != 0)
@@ -458,12 +461,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     if (!_forceReadBulletins && readText.Contains("0 messages"))
                     {
-                        //log.Info("Skip read bulletin 1");
                         return;
                     }
                     if (!_forceReadBulletins && readText.Contains("0 new"))
                     {
-                        //log.Info("Skip read bulletin 2");
                         return;
                     }
                     _logHelper.Log(LogLevel.Info, $"Force read bulletin {area}: {_forceReadBulletins.ToString()}");
@@ -474,8 +475,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     //log.Info($"Timeout = {_serialPort.ReadTimeout}");        // For testing
                     _serialPort.Write("LM\r");
                 }
-                readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
-                _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+                //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
+                //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+                readText = ReadTo(_BBSPromptRN);      // read response
+                _logHelper.Log(LogLevel.Info, readText);
 
                 //readCmdText = _serialPort.ReadTo("\n");         // Next command
 
@@ -517,19 +520,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             //Console.WriteLine(msgIndex.ToString());
 
                             _serialPort.Write("R " + msgIndex + "\r");
-                            readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
-                                                                              //Debug.WriteLine(readText + _BBSPrompt);
-                            _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+                            //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response eg R1 plus message
+                            //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+                            readText = ReadTo(_BBSPromptRN);      // read response eg R1 plus message
+                            _logHelper.Log(LogLevel.Info, readText);
 
                             //readCmdText = _serialPort.ReadTo("\n");     // Next command
-                            //Debug.WriteLine(readCmdText + "\n");
 
                             packetMessage.MessageBody = readText.Substring(0, readText.Length - 3); // Remove beginning of prompt
                             packetMessage.ReceivedTime = DateTime.Now;
                             PacketMessagesReceived.Add(packetMessage);
                             if (area.Length == 0)
                             {
-                                _serialPort.Write("K " + msgIndex + "\r\x05");
+                                _serialPort.Write("K " + msgIndex + "\r");
                                 readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                                 _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
 
@@ -654,12 +657,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 string readConnectText = _serialPort.ReadTo(_BBSPromptRN);      // read connect response  
                 _logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText + _BBSPrompt);
 
-                //if (_serialPort.BytesToRead > 0)
-                //{
-                //    int readChar = _serialPort.ReadChar();
-                //    _logHelper.Log(LogLevel.Info, $"Unread: {_serialPort.BytesToRead}, char: {readChar.ToString()}");
-                //}
-
                 //_logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText);
                 _serialPort.ReadTimeout = readTimeout;
 
@@ -670,7 +667,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //readText = _serialPort.ReadLine();      // Read command
                 //_logHelper.Log(LogLevel.Info, readText);
 
-                readCmdText = _serialPort.ReadTo(_BBSPromptRN);	// Read prompt
+                readCmdText = _serialPort.ReadTo(_BBSPromptRN);	// Read to prompt incl command
                 _logHelper.Log(LogLevel.Info, readCmdText + _BBSPrompt);
 
                 _logHelper.Log(LogLevel.Info, $"Messages to send: {_packetMessagesToSend.Count}");
@@ -690,13 +687,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         {
                             _serialPort.Write("SP " + packetMessage.MessageTo + "\r");
                             _serialPort.Write(packetMessage.Subject + "\r");
-                            _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r\x05");
+                            _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
                             readText = _serialPort.ReadLine();       // Read SP
                             _logHelper.Log(LogLevel.Info, readText);
 
                             readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
-                            _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+                            _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);   // Subject + message body plus stuff
 
                             //readText = _serialPort.ReadTo("\n");         // Next command
 
@@ -813,6 +810,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _serialPort.Write("B\r\n");
                     string disconnectString = _serialPort.ReadLine();
                     _logHelper.Log(LogLevel.Trace, disconnectString);
+                    BBSDisconnectTime = DateTime.Now;
                 }
             }
             finally

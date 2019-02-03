@@ -550,7 +550,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
 
-                (string bbsName, string tnc, string MessageFrom) = Utilities.GetProfileData();
+                (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
                 //string MessageFrom = from;
                 BBSData MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
                 if (MessageBBS == null || !MessageBBS.Name.Contains("XSC") && !tncDevice.Name.Contains(SharedData.EMail))
@@ -562,7 +562,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 {
                     bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
                 }
-                
+                tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
             }
             else
             {
@@ -595,7 +595,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     StorageFile file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
                     await file.DeleteAsync();
-
 
                     // Do a save to ensure that updates from tncInterface.BBSConnect are saved
                     packetMsg.Save(SharedData.SentMessagesFolder.Path);

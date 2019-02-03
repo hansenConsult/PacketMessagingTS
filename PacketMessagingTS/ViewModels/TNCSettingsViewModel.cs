@@ -179,12 +179,12 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //}
 
-        private ObservableCollection<string> collectionOfSerialDevices;
+        //private ObservableCollection<string> collectionOfSerialDevices;
         public ObservableCollection<string> CollectionOfSerialDevices
         {
             //get => collectionOfSerialDevices;
             get => Singleton<ShellViewModel>.Instance.CollectionOfSerialDevices;
-            //set => SetProperty(ref collectionOfSerialDevices, value);
+            //get => new ObservableCollection<string>(SerialPort.GetPortNames());
         }
 
         private string tncComPort;
