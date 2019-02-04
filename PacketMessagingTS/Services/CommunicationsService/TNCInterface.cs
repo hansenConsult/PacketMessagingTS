@@ -268,7 +268,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 readText += newText;
                 //if (newText.Length > 0)
                 //{
-                //    _logHelper.Log(LogLevel.Info, newText);
+                //    Debug.Write(newText);
                 //}
                 Thread.Sleep(10);
             }
@@ -278,7 +278,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		private void SendMessage(ref PacketMessage packetMessage)
 		{
-			_serialPort.ReadTimeout = 240000;
+            int readTimeout = _serialPort.ReadTimeout;
+            _serialPort.ReadTimeout = 240000;
 			try
 			{
 				_serialPort.Write("SP " + packetMessage.MessageTo + "\r");
@@ -288,8 +289,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				//string readText = _serialPort.ReadLine();       // Read SP
                 //_logHelper.Log(LogLevel.Info, readText);
 
-				string readText = _serialPort.ReadTo(_BBSPrompt);      // read response
-                _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+				string readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
+                _logHelper.Log(LogLevel.Info, readText);
 
 				//readText = _serialPort.ReadTo("\n");         // Next command
                 //_logHelper.Log(LogLevel.Info, readText + "\n");
@@ -304,7 +305,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 				_serialPort.DiscardOutBuffer();
 				_error = true;
 			}
-			_serialPort.ReadTimeout = 5000;
+			_serialPort.ReadTimeout = readTimeout;
 		}
         /*
         SP kz6dm@w3xsc.ampr.org
@@ -403,12 +404,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         //_logHelper.Log(LogLevel.Info, $"Message To: {receiptMessage.MessageTo}");       // Disable if not testing
                         //_logHelper.Log(LogLevel.Info, $"Message Body: { receiptMessage.MessageBody}");  // Disable if not testing
 						SendMessage(ref receiptMessage);		    // Disabled for testing
-						//_packetMessagesSent.Add(receiptMessage);
 					}
 					catch (Exception e)
 					{
                         _logHelper.Log(LogLevel.Error, "Delivered message exception: ", e.Message);
 						_error = true;
+                        throw;
 					}
 				}
 			}
@@ -417,12 +418,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private string GetBulletinSubject(string bulletinInfo)
         {
             string subject = "";
-            string[] bulletinData = bulletinInfo.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 7; i < bulletinData.Length; i++)
-            {
-                subject += bulletinData[i] + ' '; 
-            }
-            subject.Trim();
+                string[] bulletinData = bulletinInfo.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 7; i < bulletinData.Length; i++)
+                {
+                    subject += bulletinData[i] + ' ';
+                }
+                subject.Trim();
 
             return subject;
         }
@@ -457,8 +458,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
                     _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
 
-                    //readText = _serialPort.ReadTo("\n");         // Next command
-
                     if (!_forceReadBulletins && readText.Contains("0 messages"))
                     {
                         return;
@@ -479,8 +478,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
                 readText = ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
-
-                //readCmdText = _serialPort.ReadTo("\n");         // Next command
 
                 // read messages
                 string[] lines = readText.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -525,8 +522,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             readText = ReadTo(_BBSPromptRN);      // read response eg R1 plus message
                             _logHelper.Log(LogLevel.Info, readText);
 
-                            //readCmdText = _serialPort.ReadTo("\n");     // Next command
-
                             packetMessage.MessageBody = readText.Substring(0, readText.Length - 3); // Remove beginning of prompt
                             packetMessage.ReceivedTime = DateTime.Now;
                             PacketMessagesReceived.Add(packetMessage);
@@ -535,8 +530,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 _serialPort.Write("K " + msgIndex + "\r");
                                 readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                                 _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
-
-                                //readCmdText = _serialPort.ReadTo("\n");       // Read rest of prompt
                             }
                         }
                     }
@@ -689,13 +682,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             _serialPort.Write(packetMessage.Subject + "\r");
                             _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
-                            readText = _serialPort.ReadLine();       // Read SP
-                            _logHelper.Log(LogLevel.Info, readText);
+                            //readText = _serialPort.ReadLine();       // Read SP
+                            //_logHelper.Log(LogLevel.Info, readText);
 
                             readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                             _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);   // Subject + message body plus stuff
-
-                            //readText = _serialPort.ReadTo("\n");         // Next command
 
                             packetMessage.SentTime = DateTime.Now;
                             _packetMessagesSent.Add(packetMessage);

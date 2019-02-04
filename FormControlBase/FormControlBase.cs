@@ -406,20 +406,19 @@ namespace FormControlBaseClass
                 control = formControl?.InputControl;
 
                 string tag = (string)control.Tag;
-                string[] tags = tag.Split(new char[] { ',' });
-                if (int.TryParse(tags[0], out int idint))   // Is tag an integer?
+                if (!string.IsNullOrEmpty(tag))
                 {
-                    return (tags[0], control);
-                }
-                else
-                {
-                    return ("-1", control);
+                    string[] tags = tag.Split(new char[] { ',' });
+                    if (int.TryParse(tags[0], out int idint))   // Is tag an integer?
+                    {
+                        return (tags[0], control);
+                    }
                 }
             }
             catch
-            {
-                return ("-1", control);
+            {                
             }
+            return ("-1", control);
         }
 
         public static string GetTagIndex(Control control)
@@ -427,20 +426,19 @@ namespace FormControlBaseClass
             try
             {
                 string tag = (string)control.Tag;
-                string[] tags = tag.Split(new char[] { ',' });
-                if (int.TryParse(tags[0], out int idint))
+                if (!string.IsNullOrEmpty(tag))
                 {
-                    return tags[0];
-                }
-                else
-                {
-                    return "-1";
+                    string[] tags = tag.Split(new char[] { ',' });
+                    if (int.TryParse(tags[0], out int idint))
+                    {
+                        return tags[0];
+                    }
                 }
             }
             catch
             {
-                return "-1";
             }
+            return "-1";
         }
 
         public string GetTagErrorMessage(FormField formField)
