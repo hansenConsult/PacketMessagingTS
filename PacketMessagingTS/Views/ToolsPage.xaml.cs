@@ -203,7 +203,7 @@ namespace PacketMessagingTS.Views
                         if (args.Completion == PrintTaskCompletion.Failed)
                         {
                             _logHelper.Log(LogLevel.Error, "Failed to print.");
-                            await Utilities.ShowSingleButtonMessageDialogAsync("Failed to print.");
+                            await Utilities.ShowSingleButtonContentDialogAsync("Failed to print.");
                         }
                     });
                 };

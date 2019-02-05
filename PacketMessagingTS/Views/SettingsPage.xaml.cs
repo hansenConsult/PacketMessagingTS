@@ -232,12 +232,12 @@ namespace PacketMessagingTS.Views
                             bool success = addressBook.AddAddressAsync(emptyEntry);
                             if (!success)
                             {
-                                await Utilities.ShowSingleButtonMessageDialogAsync("Error adding a new address book entry.");
+                                await Utilities.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
                             }
                             else
                             {
                                 await AddressBook.Instance.SaveAsync();
-                                await Utilities.ShowSingleButtonMessageDialogAsync("Call Sign successfully added. Now try to add a user Call Sign again.");
+                                await Utilities.ShowSingleButtonContentDialogAsync("Call Sign successfully added. Now try to add a user Call Sign again.");
                             }
                         }
                     }
@@ -1071,7 +1071,7 @@ namespace PacketMessagingTS.Views
                 bool success = addressBook.AddAddressAsync(emptyEntry);
                 if (!success)
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync("Error adding a new address book entry.");
+                    await Utilities.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
                 }
                 ContactsCVS.Source = addressBook.GetContactsGrouped();
                 addressBookSave.IsEnabled = true;
@@ -1234,7 +1234,7 @@ namespace PacketMessagingTS.Views
                 // Must not exist
                 if (DistributionListArray.Instance.DistributionListsDict.TryGetValue(distributionListName.Text, out string items))
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync("The Distribution List already exists.", "Close", "DistributionList List Error");
+                    await Utilities.ShowSingleButtonContentDialogAsync("The Distribution List already exists.", "Close", "DistributionList List Error");
                     return;
                 }
                 DistributionList list = new DistributionList()
@@ -1249,7 +1249,7 @@ namespace PacketMessagingTS.Views
                 // Must exist
                 if (!DistributionListArray.Instance.DistributionListsDict.TryGetValue(distributionListName.Text, out string items))
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync("The Distribution List does not exist.", "DistributionList List Error");
+                    await Utilities.ShowSingleButtonContentDialogAsync("The Distribution List does not exist.", "DistributionList List Error");
                     return;
                 }
                 DistributionList list = new DistributionList()

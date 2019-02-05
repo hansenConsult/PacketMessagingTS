@@ -87,7 +87,7 @@ namespace PacketMessagingTS.Helpers
             });
         }
 
-        public static async Task ShowSingleButtonMessageDialogAsync(string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
+        public static async Task ShowSingleButtonContentDialogAsync(string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
         {
             ContentDialog contentDialog = new ContentDialog()
             {

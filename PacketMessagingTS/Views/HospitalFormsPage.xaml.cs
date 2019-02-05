@@ -427,7 +427,7 @@ namespace PacketMessagingTS.Views
             {
                 //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
                 //await messageDialog.ShowAsync();
-                await Utilities.ShowSingleButtonMessageDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+                await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
 
@@ -584,7 +584,7 @@ namespace PacketMessagingTS.Views
                     //    CloseButtonText = "Close"
                     //};
                     //ContentDialogResult result = await contentDialog.ShowAsync();
-                await Utilities.ShowSingleButtonMessageDialogAsync(validationResult, "Close", "Missing input fields");
+                await Utilities.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
                 return;
             }
 

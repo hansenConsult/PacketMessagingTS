@@ -119,7 +119,7 @@ namespace PacketMessagingTS.Helpers
                     backingStore = intArray;
                     return intArray;
                 }
-                catch (Exception e)
+                catch 
                 {
                     return backingStore;
                 }

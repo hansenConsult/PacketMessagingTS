@@ -189,7 +189,7 @@ namespace PacketMessagingTS.Views
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                        await Utilities.ShowSingleButtonMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
+                        await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                         return;
                     }
                     break;

@@ -214,7 +214,7 @@ namespace PacketMessagingTS.Views
             //_formControlAttributeList.AddRange(attributeListTypeHospital);
         }
 
-        private void CreatePacketMessage()
+        private void CreatePacketMessage(MessageState messageState = MessageState.Locked)
         {
             _packetMessage = new PacketMessage()
             {
@@ -225,7 +225,9 @@ namespace PacketMessagingTS.Views
                 PacFormType = _packetForm.PacFormType,
                 MessageFrom = _packetAddressForm.MessageFrom,
                 MessageTo = _packetAddressForm.MessageTo,
-                MessageNumber = _packetForm.MessageNo
+                MessageNumber = _packetForm.MessageNo,
+                CreateTime = DateTime.Now,
+                MessageState = messageState,
             };
             AddressBook.Instance.AddAddressAsync(_packetMessage.MessageTo);
             string subject = _packetForm.CreateSubject();
@@ -370,6 +372,7 @@ namespace PacketMessagingTS.Views
             {
                 // Open an empty form
                 FormsPagePivot.SelectedIndex = _formsViewModel.FormsPagePivotSelectedIndex;
+                appBarSend.IsEnabled = true;
                 return;
             }
 
@@ -430,7 +433,7 @@ namespace PacketMessagingTS.Views
             {
                 //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
                 //await messageDialog.ShowAsync();
-                await Utilities.ShowSingleButtonMessageDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+                await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
 
                 return;
             }
@@ -503,7 +506,7 @@ namespace PacketMessagingTS.Views
             {
                 //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
                 //await messageDialog.ShowAsync();
-                await Utilities.ShowSingleButtonMessageDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+                await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
 
@@ -547,7 +550,10 @@ namespace PacketMessagingTS.Views
 
             if (!_loadMessage)
             {          
-                _packetMessage = new PacketMessage();
+                _packetMessage = new PacketMessage()
+                {
+                    MessageState = MessageState.None,
+                };
 
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
@@ -594,6 +600,8 @@ namespace PacketMessagingTS.Views
             else 
             {
                 FillFormFromPacketMessage();
+                appBarSend.IsEnabled = !(_packetMessage.MessageState == MessageState.Locked);
+
                 _loadMessage = false;
             }
 
@@ -610,30 +618,21 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarViewOutpostData_ClickAsync(object sender, RoutedEventArgs e)
         {
-            CreatePacketMessage();
-
-            if (string.IsNullOrEmpty(_packetMessage.MessageBody))
+            //CreatePacketMessage();
+            PacketMessage packetMessage = new PacketMessage()
             {
-                _packetMessage.MessageBody = _packetForm.CreateOutpostData(ref _packetMessage);
-            }
+                FormFieldArray = _packetForm.CreateFormFieldsInXML(),
+                PacFormName = _packetForm.PacFormName,
+                PacFormType = _packetForm.PacFormType,
+                MessageNumber = _packetForm.MessageNo,
+                CreateTime = DateTime.Now,
+            };
+            string subject = _packetForm.CreateSubject();
+            // subject is "null" for Simple Message, otherwise use the form generated subject line
+            packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
+            packetMessage.MessageBody = _packetForm.CreateOutpostData(ref packetMessage);
 
-            //TextBlock messageBody = new TextBlock()
-            //{
-            //    Text = _packetMessage.MessageBody,
-            //};
-            //ScrollViewer.SetVerticalScrollBarVisibility(messageBody, ScrollBarVisibility.Visible); // Does not work
-
-            //ContentDialog outpostDataDialog = new ContentDialog()
-            //{
-            //    Title = "Outpost Message",
-            //    Content = messageBody,
-            //    CloseButtonText = "Cancel",
-            //    IsPrimaryButtonEnabled = true,
-            //    PrimaryButtonText = "Copy",
-            //};
-            //ContentDialogResult result = await outpostDataDialog.ShowAsync();
-            //if (result == ContentDialogResult.Primary)      // Copy also copies the invisible part
-            bool result = await Utilities.ShowDualButtonMessageDialogAsync(_packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
+            bool result = await Utilities.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
             if (result)
             {
                 DataPackage dataPackage = new DataPackage();
@@ -643,17 +642,24 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private async void AppBarSave_ClickAsync(object sender, RoutedEventArgs e)
+        private void AppBarSave_Click(object sender, RoutedEventArgs e)
         {
-            CreatePacketMessage();
-            DateTime dateTime = DateTime.Now;
-            _packetMessage.CreateTime = DateTime.Now;
+            // if the message state was locked it means it was previously sent or received.
+            // We must assign a new message number
+            if (_packetMessage.MessageState == MessageState.Locked)
+            {
+                _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            }
+
+            CreatePacketMessage(MessageState.None);
+            //DateTime dateTime = DateTime.Now;                     // This and following line is in CreatePacketMessage()
+            //_packetMessage.CreateTime = DateTime.Now;
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
             Utilities.MarkMessageNumberAsUsed();
 
             // Initialize to an empty form
-            await InitializeFormControlAsync();
+            //await InitializeFormControlAsync();
         }
 
         private async void AppBarSend_ClickAsync(object sender, RoutedEventArgs e)
@@ -670,12 +676,11 @@ namespace PacketMessagingTS.Views
                 //    CloseButtonText = "Close"
                 //};
                 //ContentDialogResult result = await contentDialog.ShowAsync();
-                await Utilities.ShowSingleButtonMessageDialogAsync(validationResult, "Close", "Missing input fields");
+                await Utilities.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
                 return;
             }
 
-            CreatePacketMessage();
-            _packetMessage.CreateTime = DateTime.Now;
+            CreatePacketMessage(MessageState.Edit);
             Utilities.MarkMessageNumberAsUsed();
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);

@@ -47,7 +47,7 @@ namespace PacketMessagingTS.Controls
             MessageFrom = from;
         }
 
-        private string messageSubject;
+        //private string messageSubject;
         //public string MessageSubject
         //{
         //    get => messageSubject;

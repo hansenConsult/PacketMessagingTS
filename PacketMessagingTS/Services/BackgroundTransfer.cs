@@ -133,7 +133,7 @@ namespace PacketMessagingTS.Models
 
             if (string.IsNullOrWhiteSpace(destination))
             {
-                //rootPage.ShowMessageBox("A local file name is required.");
+                await Utilities.ShowSingleButtonContentDialogAsync("A local file name is required.");
                 return;
             }
 
@@ -144,7 +144,7 @@ namespace PacketMessagingTS.Models
             }
             catch (FileNotFoundException ex)
             {
-                //rootPage.ShowMessageBox("Error while creating file: " + ex.Message);
+                await Utilities.ShowSingleButtonContentDialogAsync("Error while creating file: " + ex.Message);
                 return;
             }
 

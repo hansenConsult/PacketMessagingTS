@@ -54,7 +54,7 @@
             <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
                           Click="AppBarViewOutpostData_ClickAsync"/>
             <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"
-                          Click="AppBarSave_ClickAsync"/>
+                          Click="AppBarSave_Click"/>
             <AppBarButton x:Name="appBarPrint" Label="Print Message" Icon="Print" HorizontalAlignment="Right"
                           Click="AppBarPrint_ClickAsync">
                 <!--<AppBarButton.Icon>

@@ -492,8 +492,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     if (line[0] != '(' && (line[0] == '>' || firstMessageDescriptionDetected))
                     {
-                        //string lineCopy = line.Substring(1);        // Remove the first character which may be ' ' or '>'
-                        string lineCopy = line.TrimStart(new char[] { ' ', '>' });
+                        // St.  #  TO         FROM     DATE   SIZE SUBJECT
+                        // > N   1 kz6dm      kz6dm    Feb  3  867 6DM-349P_O/R_ICS213_dfdsfsdfggh    
+                        string lineCopy = line.TrimStart(new char[] { ' ', '>' });  // Remove the first character which may be ' ' or '>'
 
                         firstMessageDescriptionDetected = true;
                         string[] lineSections = lineCopy.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -502,6 +503,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             break;
 
                         string bulletinSubject = GetBulletinSubject(lineCopy);
+                        // Read messages or bulletins if the bulletin is not already read.
                         if (area.Length == 0 || !IsBulletinDownLoaded(area, bulletinSubject))
                         {
                             PacketMessage packetMessage = new PacketMessage()
@@ -511,10 +513,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 MessageNumber = Utilities.GetMessageNumberPacket(true),
                                 Area = area,
                                 MessageSize = Convert.ToInt32(lineSections[6]),
+                                MessageState = MessageState.Locked,
                             };
-                            //Console.WriteLine(packetMessage.MessageSize.ToString());
                             int msgIndex = Convert.ToInt32(lineSections[1]);
-                            //Console.WriteLine(msgIndex.ToString());
 
                             _serialPort.Write("R " + msgIndex + "\r");
                             //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response eg R1 plus message
@@ -653,9 +654,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //_logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText);
                 _serialPort.ReadTimeout = readTimeout;
 
-                //readText = _serialPort.ReadTo("\n");	// Next command
-
-                //_serialPort.Write("XM 0\r\x05");
                 _serialPort.Write("XM 0\r");
                 //readText = _serialPort.ReadLine();      // Read command
                 //_logHelper.Log(LogLevel.Info, readText);
@@ -776,24 +774,24 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())} {e.Message}");
                 if (_connectState == ConnectState.ConnectStateBBSConnect)
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
+                    await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                 }
                 else if (_connectState == ConnectState.ConnectStatePrepareTNCType)
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
+                    await Utilities.ShowSingleButtonContentDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
                 }
                 else if (_connectState == ConnectState.ConnectStateConverseMode)
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
+                    await Utilities.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
                 }
                 //else if (e.Message.Contains("not exist"))
                 else if (e.GetType() == typeof(IOException))
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync("Looks like the USB or serial cable to the TNC is disconnected", "Close", "TNC Connect Error");
+                    await Utilities.ShowSingleButtonContentDialogAsync("Looks like the USB or serial cable to the TNC is disconnected", "Close", "TNC Connect Error");
                 }
                 else if (e.GetType() == typeof(UnauthorizedAccessException))
                 {
-                    await Utilities.ShowSingleButtonMessageDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
+                    await Utilities.ShowSingleButtonContentDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
                 }
 
                 if (_connectState == ConnectState.ConnectStateBBSConnect)

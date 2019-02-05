@@ -113,7 +113,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                        await Utilities.ShowSingleButtonMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
+                        await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                         return;
                     }
                     break;
@@ -302,7 +302,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                                await Utilities.ShowSingleButtonMessageDialogAsync($"Form {pktMsg.PacFormName} not found");
+                                await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                                 return;
                             }
                             break;
@@ -481,7 +481,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (formControl is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");
-                    await Utilities.ShowSingleButtonMessageDialogAsync($"Form {packetMessage.PacFormName} not found");
+                    await Utilities.ShowSingleButtonContentDialogAsync($"Form {packetMessage.PacFormName} not found");
                     continue;
                 }
                 packetMessage.MessageBody = formControl.CreateOutpostData(ref packetMessage);
