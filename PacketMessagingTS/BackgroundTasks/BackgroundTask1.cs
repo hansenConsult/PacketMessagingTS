@@ -24,8 +24,9 @@ namespace PacketMessagingTS.BackgroundTasks
         public override void Register()
         {
             var taskName = GetType().Name;
+            var taskRegistration = BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == taskName).Value;
 
-            if (!BackgroundTaskRegistration.AllTasks.Any(t => t.Value.Name == taskName))
+            if (taskRegistration == null)
             {
                 var builder = new BackgroundTaskBuilder()
                 {
@@ -73,8 +74,10 @@ namespace PacketMessagingTS.BackgroundTasks
 
         public override void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-           // TODO WTS: Insert code to handle the cancellation request here.
-           // Documentation: https://docs.microsoft.com/windows/uwp/launch-resume/handle-a-cancelled-background-task
+            _cancelRequested = true;
+
+            // TODO WTS: Insert code to handle the cancelation request here.
+            // Documentation: https://docs.microsoft.com/windows/uwp/launch-resume/handle-a-cancelled-background-task
         }
 
         private void SampleTimerCallback(ThreadPoolTimer timer)

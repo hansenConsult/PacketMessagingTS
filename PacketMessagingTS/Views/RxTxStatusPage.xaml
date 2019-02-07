@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel x:Name="panel" Margin="0,0,0,8" >
-        <TextBox x:Name="textBoxStatus"
+        <TextBox x:Name="textBoxStatus" Margin="8"
                  RelativePanel.AlignTopWithPanel="True"
                  RelativePanel.AlignLeftWithPanel="True"
                  RelativePanel.AlignRightWithPanel="True"

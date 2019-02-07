@@ -7,6 +7,7 @@ using MetroLog;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
 using SharedCode;
+
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
@@ -47,7 +48,7 @@ namespace PacketMessagingTS.Views
             InitializeComponent();
             HideNavViewBackButton();
             DataContext = ViewModel;
-            ViewModel.Initialize(shellFrame, navigationView);
+            ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
 
             // Serial ports
             ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();

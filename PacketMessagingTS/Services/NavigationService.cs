@@ -41,7 +41,15 @@ namespace PacketMessagingTS.Services
 
         public static bool CanGoForward => Frame.CanGoForward;
 
-        public static void GoBack() => Frame.GoBack();
+        public static bool GoBack()
+        {
+            if (CanGoBack)
+            {
+                Frame.GoBack();
+                return true;
+            }
+            return false;
+        }
 
         public static void GoForward() => Frame.GoForward();
 

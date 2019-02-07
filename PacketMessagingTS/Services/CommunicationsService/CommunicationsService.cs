@@ -23,6 +23,7 @@ using System.IO;
 using FormControlBaseClass;
 using SharedCode;
 using System.Text;
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -441,6 +442,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public async void BBSConnectAsync2()
         {
+            //ViewLifetimeControl rxTxStatusWindow = await WindowManagerService.Current.TryShowAsStandaloneAsync("RxTX Status", typeof(RxTxStatusPage));
+
             FormControlBase formControl;
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
             TNCDevice tncDevice;
