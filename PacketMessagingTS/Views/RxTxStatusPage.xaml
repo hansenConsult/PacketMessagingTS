@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="PacketMessagingTS.Views.RxTxStatusPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PacketMessagingTS"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <RelativePanel x:Name="panel" Margin="0,0,0,8" >
+        <TextBox x:Name="textBoxStatus"
+                 RelativePanel.AlignTopWithPanel="True"
+                 RelativePanel.AlignLeftWithPanel="True"
+                 RelativePanel.AlignRightWithPanel="True"
+                 RelativePanel.Above="abortButton"
+                 Text="{x:Bind _RxTxStatusViewModel.RxTxStatus, Mode=OneWay}"/>
+        <Button x:Name="abortButton" Margin="8"
+                RelativePanel.AlignBottomWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                Content="Abort Connection" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                />
+
+    </RelativePanel>
+</Page>

@@ -154,6 +154,12 @@ namespace PacketMessagingTS.Services
             if (justReleased)
             {
                 UnregisterForEvents();
+                if (InternalReleased == null)
+                {
+                    // For more information about using Multiple Views, see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/features/multiple-views.md
+                    throw new InvalidOperationException("ExceptionViewLifeTimeControlMissingReleasedSubscription".GetLocalized());
+                }
+
                 InternalReleased(this, null);
             }
         }

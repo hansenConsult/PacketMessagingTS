@@ -187,6 +187,7 @@
     <Compile Include="ViewModels\IdentityViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PacketSettingsViewModel.cs" />
+    <Compile Include="ViewModels\RxTxStatusViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\TNCSettingsViewModel.cs" />
@@ -203,6 +204,9 @@
     </Compile>
     <Compile Include="Views\PreviewUnavailable.xaml.cs">
       <DependentUpon>PreviewUnavailable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RxTxStatusPage.xaml.cs">
+      <DependentUpon>RxTxStatusPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -271,6 +275,10 @@
     <Page Include="Views\PreviewUnavailable.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RxTxStatusPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
