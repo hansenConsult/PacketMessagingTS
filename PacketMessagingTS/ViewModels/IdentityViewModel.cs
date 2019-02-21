@@ -34,18 +34,21 @@ namespace PacketMessagingTS.ViewModels
         //}
         private void GetAddressBookEntry(string userCallsign)
         {
+            if (string.IsNullOrEmpty(userCallsign))
+                return;
+
             if (AddressBook.Instance.AddressBookDictionary.TryGetValue(userCallsign, out AddressBookEntry entry))
             {
                 UserName = entry.NameDetail;
                 UserCity = entry.City;
             }
-            if (string.IsNullOrEmpty(entry.Prefix) && userCallsign.Length > 3)
+            if (string.IsNullOrEmpty(entry?.Prefix) && userCallsign.Length > 3)
             {
                 UserMsgPrefix = userCallsign.Substring(userCallsign.Length - 3, 3);
             }
             else
             {
-                UserMsgPrefix = entry.Prefix;
+                UserMsgPrefix = entry?.Prefix;
             }
         }
 
@@ -65,7 +68,10 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (SetProperty(ref userCallsign, value, true))
                 {
-                    Utilities.SetApplicationTitle();
+                    if (!string.IsNullOrEmpty(userCallsign))
+                    {
+                        Utilities.SetApplicationTitle();
+                    }
                 }
 
                 GetAddressBookEntry(userCallsign);

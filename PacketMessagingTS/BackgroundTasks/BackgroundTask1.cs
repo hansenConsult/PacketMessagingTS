@@ -10,7 +10,7 @@ using Windows.System.Threading;
 
 namespace PacketMessagingTS.BackgroundTasks
 {
-    public sealed class BackgroundTask1 : BackgroundTask
+    public sealed class BackgroundTask1 : IBackgroundTask
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundTask1>();
         private static LogHelper _logHelper = new LogHelper(log);

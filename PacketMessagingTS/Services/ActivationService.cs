@@ -63,7 +63,7 @@ namespace PacketMessagingTS.Services
 
             if (activationHandler != null)
             {
-                //await activationHandler.HandleAsync(activationArgs);
+                await activationHandler.HandleAsync(activationArgs);
             }
 
             if (IsInteractive(activationArgs))
@@ -97,7 +97,7 @@ namespace PacketMessagingTS.Services
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
-            yield return Singleton<BackgroundTaskService>.Instance;
+            //yield return Singleton<BackgroundTaskService>.Instance;
             yield return Singleton<SuspendAndResumeService>.Instance;
         }
 

@@ -14,12 +14,23 @@
                  RelativePanel.AlignLeftWithPanel="True"
                  RelativePanel.AlignRightWithPanel="True"
                  RelativePanel.Above="abortButton"
-                 Text="{x:Bind _RxTxStatusViewModel.RxTxStatus, Mode=OneWay}"/>
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.ZoomMode="Enabled"           
+                 IsReadOnly="True" AcceptsReturn="True"
+                 Text="{x:Bind _RxTxStatusViewModel.AddRxTxStatus, Mode=TwoWay}"
+                 TextChanged="TextBoxStatus_TextChanged"/>
         <Button x:Name="abortButton" Margin="8"
                 RelativePanel.AlignBottomWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 Content="Abort Connection" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                />
+                Command="{x:Bind _RxTxStatusViewModel.AbortCommand, Mode=OneWay}"
+                Click="AbortButton_ClickAsync"/>
+        <Button x:Name="textButton" Margin="8"
+                RelativePanel.AlignBottomWithPanel="True"
+                RelativePanel.LeftOf="abortButton"
+                Content="Add text" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Click="TextButton_Click"/>
+
 
     </RelativePanel>
 </Page>

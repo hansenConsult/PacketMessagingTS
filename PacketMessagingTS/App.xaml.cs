@@ -246,6 +246,11 @@ namespace PacketMessagingTS
             deferral.Complete();
         }
 
+        //private void App_Resuming(object sender, object e)
+        //{
+        //    Singleton<SuspendAndResumeService>.Instance.ResumeApp();
+        //}
+
         private async void App_SuspendingAsync(object sender, SuspendingEventArgs args)
         {
             try

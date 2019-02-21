@@ -22,6 +22,8 @@ using System.Linq;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using System.Threading;
+using Windows.UI.ViewManagement;
+using PacketMessagingTS.Services.CommunicationsService;
 
 namespace PacketMessagingTS.Views
 {
@@ -213,7 +215,7 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
         {
-            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
+            CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             communicationsService.BBSConnectAsync2();
 
             await RefreshDataGridAsync();

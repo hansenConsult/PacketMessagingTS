@@ -5,7 +5,7 @@ using Windows.ApplicationModel.Background;
 
 namespace PacketMessagingTS.BackgroundTasks
 {
-    public abstract class BackgroundTask
+    public abstract class IBackgroundTask
     {
         public abstract void Register();
 
