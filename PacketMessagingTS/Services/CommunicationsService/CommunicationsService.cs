@@ -1,23 +1,28 @@
-﻿using MetroLog;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Views;
-using PacketMessagingTS.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using FormControlBaseClass;
+using MessageFormControl;
+using MetroLog;
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.Services.SMTPClient;
+using PacketMessagingTS.ViewModels;
+using PacketMessagingTS.Views;
+using SharedCode;
+
 using Windows.ApplicationModel.Email;
 using Windows.Networking.Sockets;
 using Windows.Storage;
 using Windows.Storage.Search;
-using PacketMessagingTS.Services.SMTPClient;
-using MessageFormControl;
-using PacketMessagingTS.ViewModels;
-using System.Threading.Tasks;
-using System.IO.Ports;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 
-using FormControlBaseClass;
-using SharedCode;
-using System.Text;
+
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -61,6 +66,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public void AbortConnection()
         {
+            _logHelper.Log(LogLevel.Error, $"Connection aborted.");
             _tncInterface?.AbortConnection();
         }
 
@@ -586,14 +592,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
             await _tncInterface.BBSConnectThreadProcAsync(rxTxStatusWindow);
 
             // Close status window
-            //await rxTxStatusWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            //{
-            //    rxTxStatusWindow.StartViewInUse();
-            //    await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-            //        ApplicationView.GetForCurrentView().Id,
-            //        ApplicationViewSwitchingOptions.ConsolidateViews);
-            //    rxTxStatusWindow.StopViewInUse();
-            //});
+            await rxTxStatusWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                rxTxStatusWindow.StartViewInUse();
+                await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+                    ApplicationView.GetForCurrentView().Id,
+                    ApplicationViewSwitchingOptions.ConsolidateViews);
+                rxTxStatusWindow.StopViewInUse();
+            });
 
             Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
             if (!string.IsNullOrEmpty(bbs?.Name))

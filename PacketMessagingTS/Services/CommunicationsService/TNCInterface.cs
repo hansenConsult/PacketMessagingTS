@@ -82,8 +82,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		//public ConnectedDialog ConnectDlg
   //      { get; set; }
 
-		public bool Cancel
-		{ get { return _error; } set { _error = value; } }
+		//public bool Cancel
+		//{ get { return _error; } set { _error = value; } }
 
         public void AbortConnection()
         {
@@ -629,6 +629,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _packetMessagesSent.Clear();
             PacketMessagesReceived.Clear();
 
+            bool exitedBeforeConnect = false;
+
             if (string.IsNullOrEmpty(_bbsConnectName))
                 return;
 
@@ -691,6 +693,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //_serialPort.ReadTimeout = 5000;
                 _serialPort.ReadTimeout = 120000;
                 BBSConnectTime = DateTime.Now;
+
+                if (_error)
+                {
+                    exitedBeforeConnect = true;
+                    goto AbortWithoutConnect;
+                }
+
                 _connectState = ConnectState.ConnectStateBBSTryConnect;
                 _serialPort.Write("connect " + _bbsConnectName + "\r");
 
@@ -779,11 +788,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Info, readText);     // Log disconnect response
                 AddTextToStatusWindowAsync(readText);
 
-                BBSDisconnectTime = DateTime.Now;
                 //serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
 
                 _serialPort.ReadTimeout = 5000;
                 readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Next command
+AbortWithoutConnect:
+                BBSDisconnectTime = DateTime.Now;
 
                 // Send PostCommands
                 string postCommands = _TncDevice.InitCommands.Postcommands;
@@ -803,22 +813,25 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     readCmdText = _serialPort.ReadTo(_TNCPrompt);	// Next command
                 }
-                // Enter converse mode and send FCC call sign
-                _connectState = ConnectState.ConnectStateConverseMode;
-                _serialPort.Write(_TncDevice.Commands.Conversmode + "\r");
-                readText = _serialPort.ReadLine();       // Read command
-                _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
-                AddTextToStatusWindowAsync(readCmdText + _TNCPrompt + " " + readText);
+                if (!exitedBeforeConnect)
+                {
+                    // Enter converse mode and send FCC call sign
+                    _connectState = ConnectState.ConnectStateConverseMode;
+                    _serialPort.Write(_TncDevice.Commands.Conversmode + "\r");
+                    readText = _serialPort.ReadLine();       // Read command
+                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
+                    AddTextToStatusWindowAsync(readCmdText + _TNCPrompt + " " + readText);
 
-                string fccId = $"de {Singleton<IdentityViewModel>.Instance.UserCallsign}";
-                _serialPort.Write(fccId + "\r");
-                readText = _serialPort.ReadLine();
-                _logHelper.Log(LogLevel.Info, readText);
-                AddTextToStatusWindowAsync(readText);
-                _serialPort.Write("\x03\r");                        // Ctrl-C exits converse mode
-                readCmdText = _serialPort.ReadTo(_TNCPrompt);
-                _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt);
-                AddTextToStatusWindowAsync(readCmdText + _TNCPrompt);
+                    string fccId = $"de {Singleton<IdentityViewModel>.Instance.UserCallsign}";
+                    _serialPort.Write(fccId + "\r");
+                    readText = _serialPort.ReadLine();
+                    _logHelper.Log(LogLevel.Info, readText);
+                    AddTextToStatusWindowAsync(readText);
+                    _serialPort.Write("\x03\r");                        // Ctrl-C exits converse mode
+                    readCmdText = _serialPort.ReadTo(_TNCPrompt);
+                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt);
+                    AddTextToStatusWindowAsync(readCmdText + _TNCPrompt);
+                }
             }
             catch (Exception e)
             {

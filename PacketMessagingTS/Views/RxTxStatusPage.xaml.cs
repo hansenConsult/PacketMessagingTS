@@ -85,11 +85,11 @@ namespace PacketMessagingTS.Views
 
         private async void AbortButton_ClickAsync(object sender, RoutedEventArgs e)
         {
-            _viewLifetimeControl.StartViewInUse();
-            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-                ApplicationView.GetForCurrentView().Id,
-                ApplicationViewSwitchingOptions.ConsolidateViews);
-            _viewLifetimeControl.StopViewInUse();
+            //_viewLifetimeControl.StartViewInUse();
+            //await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+            //    ApplicationView.GetForCurrentView().Id,
+            //    ApplicationViewSwitchingOptions.ConsolidateViews);
+            //_viewLifetimeControl.StopViewInUse();
         }
 
         int i = 0;
