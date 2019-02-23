@@ -323,6 +323,10 @@
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>
       <Name>MessageFormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MVCERTDA_FormsControl\MVCERTDA_FormControl.csproj">
+      <Project>{2322ba11-25a0-4a4c-a323-0dc147eef403}</Project>
+      <Name>MVCERTDA_FormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OAAlliedHealthStatus201802FormControl\OAAlliedHealthStatus201802FormControl.csproj">
       <Project>{7e02b70e-c039-4fa7-8b23-b3ab78028d72}</Project>
       <Name>OAAlliedHealthStatus201802FormControl</Name>
