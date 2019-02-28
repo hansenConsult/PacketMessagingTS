@@ -318,12 +318,12 @@
                                              Tag="23,required" 
                                              Checked="RadioButtonRequired_SelectionChanged"/>
                                 <RadioButton x:Name="resourceInfoMedium" GroupName="resourceInfoPriority" 
-                                             Margin="5,-5,0,0" Content="Medium (5-12 hrs.)" FontFamily="helvetica" FontSize="12"
-                                             Padding="2,10,0,0" 
+                                             Margin="5,-5,0,0" Content="Medium (5-12 hrs.)" FontFamily="Times New Roman" FontSize="13"
+                                             Padding="4,10,0,0" 
                                              Tag="24,required" 
                                              Checked="RadioButtonRequired_SelectionChanged"/>
                                 <RadioButton x:Name="resourceInfoLow" GroupName="resourceInfoPriority" 
-                                             Margin="5,-5,0,0" Content="Low (12+ hrs)"
+                                             Margin="5,-8,0,0" Content="Low (12+ hrs)" FontFamily="Times New Roman"
                                              Height="28"  Padding="4,6,0,0" 
                                              Tag="25,required" 
                                              Checked="RadioButtonRequired_SelectionChanged"/>

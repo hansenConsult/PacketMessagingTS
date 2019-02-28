@@ -709,6 +709,12 @@ namespace FormControlBaseClass
                         case "msgTime":
                             MsgTime = textBox.Text;
                             break;
+                        case "incidentName":
+                            IncidentName = textBox.Text;
+                            break;
+                        case "subject":
+                            Subject = textBox.Text;
+                            break;
                         case "operatorCallsign":
                             OperatorCallsign = textBox.Text;
                             break;

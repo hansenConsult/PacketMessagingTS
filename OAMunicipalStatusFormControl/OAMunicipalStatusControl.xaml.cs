@@ -82,8 +82,8 @@ namespace OAMunicipalStatusFormControl
 
         }
 
-		public string IncidentName
-        { get => incidentName.Text; }
+		//public string IncidentName
+  //      { get => incidentName.Text; }
 
         public string MunicipalityName
         { get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
@@ -107,7 +107,7 @@ namespace OAMunicipalStatusFormControl
             if (validationState)
             {
                 AddToErrorString(GetTagErrorMessage(formControl.InputControl));
-                formControl.InputControl.BorderBrush = _redBrush;
+                formControl.InputControl.BorderBrush = formControl.RequiredBorderBrush;
             }
             else
             {
@@ -284,18 +284,33 @@ namespace OAMunicipalStatusFormControl
             if ((sender as ComboBox).SelectedIndex > 1)
             {
                 commentsCommunications.Tag = (commentsCommunications.Tag as string).Replace("conditionallyrequired", "required");
-                InitializeForm(true);
+                ValidateForm();
             }
             else
             {
                 commentsCommunications.Tag = (commentsCommunications.Tag as string).Replace(",required", ",conditionallyrequired");
-                InitializeForm(true);
+                ValidateForm();
             }
         }
 
         private void Comments_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void StateOfEmergency_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).SelectedIndex == 1)
+            {
+                howSent.Tag = (howSent.Tag as string).Replace("conditionallyrequired", "required");
+                ValidateForm();
+            }
+            else
+            {
+                howSent.Tag = (howSent.Tag as string).Replace(",required", ",conditionallyrequired");
+                ValidateForm();
+            }
+            ComboBoxRequired_SelectionChanged(sender, e);
         }
     }
 }

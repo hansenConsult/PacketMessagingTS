@@ -46,7 +46,8 @@
                             <StackPanel Grid.Column="2">
                                 <TextBlock  FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Text="Message #:"/>
                                 <TextBox x:Name="messageNo" Text="{x:Bind MessageNo, Mode=TwoWay}"
-										 TextAlignment="Center" BorderBrush="White" Margin="2,0,2,2"  Tag="1,required,Enter a Message Number." TextChanged="Subject_Changed"/>
+										 TextAlignment="Center" BorderBrush="White" Margin="2,0,2,2"  Tag="1,required,Enter a Message Number." 
+                                         TextChanged="Subject_Changed"/>
                             </StackPanel>
                         </Border>
                         <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0">
@@ -101,10 +102,12 @@
                                 </Border>
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <StackPanel x:Name="msgRequest" Grid.Column="3">
-                                        <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="Message requests" Margin="5"/>
+                                        <TextBlock Style="{StaticResource LabelFontTNR12B}"  
+                                                   Text="Message requests" Margin="5"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="action" Tag="-1"/>
                                         <StackPanel Orientation="Horizontal"/>
-                                        <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,10,0,0" />
+                                        <TextBlock Style="{StaticResource LabelFontTNR12B}" 
+                                                   Text="Reply" Margin="10,10,0,0" />
                                         <StackPanel Orientation="Horizontal">
                                             <MyNamespace:ToggleButtonGroup x:Name="reply" Tag="-1"/>
                                             <RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="30" Tag="10"/>
@@ -139,7 +142,9 @@
                                                FontStyle="Italic" FontWeight="Normal" Foreground="Black" VerticalAlignment="Center" />
                                     <TextBox Name="incidentName" Width="300" 
                                              Style="{StaticResource MuniStatusTextBox}" 
-                                             TextChanged="Subject_Changed" Tag="13,required,Enter the Incident Name."/>
+                                             Text="{x:Bind IncidentName, Mode=TwoWay}"
+                                             TextChanged="Subject_Changed" 
+                                             Tag="13,required,Enter the Incident Name."/>
                                 </StackPanel>
                                 <Grid HorizontalAlignment="Center">
                                     <Grid.ColumnDefinitions>
@@ -321,7 +326,7 @@
                                           SelectedIndex="-1"
                                           Style="{StaticResource MuniStatusComboBox}" 
                                           Tag="34,required,Select the State of Emergency: Yes or No." 
-                                          SelectionChanged="ComboBoxRequired_SelectionChanged"
+                                          SelectionChanged="StateOfEmergency_SelectionChanged"
                                           HorizontalAlignment="Left"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Text="Send a copy of your Proclamation to the county EOC (fax, e-mail, ...)" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Indicate how sent (method/to):" Style="{StaticResource MuniStatusFieldText}"/>

@@ -601,9 +601,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
         async void OnSerialPortErrorReceivedAsync(object sender, SerialErrorReceivedEventArgs e)
         {
             _logHelper.Log(LogLevel.Fatal, $"SerialPort Error: {e.EventType.ToString()}");
-            _error = true;
-            await Utilities.ShowSingleButtonMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "Close", "TNC Connect Error");
-            _serialPort.Close();
+            try
+            {
+                _error = true;
+                await Utilities.ShowSingleButtonMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "Close", "TNC Connect Error");
+                _serialPort.Close();
+            }
+            catch
+            { }
             return;
         }
 
