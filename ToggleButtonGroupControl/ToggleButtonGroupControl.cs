@@ -12,18 +12,18 @@ using Windows.UI.Xaml.Media;
 namespace ToggleButtonGroupControl
 {
     public sealed class ToggleButtonGroup : Control
-	{
-		static SolidColorBrush _redBrush = new SolidColorBrush(Colors.Red);
-		static SolidColorBrush _whiteBrush = new SolidColorBrush(Colors.White);
-		static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
+    {
+        static SolidColorBrush _redBrush = new SolidColorBrush(Colors.Red);
+        static SolidColorBrush _whiteBrush = new SolidColorBrush(Colors.White);
+        static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
 
 
-		IList<RadioButton> _radioButtonGroup = new List<RadioButton>();
+        IList<RadioButton> _radioButtonGroup = new List<RadioButton>();
 
-		static ToggleButtonGroup()
-		{
-			//DefaultStyleKeyProperty.OverrideMetadata(typeof(ToggleButtonGroup), new FrameworkPropertyMetadata(typeof(ToggleButtonGroup)));
-		}
+        static ToggleButtonGroup()
+        {
+            //DefaultStyleKeyProperty.OverrideMetadata(typeof(ToggleButtonGroup), new FrameworkPropertyMetadata(typeof(ToggleButtonGroup)));
+        }
 
         //public ToggleButtonGroup(List<RadioButton> radioButtonList, string groupName)
         //{
@@ -43,6 +43,20 @@ namespace ToggleButtonGroupControl
         public IList<RadioButton> RadioButtonGroup
         { get => _radioButtonGroup; }
 
+        private Brush toggleButtonGroupBrush = _blackBrush;
+        public Brush ToggleButtonGroupBrush
+        {
+            get => toggleButtonGroupBrush;
+            set
+            {
+                toggleButtonGroupBrush = value;
+                foreach (RadioButton radioButton in _radioButtonGroup)
+                {
+                    radioButton.Foreground = toggleButtonGroupBrush;
+                }
+            }
+        }
+
         public static readonly DependencyProperty
             CheckedControlNameProperty = DependencyProperty.Register("CheckedControlName", typeof(string),
                 typeof(ToggleButtonGroup), new PropertyMetadata(null, new PropertyChangedCallback(OnSelectionChanged)));
@@ -61,16 +75,16 @@ namespace ToggleButtonGroupControl
         //{ get { return GetRadioButtonCheckedState(); } set { SetRadioButtonCheckedState(value); } }
 
         public void Initialize(IList<RadioButton> radioButtonList, string groupName)
+		{
+			foreach (RadioButton radioButton in radioButtonList)
 			{
-				foreach (RadioButton radioButton in radioButtonList)
+				if (radioButton.GroupName == groupName)
 				{
-					if (radioButton.GroupName == groupName)
-					{
-						_radioButtonGroup.Add(radioButton);
-						radioButton.IsChecked = false;
-					}
-				}
-			}
+					_radioButtonGroup.Add(radioButton);
+					radioButton.IsChecked = false;
+                }
+            }
+		}
 
 			//delegate string GetRadioButtonChecked(RadioButton radioButton);
 			//string GetRadioButton(RadioButton radioButton)
@@ -82,26 +96,26 @@ namespace ToggleButtonGroupControl
 			//	return null;
 			//}
 
-			public string GetRadioButtonCheckedState()
+		public string GetRadioButtonCheckedState()
+		{
+			foreach (RadioButton radioButton in _radioButtonGroup)
 			{
-				foreach (RadioButton radioButton in _radioButtonGroup)
-				{
-					//if ((radioButton.Dispatcher.CheckAccess()))
-					//{
-						if ((bool)radioButton.IsChecked)
-						{
-							return radioButton.Name;
-						}
-					//}
-					//else
-					//{
-					//	string retval = (string)radioButton.Dispatcher.Invoke(DispatcherPriority.Normal, new GetRadioButtonChecked(GetRadioButton), radioButton);
-					//	if (retval != null && retval?.Length != 0)
-					//		return retval;
-					//}
-				}
-				return null;
+				//if ((radioButton.Dispatcher.CheckAccess()))
+				//{
+					if ((bool)radioButton.IsChecked)
+					{
+						return radioButton.Name;
+					}
+				//}
+				//else
+				//{
+				//	string retval = (string)radioButton.Dispatcher.Invoke(DispatcherPriority.Normal, new GetRadioButtonChecked(GetRadioButton), radioButton);
+				//	if (retval != null && retval?.Length != 0)
+				//		return retval;
+				//}
 			}
+			return null;
+		}
 
 			//delegate void SetRadioButtonChecked(RadioButton radioButton, string name);
 			//void SetRadioButton(RadioButton radioButton, string name)

@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Navigation;
 
 using FormControlBaseClass;
 using SharedCode;
+using SharedCode.Helpers;
+using SharedCode.Models;
+using Windows.UI;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -40,55 +43,50 @@ namespace MVCERTDA_FormsControl
                 "Safety Officer"
         };
 
-        public string[] CERTLocation = new string[]
-        {
-            "Ada Park",
-            "Appletree",
-            "Cooper Neighborhood",
-            "Cuesta Park",
-            "Gemello",
-            "Greater San Antonio",
-            "Monta Loma",
-            "Mtn View Gardens",
-            "North Whisman",
-            "Old Mtn View",
-            "Rex Manor",
-            "St Francis Acres",
-            "Slater",
-            "South Mountain View",
-            "Sylvan park",
-            "Varsity Park",
-            "Wagon Wheel",
-            "Mtn View Los Altos H. S. Dist",
-            "Mtn View Whisman School Dist",
-        };
-
         List<string> _ICSPositionFiltered = new List<string>();
+        string subjectText;
+
+        public List<TacticalCall> CERTLocationTacticalCalls { get; }
 
         public MVCERTDAControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             ScanControls(PrintableArea);
 
             InitializeControls();
 
+            CERTLocationTacticalCalls = TacticalCallsigns.CreateMountainViewCERTList();
+
+            //Severity = "other";
             other.IsChecked = true;
+            //HandlingOrder = "priority";
             priority.IsChecked = true;
+            autoSuggestBoxToICSPosition.Text = "Planning";
+            autoSuggestBoxFromICSPosition.Text = "Planning";
+            ToLocation = "Mountain View EOC";
+            subjectText = "Damage Summary for ";
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
-            autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
-            autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
-            autoSuggestBoxToICSPosition.Text = "Planning";
-            autoSuggestBoxFromICSPosition.Text = "Planning";
-            toLocation.Text = "Mountain View EOC";
-            subject.Text = "Damage Summary for ";
+        }
+
+        private string tacticalCallsign;
+        public string CERTLocationValue
+        {
+            get => tacticalCallsign;
+            set => Set(ref tacticalCallsign, value);
+        }
+
+        public override string TacticalCallsign
+        {
+            get => CERTLocationValue;
+            set => CERTLocationValue = value;
         }
 
         public override string OperatorTime
         {
-            get { return GetTextBoxString(operatorTime); }
+            get => operatorTime.Text;
             set
             {
                 var filteredTime = value.Split(new char[] { ':' });
@@ -103,6 +101,12 @@ namespace MVCERTDA_FormsControl
             }
         }
 
+        private string _toLocation;
+        public string ToLocation
+        {
+            get => _toLocation;
+            set => Set(ref _toLocation, value);
+        }
         public override string PacFormName => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 
         public override string PacFormType => "MVCERTSummary";
@@ -114,6 +118,8 @@ namespace MVCERTDA_FormsControl
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
+            CreateDamageAssesmentMessage(ref packetMessage);
+
             List<string> outpostData = new List<string>()
             {
                 "!PACF! " + packetMessage.Subject,
@@ -124,6 +130,70 @@ namespace MVCERTDA_FormsControl
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
+        }
+
+        //public override void InitializeForm()
+        //{
+        //    toLocation.Text = "Mountain View EOC";
+        //}
+
+        private void CreateDamageAssesmentMessage(ref PacketMessage packetMessage)
+        {
+            string[] damageAssesmentMessage = new string[17];
+            foreach (FormField formField in packetMessage.FormFieldArray)
+            {
+                if (string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
+
+                if (formField.ControlName == "fires" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[0] += $"  F{formField.ControlContent}";
+                if (formField.ControlName == "gasLeak" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[1] += $"  G{formField.ControlContent}";
+                if (formField.ControlName == "waterLeak" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[2] += $"  W{formField.ControlContent}";
+                if (formField.ControlName == "electrical" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[3] += $"  E{formField.ControlContent}";
+                if (formField.ControlName == "chemical" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[4] += $"  C{formField.ControlContent}";
+                if (formField.ControlName == "light" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[5] += $"  L{formField.ControlContent}";
+                if (formField.ControlName == "mod" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[6] += $"  Mod{formField.ControlContent}";
+                if (formField.ControlName == "heavy" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[7] += $"  H{formField.ControlContent}";
+                if (formField.ControlName == "peopleImmediate" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[8] += $"  I{formField.ControlContent}";
+                if (formField.ControlName == "delayed" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[9] += $"  D{formField.ControlContent}";
+                if (formField.ControlName == "trapped" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[10] += $"  T{formField.ControlContent}";
+                if (formField.ControlName == "morgue" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[11] += $"  Mor{formField.ControlContent}";
+                if (formField.ControlName == "access" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[12] += $"  A{formField.ControlContent}";
+                if (formField.ControlName == "noAccess" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[13] += $"  N{formField.ControlContent}";
+                if (formField.ControlName == "messageOther" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[14] += $"  O{formField.ControlContent}";
+                if (formField.ControlName == "surveyed" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                    damageAssesmentMessage[15] += $"  Nei{formField.ControlContent}";
+                if (formField.ControlName == "message" && !string.IsNullOrWhiteSpace(formField.ControlContent))
+                {
+                    // Remove the space character that was inserted to remove the required border color in message
+                    if (formField.ControlContent == " ")
+                        formField.ControlContent = "";
+                    damageAssesmentMessage[16] = $"\n{formField.ControlContent}";
+                }
+            }
+            string message = "";
+            for (int i = 0; i < damageAssesmentMessage.Length; i++)
+            {
+                message += damageAssesmentMessage[i];
+            }
+
+            // insert the updated message
+            var messageField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "message").FirstOrDefault();
+            messageField.ControlContent = message;
         }
 
         private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -154,9 +224,19 @@ namespace MVCERTDA_FormsControl
             }
         }
 
-        private void ComboBoxFromLocation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        protected override void ComboBoxRequired_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            subject.Text += e.AddedItems[0] as string;
+            subject.Text = subjectText + e.AddedItems[0].ToString();
+
+            base.ComboBoxRequired_SelectionChanged(sender, e);
         }
+
+        private void DamageAccessmentRequired_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(message.Text))
+                message.Text = " ";
+             //TextBoxRequired_TextChanged(message, null);
+        }
+
     }
 }

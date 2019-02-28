@@ -2,6 +2,7 @@
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+using SharedCode.Models;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -139,7 +140,7 @@ namespace PacketMessagingTS.ViewModels
 
         public ObservableCollection<TacticalCallsignData> TacticalCallsignsAreaSource
         {
-            get => new ObservableCollection<TacticalCallsignData>(App._TacticalCallsignDataList);
+            get => new ObservableCollection<TacticalCallsignData>(TacticalCallsigns._TacticalCallsignDataList);
         }
 
         private ObservableCollection<TacticalCall> tacticalCallsignsSource;

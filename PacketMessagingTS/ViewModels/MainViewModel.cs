@@ -44,7 +44,7 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //}
 
-        public void OpenMessageFromDoubleClick(PacketMessage packetMessage)
+        public void OpenMessage(PacketMessage packetMessage)
         {
             if (packetMessage is null)
                 return;
@@ -55,13 +55,13 @@ namespace PacketMessagingTS.ViewModels
             NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
         }
 
-        public void OpenMessageFromDoubleClick()
-        {
-            if (SelectedItems != null && SelectedItems.Count == 1)
-            {
-                OpenMessageFromDoubleClick(SelectedItems[0]);
-            }
-        }
+        //public void OpenMessageFromDoubleClick()
+        //{
+        //    if (SelectedItems != null && SelectedItems.Count == 1)
+        //    {
+        //        OpenMessage(SelectedItems[0]);
+        //    }
+        //}
 
         public Pivot MainPagePivot { get; set; }
 

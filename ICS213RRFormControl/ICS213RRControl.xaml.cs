@@ -29,19 +29,26 @@ namespace EOC213RRFormControl
             HowReceivedSent = "packet";
         }
 
-		//public override string Severity
-		//{
-		//	get { return severity.GetRadioButtonCheckedState(); }
-		//	set { severity.SetRadioButtonCheckedState(value); }
-		//}
+        //public override string Severity
+        //{
+        //	get { return severity.GetRadioButtonCheckedState(); }
+        //	set { severity.SetRadioButtonCheckedState(value); }
+        //}
 
-		//public override string HandlingOrder
-		//{
-		//	get { return handlingOrder.GetRadioButtonCheckedState(); }
-		//	set { handlingOrder.SetRadioButtonCheckedState(value); }
-		//}
+        //public override string HandlingOrder
+        //{
+        //	get { return handlingOrder.GetRadioButtonCheckedState(); }
+        //	set { handlingOrder.SetRadioButtonCheckedState(value); }
+        //}
 
-		public override string PacFormName => "XSC_EOC-213RR_v1706";
+        private string _incidentName;
+        public override string IncidentName
+        {
+            get => _incidentName;
+            set => Set(ref _incidentName, value);
+        }
+
+        public override string PacFormName => "XSC_EOC-213RR_v1706";
 
         public override string PacFormType => "XSC_EOC_213RR";
 

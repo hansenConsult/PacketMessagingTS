@@ -20,18 +20,16 @@ using Windows.Storage;
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
 using SharedCode;
+using SharedCode.Models;
 
 namespace PacketMessagingTS
 {
     public sealed partial class App : Application
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<App>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static  LogHelper _logHelper = new LogHelper(log);
 
         private SuspendingDeferral suspendDeferral;
-
-        public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
-        public static List<TacticalCallsignData> _TacticalCallsignDataList;
 
         private const string PropertiesDictionaryFileName = "PropertiesDictionary";
         public static Dictionary<string, object> Properties { get; set; }
@@ -59,83 +57,7 @@ namespace PacketMessagingTS
             LogManagerFactory.DefaultConfiguration.AddTarget(LogLevel.Trace, LogLevel.Fatal, new StreamingFileTarget());
             GlobalCrashHandler.Configure(); // Write a FATAL entry, wait until all of the targets have finished writing, then call Application.Exit.
 
-            _tacticalCallsignDataDictionary = new Dictionary<string, TacticalCallsignData>();
-            _TacticalCallsignDataList = new List<TacticalCallsignData>();
-
-            TacticalCallsignData tacticalCallsignData = new TacticalCallsignData()
-            {
-                AreaName = "County Agencies",
-                FileName = "CountyTacticalCallsigns.xml",
-                StartString = "Santa Clara County Cities/Agencies",
-                BulletinFileName = "SCCo Packet Tactical Calls"
-            };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
-
-            tacticalCallsignData = new TacticalCallsignData()
-            {
-                AreaName = "non County Agencies",
-                FileName = "NonCountyTacticalCallsigns.xml",
-                StartString = "Other (non-SCCo) Agencies",
-                BulletinFileName = "SCCo Packet Tactical Calls"
-            };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
-
-            tacticalCallsignData = new TacticalCallsignData()
-            {
-                AreaName = "Local Mountain View",
-                FileName = "MTVTacticalCallsigns.xml",
-                TacticallWithBBS = "MTVEOC",
-                StartString = "#Mountain View Tactical Call List",
-                StopString = "#MTV001 thru MTV010 also permissible",
-                RawDataFileName = "Tactical_Calls.txt"
-            };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
-
-            tacticalCallsignData = new TacticalCallsignData()
-            {
-                AreaName = "Local Cupertino",
-                FileName = "CUPTacticalCallsigns.xml",
-                TacticallWithBBS = "CUPEOC",
-                StartString = "# Cupertino OES",
-                StopString = "# City of Palo Alto",
-                RawDataFileName = "Tactical_Calls.txt"
-            };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
-
-            tacticalCallsignData = new TacticalCallsignData()
-            {
-                AreaName = "County Hospitals",
-                FileName = "HospitalsTacticalCallsigns.xml",
-                TacticallWithBBS = "HOSDOC",
-                StartString = "# SCCo Hospitals Packet Tactical Call Signs",
-                StopString = "# HOS001 - HOS010",
-                RawDataFileName = "Tactical_Calls.txt"
-            };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
-
-            tacticalCallsignData = new TacticalCallsignData()
-            {
-                AreaName = "All County",
-                FileName = "AllCountyTacticalCallsigns.xml",
-                StartString = "",
-                BulletinFileName = "https://scc-ares-races.org/activities/showtacticalcalls.php"
-            };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
-
-            tacticalCallsignData = new TacticalCallsignData()
-            {
-                AreaName = "User Address Book",
-                FileName = "UserAddressBook.xml",
-                StartString = "",
-                BulletinFileName = ""
-            };
-
+            TacticalCallsigns.CreateTacticalCallsignsData();
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
@@ -164,7 +86,7 @@ namespace PacketMessagingTS
             SharedData.SentMessagesFolder = await localFolder.CreateFolderAsync("SentMessages", CreationCollisionOption.OpenIfExists);
             SharedData.UnsentMessagesFolder = await localFolder.CreateFolderAsync("UnsentMessages", CreationCollisionOption.OpenIfExists);
 
-            foreach (var tacticalCallsignType in _TacticalCallsignDataList)
+            foreach (TacticalCallsignData tacticalCallsignType in TacticalCallsigns._TacticalCallsignDataList)
             {
                 tacticalCallsignType.TacticalCallsigns = await TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
             }

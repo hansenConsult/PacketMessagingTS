@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
+using SharedCode.Models;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -126,7 +127,7 @@ namespace PacketMessagingTS.Helpers
             }
             else
             {
-                backingStore = new int[App._TacticalCallsignDataList.Count];
+                backingStore = new int[TacticalCallsigns._TacticalCallsignDataList.Count];
                 for (int i = 0; i < backingStore.Length; i++)
                 {
                     backingStore[i] = 0;

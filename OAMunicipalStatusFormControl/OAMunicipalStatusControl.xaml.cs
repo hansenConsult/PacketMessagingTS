@@ -21,7 +21,6 @@ namespace OAMunicipalStatusFormControl
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
         string[] Municipalities = new string[] {
-                "SELECT the Municipality",
                 "Campbell",
                 "Cupertino",
                 "Gilroy",
@@ -272,9 +271,32 @@ namespace OAMunicipalStatusFormControl
             if (activationLevel != null)
             {
                 activationLevel.IsEnabled = (sender as ComboBox).SelectedIndex == 1;
+                if ((sender as ComboBox).SelectedIndex == 1)
+                {
+                    ComboBoxRequired_SelectionChanged(activationLevel, null);
+                }
+                ComboBoxRequired_SelectionChanged(sender, e);
             }
         }
 
+        private void Status_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).SelectedIndex > 1)
+            {
+                commentsCommunications.Tag = (commentsCommunications.Tag as string).Replace("conditionallyrequired", "required");
+                InitializeForm(true);
+            }
+            else
+            {
+                commentsCommunications.Tag = (commentsCommunications.Tag as string).Replace(",required", ",conditionallyrequired");
+                InitializeForm(true);
+            }
+        }
+
+        private void Comments_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
 

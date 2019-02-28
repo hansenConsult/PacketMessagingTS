@@ -21,8 +21,6 @@ using FormControlBaseClass;
 using MetroLog;
 using SharedCode;
 using MessageFormControl;
-//using ICS213FormControl;
-using ICS213_070628_FormControl;
 
 
 
@@ -438,6 +436,7 @@ namespace PacketMessagingTS.Views
                 return;
             }
 
+            _packetForm.InitializeForm(true);
             _packetMessage = new PacketMessage();
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
@@ -448,6 +447,10 @@ namespace PacketMessagingTS.Views
             _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
             _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
             _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            {
+                _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+            }
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -504,12 +507,11 @@ namespace PacketMessagingTS.Views
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
-                //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
-                //await messageDialog.ShowAsync();
                 await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
 
+            _packetForm.InitializeForm(!_loadMessage);
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
@@ -564,37 +566,45 @@ namespace PacketMessagingTS.Views
                 _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
                 _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+                {
+                    _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+                }
 
                 _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     _packetForm.Severity = "other";
                     _packetForm.HandlingOrder = "routine";
+                    _packetForm.IncidentName = practiceSubject;
+                    _packetForm.Subject = practiceSubject;
 
-                    foreach (FormField formField in _packetMessage.FormFieldArray)
-                    {
-                        FormControl formControl = _packetForm.FormControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                        if (formControl is null)
-                            continue;
+                //    foreach (FormField formField in _packetMessage.FormFieldArray)
+                //    {
+                //        FormControl formControl = _packetForm.FormControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                //        if (formControl is null)
+                //            continue;
 
-                        Control control = formControl?.InputControl;
-                        bool controlFound = false;
-                        switch (control.Name)
-                        {
-                            case "subject":
-                                (control as TextBox).Text = practiceSubject;
-                                controlFound = true;
-                                break;
-                            case "incidentName":
-                                (control as TextBox).Text = practiceSubject;
-                                controlFound = true;
-                                break;
-                        }
-                        if (controlFound)
-                        {
-                            break;
-                        }
-                    }
+                //        Control control = formControl?.InputControl;
+                //        bool controlFound = false;
+                //        switch (control.Name)
+                //        {
+                //            case "subject":
+                //                (control as TextBox).Text = practiceSubject;
+                //                //_packetForm.CreateSubject = 
+                //                controlFound = true;
+                //                break;
+                //            case "incidentName":
+                //                //(control as TextBox).Text = practiceSubject;
+                //                //_packetForm.IncidentName = practiceSubject;
+                //                controlFound = true;
+                //                break;
+                //        }
+                //        if (controlFound)
+                //        {
+                //            break;
+                //        }
+                //    }
                 }
             }
             else 

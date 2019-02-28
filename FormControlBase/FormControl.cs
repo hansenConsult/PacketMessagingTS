@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -10,10 +11,12 @@ namespace FormControlBaseClass
 {
 	public class FormControl
 	{
-		public Brush BaseBorderColor
+        public Brush BaseBorderColor
 		{ get; private set; }
 
-		public Control InputControl
+        public Brush RequiredBorderBrush { get; } = new SolidColorBrush(Colors.Red);
+
+        public Control InputControl
 		{ get; private set; }
 
 		public FormControl()

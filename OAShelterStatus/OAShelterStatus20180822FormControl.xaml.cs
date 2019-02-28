@@ -30,7 +30,6 @@ namespace OAShelterStatusFormControl
     public sealed partial class OAShelterStatusControl : FormControlBase
     {
         string[] Municipalities = new string[] {
-                "SELECT the Municipality",
                 "Campbell",
                 "Cupertino",
                 "Gilroy",

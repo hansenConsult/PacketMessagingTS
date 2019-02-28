@@ -15,6 +15,7 @@ using PacketMessagingTS.Models;
 
 using MetroLog;
 using SharedCode;
+using SharedCode.Models;
 using PacketMessagingTS.Controls;
 
 namespace PacketMessagingTS.Views

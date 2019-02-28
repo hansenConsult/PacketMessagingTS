@@ -36,7 +36,7 @@ namespace PacketMessagingTS.Views
         public MainViewModel _mainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
         //private readonly object _lock = new object();
-        PivotItem _currentPivotItem;
+        //PivotItem _currentPivotItem;
 
         //List<string> _bulletinList;
         List<PacketMessage> _messagesInFolder;
@@ -112,7 +112,7 @@ namespace PacketMessagingTS.Views
 
         private async Task RefreshDataGridAsync()
         {
-            _messagesInFolder = await PacketMessage.GetPacketMessages(_currentPivotItem.Tag as StorageFolder);
+            _messagesInFolder = await PacketMessage.GetPacketMessages(_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
 
             _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
@@ -145,8 +145,8 @@ namespace PacketMessagingTS.Views
             //{
             //    SortColumn(sortColumn);
             //}
-            DataGrid dataGrid = FindDataGrid(_currentPivotItem);
-            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortColumnNumber;
+            DataGrid dataGrid = FindDataGrid(_mainViewModel.MainPagePivotSelectedItem);
+            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_mainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
             if (sortColumnNumber < 0)
                 return;
 
@@ -158,7 +158,8 @@ namespace PacketMessagingTS.Views
         {
             _selectedMessages.Clear();
 
-            _currentPivotItem = (PivotItem)e.AddedItems[0];
+            //_currentPivotItem = (PivotItem)e.AddedItems[0];
+            _mainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
 
             await RefreshDataGridAsync();
         }
@@ -176,7 +177,7 @@ namespace PacketMessagingTS.Views
             if (packetMessage is null)
                 return;
 
-            StorageFolder folder = _currentPivotItem.Tag as StorageFolder;
+            StorageFolder folder = _mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder;
             bool permanentlyDelete = false;
             if (folder == SharedData.DeletedMessagesFolder)
             {
@@ -231,7 +232,7 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarMainPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
         {
-            StorageFolder folder = _currentPivotItem.Tag as StorageFolder;
+            StorageFolder folder = _mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder;
 
             //if (_mainViewModel.SelectedItems.Count > 1)
             //{
@@ -306,7 +307,7 @@ namespace PacketMessagingTS.Views
 
         private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
         {
-            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortColumnNumber;
+            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_mainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
             if (sortColumnNumber < 0)
             {
                 // There is no default sorting column for this data grid. Select current column.
@@ -322,7 +323,7 @@ namespace PacketMessagingTS.Views
             else
             {
                 // Sorting on a new column. Use that columns SortDirection
-                e.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortDirection;
+                e.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[_mainViewModel.MainPagePivotSelectedItem.Name].SortDirection;
             }
 
             SortColumn(e.Column);
@@ -332,8 +333,8 @@ namespace PacketMessagingTS.Views
             {
                 (sender as DataGrid).Columns[sortColumnNumber].SortDirection = null;
             }
-            DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortColumnNumber = e.Column.DisplayIndex;
-            DataGridSortData.DataGridSortDataDictionary[_currentPivotItem.Name].SortDirection = e.Column.SortDirection;
+            DataGridSortData.DataGridSortDataDictionary[_mainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber = e.Column.DisplayIndex;
+            DataGridSortData.DataGridSortDataDictionary[_mainViewModel.MainPagePivotSelectedItem.Name].SortDirection = e.Column.SortDirection;
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -353,9 +354,8 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                TextBlock grid = e.OriginalSource as TextBlock;
                 PacketMessage pktmsg = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
-                _mainViewModel.OpenMessageFromDoubleClick(pktmsg);
+                _mainViewModel.OpenMessage(pktmsg);
             }
             catch
             {

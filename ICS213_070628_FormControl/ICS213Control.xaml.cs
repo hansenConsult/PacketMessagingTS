@@ -32,7 +32,7 @@ namespace ICS213_070628_FormControl
 
 		public ICS213Control()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			ScanControls(PrintableArea);
 
@@ -43,6 +43,13 @@ namespace ICS213_070628_FormControl
 			otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
+        }
+
+        private string _subject;
+        public override string Subject
+        {
+            get => _subject;
+            set => Set(ref _subject, value);
         }
 
         public override string MsgTime
@@ -76,7 +83,7 @@ namespace ICS213_070628_FormControl
 
         public override string OperatorTime
         {
-            get { return GetTextBoxString(operatorTime); }
+            get => operatorTime.Text;
             set
             {
                 var filteredTime = value.Split(new char[] { ':' });
@@ -141,5 +148,6 @@ namespace ICS213_070628_FormControl
 			sender.ItemsSource = _ICSPositionFiltered;
 			}
 		}
+
     }
 }

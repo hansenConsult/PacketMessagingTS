@@ -70,7 +70,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Situation Severity" Foreground="LightSalmon" Margin="5"/>
+                                        <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Situation Severity" Margin="5"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="severity"
                                                                        CheckedControlName="{x:Bind Mode=TwoWay, Path=Severity}" 
                                                                        Tag="-1,required,Indicate Situation Severity."/>
@@ -86,7 +86,7 @@
                                 </Border>
                                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Msg. Handling Order" Foreground="LightSalmon" Margin=" 5"/>
+                                        <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Msg. Handling Order" Margin=" 5"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                        CheckedControlName="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                                        Tag="-1,required,Indicate Msg. Handling Order."/>
@@ -133,36 +133,40 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Text="Incident Name:" 
-                                       Style="{StaticResource MuniStatusFieldTextRequired}"
+                                       Style="{StaticResource MuniStatusFieldText}"
                                        HorizontalAlignment="Right" VerticalAlignment="Center"  />
                             <TextBox Name="incidentName"  Grid.Column="2" 
                                      Style="{StaticResource MuniStatusTextBox}"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                     Tag="13,required,Enter an incident Name."
                                      TextChanged="Subject_Changed"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Municipality Name:" 
-                                       Style="{StaticResource MuniStatusFieldTextRequired}"
+                                       Style="{StaticResource MuniStatusFieldText}"
                                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,0,0" />
                             <StackPanel Grid.Column="1" Grid.Row="1"  Orientation="Horizontal">
                                 <ComboBox Margin="2" ItemsSource="{x:Bind Path=Municipalities}" 
-                                          SelectedItem="SELECT the Municipality"
+                                          SelectedIndex="-1"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Width="205" 
                                           Tag="14,required,Select a Municipality Name."
-                                  />
+                                          SelectionChanged="ComboBoxRequired_SelectionChanged"/>
                                 <TextBlock Margin="10,0,0,0" 
-                                       Text="Date:"
-                                           Style="{StaticResource MuniStatusFieldTextRequired}"
+                                           Text="Date:"
+                                           Style="{StaticResource MuniStatusFieldText}"
                                            VerticalAlignment="Center" Tag="13,required,Enter the date" HorizontalAlignment="Stretch"/>
                                 <TextBox x:Name="msgDate" 
-                                     Text="{x:Bind MsgDate, Mode=TwoWay}" PlaceholderText="mm/dd/yy" 
-                                     Style="{StaticResource MuniStatusTextBox}" 
-                                     Tag="15,required,Enter the date." VerticalContentAlignment="Center" 
-                                         Margin="2,0,2,0" VerticalAlignment="Center" />
+                                         Text="{x:Bind MsgDate, Mode=TwoWay}" PlaceholderText="mm/dd/yy" 
+                                         Style="{StaticResource MuniStatusTextBox}" 
+                                         Tag="15,required,Enter the date." VerticalContentAlignment="Center" 
+                                         Margin="2,0,2,0" VerticalAlignment="Center" 
+                                         TextChanged="TextBoxRequired_TextChanged"/>
                                 <TextBlock Margin="10,0,0,0" Text="Time (24hr):" 
-                                           Style="{StaticResource MuniStatusFieldTextRequired}"
+                                           Style="{StaticResource MuniStatusFieldText}"
                                            VerticalAlignment="Center" />
                                 <TextBox x:Name="msgTime"  HorizontalAlignment="Stretch" 
+                                         Text="{x:Bind MsgTime, Mode=TwoWay}" PlaceholderText="hh:mm" 
                                          VerticalAlignment="Stretch"
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="16,required,Enter the time."/>
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="16,required,Enter the time."
+                                         TextChanged="TextBoxRequired_TextChanged"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -251,31 +255,31 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Capacity:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="0" 
+                            <TextBox x:Name="capacity" Grid.Column="1" 
                                      Style="{StaticResource MuniStatusTextBox}"
-                                     Width="56" HorizontalAlignment="Left" Tag="26"
-                                     TextChanged="capacity_TextChanged"/>
+                                     Width="73" HorizontalAlignment="Left" Tag="26"
+                                     TextChanged="capacity_TextChanged" Margin="2,0,0,0" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Occupancy:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                                <TextBox x:Name="occupancy" Width="56" HorizontalAlignment="Left" 
+                                <TextBox x:Name="occupancy" Width="73" HorizontalAlignment="Left" 
                                          Style="{StaticResource MuniStatusTextBox}" Tag="27"
-                                         TextChanged="capacity_TextChanged"/>
+                                         TextChanged="capacity_TextChanged" Margin="2,0,0,0" VerticalAlignment="Center"/>
                                 <TextBlock Text="       Availability" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                <TextBox x:Name="availablity" Width="56" HorizontalAlignment="Left" 
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="28"/>
+                                <TextBox x:Name="availablity" Width="66" HorizontalAlignment="Left" 
+                                         Style="{StaticResource MuniStatusTextBox}" Tag="28" Margin="2,0,0,0" VerticalAlignment="Center"/>
                                 <TextBlock Margin="5,0,0,0" Text="(Automatically computed)" VerticalAlignment="Center" />
                             </StackPanel>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Meals Served (last 24 hours):" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" Grid.Row="3" 
                                      Style="{StaticResource MuniStatusTextBox}"
-                                     Width="56" HorizontalAlignment="Left" Tag="29"/>
+                                     Width="73" HorizontalAlignment="Left" Tag="29" Margin="2,0,0,0" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="NSS Number:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" Grid.Row="4" 
                                      Style="{StaticResource MuniStatusTextBox}"
-                                     Width="56" HorizontalAlignment="Left" Tag="30"/>
+                                     Width="73" HorizontalAlignment="Left" Tag="30" Margin="2,0,0,0" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="Pet Friendly:" 
                                        HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             <CheckBox Grid.Column="1" Grid.Row="5" Margin="2,0,0,0" Tag="31"/>
