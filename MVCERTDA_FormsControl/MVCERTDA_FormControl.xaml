@@ -19,8 +19,12 @@
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <DataTemplate x:Name="ToFromHeaderTemplate">
+                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" Margin="-5,0,0,0"/>
+            </DataTemplate>
+
             <DataTemplate x:Name="smallHeaderTemplate">
-                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Yimes new Roman" FontWeight="Bold" Foreground="Black" Margin="2,0,0,0"/>
+                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
 
         </ResourceDictionary>
@@ -178,20 +182,34 @@
                             <StackPanel Grid.Column="1" >
                                 <Border BorderBrush="Black" BorderThickness="0,1">
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="7.) ICS Position:" Foreground="LightSalmon" />
-                                        <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,0"
+                                        <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="7.) ICS Position:"  />-->
+                                        <!--<AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"
                                                         ItemsSource="{x:Bind ICSPosition}"
                                                         PlaceholderText="Select ICS Position"
                                                         TextChanged="textBoxFromICSPosition_TextChanged"
                                                         SuggestionChosen="textBoxFromICSPosition_SuggestionChosen"
-                                                        Tag="20,required,Enter a To Position." VerticalAlignment="Top"/>
-                                        <ComboBox Visibility="Collapsed" Tag="21" />
+                                                        Tag="20,required,Enter a To Position." VerticalAlignment="Top"/>-->
+                                        <TextBox  x:Name="textBoxToICSPosition" Visibility="Collapsed" Tag="20" />
+                                        <ComboBox x:Name="comboBoxToICSPosition" Margin="10,0,10,0" 	
+                                                  ItemsSource="{x:Bind ICSPosition}"
+                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                  Header="7.) ICS Position:"
+                                                  PlaceholderText="Choose one or type a position"
+												  HorizontalAlignment="Stretch" IsEditable="True"
+												  BorderThickness="2" 
+                                                  Tag="21,required,Enter a From position."  
+                                                  SelectionChanged="ICSPosition_SelectionChanged" VerticalAlignment="Top"
+                                                  />
+
+                                        <!--<ComboBox Visibility="Collapsed" Tag="21" />-->
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />
+                                        <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />-->
                                         <TextBox x:Name="toLocation"  BorderBrush="White" Margin="10,0,10,2" 
+                                                 HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                 Header="9a.) Location:"
                                                  Text="{x:Bind ToLocation, Mode=TwoWay}"
                                                  TextChanged="TextBoxRequired_TextChanged"
                                                  Tag="25,required,Enter a To Location."/>
@@ -199,14 +217,19 @@
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />
-                                        <TextBox x:Name="toName"  BorderBrush="White" Margin="10,0,10,2" Tag="27"/>
+                                        <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
+                                        <TextBox x:Name="toName"  BorderBrush="White" Margin="10,0,10,2" 
+                                                 HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                 Header="Name:"
+                                                 Tag="27"/>
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1" Margin="0, 0">
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Telephone number:" />
+                                        <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Telephone number:" />-->
                                         <TextBox x:Name="toTelephone" PlaceholderText="(123) 456-7890" 
+                                                 HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                 Header="Telephone number:"
                                                  InputScope="TelephoneNumber" BorderBrush="White" Margin="10,0,10,2" Tag="29"
                                                  TextChanged="PhoneNumber_TextChanged"/>
                                     </StackPanel>
@@ -217,59 +240,61 @@
                             <StackPanel Grid.Column="3" >
                                 <Border BorderBrush="Black" BorderThickness="0,1">
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Text="8.) ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
-                                        <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,0"
+                                        <TextBox  x:Name="textBoxFromICSPosition" Visibility="Collapsed" Tag="23" />
+                                        <ComboBox x:Name="comboBoxFromICSPosition" Margin="10,0,10,2" 	
+                                                  ItemsSource="{x:Bind ICSPosition}"
+                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                  Header="8.) ICS Position:"
+                                                  PlaceholderText="Choose one or type a position"
+												  IsEditable="True"
+                                                  Tag="24,required,Enter a From position."  
+                                                  SelectionChanged="ComboBoxRequired_SelectionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                  />
+
+                                        <!--<AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
                                                         BorderBrush="Green"
                                                         ItemsSource="{x:Bind ICSPosition}"
                                                         PlaceholderText="Select ICS Position"
                                                         TextChanged="textBoxFromICSPosition_TextChanged"
                                                         SuggestionChosen="textBoxFromICSPosition_SuggestionChosen"
-                                                        Tag="23,required,Enter a From position." VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
-                                        <ComboBox Visibility="Collapsed" Tag="24" />
+                                                        Tag="23,required,Enter a From position." VerticalAlignment="Top" HorizontalAlignment="Stretch"/>-->
+                                        <!--<ComboBox Visibility="Collapsed" Tag="24" />-->
                                     </StackPanel>
-                                    <!--<StackPanel >
-										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
-										<RelativePanel x:Name="fromICSPos" >
-											<Button x:Name="buttonSelectFromICSPosInput" RelativePanel.AlignVerticalCenterWithPanel="True" Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2" />
-											<TextBox x:Name="textBoxFromICSPosition" Style="{StaticResource TypedText}" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True"	 
-												BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
-                                                Tag="required,Enter a From position."/>
-											-->
-                                    <!--<ComboBox x:Name="comboBoxFromICSPosition" Margin="9.667,0,10,2" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Stretch"
-												BorderBrush="White" BorderThickness="2" Tag="required,Enter a From position." PlaceholderText="Select ICS Position" >
-											</ComboBox>-->
                                     <!--
 										</RelativePanel>
 									</StackPanel>-->
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />
+                                        <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />-->
                                         <ComboBox x:Name="comboBoxFromLocation"
                                                   ItemsSource="{x:Bind CERTLocationTacticalCalls, Mode=OneWay}" 
+                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                  Header="9b.) Location:"
                                                   DisplayMemberPath="AgencyName"
                                                   SelectedValuePath = "TacticalCallsign"
                                                   SelectedValue="{x:Bind CERTLocationValue, Mode=TwoWay}"
                                                   Margin="10,0,10,2" IsEditable="True"
                                                   Tag="28,required,Enter a CERT Location." 
                                                   HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                                                  SelectionChanged="ComboBoxRequired_SelectionChanged"/>
+                                                  SelectionChanged="ComboBoxFromLocation_SelectionChanged"/>
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />
-                                        <TextBox x:Name="fromName"  BorderBrush="White" Margin="10,0,10,2" Tag="28"/>
+                                        <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
+                                        <TextBox x:Name="fromName"  BorderBrush="White" Margin="10,0,10,2" 
+                                                 HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                 Header="Name:"
+                                                 Tag="28"/>
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1" Margin="0, 0">
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Telephone number:" />
+                                        <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Telephone number:" />-->
                                         <TextBox x:Name="fromTelephone" PlaceholderText="(123) 456-7890" 
+                                                 HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                 Header="Telephone number:"
                                                  InputScope="TelephoneNumber" Margin="10,0,10,2" Tag="30" BorderBrush="White"
                                                  TextChanged="PhoneNumber_TextChanged"/>
                                     </StackPanel>

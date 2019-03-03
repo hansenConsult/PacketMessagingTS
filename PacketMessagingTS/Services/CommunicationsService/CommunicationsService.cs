@@ -327,10 +327,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					{
 						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
 					}
-					//if (pktMsg.ReceivedTime != null)   ???? duplicate
-					//{
-					//	DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
-					//}
 					pktMsg.CreateFileName();
 
                     _logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} received");

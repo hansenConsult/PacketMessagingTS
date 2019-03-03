@@ -153,10 +153,11 @@
                                         <ColumnDefinition Width="0.2*"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" >
-                                        <TextBlock Text="Municipality Name/Unincorporated:" Style="{StaticResource MuniStatusFieldText}" />
+                                        <TextBlock Text="Municipality Name/Unincorporated:" 
+                                                   Style="{StaticResource MuniStatusFieldText}" />
                                         <ComboBox Name="municipalityName" Width="205"  
                                                   ItemsSource="{x:Bind Municipalities}"
-                                                  Style="{StaticResource MuniStatusComboBox}" SelectedIndex="-1" 
+                                                  Style="{StaticResource MuniStatusComboBox}"
                                                   SelectionChanged="Subject_Changed" 
                                                   Tag="14,required,Select a Municipality Name." />
                                     </StackPanel>
@@ -385,63 +386,94 @@
                             <TextBox Grid.Column="2" Grid.Row="2" Name="commentsCommunications" 
                                      Style="{StaticResource MuniStatusCommentsText}" 
                                      Tag="37,conditionallyrequired,Enter a Comment for Communications" Margin="10,2,2,2" 
-                                     TextChanged="Comments_TextChanged"/>
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Debris" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="3" Name="comboBoxDebris" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}"
-                                      Tag="38"/>
-                            <TextBox Grid.Column="2" Grid.Row="3" Name="commentsDebris" Style="{StaticResource MuniStatusCommentsText}" Tag="39,conditionallyrequired,Enter a Comment for Debris"/>
+                                      Tag="38"
+                                      SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="3" Name="commentsDebris" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="39,conditionallyrequired,Enter a Comment for Debris"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Flooding" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="4" Name="comboBoxFlooding" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="40"/>
-                            <TextBox Grid.Column="2" Grid.Row="4" Name="commentsFlooding" Style="{StaticResource MuniStatusCommentsText}" Tag="41,conditionallyrequired,Enter a Comment for Flooding"/>
+                                      Tag="40"
+                                      SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="4" Name="commentsFlooding" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="41,conditionallyrequired,Enter a Comment for Flooding"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="Hazmat" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="5" Name="comboBoxHazmat" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="42"/>
-                            <TextBox Grid.Column="2" Grid.Row="5" Name="commentsHazmat" Style="{StaticResource MuniStatusCommentsText}" Tag="43,conditionallyrequired,Enter a Comment for Hazmat"/>
+                                      Tag="42"
+                                      SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="5" Name="commentsHazmat" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="43,conditionallyrequired,Enter a Comment for Hazmat"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Emergency Services" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="6"  Name="comboBoxEmergencyServices" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="44"/>
-                            <TextBox Grid.Column="2" Grid.Row="6" Name="commentsEmergencyServices" Style="{StaticResource MuniStatusCommentsText}" Tag="45,conditionallyrequired,Enter a Comment for Emergency Services"/>
+                                      Tag="44"
+                                      SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="6" Name="commentsEmergencyServices" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="45,conditionallyrequired,Enter a Comment for Emergency Services"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Casualties" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="7" Name="comboBoxCasualties" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="46" />
-                            <TextBox Grid.Column="2" Grid.Row="7" Name="commentsCasualties" Style="{StaticResource MuniStatusCommentsText}" Tag="47,conditionallyrequired,Enter a Comment for Casualities"/>
+                                      Tag="46" 
+                                      SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="7" Name="commentsCasualties" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="47,conditionallyrequired,Enter a Comment for Casualities"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="Utilities (Gas)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="8" Name="comboBoxUtilitiesGas" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="48" />
-                            <TextBox Grid.Column="2" Grid.Row="8" Name="commentsUtilitiesGas" AcceptsReturn="True" Style="{StaticResource MuniStatusCommentsText}" Tag="49,conditionallyrequired,Enter a Comment for Utilities (Gss)"/>
+                                      Tag="48" 
+                                      SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="8" Name="commentsUtilitiesGas" AcceptsReturn="True" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="49,conditionallyrequired,Enter a Comment for Utilities (Gss)"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="Utilities (Electric)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="9" Name="comboBoxUtilitiesElectric" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="50"/>
-                            <TextBox Grid.Column="2" Grid.Row="9" Name="commentsUtilitiesElectric" Style="{StaticResource MuniStatusCommentsText}" Tag="51,conditionallyrequired,Enter a Comment for Utilities (Electric)"/>
+                                      Tag="50"
+                                      SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="9" Name="commentsUtilitiesElectric" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="51,conditionallyrequired,Enter a Comment for Utilities (Electric)"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="Infrastructure (Power)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="10" Name="comboBoxInfrastructurePower" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="52"/>
-                            <TextBox Grid.Column="2" Grid.Row="10" Name="commentsInfrastructurePower" Style="{StaticResource MuniStatusCommentsText}" Tag="53,conditionallyrequired,Enter a Comment for Infrastructure (Power)"/>
+                                      Tag="52" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="10" Name="commentsInfrastructurePower" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="53,conditionallyrequired,Enter a Comment for Infrastructure (Power)"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <StackPanel Grid.Column="0" Grid.Row="11">
                                 <TextBlock Text="Infrastructure" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBlock Text="(Water Systems)" Style="{StaticResource MuniStatusFieldText}"/>
@@ -450,8 +482,11 @@
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="54"/>
-                            <TextBox Grid.Column="2" Grid.Row="11" Name="commentsInfrastructureWater" Style="{StaticResource MuniStatusCommentsText}" Tag="55,conditionallyrequired,Enter a Comment for Infrastructure (Water Systems)"/>
+                                      Tag="54" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="11" Name="commentsInfrastructureWater" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="55,conditionallyrequired,Enter a Comment for Infrastructure (Water Systems)"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <StackPanel Grid.Column="0" Grid.Row="12">
                                 <TextBlock Text="Infrastructure" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBlock Text="(Sewer Systems)" Style="{StaticResource MuniStatusFieldText}"/>
@@ -460,43 +495,61 @@
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="56"/>
-                            <TextBox Grid.Column="2" Grid.Row="12" Name="commentsInfrastructureSewer" Style="{StaticResource MuniStatusCommentsText}" Tag="57,conditionallyrequired,Enter a Comment for Infrastructure (Sewer Systems)"/>
+                                      Tag="56" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="12" Name="commentsInfrastructureSewer" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="57,conditionallyrequired,Enter a Comment for Infrastructure (Sewer Systems)"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="13" Text="Search and Rescue" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="13" Name="comboBoxSearchAndRescue" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="58"/>
-                            <TextBox Grid.Column="2" Grid.Row="13" Name="commentsSearchAndRescue" Style="{StaticResource MuniStatusCommentsText}" Tag="59,conditionallyrequired,Enter a Comment for Search and Rescue"/>
+                                      Tag="58" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="13" Name="commentsSearchAndRescue" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="59,conditionallyrequired,Enter a Comment for Search and Rescue"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="14" Text="Transportations (Roads)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="14" Name="comboBoxTransportationsRoads" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="60"/>
-                            <TextBox Grid.Column="2" Grid.Row="14" Name="commentsTransportationsRoads" Style="{StaticResource MuniStatusCommentsText}" Tag="61,conditionallyrequired,Enter a Comment for Transportation (Roads)"/>
+                                      Tag="60" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="14" Name="commentsTransportationsRoads" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="61,conditionallyrequired,Enter a Comment for Transportation (Roads)"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="15" Text="Transportations (Bridges)" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="15" Name="comboBoxTransportationsBridges" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="62"/>
-                            <TextBox Grid.Column="2" Grid.Row="15" Name="commentsTransportationsBridges" Style="{StaticResource MuniStatusCommentsText}" Tag="63,conditionallyrequired.Enter a Comment for Transportation (Bridges)"/>
+                                      Tag="62" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="15" Name="commentsTransportationsBridges" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="63,conditionallyrequired.Enter a Comment for Transportation (Bridges)"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="16" Text="Civil Unrest" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="16" Name="comboBoxCivilUnrest" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="64"/>
-                            <TextBox Grid.Column="2" Grid.Row="16" Name="commentsCivilUnrest" Style="{StaticResource MuniStatusCommentsText}" Tag="65,conditionallyrequired,Enter a Comment for Civil Unrest"/>
+                                      Tag="64" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="16" Name="commentsCivilUnrest" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="65,conditionallyrequired,Enter a Comment for Civil Unrest"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="17" Text="Animal Issues" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="17" Name="comboBoxAnimalIssues" 
                                       ItemsSource="{x:Bind CurrentSituation}"
                                       SelectedItem="Unknown"
                                       Style="{StaticResource MuniStatusComboBox}" 
-                                      Tag="66"/>
-                            <TextBox Grid.Column="2" Grid.Row="17" Name="commentsAnimalIssues" Style="{StaticResource MuniStatusCommentsText}" Tag="67,conditionallyrequired.Enter a Comment for Animal Issues"/>
+                                      Tag="66" SelectionChanged="Status_SelectionChanged"/>
+                            <TextBox Grid.Column="2" Grid.Row="17" Name="commentsAnimalIssues" 
+                                     Style="{StaticResource MuniStatusCommentsText}" 
+                                     Tag="67,conditionallyrequired.Enter a Comment for Animal Issues"
+                                     TextChanged="TextBoxRequired_TextChanged"/>
                         </Grid>
                     </Border>
                     <Grid >

@@ -1050,6 +1050,7 @@ namespace PacketMessagingTS.Views
             {
                 textBoxTestFileName.Text = textBoxTestFileName.Text.Substring(0, index) + ".txt";
             }
+            textBoxTestFileName.Text = textBoxTestFileName.Text.Replace('/', '_');
             StorageFile file = await SharedData.TestFilesFolder.CreateFileAsync(textBoxTestFileName.Text, CreationCollisionOption.ReplaceExisting);
             if (file != null)
             {

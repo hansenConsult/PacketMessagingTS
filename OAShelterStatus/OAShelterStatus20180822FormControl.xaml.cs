@@ -102,8 +102,8 @@ namespace OAShelterStatusFormControl
 
         public override string PacFormType => "OA Shelter Status";
 
-        public string IncidentName
-        { get => incidentName.Text; }
+        //public string IncidentName
+        //{ get => incidentName.Text; }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {

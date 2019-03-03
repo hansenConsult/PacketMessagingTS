@@ -54,16 +54,20 @@ namespace MVCERTDA_FormsControl
 
             ScanControls(PrintableArea);
 
-            InitializeControls();
+            InitializeToggleButtonGroups();
 
             CERTLocationTacticalCalls = TacticalCallsigns.CreateMountainViewCERTList();
 
-            //Severity = "other";
-            other.IsChecked = true;
-            //HandlingOrder = "priority";
-            priority.IsChecked = true;
-            autoSuggestBoxToICSPosition.Text = "Planning";
-            autoSuggestBoxFromICSPosition.Text = "Planning";
+            Severity = "other";
+            //other.IsChecked = true;
+            HandlingOrder = "priority";
+            //priority.IsChecked = true;
+            actionNo.IsChecked = true;
+            replyNo.IsChecked = true;
+            forInfo.IsChecked = true;
+            //autoSuggestBoxToICSPosition.Text = "Planning";
+            comboBoxToICSPosition.SelectedItem = "Planning";
+            comboBoxFromICSPosition.SelectedItem = "Planning";
             ToLocation = "Mountain View EOC";
             subjectText = "Damage Summary for ";
             ReceivedOrSent = "sent";
@@ -196,40 +200,33 @@ namespace MVCERTDA_FormsControl
             messageField.ControlContent = message;
         }
 
-        private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            // Set sender.Text. You can use args.SelectedItem to build your text string.
-            sender.Text = args.SelectedItem as string;
-        }
+        //private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        //{
+        //    // Set sender.Text. You can use args.SelectedItem to build your text string.
+        //    sender.Text = args.SelectedItem as string;
+        //}
 
-        private void textBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            // Only get results when it was a user typing, 
-            // otherwise assume the value got filled in by TextMemberPath 
-            // or the handler for SuggestionChosen.
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                //Set the ItemsSource to be your filtered dataset
-                //sender.ItemsSource = null;
-                _ICSPositionFiltered = new List<string>();
-                foreach (string s in ICSPosition)
-                {
-                    string lowerS = s.ToLower();
-                    if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
-                    {
-                        _ICSPositionFiltered.Add(s);
-                    }
-                }
-                sender.ItemsSource = _ICSPositionFiltered;
-            }
-        }
-
-        protected override void ComboBoxRequired_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            subject.Text = subjectText + e.AddedItems[0].ToString();
-
-            base.ComboBoxRequired_SelectionChanged(sender, e);
-        }
+        //private void textBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        //{
+        //    // Only get results when it was a user typing, 
+        //    // otherwise assume the value got filled in by TextMemberPath 
+        //    // or the handler for SuggestionChosen.
+        //    if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        //    {
+        //        //Set the ItemsSource to be your filtered dataset
+        //        //sender.ItemsSource = null;
+        //        _ICSPositionFiltered = new List<string>();
+        //        foreach (string s in ICSPosition)
+        //        {
+        //            string lowerS = s.ToLower();
+        //            if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
+        //            {
+        //                _ICSPositionFiltered.Add(s);
+        //            }
+        //        }
+        //        sender.ItemsSource = _ICSPositionFiltered;
+        //    }
+        //}
 
         private void DamageAccessmentRequired_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -238,5 +235,24 @@ namespace MVCERTDA_FormsControl
              //TextBoxRequired_TextChanged(message, null);
         }
 
+        private void ComboBoxFromLocation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            subject.Text = subjectText + e.AddedItems[0].ToString();
+
+            ComboBoxRequired_SelectionChanged(sender, e);
+        }
+
+        private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).Name == "comboBoxToICSPosition")
+            {
+                textBoxToICSPosition.Text = comboBoxToICSPosition.Text;
+            }
+            else if ((sender as ComboBox).Name == "comboBoxFromICSPosition")
+            {
+                textBoxFromICSPosition.Text = comboBoxFromICSPosition.Text;
+            }
+            ComboBoxRequired_SelectionChanged(sender, e);
+        }
     }
 }

@@ -187,7 +187,18 @@ namespace FormControlBaseClass
             }
         }
 
-        public virtual void InitializeForm(bool newForm = false)
+        public void InitializeToggleButtonGroups()
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
+                {
+                    toggleButtonGroup.Initialize(_radioButtonsList, formControl.InputControl.Name);
+                }
+            }
+        }
+
+        public virtual void InitializeFormRequiredColors(bool newForm = false)
         {
             foreach (FormControl formControl in _formControlsList)
             {
@@ -214,11 +225,10 @@ namespace FormControlBaseClass
                     {
                         control.BorderBrush = formControl.BaseBorderColor;
                     }
-
-                    //control.BorderBrush = formControl.BaseBorderColor;
                 }
                 else if (control is ComboBox comboBox)
                 {
+                    string name = comboBox.Name;
                     if (IsFieldRequired(control) && newForm)
                     {
                         control.BorderBrush = formControl.RequiredBorderBrush;
@@ -240,10 +250,6 @@ namespace FormControlBaseClass
                         toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
                     }
 
-                }
-                else if (control is CheckBox checkBox)
-                {
-                    checkBox.IsChecked = false;
                 }
             }
         }
@@ -368,6 +374,15 @@ namespace FormControlBaseClass
             outpostData.Add("#EOF");
         }
 
+        protected virtual string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
+        {
+            string comboBoxData = GetOutpostValue(id, ref msgLines);
+            var comboBoxDataSet = comboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
+            //formField.ControlContent = comboBoxDataSet[0];
+
+            return comboBoxDataSet[0];
+        }
+
         public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
@@ -395,9 +410,11 @@ namespace FormControlBaseClass
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    string conboBoxData = GetOutpostValue(id, ref msgLines);
-                    var comboBoxDataSet = conboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-                    formField.ControlContent = comboBoxDataSet[0];
+                    formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
+
+                    //string conboBoxData = GetOutpostValue(id, ref msgLines);
+                    //var comboBoxDataSet = conboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
+                    //formField.ControlContent = comboBoxDataSet[0];
                 }
                 else if (control is TextBox || control is AutoSuggestBox)
                 {
@@ -435,7 +452,7 @@ namespace FormControlBaseClass
                 if (!string.IsNullOrEmpty(tag))
                 {
                     string[] tags = tag.Split(new char[] { ',' });
-                    if (int.TryParse(tags[0], out int idint))   // Is tag an integer?
+                    if (!tags[0].Contains("required"))   // Is tag an integer? Not necessarily the case anymore
                     {
                         return (tags[0], control);
                     }
@@ -455,7 +472,7 @@ namespace FormControlBaseClass
                 if (!string.IsNullOrEmpty(tag))
                 {
                     string[] tags = tag.Split(new char[] { ',' });
-                    if (int.TryParse(tags[0], out int idint))
+                    if (!tags[0].Contains("required"))
                     {
                         return tags[0];
                     }
@@ -477,7 +494,7 @@ namespace FormControlBaseClass
                 return "";
 
             string[] tags = tag.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (tags.Length == 2 && tags[0] == "required")
+            if (tags.Length == 2 && tags[0].Contains("required"))
             {
                 return tags[1];
             }
@@ -522,6 +539,30 @@ namespace FormControlBaseClass
             else
             {
                 return phoneNumber;
+            }
+        }
+
+        protected virtual string CreateComboBoxOutpostDataString(FormField formField, string id)
+        {
+            string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (data.Length == 2)
+            {
+                if (data[1] == (-1).ToString())
+                {
+                    return $"{id}: [ }}0]";
+                }
+                else
+                {
+                    return $"{id}: [{data[0]}}}{data[1]}]";
+                }
+            }
+            else if (data[0] == "-1")
+            {
+                return $"{id}: [ }}0]";
+            }
+            else
+            {
+                return "";
             }
         }
 
@@ -570,19 +611,7 @@ namespace FormControlBaseClass
             }
             else if (control is ComboBox comboBox)
             {
-                var data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if (data.Length == 2)
-                {
-                    return $"{id}: [{data[0]}}}{data[1]}]";
-                }
-                else if (data[0] == "-1")
-                {
-                    return $"{id}: [ }}0]";
-                }
-                else
-                {
-                    return "";
-                }
+                return CreateComboBoxOutpostDataString(formField, id);
             }
             return "";
         }
@@ -738,7 +767,19 @@ namespace FormControlBaseClass
 				else if (control is ComboBox comboBox)
 				{
                     var data = formField.ControlContent.Split(new char[] { ',' });
-                    comboBox.SelectedItem = data[0];
+                    int index = Convert.ToInt32(data[1]);
+                    if (index < 0 && comboBox.IsEditable)
+                    {
+                        comboBox.Text = data[0];
+                        //comboBox.SelectedIndex = index;
+                        //bool result = comboBox.Focus(FocusState.Programmatic);
+                        //comboBox.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        //comboBox.SelectedItem = data[0];
+                        comboBox.SelectedIndex = index;
+                    }
                 }
 				else if (control is ToggleButtonGroup toggleButtonGroup)
 				{
@@ -843,6 +884,11 @@ namespace FormControlBaseClass
 
         protected void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (!IsFieldRequired(sender as TextBox))
+            {
+                return;
+            }
+
             foreach (FormControl formControl in _formControlsList)
             {
                 if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
@@ -854,12 +900,7 @@ namespace FormControlBaseClass
                     else
                     {
                         textBox.BorderBrush = formControl.BaseBorderColor;
-                        //InputScope inputScope = textBox.InputScope;
                     }
-                    //if (textBox.InputScope == InputScopeNameValue.TelephoneNumber)
-                    //{
-                    //    PhoneNumber_TextChanged(sender, e);
-                    //}
                     break;
                 }
            }
@@ -871,7 +912,7 @@ namespace FormControlBaseClass
             {
                 if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
                 {
-                    if (comboBox.SelectedIndex < 0)
+                    if (comboBox.SelectedIndex < 0 && string.IsNullOrEmpty(comboBox.Text))
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                     }
@@ -879,10 +920,8 @@ namespace FormControlBaseClass
                     {
                         comboBox.BorderBrush = formControl.BaseBorderColor;
                     }
-//                    comboBox.BorderBrush = formControl.BaseBorderColor;
                     break;
                 }
-
             }
         }
 
@@ -895,7 +934,6 @@ namespace FormControlBaseClass
                     if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
                     {
                         toggleButtonGroup.CheckedControlName = radioButton.Name;
-                        //string checkedName = toggleButtonGroup.GetRadioButtonCheckedState();
                         if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;

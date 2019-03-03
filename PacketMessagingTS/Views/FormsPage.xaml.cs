@@ -436,7 +436,7 @@ namespace PacketMessagingTS.Views
                 return;
             }
 
-            _packetForm.InitializeForm(true);
+            _packetForm.InitializeFormRequiredColors(true);
             _packetMessage = new PacketMessage();
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
@@ -511,7 +511,7 @@ namespace PacketMessagingTS.Views
                 return;
             }
 
-            _packetForm.InitializeForm(!_loadMessage);
+            _packetForm.InitializeFormRequiredColors(!_loadMessage);
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;

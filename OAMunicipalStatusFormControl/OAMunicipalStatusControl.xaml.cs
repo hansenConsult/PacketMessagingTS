@@ -1,7 +1,9 @@
 ﻿using FormControlBaseClass;
 using SharedCode;
 using System.Collections.Generic;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -71,22 +73,19 @@ namespace OAMunicipalStatusFormControl
 
         public OAMunicipalStatusControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             ScanControls(PrintableArea);
 
-            InitializeControls();
+            InitializeToggleButtonGroups();
 
             sent.IsChecked = true; ;
             packet.IsChecked = true;
-
         }
 
-		//public string IncidentName
-  //      { get => incidentName.Text; }
-
         public string MunicipalityName
-        { get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
+        //{ get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
+        { get => municipalityName.SelectedItem as string; }
 
         public override string PacFormName => "XSC_OA_MuniStatus_v20130101";
 
@@ -121,93 +120,93 @@ namespace OAMunicipalStatusFormControl
 
             foreach (FormControl formControl in FormControlsList)
             {
-                bool validationState;
+                bool notUpdated;
                 Control control = formControl.InputControl;
                 switch (control.Name)
                 {
                     case "municipalityName":
-                        validationState = (control as ComboBox).SelectedIndex == 0;
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = (control as ComboBox).SelectedIndex == -1;
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "eocOpen":
-                        validationState = (control as ComboBox).SelectedIndex == 0;
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = (control as ComboBox).SelectedIndex == -1;
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "activationLevel":
-                        validationState = control.IsEnabled && (control as ComboBox).SelectedIndex == 0;
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = control.IsEnabled && (control as ComboBox).SelectedIndex == 0;
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "stateOfEmergency":
-                        validationState = (control as ComboBox).SelectedIndex == 0;
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = (control as ComboBox).SelectedIndex == -1;
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "howSent":
-                        validationState = stateOfEmergency.SelectedIndex == 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = stateOfEmergency.SelectedIndex == 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsCommunications":
-                        validationState = comboBoxCommunications.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxCommunications.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsDebris":
-                        validationState = comboBoxDebris.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxDebris.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsFlooding":
-                        validationState = comboBoxFlooding.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxFlooding.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsHazmat":
-                        validationState = comboBoxHazmat.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxHazmat.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsEmergencyServices":
-                        validationState = comboBoxEmergencyServices.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxEmergencyServices.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsCasualties":
-                        validationState = comboBoxCasualties.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxCasualties.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsUtilitiesGas":
-                        validationState = comboBoxUtilitiesGas.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxUtilitiesGas.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsUtilitiesElectric":
-                        validationState = comboBoxUtilitiesElectric.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxUtilitiesElectric.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsInfrastructurePower":
-                        validationState = comboBoxInfrastructurePower.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxInfrastructurePower.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsInfrastructureWater":
-                        validationState = comboBoxInfrastructureWater.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxInfrastructureWater.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsInfrastructureSewer":
-                        validationState = comboBoxInfrastructureSewer.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxInfrastructureSewer.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsSearchAndRescue":
-                        validationState = comboBoxSearchAndRescue.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxSearchAndRescue.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsTransportationsRoads":
-                        validationState = comboBoxTransportationsRoads.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxTransportationsRoads.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsTransportationsBridges":
-                        validationState = comboBoxTransportationsBridges.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxTransportationsBridges.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsCivilUnrest":
-                        validationState = comboBoxCivilUnrest.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxCivilUnrest.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsAnimalIssues":
-                        validationState = comboBoxAnimalIssues.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, validationState);
+                        notUpdated = comboBoxAnimalIssues.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                 }
             }
@@ -279,30 +278,80 @@ namespace OAMunicipalStatusFormControl
             }
         }
 
-        private void Status_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void UpdateCommentsTag(ComboBox comboBox, TextBox textBox)
         {
-            if ((sender as ComboBox).SelectedIndex > 1)
+            if (comboBox.SelectedIndex > 1)
             {
-                commentsCommunications.Tag = (commentsCommunications.Tag as string).Replace("conditionallyrequired", "required");
+                textBox.Tag = (textBox.Tag as string).Replace("conditionallyrequired", "required");
                 ValidateForm();
             }
             else
             {
-                commentsCommunications.Tag = (commentsCommunications.Tag as string).Replace(",required", ",conditionallyrequired");
+                textBox.Tag = (textBox.Tag as string).Replace(",required", ",conditionallyrequired");
                 ValidateForm();
             }
         }
 
-        private void Comments_TextChanged(object sender, TextChangedEventArgs e)
+        private void Status_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            switch ((sender as ComboBox).Name)
+            {
+                case "comboBoxCommunications":
+                    UpdateCommentsTag(sender as ComboBox, commentsCommunications);
+                    break;
+                case "comboBoxDebris":
+                    UpdateCommentsTag(sender as ComboBox, commentsDebris);
+                    break;
+                case "comboBoxFlooding":
+                    UpdateCommentsTag(sender as ComboBox, commentsFlooding);
+                    break;
+                case "comboBoxHazmat":
+                    UpdateCommentsTag(sender as ComboBox, commentsHazmat);
+                    break;
+                case "comboBoxEmergencyServices":
+                    UpdateCommentsTag(sender as ComboBox, commentsEmergencyServices);
+                    break;
+                case "comboBoxCasualties":
+                    UpdateCommentsTag(sender as ComboBox, commentsCasualties);
+                    break;
+                case "comboBoxUtilitiesGas":
+                    UpdateCommentsTag(sender as ComboBox, commentsUtilitiesGas);
+                    break;
+                case "comboBoxUtilitiesElectric":
+                    UpdateCommentsTag(sender as ComboBox, commentsUtilitiesElectric);
+                    break;
+                case "comboBoxInfrastructurePower":
+                    UpdateCommentsTag(sender as ComboBox, commentsInfrastructurePower);
+                    break;
+                case "comboBoxInfrastructureWater":
+                    UpdateCommentsTag(sender as ComboBox, commentsInfrastructureWater);
+                    break;
+                case "comboBoxInfrastructureSewer":
+                    UpdateCommentsTag(sender as ComboBox, commentsInfrastructureSewer);
+                    break;
+                case "comboBoxSearchAndRescue":
+                    UpdateCommentsTag(sender as ComboBox, commentsSearchAndRescue);
+                    break;
+                case "comboBoxTransportationsRoads":
+                    UpdateCommentsTag(sender as ComboBox, commentsTransportationsRoads);
+                    break;
+                case "comboBoxTransportationsBridges":
+                    UpdateCommentsTag(sender as ComboBox, commentsTransportationsBridges);
+                    break;
+                case "comboBoxCivilUnrest":
+                    UpdateCommentsTag(sender as ComboBox, commentsCivilUnrest);
+                    break;
+                case "comboBoxAnimalIssues":
+                    UpdateCommentsTag(sender as ComboBox, commentsAnimalIssues);
+                    break;
+            }
         }
 
         private void StateOfEmergency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ComboBox).SelectedIndex == 1)
             {
-                howSent.Tag = (howSent.Tag as string).Replace("conditionallyrequired", "required");
+                howSent.Tag = (howSent.Tag as string).Replace(",conditionallyrequired", ",required");
                 ValidateForm();
             }
             else
@@ -312,6 +361,7 @@ namespace OAMunicipalStatusFormControl
             }
             ComboBoxRequired_SelectionChanged(sender, e);
         }
+
     }
 }
 
