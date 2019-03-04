@@ -46,7 +46,7 @@ namespace MVCERTDA_FormsControl
         List<string> _ICSPositionFiltered = new List<string>();
         string subjectText;
 
-        public List<TacticalCall> CERTLocationTacticalCalls { get; }
+        public List<TacticalCall> CERTLocationTacticalCalls { get; }    // Must be sorted by Agency Name
 
         public MVCERTDAControl()
         {
@@ -70,6 +70,7 @@ namespace MVCERTDA_FormsControl
             comboBoxFromICSPosition.SelectedItem = "Planning";
             ToLocation = "Mountain View EOC";
             subjectText = "Damage Summary for ";
+            //Subject = subjectText;
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
@@ -105,11 +106,25 @@ namespace MVCERTDA_FormsControl
             }
         }
 
-        private string _toLocation;
+        private string toICSPosition;
+        public string ToICSPosition
+        {
+            get => toICSPosition;
+            set => Set(ref toICSPosition, value);
+        }
+
+        private string toLocation;
         public string ToLocation
         {
-            get => _toLocation;
-            set => Set(ref _toLocation, value);
+            get => toLocation;
+            set => Set(ref toLocation, value);
+        }
+
+        private string fromLocation;
+        public string FromLocation
+        {
+            get => fromLocation;
+            set => Set(ref fromLocation, value);
         }
         public override string PacFormName => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 
@@ -118,6 +133,38 @@ namespace MVCERTDA_FormsControl
         public override string CreateSubject()
         {
             return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
+        }
+
+        protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
+        {
+            string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (data.Length == 2)
+            {
+                if (data[1] == (-1).ToString())
+                {
+                    return $"{id}: [ }}0]";
+                }
+                else
+                {
+                    if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
+                    {
+                        int index = Convert.ToInt32(data[1]);
+                        return $"{id}: [{data[0]}}}{(index + 1).ToString()}]";
+                    }
+                    else
+                    {
+                        return $"{id}: [{data[0]}}}{data[1]}]";
+                    }
+                }
+            }
+            else if (data[0] == "-1")
+            {
+                return $"{id}: [ }}0]";
+            }
+            else
+            {
+                return "";
+            }
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -136,10 +183,29 @@ namespace MVCERTDA_FormsControl
             return CreateOutpostMessageBody(outpostData);
         }
 
-        //public override void InitializeForm()
-        //{
-        //    toLocation.Text = "Mountain View EOC";
-        //}
+        protected override void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
+        {
+            var data = formField.ControlContent.Split(new char[] { ',' });
+            int index = Convert.ToInt32(data[1]);
+            if (index < 0 && comboBox.IsEditable)
+            {
+                if (comboBox.Name == "comboBoxFromLocation")
+                {
+                    FromLocation = data[0];
+                }
+                else
+                    comboBox.Text = data[0];
+                //comboBox.SelectedIndex = index;
+                //bool result = comboBox.Focus(FocusState.Programmatic);
+                //comboBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //comboBox.SelectedItem = data[0];
+                comboBox.SelectedIndex = index;
+            }
+        }
+
 
         private void CreateDamageAssesmentMessage(ref PacketMessage packetMessage)
         {
@@ -237,8 +303,25 @@ namespace MVCERTDA_FormsControl
 
         private void ComboBoxFromLocation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.AddedItems.Count < 1)
+            {
+                return;
+            }
+
             subject.Text = subjectText + e.AddedItems[0].ToString();
 
+            if ((sender as ComboBox).Name == "comboBoxFromLocation")
+            {
+                if (comboBoxFromLocation.SelectedIndex < 0 && comboBoxFromLocation.IsEditable)
+                {              
+                    textBoxFromLocation.Text = comboBoxFromLocation.Text;
+                    FromLocation = comboBoxFromLocation.Text;
+                }
+                else
+                {
+                    textBoxFromLocation.Text = comboBoxFromLocation.SelectedItem.ToString();
+                }
+            }
             ComboBoxRequired_SelectionChanged(sender, e);
         }
 
@@ -246,13 +329,28 @@ namespace MVCERTDA_FormsControl
         {
             if ((sender as ComboBox).Name == "comboBoxToICSPosition")
             {
-                textBoxToICSPosition.Text = comboBoxToICSPosition.Text;
+                if (comboBoxToICSPosition.SelectedIndex < 0 && comboBoxToICSPosition.IsEditable)
+                {
+                    textBoxToICSPosition.Text = comboBoxToICSPosition.Text;
+                }
+                else
+                {
+                    textBoxToICSPosition.Text = comboBoxToICSPosition.SelectedItem.ToString();
+                }
             }
             else if ((sender as ComboBox).Name == "comboBoxFromICSPosition")
             {
-                textBoxFromICSPosition.Text = comboBoxFromICSPosition.Text;
+                if (comboBoxFromICSPosition.SelectedIndex < 0 && comboBoxFromICSPosition.IsEditable)
+                {
+                    textBoxFromICSPosition.Text = comboBoxFromICSPosition.Text;
+                }
+                else
+                {
+                    textBoxFromICSPosition.Text = comboBoxFromICSPosition.SelectedItem.ToString();
+                }
             }
             ComboBoxRequired_SelectionChanged(sender, e);
         }
+
     }
 }

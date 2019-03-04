@@ -325,7 +325,10 @@ namespace FormControlBaseClass
         { get; set; }
 
         public virtual string Subject
-        { get; set; }
+        {
+            get;
+            set;
+        }
 
         private DateTime? messageReceivedTime = null;
         public virtual DateTime? MessageReceivedTime
@@ -508,40 +511,6 @@ namespace FormControlBaseClass
             }
         }
 
-        public bool IsFieldRequired(Control control)
-        {
-            string tag = (control.Tag as string)?.ToLower();
-            if (!string.IsNullOrEmpty(tag) && tag.Contains("conditionallyrequired"))
-                return false;
-            else if (!string.IsNullOrEmpty(tag) && tag.Contains("required"))
-                return true;
-            else
-                return false;
-        }
-
-        // Formats a 10 digit number to (123) 456-7890
-        protected string FormatTelephoneNumber(string phoneNumber)
-        {
-            char[] phoneNumberArray = phoneNumber.ToCharArray();
-            char[] digitArray = new char[16];
-            int j = 0;
-            for (int i = 0; i < phoneNumberArray.Length; i++)
-            {
-                if (char.IsDigit(phoneNumberArray[i]))
-                {
-                    digitArray[j++] = phoneNumberArray[i];
-                }
-            }
-            if (j == 10)
-            {
-                return $"({digitArray[0]}{digitArray[1]}{digitArray[2]}) {digitArray[3]}{digitArray[4]}{digitArray[5]}-{digitArray[6]}{digitArray[7]}{digitArray[8]}{digitArray[9]}";
-            }
-            else
-            {
-                return phoneNumber;
-            }
-        }
-
         protected virtual string CreateComboBoxOutpostDataString(FormField formField, string id)
         {
             string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -715,7 +684,30 @@ namespace FormControlBaseClass
 			return formFields;
 		}
 
-		public void FillFormFromFormFields(FormField[] formFields)
+        protected virtual void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
+        {
+            var data = formField.ControlContent.Split(new char[] { ',' });
+            if (data.Length > 1)
+            {
+                int index = Convert.ToInt32(data[1]);
+                if (index < 0 && comboBox.IsEditable)
+                {
+                    comboBox.Text = data[0];
+                    //comboBox.SelectedIndex = index;
+                    //comboBox.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    comboBox.SelectedIndex = index;
+                }
+            }
+            else
+            {
+                comboBox.SelectedItem = data[0];
+            }
+        }
+
+        public void FillFormFromFormFields(FormField[] formFields)
 		{
 			foreach (FormField formField in formFields)
 			{
@@ -766,20 +758,7 @@ namespace FormControlBaseClass
 				}
 				else if (control is ComboBox comboBox)
 				{
-                    var data = formField.ControlContent.Split(new char[] { ',' });
-                    int index = Convert.ToInt32(data[1]);
-                    if (index < 0 && comboBox.IsEditable)
-                    {
-                        comboBox.Text = data[0];
-                        //comboBox.SelectedIndex = index;
-                        //bool result = comboBox.Focus(FocusState.Programmatic);
-                        //comboBox.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        //comboBox.SelectedItem = data[0];
-                        comboBox.SelectedIndex = index;
-                    }
+                    FillComboBoxFromFormFields(formField, comboBox);
                 }
 				else if (control is ToggleButtonGroup toggleButtonGroup)
 				{
@@ -843,7 +822,6 @@ namespace FormControlBaseClass
                     if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
                     {
                         toggleButtonGroup.CheckedControlName = radioButton.Name;
-                        //string checkedName = toggleButtonGroup.GetRadioButtonCheckedState();
                         if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
@@ -882,82 +860,40 @@ namespace FormControlBaseClass
 			OnSubjectChange?.Invoke(this, formEventArgs);
 		}
 
-        protected void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (!IsFieldRequired(sender as TextBox))
-            {
-                return;
-            }
+        //protected void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (!IsFieldRequired(sender as TextBox))
+        //    {
+        //        return;
+        //    }
 
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-                {
-                    if (string.IsNullOrEmpty(textBox.Text))
-                    {
-                        textBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        textBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
-                }
-           }
-        }
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+        //        {
+        //            if (string.IsNullOrEmpty(textBox.Text))
+        //            {
+        //                textBox.BorderBrush = formControl.RequiredBorderBrush;
+        //            }
+        //            else
+        //            {
+        //                textBox.BorderBrush = formControl.BaseBorderColor;
+        //            }
+        //            break;
+        //        }
+        //   }
+        //}
 
-        protected virtual void ComboBoxRequired_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
-                {
-                    if (comboBox.SelectedIndex < 0 && string.IsNullOrEmpty(comboBox.Text))
-                    {
-                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        comboBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
-                }
-            }
-        }
 
-        protected virtual void RadioButtonRequired_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (sender is RadioButton radioButton)
-                {
-                    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
-                    {
-                        toggleButtonGroup.CheckedControlName = radioButton.Name;
-                        if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                        }
-                    }
-                }
-            }
-        }
-
-        protected virtual void PhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //InputScope inputScope = (sender as TextBox).InputScope;
-
-            string phoneNumberString = (sender as TextBox).Text;
-            string formattedPhoneNumber = FormatTelephoneNumber(phoneNumberString);
-            if (formattedPhoneNumber != phoneNumberString)
-            {
-                (sender as TextBox).Text = formattedPhoneNumber;
-            }
-        }
+        //protected virtual void PhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    string phoneNumberString = (sender as TextBox).Text;
+        //    string formattedPhoneNumber = FormatTelephoneNumber(phoneNumberString);
+        //    if (formattedPhoneNumber != phoneNumberString)
+        //    {
+        //        (sender as TextBox).Text = formattedPhoneNumber;
+        //    }
+        //}
 
         protected string ConvertTabsToSpaces(string text, int tabWidth)
 		{
@@ -998,7 +934,25 @@ namespace FormControlBaseClass
 
 			return convertedLine;
 		}
-	}
+
+        //protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        //{
+        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        //    {
+        //        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+        //        if (child != null && child is T)
+        //            return (T)child;
+        //        else
+        //        {
+        //            T childOfChild = FindVisualChild<T>(child);
+        //            if (childOfChild != null)
+        //                return childOfChild;
+        //        }
+        //    }
+        //    return null;
+        //}
+
+    }
 }
 
 

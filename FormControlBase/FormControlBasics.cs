@@ -81,7 +81,6 @@ namespace FormControlBaseClass
         public virtual string ValidateForm(string errorText = "")
         {
             validationResultMessage = errorText;
-            //bool result = true;
             foreach (FormControl formControl in _formControlsList)
             {
                 Control control = formControl.InputControl;
@@ -140,6 +139,116 @@ namespace FormControlBaseClass
             }
             return validationResultMessage;
         }
+
+        // Formats a 10 digit number to (123) 456-7890
+        protected string FormatTelephoneNumber(string phoneNumber)
+        {
+            char[] phoneNumberArray = phoneNumber.ToCharArray();
+            char[] digitArray = new char[16];
+            int j = 0;
+            for (int i = 0; i < phoneNumberArray.Length; i++)
+            {
+                if (char.IsDigit(phoneNumberArray[i]))
+                {
+                    digitArray[j++] = phoneNumberArray[i];
+                }
+            }
+            if (j == 10)
+            {
+                return $"({digitArray[0]}{digitArray[1]}{digitArray[2]}) {digitArray[3]}{digitArray[4]}{digitArray[5]}-{digitArray[6]}{digitArray[7]}{digitArray[8]}{digitArray[9]}";
+            }
+            else
+            {
+                return phoneNumber;
+            }
+        }
+
+        protected virtual void PhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string phoneNumberString = (sender as TextBox).Text;
+            string formattedPhoneNumber = FormatTelephoneNumber(phoneNumberString);
+            if (formattedPhoneNumber != phoneNumberString)
+            {
+                (sender as TextBox).Text = formattedPhoneNumber;
+            }
+        }
+
+        public bool IsFieldRequired(Control control)
+        {
+            string tag = (control.Tag as string)?.ToLower();
+            if (!string.IsNullOrEmpty(tag) && tag.Contains("conditionallyrequired"))
+                return false;
+            else if (!string.IsNullOrEmpty(tag) && tag.Contains("required"))
+                return true;
+            else
+                return false;
+        }
+
+        protected void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!IsFieldRequired(sender as TextBox))
+            {
+                return;
+            }
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+                {
+                    if (string.IsNullOrEmpty(textBox.Text))
+                    {
+                        textBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        textBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+            }
+        }
+
+        protected virtual void ComboBoxRequired_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
+                {
+                    if (comboBox.SelectedIndex < 0 && string.IsNullOrEmpty(comboBox.Text))
+                    {
+                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        comboBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+            }
+        }
+
+        protected virtual void RadioButtonRequired_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is RadioButton radioButton)
+                {
+                    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
+                    {
+                        toggleButtonGroup.CheckedControlName = radioButton.Name;
+                        if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+                        {
+                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+                        }
+                        else
+                        {
+                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                        }
+                    }
+                }
+            }
+        }
+
 
     }
 }

@@ -951,6 +951,7 @@ namespace SharedCode.Models
             };
         }
 
+        // Needs to be sorted by Agency Name
         public static List<TacticalCall> CreateMountainViewCERTList()
         {
             // Find Mountain View Tactical Call signs
@@ -974,6 +975,7 @@ namespace SharedCode.Models
                     mtvCERTTacticalCallsigns.Add(certTacticalCall);
                 }
             }
+            mtvCERTTacticalCallsigns.Sort();
             return mtvCERTTacticalCallsigns;
         }
     }
@@ -984,8 +986,8 @@ namespace SharedCode.Models
 	//[System.Diagnostics.DebuggerStepThroughAttribute()]
 	//[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class TacticalCall
-	{
+	public partial class TacticalCall : IComparable<TacticalCall>, IEquatable<TacticalCall>
+    {
 
 		private string tacticalCallsignField;
 
@@ -1098,6 +1100,47 @@ namespace SharedCode.Models
 		}
 
         public override string ToString() => AgencyName;
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            TacticalCall objAsTacticalCall = obj as TacticalCall;
+            if (objAsTacticalCall == null) return false;
+            else return Equals(objAsTacticalCall);
+        }
+
+        public int SortByNameAscending(string name1, string name2)
+        {
+            return name1.CompareTo(name2);
+        }
+
+        // Default comparer for Part type.
+        public int CompareTo(TacticalCall comparePart)
+        {
+            // A null value means that this object is greater.
+            if (comparePart == null)
+                return 1;
+
+            else
+                return this.AgencyName.CompareTo(comparePart.AgencyName);
+        }
+
+        public override int GetHashCode()
+        {
+            return AgencyName.GetHashCode();
+        }
+
+        public bool Equals(TacticalCall other)
+        {
+            if (other == null) return false;
+            return AgencyName == other.AgencyName
+                    && TacticalCallsign == other.TacticalCallsign
+                    && Prefix == other.Prefix
+                    && PrimaryBBS == other.PrimaryBBS
+                    && PrimaryBBSActive == other.PrimaryBBSActive
+                    && SecondaryBBS == other.SecondaryBBS;
+        }
+
         ///// <remarks/>
         //[System.Xml.Serialization.XmlAttributeAttribute()]
         //public bool Selected

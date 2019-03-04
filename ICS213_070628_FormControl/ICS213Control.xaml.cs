@@ -42,8 +42,8 @@ namespace ICS213_070628_FormControl
 			ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
 			otherText.Text = "Packet";
-            //autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
-            //autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
+            autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
+            autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
         }
 
         private string _subject;
@@ -151,46 +151,46 @@ namespace ICS213_070628_FormControl
             return CreateOutpostMessageBody(outpostData);
         }
 
-        //private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        //{
-        //	// Set sender.Text. You can use args.SelectedItem to build your text string.
-        //	sender.Text = args.SelectedItem as string;
-        //}
-
-        //private void textBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        //{
-        //	// Only get results when it was a user typing, 
-        //	// otherwise assume the value got filled in by TextMemberPath 
-        //	// or the handler for SuggestionChosen.
-        //	if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-        //	{
-        //		//Set the ItemsSource to be your filtered dataset
-        //		//sender.ItemsSource = null;
-        //		_ICSPositionFiltered = new List<string>();
-        //		foreach (string s in ICSPosition)
-        //		{
-        //			string lowerS = s.ToLower();
-        //			if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
-        //			{
-        //				_ICSPositionFiltered.Add(s);
-        //			}
-        //		}
-        //	sender.ItemsSource = _ICSPositionFiltered;
-        //	}
-        //}
-
-        private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if ((sender as ComboBox).Name == "comboBoxToICSPosition")
-            {
-                textBoxToICSPosition.Text = comboBoxToICSPosition.Text;
-            }
-            else if ((sender as ComboBox).Name == "comboBoxFromICSPosition")
-            {
-                textBoxFromICSPosition.Text = comboBoxFromICSPosition.Text;
-            }
-            ComboBoxRequired_SelectionChanged(sender, e);
+            // Set sender.Text. You can use args.SelectedItem to build your text string.
+            sender.Text = args.SelectedItem as string;
         }
+
+        private void textBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                //sender.ItemsSource = null;
+                _ICSPositionFiltered = new List<string>();
+                foreach (string s in ICSPosition)
+                {
+                    string lowerS = s.ToLower();
+                    if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
+                    {
+                        _ICSPositionFiltered.Add(s);
+                    }
+                }
+                sender.ItemsSource = _ICSPositionFiltered;
+            }
+        }
+
+        //private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if ((sender as ComboBox).Name == "comboBoxToICSPosition")
+        //    {
+        //        textBoxToICSPosition.Text = comboBoxToICSPosition.Text;
+        //    }
+        //    else if ((sender as ComboBox).Name == "comboBoxFromICSPosition")
+        //    {
+        //        textBoxFromICSPosition.Text = comboBoxFromICSPosition.Text;
+        //    }
+        //    ComboBoxRequired_SelectionChanged(sender, e);
+        //}
 
     }
 }
