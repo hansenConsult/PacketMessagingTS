@@ -55,7 +55,7 @@ namespace FormControlBaseClass
 	public abstract class FormControlBase : FormControlBasics, INotifyPropertyChanged
 
     {
-		public event EventHandler<FormEventArgs> EventSubjectChanged;
+        public event EventHandler<FormEventArgs> EventSubjectChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected List<string> outpostData;
@@ -389,6 +389,8 @@ namespace FormControlBaseClass
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
 
+            string senderMsgNo = GetOutpostValue("1", ref msgLines);
+
             foreach (FormField formField in formFields)
             {
                 (string id, Control control) = GetTagIndex(formField);
@@ -420,19 +422,26 @@ namespace FormControlBaseClass
                 }
                 else if (control is TextBox || control is AutoSuggestBox)
                 {
-                    formField.ControlContent = GetOutpostValue(id, ref msgLines);
-                    // Filter operator date and time
-                    if (formField.ControlContent != null)
+                    if (id == "0")
                     {
-                        int index = formField.ControlContent.IndexOf("{odate");
-                        if (index > 0)
+                        formField.ControlContent = senderMsgNo;
+                    }
+                    else
+                    {
+                        formField.ControlContent = GetOutpostValue(id, ref msgLines);
+                        // Filter operator date and time
+                        if (formField.ControlContent != null)
                         {
-                            formField.ControlContent = formField.ControlContent.Substring(0, index);
-                        }
-                        index = formField.ControlContent.IndexOf("{otime");
-                        if (index > 0)
-                        {
-                            formField.ControlContent = formField.ControlContent.Substring(0, index);
+                            int index = formField.ControlContent.IndexOf("{odate");
+                            if (index > 0)
+                            {
+                                formField.ControlContent = formField.ControlContent.Substring(0, index);
+                            }
+                            index = formField.ControlContent.IndexOf("{otime");
+                            if (index > 0)
+                            {
+                                formField.ControlContent = formField.ControlContent.Substring(0, index);
+                            }
                         }
                     }
                 }

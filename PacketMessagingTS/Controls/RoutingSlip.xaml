@@ -34,7 +34,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1"/>
-            <TextBlock Grid.Column="0" Text="{x:Bind FormName, Mode=OneWay}" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="0" Text="{x:Bind FormName, Mode=TwoWay}" VerticalAlignment="Center"/>
             <TextBlock Grid.Column="1" Text="Origin Msg #:"  VerticalAlignment="Center"/>
             <TextBox x:Name="textBoxOriginMsgNumber" Grid.Column="2" Text="{x:Bind OriginMsgNumber, Mode=TwoWay}" Tag="required" />
             <TextBlock Grid.Column="3" Text="Destination Msg #:" VerticalAlignment="Center"/>

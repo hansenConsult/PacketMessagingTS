@@ -1,9 +1,10 @@
-﻿<basics:FormControlBasics
+﻿<MyBaseNamespace:FormControlBase
     x:Class="RoutingSlipControl.RoutingSlipControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:RoutingSlipControl"
-    xmlns:basics="using:FormControlBaseClass"
+  	xmlns:MyNamespace="using:ToggleButtonGroupControl"
+    xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -166,4 +167,4 @@
             </StackPanel>
         </Grid>
     </StackPanel>
-</basics:FormControlBasics>
+</MyBaseNamespace:FormControlBase>

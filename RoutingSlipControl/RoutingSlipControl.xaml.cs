@@ -39,26 +39,26 @@ namespace RoutingSlipControl
             this.InitializeComponent();
         }
 
-            private string formName;
-            public string FormName
-            {
-                get;
-                set;
-            }
+        private string formName;
+        public string FormName
+        {
+            get => formName;
+            set => Set(ref formName, value);
+        }
 
-            private string originMsgNumber;
-            public string OriginMsgNumber
-            {
-                get;
-                set;
-            }
+        private string originMsgNumber;
+        public string OriginMsgNumber
+        {
+            get;
+            set;
+        }
 
-            private string destinationMsgNumber;
-            public string DestinationMsgNumber
-            {
-                get;
-                set;
-            }
+        private string destinationMsgNumber;
+        public string DestinationMsgNumber
+        {
+            get;
+            set;
+        }
 
         private string toICSPosition;
         public string ToICSPosition
@@ -88,21 +88,6 @@ namespace RoutingSlipControl
                 set => Set(ref fromLocation, value);
             }
 
-            private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-            {
-                if (Equals(storage, value))
-                {
-                    return;
-                }
-
-                storage = value;
-                OnPropertyChanged(propertyName);
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-            public void OnPropertyChanged(string propertyName) =>
-                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
             private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
                 if ((sender as ComboBox).Name == "comboBoxToICSPosition")
@@ -127,7 +112,7 @@ namespace RoutingSlipControl
                         textBoxFromICSPosition.Text = comboBoxFromICSPosition.SelectedItem.ToString();
                     }
                 }
-                ComboBoxRequired_SelectionChanged(sender, e);
+                //ComboBoxRequired_SelectionChanged(sender, e);
             }
 
         }
