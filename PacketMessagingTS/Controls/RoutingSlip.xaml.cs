@@ -38,7 +38,14 @@ namespace PacketMessagingTS.Controls
             this.InitializeComponent();
         }
 
-        private string originMsgNumber;
+        private string formName;
+        public string FormName
+        {
+            get;
+            set;
+        }
+
+        private string originMsgNumber = "MSG-12345P";
         public string OriginMsgNumber
         {
             get;

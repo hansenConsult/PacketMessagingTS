@@ -240,7 +240,6 @@ namespace FormControlBaseClass
                 }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
-                    //toggleButtonGroup.Initialize(_radioButtonsList, control.Name);
                     if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()) && newForm)
                     {
                         toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
@@ -269,8 +268,8 @@ namespace FormControlBaseClass
 
         public string ValidationResultMessage
         {
-            get => validationResultMessage;
-            set => validationResultMessage = value;
+            get => _validationResultMessage;
+            set => _validationResultMessage = value;
         }
 
         public virtual string SenderMsgNo
@@ -687,7 +686,7 @@ namespace FormControlBaseClass
         protected virtual void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
         {
             var data = formField.ControlContent.Split(new char[] { ',' });
-            if (data.Length > 1)
+            if (data.Length == 2)
             {
                 int index = Convert.ToInt32(data[1]);
                 if (index < 0 && comboBox.IsEditable)
@@ -777,7 +776,7 @@ namespace FormControlBaseClass
 			int endIndex = field.IndexOf(']');
 			if (startIndex != -1 && endIndex != -1)
 			{
-                if (field.Substring(startIndex + 1, endIndex - startIndex - 1).StartsWith("\\n"))
+                if (field.Substring(startIndex + 1, endIndex - startIndex - 1).StartsWith("\\n"))   // For PacForms
                 {
                     return field.Substring(startIndex + 3, endIndex - startIndex - 3);
                 }
@@ -859,41 +858,6 @@ namespace FormControlBaseClass
             FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = MessageNo };
 			OnSubjectChange?.Invoke(this, formEventArgs);
 		}
-
-        //protected void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    if (!IsFieldRequired(sender as TextBox))
-        //    {
-        //        return;
-        //    }
-
-        //    foreach (FormControl formControl in _formControlsList)
-        //    {
-        //        if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-        //        {
-        //            if (string.IsNullOrEmpty(textBox.Text))
-        //            {
-        //                textBox.BorderBrush = formControl.RequiredBorderBrush;
-        //            }
-        //            else
-        //            {
-        //                textBox.BorderBrush = formControl.BaseBorderColor;
-        //            }
-        //            break;
-        //        }
-        //   }
-        //}
-
-
-        //protected virtual void PhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    string phoneNumberString = (sender as TextBox).Text;
-        //    string formattedPhoneNumber = FormatTelephoneNumber(phoneNumberString);
-        //    if (formattedPhoneNumber != phoneNumberString)
-        //    {
-        //        (sender as TextBox).Text = formattedPhoneNumber;
-        //    }
-        //}
 
         protected string ConvertTabsToSpaces(string text, int tabWidth)
 		{

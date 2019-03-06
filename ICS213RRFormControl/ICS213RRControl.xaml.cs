@@ -23,7 +23,7 @@ namespace EOC213RRFormControl
 
 			ScanControls(PrintableArea);
 
-			InitializeControls();
+            InitializeToggleButtonGroups();
 
             ReceivedOrSent = "sent";
             HowReceivedSent = "packet";

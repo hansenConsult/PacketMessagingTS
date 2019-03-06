@@ -1,0 +1,5 @@
+﻿[OptionalProjects]
+"..\OptionalPackageMVDERTDAFormConTrol\ActivatableOptionalPackage1.vcxproj"
+
+[ExternalPackages]
+"..\OptionalPackageMVDERTDAFormConTrol\x86\Release\ActivatableOptionalPackage3_1.1.1.0\ ActivatableOptionalPackage3_1.1.1.0.appx"

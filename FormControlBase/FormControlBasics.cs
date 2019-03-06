@@ -21,12 +21,11 @@ namespace FormControlBaseClass
         protected List<FormControl> _formControlsList = new List<FormControl>();
         protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
 
-
-        protected string validationResultMessage;
+        protected string _validationResultMessage;
 
         public void ScanControls(DependencyObject panelName)
         {
-            var count = VisualTreeHelper.GetChildrenCount(panelName);
+            int count = VisualTreeHelper.GetChildrenCount(panelName);
 
             for (int i = 0; i < count; i++)
             {
@@ -54,7 +53,7 @@ namespace FormControlBaseClass
 
         protected void AddToErrorString(string errorText)
         {
-            validationResultMessage += ($"\n{errorText}");
+            _validationResultMessage += ($"\n{errorText}");
         }
 
         public static string GetTagErrorMessage(Control control)
@@ -80,7 +79,7 @@ namespace FormControlBaseClass
 
         public virtual string ValidateForm(string errorText = "")
         {
-            validationResultMessage = errorText;
+            _validationResultMessage = errorText;
             foreach (FormControl formControl in _formControlsList)
             {
                 Control control = formControl.InputControl;
@@ -97,7 +96,7 @@ namespace FormControlBaseClass
                         if (textBox.Text.Length == 0)
                         {
                             AddToErrorString(GetTagErrorMessage(control));
-                            control.BorderBrush = _redBrush;
+                            control.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         else
                         {
@@ -109,7 +108,7 @@ namespace FormControlBaseClass
 						if (autoSuggestBox.Text.Length == 0)
 						{
 							AddToErrorString(GetTagErrorMessage(control));
-							control.BorderBrush = _redBrush;
+							control.BorderBrush = formControl.RequiredBorderBrush;
 						}
 						else
 						{
@@ -121,7 +120,7 @@ namespace FormControlBaseClass
                         if (string.IsNullOrEmpty(comboBox.SelectionBoxItem?.ToString()))
                         {
                             AddToErrorString(GetTagErrorMessage(control));
-                            control.BorderBrush = _redBrush;
+                            control.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         else
                         {
@@ -137,7 +136,7 @@ namespace FormControlBaseClass
                     }
                 }
             }
-            return validationResultMessage;
+            return _validationResultMessage;
         }
 
         // Formats a 10 digit number to (123) 456-7890
@@ -248,7 +247,6 @@ namespace FormControlBaseClass
                 }
             }
         }
-
 
     }
 }

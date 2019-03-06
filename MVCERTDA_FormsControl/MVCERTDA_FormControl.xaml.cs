@@ -1,23 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 using FormControlBaseClass;
 using SharedCode;
-using SharedCode.Helpers;
 using SharedCode.Models;
-using Windows.UI;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -70,7 +58,6 @@ namespace MVCERTDA_FormsControl
             comboBoxFromICSPosition.SelectedItem = "Planning";
             ToLocation = "Mountain View EOC";
             subjectText = "Damage Summary for ";
-            //Subject = subjectText;
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
@@ -183,28 +170,28 @@ namespace MVCERTDA_FormsControl
             return CreateOutpostMessageBody(outpostData);
         }
 
-        protected override void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
-        {
-            var data = formField.ControlContent.Split(new char[] { ',' });
-            int index = Convert.ToInt32(data[1]);
-            if (index < 0 && comboBox.IsEditable)
-            {
-                if (comboBox.Name == "comboBoxFromLocation")
-                {
-                    FromLocation = data[0];
-                }
-                else
-                    comboBox.Text = data[0];
-                //comboBox.SelectedIndex = index;
-                //bool result = comboBox.Focus(FocusState.Programmatic);
-                //comboBox.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                //comboBox.SelectedItem = data[0];
-                comboBox.SelectedIndex = index;
-            }
-        }
+        //protected override void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
+        //{
+        //    var data = formField.ControlContent.Split(new char[] { ',' });
+        //    int index = Convert.ToInt32(data[1]);
+        //    if (index < 0 && comboBox.IsEditable)
+        //    {
+        //        if (comboBox.Name == "comboBoxFromLocation")
+        //        {
+        //            FromLocation = data[0];
+        //        }
+        //        else
+        //            comboBox.Text = data[0];
+        //        //comboBox.SelectedIndex = index;
+        //        //bool result = comboBox.Focus(FocusState.Programmatic);
+        //        //comboBox.Visibility = Visibility.Visible;
+        //    }
+        //    else
+        //    {
+        //        //comboBox.SelectedItem = data[0];
+        //        comboBox.SelectedIndex = index;
+        //    }
+        //}
 
 
         private void CreateDamageAssesmentMessage(ref PacketMessage packetMessage)
@@ -267,7 +254,7 @@ namespace MVCERTDA_FormsControl
         }
 
         //private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        //{
+         //{
         //    // Set sender.Text. You can use args.SelectedItem to build your text string.
         //    sender.Text = args.SelectedItem as string;
         //}
