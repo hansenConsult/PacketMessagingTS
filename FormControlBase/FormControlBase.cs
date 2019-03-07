@@ -52,11 +52,11 @@ namespace FormControlBaseClass
 		{ get; set; }
 	}
 
-	public abstract class FormControlBase : FormControlBasics, INotifyPropertyChanged
-
+	//public abstract class FormControlBase : FormControlBasics, INotifyPropertyChanged
+    public abstract class FormControlBase : FormControlBasics
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         protected List<string> outpostData;
 
@@ -68,16 +68,16 @@ namespace FormControlBaseClass
 		{
         }
 
-        protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
+        //protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        //{
+        //    if (Equals(storage, value))
+        //    {
+        //        return;
+        //    }
 
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
+        //    storage = value;
+        //    OnPropertyChanged(propertyName);
+        //}
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
         {
@@ -123,7 +123,7 @@ namespace FormControlBaseClass
             return true;
         }
 
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         //event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         //{
@@ -139,10 +139,10 @@ namespace FormControlBaseClass
         //}
 
 
-        private void NotifyPropertyChanged( String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //private void NotifyPropertyChanged( String propertyName = "")
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
 
         public void InitializeControls()
         {

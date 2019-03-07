@@ -43,7 +43,7 @@ namespace RoutingSlipControl
         public string FormName
         {
             get => formName;
-            set => Set(ref formName, value);
+            set => formName = value; //Set(ref formName, value);
         }
 
         private string originMsgNumber;
@@ -64,28 +64,28 @@ namespace RoutingSlipControl
         public string ToICSPosition
         {
             get => toICSPosition;
-            set => Set(ref toICSPosition, value);
+            set => formName = value; //Set(ref toICSPosition, value);
         }
 
         private string fromICSPosition;
         public string FromICSPosition
         {
             get => fromICSPosition;
-            set => Set(ref fromICSPosition, value);
+            set => formName = value;//Set(ref fromICSPosition, value);
         }
 
         private string toLocation;
             public string ToLocation
             {
                 get => toLocation;
-                set => Set(ref toLocation, value);
+                set => formName = value; //Set(ref toLocation, value);
             }
 
             private string fromLocation;
             public string FromLocation
             {
                 get => fromLocation;
-                set => Set(ref fromLocation, value);
+                set => formName = value; //Set(ref fromLocation, value);
             }
 
             private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)

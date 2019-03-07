@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Media;
 
 namespace FormControlBaseClass
 {
-    public class FormControlBasics : UserControl
+    public class FormControlBasics : UserControl, INotifyPropertyChanged
     {
         public static SolidColorBrush _redBrush = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush _whiteBrush = new SolidColorBrush(Colors.White);
@@ -24,6 +24,22 @@ namespace FormControlBaseClass
         protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
 
         protected string _validationResultMessage;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
+
+        protected void OnPropertyChanged(string propertyName) =>
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public void ScanControls(DependencyObject panelName)
         {
