@@ -123,7 +123,7 @@ namespace PacketMessagingTS.Views
             foreach (FormField formField in formFields)
             {
                 (string id, Control control) = formControl.GetTagIndex(formField);
-                value = formControl.GetOutpostValue(id, ref msgLines);
+                value = FormControlBase.GetOutpostValue(id, ref msgLines);
                 if (!string.IsNullOrEmpty(value))
                 {
                     inrList.Add(value);

@@ -241,7 +241,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
         }
 
-		public async void ProcessReceivedMessagesAsync()
+        public async void ProcessReceivedMessagesAsync()
 		{
 			if (_packetMessagesReceived.Count() > 0)
 			{
@@ -313,6 +313,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                                 return;
                             }
+                            pktMsg.SenderMessageNumber = FormControlBase.GetOutpostValue(msgLines[i + 1]);
                             break;
                         }
 					}

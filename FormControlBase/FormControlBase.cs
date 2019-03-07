@@ -389,7 +389,16 @@ namespace FormControlBaseClass
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
 
-            string senderMsgNo = GetOutpostValue("1", ref msgLines);
+            // Sender messahe number can be either in 1 or 3
+            string senderMsgNo = "";
+            if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
+            {
+                senderMsgNo = GetOutpostValue("1", ref msgLines);
+            }
+            else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
+            {
+                senderMsgNo = GetOutpostValue("3", ref msgLines);
+            }
 
             foreach (FormField formField in formFields)
             {
@@ -422,7 +431,7 @@ namespace FormControlBaseClass
                 }
                 else if (control is TextBox || control is AutoSuggestBox)
                 {
-                    if (id == "0")
+                    if (control.Name == "senderMsgNo")
                     {
                         formField.ControlContent = senderMsgNo;
                     }
@@ -446,8 +455,6 @@ namespace FormControlBaseClass
                     }
                 }
             }
-            // Move received message number to sender message number field
-            formFields[0].ControlContent = GetOutpostValue("1", ref msgLines);
             return formFields;
         }
 
@@ -779,7 +786,7 @@ namespace FormControlBaseClass
 			}
 		}
 
-		protected string GetOutpostFieldValue(string field)
+		public static string GetOutpostFieldValue(string field)
 		{
 			int startIndex = field.IndexOf('[');
 			int endIndex = field.IndexOf(']');
@@ -800,7 +807,17 @@ namespace FormControlBaseClass
 			}
 		}
 
-		public string GetOutpostValue(string fieldIdent, ref string[] msgLines)
+        public static string GetOutpostValue(string msgLine)
+        {
+            int index = msgLine.IndexOf(':');
+            if (index == -1)
+            {
+                return "";
+            }
+            return GetOutpostFieldValue(msgLine);
+        }
+
+        public static string GetOutpostValue(string fieldIdent, ref string[] msgLines)
 		{
 			for (int i = 4; i < msgLines.Length; i++)
 			{
