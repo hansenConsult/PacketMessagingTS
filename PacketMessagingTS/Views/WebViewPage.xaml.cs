@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using MessageFormControl;
 using System.Diagnostics;
 using Windows.System;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Views
 {
@@ -64,7 +65,7 @@ namespace PacketMessagingTS.Views
 
             FormControlBase formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
 
-            ConvertFromOutpost(ref packetMessage, ref formControl);
+            ConvertFromOutpost(ref packetMessage, ref formControl, FormProviders.PacForm);
 
         }
 
@@ -107,7 +108,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        public void ConvertFromOutpost(ref PacketMessage packetMessage, ref FormControlBase formControl)
+        public void ConvertFromOutpost(ref PacketMessage packetMessage, ref FormControlBase formControl, FormProviders formProvider)
         {
             List<string> inlList = new List<string>();
             List<string> inrList = new List<string>();
@@ -122,7 +123,7 @@ namespace PacketMessagingTS.Views
             string value = "";
             foreach (FormField formField in formFields)
             {
-                (string id, Control control) = formControl.GetTagIndex(formField);
+                (string id, Control control) = formControl.GetTagIndex(formField, formProvider);
                 value = FormControlBase.GetOutpostValue(id, ref msgLines);
                 if (!string.IsNullOrEmpty(value))
                 {
@@ -197,7 +198,7 @@ namespace PacketMessagingTS.Views
             }
             pktMsg.PacFormName = formControl.PacFormName;
             pktMsg.PacFormType = formControl.PacFormType;       // Added line
-            pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines);
+            pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);
             //pktMsg.ReceivedTime = packetMessage.ReceivedTime;
             pktMsg.CreateFileName();
             //string fileFolder = SharedData.UnsentMessagesFolder.Path;       // This line is different

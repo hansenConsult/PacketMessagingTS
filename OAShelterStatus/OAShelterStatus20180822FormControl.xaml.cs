@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using FormControlBaseClass;
 using SharedCode;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 
 
@@ -86,19 +87,14 @@ namespace OAShelterStatusFormControl
             packet.IsChecked = true;
         }
 
-		//public override string Severity
-		//{
-		//	get { return severity.GetRadioButtonCheckedState(); }
-		//	set { severity.SetRadioButtonCheckedState(value); }
-		//}
+        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders FormProvider
+        {
+            get => formProvider;
+            set => formProvider = value;
+        }
 
-		//public override string HandlingOrder
-		//{
-		//	get { return handlingOrder.GetRadioButtonCheckedState(); }
-		//	set { handlingOrder.SetRadioButtonCheckedState(value); }
-		//}
-
-		public override string PacFormName => "XSC_OA_ShelterStatus_v20130814";
+        public override string PacFormName => "XSC_OA_ShelterStatus_v20130814";
 
         public override string PacFormType => "OA Shelter Status";
 
@@ -114,7 +110,7 @@ namespace OAShelterStatusFormControl
                 "# JS-ver. PR-4.4-3.6, 08-29-18",
                 "# FORMFILENAME: XSC_OA_ShelterStatus_v20130814.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
 
             return CreateOutpostMessageBody(outpostData);
         }

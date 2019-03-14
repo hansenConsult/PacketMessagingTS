@@ -257,7 +257,7 @@
 									 IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									 Width="133" Visibility="Collapsed"
 									 BorderThickness="2" Margin="5,1,0,1"
-									 TextChanged="textBoxTacticalCallsign_TextChanged"/>
+									 TextChanged="TextBoxTacticalCallsign_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="2"  x:Name="labelAdditionalText" 
 									   VerticalAlignment="Center" 
 									   Text="Additional ID text:" />

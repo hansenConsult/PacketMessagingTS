@@ -4,6 +4,7 @@ using FormControlBaseClass;
 using Windows.UI.Xaml.Controls;
 
 using SharedCode;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -48,6 +49,13 @@ namespace EOC213RRFormControl
             set => Set(ref _incidentName, value);
         }
 
+        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders FormProvider
+        {
+            get => formProvider;
+            set => formProvider = value;
+        }
+
         public override string PacFormName => "XSC_EOC-213RR_v1706";
 
         public override string PacFormType => "XSC_EOC_213RR";
@@ -66,7 +74,7 @@ namespace EOC213RRFormControl
                 "# JS-ver. PR-4.4-2.9, 06/29/18",
                 "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
 
 			return CreateOutpostMessageBody(outpostData);
 		}

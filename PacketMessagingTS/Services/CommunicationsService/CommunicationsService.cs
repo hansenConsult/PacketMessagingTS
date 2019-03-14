@@ -21,8 +21,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-
-
+using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -44,6 +43,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
         public SerialPort _serialPort;
 
         TNCInterface _tncInterface = null;
+
+
 
         private CommunicationsService()
         {
@@ -125,10 +126,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         return;
                     }
                     break;
+                    //} else if (msgLines[i].StartsWith("# PACFORMSSSS"))
+                    //{
+                    //    pktMsg.FormProviderIndex = 0;
                 }
             }
+
+            //formControl.FormProvider = FormProviders.PacForm;
+            pktMsg.FormProvider = FormProviders.PacForm;        // TODO update with real provider
+
             pktMsg.PacFormName = formControl.PacFormName;
-            pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines);
+            pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
             //pktMsg.ReceivedTime = packetMessage.ReceivedTime;
             pktMsg.CreateFileName();
             string fileFolder = SharedData.ReceivedMessagesFolder.Path;
@@ -261,7 +269,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         Area = packetMessageOutpost.Area,
                         // Save the original message for post processing (tab characters are lost in the displayed message)
                         MessageBody = packetMessageOutpost.MessageBody,
-                        //MessageReadOnly = true
+                        MessageState = MessageState.Locked,
                         MessageOpened = false,
                     };
                     string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
@@ -317,12 +325,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             break;
                         }
 					}
+                    pktMsg.FormProvider = FormProviders.PacForm;    // TODO update with real provider
 
                     //pktMsg.MessageNumber = GetMessageNumberPacket();		// Filled in BBS connection
                     pktMsg.PacFormType = formControl.PacFormType;
                     pktMsg.PacFormName = formControl.PacFormName;
                     //pktMsg.MessageNumber = packetMessageOutpost.MessageNumber;
-					pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines);
+					pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);
 					//pktMsg.ReceivedTime = packetMessageOutpost.ReceivedTime;
 					if (pktMsg.ReceivedTime != null)
 					{

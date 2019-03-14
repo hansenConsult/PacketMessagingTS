@@ -4,6 +4,9 @@ using System.Text;
 using SharedCode;
 using FormControlBaseClass;
 using System;
+using SharedCode.Helpers;
+using static SharedCode.Helpers.FormProvidersHelper;
+
 
 namespace MessageFormControl
 {
@@ -100,11 +103,18 @@ namespace MessageFormControl
         //public override string OperatorTime
         //{ get; set; }
 
+        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders FormProvider
+        {
+            get => formProvider;
+            set => formProvider = value;
+        }
+
         public override string PacFormName => "SimpleMessage";
 
         public override string PacFormType => "SimpleMessage";
 
-        protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+        protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData, FormProviders formProvider)
         {
             foreach (FormField formField in packetMessage.FormFieldArray)
             {
@@ -126,12 +136,12 @@ namespace MessageFormControl
         {
             List<string> outpostData = new List<string>();
 
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
 
             return CreateOutpostMessageBody(outpostData);
         }
 
-        public override FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
+        public override FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines, FormProviders formProvider)
         {
             StringBuilder sb = new StringBuilder();
             // Skip to start of message

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using SharedCode;
 using FormControlBaseClass;
 using System.Runtime.CompilerServices;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -55,6 +56,13 @@ namespace OAAlliedHealthStatus201802FormControl
         //    set { handlingOrder.SetRadioButtonCheckedState(value); }
         //}
 
+        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders FormProvider
+        {
+            get => formProvider;
+            set => formProvider = value;
+        }
+
         public override string PacFormName => "XSC_OA_MuniStatus_v20130101";
 
         public override string PacFormType => "OA Municipal Status";
@@ -87,7 +95,7 @@ namespace OAAlliedHealthStatus201802FormControl
                 "# JS-ver. PR-4.4-1.4, 12/06/18",
                 "# FORMFILENAME: XSC_OA_AlliedHealthStatus_v201802.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
 
             return CreateOutpostMessageBody(outpostData);
         }

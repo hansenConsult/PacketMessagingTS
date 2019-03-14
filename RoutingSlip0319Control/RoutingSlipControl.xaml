@@ -1,4 +1,4 @@
-﻿<MyBaseNamespace:FormControlBasics
+﻿<UserControl
     x:Class="RoutingSlip0319Control.RoutingSlipControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,10 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
    	xmlns:MyNamespace="using:ToggleButtonGroupControl"
-    xmlns:MyBaseNamespace="using:FormControlBaseClass"
 
     mc:Ignorable="d"
-    d:DesignHeight="400" 
+    d:DesignHeight="360" 
     d:DesignWidth="700">
 
     <UserControl.Resources>
@@ -103,7 +102,6 @@
                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                  Header="Location:"
                                  Text="{x:Bind ToLocation, Mode=TwoWay}"
-                                 TextChanged="TextBoxRequired_TextChanged"
                                  Tag="25,required,Enter a To Location."/>
                     </StackPanel>
                 </Border>
@@ -121,7 +119,7 @@
                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                  Header="Telephone number:"
                                  InputScope="TelephoneNumber" BorderBrush="White" Margin="10,0,10,2" Tag="29"
-                                 TextChanged="PhoneNumber_TextChanged"/>
+                                 />
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -168,7 +166,7 @@
                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                  Header="Telephone number:"
                                  InputScope="TelephoneNumber" Margin="10,0,10,2" Tag="30" BorderBrush="White"
-                                 TextChanged="PhoneNumber_TextChanged"
+                                 
                         />
                     </StackPanel>
                 </Border>
@@ -176,4 +174,4 @@
         </Grid>
 
     </StackPanel>
-</MyBaseNamespace:FormControlBasics>
+</UserControl>

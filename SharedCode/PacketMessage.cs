@@ -20,7 +20,8 @@ using System.Xml.Serialization;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
-
+using Windows.UI.Xaml.Controls;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace SharedCode
 {
@@ -51,6 +52,8 @@ namespace SharedCode
         private string fileNameField;
 
         private string areaField;
+
+        private FormProviders formProviderField;
 
 		private string pacFormNameField;
 
@@ -84,7 +87,7 @@ namespace SharedCode
 
         private bool messageOpenedField = false;
 
-        private FormField[] arrayOfFormFieldField;
+        private FormField[] arrayOfFormFieldsField;
 
         private string messageBodyField;
 
@@ -118,8 +121,21 @@ namespace SharedCode
             }
         }
 
-		/// <remarks/>
-		public string PacFormName
+        /// <remarks/>
+        public FormProviders FormProvider
+        {
+            get
+            {
+                return this.formProviderField;
+            }
+            set
+            {
+                this.formProviderField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PacFormName
 		{
 			get
 			{
@@ -183,23 +199,23 @@ namespace SharedCode
             }
         }
 
-        /// <remarks/>
-        [XmlIgnore]
-        public string JNOSTimeAsString
-        {
-            get
-            {
-                if (jNOSDateField != null)
-                {
-                    DateTime dateTime = (DateTime)jNOSDateField;
-                    return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
+        ///// <remarks/>
+        //[XmlIgnore]
+        //public string JNOSTimeAsString
+        //{
+        //    get
+        //    {
+        //        if (jNOSDateField != null)
+        //        {
+        //            DateTime dateTime = (DateTime)jNOSDateField;
+        //            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+        //        }
+        //        else
+        //        {
+        //            return "";
+        //        }
+        //    }
+        //}
 
         /// <remarks/>
         public DateTime? SentTime
@@ -214,23 +230,23 @@ namespace SharedCode
             }
         }
 
-        /// <remarks/>
-        [XmlIgnore]
-        public string SentTimeAsString
-        {
-            get
-            {
-                if (messageSentTimeField != null)
-                {
-                    DateTime dateTime = (DateTime)messageSentTimeField;
-                    return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
+        ///// <remarks/>
+        //[XmlIgnore]
+        //public string SentTimeAsString
+        //{
+        //    get
+        //    {
+        //        if (messageSentTimeField != null)
+        //        {
+        //            DateTime dateTime = (DateTime)messageSentTimeField;
+        //            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+        //        }
+        //        else
+        //        {
+        //            return "";
+        //        }
+        //    }
+        //}
 
         /// <remarks/>
         public DateTime? CreateTime
@@ -395,11 +411,11 @@ namespace SharedCode
         {
             get
             {
-                return this.arrayOfFormFieldField;
+                return this.arrayOfFormFieldsField;
             }
             set
             {
-                this.arrayOfFormFieldField = value;
+                this.arrayOfFormFieldsField = value;
             }
         }
 
@@ -614,13 +630,32 @@ namespace SharedCode
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public sealed partial class FormField
     {
+        //private Control inputControlField;
+
         private string controlNameField;
 
         private string controlContentField;
 
         private string misSpelsField;
 
-        private int pacFormIndex;
+        private string pacFormIndex;
+
+        private string[] formProvidersIndices;
+
+
+        ///// <remarks/>
+        //[System.Xml.Serialization.XmlAttributeAttribute()]
+        //public Control InputControl
+        //{
+        //    get
+        //    {
+        //        return this.inputControlField;
+        //    }
+        //    set
+        //    {
+        //        this.inputControlField = value;
+        //    }
+        //}
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -666,11 +701,24 @@ namespace SharedCode
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public int PacFormIndex
+        public string PacFormIndex
         {
             get => this.pacFormIndex;
             set => this.pacFormIndex = value;
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string[] FormProvidersIndices
+        {
+            get => this.formProvidersIndices;
+            set => this.formProvidersIndices = value;
+        }
 
+        public string GetTagByFormProvider(int formProviderIndex)
+        {
+            return formProvidersIndices[formProviderIndex];
+        }
+        
     }
 }

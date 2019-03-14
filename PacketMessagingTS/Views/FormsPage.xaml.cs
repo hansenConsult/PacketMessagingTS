@@ -21,6 +21,7 @@ using FormControlBaseClass;
 using MetroLog;
 using SharedCode;
 using MessageFormControl;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 
 
@@ -113,10 +114,12 @@ namespace PacketMessagingTS.Views
             pivotItem.Name = formControlAttributes.FormControlName;
             pivotItem.Header = formControlAttributes.FormControlMenuName;
 
-            ScrollViewer scrollViewer = new ScrollViewer();
-            scrollViewer.Margin = new Thickness(0, 12, -12, 0);
-            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            scrollViewer.Height = double.NaN;
+            ScrollViewer scrollViewer = new ScrollViewer
+            {
+                Margin = new Thickness(0, 12, -12, 0),
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                Height = double.NaN
+            };
 
             StackPanel stackpanel = new StackPanel();
             stackpanel.Name = pivotItem.Name + "Panel";
@@ -212,13 +215,14 @@ namespace PacketMessagingTS.Views
             //_formControlAttributeList.AddRange(attributeListTypeHospital);
         }
 
-        private void CreatePacketMessage(MessageState messageState = MessageState.Locked)
+        private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProviders formProvider = FormProviders.PacForm)
         {
             _packetMessage = new PacketMessage()
             {
                 BBSName = _packetAddressForm.MessageBBS,
                 TNCName = _packetAddressForm.MessageTNC,
                 FormFieldArray = _packetForm.CreateFormFieldsInXML(),
+                FormProvider = formProvider,
                 PacFormName = _packetForm.PacFormName,
                 PacFormType = _packetForm.PacFormType,
                 MessageFrom = _packetAddressForm.MessageFrom,
@@ -437,7 +441,11 @@ namespace PacketMessagingTS.Views
             }
 
             _packetForm.InitializeFormRequiredColors(true);
-            _packetMessage = new PacketMessage();
+            _packetMessage = new PacketMessage()
+            {
+                FormProvider = _packetForm.FormProvider,                
+            };
+
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
 
             DateTime now = DateTime.Now;
@@ -554,6 +562,7 @@ namespace PacketMessagingTS.Views
             {          
                 _packetMessage = new PacketMessage()
                 {
+                    FormProvider = _packetForm.FormProvider,
                     MessageState = MessageState.None,
                 };
 
@@ -645,8 +654,10 @@ namespace PacketMessagingTS.Views
             bool result = await Utilities.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
             if (result)
             {
-                DataPackage dataPackage = new DataPackage();
-                dataPackage.RequestedOperation = DataPackageOperation.Copy;
+                DataPackage dataPackage = new DataPackage
+                {
+                    RequestedOperation = DataPackageOperation.Copy
+                };
                 dataPackage.SetText(_packetMessage.MessageBody);
                 Clipboard.SetContent(dataPackage);
             }

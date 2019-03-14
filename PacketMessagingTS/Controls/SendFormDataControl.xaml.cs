@@ -25,7 +25,7 @@ namespace PacketMessagingTS.Controls
 
         public SendFormDataControl(bool loadMessage = false)
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             if (loadMessage)
             {
@@ -133,20 +133,20 @@ namespace PacketMessagingTS.Controls
             set => Set(ref isToIndividuals, value);
         }
 
-        private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
+        //private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        //{
+        //    if (Equals(storage, value))
+        //    {
+        //        return;
+        //    }
 
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
+        //    storage = value;
+        //    OnPropertyChanged(propertyName);
+        //}
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string propertyName) =>
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //public void OnPropertyChanged(string propertyName) =>
+        //          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
 
         private void MessageTo_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -190,7 +190,7 @@ namespace PacketMessagingTS.Controls
             else
             {
                 string messageTo = AddressBook.Instance.GetAddress(textBoxMessageTo.Text);
-                sender.Text = messageTo == null ? textBoxMessageTo.Text : messageTo;
+                sender.Text = messageTo ?? textBoxMessageTo.Text;
             }
         }
 

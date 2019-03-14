@@ -256,28 +256,28 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void ComboBoxTacticalCallsign_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
-        {
-            return;
-            //_identityViewModel.TacticalCallsignSelectedIndex = -1;
-            if (sender.Text.Length == 6)
-            {
+        //private void ComboBoxTacticalCallsign_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
+        //{
+        //    return;
+        //    //_identityViewModel.TacticalCallsignSelectedIndex = -1;
+        //    if (sender.Text.Length == 6)
+        //    {
 
-                //_identityViewModel.TacticalCallsign = sender.Text;
-                TacticalCall tacticalCall = new TacticalCall()
-                {
-                    TacticalCallsign = sender.Text,
-                    AgencyName = "",
-                    Prefix = sender.Text.Substring(sender.Text.Length - 3),
-                };
-                _identityViewModel.TacticalCallsignsSource.Add(tacticalCall);
-                //_identityViewModel.TacticalSelectedIndexArray[_identityViewModel.TacticalCallsignAreaSelectedIndex] = _identityViewModel.TacticalCallsignsSource.IndexOf(tacticalCall);
-                //_identityViewModel.TacticalSelectedIndexArray = _identityViewModel.TacticalSelectedIndexArray;
-                //_identityViewModel.TacticalCallsignOther = sender.Text;
-            }
-        }
+        //        //_identityViewModel.TacticalCallsign = sender.Text;
+        //        TacticalCall tacticalCall = new TacticalCall()
+        //        {
+        //            TacticalCallsign = sender.Text,
+        //            AgencyName = "",
+        //            Prefix = sender.Text.Substring(sender.Text.Length - 3),
+        //        };
+        //        _identityViewModel.TacticalCallsignsSource.Add(tacticalCall);
+        //        //_identityViewModel.TacticalSelectedIndexArray[_identityViewModel.TacticalCallsignAreaSelectedIndex] = _identityViewModel.TacticalCallsignsSource.IndexOf(tacticalCall);
+        //        //_identityViewModel.TacticalSelectedIndexArray = _identityViewModel.TacticalSelectedIndexArray;
+        //        //_identityViewModel.TacticalCallsignOther = sender.Text;
+        //    }
+        //}
 
-        private void textBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
         {
             return;
             if (((ComboBox)sender).Text.Length == 6)

@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace RoutingSlip0319Control
 {
-    public sealed partial class RoutingSlipControl : FormControlBasics
+    public sealed partial class RoutingSlipControl : UserControl
     {
         public string[] ICSPosition = new string[] 
         {

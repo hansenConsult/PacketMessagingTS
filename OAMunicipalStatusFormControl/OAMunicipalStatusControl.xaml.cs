@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -86,6 +87,13 @@ namespace OAMunicipalStatusFormControl
         public string MunicipalityName
         //{ get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
         { get => municipalityName.SelectedItem as string; }
+
+        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders FormProvider
+        {
+            get => formProvider;
+            set => formProvider = value;
+        }
 
         public override string PacFormName => "XSC_OA_MuniStatus_v20130101";
 
@@ -222,7 +230,7 @@ namespace OAMunicipalStatusFormControl
                 "# JS-ver. PR-4.4-1.9, 06/29/18",
                 "# FORMFILENAME: XSC_OA_MuniStatus_v20130101.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
 
             return CreateOutpostMessageBody(outpostData);
         }

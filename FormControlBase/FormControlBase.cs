@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 
 using SharedCode;
 using Windows.UI.Xaml.Input;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace FormControlBaseClass
 {
@@ -343,6 +344,9 @@ namespace FormControlBaseClass
             set => Set(ref messageSentTime, value);
         }
 
+        public abstract FormProviders FormProvider
+        { get; set; }
+
         public abstract string PacFormName
 		{ get; }
 
@@ -353,7 +357,7 @@ namespace FormControlBaseClass
 
 		public abstract string CreateOutpostData(ref PacketMessage packetMessage);
 
-		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData, FormProviders formProvider)
         {
             if (packetMessage.FormFieldArray is null)
             {
@@ -366,7 +370,7 @@ namespace FormControlBaseClass
                 if (string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
-                string data = CreateOutpostDataString(formField);
+                string data = CreateOutpostDataString(formField, formProvider);
                 if (string.IsNullOrEmpty(data))
                 {
                     continue;
@@ -385,7 +389,7 @@ namespace FormControlBaseClass
             return comboBoxDataSet[0];
         }
 
-        public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
+        public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines, FormProviders formProvider)
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
 
@@ -402,14 +406,14 @@ namespace FormControlBaseClass
 
             foreach (FormField formField in formFields)
             {
-                (string id, Control control) = GetTagIndex(formField);
-                formField.PacFormIndex = Convert.ToInt32(id == "" ? "-1" : id);
+                (string id, Control control) = GetTagIndex(formField, formProvider);
+                formField.PacFormIndex = id;    //Convert.ToInt32(id == "" ? "-1" : id);
 
                 if (control is ToggleButtonGroup)
                 {
                     foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
                     {
-                        string radioButtonIndex = GetTagIndex(radioButton);
+                        string radioButtonIndex = GetTagIndex(radioButton, formProvider);
                         if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
                         {
                             formField.ControlContent = radioButton.Name;
@@ -458,11 +462,15 @@ namespace FormControlBaseClass
             return formFields;
         }
 
-        public (string id, Control control) GetTagIndex(FormField formField)
+        public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)
         {
+            if (formField is null)
+                return ("-1", null);
+
             Control control = null;
             try
             {
+                //control = formField.InputControl;
                 FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
                 control = formControl?.InputControl;
 
@@ -470,9 +478,17 @@ namespace FormControlBaseClass
                 if (!string.IsNullOrEmpty(tag))
                 {
                     string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))   // Is tag an integer? Not necessarily the case anymore
+                    if (!tags[0].Contains("required"))   // Is tag an integer? Not the case anymore
                     {
-                        return (tags[0], control);
+                        string[] formProviderTags = tags[0].Split(new char[] { '|' });
+                        if (formProviderTags.Length > 1)
+                        {
+                            return (formProviderTags[(int)formProvider], control);
+                        }
+                        else
+                        { 
+                            return (tags[0], control);
+                        }
                     }
                 }
             }
@@ -482,7 +498,7 @@ namespace FormControlBaseClass
             return ("-1", control);
         }
 
-        public static string GetTagIndex(Control control)
+        public static string GetTagIndex(Control control, FormProviders formProvider)
         {
             try
             {
@@ -490,10 +506,23 @@ namespace FormControlBaseClass
                 if (!string.IsNullOrEmpty(tag))
                 {
                     string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))
+                    if (!tags[0].Contains("required"))   // Is tag an integer? Not the case anymore
                     {
-                        return tags[0];
+                        string[] formProviderTags = tags[0].Split(new char[] { '|' });
+                        if (formProviderTags.Length > 1)
+                        {
+                            return formProviderTags[(int)formProvider];
+                        }
+                        else
+                        {
+                            return tags[0];
+                        }
                     }
+                    //string[] tags = tag.Split(new char[] { ',' });
+                    //if (!tags[0].Contains("required"))
+                    //{
+                    //    return tags[0];
+                    //}
                 }
             }
             catch
@@ -504,6 +533,7 @@ namespace FormControlBaseClass
 
         public string GetTagErrorMessage(FormField formField)
         {
+            //Control control = formField.InputControl;
             string name = _formControlsList[1].InputControl.Name;
             FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
             Control control = formControl.InputControl;
@@ -550,9 +580,9 @@ namespace FormControlBaseClass
             }
         }
 
-        public string CreateOutpostDataString(FormField formField)
+        public string CreateOutpostDataString(FormField formField, FormProviders formProvider)
         {
-            (string id, Control control) = GetTagIndex(formField);
+            (string id, Control control) = GetTagIndex(formField, formProvider);
             if (string.IsNullOrEmpty(id))
                 return "";
 
@@ -617,22 +647,25 @@ namespace FormControlBaseClass
 
             for (int i = 0; i < _formControlsList.Count; i++)
             {
-                int tagIndex;
-                string tagIndexString = GetTagIndex(_formControlsList[i].InputControl);
-                if (string.IsNullOrEmpty(tagIndexString))
-                {
-                    tagIndex = -1;
+                //int tagIndex;
+                string tagIndexString = GetTagIndex(_formControlsList[i].InputControl, FormProvider);
+                string[] tagIndexStrings = tagIndexString.Split(new char[] { '|' });
+                //if (string.IsNullOrEmpty(tagIndexString))
+                //{
+                //    tagIndex = -1;
 
-                }
-                else
-                {
-                    tagIndex = Convert.ToInt32(tagIndexString);
-                }
+                //}
+                //else
+                //{
+                //    tagIndex = Convert.ToInt32(tagIndexString);
+                //}
                 FormField formField = new FormField()
                 {
+                    //InputControl = _formControlsList[i].InputControl;
                     ControlName = _formControlsList[i].InputControl.Name,
                     ControlContent = "",
-                    PacFormIndex = tagIndex,
+                    PacFormIndex = tagIndexString,  //tagIndex,
+                    FormProvidersIndices = tagIndexStrings,
                 };
                 formFields.SetValue(formField, i);
 
@@ -646,7 +679,12 @@ namespace FormControlBaseClass
 
 			for (int i = 0; i < _formControlsList.Count; i++)
 			{
-                FormField formField = new FormField() { ControlName = _formControlsList[i].InputControl.Name };
+                FormField formField = new FormField()
+                {
+                    //InputControl = _formControlsList[i].InputControl,
+                    ControlName = _formControlsList[i].InputControl.Name,
+                    PacFormIndex = GetTagIndex(_formControlsList[i].InputControl, FormProvider),
+                };
 
                 if (_formControlsList[i].InputControl is TextBox textBox)
                 {

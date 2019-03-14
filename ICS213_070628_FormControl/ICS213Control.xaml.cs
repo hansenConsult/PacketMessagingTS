@@ -5,6 +5,8 @@ using Windows.UI.Xaml.Controls;
 
 using SharedCode;
 using System;
+using SharedCode.Helpers;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -31,17 +33,17 @@ namespace ICS213_070628_FormControl
 
 		List<string> _ICSPositionFiltered = new List<string>();
 
-		public ICS213Control()
-		{
-			InitializeComponent();
+        public ICS213Control()
+        {
+            InitializeComponent();
 
-			ScanControls(PrintableArea);
+            ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-			ReceivedOrSent = "sent";
+            ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
-			otherText.Text = "Packet";
+            otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
         }
@@ -85,6 +87,13 @@ namespace ICS213_070628_FormControl
                     operatorTime.Text = value;
                 }
             }
+        }
+
+        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders FormProvider
+        {
+            get => formProvider;
+            set => formProvider = value;
         }
 
         public override string PacFormName => "XSC_ICS-213_Message_v070628";	// Used in CreateFileName() 
@@ -146,18 +155,18 @@ namespace ICS213_070628_FormControl
                 "# JS-ver. PR-4.4-4.3, 05/02/18",
                 "# FORMFILENAME: XSC_ICS-213_Message_v070628.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
 
             return CreateOutpostMessageBody(outpostData);
         }
 
-        private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             // Set sender.Text. You can use args.SelectedItem to build your text string.
             sender.Text = args.SelectedItem as string;
         }
 
-        private void textBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void TextBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Only get results when it was a user typing, 
             // otherwise assume the value got filled in by TextMemberPath 

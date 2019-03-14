@@ -17,13 +17,10 @@ namespace ToggleButtonGroupControl
         static SolidColorBrush _whiteBrush = new SolidColorBrush(Colors.White);
         static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
 
-
-        IList<RadioButton> _radioButtonGroup = new List<RadioButton>();
-
-        static ToggleButtonGroup()
-        {
-            //DefaultStyleKeyProperty.OverrideMetadata(typeof(ToggleButtonGroup), new FrameworkPropertyMetadata(typeof(ToggleButtonGroup)));
-        }
+        //static ToggleButtonGroup()
+        //{
+        //    //DefaultStyleKeyProperty.OverrideMetadata(typeof(ToggleButtonGroup), new FrameworkPropertyMetadata(typeof(ToggleButtonGroup)));
+        //}
 
         //public ToggleButtonGroup(List<RadioButton> radioButtonList, string groupName)
         //{
@@ -40,8 +37,7 @@ namespace ToggleButtonGroupControl
         //    SetBorderBrush(_blackBrush);
         //}
 
-        public IList<RadioButton> RadioButtonGroup
-        { get => _radioButtonGroup; }
+        public IList<RadioButton> RadioButtonGroup { get; } = new List<RadioButton>();
 
         private Brush toggleButtonGroupBrush = _blackBrush;
         public Brush ToggleButtonGroupBrush
@@ -50,7 +46,7 @@ namespace ToggleButtonGroupControl
             set
             {
                 toggleButtonGroupBrush = value;
-                foreach (RadioButton radioButton in _radioButtonGroup)
+                foreach (RadioButton radioButton in RadioButtonGroup)
                 {
                     radioButton.Foreground = toggleButtonGroupBrush;
                 }
@@ -80,25 +76,25 @@ namespace ToggleButtonGroupControl
 			{
 				if (radioButton.GroupName == groupName)
 				{
-					_radioButtonGroup.Add(radioButton);
+					RadioButtonGroup.Add(radioButton);
 					radioButton.IsChecked = false;
                 }
             }
 		}
 
-			//delegate string GetRadioButtonChecked(RadioButton radioButton);
-			//string GetRadioButton(RadioButton radioButton)
-			//{
-			//	if ((bool)radioButton.IsChecked)
-			//	{
-			//		return radioButton.Name;
-			//	}
-			//	return null;
-			//}
+        //delegate string GetRadioButtonChecked(RadioButton radioButton);
+        //string GetRadioButton(RadioButton radioButton)
+        //{
+        //	if ((bool)radioButton.IsChecked)
+        //	{
+        //		return radioButton.Name;
+        //	}
+        //	return null;
+        //}
 
-		public string GetRadioButtonCheckedState()
+        public string GetRadioButtonCheckedState()
 		{
-			foreach (RadioButton radioButton in _radioButtonGroup)
+			foreach (RadioButton radioButton in RadioButtonGroup)
 			{
 				//if ((radioButton.Dispatcher.CheckAccess()))
 				//{
@@ -142,7 +138,7 @@ namespace ToggleButtonGroupControl
 				string AllButFirst = name.Substring(1);
 				string nameWithLowercase = firstCharacter + AllButFirst;
 
-				foreach (RadioButton radioButton in _radioButtonGroup)
+				foreach (RadioButton radioButton in RadioButtonGroup)
 				{
 					//if ((radioButton.Dispatcher.CheckAccess()))
 					//{
@@ -167,7 +163,7 @@ namespace ToggleButtonGroupControl
         {
             if (GetRadioButtonCheckedState() is null)
             {
-                foreach (RadioButton radioButton in _radioButtonGroup)
+                foreach (RadioButton radioButton in RadioButtonGroup)
                 {
                     radioButton.Foreground = _redBrush;
                 }
@@ -175,7 +171,7 @@ namespace ToggleButtonGroupControl
             }
             else
             {
-                foreach (RadioButton radioButton in _radioButtonGroup)
+                foreach (RadioButton radioButton in RadioButtonGroup)
                 {
                     radioButton.Foreground = _blackBrush;
                 }

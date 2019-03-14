@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedCode;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -26,6 +27,12 @@ namespace FormControlBaseClass
         protected string _validationResultMessage;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        //// <provider, index> "PacForm" or "PacItForm"
+        //// xx|yy,required,text
+        //protected Dictionary<string, string> _tagIndexByFormProvider;
+        ////protected string[] _formProviders = new string[] { "PacForm", "PacItForm" };
+        //protected int _providerIndix = 0;
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {

@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using FormControlBaseClass;
 using SharedCode;
 using SharedCode.Models;
+using static SharedCode.Helpers.FormProvidersHelper;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -82,11 +83,11 @@ namespace MVCERTDA_FormsControl
             set
             {
                 var filteredTime = value.Split(new char[] { ':' });
-                if (filteredTime.Length == 2)
-                {
-                    operatorTime.Text = filteredTime[0] + filteredTime[1];
-                }
-                else
+                //if (filteredTime.Length == 2)
+                //{
+                //    operatorTime.Text = filteredTime[0] + filteredTime[1];
+                //}
+                //else
                 {
                     operatorTime.Text = value;
                 }
@@ -113,6 +114,14 @@ namespace MVCERTDA_FormsControl
             get => fromLocation;
             set => Set(ref fromLocation, value);
         }
+
+        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders FormProvider
+        {
+            get => formProvider;
+            set => formProvider = value;
+        }
+
         public override string PacFormName => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 
         public override string PacFormType => "MVCERTSummary";
@@ -165,7 +174,7 @@ namespace MVCERTDA_FormsControl
                 "# JS-ver. MV/PR-4.4-3.2, 09/19/18",
                 "# FORMFILENAME: MTV_213_CERT_Summary.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
 
             return CreateOutpostMessageBody(outpostData);
         }
