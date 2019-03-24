@@ -450,7 +450,7 @@ namespace PacketMessagingTS.Views
 
             DateTime now = DateTime.Now;
             _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-            _packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+            //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
             _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
             _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
             _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
@@ -570,7 +570,7 @@ namespace PacketMessagingTS.Views
 
                 DateTime now = DateTime.Now;
                 _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-                _packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+                //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                 _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
@@ -641,6 +641,7 @@ namespace PacketMessagingTS.Views
             PacketMessage packetMessage = new PacketMessage()
             {
                 FormFieldArray = _packetForm.CreateFormFieldsInXML(),
+                FormProvider = _packetForm.FormProvider,
                 PacFormName = _packetForm.PacFormName,
                 PacFormType = _packetForm.PacFormType,
                 MessageNumber = _packetForm.MessageNo,
@@ -701,7 +702,7 @@ namespace PacketMessagingTS.Views
                 return;
             }
 
-            CreatePacketMessage(MessageState.Edit);
+            CreatePacketMessage(MessageState.Edit, _packetForm.FormProvider);
             Utilities.MarkMessageNumberAsUsed();
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);

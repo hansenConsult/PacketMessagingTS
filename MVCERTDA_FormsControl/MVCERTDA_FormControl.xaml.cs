@@ -115,6 +115,8 @@ namespace MVCERTDA_FormsControl
             set => Set(ref fromLocation, value);
         }
 
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
         private FormProviders formProvider = FormProviders.PacForm;
         public override FormProviders FormProvider
         {
@@ -174,7 +176,7 @@ namespace MVCERTDA_FormsControl
                 "# JS-ver. MV/PR-4.4-3.2, 09/19/18",
                 "# FORMFILENAME: MTV_213_CERT_Summary.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }

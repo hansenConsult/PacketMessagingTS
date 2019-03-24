@@ -89,7 +89,9 @@ namespace ICS213_070628_FormControl
             }
         }
 
-        private FormProviders formProvider = FormProviders.PacForm;
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
+        private FormProviders formProvider;
         public override FormProviders FormProvider
         {
             get => formProvider;
@@ -155,7 +157,7 @@ namespace ICS213_070628_FormControl
                 "# JS-ver. PR-4.4-4.3, 05/02/18",
                 "# FORMFILENAME: XSC_ICS-213_Message_v070628.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }

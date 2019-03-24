@@ -56,6 +56,8 @@ namespace OAAlliedHealthStatus201802FormControl
         //    set { handlingOrder.SetRadioButtonCheckedState(value); }
         //}
 
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
         private FormProviders formProvider = FormProviders.PacForm;
         public override FormProviders FormProvider
         {
@@ -95,7 +97,7 @@ namespace OAAlliedHealthStatus201802FormControl
                 "# JS-ver. PR-4.4-1.4, 12/06/18",
                 "# FORMFILENAME: XSC_OA_AlliedHealthStatus_v201802.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }

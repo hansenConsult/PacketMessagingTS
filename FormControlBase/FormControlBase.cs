@@ -344,7 +344,10 @@ namespace FormControlBaseClass
             set => Set(ref messageSentTime, value);
         }
 
-        public abstract FormProviders FormProvider
+        public virtual FormProviders DefaultFormProvider
+        { get; }
+
+        public virtual FormProviders FormProvider
         { get; set; }
 
         public abstract string PacFormName
@@ -357,11 +360,11 @@ namespace FormControlBaseClass
 
 		public abstract string CreateOutpostData(ref PacketMessage packetMessage);
 
-		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData, FormProviders formProvider)
+		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
             if (packetMessage.FormFieldArray is null)
             {
-                // This may happen if called from view Outpost Data
+                // This may happen if called from view Outpost DataDefault
                 packetMessage.FormFieldArray = CreateFormFieldsInXML();
                 FillFormFromFormFields(packetMessage.FormFieldArray);
             }
@@ -370,7 +373,7 @@ namespace FormControlBaseClass
                 if (string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
-                string data = CreateOutpostDataString(formField, formProvider);
+                string data = CreateOutpostDataString(formField, packetMessage.FormProvider);
                 if (string.IsNullOrEmpty(data))
                 {
                     continue;

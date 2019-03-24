@@ -49,12 +49,14 @@ namespace EOC213RRFormControl
             set => Set(ref _incidentName, value);
         }
 
-        private FormProviders formProvider = FormProviders.PacForm;
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
+        //private FormProviders formProvider = FormProviders.PacForm;
+        //public override FormProviders FormProvider
+        //{
+        //    get => formProvider;
+        //    set => formProvider = value;
+        //}
 
         public override string PacFormName => "XSC_EOC-213RR_v1706";
 
@@ -74,7 +76,7 @@ namespace EOC213RRFormControl
                 "# JS-ver. PR-4.4-2.9, 06/29/18",
                 "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
 			return CreateOutpostMessageBody(outpostData);
 		}

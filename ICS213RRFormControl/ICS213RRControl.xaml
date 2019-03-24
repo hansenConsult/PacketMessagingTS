@@ -149,7 +149,7 @@
                                 <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                                 <Run Text="3. Time Initiated"/>
                                 </TextBlock>
-                                <TextBox Name="msgTime" PlaceholderText="hhmm" 
+                                <TextBox Name="msgTime" PlaceholderText="hh:mm" 
                                          Text="{x:Bind MsgTime}"
                                          FontFamily="Helvetica" FontSize="14" Margin="5,2"  
                                          TextChanged="TextBoxRequired_TextChanged"

@@ -103,6 +103,8 @@ namespace MessageFormControl
         //public override string OperatorTime
         //{ get; set; }
 
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
         private FormProviders formProvider = FormProviders.PacForm;
         public override FormProviders FormProvider
         {
@@ -114,7 +116,7 @@ namespace MessageFormControl
 
         public override string PacFormType => "SimpleMessage";
 
-        protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData, FormProviders formProvider)
+        protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
             foreach (FormField formField in packetMessage.FormFieldArray)
             {
@@ -136,7 +138,7 @@ namespace MessageFormControl
         {
             List<string> outpostData = new List<string>();
 
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }

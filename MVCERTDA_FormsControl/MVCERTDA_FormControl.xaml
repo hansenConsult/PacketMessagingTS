@@ -110,9 +110,9 @@
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4.) Situation Severity" Margin="10"/>
                                     <MyNamespace:ToggleButtonGroup x:Name="severity" 
                                                                    CheckedControlName="{x:Bind Severity, Mode=TwoWay}" 
-                                                                   Tag="required,Indicate Situation Severity."/>
+                                                                   Tag=""/>
                                     <RadioButton x:Name="emergency" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
-                                                 Margin="10, 8" Padding="4" Content="EMERGENCY" Tag="6,required," Checked="Subject_Changed" 
+                                                 Margin="10, 8" Padding="4" Content="EMERGENCY" Tag="6," Checked="Subject_Changed" 
 										         ToolTipService.ToolTip="Life threat" FontFamily="Times New Roman"/>
                                     <RadioButton x:Name="urgent" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="URGENT" Tag="7" Checked="Subject_Changed"

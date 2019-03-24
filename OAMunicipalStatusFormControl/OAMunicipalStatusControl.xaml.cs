@@ -88,6 +88,8 @@ namespace OAMunicipalStatusFormControl
         //{ get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
         { get => municipalityName.SelectedItem as string; }
 
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
         private FormProviders formProvider = FormProviders.PacForm;
         public override FormProviders FormProvider
         {
@@ -230,7 +232,7 @@ namespace OAMunicipalStatusFormControl
                 "# JS-ver. PR-4.4-1.9, 06/29/18",
                 "# FORMFILENAME: XSC_OA_MuniStatus_v20130101.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }

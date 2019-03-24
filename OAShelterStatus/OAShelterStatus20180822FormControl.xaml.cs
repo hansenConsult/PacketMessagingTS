@@ -87,6 +87,8 @@ namespace OAShelterStatusFormControl
             packet.IsChecked = true;
         }
 
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
         private FormProviders formProvider = FormProviders.PacForm;
         public override FormProviders FormProvider
         {
@@ -110,7 +112,7 @@ namespace OAShelterStatusFormControl
                 "# JS-ver. PR-4.4-3.6, 08-29-18",
                 "# FORMFILENAME: XSC_OA_ShelterStatus_v20130814.html"
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData, FormProvider);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }
