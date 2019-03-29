@@ -92,6 +92,19 @@ namespace ToggleButtonGroupControl
         //	return null;
         //}
 
+        public string GetCheckedRadioButtonContent()
+        {
+            foreach (RadioButton radioButton in RadioButtonGroup)
+            {
+                if ((bool)radioButton.IsChecked)
+                {
+                    return radioButton.Content as string;
+                }
+            }
+            return null;
+        }
+
+
         public string GetRadioButtonCheckedState()
 		{
 			foreach (RadioButton radioButton in RadioButtonGroup)

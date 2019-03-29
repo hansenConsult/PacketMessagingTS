@@ -197,6 +197,7 @@ namespace PacketMessagingTS.Models
 
         private string subjectField;
 
+        private string messageField;
         //private bool selectedField;
 
         /// <remarks/>
@@ -266,6 +267,20 @@ namespace PacketMessagingTS.Models
             set
             {
                 this.subjectField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Message
+        {
+            get
+            {
+                return this.messageField;
+            }
+            set
+            {
+                this.messageField = value;
             }
         }
 

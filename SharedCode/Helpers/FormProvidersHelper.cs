@@ -11,6 +11,7 @@ namespace SharedCode.Helpers
         public enum FormProviders
         {
             PacForm = 0,
+            PacItForm = 1,
         }
 
     }

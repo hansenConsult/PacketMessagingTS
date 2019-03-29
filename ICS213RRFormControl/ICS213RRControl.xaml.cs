@@ -42,21 +42,14 @@ namespace EOC213RRFormControl
         //	set { handlingOrder.SetRadioButtonCheckedState(value); }
         //}
 
-        private string _incidentName;
-        public override string IncidentName
-        {
-            get => _incidentName;
-            set => Set(ref _incidentName, value);
-        }
-
-        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
-
-        //private FormProviders formProvider = FormProviders.PacForm;
-        //public override FormProviders FormProvider
+        //private string _incidentName;
+        //public override string IncidentName
         //{
-        //    get => formProvider;
-        //    set => formProvider = value;
+        //    get => _incidentName;
+        //    set => Set(ref _incidentName, value);
         //}
+ 
+        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 
         public override string PacFormName => "XSC_EOC-213RR_v1706";
 
@@ -68,17 +61,31 @@ namespace EOC213RRFormControl
 		}
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
-		{
-            outpostData = new List<string>
+        {
+            switch (packetMessage.FormProvider)
             {
-                "!PACF! " + packetMessage.Subject,
-                "# JS:EOC Resource Request (which4)",
-                "# JS-ver. PR-4.4-2.9, 06/29/18",
-                "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
-            };
+                case FormProviders.PacForm:
+                    outpostData = new List<string>
+                    {
+                        "!PACF! " + packetMessage.Subject,
+                        "# JS:EOC Resource Request (which4)",
+                        "# JS-ver. PR-4.4-2.9, 06/29/18",
+                        "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
+                    };
+                    break;
+                case FormProviders.PacItForm:
+                    outpostData = new List<string>
+                    {
+                        "!SCCoPIFO!",
+                        "#Subject: " + packetMessage.Subject,    //6DM-175P_R_EOC213RR_
+                        "#T: form-scco-eoc-213rr.html",
+                        "#V: 1.2"
+                    };
+                    break;
+            }
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
-			return CreateOutpostMessageBody(outpostData);
+            return CreateOutpostMessageBody(outpostData);
 		}
 
     }

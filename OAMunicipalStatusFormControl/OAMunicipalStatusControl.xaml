@@ -175,7 +175,7 @@
                                         <TextBox Name="msgTime"  PlaceholderText="hh:mm" 
                                                  Style="{StaticResource MuniStatusTextBox}" 
                                                  Text="{x:Bind MsgTime, Mode=TwoWay}"
-                                                 Tag="16,required,Enter the time." 
+                                                 Tag="16,required,Enter the message time." 
                                                  TextChanged="TextBoxRequired_TextChanged"
                                                  VerticalContentAlignment="Center"/>
                                     </StackPanel>
@@ -583,15 +583,15 @@
                                  VerticalAlignment="Center"
                                  BorderThickness="0" MinWidth="40" Tag="72"/>
                         <TextBlock Grid.Column="6" Text="Name:"  Margin="5,0,0,0" VerticalAlignment="Center" Padding="0,0,0,1" />
-                        <TextBox Grid.Column="7" Name="operatorName" Text="{x:Bind OperatorName, Mode=TwoWay}" 
+                        <TextBox Grid.Column="7" Name="operatorName" Text="{x:Bind OperatorName}" 
                                  Margin="0" BorderThickness="0" VerticalContentAlignment="Center" Tag="73"/>
                         <Border Grid.Column="8" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,0,1,1" ></Border>
                         <TextBlock Grid.Column="8" Text="Submitted:"  Margin="5,0,0,0" VerticalAlignment="Center" 
                                    Style="{StaticResource EOC213RRFieldText}"/>
-                        <TextBox Grid.Column="9" Name="operatorDate" Text="{x:Bind OperatorDate, Mode=TwoWay}" 
-                                 BorderThickness="0" Tag="74"/>
-                        <TextBox Grid.Column="10" Name="operatorTime" Text="{x:Bind OperatorTime, Mode=TwoWay}" 
-                                 BorderThickness="0" Tag="75"/>
+                        <TextBox Grid.Column="9" Name="operatorDate"  
+                                 IsReadOnly="True" BorderThickness="0" Tag="74"/>
+                        <TextBox Grid.Column="10" Name="operatorTime" 
+                                 IsReadOnly="True" BorderThickness="0" Tag="75"/>
                     </Grid>
                     <TextBlock Text="Page 2 of 2" HorizontalAlignment="Center" Margin="0,4,0,0"/>
                     <TextBlock HorizontalAlignment="Right" Margin="0,12,0,0" FontFamily="Helvetica" FontSize="11"

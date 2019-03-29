@@ -94,14 +94,6 @@ namespace MessageFormControl
         //public override string OperatorCallsign
         //{ get; set; }
 
-        //public override string OperatorName
-        //{ get; set; }
-
-        //public override string OperatorDate
-        //{ get; set; }
-
-        //public override string OperatorTime
-        //{ get; set; }
 
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 

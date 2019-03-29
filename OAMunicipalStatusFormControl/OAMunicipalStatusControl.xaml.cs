@@ -103,7 +103,7 @@ namespace OAMunicipalStatusFormControl
 
         public override string CreateSubject()
         {
-            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + MunicipalityName + '_' + IncidentName);
+            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + MunicipalityName + '_' + incidentName.Text);
         }
 
         /// <summary>

@@ -53,7 +53,6 @@ namespace FormControlBaseClass
 		{ get; set; }
 	}
 
-	//public abstract class FormControlBase : FormControlBasics, INotifyPropertyChanged
     public abstract class FormControlBase : FormControlBasics
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
@@ -68,17 +67,6 @@ namespace FormControlBaseClass
         public FormControlBase()
 		{
         }
-
-        //protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-        //{
-        //    if (Equals(storage, value))
-        //    {
-        //        return;
-        //    }
-
-        //    storage = value;
-        //    OnPropertyChanged(propertyName);
-        //}
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
         {
@@ -282,32 +270,48 @@ namespace FormControlBaseClass
         public virtual string ReceiverMsgNo
         { get; set; }
 
-		public static string DefaultMessageTo
-		{ get; set; }
+		//public static string DefaultMessageTo
+		//{ get; set; }
 
-        //private string msgDate;
         public virtual string MsgDate
         { get; set; }
-        //{
-        //    get => msgDate;
-        //    set => Set(ref msgDate, value);
-        //}
 
+        protected string TimeCheck(string time)
+        {
+            var filteredTime = time.Split(new char[] { ':' });
+            if (filteredTime.Length == 1 && time.Length > 2)
+            {
+                string min = time.Substring(time.Length - 2);
+                if (min.Length > 2 || Convert.ToInt32(min) > 59)
+                    return "";
+                string hour = time.Substring(0, time.Length - 2);
+                if (hour.Length > 2 || Convert.ToInt32(hour) > 23)
+                    return "";
+                return $"{hour}:{min}";
+            }
+            else if (time.Length > 2 && time.Length < 6)
+            {
+                return time;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        protected string _msgTime; 
         public virtual string MsgTime
-        { get; set; }
+        {
+            get => _msgTime;
+            set
+            {
+                string time = TimeCheck(value);
+                Set(ref _msgTime, time);
+            }
+        }
 
         public virtual string OperatorName
         { get; set; }
-
-        private string operatorDate;
-        public virtual string OperatorDate
-		{
-            get => operatorDate;
-            set => Set(ref operatorDate, value);
-        }
-
-		public virtual string OperatorTime
-		{ get; set; }
 
         public virtual string Severity
         { get; set; }
@@ -325,10 +329,7 @@ namespace FormControlBaseClass
         { get; set; }
 
         public virtual string Subject
-        {
-            get;
-            set;
-        }
+        { get; set; }
 
         private DateTime? messageReceivedTime = null;
         public virtual DateTime? MessageReceivedTime
@@ -344,7 +345,7 @@ namespace FormControlBaseClass
             set => Set(ref messageSentTime, value);
         }
 
-        public virtual FormProviders DefaultFormProvider
+        public abstract FormProviders DefaultFormProvider
         { get; }
 
         public virtual FormProviders FormProvider
@@ -380,14 +381,21 @@ namespace FormControlBaseClass
                 }
                 outpostData.Add(data);
             }
-            outpostData.Add("#EOF");
+            switch (packetMessage.FormProvider)
+            {
+                case FormProviders.PacForm:
+                    outpostData.Add("#EOF");
+                    break;
+                case FormProviders.PacItForm:
+                    outpostData.Add("!/ ADDON!");
+                    break;
+            }
         }
 
         protected virtual string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
         {
             string comboBoxData = GetOutpostValue(id, ref msgLines);
             var comboBoxDataSet = comboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-            //formField.ControlContent = comboBoxDataSet[0];
 
             return comboBoxDataSet[0];
         }
@@ -396,7 +404,8 @@ namespace FormControlBaseClass
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
 
-            // Sender messahe number can be either in 1 or 3
+            // Populate Sender Message Number from received message number
+            // Sender message number can be either in 1 or 3
             string senderMsgNo = "";
             if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
             {
@@ -422,7 +431,6 @@ namespace FormControlBaseClass
                             formField.ControlContent = radioButton.Name;
                         }
                     }
-
                 }
                 else if (control is CheckBox)
                 {
@@ -446,7 +454,7 @@ namespace FormControlBaseClass
                     {
                         formField.ControlContent = GetOutpostValue(id, ref msgLines);
                         // Filter operator date and time
-                        if (formField.ControlContent != null)
+                        if (!string.IsNullOrEmpty(formField.ControlContent))
                         {
                             int index = formField.ControlContent.IndexOf("{odate");
                             if (index > 0)
@@ -468,7 +476,7 @@ namespace FormControlBaseClass
         public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)
         {
             if (formField is null)
-                return ("-1", null);
+                return ("", null);
 
             Control control = null;
             try
@@ -481,7 +489,7 @@ namespace FormControlBaseClass
                 if (!string.IsNullOrEmpty(tag))
                 {
                     string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))   // Is tag an integer? Not the case anymore
+                    if (!tags[0].Contains("required"))
                     {
                         string[] formProviderTags = tags[0].Split(new char[] { '|' });
                         if (formProviderTags.Length > 1)
@@ -498,7 +506,7 @@ namespace FormControlBaseClass
             catch
             {                
             }
-            return ("-1", control);
+            return ("", control);
         }
 
         public static string GetTagIndex(Control control, FormProviders formProvider)
@@ -509,7 +517,7 @@ namespace FormControlBaseClass
                 if (!string.IsNullOrEmpty(tag))
                 {
                     string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))   // Is tag an integer? Not the case anymore
+                    if (!tags[0].Contains("required"))
                     {
                         string[] formProviderTags = tags[0].Split(new char[] { '|' });
                         if (formProviderTags.Length > 1)
@@ -521,17 +529,12 @@ namespace FormControlBaseClass
                             return tags[0];
                         }
                     }
-                    //string[] tags = tag.Split(new char[] { ',' });
-                    //if (!tags[0].Contains("required"))
-                    //{
-                    //    return tags[0];
-                    //}
                 }
             }
             catch
             {
             }
-            return "-1";
+            return "";
         }
 
         public string GetTagErrorMessage(FormField formField)
@@ -562,25 +565,31 @@ namespace FormControlBaseClass
         protected virtual string CreateComboBoxOutpostDataString(FormField formField, string id)
         {
             string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (data.Length == 2)
+
+            switch (FormProvider)
             {
-                if (data[1] == (-1).ToString())
-                {
-                    return $"{id}: [ }}0]";
-                }
-                else
-                {
-                    return $"{id}: [{data[0]}}}{data[1]}]";
-                }
+                case FormProviders.PacForm:
+                    if (data.Length == 2)
+                    {
+                        if (data[1] == (-1).ToString() || string.IsNullOrEmpty(data[1]))
+                        {
+                            return $"{id}: [ }}0]";
+                        }
+                        else
+                        {
+                            return $"{id}: [{data[0]}}}{data[1]}]";
+                        }
+                    }
+                    else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
+                    {
+                        return $"{id}: [ }}0]";
+                    }
+                    break;
+                case FormProviders.PacItForm:
+                    
+                    return $"{id}: [{data[0]}]";
             }
-            else if (data[0] == "-1")
-            {
-                return $"{id}: [ }}0]";
-            }
-            else
-            {
-                return "";
-            }
+            return "";
         }
 
         public string CreateOutpostDataString(FormField formField, FormProviders formProvider)
@@ -624,6 +633,13 @@ namespace FormControlBaseClass
                 else
                 {
                     return "";
+                }
+            }
+            else if (control is ToggleButtonGroup toggleButtonGroup)
+            {
+                if (formProvider == FormProviders.PacItForm)
+                {
+                    return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonContent()}]";
                 }
             }
             else if (control is ComboBox comboBox)
@@ -720,7 +736,7 @@ namespace FormControlBaseClass
 				}
 				else if (_formControlsList[i].InputControl is ComboBox comboBox)
                 {
-                    // Note the Item Type must gave a ToString() method
+                    // Note the Item Type must have a ToString() method
 					formField.ControlContent = $"{comboBox.SelectedItem?.ToString()},{comboBox.SelectedIndex}";
 				}
                 else if (_formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
@@ -771,7 +787,7 @@ namespace FormControlBaseClass
 
 				Control control = formControl?.InputControl;
 
-				if (control is null || formField.ControlContent is null)
+				if (control is null || string.IsNullOrEmpty(formField.ControlContent))
 					continue;
 
 				if (control is TextBox textBox)
@@ -797,12 +813,6 @@ namespace FormControlBaseClass
                             break;
                         case "operatorName":
                             OperatorName = textBox.Text;
-                            break;
-                        case "operatorDate":
-                            OperatorDate = textBox.Text;
-                            break;
-                        case "operatorTime":
-                            OperatorTime = textBox.Text;
                             break;
                         case null:
                             continue;

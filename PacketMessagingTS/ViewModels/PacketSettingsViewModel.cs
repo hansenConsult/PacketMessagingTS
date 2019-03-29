@@ -104,8 +104,9 @@ namespace PacketMessagingTS.ViewModels
                 }
                 else
                 {
-                    DefaultSubject = "";
+                    DefaultSubject = CurrentProfile.Subject;
                 }
+                DefaultMessage = CurrentProfile.Message;
 
                 ResetChangedProperty();
             }
@@ -224,10 +225,29 @@ namespace PacketMessagingTS.ViewModels
         public string DefaultSubject
         {
             get => defaultSubject;
-            set => defaultSubject = value;
+            set
+            {
+                SetProperty(ref defaultSubject, value);
+
+                bool changed = CurrentProfile.Subject != defaultSubject;
+                IsAppBarSaveEnabled = SaveEnabled(changed);
+            }
         }
 
-        private bool displayProfileOnStart;
+        private string defaultMessage;
+        public string DefaultMessage
+        {
+            get => defaultMessage;
+            set
+            {
+                SetProperty(ref defaultMessage, value);
+
+                bool changed = CurrentProfile.Message != defaultMessage;
+                IsAppBarSaveEnabled = SaveEnabled(changed);
+            }
+        }
+    
+    private bool displayProfileOnStart;
         public bool DisplayProfileOnStart
         {
             get => GetProperty(ref displayProfileOnStart);

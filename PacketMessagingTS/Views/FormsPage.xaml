@@ -11,7 +11,7 @@
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <!--  content  -->
-        <Pivot x:Name="FormsPagePivot" Grid.Row="1" Height="auto"
+        <Pivot x:Name="formsPagePivot" Grid.Row="1" Height="auto"
                RelativePanel.AlignTopWithPanel="True"
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
@@ -51,6 +51,8 @@
 				RelativePanel.AlignBottomWithPanel="True"
 				RelativePanel.AlignRightWithPanel="True"
 				RelativePanel.AlignLeftWithPanel="True">
+            <AppBarButton x:Name="appBarClearForm" Label="Clear Form" Icon="Clear" HorizontalAlignment="Right"
+                          Click="AppBarClearForm_ClickAsync"/>
             <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
                           Click="AppBarViewOutpostData_ClickAsync"/>
             <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"

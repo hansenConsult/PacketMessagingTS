@@ -218,7 +218,8 @@
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,1,0"/>
                             <TextBox Grid.Column="2" x:Name="msgTime" Header="TIME:"  BorderBrush="White" Margin="2"
                                      Text="{x:Bind MsgTime, Mode=TwoWay}"
-                                     HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16" PlaceholderText="hhmm"/>
+                                     HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16" 
+                                     PlaceholderText="hh:mm"/>
                         </Grid>
                         <Border Grid.Column="0" Grid.Row="1" BorderBrush="black" BorderThickness="0,0,0,1"/>
                         <TextBox Grid.Column="0" Grid.Row="1" Header="Facility Contact Name:" 
@@ -776,14 +777,14 @@
                                  VerticalAlignment="Center"
                                  BorderThickness="0" MinWidth="40" Tag="72"/>
                         <TextBlock Grid.Column="6" Text="Name:"  Margin="5,0,0,0" VerticalAlignment="Center" Padding="0,0,0,1" />
-                        <TextBox Grid.Column="7" Name="operatorName" Text="{x:Bind OperatorName, Mode=TwoWay}" 
+                        <TextBox Grid.Column="7" Name="operatorName" Text="{x:Bind OperatorName}" 
                                  Margin="0" BorderThickness="0" VerticalContentAlignment="Center" Tag="73"/>
                         <Border Grid.Column="8" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,0,1,1" ></Border>
                         <TextBlock Grid.Column="8" Text="Submitted:"  Margin="5,0,0,0" VerticalAlignment="Center" 
                                    Style="{StaticResource EOC213RRFieldText}"/>
-                        <TextBox Grid.Column="9" Name="operatorDate" Text="{x:Bind OperatorDate, Mode=TwoWay}" 
+                        <TextBox Grid.Column="9" Name="operatorDate" 
                                  BorderThickness="0" Tag="74"/>
-                        <TextBox Grid.Column="10" Name="operatorTime" Text="{x:Bind OperatorTime, Mode=TwoWay}" 
+                        <TextBox Grid.Column="10" Name="operatorTime" 
                                  BorderThickness="0" Tag="75"/>
                     </Grid>
                     <TextBlock HorizontalAlignment="Right" Margin="0,12,0,0" FontFamily="Arial" FontSize="11"

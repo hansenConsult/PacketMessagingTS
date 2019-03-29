@@ -97,9 +97,10 @@
                                         <TextBox x:Name="msgTime" 
                                                  HeaderTemplate="{StaticResource smallHeaderTemplate}"
                                                  Header="1a.) Date:"
-                                                 Text="{x:Bind MsgTime}"
+                                                 PlaceholderText="hh:mm"
+                                                 Text="{x:Bind MsgTime, Mode=TwoWay}"
                                                  TextAlignment="Center" BorderBrush="White" 
-                                                 Margin="2,0,2,2" Tag="18"
+                                                 Margin="2,0,2,2" Tag="18,required"
                                                  TextChanged="TextBoxRequired_TextChanged"/>
                                     </StackPanel>
                                 </Border>
@@ -572,11 +573,9 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0"  Style="{StaticResource LabelFontTNR12B}" Text="Date:" VerticalAlignment="Center" Margin="5"/>
                                 <TextBox Grid.Column="1" x:Name="operatorDate" 
-                                         Text="{x:Bind OperatorDate}"
                                          TextAlignment="Left" BorderBrush="White" Margin="0" Tag="72"/>
                                 <TextBlock Grid.Column="2" Style="{StaticResource LabelFontTNR12B}" Text=" Time:"  VerticalAlignment="Center"/>
                                 <TextBox Grid.Column="3" x:Name="operatorTime" 
-                                         Text="{x:Bind OperatorTime}"
                                          TextAlignment="Left" BorderBrush="White" Margin="0" Tag="73"/>
                             </Grid>
                         </Border>

@@ -77,22 +77,22 @@ namespace MVCERTDA_FormsControl
             set => CERTLocationValue = value;
         }
 
-        public override string OperatorTime
-        {
-            get => operatorTime.Text;
-            set
-            {
-                var filteredTime = value.Split(new char[] { ':' });
-                //if (filteredTime.Length == 2)
-                //{
-                //    operatorTime.Text = filteredTime[0] + filteredTime[1];
-                //}
-                //else
-                {
-                    operatorTime.Text = value;
-                }
-            }
-        }
+        //public override string OperatorTime
+        //{
+        //    //get => operatorTime.Text;
+        //    set
+        //    {
+        //        var filteredTime = value.Split(new char[] { ':' });
+        //        //if (filteredTime.Length == 2)
+        //        //{
+        //        //    operatorTime.Text = filteredTime[0] + filteredTime[1];
+        //        //}
+        //        //else
+        //        {
+        //            operatorTime.Text = value;
+        //        }
+        //    }
+        //}
 
         private string toICSPosition;
         public string ToICSPosition
@@ -117,12 +117,12 @@ namespace MVCERTDA_FormsControl
 
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 
-        private FormProviders formProvider = FormProviders.PacForm;
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
+        //private FormProviders formProvider = FormProviders.PacForm;
+        //public override FormProviders FormProvider
+        //{
+        //    get => formProvider;
+        //    set => formProvider = value;
+        //}
 
         public override string PacFormName => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 
@@ -138,7 +138,7 @@ namespace MVCERTDA_FormsControl
             string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             if (data.Length == 2)
             {
-                if (data[1] == (-1).ToString())
+                if (data[1] == (-1).ToString() || string.IsNullOrEmpty(data[1]))
                 {
                     return $"{id}: [ }}0]";
                 }
@@ -155,7 +155,7 @@ namespace MVCERTDA_FormsControl
                     }
                 }
             }
-            else if (data[0] == "-1")
+            else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
             {
                 return $"{id}: [ }}0]";
             }

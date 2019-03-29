@@ -321,8 +321,8 @@
             <PivotItem x:Name="pivotPacketSettings" Header="Packet Settings" >
                 <RelativePanel x:Name="profilePanel" >
                     <ScrollViewer x:Name="scrollViewerProfile"
-                                  Margin="{StaticResource MediumLeftTopRightBottomMargin}" 
-								  VerticalScrollBarVisibility="Auto">
+                                  Margin="12,12,5,12" 
+								  VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <StackPanel>
                             <RelativePanel x:Name="panelProfileSelection" >
                                 <TextBlock x:Name="labelProfile"  Text="Profile:" Margin="12,0,6,0" 
@@ -344,7 +344,7 @@
                             </RelativePanel>
                             <Grid x:Name="panelProfileGrid"                                 
 								  RelativePanel.Below="panelProfileSelection"
-                                  Height="331" Margin="12,12,0,0">
+                                  Margin="12,12,0,0" Padding="0,0,20,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width ="1*"/>
                                     <ColumnDefinition Width="2.4*"/>
@@ -353,6 +353,7 @@
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="100"/>
+                                    <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
@@ -396,7 +397,10 @@
                                 <TextBox x:Name="textBoxSubject"  Grid.Column="1" Grid.Row="5" Width="270"
 										 Text="{x:Bind _packetSettingsViewModel.DefaultSubject, Mode=TwoWay}"
                                          VerticalAlignment="Center" />
-                                <!--TextChanged="TextBoxTo_TextChanged"-->
+                                <TextBlock Grid.Column="0" Grid.Row="6"  Text="Default Message:" VerticalAlignment="Center" />
+                                <TextBox x:Name="textBoxMessageBody"  Grid.Column="1" Grid.Row="6" Width="270"
+										 Text="{x:Bind _packetSettingsViewModel.DefaultMessage, Mode=TwoWay}"
+                                         VerticalAlignment="Center" />
                             </Grid>
                             <ToggleSwitch x:Name="displayProfileOnStart" Header="Display on start" Margin="8"
                                           IsOn="{x:Bind _packetSettingsViewModel.DisplayProfileOnStart, Mode=TwoWay}"

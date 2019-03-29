@@ -81,6 +81,11 @@ namespace PacketMessagingTS.Views
         SendFormDataControl _packetAddressForm;
         //SimpleMessageHeader _headerControl;
 
+        List<FormControlAttributes> _attributeListTypeNone = new List<FormControlAttributes>();
+        List<FormControlAttributes> _attributeListTypeCounty = new List<FormControlAttributes>();
+        List<FormControlAttributes> _attributeListTypeCity = new List<FormControlAttributes>();
+        List<FormControlAttributes> _attributeListTypeHospital = new List<FormControlAttributes>();
+
         private List<FormControlAttributes> _formControlAttributeList;
 
         private PrintHelper printHelper;
@@ -96,6 +101,12 @@ namespace PacketMessagingTS.Views
 
             _formControlAttributeList = new List<FormControlAttributes>();
             ScanFormAttributes();
+            _formControlAttributeList.Clear();
+            _formControlAttributeList.AddRange(_attributeListTypeNone);
+            _formControlAttributeList.AddRange(_attributeListTypeCounty);
+            _formControlAttributeList.AddRange(_attributeListTypeCity);
+            //_formControlAttributeList.AddRange(_attributeListTypeHospital);
+
 
             foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
             {
@@ -104,7 +115,7 @@ namespace PacketMessagingTS.Views
                     continue;
                 }
                 PivotItem pivotItem = CreatePivotItem(formControlAttribute);
-                FormsPagePivot.Items.Add(pivotItem);
+                formsPagePivot.Items.Add(pivotItem);
             }
         }
 
@@ -184,35 +195,26 @@ namespace PacketMessagingTS.Views
                     }
                 }
             }
-            List<FormControlAttributes> attributeListTypeNone = new List<FormControlAttributes>();
-            List<FormControlAttributes> attributeListTypeCounty = new List<FormControlAttributes>();
-            List<FormControlAttributes> attributeListTypeCity = new List<FormControlAttributes>();
-            List<FormControlAttributes> attributeListTypeHospital = new List<FormControlAttributes>();
             // Sort by menu type
             foreach (FormControlAttributes formControlAttributes in _formControlAttributeList)
             {
                 if (formControlAttributes.FormControlType == FormControlAttribute.FormType.None)
                 {
-                    attributeListTypeNone.Add(formControlAttributes);
+                    _attributeListTypeNone.Add(formControlAttributes);
                 }
                 else if (formControlAttributes.FormControlType == FormControlAttribute.FormType.CountyForm)
                 {
-                    attributeListTypeCounty.Add(formControlAttributes);
+                    _attributeListTypeCounty.Add(formControlAttributes);
                 }
                 else if (formControlAttributes.FormControlType == FormControlAttribute.FormType.CityForm)
                 {
-                    attributeListTypeCity.Add(formControlAttributes);
+                    _attributeListTypeCity.Add(formControlAttributes);
                 }
                 else if (formControlAttributes.FormControlType == FormControlAttribute.FormType.HospitalForm)
                 {
-                    attributeListTypeHospital.Add(formControlAttributes);
+                    _attributeListTypeHospital.Add(formControlAttributes);
                 }
             }
-            _formControlAttributeList.Clear();
-            _formControlAttributeList.AddRange(attributeListTypeNone);
-            _formControlAttributeList.AddRange(attributeListTypeCounty);
-            _formControlAttributeList.AddRange(attributeListTypeCity);
-            //_formControlAttributeList.AddRange(attributeListTypeHospital);
         }
 
         private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProviders formProvider = FormProviders.PacForm)
@@ -222,7 +224,7 @@ namespace PacketMessagingTS.Views
                 BBSName = _packetAddressForm.MessageBBS,
                 TNCName = _packetAddressForm.MessageTNC,
                 FormFieldArray = _packetForm.CreateFormFieldsInXML(),
-                FormProvider = formProvider,
+                FormProvider = _packetForm.FormProvider,
                 PacFormName = _packetForm.PacFormName,
                 PacFormType = _packetForm.PacFormType,
                 MessageFrom = _packetAddressForm.MessageFrom,
@@ -240,13 +242,13 @@ namespace PacketMessagingTS.Views
 
         public void FillFormFromPacketMessage()
         {
+            _packetForm.FormProvider = _packetMessage.FormProvider;
             _packetAddressForm.MessageBBS = _packetMessage.BBSName;
             _packetAddressForm.MessageTNC = _packetMessage.TNCName;
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
             _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
             _packetAddressForm.MessageTo = _packetMessage.MessageTo;
             _packetAddressForm.MessageSubject = _packetMessage.Subject;
-
 
             //string opcall = _packetForm.OperatorCallsign;//test
             // Special handling for SimpleMessage
@@ -294,12 +296,6 @@ namespace PacketMessagingTS.Views
             //            break;
             //        case "operatorName":
             //            _packetForm.OperatorName = (control as TextBox).Text;
-            //            break;
-            //        case "operatorDate":
-            //            _packetForm.OperatorDate = (control as TextBox).Text;
-            //            break;
-            //        case "operatorTime":
-            //            _packetForm.OperatorTime = (control as TextBox).Text;
             //            break;
             //        case null:
             //            continue;
@@ -373,7 +369,7 @@ namespace PacketMessagingTS.Views
             if (e.Parameter is null)
             {
                 // Open an empty form
-                FormsPagePivot.SelectedIndex = _formsViewModel.FormsPagePivotSelectedIndex;
+                formsPagePivot.SelectedIndex = _formsViewModel.FormsPagePivotSelectedIndex;
                 appBarSend.IsEnabled = true;
                 return;
             }
@@ -385,11 +381,11 @@ namespace PacketMessagingTS.Views
             _packetMessage.MessageOpened = true;
             string directory = Path.GetDirectoryName(packetMessagePath);
             _loadMessage = true;
-            foreach (PivotItem pivotItem in FormsPagePivot.Items)
+            foreach (PivotItem pivotItem in formsPagePivot.Items)
             {
                 if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
                 {
-                    FormsPagePivot.SelectedIndex = index;
+                    formsPagePivot.SelectedIndex = index;
                     break;
                 }
                 index++;
@@ -419,31 +415,30 @@ namespace PacketMessagingTS.Views
             {
                 printHelper.UnregisterForPrinting();
             }
-            _formsViewModel.FormsPagePivotSelectedIndex = FormsPagePivot.SelectedIndex;
+            _formsViewModel.FormsPagePivotSelectedIndex = formsPagePivot.SelectedIndex;
 
             base.OnNavigatedFrom(e);
         }
 
         private async Task InitializeFormControlAsync()
         {
-            PivotItem pivotItem = FormsPagePivot.SelectedItem as PivotItem;
+            PivotItem pivotItem = formsPagePivot.SelectedItem as PivotItem;
             string pivotItemName = pivotItem.Name;
 
             _packetAddressForm = new SendFormDataControl();
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
-                //MessageDialog messageDialog = new MessageDialog(content: "Failed to find packet form.", title: "Packet Messaging Error");
-                //await messageDialog.ShowAsync();
                 await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
 
                 return;
             }
 
+            _packetForm.FormProvider = _packetForm.DefaultFormProvider;
             _packetForm.InitializeFormRequiredColors(true);
             _packetMessage = new PacketMessage()
             {
-                FormProvider = _packetForm.FormProvider,                
+                FormProvider = _packetForm.FormProvider,
             };
 
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
@@ -451,8 +446,6 @@ namespace PacketMessagingTS.Views
             DateTime now = DateTime.Now;
             _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
             //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-            _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-            _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
             _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
             _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
@@ -474,14 +467,6 @@ namespace PacketMessagingTS.Views
                 (_packetForm as MessageControl).NewHeaderVisibility = true;
                 _packetForm.MessageReceivedTime = DateTime.Now;
             }
-            //else if (pivotItemName == "Message")
-            //{
-            //    Form213Panel.Children.Clear();
-            //    Form213Panel.Children.Insert(0, _packetForm);
-            //    Form213Panel.Children.Insert(1, _packetAddressForm);
-            //    _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
-            //}
-            //else if (pivotItemName != "Message")
             else
             {
                 stackPanel.Children.Insert(0, _packetForm);
@@ -559,7 +544,9 @@ namespace PacketMessagingTS.Views
             }
 
             if (!_loadMessage)
-            {          
+            {
+                _packetForm.FormProvider = _packetForm.DefaultFormProvider;
+
                 _packetMessage = new PacketMessage()
                 {
                     FormProvider = _packetForm.FormProvider,
@@ -571,8 +558,6 @@ namespace PacketMessagingTS.Views
                 DateTime now = DateTime.Now;
                 _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                 //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-                _packetForm.OperatorDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-                _packetForm.OperatorTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
                 _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
                 if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
@@ -616,7 +601,7 @@ namespace PacketMessagingTS.Views
                 //    }
                 }
             }
-            else 
+            else
             {
                 FillFormFromPacketMessage();
                 appBarSend.IsEnabled = !(_packetMessage.MessageState == MessageState.Locked);
@@ -624,7 +609,7 @@ namespace PacketMessagingTS.Views
                 _loadMessage = false;
             }
 
-            //_formsViewModel.FormsPagePivotSelectedIndex = FormsPagePivot.SelectedIndex;
+            //_formsViewModel.FormsPagePivotSelectedIndex = formsPagePivot.SelectedIndex;
 
             // Initialize print content for this scenario
             //if (_packetForm.GetType() == typeof(ICS213Control))
@@ -633,6 +618,11 @@ namespace PacketMessagingTS.Views
                 printHelper?.PreparePrintContent(this);
             }
             _formsViewModel.FormsPagePivotSelectedIndex = ((Pivot)sender).SelectedIndex;
+        }
+
+        private async void AppBarClearForm_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            await InitializeFormControlAsync();
         }
 
         private async void AppBarViewOutpostData_ClickAsync(object sender, RoutedEventArgs e)

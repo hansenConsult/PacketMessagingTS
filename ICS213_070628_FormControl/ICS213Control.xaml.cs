@@ -60,43 +60,25 @@ namespace ICS213_070628_FormControl
             get => msgTime.Text;
             set
             {
-                var filteredTime = value.Split(new char[] { ':' });
-                if (filteredTime.Length == 2)
-                {
-                    msgTime.Text = filteredTime[0] + filteredTime[1];
-                }
-                else
-                {
-                    msgTime.Text = value;
-                }
+                string time = TimeCheck(value);
+                msgTime.Text = time;
             }
         }
 
-        public override string OperatorTime
-        {
-            get => operatorTime.Text;
-            set
-            {
-                var filteredTime = value.Split(new char[] { ':' });
-                if (filteredTime.Length == 2)
-                {
-                    operatorTime.Text = filteredTime[0] + filteredTime[1];
-                }
-                else
-                {
-                    operatorTime.Text = value;
-                }
-            }
-        }
+        //public override string OperatorTime
+        //{
+        //    get => operatorTime.Text;
+        //    set => operatorTime.Text = value;
+        //}
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+        public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
 
-        private FormProviders formProvider;
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
+        //private FormProviders formProvider;
+        //public override FormProviders FormProvider
+        //{
+        //    get => formProvider;
+        //    set => formProvider = value;
+        //}
 
         public override string PacFormName => "XSC_ICS-213_Message_v070628";	// Used in CreateFileName() 
 
@@ -119,44 +101,62 @@ namespace ICS213_070628_FormControl
         protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
         {
             string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (data.Length == 2)
+            switch (FormProvider)
             {
-                if (data[1] == (-1).ToString())
-                {
-                    return $"{id}: [ }}0]";
-                }
-                else
-                {
-                    if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
+                case FormProviders.PacForm:
+                    if (data.Length == 2)
                     {
-                        int index = Convert.ToInt32(data[1]);
-                        return $"{id}: [{data[0]}}}{(index + 1).ToString()}]";
+                        if (data[1] == (-1).ToString())
+                        {
+                            return $"{id}: [ }}0]";
+                        }
+                        else
+                        {
+                            if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
+                            {
+                                int index = Convert.ToInt32(data[1]);
+                                return $"{id}: [{data[0]}}}{(index + 1).ToString()}]";
+                            }
+                            else
+                            {
+                                return $"{id}: [{data[0]}}}{data[1]}]";
+                            }
+                        }
                     }
-                    else
+                    else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
                     {
-                        return $"{id}: [{data[0]}}}{data[1]}]";
+                        return $"{id}: [ }}0]";
                     }
-                }
+                    break;
+                case FormProviders.PacItForm:
+                    break;
             }
-            else if (data[0] == "-1")
-            {
-                return $"{id}: [ }}0]";
-            }
-            else
-            {
-                return "";
-            }
+            return "";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
-            List<string> outpostData = new List<string>()
+            switch (packetMessage.FormProvider)
             {
-                "!PACF! " + packetMessage.Subject,
-                "# JS:EOC MESSAGE FORM (which4) ",
-                "# JS-ver. PR-4.4-4.3, 05/02/18",
-                "# FORMFILENAME: XSC_ICS-213_Message_v070628.html"
-            };
+                case FormProviders.PacForm:
+                    outpostData = new List<string>()
+                    {
+                        "!PACF! " + packetMessage.Subject,
+                        "# JS:EOC MESSAGE FORM (which4) ",
+                        "# JS-ver. PR-4.4-4.3, 05/02/18",
+                        "# FORMFILENAME: XSC_ICS-213_Message_v070628.html"
+                    };
+                    break;
+                case FormProviders.PacItForm:
+                    outpostData = new List<string>()
+                    {
+                        "!SCCoPIFO!",
+                        "#Subject: " + packetMessage.Subject,
+                        "#T: form-ics213.html",
+                        "#V: 1.1",
+                    };
+                    break;
+            }
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);

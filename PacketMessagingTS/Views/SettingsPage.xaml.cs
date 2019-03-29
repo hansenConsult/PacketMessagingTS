@@ -379,6 +379,8 @@ namespace PacketMessagingTS.Views
                 profile.BBS = comboBoxBBS.SelectedValue as string;
                 profile.TNC = comboBoxTNCs.SelectedValue as string;
                 profile.SendTo = textBoxTo.Text;
+                profile.Subject = _packetSettingsViewModel.DefaultSubject;
+                profile.Message = _packetSettingsViewModel.DefaultMessage;
 
                 //ProfileArray.Instance.ProfileList[ProfileArray.Instance.ProfileList.IndexOf(profile)] = profile;
                 ProfileArray.Instance.ProfileList[comboBoxProfiles.SelectedIndex] = profile;

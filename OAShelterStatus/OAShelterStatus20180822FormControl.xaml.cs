@@ -119,7 +119,7 @@ namespace OAShelterStatusFormControl
 
         public override string CreateSubject()
         {
-            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAShelterStat_" + '_' + IncidentName);
+            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAShelterStat_" + '_' + incidentName.Text);
 
         }
 
