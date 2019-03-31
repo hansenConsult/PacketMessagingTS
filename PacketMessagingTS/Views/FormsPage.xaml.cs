@@ -1,27 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
-using PacketMessagingTS.Controls;
+﻿using Windows.Storage;
 using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
-using ToggleButtonGroupControl;
 using FormControlBaseClass;
 using MetroLog;
 using SharedCode;
-using MessageFormControl;
-using static SharedCode.Helpers.FormProvidersHelper;
 
 
 
@@ -29,28 +11,28 @@ using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Views
 {
-    public class FormControlAttributes
-    {
-        public string FormControlName
-        { get; private set; }
+    //public class FormControlAttributes
+    //{
+    //    public string FormControlName
+    //    { get; private set; }
 
-        public string FormControlMenuName
-        { get; private set; }
+    //    public string FormControlMenuName
+    //    { get; private set; }
 
-        public FormControlAttribute.FormType FormControlType
-        { get; private set; }
+    //    public FormControlAttribute.FormType FormControlType
+    //    { get; private set; }
 
-        public StorageFile FormControlFileName
-        { get; set; }
+    //    public StorageFile FormControlFileName
+    //    { get; set; }
 
-        public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, StorageFile formControlFileName)
-        {
-            FormControlName = formControlType;
-            FormControlMenuName = formControlMenuName;
-            FormControlType = formType;
-            FormControlFileName = formControlFileName;
-        }
-    }
+    //    public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, StorageFile formControlFileName)
+    //    {
+    //        FormControlName = formControlType;
+    //        FormControlMenuName = formControlMenuName;
+    //        FormControlType = formType;
+    //        FormControlFileName = formControlFileName;
+    //    }
+    //}
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -103,7 +85,7 @@ namespace PacketMessagingTS.Views
 
             _formControlAttributeList.AddRange(_attributeListTypeNone);
             _formControlAttributeList.AddRange(_attributeListTypeCounty);
-            _formControlAttributeList.AddRange(_attributeListTypeCity);
+            //_formControlAttributeList.AddRange(_attributeListTypeCity);
             PopulateFormsPagePivot();
 
             //_formControlAttributeList = new List<FormControlAttributes>();

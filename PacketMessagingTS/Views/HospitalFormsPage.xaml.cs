@@ -1,27 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-
-using PacketMessagingTS.Controls;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
+﻿using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
-using ToggleButtonGroupControl;
-using FormControlBaseClass;
 using MetroLog;
 using SharedCode;
-using MessageFormControl;
-using static SharedCode.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

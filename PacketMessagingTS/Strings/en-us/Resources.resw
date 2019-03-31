@@ -323,4 +323,8 @@
     <value>Test Forms</value>
     <comment>Navigation view item name for Test Forms</comment>
   </data>
+  <data name="Shell_CityForms.Content" xml:space="preserve">
+    <value>City Forms</value>
+    <comment>Navigation view item name for City Forms</comment>
+  </data>
 </root>

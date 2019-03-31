@@ -31,6 +31,7 @@
             -->
             <NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="views:MainPage" />
             <NavigationViewItem x:Uid="Shell_Forms" Icon="Document" helpers:NavHelper.NavigateTo="views:FormsPage" />
+            <NavigationViewItem x:Uid="Shell_CityForms" Icon="Document" helpers:NavHelper.NavigateTo="views:CityFormsPage" />
             <NavigationViewItem x:Uid="Shell_HospitalForms" Icon="Document" helpers:NavHelper.NavigateTo="views:HospitalFormsPage" />
             <NavigationViewItem x:Uid="Shell_TestForms" Icon="Document" helpers:NavHelper.NavigateTo="views:TestFormsPage" />
             <NavigationViewItem x:Uid="Shell_WebView" Icon="Globe" helpers:NavHelper.NavigateTo="views:WebViewPage" />

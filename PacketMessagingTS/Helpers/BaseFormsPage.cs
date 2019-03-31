@@ -32,6 +32,29 @@ using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Helpers
 {
+    public class FormControlAttributes
+    {
+        public string FormControlName
+        { get; private set; }
+
+        public string FormControlMenuName
+        { get; private set; }
+
+        public FormControlAttribute.FormType FormControlType
+        { get; private set; }
+
+        public StorageFile FormControlFileName
+        { get; set; }
+
+        public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, StorageFile formControlFileName)
+        {
+            FormControlName = formControlType;
+            FormControlMenuName = formControlMenuName;
+            FormControlType = formType;
+            FormControlFileName = formControlFileName;
+        }
+    }
+
     public abstract class BaseFormsPage : Page
     {
         public enum MessageOrigin
@@ -56,6 +79,7 @@ namespace PacketMessagingTS.Helpers
         protected List<FormControlAttributes> _attributeListTypeCounty = new List<FormControlAttributes>();
         protected List<FormControlAttributes> _attributeListTypeCity = new List<FormControlAttributes>();
         protected List<FormControlAttributes> _attributeListTypeHospital = new List<FormControlAttributes>();
+        protected List<FormControlAttributes> _attributeListTypeTestForms = new List<FormControlAttributes>();
 
         protected List<FormControlAttributes> _formControlAttributeList;
 
