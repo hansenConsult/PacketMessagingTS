@@ -9,21 +9,9 @@
 //
 //*********************************************************
 
-using PacketMessagingTS.Helpers;
-
-
-namespace PacketMessagingTS.ViewModels
+namespace PacketMessagingTS.Helpers
 {
-    public class FormsViewModel : BaseFormsViewModel
+    internal class PacketForm
     {
-        public int FormsPagePivotSelectedIndex
-        {
-            get => GetProperty(ref formsPagePivotSelectedIndex);
-            set
-            {
-                SetProperty(ref formsPagePivotSelectedIndex, value, true);
-            }
-        }
-
     }
 }

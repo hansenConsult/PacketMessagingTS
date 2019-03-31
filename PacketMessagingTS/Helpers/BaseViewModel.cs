@@ -58,6 +58,13 @@ namespace PacketMessagingTS.Helpers
             set => SetProperty(ref isAppBarSaveEnabled, value);
         }
 
+        protected bool isAppBarSendEnabled = false;
+        public bool IsAppBarSendEnabled
+        {
+            get => isAppBarSendEnabled;
+            set => SetProperty(ref isAppBarSendEnabled, value);
+        }
+
         public bool GetProperty<T>(string propertyName, out T property)
         {
             if (_properties != null && App.Properties.ContainsKey(propertyName))
