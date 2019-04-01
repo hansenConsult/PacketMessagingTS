@@ -17,6 +17,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Name="ToFromHeaderTemplate">
+                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" Margin="-5,0,0,0"/>
+            </DataTemplate>
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 

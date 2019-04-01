@@ -62,31 +62,18 @@ namespace EOC213RRFormControl
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
-            switch (packetMessage.FormProvider)
+            outpostData = new List<string>
             {
-                case FormProviders.PacForm:
-                    outpostData = new List<string>
-                    {
-                        "!PACF! " + packetMessage.Subject,
-                        "# JS:EOC Resource Request (which4)",
-                        "# JS-ver. PR-4.4-2.9, 06/29/18",
-                        "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
-                    };
-                    break;
-                case FormProviders.PacItForm:
-                    outpostData = new List<string>
-                    {
-                        "!SCCoPIFO!",
-                        "#Subject: " + packetMessage.Subject,    //6DM-175P_R_EOC213RR_
-                        "#T: form-scco-eoc-213rr.html",
-                        "#V: 1.2"
-                    };
-                    break;
-            }
+                "!PACF! " + packetMessage.Subject,
+                "# JS:EOC Resource Request (which4)",
+                "# JS-ver. PR-4.4-2.9, 06/29/18",
+                "# FORMFILENAME: XSC_EOC-213RR_v1708.html"
+            };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
 		}
+
 
     }
 }

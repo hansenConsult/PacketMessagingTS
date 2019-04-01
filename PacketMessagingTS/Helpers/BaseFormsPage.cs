@@ -207,6 +207,10 @@ namespace PacketMessagingTS.Helpers
                 {
                     _attributeListTypeHospital.Add(formControlAttributes);
                 }
+                else if (formControlAttributes.FormControlType == FormControlAttribute.FormType.TestForm)
+                {
+                    _attributeListTypeTestForms.Add(formControlAttributes);
+                }
             }
         }
 
