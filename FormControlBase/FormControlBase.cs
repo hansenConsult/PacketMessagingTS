@@ -24,7 +24,8 @@ namespace FormControlBaseClass
 			None,
 			CountyForm,
 			CityForm,
-			HospitalForm
+			HospitalForm,
+            TestForm,
 		};
 
         // Form file name

@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
-using Windows.UI.Xaml;
 using FormControlBaseClass;
 using Windows.UI.Xaml.Controls;
 
 using SharedCode;
 using System;
-using SharedCode.Helpers;
 using static SharedCode.Helpers.FormProvidersHelper;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace ICS213_070628_FormControl
 {
-	[FormControl(
+    [FormControl(
 		FormControlName = "XSC_ICS-213_Message_v070628",
 		FormControlMenuName = "ICS-213 Message",
 		FormControlType = FormControlAttribute.FormType.CountyForm)
@@ -48,37 +46,7 @@ namespace ICS213_070628_FormControl
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
         }
 
-        private string _subject;
-        public override string Subject
-        {
-            get => _subject;
-            set => Set(ref _subject, value);
-        }
-
-        public override string MsgTime
-        {
-            get => msgTime.Text;
-            set
-            {
-                string time = TimeCheck(value);
-                msgTime.Text = time;
-            }
-        }
-
-        //public override string OperatorTime
-        //{
-        //    get => operatorTime.Text;
-        //    set => operatorTime.Text = value;
-        //}
-
         public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
-
-        //private FormProviders formProvider;
-        //public override FormProviders FormProvider
-        //{
-        //    get => formProvider;
-        //    set => formProvider = value;
-        //}
 
         public override string PacFormName => "XSC_ICS-213_Message_v070628";	// Used in CreateFileName() 
 
@@ -86,7 +54,7 @@ namespace ICS213_070628_FormControl
 
         public override string CreateSubject()
 		{
-			return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_ICS213_" + subject.Text);
+			return ($"{MessageNo}_{Severity?.ToUpper()[0]}/{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}");
 		}
 
         protected override string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)

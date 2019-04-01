@@ -1,7 +1,5 @@
-﻿using Windows.Storage;
-using PacketMessagingTS.Helpers;
+﻿using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
-using FormControlBaseClass;
 using MetroLog;
 using SharedCode;
 

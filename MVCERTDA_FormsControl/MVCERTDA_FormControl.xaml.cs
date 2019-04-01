@@ -33,7 +33,7 @@ namespace MVCERTDA_FormsControl
         };
 
         List<string> _ICSPositionFiltered = new List<string>();
-        string subjectText;
+        string subjectText = "Damage Summary for ";
 
         public List<TacticalCall> CERTLocationTacticalCalls { get; }    // Must be sorted by Agency Name
 
@@ -48,9 +48,7 @@ namespace MVCERTDA_FormsControl
             CERTLocationTacticalCalls = TacticalCallsigns.CreateMountainViewCERTList();
 
             Severity = "other";
-            //other.IsChecked = true;
             HandlingOrder = "priority";
-            //priority.IsChecked = true;
             actionNo.IsChecked = true;
             replyNo.IsChecked = true;
             forInfo.IsChecked = true;
@@ -58,7 +56,7 @@ namespace MVCERTDA_FormsControl
             comboBoxToICSPosition.SelectedItem = "Planning";
             comboBoxFromICSPosition.SelectedItem = "Planning";
             ToLocation = "Mountain View EOC";
-            subjectText = "Damage Summary for ";
+            subject.Text = subjectText;
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
@@ -76,23 +74,6 @@ namespace MVCERTDA_FormsControl
             get => CERTLocationValue;
             set => CERTLocationValue = value;
         }
-
-        //public override string OperatorTime
-        //{
-        //    //get => operatorTime.Text;
-        //    set
-        //    {
-        //        var filteredTime = value.Split(new char[] { ':' });
-        //        //if (filteredTime.Length == 2)
-        //        //{
-        //        //    operatorTime.Text = filteredTime[0] + filteredTime[1];
-        //        //}
-        //        //else
-        //        {
-        //            operatorTime.Text = value;
-        //        }
-        //    }
-        //}
 
         private string toICSPosition;
         public string ToICSPosition
@@ -116,13 +97,6 @@ namespace MVCERTDA_FormsControl
         }
 
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
-
-        //private FormProviders formProvider = FormProviders.PacForm;
-        //public override FormProviders FormProvider
-        //{
-        //    get => formProvider;
-        //    set => formProvider = value;
-        //}
 
         public override string PacFormName => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 

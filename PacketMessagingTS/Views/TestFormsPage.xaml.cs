@@ -23,7 +23,7 @@ namespace PacketMessagingTS.Views
 
             _formsPagePivot = formsPagePivot;
 
-            _formControlAttributeList.AddRange(_attributeListTypeHospital);
+            _formControlAttributeList.AddRange(_attributeListTypeTestForms);
             PopulateFormsPagePivot();
         }
 
