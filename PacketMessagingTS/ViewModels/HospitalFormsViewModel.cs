@@ -11,7 +11,6 @@
 
 using PacketMessagingTS.Helpers;
 
-
 namespace PacketMessagingTS.ViewModels
 {
     public class HospitalFormsViewModel : BaseViewModel

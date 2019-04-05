@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
+
 using FormControlBaseClass;
+
+using MessageFormControl;
+
+using MetroLog;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
+
+using static SharedCode.Helpers.FormProvidersHelper;
+
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
-using MetroLog;
-using System.Threading.Tasks;
-using MessageFormControl;
-using System.Diagnostics;
-using Windows.System;
-using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Views
 {

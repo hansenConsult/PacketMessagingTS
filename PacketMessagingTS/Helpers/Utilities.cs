@@ -1,7 +1,9 @@
-﻿using PacketMessagingTS.Models;
-using PacketMessagingTS.ViewModels;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;

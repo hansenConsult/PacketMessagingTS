@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using FormControlBaseClass;
 using System.Diagnostics;
-using MetroLog;
-using System.Threading.Tasks;
-using Windows.UI.Popups;
+using System.IO;
 using System.Runtime.CompilerServices;
-using PacketMessagingTS.Models;
-using Windows.Devices.SerialCommunication;
-using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Helpers;
+using System.Threading.Tasks;
+
+using FormControlBaseClass;
+
 using MessageFormControl;
+
+using MetroLog;
+
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+
+using Windows.Devices.SerialCommunication;
+using Windows.UI.Popups;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

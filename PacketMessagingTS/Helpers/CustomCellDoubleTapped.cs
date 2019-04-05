@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
+
 using Telerik.UI.Xaml.Controls.Grid;
 using Telerik.UI.Xaml.Controls.Grid.Commands;
 

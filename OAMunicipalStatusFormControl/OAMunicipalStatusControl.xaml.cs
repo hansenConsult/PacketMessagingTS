@@ -1,10 +1,14 @@
-﻿using FormControlBaseClass;
+﻿using System.Collections.Generic;
+
+using FormControlBaseClass;
+
 using SharedCode;
-using System.Collections.Generic;
+
+using static SharedCode.Helpers.FormProvidersHelper;
+
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using static SharedCode.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

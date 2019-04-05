@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
-using SharedCode;
 using FormControlBaseClass;
-using System;
-using SharedCode.Helpers;
-using static SharedCode.Helpers.FormProvidersHelper;
 
+using SharedCode;
+using SharedCode.Helpers;
+
+using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace MessageFormControl
 {

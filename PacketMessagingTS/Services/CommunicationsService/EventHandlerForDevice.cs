@@ -15,17 +15,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Windows.Devices.Enumeration;
-using Windows.Devices.SerialCommunication;
+using MetroLog;
+
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Views;
 
 using Windows.ApplicationModel;
+using Windows.Devices.Enumeration;
+using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
-
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using MetroLog;
-using PacketMessagingTS.Views;
-using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

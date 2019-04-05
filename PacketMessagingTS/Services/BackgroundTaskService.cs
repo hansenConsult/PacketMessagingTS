@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using MetroLog;
+
 using PacketMessagingTS.Activation;
 using PacketMessagingTS.BackgroundTasks;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services.CommunicationsService;
+
 using SharedCode;
 
 using Windows.ApplicationModel.Activation;

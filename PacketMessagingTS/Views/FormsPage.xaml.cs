@@ -1,9 +1,9 @@
-﻿using PacketMessagingTS.Helpers;
+﻿using MetroLog;
+
+using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
-using MetroLog;
+
 using SharedCode;
-
-
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

@@ -10,16 +10,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using System.Diagnostics;
-using Windows.Storage;
 
 using MetroLog;
+
 using SharedCode;
 
+using Windows.Storage;
 
 namespace PacketMessagingTS.Models
 {

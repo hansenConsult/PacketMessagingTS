@@ -1,15 +1,17 @@
-﻿using MetroLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+
+using MetroLog;
+
+using SharedCode;
+
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
-
-using SharedCode;
 
 namespace PacketMessagingTS.Services.SMTPClient
 {

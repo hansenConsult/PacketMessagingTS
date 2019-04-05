@@ -8,7 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using MetroLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,11 +16,15 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
+using MetroLog;
+
+using static SharedCode.Helpers.FormProvidersHelper;
+
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
-using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace SharedCode
 {

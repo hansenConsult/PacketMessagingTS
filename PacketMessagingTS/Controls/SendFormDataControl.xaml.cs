@@ -1,14 +1,15 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using FormControlBaseClass;
-using PacketMessagingTS.Models;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.ViewModels;
-using System.Collections.ObjectModel;
+using FormControlBaseClass;
 
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

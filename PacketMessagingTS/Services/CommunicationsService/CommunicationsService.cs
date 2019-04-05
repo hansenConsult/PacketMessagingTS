@@ -6,14 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 using FormControlBaseClass;
+
 using MessageFormControl;
+
 using MetroLog;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.SMTPClient;
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
+
 using SharedCode;
+
+using static SharedCode.Helpers.FormProvidersHelper;
 
 using Windows.ApplicationModel.Email;
 using Windows.Networking.Sockets;
@@ -21,7 +27,6 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

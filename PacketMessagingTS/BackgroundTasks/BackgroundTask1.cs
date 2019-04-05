@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using MetroLog;
+
 using SharedCode;
 
 using Windows.ApplicationModel.Background;

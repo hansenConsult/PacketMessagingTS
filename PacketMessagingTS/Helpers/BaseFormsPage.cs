@@ -9,13 +9,6 @@
 //
 //*********************************************************
 
-using FormControlBaseClass;
-using MessageFormControl;
-using PacketMessagingTS.Controls;
-using PacketMessagingTS.Models;
-using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Views;
-using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,6 +16,16 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+
+using FormControlBaseClass;
+using MessageFormControl;
+
+using PacketMessagingTS.Controls;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+
+using SharedCode;
+
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -260,15 +263,18 @@ namespace PacketMessagingTS.Helpers
             if (_messageOrigin == MessageOrigin.Received)
             {
                 _packetForm.MessageSentTime = _packetMessage.JNOSDate;
+                _packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
             }
             else if (_messageOrigin == MessageOrigin.Sent)
             {
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
+                _packetForm.OriginMsgNo = _packetMessage.MessageNumber;
             }
             else if (_messageOrigin == MessageOrigin.New)
             {
                 _packetForm.MessageSentTime = null;
                 _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
+                _packetForm.OriginMsgNo = _packetMessage.MessageNumber;
             }
         }
 
@@ -409,6 +415,7 @@ namespace PacketMessagingTS.Helpers
             };
 
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            _packetForm.OriginMsgNo = _packetForm.MessageNo;
 
             DateTime now = DateTime.Now;
             _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
@@ -473,6 +480,7 @@ namespace PacketMessagingTS.Helpers
 
             _packetForm.InitializeFormRequiredColors(!_loadMessage);
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            _packetForm.OriginMsgNo = _packetForm.MessageNo;
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);

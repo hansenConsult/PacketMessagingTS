@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.UI.Xaml;
+
+using Newtonsoft.Json;
+
 using SharedCode.Models;
 
 namespace PacketMessagingTS.Helpers
@@ -127,7 +128,7 @@ namespace PacketMessagingTS.Helpers
                     backingStore = intArray;
                     return intArray;
                 }
-                catch 
+                catch
                 {
                     return backingStore;
                 }
@@ -157,7 +158,7 @@ namespace PacketMessagingTS.Helpers
             }
             // Do not update displayed value if not changed or not first time or not forced
             if (Equals(backingStore, value) && !firstTime && !forceUpdate)
-            {                
+            {
                 return false;
             }
             _propertyFirstTime[propertyName] = false;

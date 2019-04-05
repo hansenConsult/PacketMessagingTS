@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-
 
 namespace ToggleButtonGroupControl
 {
@@ -98,7 +98,10 @@ namespace ToggleButtonGroupControl
             {
                 if ((bool)radioButton.IsChecked)
                 {
-                    return radioButton.Content as string;
+                    // Return only the first word. This is for PacItForm
+                    string[] wordArray = (radioButton.Content as string).Split(new char[] { ' ' });
+                    //return radioButton.Content as string;
+                    return wordArray[0];
                 }
             }
             return null;

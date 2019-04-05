@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+
 using MetroLog;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
 
 using Windows.ApplicationModel;

@@ -1,6 +1,8 @@
 ﻿using MetroLog;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -12,10 +14,10 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class TestFormsPage : BaseFormsPage
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TestFormsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TestFormsPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public TestFormsViewModel _testFormsViewModel { get; } = Singleton<TestFormsViewModel>.Instance;
+        public TestFormsViewModel TestFormsViewModel { get; } = Singleton<TestFormsViewModel>.Instance;
 
         public TestFormsPage()
         {
@@ -29,17 +31,17 @@ namespace PacketMessagingTS.Views
 
         protected override int GetFormsPagePivotSelectedIndex()
         {
-            return _testFormsViewModel.TestFormsPagePivotSelectedIndex;
+            return TestFormsViewModel.TestFormsPagePivotSelectedIndex;
         }
 
         protected override void SetFormsPagePivotSelectedIndex(int index)
         {
-            _testFormsViewModel.TestFormsPagePivotSelectedIndex = index;
+            TestFormsViewModel.TestFormsPagePivotSelectedIndex = index;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)
         {
-            _testFormsViewModel.IsAppBarSendEnabled = isEnabled;
+            TestFormsViewModel.IsAppBarSendEnabled = isEnabled;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Views;
+
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;

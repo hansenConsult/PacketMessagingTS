@@ -1,26 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetroLog;
+using MetroLog.Targets;
+
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 using PacketMessagingTS.Services;
+using PacketMessagingTS.ViewModels;
+using PacketMessagingTS.Views;
+
+using SharedCode;
+using SharedCode.Models;
 
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.UI.Xaml;
 using Windows.ApplicationModel.ExtendedExecution;
-using Windows.UI.Core;
-
-using MetroLog;
-using MetroLog.Targets;
-using System.Collections.Generic;
-using PacketMessagingTS.Models;
-using PacketMessagingTS.Helpers;
+using Windows.Foundation;
 using Windows.Storage;
-using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Views;
-using SharedCode;
-using SharedCode.Models;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace PacketMessagingTS
 {

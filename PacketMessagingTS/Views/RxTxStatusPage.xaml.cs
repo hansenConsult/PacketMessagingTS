@@ -5,10 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using MetroLog;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
+
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;

@@ -1,11 +1,15 @@
-﻿using MetroLog;
-using PacketMessagingTS.Activation;
-using PacketMessagingTS.Helpers;
-using SharedCode;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using MetroLog;
+
+using PacketMessagingTS.Activation;
+using PacketMessagingTS.Helpers;
+
+using SharedCode;
+
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

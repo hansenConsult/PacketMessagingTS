@@ -1,20 +1,19 @@
-﻿
-using System;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
-using Windows.UI.Core;
+using MetroLog;
+
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.Views;
 
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
-
-using MetroLog;
-using System.Threading;
 using Windows.Storage.Streams;
-using System.Threading.Tasks;
-using PacketMessagingTS.Views;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using PacketMessagingTS.Models;
-using PacketMessagingTS.Helpers;
+using Windows.UI.Core;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

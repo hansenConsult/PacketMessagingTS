@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using MetroLog;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+
 using SharedCode;
 
 namespace PacketMessagingTS.ViewModels

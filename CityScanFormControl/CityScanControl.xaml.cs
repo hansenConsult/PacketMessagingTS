@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
+
 using FormControlBaseClass;
-using Windows.UI.Xaml.Media;
-using Windows.UI;
+
+using MetroLog;
 
 using SharedCode;
-using MetroLog;
+
+using Windows.UI;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

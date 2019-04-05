@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Windows.Input;
-using System.Threading.Tasks;
-
-using PacketMessagingTS.Helpers;
-
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Windows.Storage;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using PacketMessagingTS.Helpers;
+
 using Windows.ApplicationModel;
+using Windows.Storage;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {

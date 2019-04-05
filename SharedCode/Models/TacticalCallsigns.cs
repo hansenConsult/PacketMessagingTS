@@ -11,19 +11,20 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Windows.Storage;
+
 using MetroLog;
-using Windows.Storage.Search;
+
 using Windows.Data.Pdf;
+using Windows.Globalization;
+using Windows.Graphics.Imaging;
+using Windows.Media.Ocr;
+using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Media.Ocr;
-using Windows.Graphics.Imaging;
-using Windows.Globalization;
-using System.Text;
-
 
 namespace SharedCode.Models
 {

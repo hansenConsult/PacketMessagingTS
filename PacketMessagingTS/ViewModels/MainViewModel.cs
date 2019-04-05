@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Controls;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using Windows.Storage;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
+
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Services;
+using PacketMessagingTS.Views;
 
 using SharedCode;
-using PacketMessagingTS.Views;
-using PacketMessagingTS.Services;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 
+using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {

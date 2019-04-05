@@ -1,31 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Windows.Storage;
-using Windows.Storage.Search;
-using System.Collections.ObjectModel;
-using System.Text;
+using MetroLog;
 
-using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.Graphics.Printing;
-using Windows.Graphics.Printing.OptionDetails;
-using Windows.UI.Xaml.Printing;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
-using MetroLog;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
+
 using SharedCode;
 
+using Windows.Graphics.Printing;
+using Windows.Graphics.Printing.OptionDetails;
+using Windows.Storage;
+using Windows.Storage.Search;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Printing;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

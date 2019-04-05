@@ -1,29 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 using FormControlBaseClass;
+
+using MetroLog;
+
+using Microsoft.Toolkit.Uwp.UI.Controls;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+using PacketMessagingTS.Services;
+using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
+
+using SharedCode;
+
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-
-using MetroLog;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using System.IO;
-using PacketMessagingTS.Services;
-using SharedCode;
-
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System.Linq;
 using Windows.UI.Xaml.Media;
-using Windows.UI;
-using System.Threading;
-using Windows.UI.ViewManagement;
-using PacketMessagingTS.Services.CommunicationsService;
 
 namespace PacketMessagingTS.Views
 {

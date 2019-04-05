@@ -1,12 +1,13 @@
-﻿using MetroLog;
-using PacketMessagingTS.ViewModels;
-using SharedCode;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using MetroLog;
+
+using PacketMessagingTS.ViewModels;
+
+using SharedCode;
+
 using Windows.Storage;
 
 namespace PacketMessagingTS.Helpers
@@ -23,7 +24,7 @@ namespace PacketMessagingTS.Helpers
         public static void SaveBulletinDictionary(string[] areas)
         {
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            
+
             foreach (string area in areas)
             {
                 string filePath = Path.Combine(localFolder.Path, GetBulletinsFileName(area));

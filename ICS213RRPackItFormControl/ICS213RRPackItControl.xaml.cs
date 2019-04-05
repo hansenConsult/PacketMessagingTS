@@ -49,7 +49,7 @@ namespace ICS213RRPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{MessageNo}_{Severity?.ToUpper()[0]}/{HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
+            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -57,9 +57,9 @@ namespace ICS213RRPackItFormControl
             outpostData = new List<string>
             {
                 "!SCCoPIFO!",
-                "#Subject: " + packetMessage.Subject,    //6DM-175P_R_EOC213RR_
+                $"#Subject: {packetMessage.Subject}",    //6DM-175P_R_EOC213RR_
                 "#T: form-scco-eoc-213rr.html",
-                "#V: 1.2"
+                "#V: 1.3"
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

@@ -1,9 +1,11 @@
 ﻿using System;
-using Windows.UI.Xaml.Controls;
 
 using ICS309UserControl;
-using PacketMessagingTS.ViewModels;
+
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.ViewModels;
+
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Views
 {

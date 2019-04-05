@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
+
+using SharedCode;
+
+using static SharedCode.Helpers.FormProvidersHelper;
+
+using ToggleButtonGroupControl;
+
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using ToggleButtonGroupControl;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-using SharedCode;
 using Windows.UI.Xaml.Input;
-using static SharedCode.Helpers.FormProvidersHelper;
+using Windows.UI.Xaml.Media;
 
 namespace FormControlBaseClass
 {
@@ -271,8 +274,14 @@ namespace FormControlBaseClass
         public virtual string ReceiverMsgNo
         { get; set; }
 
-		//public static string DefaultMessageTo
-		//{ get; set; }
+        public virtual string DestinationMsgNo
+        { get; set; }
+
+        public virtual string OriginMsgNo
+        { get; set; }
+
+        //public static string DefaultMessageTo
+        //{ get; set; }
 
         public virtual string MsgDate
         { get; set; }
@@ -388,7 +397,7 @@ namespace FormControlBaseClass
                     outpostData.Add("#EOF");
                     break;
                 case FormProviders.PacItForm:
-                    outpostData.Add("!/ ADDON!");
+                    outpostData.Add("!/ADDON!");
                     break;
             }
         }
@@ -601,41 +610,81 @@ namespace FormControlBaseClass
 
             if (control is TextBox)
             {
-                if (((TextBox)control).AcceptsReturn)
+                if (formProvider == FormProviders.PacForm)
                 {
-                    return $"{id}: [\\n{formField.ControlContent}]";
-                }
-                else
-                {
-                    if (formField.ControlName == "operatorDate")
+                    if (((TextBox)control).AcceptsReturn)
                     {
-                        return $"{id}: [{formField.ControlContent}" + "{odate]";
-                    }
-                    else if (formField.ControlName == "operatorTime")
-                    {
-                        return $"{id}: [{formField.ControlContent}" + "{otime]";
+                        return $"{id}: [\\n{formField.ControlContent}]";
                     }
                     else
                     {
-                        return $"{id}: [{formField.ControlContent}]";
+                        if (formField.ControlName == "operatorDate")
+                        {
+                            return $"{id}: [{formField.ControlContent}" + "{odate]";
+                        }
+                        else if (formField.ControlName == "operatorTime")
+                        {
+                            return $"{id}: [{formField.ControlContent}" + "{otime]";
+                        }
+                        else
+                        {
+                            return $"{id}: [{formField.ControlContent}]";
+                        }
                     }
+                }
+                else if (formProvider == FormProviders.PacItForm)
+                {
+                    return $"{id}: [{formField.ControlContent}]";
                 }
             }
             else if (control is AutoSuggestBox)
             {
                 return $"{id}: [{formField.ControlContent}]";
             }
-            else if (control is RadioButton || control is CheckBox)
+            else if (control is RadioButton)
+            {
+                if (formProvider == FormProviders.PacForm)
+                {
+
+                    if (formField.ControlContent == "True")
+                    {
+                        return $"{id}: [true]";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+                //else if (formProvider == FormProviders.PacItForm)
+                //{
+                //    if (formField.ControlContent == "True")
+                //    {
+                //        return $"{id}: [checked]";
+                //    }
+                //    else
+                //    {
+                //        return "";
+                //    }
+                //}
+            }
+            else if (control is CheckBox)
             {
                 if (formField.ControlContent == "True")
                 {
-                    return $"{id}: [true]";
+                    if (formProvider == FormProviders.PacForm)
+                    {
+                        return $"{id}: [true]";
+                    }
+                    else if (formProvider == FormProviders.PacItForm)
+                    {
+                        return $"{id}: [checked]";
+                    }
                 }
                 else
                 {
                     return "";
                 }
-            }
+                        }
             else if (control is ToggleButtonGroup toggleButtonGroup)
             {
                 if (formProvider == FormProviders.PacItForm)

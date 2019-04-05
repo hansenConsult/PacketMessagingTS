@@ -1,10 +1,15 @@
-﻿using FormControlBaseClass;
-using MetroLog;
-using PacketMessagingTS.Views;
-using SharedCode;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using FormControlBaseClass;
+
+using MetroLog;
+
+using PacketMessagingTS.Views;
+
+using SharedCode;
+
 using Windows.Graphics.Printing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

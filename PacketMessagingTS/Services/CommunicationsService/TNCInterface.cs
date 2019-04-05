@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
-using System.Threading.Tasks;
-using MessageFormControl;
-using MetroLog;
-using PacketMessagingTS.Models;
-using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Helpers;
-using System.Diagnostics;
-using Windows.UI.Xaml;
-using Windows.UI.Core;
-
-using SharedCode;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+
+using MessageFormControl;
+
+using MetroLog;
+
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+
+using SharedCode;
+
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

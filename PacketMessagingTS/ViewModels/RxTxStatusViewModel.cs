@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
+
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 

@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Networking.BackgroundTransfer;
-using Windows.Storage;
-using Windows.Web;
+
 using MetroLog;
 
 using PacketMessagingTS.Helpers;
+
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
+using Windows.Web;
 
 namespace PacketMessagingTS.Models
 {

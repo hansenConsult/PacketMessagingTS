@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Windows.Devices.SerialCommunication;
-using Windows.Storage;
-using System.Collections.Generic;
-using System.Linq;
 
 using MetroLog;
+
 using SharedCode;
+
+using Windows.Devices.SerialCommunication;
+using Windows.Storage;
+
 namespace PacketMessagingTS.Models
 {
 

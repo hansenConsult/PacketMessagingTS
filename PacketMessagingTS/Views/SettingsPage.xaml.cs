@@ -1,22 +1,23 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
+using MetroLog;
+
+using PacketMessagingTS.Controls;
+using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
+using PacketMessagingTS.ViewModels;
+
+using SharedCode;
+using SharedCode.Models;
+
+using Windows.Devices.SerialCommunication;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.Devices.SerialCommunication;
-
-using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
-
-using MetroLog;
-using SharedCode;
-using SharedCode.Models;
-using PacketMessagingTS.Controls;
 
 namespace PacketMessagingTS.Views
 {

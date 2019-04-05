@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
 
-
 namespace PacketMessagingTS.ViewModels
 {
     public class TestFormsViewModel : BaseFormsViewModel
