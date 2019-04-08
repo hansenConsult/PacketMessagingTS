@@ -16,7 +16,7 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 

@@ -15,6 +15,8 @@ namespace PacketMessagingTS.Services
     // StartViewInUse on this object. When finished interacting, it should call StopViewInUse.
     public sealed class ViewLifetimeControl
     {
+        private readonly object _lockObj = new object();
+
         // Window for this particular view. Used to register and unregister for events
         private CoreWindow _window;
         private int _refCount = 0;
@@ -35,7 +37,7 @@ namespace PacketMessagingTS.Services
             add
             {
                 bool releasedCopy = false;
-                lock (this)
+                lock (_lockObj)
                 {
                     releasedCopy = _released;
                     if (!_released)
@@ -52,7 +54,7 @@ namespace PacketMessagingTS.Services
 
             remove
             {
-                lock (this)
+                lock (_lockObj)
                 {
                     InternalReleased -= value;
                 }
@@ -79,7 +81,7 @@ namespace PacketMessagingTS.Services
             bool releasedCopy = false;
             int refCountCopy = 0;
 
-            lock (this)
+            lock (_lockObj)
             {
                 releasedCopy = _released;
                 if (!_released)
@@ -103,7 +105,7 @@ namespace PacketMessagingTS.Services
             int refCountCopy = 0;
             bool releasedCopy = false;
 
-            lock (this)
+            lock (_lockObj)
             {
                 releasedCopy = _released;
                 if (!_released)
@@ -142,7 +144,7 @@ namespace PacketMessagingTS.Services
         private void FinalizeRelease()
         {
             bool justReleased = false;
-            lock (this)
+            lock (_lockObj)
             {
                 if (_refCount == 0)
                 {

@@ -10,7 +10,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;

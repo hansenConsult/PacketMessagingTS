@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
+using SharedCode.Helpers;
 
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;

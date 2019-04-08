@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using MetroLog;
 
@@ -15,14 +11,13 @@ using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.Services
 {
     public class DevicewatcherService
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<DevicewatcherService>();
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<DevicewatcherService>();
         private static LogHelper _logHelper = new LogHelper(log);
 
 

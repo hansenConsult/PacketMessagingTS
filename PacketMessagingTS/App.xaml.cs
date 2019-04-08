@@ -13,6 +13,7 @@ using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
 
 using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.ApplicationModel;

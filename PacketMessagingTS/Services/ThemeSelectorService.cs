@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
 
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.Services
@@ -23,17 +25,32 @@ namespace PacketMessagingTS.Services
         {
             Theme = theme;
 
-            SetRequestedTheme();
+            //SetRequestedTheme();
+            await SetRequestedThemeAsync();
             await SaveThemeInSettingsAsync(Theme);
         }
 
-        public static void SetRequestedTheme()
+        public static async Task SetRequestedThemeAsync()
         {
-            if (Window.Current.Content is FrameworkElement frameworkElement)
+            foreach (var view in CoreApplication.Views)
             {
-                frameworkElement.RequestedTheme = Theme;
+                await view.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (Window.Current.Content is FrameworkElement frameworkElement)
+                    {
+                        frameworkElement.RequestedTheme = Theme;
+                    }
+                });
             }
         }
+
+        //public static void SetRequestedTheme()
+        //{
+        //    if (Window.Current.Content is FrameworkElement frameworkElement)
+        //    {
+        //        frameworkElement.RequestedTheme = Theme;
+        //    }
+        //}
 
         private static async Task<ElementTheme> LoadThemeFromSettingsAsync()
         {

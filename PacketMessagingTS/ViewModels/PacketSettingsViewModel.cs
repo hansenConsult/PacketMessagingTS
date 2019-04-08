@@ -11,6 +11,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {

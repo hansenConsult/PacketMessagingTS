@@ -80,6 +80,7 @@ namespace PacketMessagingTS.Services
 
         protected override bool CanHandleInternal(LaunchActivatedEventArgs args)
         {
+            // Application State must only be restored if the App was terminated during suspension.
             return args.PreviousExecutionState == ApplicationExecutionState.Terminated;
         }
 

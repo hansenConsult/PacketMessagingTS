@@ -25,7 +25,7 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;

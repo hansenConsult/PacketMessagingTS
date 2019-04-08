@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using MetroLog;
 
 using PacketMessagingTS.Activation;
-using PacketMessagingTS.Helpers;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
@@ -21,8 +21,8 @@ namespace PacketMessagingTS.Services
     // For more information on application activation see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/activation.md
     internal class ActivationService
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ActivationService>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ActivationService>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         private readonly App _app;
         private readonly Lazy<UIElement> _shell;
@@ -95,7 +95,7 @@ namespace PacketMessagingTS.Services
 
         private async Task StartupAsync()
         {
-            ThemeSelectorService.SetRequestedTheme();
+            await ThemeSelectorService.SetRequestedThemeAsync();
             await Task.CompletedTask;
         }
 
@@ -103,6 +103,7 @@ namespace PacketMessagingTS.Services
         {
             //yield return Singleton<BackgroundTaskService>.Instance;
             yield return Singleton<SuspendAndResumeService>.Instance;
+            //yield return Singleton<SchemeActivationHandler>.Instance; // Only used for external activation (Protocol Activated)
         }
 
         private bool IsInteractive(object args)

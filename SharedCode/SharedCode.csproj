@@ -110,7 +110,9 @@
   <ItemGroup>
     <Compile Include="DateTimeConverter.cs" />
     <Compile Include="Helpers\FormProvidersHelper.cs" />
+    <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Singleton.cs" />
+    <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Models\TacticalCallsigns.cs" />
     <Compile Include="PacketMessage.cs" />
@@ -123,6 +125,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>

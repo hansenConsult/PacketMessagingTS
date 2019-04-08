@@ -24,6 +24,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SharedCode.Helpers;
 
 namespace PacketMessagingTS.Views
 {

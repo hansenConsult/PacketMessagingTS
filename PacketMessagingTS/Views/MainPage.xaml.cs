@@ -19,7 +19,7 @@ using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;

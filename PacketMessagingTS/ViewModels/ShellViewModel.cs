@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
@@ -12,6 +13,8 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+
+using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -25,6 +28,13 @@ namespace PacketMessagingTS.ViewModels
         private NavigationViewItem _selected;
         private ICommand _loadedCommand;
         private ICommand _itemInvokedCommand;
+
+        private bool _isBackEnabled;
+        public bool IsBackEnabled
+        {
+            get { return _isBackEnabled; }
+            set { Set(ref _isBackEnabled, value); }
+        }
 
         public NavigationViewItem Selected
         {
@@ -45,16 +55,18 @@ namespace PacketMessagingTS.ViewModels
             _navigationView = navigationView;
             _keyboardAccelerators = keyboardAccelerators;
             NavigationService.Frame = frame;
+            NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
             _navigationView.BackRequested += OnBackRequested;
         }
 
-        private void OnLoaded()
+        private async void OnLoaded()
         {
             // Keyboard accelerators are added here to avoid showing 'Alt + left' tooltip on the page.
             // More info on tracking issue https://github.com/Microsoft/microsoft-ui-xaml/issues/8
             _keyboardAccelerators.Add(_altLeftKeyboardAccelerator);
             _keyboardAccelerators.Add(_backKeyboardAccelerator);
+            await Task.CompletedTask;
         }
 
         private void OnItemInvoked(NavigationViewItemInvokedEventArgs args)
@@ -77,8 +89,14 @@ namespace PacketMessagingTS.ViewModels
             NavigationService.GoBack();
         }
 
+        private void Frame_NavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw e.Exception;
+        }
+
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
+            IsBackEnabled = NavigationService.CanGoBack;  //TODO new
             if (e.SourcePageType == typeof(SettingsPage))
             {
                 Selected = _navigationView.SettingsItem as NavigationViewItem;

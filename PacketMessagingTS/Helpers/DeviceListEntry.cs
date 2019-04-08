@@ -9,27 +9,18 @@
 //
 //*********************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Windows.Devices.Enumeration;
 
 namespace PacketMessagingTS.Helpers
 {
-
-
-
-	/// <summary>
-	/// The class will only expose properties from DeviceInformation that are going to be used
-	/// in this sample. Each instance of this class provides information about a single device.
-	///
-	/// This class is used by the UI to display device specific information so that
-	/// the user can identify which device to use.
-	/// </summary>
-	public class DeviceListEntry
+    /// <summary>
+    /// The class will only expose properties from DeviceInformation that are going to be used
+    /// in this sample. Each instance of this class provides information about a single device.
+    ///
+    /// This class is used by the UI to display device specific information so that
+    /// the user can identify which device to use.
+    /// </summary>
+    public class DeviceListEntry
     {
         /// <summary>
         /// The class is mainly used as a DeviceInformation wrapper so that the UI can bind to a list of these.
@@ -43,7 +34,7 @@ namespace PacketMessagingTS.Helpers
             comPort = portName;
         }
 
-        private string deviceSelector;
+        private readonly string deviceSelector;
 
         public string InstanceId
         {

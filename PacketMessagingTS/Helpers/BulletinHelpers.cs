@@ -7,7 +7,7 @@ using MetroLog;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.Storage;
 
 namespace PacketMessagingTS.Helpers
@@ -39,7 +39,6 @@ namespace PacketMessagingTS.Helpers
                 }
                 catch (Exception e)
                 {
-                    //continue;
                     _logHelper.Log(LogLevel.Error, $"Error saving Bulletin Dictionary, {e.Message}");
                 }
             }

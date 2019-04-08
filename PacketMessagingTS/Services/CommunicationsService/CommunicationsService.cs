@@ -27,6 +27,7 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using SharedCode.Helpers;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
