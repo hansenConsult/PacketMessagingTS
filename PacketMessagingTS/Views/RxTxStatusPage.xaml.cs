@@ -12,6 +12,7 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -23,8 +24,8 @@ namespace PacketMessagingTS.Views
 {
     public sealed partial class RxTxStatusPage : Page
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
         public RxTxStatusViewModel _RxTxStatusViewModel { get; } = Singleton<RxTxStatusViewModel>.Instance;
@@ -107,7 +108,12 @@ namespace PacketMessagingTS.Views
         private void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
         {
             ScrollViewer sv = FindVisualChild<ScrollViewer>(textBoxStatus);
-            sv?.ChangeView(0.0f, sv.ExtentHeight, 1.0f, true);
+            if (sv.Visibility == Visibility.Visible)
+            {
+                bool? viewChanged = sv?.ChangeView(null, sv.ExtentHeight, 1.0f, true);
+
+                _logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {sv.ExtentHeight}");
+            }
             //DependencyObject grid = (Grid)VisualTreeHelper.GetChild(textBoxStatus, 0);
             //for (int i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
             //{

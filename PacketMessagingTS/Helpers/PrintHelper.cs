@@ -14,6 +14,7 @@ using Windows.Graphics.Printing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
+//using Page = Windows.UI.Xaml.Controls.Page;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -70,6 +71,7 @@ namespace PacketMessagingTS.Helpers
         //{
         //    get
         //    {
+                    //return scenarioPage.FindName("PrintCanvas") as Canvas;
         //        return ((FormsPage)_scenarioPage).PacketForm.FindName("PrintCanvas") as Canvas;
         //    }
         //}
@@ -132,22 +134,15 @@ namespace PacketMessagingTS.Helpers
 
         public async Task ShowPrintUIAsync()
         {
-            if (PrintManager.IsSupported())
+            // Catch and print out any errors reported
+            try
             {
-                // Catch and print out any errors reported
-                try
-                {
-                    await PrintManager.ShowPrintUIAsync();
-                }
-                catch (Exception e)
-                {
-                    _logHelper.Log(LogLevel.Error, "Error printing: " + e.Message + ", hr=" + e.HResult);
-                    await Utilities.ShowSingleButtonContentDialogAsync("Error printing" + e.Message);
-                }
+                await PrintManager.ShowPrintUIAsync();
             }
-            else
+            catch (Exception e)
             {
-                await Utilities.ShowSingleButtonContentDialogAsync("Printing is not supported on this device");
+                _logHelper.Log(LogLevel.Error, "Error printing: " + e.Message + ", hr=" + e.HResult);
+                await Utilities.ShowSingleButtonContentDialogAsync("Error printing" + e.Message);
             }
         }
 
@@ -162,6 +157,9 @@ namespace PacketMessagingTS.Helpers
             if (_firstPage is null)
             {
                 _firstPage = page;
+                //StackPanel header = (StackPanel)firstPage.FindName("Header");
+                //header.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
             }
 
             // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
@@ -191,7 +189,7 @@ namespace PacketMessagingTS.Helpers
 
                 // Preset the default value of the printer option
                 printTask.Options.MediaSize = PrintMediaSize.NorthAmerica9x11;
-                printTask.Options.ColorMode = PrintColorMode.Monochrome;                
+                printTask.Options.ColorMode = PrintColorMode.Monochrome;
 
                 // Print Task event handler is invoked when the print job is completed.
                 printTask.Completed += async (s, args) =>

@@ -288,22 +288,29 @@ namespace FormControlBaseClass
 
         protected string TimeCheck(string time)
         {
-            var filteredTime = time.Split(new char[] { ':' });
-            if (filteredTime.Length == 1 && time.Length > 2)
+            try
             {
-                string min = time.Substring(time.Length - 2);
-                if (min.Length > 2 || Convert.ToInt32(min) > 59)
+                var filteredTime = time.Split(new char[] { ':' });
+                if (filteredTime.Length == 1 && time.Length > 2)
+                {
+                    string min = time.Substring(time.Length - 2);
+                    if (min.Length > 2 || Convert.ToInt32(min) > 59)
+                        return "";
+                    string hour = time.Substring(0, time.Length - 2);
+                    if (hour.Length > 2 || Convert.ToInt32(hour) > 23)
+                        return "";
+                    return $"{hour}:{min}";
+                }
+                else if (time.Length > 2 && time.Length < 6)
+                {
+                    return time;
+                }
+                else
+                {
                     return "";
-                string hour = time.Substring(0, time.Length - 2);
-                if (hour.Length > 2 || Convert.ToInt32(hour) > 23)
-                    return "";
-                return $"{hour}:{min}";
+                }
             }
-            else if (time.Length > 2 && time.Length < 6)
-            {
-                return time;
-            }
-            else
+            catch
             {
                 return "";
             }

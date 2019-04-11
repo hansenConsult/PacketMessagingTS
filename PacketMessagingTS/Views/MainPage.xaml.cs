@@ -173,7 +173,7 @@ namespace PacketMessagingTS.Views
             string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
             string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
 
-            NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
+            NavigationService.Navigate(typeof(Page), packetMessagePath);
         }
 
         private async Task DeleteMessageAsync(PacketMessage packetMessage)
