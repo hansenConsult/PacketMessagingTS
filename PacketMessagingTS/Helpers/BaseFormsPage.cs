@@ -674,7 +674,7 @@ namespace PacketMessagingTS.Helpers
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 
             Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-            communicationsService.BBSConnectAsync2();
+//            communicationsService.BBSConnectAsync2();
 
             // Create an empty form
             await InitializeFormControlAsync();

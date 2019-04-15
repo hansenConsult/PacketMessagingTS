@@ -18,7 +18,7 @@ namespace PacketMessagingTS.ViewModels
 {
     public class RxTxStatusViewModel : BaseViewModel
     {
-        public RxTxStatusPage RxTxStatusPage { get; set; }
+        public RxTxStatusPage StatusPage { get; set; }
 
         private string rxTxStatus;
         public string RxTxStatus
@@ -39,7 +39,7 @@ namespace PacketMessagingTS.ViewModels
             //set => RxTxStatusPage.AddRxTxStatus = value;
         }
 
-        
+
         private ICommand _abortCommand;
 
         public ICommand AbortCommand
@@ -60,22 +60,22 @@ namespace PacketMessagingTS.ViewModels
             CommunicationsService.CreateInstance().AbortConnection();
         }
 
-        private ViewLifetimeControl _viewLifetimeControl;
+        //private ViewLifetimeControl _viewLifetimeControl;
 
-        public void Initialize(ViewLifetimeControl viewLifetimeControl)
-        {
-            _viewLifetimeControl = viewLifetimeControl;
-            _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
-        }
+        //public void Initialize(ViewLifetimeControl viewLifetimeControl)
+        //{
+        //    _viewLifetimeControl = viewLifetimeControl;
+        //    _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+        //}
 
-        private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
-        {
-            _viewLifetimeControl.Released -= OnViewLifetimeControlReleased;
-            await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                WindowManagerService.Current.SecondaryViews.Remove(_viewLifetimeControl);
-            });
-        }
+        //private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
+        //{
+        //    _viewLifetimeControl.Released -= OnViewLifetimeControlReleased;
+        //    await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    {
+        //        WindowManagerService.Current.SecondaryViews.Remove(_viewLifetimeControl);
+        //    });
+        //}
     }
 
 

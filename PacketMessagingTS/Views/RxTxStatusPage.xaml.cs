@@ -15,6 +15,7 @@ using SharedCode.Helpers;
 
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -30,7 +31,7 @@ namespace PacketMessagingTS.Views
 
         public RxTxStatusViewModel _RxTxStatusViewModel { get; } = Singleton<RxTxStatusViewModel>.Instance;
 
-        private ViewLifetimeControl _viewLifetimeControl;
+        //private ViewLifetimeControl _viewLifetimeControl;
         double _currentHeight;
 
 
@@ -38,19 +39,21 @@ namespace PacketMessagingTS.Views
         public RxTxStatusPage()
         {
             InitializeComponent();
+
+            _RxTxStatusViewModel.StatusPage = this;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
-            _RxTxStatusViewModel.RxTxStatus = "";
-            _currentHeight = Height;
-            //_viewLifetimeControl.StartViewInUse();
-            //Height = 400;
-            //_viewLifetimeControl.StopViewInUse();
-            _viewLifetimeControl.Released += OnViewLifetimeControlReleased;            
-        }
+        //protected override void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    base.OnNavigatedTo(e);
+        //    _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
+        //    _RxTxStatusViewModel.RxTxStatus = "";
+        //    _currentHeight = Height;
+        //    //_viewLifetimeControl.StartViewInUse();
+        //    //Height = 400;
+        //    //_viewLifetimeControl.StopViewInUse();
+        //    //_viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+        //}
 
         private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         {
@@ -69,26 +72,27 @@ namespace PacketMessagingTS.Views
             return null;
         }
 
-        private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
-        {
-            _viewLifetimeControl.Released -= OnViewLifetimeControlReleased;
-            await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                WindowManagerService.Current.SecondaryViews.Remove(_viewLifetimeControl);
-            });
+        //private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
+        //{
+        //    _viewLifetimeControl.Released -= OnViewLifetimeControlReleased;
+        //    await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    {
+        //        WindowManagerService.Current.SecondaryViews.Remove(_viewLifetimeControl);
+        //    });
 
-            // The released event is fired on the thread of the window
-            // it pertains to.
-            //
-            // It's important to make sure no work is scheduled on this thread
-            // after it starts to close (no data binding changes, no changes to
-            // XAML, creating new objects in destructors, etc.) since
-            // that will throw exceptions
-            Window.Current.Close();
-        }
+        //    // The released event is fired on the thread of the window
+        //    // it pertains to.
+        //    //
+        //    // It's important to make sure no work is scheduled on this thread
+        //    // after it starts to close (no data binding changes, no changes to
+        //    // XAML, creating new objects in destructors, etc.) since
+        //    // that will throw exceptions
+        //    Window.Current.Close();
+        //}
 
         private async void AbortButton_ClickAsync(object sender, RoutedEventArgs e)
         {
+            await ((AppWindow)sender).CloseAsync();
             //_viewLifetimeControl.StartViewInUse();
             //await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
             //    ApplicationView.GetForCurrentView().Id,

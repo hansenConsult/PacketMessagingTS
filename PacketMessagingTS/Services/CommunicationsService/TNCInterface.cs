@@ -14,15 +14,14 @@ using MetroLog;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
-
+using PacketMessagingTS.Views;
 using SharedCode;
 using SharedCode.Helpers;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
-	public class TNCInterface: IDisposable
+    public class TNCInterface : IDisposable
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCInterface>();
         private static LogHelper _logHelper = new LogHelper(log);
@@ -32,11 +31,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
             ConnectStateNone,
             ConnectStatePrepareTNCType,
             ConnectStatePrepare,
-			ConnectStateBBSTryConnect,
-			ConnectStateBBSConnect,
+            ConnectStateBBSTryConnect,
+            ConnectStateBBSConnect,
             ConnectStatePost,
             ConnectStateDisconnected,
-			ConnectStateConverseMode
+            ConnectStateConverseMode
         }
         ConnectState _connectState;
 
@@ -49,14 +48,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
         TNCDevice _TncDevice = null;
         SerialPort _serialPort = null;
 
-		const string _BBSPrompt = ") >";
+        const string _BBSPrompt = ") >";
         const string _BBSPromptC = ") >\r";
         const string _BBSPromptRN = ") >\r\n";
         string _TNCPrompt = "cmd:";
 
         private bool _error = false;        // Disconnect if an error is detected
 
-        private ViewLifetimeControl _viewLifetimeControl;
+        //private ViewLifetimeControl _viewLifetimeControl;
+        //private RxTxStatusPage _appWindowFrame;
 
 
         //const byte send = 0x5;
@@ -69,7 +69,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         {
             _bbsConnectName = messageBBS;
             _TncDevice = tncDevice;
-			_TNCPrompt = _TncDevice.Prompts.Command;
+            _TNCPrompt = _TncDevice.Prompts.Command;
             _forceReadBulletins = forceReadBulletins;
             _Areas = areas;
             _packetMessagesToSend = packetMessagesToSend;
@@ -80,14 +80,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
         public DateTime BBSConnectTime
         { get; set; }
 
-		public DateTime BBSDisconnectTime
-		{ get; set; }
+        public DateTime BBSDisconnectTime
+        { get; set; }
 
-		//public ConnectedDialog ConnectDlg
-  //      { get; set; }
+        //public ConnectedDialog ConnectDlg
+        //      { get; set; }
 
-		//public bool Cancel
-		//{ get { return _error; } set { _error = value; } }
+        //public bool Cancel
+        //{ get { return _error; } set { _error = value; } }
 
         public void AbortConnection()
         {
@@ -192,10 +192,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Ready for pre commands
             Debug.WriteLine(readCmdText + _TNCPrompt);
-			return readCmdText;
-		}
+            return readCmdText;
+        }
 
-		private string Kenwood()
+        private string Kenwood()
         {
             _serialPort.Write("\r");
 
@@ -285,21 +285,24 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return readCmdText;
         }
 
-        private async void ShowInStatusWindowAsync(string text)
-        {
-            await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-            });
-        }
+        //private async void ShowInStatusWindowAsync(string text)
+        //{
+        //    await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    {
+        //        Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+        //    });
+        //}
 
         private async void AddTextToStatusWindowAsync(string text)
         {
             //Debug.Write(text);
-            await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-            });
+
+            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await MainPage.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    MainPage.Current.AddTextToStatusWindow("\nTesting");
+            //    //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+            //});
             //Debug.Write(text);
         }
 
@@ -325,37 +328,37 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return readText;
         }
 
-		private void SendMessage(ref PacketMessage packetMessage)
-		{
+        private void SendMessage(ref PacketMessage packetMessage)
+        {
             int readTimeout = _serialPort.ReadTimeout;
             _serialPort.ReadTimeout = 240000;
-			try
-			{
-				_serialPort.Write("SP " + packetMessage.MessageTo + "\r");
-				_serialPort.Write(packetMessage.Subject + "\r");
-				_serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
+            try
+            {
+                _serialPort.Write("SP " + packetMessage.MessageTo + "\r");
+                _serialPort.Write(packetMessage.Subject + "\r");
+                _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
-				//string readText = _serialPort.ReadLine();       // Read SP
+                //string readText = _serialPort.ReadLine();       // Read SP
                 //_logHelper.Log(LogLevel.Info, readText);
 
-				string readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
+                string readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
 
-				//readText = _serialPort.ReadTo("\n");         // Next command
+                //readText = _serialPort.ReadTo("\n");         // Next command
                 //_logHelper.Log(LogLevel.Info, readText + "\n");
 
-				packetMessage.SentTime = DateTime.Now;
-				_packetMessagesSent.Add(packetMessage);
-			}
-			catch (Exception e)
-			{
+                packetMessage.SentTime = DateTime.Now;
+                _packetMessagesSent.Add(packetMessage);
+            }
+            catch (Exception e)
+            {
                 _logHelper.Log(LogLevel.Error, $"Send message exception: {e.Message}");
-				_serialPort.DiscardInBuffer();
-				_serialPort.DiscardOutBuffer();
-				_error = true;
-			}
-			_serialPort.ReadTimeout = readTimeout;
-		}
+                _serialPort.DiscardInBuffer();
+                _serialPort.DiscardOutBuffer();
+                _error = true;
+            }
+            _serialPort.ReadTimeout = readTimeout;
+        }
         /*
         SP kz6dm@w3xsc.ampr.org
         DELIVERED: 5DM-002_O/R_OAAlliedHealth_Facility Type_Facility Name
@@ -383,36 +386,36 @@ namespace PacketMessagingTS.Services.CommunicationsService
         }
 
         private void SendMessageReceipts()
-		{
-			if (Singleton<PacketSettingsViewModel>.Instance.SendReceipt)
-			{
-				// do not send received receipt for receive receipt messages
-				foreach (PacketMessage pktMsg in PacketMessagesReceived)
-				{
-					if (pktMsg.Area.Length > 0)	// Do not send receipt for bulletins
-						continue;
+        {
+            if (Singleton<PacketSettingsViewModel>.Instance.SendReceipt)
+            {
+                // do not send received receipt for receive receipt messages
+                foreach (PacketMessage pktMsg in PacketMessagesReceived)
+                {
+                    if (pktMsg.Area.Length > 0) // Do not send receipt for bulletins
+                        continue;
 
-					try
-					{
-						// Find the Subject line
-						string[] msgLines = pktMsg.MessageBody.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-						for (int i = 0; i < Math.Min(msgLines.Length, 10); i++)
-						{
-							if (msgLines[i].StartsWith("Date:"))
-								pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
-							else if (msgLines[i].StartsWith("From:"))
-								pktMsg.MessageFrom = msgLines[i].Substring(6);
-							else if (msgLines[i].StartsWith("To:"))
-								pktMsg.MessageTo = msgLines[i].Substring(4);
-							else if (msgLines[i].StartsWith("Subject:"))
-							{
-								if (msgLines[i].Length > 10)
-								{
-									pktMsg.Subject = msgLines[i].Substring(9);
-								}
-								break;
-							}
-						}
+                    try
+                    {
+                        // Find the Subject line
+                        string[] msgLines = pktMsg.MessageBody.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < Math.Min(msgLines.Length, 10); i++)
+                        {
+                            if (msgLines[i].StartsWith("Date:"))
+                                pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
+                            else if (msgLines[i].StartsWith("From:"))
+                                pktMsg.MessageFrom = msgLines[i].Substring(6);
+                            else if (msgLines[i].StartsWith("To:"))
+                                pktMsg.MessageTo = msgLines[i].Substring(4);
+                            else if (msgLines[i].StartsWith("Subject:"))
+                            {
+                                if (msgLines[i].Length > 10)
+                                {
+                                    pktMsg.Subject = msgLines[i].Substring(9);
+                                }
+                                break;
+                            }
+                        }
                         if (pktMsg.Subject.Contains("DELIVERED:"))
                             continue;
 
@@ -430,10 +433,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             Subject = $"DELIVERED: {pktMsg.Subject}",
                         };
 
-						FormField[] formFields = new FormField[1];
+                        FormField[] formFields = new FormField[1];
 
-						FormField formField = new FormField();
-						formField.ControlName = "messageBody";
+                        FormField formField = new FormField();
+                        formField.ControlName = "messageBody";
                         StringBuilder controlContent = new StringBuilder();
                         controlContent.AppendLine($"!LMI!{pktMsg.MessageNumber}!DR!{DateTime.Now.ToString()}");
                         controlContent.AppendLine("Your Message");
@@ -444,35 +447,35 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         formField.ControlContent = controlContent.ToString();
                         formFields[0] = formField;
 
-						receiptMessage.FormFieldArray = formFields;
-						MessageControl packetForm = new MessageControl();
-						receiptMessage.MessageBody = packetForm.CreateOutpostData(ref receiptMessage);
-						receiptMessage.CreateFileName();
-						receiptMessage.SentTime = DateTime.Now;
-						receiptMessage.MessageSize = receiptMessage.Size;
+                        receiptMessage.FormFieldArray = formFields;
+                        MessageControl packetForm = new MessageControl();
+                        receiptMessage.MessageBody = packetForm.CreateOutpostData(ref receiptMessage);
+                        receiptMessage.CreateFileName();
+                        receiptMessage.SentTime = DateTime.Now;
+                        receiptMessage.MessageSize = receiptMessage.Size;
                         //_logHelper.Log(LogLevel.Info, $"Message To: {receiptMessage.MessageTo}");       // Disable if not testing
                         //_logHelper.Log(LogLevel.Info, $"Message Body: { receiptMessage.MessageBody}");  // Disable if not testing
-						SendMessage(ref receiptMessage);		    // Disabled for testing
-					}
-					catch (Exception e)
-					{
+                        SendMessage(ref receiptMessage);            // Disabled for testing
+                    }
+                    catch (Exception e)
+                    {
                         _logHelper.Log(LogLevel.Error, "Delivered message exception: ", e.Message);
-						_error = true;
+                        _error = true;
                         throw;
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 
         private string GetBulletinSubject(string bulletinInfo)
         {
             string subject = "";
-                string[] bulletinData = bulletinInfo.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 7; i < bulletinData.Length; i++)
-                {
-                    subject += bulletinData[i] + ' ';
-                }
-                subject.Trim();
+            string[] bulletinData = bulletinInfo.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 7; i < bulletinData.Length; i++)
+            {
+                subject += bulletinData[i] + ' ';
+            }
+            subject.Trim();
 
             return subject;
         }
@@ -482,12 +485,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
             if (string.IsNullOrEmpty(area))
                 return false;
 
-            foreach (string subject in BulletinHelpers.BulletinDictionary[area])
+            if (BulletinHelpers.BulletinDictionary.ContainsKey(area))
             {
-                //_logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
-                if (subject.Trim() == bulletinSubject.Trim())
+                foreach (string subject in BulletinHelpers.BulletinDictionary[area])
                 {
-                    return true;
+                    //_logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
+                    if (subject.Trim() == bulletinSubject.Trim())
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -631,9 +637,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //    }
         //}
 
-        public async Task BBSConnectThreadProcAsync(ViewLifetimeControl viewControl)
+        public async Task BBSConnectThreadProcAsync()
         {
-            _viewLifetimeControl = viewControl;
+            //_appWindowFrame = appWindow;
 
             _packetMessagesSent.Clear();
             PacketMessagesReceived.Clear();
@@ -656,7 +662,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.WriteBufferSize = 4096;
             _serialPort.ErrorReceived += new SerialErrorReceivedEventHandler(OnSerialPortErrorReceivedAsync);
             _logHelper.Log(LogLevel.Info, "");
-            //Console.WriteLine($"{_TncDevice.Name}: {_TncDevice.CommPort.Comport}, {_TncDevice.CommPort.Baudrate}, {_TncDevice.CommPort.Databits}, {_TncDevice.CommPort.Stopbits}, {_TncDevice.CommPort.Parity}, {_TncDevice.CommPort.Flowcontrol}");
             _logHelper.Log(LogLevel.Info, $"{DateTime.Now.ToString()}");
             _logHelper.Log(LogLevel.Info, $"{_TncDevice.Name}: {_TncDevice.CommPort.Comport}, {_TncDevice.CommPort.Baudrate}, {_TncDevice.CommPort.Databits}, {_TncDevice.CommPort.Stopbits}, {_TncDevice.CommPort.Parity}, {_TncDevice.CommPort.Flowcontrol}");
             string readText = "";
@@ -801,7 +806,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 _serialPort.ReadTimeout = 5000;
                 readCmdText = _serialPort.ReadTo(_TNCPrompt);      // Next command
-AbortWithoutConnect:
+            AbortWithoutConnect:
                 BBSDisconnectTime = DateTime.Now;
 
                 // Send PostCommands
@@ -888,38 +893,38 @@ AbortWithoutConnect:
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (!disposedValue)
-			{
-				if (disposing)
-				{
-					// TODO: dispose managed state (managed objects).
-					_serialPort.Dispose();
-				}
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    _serialPort.Dispose();
+                }
 
-				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-				// TODO: set large fields to null.
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
 
-				disposedValue = true;
-			}
-		}
+                disposedValue = true;
+            }
+        }
 
-		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-		// ~TNCInterface() {
-		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-		//   Dispose(false);
-		// }
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~TNCInterface() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
 
-		// This code added to correctly implement the disposable pattern.
-		void IDisposable.Dispose()
-		{
-			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
-			// GC.SuppressFinalize(this);
-		}
-		#endregion
+        // This code added to correctly implement the disposable pattern.
+        void IDisposable.Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
 
-	}
+    }
 }

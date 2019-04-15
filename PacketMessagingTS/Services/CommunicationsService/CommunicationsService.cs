@@ -22,11 +22,16 @@ using SharedCode;
 using static SharedCode.Helpers.FormProvidersHelper;
 
 using Windows.ApplicationModel.Email;
+using Windows.Foundation;
 using Windows.Networking.Sockets;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+
 using SharedCode.Helpers;
 
 namespace PacketMessagingTS.Services.CommunicationsService
@@ -36,7 +41,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CommunicationsService>();
         private LogHelper _logHelper = new LogHelper(log);
 
-        ViewLifetimeControl rxTxStatusWindow = null;
+        //ViewLifetimeControl rxTxStatusWindow = null;
+        private AppWindow _appWindow = null;
+        //private Frame _appWindowFrame = new Frame();
         //Collection<DeviceListEntry> _listOfDevices;
 
         public List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
@@ -459,10 +466,33 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return sendMailSuccess;
         }
 
-        public async void BBSConnectAsync2()
+        public async void BBSConnectAsync2(AppWindow appWindow)
         {
-            WindowManagerService.Current.Initialize();
-            rxTxStatusWindow = await WindowManagerService.Current.TryShowAsStandaloneAsync("RxTX Status", typeof(RxTxStatusPage));
+            _appWindow = appWindow;
+            //WindowManagerService.Current.Initialize();
+            // Only ever create one window. If the AppWindow already exists call TryShow on it to bring it to foreground.
+
+            //if (appWindow == null)
+            //{
+            //    // Create a new window
+            //    appWindow = await AppWindow.TryCreateAsync();
+            //    // Make sure we release the reference to this window, and release XAML resources, when it's closed
+            //    appWindow.Closed += delegate { appWindow = null; appWindowFrame.Content = null; };
+            //    // Navigate the frame to the page we want to show in the new window
+            //    appWindowFrame.Navigate(typeof(RxTxStatusPage));
+            //}
+            //// Request the size of our window
+            //appWindow.RequestSize(new Size(500, 320));
+            //// Attach the XAML content to our window
+            //ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
+
+            //// Now show the window
+            //await appWindow.TryShowAsync();
+
+
+
+
+            //return; // Test show status window
 
             FormControlBase formControl;
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
@@ -599,19 +629,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
             Utilities.SetApplicationTitle(bbs.Name);
 
             _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+
             // Collect remaining messages to be sent
             // Process files to be sent via BBS
-            await _tncInterface.BBSConnectThreadProcAsync(rxTxStatusWindow);
+            await _tncInterface.BBSConnectThreadProcAsync();
 
             // Close status window
-            await rxTxStatusWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                rxTxStatusWindow.StartViewInUse();
-                await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-                    ApplicationView.GetForCurrentView().Id,
-                    ApplicationViewSwitchingOptions.ConsolidateViews);
-                rxTxStatusWindow.StopViewInUse();
-            });
+            await appWindow?.CloseAsync();
+            //await rxTxStatusWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            //{
+            //    rxTxStatusWindow.StartViewInUse();
+            //    await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+            //        ApplicationView.GetForCurrentView().Id,
+            //        ApplicationViewSwitchingOptions.ConsolidateViews);
+            //    rxTxStatusWindow.StopViewInUse();
+            //});
 
             Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
             if (!string.IsNullOrEmpty(bbs?.Name))

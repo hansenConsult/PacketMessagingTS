@@ -17,7 +17,7 @@
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.ZoomMode="Enabled"           
                  IsReadOnly="True" AcceptsReturn="True"
-                 Text="{x:Bind _RxTxStatusViewModel.AddRxTxStatus, Mode=TwoWay}"
+                 Text="{x:Bind _RxTxStatusViewModel.AddRxTxStatus, Mode=OneWay}"
                  TextChanged="TextBoxStatus_TextChanged"/>
         <Button x:Name="abortButton" Margin="8"
                 RelativePanel.AlignBottomWithPanel="True"
@@ -30,7 +30,5 @@
                 RelativePanel.LeftOf="abortButton"
                 Content="Add text" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                 Click="TextButton_Click"/>
-
-
     </RelativePanel>
 </Page>

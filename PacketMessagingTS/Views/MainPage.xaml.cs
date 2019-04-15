@@ -24,8 +24,10 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -39,6 +41,7 @@ namespace PacketMessagingTS.Views
 
         public MainViewModel _mainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
+        public static MainPage Current;
         //private readonly object _lock = new object();
         //PivotItem _currentPivotItem;
 
@@ -47,11 +50,15 @@ namespace PacketMessagingTS.Views
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
         PacketMessage _packetMessageRightClicked;
 
+        private AppWindow appWindow = null;
+        private Frame appWindowFrame = new Frame();
+
 
         public MainPage()
         {
             InitializeComponent();
 
+            Current = this;
             _mainViewModel.MainPagePivot = MainPagePivot;
 
             foreach (PivotItem item in MainPagePivot.Items)
@@ -165,7 +172,17 @@ namespace PacketMessagingTS.Views
             //_currentPivotItem = (PivotItem)e.AddedItems[0];
             _mainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
 
+            if (!(appWindow is null))
+            {
+                await appWindow.CloseAsync();      // TODO remove testing only
+            }
+
             await RefreshDataGridAsync();
+        }
+
+        public void AddTextToStatusWindow(string text)
+        {
+            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
         }
 
         private void OpenMessage(PacketMessage packetMessage)
@@ -220,8 +237,28 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
         {
+            if (appWindow == null)
+            {
+                // Create a new window
+                appWindow = await AppWindow.TryCreateAsync();
+                // Make sure we release the reference to this window, and release XAML resources, when it's closed
+                appWindow.Closed += delegate { appWindow = null; appWindowFrame.Content = null; };
+                // Navigate the frame to the page we want to show in the new window
+                appWindowFrame.Navigate(typeof(RxTxStatusPage));
+            }
+            // Request the size of our window
+            appWindow.RequestSize(new Size(500, 320));
+            // Attach the XAML content to our window
+            ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
+
+            // Now show the window
+            await appWindow.TryShowAsync();
+
             CommunicationsService communicationsService = CommunicationsService.CreateInstance();
-            communicationsService.BBSConnectAsync2();
+
+            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = "\nSending";    // test
+
+            communicationsService.BBSConnectAsync2(appWindow);
 
             await RefreshDataGridAsync();
         }
