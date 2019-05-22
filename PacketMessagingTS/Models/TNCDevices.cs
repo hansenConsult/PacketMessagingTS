@@ -122,7 +122,6 @@ namespace PacketMessagingTS.Models
 			catch (FileNotFoundException e)
 			{
                 _logHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
-                Debug.WriteLine($"File not found: {e.Message}");
 			}
 			catch (Exception e)
 			{
@@ -130,8 +129,8 @@ namespace PacketMessagingTS.Models
 			}
 			if (_instance.TNCDevices is null || _instance.TNCDevices.Length == 0)
 			{
-				//System.Windows.MessageDialog.Show(tncFileName + " missing");
-				log.Error(tncFileName + " missing");
+                //System.Windows.MessageDialog.Show(tncFileName + " missing");
+                _logHelper.Log(LogLevel.Error, $"{tncFileName} missing");
 			}
 		}
 
@@ -153,12 +152,12 @@ namespace PacketMessagingTS.Models
                 }
                 else
                 {
-                    log.Error($"Folder not found {localFolder.Path}");
+                    _logHelper.Log(LogLevel.Error, $"Folder not found {localFolder.Path}");
                 }
             }
             catch (Exception e)
             {
-                log.Error($"Error saving file {tncFileName}, {e}");
+                _logHelper.Log(LogLevel.Error,$"Error saving file {tncFileName}, {e}");
             }
         }
 

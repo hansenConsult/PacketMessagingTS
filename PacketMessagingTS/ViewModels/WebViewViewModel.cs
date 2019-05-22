@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
+
 using SharedCode.Helpers;
+
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI.Xaml;

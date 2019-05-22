@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xaml.Interactivity;
 
+using PacketMessagingTS.Services;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
-using PacketMessagingTS.Services;
 
 using WinUI = Microsoft.UI.Xaml.Controls;
 

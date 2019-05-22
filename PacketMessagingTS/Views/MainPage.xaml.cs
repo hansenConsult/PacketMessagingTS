@@ -20,6 +20,7 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;
@@ -237,28 +238,28 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
         {
-            if (appWindow == null)
-            {
-                // Create a new window
-                appWindow = await AppWindow.TryCreateAsync();
-                // Make sure we release the reference to this window, and release XAML resources, when it's closed
-                appWindow.Closed += delegate { appWindow = null; appWindowFrame.Content = null; };
-                // Navigate the frame to the page we want to show in the new window
-                appWindowFrame.Navigate(typeof(RxTxStatusPage));
-            }
-            // Request the size of our window
-            appWindow.RequestSize(new Size(500, 320));
-            // Attach the XAML content to our window
-            ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
+            //if (appWindow == null)
+            //{
+            //    // Create a new window
+            //    appWindow = await AppWindow.TryCreateAsync();
+            //    // Make sure we release the reference to this window, and release XAML resources, when it's closed
+            //    appWindow.Closed += delegate { appWindow = null; appWindowFrame.Content = null; };
+            //    // Navigate the frame to the page we want to show in the new window
+            //    appWindowFrame.Navigate(typeof(RxTxStatusPage));
+            //}
+            //// Request the size of our window
+            //appWindow.RequestSize(new Size(500, 320));
+            //// Attach the XAML content to our window
+            //ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
 
-            // Now show the window
-            await appWindow.TryShowAsync();
+            //// Now show the window
+            //await appWindow.TryShowAsync();
 
             CommunicationsService communicationsService = CommunicationsService.CreateInstance();
 
-            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = "\nSending";    // test
+            //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = "\rSending";    // test
 
-            communicationsService.BBSConnectAsync2(appWindow);
+            communicationsService.BBSConnectAsync2();
 
             await RefreshDataGridAsync();
         }

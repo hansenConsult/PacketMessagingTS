@@ -157,7 +157,6 @@
     <Compile Include="Models\Emailaccounts.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
     <Compile Include="Models\Profiles.cs" />
-    <Compile Include="Models\SampleOrder.cs" />
     <Compile Include="Models\TNCDevices.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />

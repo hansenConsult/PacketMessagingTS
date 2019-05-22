@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+
 using SharedCode.Helpers;
+
 using Windows.Devices.SerialCommunication;
 using Windows.UI.Xaml;
 

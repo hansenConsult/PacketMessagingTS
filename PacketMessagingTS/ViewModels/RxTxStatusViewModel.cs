@@ -33,12 +33,17 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 string status = rxTxStatus + value;
+                //StatusPage.textBoxStatus.Text = 
                 //Debug.Write(value);
                 Set(ref rxTxStatus, status);
             }
             //set => RxTxStatusPage.AddRxTxStatus = value;
         }
 
+        public void AddStatusWindowText(string text)
+        {
+            StatusPage.AddTextToStatusWindow(text);
+        }
 
         private ICommand _abortCommand;
 

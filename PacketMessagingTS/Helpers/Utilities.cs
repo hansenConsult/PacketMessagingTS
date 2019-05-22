@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using MetroLog;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
+using SharedCode;
 using SharedCode.Helpers;
 
 using Windows.UI.Core;
@@ -11,8 +12,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Helpers
 {
-    public static class Utilities
+    public class Utilities
     {
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<Utilities>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
+
         public static string GetMessageNumberPacket(bool markAsUsed = false) => GetMessageNumber(markAsUsed) + "P";
 
         public static string GetMessageNumber(bool reserveMessageNumber = false)
@@ -39,6 +43,7 @@ namespace PacketMessagingTS.Helpers
                 //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
                 App.Properties["MessageNumber"] = messageNumber;
             }
+            _logHelper.Log(LogLevel.Info, $"GetMessageNumber Used:{reserveMessageNumber}, {messageNumberString}");
             return messageNumberString;
         }
 
@@ -57,6 +62,7 @@ namespace PacketMessagingTS.Helpers
             }
             //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
             App.Properties["MessageNumber"] = messageNumber;
+            _logHelper.Log(LogLevel.Info, $"MarkMessageNumberAsUsed {messageNumber}");
         }
 
         // This is just to show a use of ContentDialog.
@@ -205,7 +211,6 @@ namespace PacketMessagingTS.Helpers
             {
                 title += " as " + Singleton<IdentityViewModel>.Instance.TacticalCallsign;
             }
-
             
             (string bbs, string tnc, string from) = GetProfileData();
             //string bbs = GetBBSName(out string from, out string tnc);

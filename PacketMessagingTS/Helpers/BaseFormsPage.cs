@@ -15,9 +15,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using FormControlBaseClass;
+
 using MessageFormControl;
 
 using PacketMessagingTS.Controls;
@@ -26,12 +28,14 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
+
+using static SharedCode.Helpers.FormProvidersHelper;
+
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using static SharedCode.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -223,6 +227,29 @@ namespace PacketMessagingTS.Helpers
 
         protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
 
+        protected static string ValidateSubject(string subject)
+        {
+            if (subject is null)
+                return subject;
+
+            try
+            {
+                return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
+                                     RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
+            }
+            // If we timeout when replacing invalid characters, 
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return String.Empty;
+            }
+        }
+
+        protected string CreateSubject()
+        {
+            return ValidateSubject(_packetForm.CreateSubject());
+        }
+
         private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProviders formProvider = FormProviders.PacForm)
         {
             _packetMessage = new PacketMessage()
@@ -240,7 +267,8 @@ namespace PacketMessagingTS.Helpers
                 MessageState = messageState,
             };
             AddressBook.Instance.AddAddressAsync(_packetMessage.MessageTo);
-            string subject = _packetForm.CreateSubject();
+            //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
+            string subject = CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             _packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
             _packetMessage.CreateFileName();
@@ -613,7 +641,7 @@ namespace PacketMessagingTS.Helpers
                 MessageNumber = _packetForm.MessageNo,
                 CreateTime = DateTime.Now,
             };
-            string subject = _packetForm.CreateSubject();
+            string subject = CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
             packetMessage.MessageBody = _packetForm.CreateOutpostData(ref packetMessage);
@@ -674,7 +702,7 @@ namespace PacketMessagingTS.Helpers
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 
             Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-//            communicationsService.BBSConnectAsync2();
+            communicationsService.BBSConnectAsync2();
 
             // Create an empty form
             await InitializeFormControlAsync();

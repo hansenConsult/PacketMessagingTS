@@ -72,6 +72,13 @@ namespace PacketMessagingTS.Views
             return null;
         }
 
+        public void AddTextToStatusWindow(string text)
+        {
+            //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+            string current = textBoxStatus.Text;
+            textBoxStatus.Text = current + text;
+        }
+
         //private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
         //{
         //    _viewLifetimeControl.Released -= OnViewLifetimeControlReleased;

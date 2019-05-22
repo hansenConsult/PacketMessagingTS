@@ -19,6 +19,7 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.Graphics.Printing;
 using Windows.Graphics.Printing.OptionDetails;
 using Windows.Storage;

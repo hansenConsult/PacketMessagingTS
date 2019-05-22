@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using FormControlBaseClass;
-
 using MetroLog;
 
 using PacketMessagingTS.Views;
@@ -14,6 +12,7 @@ using Windows.Graphics.Printing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
+
 //using Page = Windows.UI.Xaml.Controls.Page;
 
 namespace PacketMessagingTS.Helpers
@@ -32,7 +31,7 @@ namespace PacketMessagingTS.Helpers
         /// The percent of app's margin height, content is set at 94% (0.94) of that area's height
         /// </summary>
         protected double _ApplicationContentMarginTop = 0.03;
-        
+
         /// <summary>
         /// PrintDocument is used to prepare the pages for printing.
         /// Prepare the pages to print in the handlers for the Paginate, GetPreviewPage, and AddPages events.
@@ -71,7 +70,7 @@ namespace PacketMessagingTS.Helpers
         //{
         //    get
         //    {
-                    //return scenarioPage.FindName("PrintCanvas") as Canvas;
+        //return scenarioPage.FindName("PrintCanvas") as Canvas;
         //        return ((FormsPage)_scenarioPage).PacketForm.FindName("PrintCanvas") as Canvas;
         //    }
         //}
@@ -285,9 +284,9 @@ namespace PacketMessagingTS.Helpers
                 // We should have all pages ready at this point...
                 _printDocument.AddPage(_printPreviewPages[i]);
             }
-            
+
             PrintDocument printDoc = (PrintDocument)sender;
-            
+
             // Indicate that all of the print pages have been provided
             printDoc.AddPagesComplete();
         }

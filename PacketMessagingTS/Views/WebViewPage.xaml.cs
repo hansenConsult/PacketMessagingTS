@@ -16,6 +16,7 @@ using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static SharedCode.Helpers.FormProvidersHelper;
 
@@ -24,7 +25,6 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using SharedCode.Helpers;
 
 namespace PacketMessagingTS.Views
 {

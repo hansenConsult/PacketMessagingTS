@@ -15,8 +15,10 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
+
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.UI.Core;
 
 namespace PacketMessagingTS.Services.CommunicationsService
@@ -296,13 +298,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private async void AddTextToStatusWindowAsync(string text)
         {
             //Debug.Write(text);
-
-            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //await MainPage.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
+            //if (!dispatcher.HasThreadAccess)
             //{
-            //    MainPage.Current.AddTextToStatusWindow("\nTesting");
-            //    //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-            //});
+            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
+            {
+                    //MainPage.Current.AddTextToStatusWindow("\nTesting");
+                    Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+            });
+            //}
+            //else
+            //{
+            //    Singleton<RxTxStatusViewModel>.Instance.AddStatusWindowText(text);
+            //    //MainPage.Current.AddTextToStatusWindow(text);
+            //}
             //Debug.Write(text);
         }
 

@@ -8,6 +8,7 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.Storage;
 
 namespace PacketMessagingTS.Helpers

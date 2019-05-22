@@ -10,6 +10,7 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 

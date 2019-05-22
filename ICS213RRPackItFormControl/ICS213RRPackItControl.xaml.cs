@@ -1,8 +1,12 @@
-﻿using FormControlBaseClass;
+﻿using System.Collections.Generic;
+
+using FormControlBaseClass;
+
 using SharedCode;
-using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
+
 using static SharedCode.Helpers.FormProvidersHelper;
+
+using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
