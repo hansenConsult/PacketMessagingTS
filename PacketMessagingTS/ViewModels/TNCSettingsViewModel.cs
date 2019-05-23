@@ -12,6 +12,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 
 using SharedCode.Helpers;
+//using PacketMessagingTS.Core.Helpers;
 
 using Windows.Devices.SerialCommunication;
 using Windows.UI.Xaml;

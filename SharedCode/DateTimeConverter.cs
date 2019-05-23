@@ -24,6 +24,9 @@ namespace SharedCode
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
+
+            //bool success = DateTime.TryParse((string)value, out DateTime dateTime);
+            //return success ? dateTime : (DateTime?)null;
         }
     }
 }

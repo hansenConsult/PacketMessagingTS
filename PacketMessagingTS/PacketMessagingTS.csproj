@@ -143,6 +143,7 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\BaseViewModel.cs" />
+    <Compile Include="Helpers\PacketMessageHelper.cs" />
     <Compile Include="Helpers\PrintHelper.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SerialDeviceConfig.cs" />
@@ -354,6 +355,10 @@
     <ProjectReference Include="..\OAShelterStatus\OAShelterStatus20130814FormControl.csproj">
       <Project>{b261c7fb-85b0-4d56-b536-d9b7856d6e79}</Project>
       <Name>OAShelterStatus20130814FormControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PacketMessagingTS.Core\PacketMessagingTS.Core.csproj">
+      <Project>{5b519096-6713-4d1e-a67c-fc5f22df5e3d}</Project>
+      <Name>PacketMessagingTS.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>

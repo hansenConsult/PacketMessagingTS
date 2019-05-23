@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 using MetroLog;
 
-using SharedCode;
-using SharedCode.Helpers;
+//using SharedCode;
+using PacketMessagingTS.Core.Helpers;
 
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -16,8 +16,8 @@ namespace PacketMessagingTS.Helpers
     // More details regarding storing and retrieving app data at https://docs.microsoft.com/windows/uwp/app-settings/store-and-retrieve-app-data
     public static class SettingsStorageExtensions
     {
-        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<StorageFile>();
-        private static readonly LogHelper _logHelper = new LogHelper(log);
+        //private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<StorageFile>();
+        //private static readonly LogHelper _logHelper = new LogHelper(log);
 
         private const string FileExtension = ".json";
 
@@ -34,11 +34,11 @@ namespace PacketMessagingTS.Helpers
                 string fileContent = await Json.StringifyAsync(content);
 
                 await FileIO.WriteTextAsync(file, fileContent);
-                _logHelper.Log(LogLevel.Info, $"Saved file, size {fileContent.Length} bytes, File Name {name}");
+                //_logHelper.Log(LogLevel.Info, $"Saved file, size {fileContent.Length} bytes, File Name {name}");
             }
             catch (Exception e)
             {
-                _logHelper.Log(LogLevel.Error, $"Error saving {name}. {e.Message}");
+                //_logHelper.Log(LogLevel.Error, $"Error saving {name}. {e.Message}");
             }
             finally
             {

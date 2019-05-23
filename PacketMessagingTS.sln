@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2000
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketMessagingTS", "PacketMessagingTS\PacketMessagingTS.csproj", "{A0511FEF-BCBA-4A66-AE99-12ACD5A49595}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -39,6 +39,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoutingSlip0319Control", "RoutingSlip0319Control\RoutingSlip0319Control.csproj", "{A76BB74B-9806-4488-BFA4-6164DA269829}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICS213RRPackItFormControl", "ICS213RRPackItFormControl\ICS213RRPackItFormControl.csproj", "{F9AB8EAC-EA13-475A-9333-126B4C8C3E0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketMessagingTS.Core", "PacketMessagingTS.Core\PacketMessagingTS.Core.csproj", "{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -398,6 +400,26 @@ Global
 		{F9AB8EAC-EA13-475A-9333-126B4C8C3E0A}.Release|x64.Build.0 = Release|x64
 		{F9AB8EAC-EA13-475A-9333-126B4C8C3E0A}.Release|x86.ActiveCfg = Release|x86
 		{F9AB8EAC-EA13-475A-9333-126B4C8C3E0A}.Release|x86.Build.0 = Release|x86
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|ARM.Build.0 = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|x64.Build.0 = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Debug|x86.Build.0 = Debug|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|ARM.Build.0 = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|ARM64.Build.0 = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|x64.ActiveCfg = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|x64.Build.0 = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|x86.ActiveCfg = Release|Any CPU
+		{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

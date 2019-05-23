@@ -124,7 +124,8 @@ namespace PacketMessagingTS.Views
 
         private async Task RefreshDataGridAsync()
         {
-            _messagesInFolder = await PacketMessage.GetPacketMessages(_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
+            //_messagesInFolder = await PacketMessage.GetPacketMessages(_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
+            _messagesInFolder = await PacketMessage.GetPacketMessages((_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder).Path);
 
             _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
