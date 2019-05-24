@@ -462,7 +462,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         receiptMessage.MessageBody = packetForm.CreateOutpostData(ref receiptMessage);
                         receiptMessage.CreateFileName();
                         receiptMessage.SentTime = DateTime.Now;
-                        receiptMessage.MessageSize = receiptMessage.Size;
+                        receiptMessage.UpdateMessageSize();
                         //_logHelper.Log(LogLevel.Info, $"Message To: {receiptMessage.MessageTo}");       // Disable if not testing
                         //_logHelper.Log(LogLevel.Info, $"Message Body: { receiptMessage.MessageBody}");  // Disable if not testing
                         SendMessage(ref receiptMessage);            // Disabled for testing

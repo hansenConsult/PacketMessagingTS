@@ -5,9 +5,8 @@ using System.Text;
 using FormControlBaseClass;
 
 using SharedCode;
-using SharedCode.Helpers;
 
-using static SharedCode.Helpers.FormProvidersHelper;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 namespace MessageFormControl
 {

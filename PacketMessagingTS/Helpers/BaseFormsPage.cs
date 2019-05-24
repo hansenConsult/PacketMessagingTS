@@ -29,7 +29,7 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 
-using static SharedCode.Helpers.FormProvidersHelper;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;

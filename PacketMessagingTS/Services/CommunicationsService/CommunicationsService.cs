@@ -21,7 +21,7 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 
-using static SharedCode.Helpers.FormProvidersHelper;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.ApplicationModel.Email;
 using Windows.Foundation;
@@ -539,7 +539,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     continue;
                 }
                 packetMessage.MessageBody = formControl.CreateOutpostData(ref packetMessage);
-                packetMessage.MessageSize = packetMessage.Size;
+                packetMessage.UpdateMessageSize();
                 // Save updated message
                 packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 

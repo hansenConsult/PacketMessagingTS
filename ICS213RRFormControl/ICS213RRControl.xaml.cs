@@ -4,7 +4,7 @@ using FormControlBaseClass;
 
 using SharedCode;
 
-using static SharedCode.Helpers.FormProvidersHelper;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

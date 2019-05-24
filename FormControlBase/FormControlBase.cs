@@ -6,7 +6,7 @@ using System.Text;
 
 using SharedCode;
 
-using static SharedCode.Helpers.FormProvidersHelper;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using ToggleButtonGroupControl;
 
