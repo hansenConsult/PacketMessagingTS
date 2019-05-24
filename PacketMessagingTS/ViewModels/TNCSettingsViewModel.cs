@@ -3,19 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+
+using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
-
-using SharedCode.Helpers;
-//using PacketMessagingTS.Core.Helpers;
-
-using Windows.Devices.SerialCommunication;
 using Windows.UI.Xaml;
+
 
 namespace PacketMessagingTS.ViewModels
 {

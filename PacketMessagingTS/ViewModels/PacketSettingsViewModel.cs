@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 using MetroLog;
 
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {

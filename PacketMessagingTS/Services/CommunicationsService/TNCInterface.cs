@@ -11,13 +11,13 @@ using MessageFormControl;
 
 using MetroLog;
 
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Views;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.UI.Core;
 

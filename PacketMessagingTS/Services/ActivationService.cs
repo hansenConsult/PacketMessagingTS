@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 using MetroLog;
 
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Activation;
 
 using SharedCode;

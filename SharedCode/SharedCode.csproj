@@ -110,7 +110,6 @@
   <ItemGroup>
     <Compile Include="DateTimeConverter.cs" />
     <Compile Include="Helpers\FormProvidersHelper.cs" />
-    <Compile Include="Helpers\Singleton.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Models\TacticalCallsigns.cs" />
     <Compile Include="PacketMessage.cs" />

@@ -1,25 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using MetroLog;
 
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Services;
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-using SharedCode.Helpers;
-
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+
 
 namespace PacketMessagingTS.Views
 {

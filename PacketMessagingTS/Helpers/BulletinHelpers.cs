@@ -4,10 +4,11 @@ using System.IO;
 
 using MetroLog;
 
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-using SharedCode.Helpers;
+//using SharedCode.Helpers;
 
 using Windows.Storage;
 

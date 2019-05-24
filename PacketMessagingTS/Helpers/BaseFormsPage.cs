@@ -23,11 +23,11 @@ using FormControlBaseClass;
 using MessageFormControl;
 
 using PacketMessagingTS.Controls;
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using static SharedCode.Helpers.FormProvidersHelper;
 

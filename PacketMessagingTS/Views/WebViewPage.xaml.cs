@@ -10,15 +10,17 @@ using MessageFormControl;
 
 using MetroLog;
 
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using static SharedCode.Helpers.FormProvidersHelper;
+//using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.ApplicationModel;
 using Windows.Storage;

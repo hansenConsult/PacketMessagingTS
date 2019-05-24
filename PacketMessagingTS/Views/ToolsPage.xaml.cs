@@ -11,6 +11,8 @@ using MetroLog;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.CommunicationsService;
@@ -18,7 +20,6 @@ using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.Graphics.Printing;
 using Windows.Graphics.Printing.OptionDetails;

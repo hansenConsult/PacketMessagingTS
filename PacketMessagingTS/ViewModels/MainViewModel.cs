@@ -4,12 +4,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Views;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;

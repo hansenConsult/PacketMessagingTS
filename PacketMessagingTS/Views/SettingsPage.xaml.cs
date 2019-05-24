@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using MetroLog;
 
 using PacketMessagingTS.Controls;
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-using SharedCode.Helpers;
+//using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.Devices.SerialCommunication;

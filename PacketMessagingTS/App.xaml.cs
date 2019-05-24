@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using MetroLog;
 using MetroLog.Targets;
+
+using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
@@ -13,7 +14,6 @@ using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
 
 using SharedCode;
-using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.ApplicationModel;
@@ -21,8 +21,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.ExtendedExecution;
 using Windows.Foundation;
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
+
 
 namespace PacketMessagingTS
 {

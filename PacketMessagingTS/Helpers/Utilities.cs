@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MetroLog;
+
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
-using SharedCode.Helpers;
+//using SharedCode.Helpers;
 
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -188,7 +192,7 @@ namespace PacketMessagingTS.Helpers
         }
         //public static string GetBBSName(out string from, out string tnc)
         //{
-        //    IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+        //    IdentityViewModel instance = PacketMessagingTS.Core.Helpers.Singleton<IdentityViewModel>.Instance;
         //    from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
 
         //    string bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
