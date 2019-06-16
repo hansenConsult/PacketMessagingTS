@@ -26,6 +26,9 @@ using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
+
+// Do not move from shared code since used in MTV DA
+
 namespace SharedCode.Models
 {
 	public class TacticalCallsignData
@@ -692,7 +695,7 @@ namespace SharedCode.Models
                 }
                 else if (file.FileType == ".xml")
                 {
-                    PacketMessage packetMessage = PacketMessage.Open(file);
+                    PacketMessage packetMessage = PacketMessage.Open(file.Path);
                 }
             }
 
@@ -710,45 +713,47 @@ namespace SharedCode.Models
             foreach (StorageFile file in files)
 
             {
-                PacketMessage packetMessage = PacketMessage.Open(file);
-
-				var lines = packetMessage.MessageBody?.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-				for (int i = 0; i < lines?.Length; i++)
-				{
-					if (lines[i].Contains(tacticalCallsignData.BulletinFileName))
-					{
-						for (; i < lines.Length; i++)
-						{
-							int start = 0;
-							int end;
-							string startSearchString = "revised:";
-							if ((start = lines[i].IndexOf(startSearchString)) >= 0)
-							{
-								start += startSearchString.Length;
-								end = lines[i].IndexOf("by");
-								string revTime = "";
-								if (end >= 0)
-								{
-									revTime = lines[i].Substring(start, end - 1 - start).Trim();
-								}
-								else
-								{
-									revTime = lines[i].Substring(start, lines[i].Length - start).Trim();
-								}
-								revTime = revTime.Replace("at", "");
-								DateTime revisionTime = DateTime.Parse(revTime);
-								if (revisionTime > lastRevisionTime)
-								{
-									lastRevisionTime = revisionTime;
-                                    //packetMessage.CreateTime = $"{lastRevisionTime.Month:d2}/{lastRevisionTime.Day:d2}/{lastRevisionTime.Year - 2000:d2} {lastRevisionTime.Hour:d2}:{lastRevisionTime.Minute:d2}";
-                                    packetMessage.CreateTime = lastRevisionTime;
-                                    bulletinPacketMessage = packetMessage;
-								}
-								break;
-							}
-						}
-					}
-				}
+                PacketMessage packetMessage = PacketMessage.Open(file.Path);
+                if (packetMessage != null)
+                {
+                    var lines = packetMessage.MessageBody?.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < lines?.Length; i++)
+                    {
+                        if (lines[i].Contains(tacticalCallsignData.BulletinFileName))
+                        {
+                            for (; i < lines.Length; i++)
+                            {
+                                int start = 0;
+                                int end;
+                                string startSearchString = "revised:";
+                                if ((start = lines[i].IndexOf(startSearchString)) >= 0)
+                                {
+                                    start += startSearchString.Length;
+                                    end = lines[i].IndexOf("by");
+                                    string revTime = "";
+                                    if (end >= 0)
+                                    {
+                                        revTime = lines[i].Substring(start, end - 1 - start).Trim();
+                                    }
+                                    else
+                                    {
+                                        revTime = lines[i].Substring(start, lines[i].Length - start).Trim();
+                                    }
+                                    revTime = revTime.Replace("at", "");
+                                    DateTime revisionTime = DateTime.Parse(revTime);
+                                    if (revisionTime > lastRevisionTime)
+                                    {
+                                        lastRevisionTime = revisionTime;
+                                        //packetMessage.CreateTime = $"{lastRevisionTime.Month:d2}/{lastRevisionTime.Day:d2}/{lastRevisionTime.Year - 2000:d2} {lastRevisionTime.Hour:d2}:{lastRevisionTime.Minute:d2}";
+                                        packetMessage.CreateTime = lastRevisionTime;
+                                        bulletinPacketMessage = packetMessage;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
 			}
 			return bulletinPacketMessage;
 		}

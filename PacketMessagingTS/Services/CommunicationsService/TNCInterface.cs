@@ -460,7 +460,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         receiptMessage.FormFieldArray = formFields;
                         MessageControl packetForm = new MessageControl();
                         receiptMessage.MessageBody = packetForm.CreateOutpostData(ref receiptMessage);
-                        receiptMessage.CreateFileName();
+                        if(!receiptMessage.CreateFileName())
+                        {
+                            throw new Exception();
+                        }
                         receiptMessage.SentTime = DateTime.Now;
                         receiptMessage.UpdateMessageSize();
                         //_logHelper.Log(LogLevel.Info, $"Message To: {receiptMessage.MessageTo}");       // Disable if not testing

@@ -117,47 +117,54 @@ namespace PacketMessagingTS.Views
 
         private async Task RefreshDataGridAsync()
         {
-            //_messagesInFolder = await PacketMessage.GetPacketMessages(_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
-            _messagesInFolder = await PacketMessage.GetPacketMessages((_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder).Path);
+            try
+            {
+                //_messagesInFolder = await PacketMessage.GetPacketMessages(_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
+                _messagesInFolder = await PacketMessage.GetPacketMessages((_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder).Path);
 
-            _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
+                _mainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
-            //string header = _currentPivotItem.Header as string;
-            //int index = header.IndexOf(" (");
-            //header = (_currentPivotItem.Header as string).Substring(0, index < 0 ? header.Length : index);
-            //_currentPivotItem.Header = $"{header} ({_messagesInFolder.Count})";
+                //string header = _currentPivotItem.Header as string;
+                //int index = header.IndexOf(" (");
+                //header = (_currentPivotItem.Header as string).Substring(0, index < 0 ? header.Length : index);
+                //_currentPivotItem.Header = $"{header} ({_messagesInFolder.Count})";
 
-            DataGridColumn sortColumn = null;
-            //switch (_currentPivotItem.Name)
-            //{
-            //    case "pivotItemInBox":
-            //        sortColumn = dataGridInbox.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemSent":
-            //        sortColumn = dataGridSent.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemOutBox":
-            //        sortColumn = dataGridOutbox.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemDrafts":
-            //        sortColumn = dataGridDrafts.Tag as DataGridColumn;
-            //        break;
-            //    case "pivotItemArchive":
-            //        break;
-            //    case "pivotItemDeleted":
-            //        break;
-            //}
-            //if (sortColumn != null)
-            //{
-            //    SortColumn(sortColumn);
-            //}
-            DataGrid dataGrid = FindDataGrid(_mainViewModel.MainPagePivotSelectedItem);
-            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_mainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
-            if (sortColumnNumber < 0)
-                return;
+                DataGridColumn sortColumn = null;
+                //switch (_currentPivotItem.Name)
+                //{
+                //    case "pivotItemInBox":
+                //        sortColumn = dataGridInbox.Tag as DataGridColumn;
+                //        break;
+                //    case "pivotItemSent":
+                //        sortColumn = dataGridSent.Tag as DataGridColumn;
+                //        break;
+                //    case "pivotItemOutBox":
+                //        sortColumn = dataGridOutbox.Tag as DataGridColumn;
+                //        break;
+                //    case "pivotItemDrafts":
+                //        sortColumn = dataGridDrafts.Tag as DataGridColumn;
+                //        break;
+                //    case "pivotItemArchive":
+                //        break;
+                //    case "pivotItemDeleted":
+                //        break;
+                //}
+                //if (sortColumn != null)
+                //{
+                //    SortColumn(sortColumn);
+                //}
+                DataGrid dataGrid = FindDataGrid(_mainViewModel.MainPagePivotSelectedItem);
+                int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[_mainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
+                if (sortColumnNumber == null || sortColumnNumber < 0)
+                    return;
 
-            sortColumn = dataGrid.Columns[sortColumnNumber];
-            SortColumn(sortColumn);
+                sortColumn = dataGrid.Columns[(int)sortColumnNumber];
+                SortColumn(sortColumn);
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"{e.Message}");
+            }
         }
 
         private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)

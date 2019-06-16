@@ -57,25 +57,27 @@ namespace PacketMessagingTS.Views
 
             string packetMessagePath = e.Parameter as string;
             PacketMessage packetMessage = PacketMessage.Open(packetMessagePath);
-            packetMessage.MessageOpened = true;
-            string directory = Path.GetDirectoryName(packetMessagePath);
-            if (packetMessage.PacFormName.Contains("213RR"))
+            if (packetMessage != null)
             {
-                webViewPivot.SelectedIndex = 1;
-            }
-            else if (packetMessage.PacFormName.Contains("213"))
-            {
-                webViewPivot.SelectedIndex = 0;
-            }
-            else
-            {
-                webViewPivot.SelectedIndex = 2;
-            }
+                packetMessage.MessageOpened = true;
+                string directory = Path.GetDirectoryName(packetMessagePath);
+                if (packetMessage.PacFormName.Contains("213RR"))
+                {
+                    webViewPivot.SelectedIndex = 1;
+                }
+                else if (packetMessage.PacFormName.Contains("213"))
+                {
+                    webViewPivot.SelectedIndex = 0;
+                }
+                else
+                {
+                    webViewPivot.SelectedIndex = 2;
+                }
 
-            FormControlBase formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
+                FormControlBase formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
 
-            ConvertFromOutpost(ref packetMessage, ref formControl, FormProviders.PacForm);
-
+                ConvertFromOutpost(ref packetMessage, ref formControl, FormProviders.PacForm);
+            }
         }
 
         private void WebViewPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)

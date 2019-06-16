@@ -108,11 +108,11 @@
       <Version>2.1.190405004</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>2.0.0</Version>
+      <Version>2.0.1</Version>
     </PackageReference>
     <!-- Nuget package references -->
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
+      <Version>12.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -137,7 +137,6 @@
     <Compile Include="Helpers\BulletinHelpers.cs" />
     <Compile Include="Helpers\ComportComparer.cs" />
     <Compile Include="Helpers\DataGridSortData.cs" />
-    <Compile Include="Helpers\DateTimeConverter.cs" />
     <Compile Include="Helpers\DeviceListEntry.cs" />
     <Compile Include="Helpers\DispatcherTaskExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
@@ -324,6 +323,10 @@
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ICS213PackItFormControl\ICS213PackItFormControl.csproj">
+      <Project>{64fb6dbf-750a-490d-aaea-f1e41cf750fe}</Project>
+      <Name>ICS213PackItFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ICS213RRFormControl\ICS213RR1706FormControl.csproj">
       <Project>{93f74750-00f2-44d3-bd5b-189487733a59}</Project>
       <Name>ICS213RR1706FormControl</Name>
@@ -331,10 +334,6 @@
     <ProjectReference Include="..\ICS213RRPackItFormControl\ICS213RRPackItFormControl.csproj">
       <Project>{f9ab8eac-ea13-475a-9333-126b4c8c3e0a}</Project>
       <Name>ICS213RRPackItFormControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ICS213_070628_FormControl\ICS213_070628_FormControl.csproj">
-      <Project>{268fbd5c-fbd7-46c3-834a-a8e83b2904f0}</Project>
-      <Name>ICS213_070628_FormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\MessageFormControl\MessageFormControl.csproj">
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>

@@ -675,12 +675,12 @@ namespace PacketMessagingTS.Views
 //            _toolsViewModel.ToolsPageCommLogPartViewModel viewModel = ToolsPageViewModel.toolsPageCommLogPartViewModel;
             CommLog.Instance.CommLogEntryList.Clear();
             // Get messages in the InBox and the Sent Messages folder
-            List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages(SharedData.ReceivedMessagesFolder);
+            List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages(SharedData.ReceivedMessagesFolder.Path);
             foreach (PacketMessage packetMessage in messagesInFolder)
             {
                 CommLog.Instance.AddCommLogEntry(packetMessage, startTime, endTime);
             }
-            List<PacketMessage> messagesSentInFolder = await PacketMessage.GetPacketMessages(SharedData.SentMessagesFolder);
+            List<PacketMessage> messagesSentInFolder = await PacketMessage.GetPacketMessages(SharedData.SentMessagesFolder.Path);
             //List<PacketMessage> messages = (List<PacketMessage>)messagesInFolder.Concat(messagesSentInFolder);
             //messagesInFolder.Concat(messagesSentInFolder);
             foreach (PacketMessage packetMessage in messagesSentInFolder)

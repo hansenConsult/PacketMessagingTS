@@ -22,6 +22,8 @@ using FormControlBaseClass;
 
 using MessageFormControl;
 
+using MetroLog;
+
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Models;
@@ -64,6 +66,9 @@ namespace PacketMessagingTS.Helpers
 
     public abstract class BaseFormsPage : Page
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
         public enum MessageOrigin
         {
             Archived,
@@ -271,7 +276,10 @@ namespace PacketMessagingTS.Helpers
             string subject = CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             _packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
-            _packetMessage.CreateFileName();
+            if (!_packetMessage.CreateFileName())
+            {
+                throw new Exception();
+            }
         }
 
         public void FillFormFromPacketMessage()
@@ -378,35 +386,42 @@ namespace PacketMessagingTS.Helpers
             int index = 0;
             string packetMessagePath = e.Parameter as string;
             _packetMessage = PacketMessage.Open(packetMessagePath);
-            _packetMessage.MessageOpened = true;
-            string directory = Path.GetDirectoryName(packetMessagePath);
-            _loadMessage = true;
-            foreach (PivotItem pivotItem in _formsPagePivot.Items)
+            if (_packetMessage is null)
             {
-                if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
-                {
-                    _formsPagePivot.SelectedIndex = index;
-                    break;
-                }
-                index++;
+                _logHelper.Log(LogLevel.Error, $"Failed to open {packetMessagePath}");
             }
-            // Show SimpleMessage header formatted by where the message came from
-            if (_packetMessage.PacFormName == "SimpleMessage")
+            else
             {
-                if (directory.Contains("Received"))
+                _packetMessage.MessageOpened = true;
+                string directory = Path.GetDirectoryName(packetMessagePath);
+                _loadMessage = true;
+                foreach (PivotItem pivotItem in _formsPagePivot.Items)
                 {
-                    _messageOrigin = MessageOrigin.Received;
+                    if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
+                    {
+                        _formsPagePivot.SelectedIndex = index;
+                        break;
+                    }
+                    index++;
                 }
-                else if (directory.Contains("Sent"))
+                // Show SimpleMessage header formatted by where the message came from
+                if (_packetMessage.PacFormName == "SimpleMessage")
                 {
-                    _messageOrigin = MessageOrigin.Sent;
+                    if (directory.Contains("Received"))
+                    {
+                        _messageOrigin = MessageOrigin.Received;
+                    }
+                    else if (directory.Contains("Sent"))
+                    {
+                        _messageOrigin = MessageOrigin.Sent;
+                    }
+                    else
+                    {
+                        _messageOrigin = MessageOrigin.New;
+                    }
                 }
-                else
-                {
-                    _messageOrigin = MessageOrigin.New;
-                }
+                _packetMessage.Save(directory);
             }
-            _packetMessage.Save(directory);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

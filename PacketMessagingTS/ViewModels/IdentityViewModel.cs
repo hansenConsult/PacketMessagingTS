@@ -5,12 +5,13 @@ using PacketMessagingTS.Models;
 
 using SharedCode.Models;
 
+
 namespace PacketMessagingTS.ViewModels
 {
     public class IdentityViewModel : BaseViewModel
     {
-        public static TacticalCall _callsignData;
-        public TacticalCallsignData _tacticalCallsignData;
+        //public static TacticalCall _callsignData;
+        //public TacticalCallsignData _tacticalCallsignData;
 
         public IdentityViewModel()
         {

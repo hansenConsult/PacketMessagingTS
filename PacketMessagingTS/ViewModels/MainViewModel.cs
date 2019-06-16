@@ -108,7 +108,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (pivotItem.Name == "pivotItemInBox" || pivotItem.Name == "pivotItemArchive")
                 {
-                    List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages(pivotItem.Tag as StorageFolder);
+                    List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages((pivotItem.Tag as StorageFolder).Path);
                     foreach (PacketMessage packetMessage in messagesInFolder)
                     {
                         foreach (string area in areas)

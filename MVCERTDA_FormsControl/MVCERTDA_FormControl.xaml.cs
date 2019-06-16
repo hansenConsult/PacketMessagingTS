@@ -23,7 +23,7 @@ namespace MVCERTDA_FormsControl
 
     public sealed partial class MVCERTDAControl : FormControlBase
     {
-        public string[] ICSPosition = new string[] {
+        private string[] ICSPosition = new string[] {
                 "Incident Commander",
                 "Operations",
                 "Planning",
@@ -37,7 +37,7 @@ namespace MVCERTDA_FormsControl
         List<string> _ICSPositionFiltered = new List<string>();
         string subjectText = "Damage Summary for ";
 
-        public List<TacticalCall> CERTLocationTacticalCalls { get; }    // Must be sorted by Agency Name
+        private List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
 
         public MVCERTDAControl()
         {
@@ -47,7 +47,7 @@ namespace MVCERTDA_FormsControl
 
             InitializeToggleButtonGroups();
 
-            CERTLocationTacticalCalls = TacticalCallsigns.CreateMountainViewCERTList();
+            //CERTLocationTacticalCalls = TacticalCallsigns.CreateMountainViewCERTList();
 
             Severity = "other";
             HandlingOrder = "priority";

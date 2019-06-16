@@ -8,6 +8,8 @@ using Windows.UI.Xaml.Data;
 
 namespace SharedCode
 {
+    // Do not move. Used in MessageFormControl
+
     public sealed class DateTimeConverter : IValueConverter
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, string language)
@@ -24,9 +26,6 @@ namespace SharedCode
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
-
-            //bool success = DateTime.TryParse((string)value, out DateTime dateTime);
-            //return success ? dateTime : (DateTime?)null;
         }
     }
 }

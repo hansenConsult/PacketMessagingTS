@@ -13,7 +13,6 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-//using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.Devices.SerialCommunication;
@@ -31,12 +30,12 @@ namespace PacketMessagingTS.Views
 
         public SettingsViewModel _settingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
-        public PacketSettingsViewModel _packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+        public PacketSettingsViewModel _packetSettingsViewModel { get; } = Singleton<PacketSettingsViewModel>.Instance;
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
         // Identity settings
-        public static ObservableCollection<TacticalCallsignData> listOfTacticallsignsArea;
+        //public static ObservableCollection<TacticalCallsignData> listOfTacticallsignsArea;
 
         //TacticalCallsignData _tacticalCallsignData;
 

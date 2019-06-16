@@ -17,8 +17,6 @@ using System.Xml.Serialization;
 
 using MetroLog;
 
-using PacketMessagingTS.Helpers;
-
 using SharedCode;
 
 using Windows.Data.Pdf;
@@ -121,10 +119,15 @@ namespace PacketMessagingTS.Models
     public partial class TacticalCallsigns
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TacticalCallsigns>();
+        private static LogHelper _logHelper = new LogHelper(log);
 
-		private static string TactiCallsMasterFileName = "Tactical_Calls.txt";
+        private static string TactiCallsMasterFileName = "Tactical_Calls.txt";
 
-		private TacticalCall[] tacticalCallsignsArrayField;
+        public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
+        public static List<TacticalCallsignData> _TacticalCallsignDataList;
+
+
+        private TacticalCall[] tacticalCallsignsArrayField;
 
         private string areaField;
 
@@ -200,7 +203,7 @@ namespace PacketMessagingTS.Models
             TacticalCallsigns tacticalCallsigns = null;
             try
             {
-				TacticalCallsignData tacticalCallsignData = App._tacticalCallsignDataDictionary[fileName];
+				TacticalCallsignData tacticalCallsignData = _tacticalCallsignDataDictionary[fileName];
 
 				StorageFolder localFolder = ApplicationData.Current.LocalFolder;
                 var tacticalCallFile = await localFolder.TryGetItemAsync(fileName);
@@ -628,12 +631,12 @@ namespace PacketMessagingTS.Models
             return recognizedText;
         }
 
-        public static async Task<PacketMessage> FindLatestBulletinAsync(TacticalCallsignData tacticalCallsignData)  //.BulletinFileName, string bulletin
+        public static async Task<PacketMessage> FindLatestBulletinAsync(TacticalCallsignData tacticalCallsignData, StorageFolder bulletinFolder)  //.BulletinFileName, string bulletin
         {
 			DateTime lastRevisionTime = DateTime.MinValue;
 			PacketMessage bulletinPacketMessage = null;
 
-            StorageFolder archivedMessagesFolder = SharedData.ArchivedMessagesFolder;
+            StorageFolder archivedMessagesFolder = bulletinFolder;
 
             // Set options for file type and sort order.
             List<string> fileTypeFilter = new List<string>();
@@ -691,7 +694,7 @@ namespace PacketMessagingTS.Models
                 }
                 else if (file.FileType == ".xml")
                 {
-                    PacketMessage packetMessage = PacketMessage.Open(file);
+                    PacketMessage packetMessage = PacketMessage.Open(file.Path);
                 }
             }
 
@@ -709,138 +712,140 @@ namespace PacketMessagingTS.Models
             foreach (StorageFile file in files)
 
             {
-                PacketMessage packetMessage = PacketMessage.Open(file);
-
-				var lines = packetMessage.MessageBody?.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-				for (int i = 0; i < lines?.Length; i++)
-				{
-					if (lines[i].Contains(tacticalCallsignData.BulletinFileName))
-					{
-						for (; i < lines.Length; i++)
-						{
-							int start = 0;
-							int end;
-							string startSearchString = "revised:";
-							if ((start = lines[i].IndexOf(startSearchString)) >= 0)
-							{
-								start += startSearchString.Length;
-								end = lines[i].IndexOf("by");
-								string revTime = "";
-								if (end >= 0)
-								{
-									revTime = lines[i].Substring(start, end - 1 - start).Trim();
-								}
-								else
-								{
-									revTime = lines[i].Substring(start, lines[i].Length - start).Trim();
-								}
-								revTime = revTime.Replace("at", "");
-								DateTime revisionTime = DateTime.Parse(revTime);
-								if (revisionTime > lastRevisionTime)
-								{
-									lastRevisionTime = revisionTime;
-                                    //packetMessage.CreateTime = $"{lastRevisionTime.Month:d2}/{lastRevisionTime.Day:d2}/{lastRevisionTime.Year - 2000:d2} {lastRevisionTime.Hour:d2}:{lastRevisionTime.Minute:d2}";
-                                    packetMessage.CreateTime = lastRevisionTime;
-                                    bulletinPacketMessage = packetMessage;
-								}
-								break;
-							}
-						}
-					}
-				}
+                PacketMessage packetMessage = PacketMessage.Open(file.Path);
+                if (packetMessage != null)
+                {
+                    var lines = packetMessage.MessageBody?.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < lines?.Length; i++)
+                    {
+                        if (lines[i].Contains(tacticalCallsignData.BulletinFileName))
+                        {
+                            for (; i < lines.Length; i++)
+                            {
+                                int start = 0;
+                                int end;
+                                string startSearchString = "revised:";
+                                if ((start = lines[i].IndexOf(startSearchString)) >= 0)
+                                {
+                                    start += startSearchString.Length;
+                                    end = lines[i].IndexOf("by");
+                                    string revTime = "";
+                                    if (end >= 0)
+                                    {
+                                        revTime = lines[i].Substring(start, end - 1 - start).Trim();
+                                    }
+                                    else
+                                    {
+                                        revTime = lines[i].Substring(start, lines[i].Length - start).Trim();
+                                    }
+                                    revTime = revTime.Replace("at", "");
+                                    DateTime revisionTime = DateTime.Parse(revTime);
+                                    if (revisionTime > lastRevisionTime)
+                                    {
+                                        lastRevisionTime = revisionTime;
+                                        //packetMessage.CreateTime = $"{lastRevisionTime.Month:d2}/{lastRevisionTime.Day:d2}/{lastRevisionTime.Year - 2000:d2} {lastRevisionTime.Hour:d2}:{lastRevisionTime.Minute:d2}";
+                                        packetMessage.CreateTime = lastRevisionTime;
+                                        bulletinPacketMessage = packetMessage;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
 			}
 			return bulletinPacketMessage;
 		}
 
-		public static async Task<TacticalCallsigns> CreateFromBulletinAsync(TacticalCallsignData tacticalCallsignData)
-		{
-			//Read the bulletin file
-			PacketMessage tacticalCallsBulletin = await FindLatestBulletinAsync(tacticalCallsignData);
-			if (tacticalCallsBulletin is null)
-			{
-                // If none are found download pdf file  BulletinFileName = "http://www.scc-ares-races.org/netscripts/HospitalNetScriptApr2015.pdf"
-                if (tacticalCallsignData.BulletinFileName.StartsWith("http"))
-                {
-                    BackgroundTransfer backgroundTransfer = BackgroundTransfer.CreateBackgroundTransfer();
-                    // The downloaded file is in the archived folder. The name is derived from the URI
-                    backgroundTransfer.StartDownloadAsync(tacticalCallsignData.BulletinFileName);
-                }
-                return null;
-			}
+        //public static async Task<TacticalCallsigns> CreateFromBulletinAsync(TacticalCallsignData tacticalCallsignData)
+        //{
+        //	//Read the bulletin file
+        //	PacketMessage tacticalCallsBulletin = await FindLatestBulletinAsync(tacticalCallsignData, );
+        //	if (tacticalCallsBulletin is null)
+        //	{
+        //              // If none are found download pdf file  BulletinFileName = "http://www.scc-ares-races.org/netscripts/HospitalNetScriptApr2015.pdf"
+        //              if (tacticalCallsignData.BulletinFileName.StartsWith("http"))
+        //              {
+        //                  BackgroundTransfer backgroundTransfer = BackgroundTransfer.CreateBackgroundTransfer();
+        //                  // The downloaded file is in the archived folder. The name is derived from the URI
+        //                  backgroundTransfer.StartDownloadAsync(tacticalCallsignData.BulletinFileName);
+        //              }
+        //              return null;
+        //	}
 
-			string bulletin = tacticalCallsBulletin?.MessageBody;
+        //	string bulletin = tacticalCallsBulletin?.MessageBody;
 
-			if (bulletin is null)
-				return null;
+        //	if (bulletin is null)
+        //		return null;
 
-			string primaryBBS = "";
-			string secondaryBBS = "";
+        //	string primaryBBS = "";
+        //	string secondaryBBS = "";
 
-			string agency = tacticalCallsignData.AreaName;
-			int start = bulletin.IndexOf(tacticalCallsignData.StartString);
+        //	string agency = tacticalCallsignData.AreaName;
+        //	int start = bulletin.IndexOf(tacticalCallsignData.StartString);
 
-			bulletin = bulletin.Substring(start);
+        //	bulletin = bulletin.Substring(start);
 
-			start = bulletin.IndexOf("#-----");
-			string agencyData = bulletin.Substring(start);
-			start = agencyData.IndexOf("\n");
-			agencyData = agencyData.Substring(start + 1);
-			int end = agencyData.IndexOf('#');
-			string sccoAgencies = agencyData.Substring(0, end - 1);
+        //	start = bulletin.IndexOf("#-----");
+        //	string agencyData = bulletin.Substring(start);
+        //	start = agencyData.IndexOf("\n");
+        //	agencyData = agencyData.Substring(start + 1);
+        //	int end = agencyData.IndexOf('#');
+        //	string sccoAgencies = agencyData.Substring(0, end - 1);
 
-			var lines = sccoAgencies.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-			TacticalCall[] tacticalCalls = new TacticalCall[lines.Length];
-            for (int i = 0; i < lines.Length; i++)
-            {
-                var callsign = lines[i].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        //	var lines = sccoAgencies.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        //	TacticalCall[] tacticalCalls = new TacticalCall[lines.Length];
+        //          for (int i = 0; i < lines.Length; i++)
+        //          {
+        //              var callsign = lines[i].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
-                TacticalCall tacticalCall = new TacticalCall
-                {
-                    TacticalCallsign = callsign[0],
-                    SecondaryBBS = "",
-                    AgencyName = callsign[1]
-                };
-				if (callsign.Length > 2)
-				{
-					tacticalCall.Prefix = callsign[2];
-				}
-				else
-				{
-					tacticalCall.Prefix = callsign[0].Substring(3, 3);
-				}
-				if (callsign.Length > 3)
-				{
-					tacticalCall.PrimaryBBS = callsign[3];
-				}
-				else
-				{
-					tacticalCall.PrimaryBBS = primaryBBS;
-				}
-				if (callsign.Length > 4)
-				{
-					tacticalCall.SecondaryBBS = callsign[4];
-				}
-				else
-				{
-					tacticalCall.SecondaryBBS = secondaryBBS;
-				}
-				//tacticalCall.Selected = false;
+        //              TacticalCall tacticalCall = new TacticalCall
+        //              {
+        //                  TacticalCallsign = callsign[0],
+        //                  SecondaryBBS = "",
+        //                  AgencyName = callsign[1]
+        //              };
+        //		if (callsign.Length > 2)
+        //		{
+        //			tacticalCall.Prefix = callsign[2];
+        //		}
+        //		else
+        //		{
+        //			tacticalCall.Prefix = callsign[0].Substring(3, 3);
+        //		}
+        //		if (callsign.Length > 3)
+        //		{
+        //			tacticalCall.PrimaryBBS = callsign[3];
+        //		}
+        //		else
+        //		{
+        //			tacticalCall.PrimaryBBS = primaryBBS;
+        //		}
+        //		if (callsign.Length > 4)
+        //		{
+        //			tacticalCall.SecondaryBBS = callsign[4];
+        //		}
+        //		else
+        //		{
+        //			tacticalCall.SecondaryBBS = secondaryBBS;
+        //		}
+        //		//tacticalCall.Selected = false;
 
-				tacticalCalls[i] = tacticalCall;
-			}
-			//tacticalCalls[0].Selected = true;
-            TacticalCallsigns tacticalCallsigns = new TacticalCallsigns()
-            {
-                BulletinCreationTime = DateTime.Now,//tacticalCallsBulletin.JnosTime,
-                Area = agency,
-                TacticalCallsignsArray = tacticalCalls
-            };
-            return tacticalCallsigns;
-		}
+        //		tacticalCalls[i] = tacticalCall;
+        //	}
+        //	//tacticalCalls[0].Selected = true;
+        //          TacticalCallsigns tacticalCallsigns = new TacticalCallsigns()
+        //          {
+        //              BulletinCreationTime = DateTime.Now,//tacticalCallsBulletin.JnosTime,
+        //              Area = agency,
+        //              TacticalCallsignsArray = tacticalCalls
+        //          };
+        //          return tacticalCallsigns;
+        //}
 
         private static (string primaryBBS, string secondaryBBS) FindCountyPrimSecBBS(string callsign)
         {
-            TacticalCallsignData tacticalCallsignData = App._tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
+            TacticalCallsignData tacticalCallsignData = _tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
 
             string primBBS = "", secBBS = "";
             foreach (var callsignData in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
@@ -857,7 +862,7 @@ namespace PacketMessagingTS.Models
 
         private static string  FindCountyPrefix(string callsign)
         {
-            TacticalCallsignData tacticalCallsignData = App._tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
+            TacticalCallsignData tacticalCallsignData = _tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
 
             string prefix = "";
             foreach (var callsignData in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
@@ -870,7 +875,116 @@ namespace PacketMessagingTS.Models
             }
             return prefix;
         }
+
+        public static void CreateTacticalCallsignsData()
+        {
+            _tacticalCallsignDataDictionary = new Dictionary<string, TacticalCallsignData>();
+            _TacticalCallsignDataList = new List<TacticalCallsignData>();
+
+            TacticalCallsignData tacticalCallsignData = new TacticalCallsignData()
+            {
+                AreaName = "County Agencies",
+                FileName = "CountyTacticalCallsigns.xml",
+                StartString = "Santa Clara County Cities/Agencies",
+                BulletinFileName = "SCCo Packet Tactical Calls"
+            };
+            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
+
+            tacticalCallsignData = new TacticalCallsignData()
+            {
+                AreaName = "non County Agencies",
+                FileName = "NonCountyTacticalCallsigns.xml",
+                StartString = "Other (non-SCCo) Agencies",
+                BulletinFileName = "SCCo Packet Tactical Calls"
+            };
+            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
+
+            tacticalCallsignData = new TacticalCallsignData()
+            {
+                AreaName = "Local Mountain View",
+                FileName = "MTVTacticalCallsigns.xml",
+                TacticallWithBBS = "MTVEOC",
+                StartString = "#Mountain View Tactical Call List",
+                StopString = "#MTV001 thru MTV010 also permissible",
+                RawDataFileName = "Tactical_Calls.txt"
+            };
+            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
+
+            tacticalCallsignData = new TacticalCallsignData()
+            {
+                AreaName = "Local Cupertino",
+                FileName = "CUPTacticalCallsigns.xml",
+                TacticallWithBBS = "CUPEOC",
+                StartString = "# Cupertino OES",
+                StopString = "# City of Palo Alto",
+                RawDataFileName = "Tactical_Calls.txt"
+            };
+            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
+
+            tacticalCallsignData = new TacticalCallsignData()
+            {
+                AreaName = "County Hospitals",
+                FileName = "HospitalsTacticalCallsigns.xml",
+                TacticallWithBBS = "HOSDOC",
+                StartString = "# SCCo Hospitals Packet Tactical Call Signs",
+                StopString = "# HOS001 - HOS010",
+                RawDataFileName = "Tactical_Calls.txt"
+            };
+            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
+
+            tacticalCallsignData = new TacticalCallsignData()
+            {
+                AreaName = "All County",
+                FileName = "AllCountyTacticalCallsigns.xml",
+                StartString = "",
+                BulletinFileName = "https://scc-ares-races.org/activities/showtacticalcalls.php"
+            };
+            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            _TacticalCallsignDataList.Add(tacticalCallsignData);
+
+            tacticalCallsignData = new TacticalCallsignData()
+            {
+                AreaName = "User Address Book",
+                FileName = "UserAddressBook.xml",
+                StartString = "",
+                BulletinFileName = ""
+            };
+        }
+
+        // Needs to be sorted by Agency Name
+        public static List<TacticalCall> CreateMountainViewCERTList()
+        {
+            // Find Mountain View Tactical Call signs
+            TacticalCallsignData mtvTacticalCallsigns = null;
+            foreach (TacticalCallsignData data in _tacticalCallsignDataDictionary.Values)
+            {
+                if (data.AreaName == "Local Mountain View")
+                {
+                    mtvTacticalCallsigns = data;
+                    break;
+                }
+            }
+            List<TacticalCall> mtvCERTTacticalCallsigns = new List<TacticalCall>();
+            foreach (TacticalCall tacticalCall in mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArray)
+            {
+                if (tacticalCall.AgencyName.Contains("CERT") || tacticalCall.AgencyName.Contains("Los Altos H.S. Dist")
+                                                             || tacticalCall.AgencyName.Contains("Whisman School Dist"))
+                {
+                    TacticalCall certTacticalCall = new TacticalCall(tacticalCall);
+                    certTacticalCall.AgencyName = tacticalCall.AgencyName.Replace(" CERT", "");
+                    mtvCERTTacticalCallsigns.Add(certTacticalCall);
+                }
+            }
+            mtvCERTTacticalCallsigns.Sort();
+            return mtvCERTTacticalCallsigns;
+        }
     }
+
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
@@ -878,10 +992,10 @@ namespace PacketMessagingTS.Models
 	//[System.Diagnostics.DebuggerStepThroughAttribute()]
 	//[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class TacticalCall
-	{
+    public partial class TacticalCall : IComparable<TacticalCall>, IEquatable<TacticalCall>
+    {
 
-		private string tacticalCallsignField;
+        private string tacticalCallsignField;
 
 		private string agencyNameField;
 
@@ -893,10 +1007,22 @@ namespace PacketMessagingTS.Models
 
 		private string secondaryBBSField = "";
 
-		//private bool selectedField;
+        public TacticalCall()
+        {
+        }
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
+        public TacticalCall(TacticalCall tacticalCall)
+        {
+            TacticalCallsign = tacticalCall.TacticalCallsign;
+            AgencyName = tacticalCall.AgencyName;
+            Prefix = tacticalCall.Prefix;
+            PrimaryBBS = tacticalCall.PrimaryBBS;
+            PrimaryBBSActive = tacticalCall.PrimaryBBSActive;
+            SecondaryBBS = tacticalCall.SecondaryBBS;
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
 		public string TacticalCallsign
 		{
 			get
@@ -977,20 +1103,62 @@ namespace PacketMessagingTS.Models
 			{
 				this.secondaryBBSField = value;
 			}
-		}
+        }
 
-		///// <remarks/>
-		//[System.Xml.Serialization.XmlAttributeAttribute()]
-		//public bool Selected
-		//{
-		//	get
-		//	{
-		//		return this.selectedField;
-		//	}
-		//	set
-		//	{
-		//		this.selectedField = value;
-		//	}
-		//}
-	}
+        public override string ToString() => AgencyName;
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            TacticalCall objAsTacticalCall = obj as TacticalCall;
+            if (objAsTacticalCall == null) return false;
+            else return Equals(objAsTacticalCall);
+        }
+
+        public int SortByNameAscending(string name1, string name2)
+        {
+            return name1.CompareTo(name2);
+        }
+
+        // Default comparer for Part type.
+        public int CompareTo(TacticalCall comparePart)
+        {
+            // A null value means that this object is greater.
+            if (comparePart == null)
+                return 1;
+
+            else
+                return this.AgencyName.CompareTo(comparePart.AgencyName);
+        }
+
+        public override int GetHashCode()
+        {
+            return AgencyName.GetHashCode();
+        }
+
+        public bool Equals(TacticalCall other)
+        {
+            if (other == null) return false;
+            return AgencyName == other.AgencyName
+                    && TacticalCallsign == other.TacticalCallsign
+                    && Prefix == other.Prefix
+                    && PrimaryBBS == other.PrimaryBBS
+                    && PrimaryBBSActive == other.PrimaryBBSActive
+                    && SecondaryBBS == other.SecondaryBBS;
+        }
+
+        ///// <remarks/>
+        //[System.Xml.Serialization.XmlAttributeAttribute()]
+        //public bool Selected
+        //{
+        //	get
+        //	{
+        //		return this.selectedField;
+        //	}
+        //	set
+        //	{
+        //		this.selectedField = value;
+        //	}
+        //}
+    }
 }

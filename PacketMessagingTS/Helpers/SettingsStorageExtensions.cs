@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MetroLog;
 
 //using SharedCode;
+//using SharedCode.Helpers;
 using PacketMessagingTS.Core.Helpers;
 
 using Windows.Storage;

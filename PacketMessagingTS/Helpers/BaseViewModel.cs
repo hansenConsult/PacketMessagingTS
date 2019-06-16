@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 using SharedCode.Models;
 
+
 namespace PacketMessagingTS.Helpers
 {
     public class BaseViewModel : INotifyPropertyChanged

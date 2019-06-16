@@ -464,18 +464,18 @@ namespace SharedCode
 			return Subject;
 		}
 
-		public async void CreateFileName()
+		public bool CreateFileName()
 		{
-			if (MessageNumber?.Length != 0)
+            bool success = false;
+
+			if (!string.IsNullOrEmpty(MessageNumber) && !string.IsNullOrEmpty(PacFormType))
 			{
 				FileName = MessageNumber + "_" + PacFormType + ".xml";
-			}
-			else if (MessageNumber is null || MessageNumber?.Length == 0)
-			{
-				var messageDialog = new MessageDialog("Message number does not exist.\nContact support.");
-				await messageDialog.ShowAsync();
-			}
-		}
+                success = true;
+
+            }
+            return success;
+        }
 
         public static PacketMessage Open(string filePath)
 		{
@@ -497,35 +497,35 @@ namespace SharedCode
 			}
 			catch (Exception e)
 			{
-                _logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, {e}");
+                //_logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, {e}");
 			}
 			return null;
 		}
 
-		public static PacketMessage Open(StorageFile file)
-        {
-			StreamReader reader = null;
-			//TextReader reader = null;
-			PacketMessage packetMessage;
-			try
-			{
-				//file = await storageFolder.GetFileAsync(fileName);
-				using (var stream = new FileStream(file.Path, FileMode.Open))
-				{
-					using (reader = new StreamReader(stream, System.Text.Encoding.UTF8))
-					{
-						var serializer = new XmlSerializer(typeof(PacketMessage));
-						packetMessage = (PacketMessage)serializer.Deserialize(reader);
-					}
-				}
-				return packetMessage;
-			}
-			catch (Exception e)
-			{
-                _logHelper.Log(LogLevel.Error, $"Failed to open {file?.Path}, {e}");
-			}
-			return null;
-		}
+		//public static PacketMessage Open(StorageFile file)
+  //      {
+		//	StreamReader reader = null;
+		//	//TextReader reader = null;
+		//	PacketMessage packetMessage;
+		//	try
+		//	{
+		//		//file = await storageFolder.GetFileAsync(fileName);
+		//		using (var stream = new FileStream(file.Path, FileMode.Open))
+		//		{
+		//			using (reader = new StreamReader(stream, System.Text.Encoding.UTF8))
+		//			{
+		//				var serializer = new XmlSerializer(typeof(PacketMessage));
+		//				packetMessage = (PacketMessage)serializer.Deserialize(reader);
+		//			}
+		//		}
+		//		return packetMessage;
+		//	}
+		//	catch (Exception e)
+		//	{
+  //              _logHelper.Log(LogLevel.Error, $"Failed to open {file?.Path}, {e}");
+		//	}
+		//	return null;
+		//}
 
 		public void Save(string fileFolder)
 		{
@@ -605,36 +605,43 @@ namespace SharedCode
                     {
                         string filePath = Path.Combine(fileFolder, file.Name);
                         PacketMessage packetMessage = Open(filePath);
-                        packetMessages?.Add(packetMessage);
+                        if (packetMessage != null)
+                        {
+                            packetMessages?.Add(packetMessage);
+                        }
+                        else
+                        {
+
+                        }
                     }
                 });
             }
             return packetMessages;
         }
 
-        public static async Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
-		{
-            if (storageFolder is null)
-                return null;
+  //      public static async Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
+		//{
+  //          if (storageFolder is null)
+  //              return null;
 
-			List<PacketMessage> packetMessages = new List<PacketMessage>();
+		//	List<PacketMessage> packetMessages = new List<PacketMessage>();
 
-			List<string> fileTypeFilter = new List<string>() { ".xml" };
-			QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, fileTypeFilter);
+		//	List<string> fileTypeFilter = new List<string>() { ".xml" };
+		//	QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, fileTypeFilter);
 
-			var results = storageFolder.CreateFileQueryWithOptions(queryOptions);
-            // Iterate over the results
-            var files = await results.GetFilesAsync();
-            foreach (StorageFile file in files)
-            {
-                PacketMessage packetMessage = Open(file);
-				if (packetMessage != null)
-				{                    
-					packetMessages.Add(packetMessage);
-				}
-			}
-			return packetMessages;
-		}
+		//	var results = storageFolder.CreateFileQueryWithOptions(queryOptions);
+  //          // Iterate over the results
+  //          var files = await results.GetFilesAsync();
+  //          foreach (StorageFile file in files)
+  //          {
+  //              PacketMessage packetMessage = Open(file.Path);
+		//		if (packetMessage != null)
+		//		{                    
+		//			packetMessages.Add(packetMessage);
+		//		}
+		//	}
+		//	return packetMessages;
+		//}
 	}
 
 

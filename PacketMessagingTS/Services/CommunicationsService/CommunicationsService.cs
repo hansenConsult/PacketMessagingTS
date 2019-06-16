@@ -151,7 +151,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
             pktMsg.PacFormName = formControl.PacFormName;
             pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
             //pktMsg.ReceivedTime = packetMessage.ReceivedTime;
-            pktMsg.CreateFileName();
+            if (!pktMsg.CreateFileName())
+            {
+                throw new Exception();
+            }
             string fileFolder = SharedData.ReceivedMessagesFolder.Path;
             pktMsg.Save(fileFolder);
 
@@ -244,18 +247,25 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     // Update sent form with receivers message number and receive time
                     if (file.Name.Contains(sendersMessageId))
                     {
-                        PacketMessage packetMessage = PacketMessage.Open(file);
-                        if (packetMessage.MessageNumber == sendersMessageId)
+                        PacketMessage packetMessage = PacketMessage.Open(file.Path);
+                        if (packetMessage is null)
                         {
-                            formField = packetMessage.FormFieldArray.FirstOrDefault(x => x.ControlName == "receiverMsgNo");
-                            if (formField != null)
+                            _logHelper.Log(LogLevel.Error, $"Failed to open {file.Path}");
+                        }
+                        else
+                        {
+                            if (packetMessage.MessageNumber == sendersMessageId)
                             {
-                                formField.ControlContent = receiversMessageId;
+                                formField = packetMessage.FormFieldArray.FirstOrDefault(x => x.ControlName == "receiverMsgNo");
+                                if (formField != null)
+                                {
+                                    formField.ControlContent = receiversMessageId;
+                                }
+                                packetMessage.ReceiverMessageNumber = receiversMessageId;
+                                packetMessage.ReceivedTime = receiveTime;
+                                packetMessage.Save(SharedData.SentMessagesFolder.Path);
+                                break;
                             }
-                            packetMessage.ReceiverMessageNumber = receiversMessageId;
-                            packetMessage.ReceivedTime = receiveTime;
-                            packetMessage.Save(SharedData.SentMessagesFolder.Path);
-                            break;
                         }
                     }
                 }
@@ -350,7 +360,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					{
 						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
 					}
-					pktMsg.CreateFileName();
+					if (!pktMsg.CreateFileName())
+                    {
+                        throw new Exception();
+                    }
 
                     _logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} received");
 
@@ -513,10 +526,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
             foreach (StorageFile file in files)
             {
                 // Add Outpost message format by Filling the MessageBody field in packetMessage. 
-                PacketMessage packetMessage = PacketMessage.Open(file);
+                PacketMessage packetMessage = PacketMessage.Open(file.Path);
                 if (packetMessage is null)
                 {
-                    _logHelper.Log(LogLevel.Error, $"Error opening message file {file}");
+                    _logHelper.Log(LogLevel.Error, $"Error opening message file {file.Path}");
                     continue;
                 }
 

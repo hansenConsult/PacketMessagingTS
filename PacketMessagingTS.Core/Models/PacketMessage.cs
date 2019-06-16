@@ -14,7 +14,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-using MetroLog;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -41,10 +40,6 @@ namespace PacketMessagingTS.Core.Models
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public sealed partial class PacketMessage2
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketMessage2>();
-        //private static LogHelper _logHelper = new LogHelper(log);
-
-
         private string fileNameField;
 
         private string areaField;
