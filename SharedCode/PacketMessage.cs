@@ -18,6 +18,8 @@ using MetroLog;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
+using SharedCode.Helpers;
+
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
@@ -93,6 +95,8 @@ namespace SharedCode
 		private string mailUserNameField;
 
         private MessageState messageStateField;
+
+        private FormControlAttribute.FormType formControlTypeField;
 
         /// <remarks/>
         public string FileName
@@ -444,7 +448,13 @@ namespace SharedCode
             get => messageStateField;
             set => messageStateField = value;
         }
-
+        /// <remarks/>
+        public FormControlAttribute.FormType FormControlType
+        {
+            get => formControlTypeField;
+            set => formControlTypeField = value;
+        }
+        
         //[XmlIgnore]
         //public bool IsStillActive { get; set; } = true;
 

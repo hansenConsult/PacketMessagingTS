@@ -11,6 +11,7 @@ using PacketMessagingTS.Services;
 using PacketMessagingTS.Views;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
@@ -51,10 +52,32 @@ namespace PacketMessagingTS.ViewModels
             if (packetMessage is null)
                 return;
 
-            string folder = ((StorageFolder)MainPagePivotSelectedItem.Tag).Path;
+            string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
             string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
+            Type type = typeof(FormsPage);
+            switch (packetMessage.FormControlType)
+            {
+                case FormControlAttribute.FormType.Undefined:
+                    type = typeof(FormsPage);
+                    break;
+                case FormControlAttribute.FormType.None:
+                    type = typeof(FormsPage);
+                    break;
+                case FormControlAttribute.FormType.CountyForm:
+                    type = typeof(FormsPage);
+                    break;
+                case FormControlAttribute.FormType.CityForm:
+                    type = typeof(CityFormsPage);
+                    break;
+                case FormControlAttribute.FormType.HospitalForm:
+                    type = typeof(HospitalFormsPage);
+                    break;
+                case FormControlAttribute.FormType.TestForm:
+                    type = typeof(TestFormsPage);
+                    break;
+            }
+            NavigationService.Navigate(type, packetMessagePath);
 
-            NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
         }
 
         //public void OpenMessageFromDoubleClick()

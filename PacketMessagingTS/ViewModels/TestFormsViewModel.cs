@@ -8,15 +8,13 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class TestFormsViewModel : BaseFormsViewModel
+    public class TestFormsViewModel : BaseViewModel
     {
+        protected int testFormsPagePivotSelectedIndex;
         public int TestFormsPagePivotSelectedIndex
         {
-            get => GetProperty(ref formsPagePivotSelectedIndex);
-            set
-            {
-                SetProperty(ref formsPagePivotSelectedIndex, value, true);
-            }
+            get => GetProperty(ref testFormsPagePivotSelectedIndex);
+            set => SetProperty(ref testFormsPagePivotSelectedIndex, value, true);
         }
 
     }

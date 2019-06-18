@@ -5,6 +5,7 @@ using System.Linq;
 using FormControlBaseClass;
 
 using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
@@ -99,6 +100,8 @@ namespace MVCERTDA_FormsControl
         }
 
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CityForm;
 
         public override string PacFormName => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 

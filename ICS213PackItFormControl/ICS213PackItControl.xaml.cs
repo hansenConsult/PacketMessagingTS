@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using FormControlBaseClass;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -51,7 +52,9 @@ namespace ICS213PackItFormControl
 
         public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
 
-        public override string PacFormName => "XSC_ICS-213_Message_v070628";	// Used in CreateFileName() 
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+
+        public override string PacFormName => "XSC_ICS-213_Message";	// Used in CreateFileName() 
 
         public override string PacFormType => "ICS213";
 

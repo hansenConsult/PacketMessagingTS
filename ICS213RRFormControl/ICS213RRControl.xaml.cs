@@ -3,6 +3,7 @@
 using FormControlBaseClass;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -53,6 +54,8 @@ namespace EOC213RRFormControl
         //}
  
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
         public override string PacFormName => "XSC_EOC-213RR_v1706";
 

@@ -30,6 +30,7 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -259,6 +260,7 @@ namespace PacketMessagingTS.Helpers
         {
             _packetMessage = new PacketMessage()
             {
+                FormControlType = _packetForm.FormControlType,
                 BBSName = _packetAddressForm.MessageBBS,
                 TNCName = _packetAddressForm.MessageTNC,
                 FormFieldArray = _packetForm.CreateFormFieldsInXML(),
@@ -455,6 +457,7 @@ namespace PacketMessagingTS.Helpers
             _packetMessage = new PacketMessage()
             {
                 FormProvider = _packetForm.FormProvider,
+                FormControlType = _packetForm.FormControlType,
             };
 
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
@@ -568,6 +571,7 @@ namespace PacketMessagingTS.Helpers
                 _packetMessage = new PacketMessage()
                 {
                     FormProvider = _packetForm.FormProvider,
+                    FormControlType = _packetForm.FormControlType,
                     MessageState = MessageState.None,
                 };
 

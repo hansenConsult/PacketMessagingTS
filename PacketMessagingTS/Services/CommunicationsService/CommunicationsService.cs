@@ -147,6 +147,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             //formControl.FormProvider = FormProviders.PacForm;
             pktMsg.FormProvider = FormProviders.PacForm;        // TODO update with real provider
+            pktMsg.FormControlType = formControl.FormControlType;
 
             pktMsg.PacFormName = formControl.PacFormName;
             pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
@@ -353,8 +354,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     //pktMsg.MessageNumber = GetMessageNumberPacket();		// Filled in BBS connection
                     pktMsg.PacFormType = formControl.PacFormType;
                     pktMsg.PacFormName = formControl.PacFormName;
+                    pktMsg.FormControlType = formControl.FormControlType;
                     //pktMsg.MessageNumber = packetMessageOutpost.MessageNumber;
-					pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);
+                    pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);
 					//pktMsg.ReceivedTime = packetMessageOutpost.ReceivedTime;
 					if (pktMsg.ReceivedTime != null)
 					{

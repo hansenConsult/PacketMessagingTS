@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using FormControlBaseClass;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -60,6 +61,8 @@ namespace OAAlliedHealthStatus201802FormControl
         //}
 
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
         private FormProviders formProvider = FormProviders.PacForm;
         public override FormProviders FormProvider

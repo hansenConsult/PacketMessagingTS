@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -17,28 +18,28 @@ using Windows.UI.Xaml.Media;
 
 namespace FormControlBaseClass
 {
-    // This is for deciding at runtime which form is supported by an assembly
-    [AttributeUsage(AttributeTargets.Class)]
-	public class FormControlAttribute : Attribute
-	{
-		public enum FormType
-		{
-			None,
-			CountyForm,
-			CityForm,
-			HospitalForm,
-            TestForm,
-		};
+ //   // This is for deciding at runtime which form is supported by an assembly
+ //   [AttributeUsage(AttributeTargets.Class)]
+	//public class FormControlAttribute : Attribute
+	//{
+	//	public enum FormType
+	//	{
+	//		None,
+	//		CountyForm,
+	//		CityForm,
+	//		HospitalForm,
+ //           TestForm,
+	//	};
 
-        // Form file name
-		public string FormControlName { get; set; }    // 
+ //       // Form file name
+	//	public string FormControlName { get; set; }    // 
          
-        // Form type (County, Hospital etc.)
-		public FormType FormControlType { get; set; }
+ //       // Form type (County, Hospital etc.)
+	//	public FormType FormControlType { get; set; }
 
-        // Menu text
-		public string FormControlMenuName { get; set; }    // 
-	}
+ //       // Menu text
+	//	public string FormControlMenuName { get; set; }    // 
+	//}
 
 	public sealed class FormEventArgs : EventArgs
 	{
@@ -360,6 +361,9 @@ namespace FormControlBaseClass
             get => messageSentTime;
             set => Set(ref messageSentTime, value);
         }
+
+        public virtual FormControlAttribute.FormType FormControlType
+        { get; }
 
         public abstract FormProviders DefaultFormProvider
         { get; }

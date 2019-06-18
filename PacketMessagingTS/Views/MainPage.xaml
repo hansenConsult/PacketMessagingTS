@@ -49,14 +49,14 @@
                RelativePanel.AlignRightWithPanel="True"
 	           RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
-               SelectedIndex="{x:Bind _mainViewModel.MainPagePivotSelectedIndex, Mode=TwoWay}"
+               SelectedIndex="{x:Bind MainViewModel.MainPagePivotSelectedIndex, Mode=TwoWay}"
                SelectionChanged="MainPagePivot_SelectionChanged"
                >
 
             <!--  Inbox  -->
             <PivotItem x:Uid="Main_Inbox"  x:Name="pivotItemInBox"  >
                 <controls:DataGrid x:Name="dataGridInbox"
-                                   ItemsSource="{x:Bind _mainViewModel.DataGridSource, Mode=OneWay}"
+                                   ItemsSource="{x:Bind MainViewModel.DataGridSource, Mode=OneWay}"
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
                                    CanUserReorderColumns="True" CanUserResizeColumns="True"
@@ -97,7 +97,7 @@
             <!--  Sent Items  -->
             <PivotItem x:Uid="Main_SentItems" x:Name="pivotItemSent" >
                 <controls:DataGrid x:Name="dataGridSent"
-                                   ItemsSource="{x:Bind _mainViewModel.DataGridSource, Mode=OneWay}"
+                                   ItemsSource="{x:Bind MainViewModel.DataGridSource, Mode=OneWay}"
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
                                    CanUserReorderColumns="True" CanUserResizeColumns="True"
@@ -136,7 +136,7 @@
             <!--  Outbox  -->
             <PivotItem x:Uid="Main_Outbox" x:Name="pivotItemOutBox" >
                 <controls:DataGrid x:Name="dataGridOutbox"
-                                   ItemsSource="{x:Bind _mainViewModel.DataGridSource, Mode=OneWay}"
+                                   ItemsSource="{x:Bind MainViewModel.DataGridSource, Mode=OneWay}"
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
                                    CanUserReorderColumns="True" CanUserResizeColumns="True"
@@ -199,7 +199,7 @@
                     </tg:RadDataGrid.Columns>
                 </tg:RadDataGrid>-->
                 <controls:DataGrid x:Name="dataGridDrafts"
-                                   ItemsSource="{x:Bind _mainViewModel.DataGridSource, Mode=OneWay}"
+                                   ItemsSource="{x:Bind MainViewModel.DataGridSource, Mode=OneWay}"
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
                                    CanUserReorderColumns="True" CanUserResizeColumns="True"
@@ -232,7 +232,7 @@
             <!--  Archived Items  -->
             <PivotItem x:Uid="Main_ArchivedItems" x:Name="pivotItemArchive" >
                 <controls:DataGrid x:Name="dataGridArchived"
-                                   ItemsSource="{x:Bind _mainViewModel.DataGridSource, Mode=OneWay}"
+                                   ItemsSource="{x:Bind MainViewModel.DataGridSource, Mode=OneWay}"
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
                                    CanUserReorderColumns="True" CanUserResizeColumns="True"
@@ -270,7 +270,7 @@
             <!--  Deleted Items  -->
             <PivotItem x:Uid="Main_DeletedItems" x:Name="pivotItemDeleted" >
                 <controls:DataGrid x:Name="dataGridDeleted"
-                                   ItemsSource="{x:Bind _mainViewModel.DataGridSource, Mode=OneWay}"
+                                   ItemsSource="{x:Bind MainViewModel.DataGridSource, Mode=OneWay}"
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
                                    CanUserReorderColumns="True" CanUserResizeColumns="True"

@@ -5,6 +5,7 @@ using System.Text;
 using FormControlBaseClass;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -98,6 +99,9 @@ namespace MessageFormControl
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 
         private FormProviders formProvider = FormProviders.PacForm;
+
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
+
         public override FormProviders FormProvider
         {
             get => formProvider;

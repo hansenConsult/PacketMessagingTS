@@ -209,6 +209,7 @@ namespace PacketMessagingTS.Views
             }
             pktMsg.PacFormName = formControl.PacFormName;
             pktMsg.PacFormType = formControl.PacFormType;       // Added line
+            pktMsg.FormControlType = formControl.FormControlType;
             pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);
             //pktMsg.ReceivedTime = packetMessage.ReceivedTime;
             pktMsg.CreateFileName();

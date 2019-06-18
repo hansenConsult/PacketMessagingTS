@@ -3,6 +3,7 @@
 using FormControlBaseClass;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -47,6 +48,8 @@ namespace ICS213RRPackItFormControl
         }
 
         public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
+
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
         public override string PacFormName => "XSC_EOC-213RR_v1706";
 

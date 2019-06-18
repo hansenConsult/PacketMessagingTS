@@ -8,6 +8,6 @@ namespace PacketMessagingTS.Helpers
 {
     public class BaseFormsViewModel : BaseViewModel
     {
-        protected int formsPagePivotSelectedIndex;
+        
     }
 }

@@ -109,6 +109,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DateTimeConverter.cs" />
+    <Compile Include="Helpers\FormControlAttribute.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Models\TacticalCallsigns.cs" />
     <Compile Include="PacketMessage.cs" />
@@ -135,9 +136,7 @@
       <Name>PacketMessagingTS.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
