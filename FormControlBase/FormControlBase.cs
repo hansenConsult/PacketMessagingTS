@@ -327,6 +327,12 @@ namespace FormControlBaseClass
             }
         }
 
+        public virtual string Action
+        { get; set; }
+
+        public virtual string Reply
+        { get; set; }
+
         public virtual string OperatorName
         { get; set; }
 
@@ -420,14 +426,84 @@ namespace FormControlBaseClass
             return comboBoxDataSet[0];
         }
 
-        public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines, FormProviders formProvider)
+        protected virtual FormField[] ConvertFromOutpostPackItForm(FormField[] formFields, ref string[] msgLines)
+        {
+            string senderMsgNo = "";
+            if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
+            {
+                senderMsgNo = GetOutpostValue("1", ref msgLines);
+            }
+            else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
+            {
+                senderMsgNo = GetOutpostValue("3", ref msgLines);
+            }
+
+            foreach (FormField formField in formFields)
+            {
+                (string id, Control control) = GetTagIndex(formField);
+                formField.PacFormIndex = id;
+
+                if (control is ToggleButtonGroup)
+                {
+                    string outpostValue = GetOutpostValue(id, ref msgLines);
+                    if (!string.IsNullOrEmpty(outpostValue))
+                    {
+                        foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
+                        {
+                            if (outpostValue == radioButton.Content as string)
+                            {
+                                formField.ControlContent = radioButton.Name;
+                            }
+                            //string radioButtonIndex = GetTagIndex(radioButton);
+                            //if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
+                            //{
+                            //    formField.ControlContent = radioButton.Name;
+                            //}
+                        }
+                    }
+                }
+                else if (control is CheckBox)
+                {
+                    formField.ControlContent = (GetOutpostValue(id, ref msgLines) == "checked" ? "True" : "False");
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
+
+                    //string conboBoxData = GetOutpostValue(id, ref msgLines);
+                    //var comboBoxDataSet = conboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
+                    //formField.ControlContent = comboBoxDataSet[0];
+                }
+                else if (control is TextBox || control is AutoSuggestBox)
+                {
+                    if (control.Name == "senderMsgNo")
+                    {
+                        formField.ControlContent = senderMsgNo;
+                    }
+                    else
+                    {
+                        formField.ControlContent = GetOutpostValue(id, ref msgLines);
+                    }
+                }
+            }
+            return formFields;
+        }
+
+    public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines, FormProviders formProvider)
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
 
             // Populate Sender Message Number from received message number
             // Sender message number can be either in 1 or 3
-            string senderMsgNo = "";
-            if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
+            if (formProvider == FormProviders.PacItForm)
+            {
+                formFields = ConvertFromOutpostPackItForm(formFields, ref msgLines);
+            }
+            else
+            {
+                string senderMsgNo = "";
+
+                if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
             {
                 senderMsgNo = GetOutpostValue("1", ref msgLines);
             }
@@ -490,7 +566,57 @@ namespace FormControlBaseClass
                     }
                 }
             }
+            }
+
             return formFields;
+        }
+
+        public (string id, Control control) GetTagIndex(FormField formField)
+        {
+            if (formField is null)
+                return ("", null);
+
+            Control control = null;
+            try
+            {
+                //control = formField.InputControl;
+                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                control = formControl?.InputControl;
+
+                string tag = (string)control.Tag;
+                if (!string.IsNullOrEmpty(tag))
+                {
+                    string[] tags = tag.Split(new char[] { ',' });
+                    if (!tags[0].Contains("required"))
+                    {
+                        return (tags[0], control);
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return ("", control);
+        }
+
+        public static string GetTagIndex(Control control)
+        {
+            try
+            {
+                string tag = (string)control.Tag;
+                if (!string.IsNullOrEmpty(tag))
+                {
+                    string[] tags = tag.Split(new char[] { ',' });
+                    if (!tags[0].Contains("required"))
+                    {
+                        return tags[0];
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return "";
         }
 
         public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)

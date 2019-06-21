@@ -29,12 +29,13 @@
             <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
                           Click="AppBarViewOutpostData_ClickAsync"/>
             <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"
-                          IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSaveEnabled}" Click="AppBarSave_Click"/>
+                          Click="AppBarSave_Click"/>
+                          <!--IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSaveEnabled}"-->
             <AppBarButton x:Name="appBarPrint" Label="Print Message" Icon="Print" HorizontalAlignment="Right"
-                          Click="AppBarPrint_ClickAsync">
-            </AppBarButton>
+                          Click="AppBarPrint_ClickAsync"/>
             <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send"
-                          IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSendEnabled}" Click="AppBarSend_ClickAsync"/>
+                          Click="AppBarSend_ClickAsync"/>
+                          <!--IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSendEnabled}"--> 
         </CommandBar>
     </RelativePanel>
 </myBase:BaseFormsPage>

@@ -30,9 +30,9 @@
             <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"
                           Click="AppBarSave_Click"/>
             <AppBarButton x:Name="appBarPrint" Label="Print Message" Icon="Print" HorizontalAlignment="Right"
-                          Click="AppBarPrint_ClickAsync">
-            </AppBarButton>
-            <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send" Click="AppBarSend_ClickAsync"/>
+                          Click="AppBarPrint_ClickAsync"/>
+            <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send"
+                          Click="AppBarSend_ClickAsync"/>
         </CommandBar>
     </RelativePanel>
 </myBase:BaseFormsPage>

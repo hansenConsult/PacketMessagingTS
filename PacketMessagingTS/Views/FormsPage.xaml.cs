@@ -86,7 +86,6 @@ namespace PacketMessagingTS.Views
 
             _formControlAttributeList.AddRange(_attributeListTypeNone);
             _formControlAttributeList.AddRange(_attributeListTypeCounty);
-            //_formControlAttributeList.AddRange(_attributeListTypeCity);
             PopulateFormsPagePivot();
 
             //_formControlAttributeList = new List<FormControlAttributes>();

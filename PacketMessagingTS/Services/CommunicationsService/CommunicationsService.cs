@@ -346,17 +346,36 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 return;
                             }
                             pktMsg.SenderMessageNumber = FormControlBase.GetOutpostValue(msgLines[i + 1]);
+                            pktMsg.FormProvider = FormProviders.PacForm;    // TODO update with real provider
                             break;
                         }
-					}
-                    pktMsg.FormProvider = FormProviders.PacForm;    // TODO update with real provider
+                        else if (msgLines[i].StartsWith("#T:"))
+                        {
+                            string html = ".html";
+                            string[] fileNameString = msgLines[i].Split(new char[] { ' ', '.' }, StringSplitOptions.RemoveEmptyEntries);
+                            string formName = fileNameString[1];
+                            formName.Trim();
+                            pktMsg.PacFormName = formName;
 
+                            formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                            if (formControl is null)
+                            {
+                                _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
+                                await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
+                                return;
+                            }
+                            pktMsg.SenderMessageNumber = FormControlBase.GetOutpostValue(msgLines[i + 2]);
+                            pktMsg.FormProvider = FormProviders.PacItForm;
+                            break;
+                        }
+                    }
+                    
                     //pktMsg.MessageNumber = GetMessageNumberPacket();		// Filled in BBS connection
                     pktMsg.PacFormType = formControl.PacFormType;
                     pktMsg.PacFormName = formControl.PacFormName;
                     pktMsg.FormControlType = formControl.FormControlType;
                     //pktMsg.MessageNumber = packetMessageOutpost.MessageNumber;
-                    pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);
+                    pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
 					//pktMsg.ReceivedTime = packetMessageOutpost.ReceivedTime;
 					if (pktMsg.ReceivedTime != null)
 					{

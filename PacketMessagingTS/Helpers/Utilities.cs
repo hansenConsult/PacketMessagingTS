@@ -62,7 +62,7 @@ namespace PacketMessagingTS.Helpers
             }
             else
             {
-                messageNumber = startMessageNumber;
+                messageNumber = startMessageNumber++;
             }
             //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
             App.Properties["MessageNumber"] = messageNumber;

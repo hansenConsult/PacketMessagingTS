@@ -102,7 +102,7 @@
                                                  Header="1a.) Date:"                                                                                                                                                   
                                                  Text="{x:Bind MsgDate}"
                                                  TextAlignment="Center" IsReadOnly="True" BorderBrush="White" 
-                                                 Margin="2" Tag="1a"/>
+                                                 Margin="2" Tag="1a."/>
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -114,7 +114,7 @@
                                                  Text="{x:Bind MsgTime, Mode=TwoWay}"
                                                  TextAlignment="Center" BorderBrush="White" 
                                                  TextChanged="TextBoxRequired_TextChanged"
-                                                 Margin="2" Tag="1b,required,Enter message creation time"/>
+                                                 Margin="2" Tag="1b.,required,Enter message creation time"/>
                                     </StackPanel>
                                 </Border>
                                 <TextBox x:Name="textBox" Height="1" Text="" BorderThickness="0" Margin="0,1" Width="10"/>
@@ -123,8 +123,8 @@
                                 <StackPanel>
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4.) Situation Severity" Margin="10"/>
                                     <MyNamespace:ToggleButtonGroup x:Name="severity" 
-                                                                   CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4"/>
-                                    <RadioButton x:Name="emergency" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
+                                                                   CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4."/>
+                                    <RadioButton x:Name="EMERGENCY" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="EMERGENCY"  
 										ToolTipService.ToolTip="Life threat">
                                     </RadioButton>
@@ -143,7 +143,7 @@
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="5.) Msg. Handling Order" Margin=" 10"/>
                                     <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                    CheckedControlName="{x:Bind HandlingOrder, Mode=TwoWay}"
-                                                                   Tag="5,required,Indicate Msg. Handling Order."/>
+                                                                   Tag="5.,required,Indicate Msg. Handling Order."/>
                                     <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="IMMEDIATE" Checked="Subject_Changed"
                                                  ToolTipService.ToolTip="As soon as possible"/>
@@ -159,7 +159,8 @@
                                 <StackPanel x:Name="msgRequest" Grid.Column="3">
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="6.) Message requests" Margin="10"/>
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Action" Margin="10,0,0,0"/>
-                                    <MyNamespace:ToggleButtonGroup x:Name="action" Tag="6a"/>
+                                    <MyNamespace:ToggleButtonGroup x:Name="action" 
+                                                                   CheckedControlName="{x:Bind Action, Mode=TwoWay}" Tag="6a."/>
                                     <StackPanel Orientation="Horizontal">
                                         <RadioButton x:Name="actionYes" GroupName="action" 
                                                      Style="{StaticResource RadioButtonTNR12B}" 
@@ -170,20 +171,21 @@
                                     </StackPanel>
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,4,0,0" />
                                     <StackPanel Orientation="Horizontal">
-                                        <MyNamespace:ToggleButtonGroup x:Name="reply" Tag="6b"/>
+                                        <MyNamespace:ToggleButtonGroup x:Name="reply" 
+                                                                       CheckedControlName="{x:Bind Reply, Mode=TwoWay}" Tag="6b."/>
                                         <RadioButton x:Name="replyYes" GroupName="reply" 
                                                      Style="{StaticResource RadioButtonTNR12B}" 
                                                      Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="50"/>
                                         <TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hh:mm" 
                                                  UseLayoutRounding="False" 
-                                                 d:LayoutRounding="Auto" VerticalAlignment="Center" Tag="6d"/>
+                                                 d:LayoutRounding="Auto" VerticalAlignment="Center" Tag="6d."/>
 
                                         <RadioButton x:Name="replyNo" GroupName="reply" 
                                                      Style="{StaticResource RadioButtonTNR12B}" 
                                                      Content="No" Width="50" Margin="10,0,0,0" Padding="4" MinWidth="50"/>
                                     </StackPanel>
                                     <CheckBox x:Name="forInfo" Style="{StaticResource CheckBoxTNR12B}" 
-                                              Margin="10,6,4,4" Content="FOR INFO" Padding="4"/>
+                                              Margin="10,6,4,4" Content="FOR INFO" Padding="4" Tag="6c."/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -205,7 +207,7 @@
                                                         TextBoxStyle="{StaticResource AutoSuggestTextBoxStyle}"
                                                         TextChanged="TextBoxFromICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
-                                                        Tag="7,required,Enter a To Position." VerticalAlignment="Top"/>
+                                                        Tag="7.,required,Enter a To Position." VerticalAlignment="Top"/>
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
@@ -215,7 +217,7 @@
                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                  Header="9a.) Location:"                                                 
                                                  TextChanged="TextBoxRequired_TextChanged"
-                                                 Tag="9a,required,Enter a To Location."/>
+                                                 Tag="9a.,required,Enter a To Location."/>
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -248,7 +250,7 @@
                                                         PlaceholderText="Select ICS Position"
                                                         TextChanged="TextBoxFromICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
-                                                        Tag="8,required,Enter a From position." FontFamily="Times New Roman"/>
+                                                        Tag="8.,required,Enter a From position." FontFamily="Times New Roman"/>
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
@@ -258,7 +260,7 @@
                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                  Header="9b.) Location:"                                                                                                  
                                                  TextChanged="TextBoxRequired_TextChanged"
-                                                 Tag="9b,required,Enter a From Location." />
+                                                 Tag="9b.,required,Enter a From Location." />
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -294,16 +296,16 @@
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="10.) SUBJECT:" Style="{StaticResource LabelFontTNR14B}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                             <TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" 
                                       Text="{x:Bind Subject, Mode=TwoWay}"
-                                      Tag="10,required,Enter a Subject." 
+                                      Tag="10.,required,Enter a Subject." 
                                       TextChanged="Subject_Changed" 
                                       Margin="5,2,5,2" IsSpellCheckEnabled="True" />
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="11.) REFERENCE:" Style="{StaticResource LabelFontTNR14B}"   VerticalAlignment="Center" Margin="5,0,0,0"/>
                             <TextBox  Grid.Column="1" Grid.Row="1" x:Name="reference" TextChanged="Subject_Changed" 
-                                      Margin="5,2,5,2" Tag="11"/>
+                                      Margin="5,2,5,2" Tag="11."/>
                         </Grid>
                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="12.) Message:" Margin="5,0,0,0"/>
                         <TextBox x:Name="message"   ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                 AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="12,required,You must include a Message." 
+                                 AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="12.,required,You must include a Message." 
 								 ToolTipService.ToolTip="What, when, where needed; how long; contact name and phone number. Keep message brief" 
                                  PlaceholderText="Type message here." IsSpellCheckEnabled="True"
                                  TextChanged="TextBoxRequired_TextChanged"
@@ -450,11 +452,11 @@
                                 <TextBlock Grid.Column="0"  Style="{StaticResource LabelFontTNR12B}" Text="Date:" VerticalAlignment="Center" Margin="5"/>
                                 <TextBox Grid.Column="1" x:Name="operatorDate" 
                                          IsReadOnly="True"
-                                         TextAlignment="Left" BorderBrush="White" Margin="0" Tag="date" FontFamily="Segoe UI"/>
+                                         TextAlignment="Left" BorderBrush="White" Margin="0" Tag="OpDate" FontFamily="Segoe UI"/>
                                 <TextBlock Grid.Column="2" Style="{StaticResource LabelFontTNR12B}" Text=" Time:"  VerticalAlignment="Center"/>
                                 <TextBox Grid.Column="3" x:Name="operatorTime" 
                                          IsReadOnly="True"
-                                         TextAlignment="Left" BorderBrush="White" Margin="0" Tag="time" FontFamily="Times New Roman"
+                                         TextAlignment="Left" BorderBrush="White" Margin="0" Tag="OpTime" FontFamily="Times New Roman"
                                          VerticalAlignment="Center"/>
                             </Grid>
                         </Border>

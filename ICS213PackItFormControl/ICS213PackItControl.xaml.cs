@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Controls;
 namespace ICS213PackItFormControl
 {
     [FormControl(
-		FormControlName = "XSC_ICS-213_Message",
+		FormControlName = "form-ics213",
 		FormControlMenuName = "ICS-213 Message",
 		FormControlType = FormControlAttribute.FormType.TestForm)
 	]
@@ -54,7 +54,7 @@ namespace ICS213PackItFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
-        public override string PacFormName => "XSC_ICS-213_Message";	// Used in CreateFileName() 
+        public override string PacFormName => "form-ics213";	// Used in CreateFileName() 
 
         public override string PacFormType => "ICS213";
 

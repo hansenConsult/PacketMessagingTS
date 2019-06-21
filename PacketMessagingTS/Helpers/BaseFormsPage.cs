@@ -391,6 +391,7 @@ namespace PacketMessagingTS.Helpers
             if (_packetMessage is null)
             {
                 _logHelper.Log(LogLevel.Error, $"Failed to open {packetMessagePath}");
+                return;
             }
             else
             {
@@ -665,8 +666,8 @@ namespace PacketMessagingTS.Helpers
             packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
             packetMessage.MessageBody = _packetForm.CreateOutpostData(ref packetMessage);
 
-            bool result = await Utilities.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
-            if (result)
+            bool copy = await Utilities.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
+            if (copy)
             {
                 DataPackage dataPackage = new DataPackage
                 {
@@ -704,13 +705,6 @@ namespace PacketMessagingTS.Helpers
             if (!string.IsNullOrEmpty(validationResult))
             {
                 validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
-                //ContentDialog contentDialog = new ContentDialog
-                //{
-                //    Title = "Missing input fields",
-                //    Content = validationResult,
-                //    CloseButtonText = "Close"
-                //};
-                //ContentDialogResult result = await contentDialog.ShowAsync();
                 await Utilities.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
                 return;
             }

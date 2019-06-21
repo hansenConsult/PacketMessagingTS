@@ -448,6 +448,7 @@ namespace SharedCode
             get => messageStateField;
             set => messageStateField = value;
         }
+
         /// <remarks/>
         public FormControlAttribute.FormType FormControlType
         {
