@@ -295,6 +295,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         MessageBody = packetMessageOutpost.MessageBody,
                         MessageState = MessageState.Locked,
                         MessageOpened = false,
+                        MessageOrigin = SharedCode.Helpers.MessageOriginHelper.MessageOrigin.Received,
                     };
                     string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
 
@@ -351,7 +352,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         }
                         else if (msgLines[i].StartsWith("#T:"))
                         {
-                            string html = ".html";
                             string[] fileNameString = msgLines[i].Split(new char[] { ' ', '.' }, StringSplitOptions.RemoveEmptyEntries);
                             string formName = fileNameString[1];
                             formName.Trim();

@@ -31,6 +31,7 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
+using static SharedCode.Helpers.MessageOriginHelper;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -70,16 +71,6 @@ namespace PacketMessagingTS.Helpers
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        public enum MessageOrigin
-        {
-            Archived,
-            Deleted,
-            Draft,
-            Received,
-            Sent,
-            Unsent,
-            New
-        }
         protected MessageOrigin _messageOrigin = MessageOrigin.New;
 
         protected Pivot _formsPagePivot;
@@ -298,15 +289,18 @@ namespace PacketMessagingTS.Helpers
             // Special handling for SimpleMessage
             _packetForm.MessageNo = _packetMessage.MessageNumber;
             _packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
-            if (_messageOrigin == MessageOrigin.Received)
+            if (_packetMessage.MessageOrigin == MessageOrigin.Received)
             {
                 _packetForm.MessageSentTime = _packetMessage.JNOSDate;
                 _packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
+                _packetForm.ReceivedOrSent = "Receiver";
             }
             else if (_messageOrigin == MessageOrigin.Sent)
             {
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
                 _packetForm.OriginMsgNo = _packetMessage.MessageNumber;
+                _packetForm.ReceivedOrSent = "Sender";
+
             }
             else if (_messageOrigin == MessageOrigin.New)
             {
@@ -709,8 +703,13 @@ namespace PacketMessagingTS.Helpers
                 return;
             }
 
-            CreatePacketMessage(MessageState.Edit, _packetForm.FormProvider);
+            CreatePacketMessage(MessageState.Edit);
             Utilities.MarkMessageNumberAsUsed();
+            _packetMessage.MessageOrigin = MessageOrigin.Sent;
+
+            //string subject = CreateSubject();
+            //_packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
+            //_packetMessage.MessageBody = _packetForm.CreateOutpostData(ref _packetMessage);
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 

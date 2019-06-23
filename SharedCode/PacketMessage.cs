@@ -23,6 +23,7 @@ using SharedCode.Helpers;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
+using static SharedCode.Helpers.MessageOriginHelper;
 
 namespace SharedCode
 {
@@ -97,6 +98,8 @@ namespace SharedCode
         private MessageState messageStateField;
 
         private FormControlAttribute.FormType formControlTypeField;
+
+        private MessageOrigin messageOriginField;
 
         /// <remarks/>
         public string FileName
@@ -455,7 +458,12 @@ namespace SharedCode
             get => formControlTypeField;
             set => formControlTypeField = value;
         }
-        
+
+        public MessageOrigin MessageOrigin
+        {
+            get => messageOriginField;
+            set => messageOriginField = value;
+        }
         //[XmlIgnore]
         //public bool IsStillActive { get; set; } = true;
 
@@ -674,9 +682,6 @@ namespace SharedCode
 
         private string pacFormIndex;
 
-        private string[] formProvidersIndices;
-
-
         ///// <remarks/>
         //[System.Xml.Serialization.XmlAttributeAttribute()]
         //public Control InputControl
@@ -739,19 +744,6 @@ namespace SharedCode
         {
             get => this.pacFormIndex;
             set => this.pacFormIndex = value;
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string[] FormProvidersIndices
-        {
-            get => this.formProvidersIndices;
-            set => this.formProvidersIndices = value;
-        }
-
-        public string GetTagByFormProvider(int formProviderIndex)
-        {
-            return formProvidersIndices[formProviderIndex];
         }
         
     }

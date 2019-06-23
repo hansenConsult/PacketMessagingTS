@@ -43,7 +43,7 @@ namespace ICS213PackItFormControl
 
             InitializeToggleButtonGroups();
 
-            ReceivedOrSent = "sent";
+            ReceivedOrSent = "sender";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;

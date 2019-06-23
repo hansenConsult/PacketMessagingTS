@@ -450,15 +450,18 @@ namespace FormControlBaseClass
                     {
                         foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
                         {
-                            if (outpostValue == radioButton.Content as string)
-                            {
-                                formField.ControlContent = radioButton.Name;
-                            }
-                            //string radioButtonIndex = GetTagIndex(radioButton);
-                            //if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
+                            //if (outpostValue == radioButton.Content as string)
                             //{
                             //    formField.ControlContent = radioButton.Name;
                             //}
+                            if ((radioButton.Content as string).Contains(outpostValue))
+                            {
+                                formField.ControlContent = radioButton.Name;
+                            }
+                            else if (radioButton.Name == outpostValue)
+                            {
+                                formField.ControlContent = radioButton.Name;
+                            }
                         }
                     }
                 }
@@ -740,7 +743,10 @@ namespace FormControlBaseClass
 
         public string CreateOutpostDataString(FormField formField, FormProviders formProvider)
         {
-            (string id, Control control) = GetTagIndex(formField, formProvider);
+            //if (string.IsNullOrEmpty(formField.ControlContent))
+            //    return "";
+
+            (string id, Control control) = GetTagIndex(formField);
             if (string.IsNullOrEmpty(id))
                 return "";
 
@@ -825,7 +831,31 @@ namespace FormControlBaseClass
             {
                 if (formProvider == FormProviders.PacItForm)
                 {
-                    return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonContent()}]";
+                    if (toggleButtonGroup.Name == "severity" || toggleButtonGroup.Name == "handlingOrder")
+                    {
+                        return $"{id}: [{formField.ControlContent.ToUpper()}]";
+                    }
+                    else if (formField.ControlContent.ToLower().Contains("yes"))
+                    {
+                        return $"{id}: [Yes]";
+                    }
+                    else if (formField.ControlContent.ToLower().Contains("no"))
+                    {
+                        return $"{id}: [No]";
+                    }
+                    else if (toggleButtonGroup.Tag as string == "Rec-Sent")
+                    {
+                        return $"{id}: [sender]";
+                    }
+                    else if (toggleButtonGroup.Name == "howRecevedSent")
+                    {
+                        foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
+                        {
+                           if (formField.ControlContent == radioButton.Name)
+                                return $"{id}: [{radioButton.Content}]";
+                        }                        
+                    }
+                    else return "";
                 }
             }
             else if (control is ComboBox comboBox)
@@ -853,24 +883,14 @@ namespace FormControlBaseClass
             for (int i = 0; i < _formControlsList.Count; i++)
             {
                 //int tagIndex;
-                string tagIndexString = GetTagIndex(_formControlsList[i].InputControl, FormProvider);
-                string[] tagIndexStrings = tagIndexString.Split(new char[] { '|' });
-                //if (string.IsNullOrEmpty(tagIndexString))
-                //{
-                //    tagIndex = -1;
-
-                //}
-                //else
-                //{
-                //    tagIndex = Convert.ToInt32(tagIndexString);
-                //}
+                //string tagIndexString = GetTagIndex(_formControlsList[i].InputControl, FormProvider);
+                string tagIndexString = GetTagIndex(_formControlsList[i].InputControl);
                 FormField formField = new FormField()
                 {
                     //InputControl = _formControlsList[i].InputControl;
                     ControlName = _formControlsList[i].InputControl.Name,
                     ControlContent = "",
                     PacFormIndex = tagIndexString,  //tagIndex,
-                    FormProvidersIndices = tagIndexStrings,
                 };
                 formFields.SetValue(formField, i);
 
@@ -888,7 +908,7 @@ namespace FormControlBaseClass
                 {
                     //InputControl = _formControlsList[i].InputControl,
                     ControlName = _formControlsList[i].InputControl.Name,
-                    PacFormIndex = GetTagIndex(_formControlsList[i].InputControl, FormProvider),
+                    PacFormIndex = GetTagIndex(_formControlsList[i].InputControl),
                 };
 
                 if (_formControlsList[i].InputControl is TextBox textBox)

@@ -367,10 +367,11 @@
                         <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" >
                             <StackPanel Orientation="Horizontal" Height="34">
                                 <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="How received" VerticalAlignment="Center" Margin="5,0,5,0" />
-                                <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" CheckedControlName="{x:Bind ReceivedOrSent}" Tag="Rec-Sent"/>
-                                <RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=RadioButtonTNR12B}" 
-                                             Content="or Sent" Padding="5" />
-                                <RadioButton x:Name="sent" GroupName="receivedOrSent" Content="sender" Margin="-30,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Times New Roman" />
+                                <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
+                                                               CheckedControlName="{x:Bind ReceivedOrSent}" Tag="Rec-Sent"/>
+                                <RadioButton x:Name="receiver" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=RadioButtonTNR12B}" 
+                                             Content="    or Sent" Padding="5" />
+                                <RadioButton x:Name="sender" GroupName="receivedOrSent" Content="" Margin="-38,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Times New Roman" />
                                 <TextBlock Text="    " Width="120" Margin="-94,0,0,0" Height="32" FontFamily="Times New Roman" Canvas.ZIndex="1"/>
                             </StackPanel>
                         </Border>
