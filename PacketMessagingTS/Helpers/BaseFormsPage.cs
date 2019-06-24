@@ -295,14 +295,14 @@ namespace PacketMessagingTS.Helpers
                 _packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
                 _packetForm.ReceivedOrSent = "Receiver";
             }
-            else if (_messageOrigin == MessageOrigin.Sent)
+            else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
             {
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
                 _packetForm.OriginMsgNo = _packetMessage.MessageNumber;
                 _packetForm.ReceivedOrSent = "Sender";
 
             }
-            else if (_messageOrigin == MessageOrigin.New)
+            else if (_packetMessage.MessageOrigin == MessageOrigin.New)
             {
                 _packetForm.MessageSentTime = null;
                 _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
@@ -704,6 +704,17 @@ namespace PacketMessagingTS.Helpers
             }
 
             CreatePacketMessage(MessageState.Edit);
+            DateTime now = DateTime.Now;
+
+            var operatorDateField = _packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
+            if (operatorDateField != null)
+            {
+                operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year):d4}";
+            }
+            var operatorTimeField = _packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
+            if (operatorTimeField != null)
+                operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
+
             Utilities.MarkMessageNumberAsUsed();
             _packetMessage.MessageOrigin = MessageOrigin.Sent;
 

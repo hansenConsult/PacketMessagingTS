@@ -463,10 +463,6 @@
                         </Border>
                     </StackPanel>
                 </Grid>
-                <!--<TextBlock FontSize="11" FontWeight="Bold" FontFamily="Helvetica"
-                           Margin="0,12,4,0" HorizontalAlignment="Right" >
-                    <Underline>SCCo ICS Form 213, 6/28/2007; (PR-4.3-3.2, 07/18/17)</Underline>
-                </TextBlock>-->
             </StackPanel>
         </Border>
     </StackPanel>

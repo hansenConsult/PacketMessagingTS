@@ -114,7 +114,7 @@ namespace ICS213PackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-ics213.html",
-                "#V: 2.12-1.3",
+                "#V: 2.16-2.0",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

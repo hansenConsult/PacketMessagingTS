@@ -371,7 +371,7 @@ namespace FormControlBaseClass
         public virtual FormControlAttribute.FormType FormControlType
         { get; }
 
-        public abstract FormProviders DefaultFormProvider
+        public virtual FormProviders DefaultFormProvider
         { get; }
 
         public virtual FormProviders FormProvider
@@ -713,11 +713,11 @@ namespace FormControlBaseClass
 
         protected virtual string CreateComboBoxOutpostDataString(FormField formField, string id)
         {
-            string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
             switch (FormProvider)
             {
                 case FormProviders.PacForm:
+                    string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
                     if (data.Length == 2)
                     {
                         if (data[1] == (-1).ToString() || string.IsNullOrEmpty(data[1]))
@@ -735,8 +735,8 @@ namespace FormControlBaseClass
                     }
                     break;
                 case FormProviders.PacItForm:
-                    
-                    return $"{id}: [{data[0]}]";
+                    string[] selection = formField.ControlContent.Split(new char[] { ' ' });
+                    return $"{id}: [{selection[0]}]";
             }
             return "";
         }
@@ -942,8 +942,25 @@ namespace FormControlBaseClass
 				}
 				else if (_formControlsList[i].InputControl is ComboBox comboBox)
                 {
-                    // Note the Item Type must have a ToString() method
-					formField.ControlContent = $"{comboBox.SelectedItem?.ToString()},{comboBox.SelectedIndex}";
+                    if (FormProvider == FormProviders.PacForm)
+                    {
+                        // Note the Item Type must have a ToString() method
+                        formField.ControlContent = $"{comboBox.SelectedItem?.ToString()},{comboBox.SelectedIndex}";
+                    }
+                    else if (FormProvider == FormProviders.PacItForm)
+                    {
+                        formField.ControlContent = comboBox.SelectedItem?.ToString();
+                        //if (string.IsNullOrEmpty(comboBox.SelectedItem?.ToString()))
+                        //{
+                        //    formField.ControlContent = null;
+                        //}
+                        //else
+                        //{
+                        //    formField.ControlContent = comboBox.SelectedItem?.ToString();
+                        //    //string[] item = (comboBox.SelectedItem.ToString()).Split(new char[] { ' ' });
+                        //    //formField.ControlContent = $"{item[0]}";
+                        //}
+                    }
 				}
                 else if (_formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
                 {

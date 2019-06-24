@@ -34,24 +34,6 @@ namespace EOC213RRFormControl
             HowReceivedSent = "packet";
         }
 
-        //public override string Severity
-        //{
-        //	get { return severity.GetRadioButtonCheckedState(); }
-        //	set { severity.SetRadioButtonCheckedState(value); }
-        //}
-
-        //public override string HandlingOrder
-        //{
-        //	get { return handlingOrder.GetRadioButtonCheckedState(); }
-        //	set { handlingOrder.SetRadioButtonCheckedState(value); }
-        //}
-
-        //private string _incidentName;
-        //public override string IncidentName
-        //{
-        //    get => _incidentName;
-        //    set => Set(ref _incidentName, value);
-        //}
  
         public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 

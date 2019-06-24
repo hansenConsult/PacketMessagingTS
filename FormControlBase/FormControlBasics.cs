@@ -211,18 +211,13 @@ namespace FormControlBaseClass
                 return false;
         }
 
-        protected void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
+        protected virtual void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!IsFieldRequired(sender as TextBox))
-            {
-                return;
-            }
-
             foreach (FormControl formControl in _formControlsList)
             {
                 if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
                 {
-                    if (string.IsNullOrEmpty(textBox.Text))
+                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(sender as TextBox))
                     {
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
                     }

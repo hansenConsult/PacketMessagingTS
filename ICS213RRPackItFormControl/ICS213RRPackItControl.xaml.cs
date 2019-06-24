@@ -7,6 +7,7 @@ using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
@@ -15,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 namespace ICS213RRPackItFormControl
 {
     [FormControl(
-    FormControlName = "XSC_EOC-213RR",
+    FormControlName = "form-scco-eoc-213rr",
     FormControlMenuName = "EOC Resource Request",
     FormControlType = FormControlAttribute.FormType.TestForm)
 ]
@@ -43,15 +44,17 @@ namespace ICS213RRPackItFormControl
 
             InitializeToggleButtonGroups();
 
-            ReceivedOrSent = "sent";
+            ReceivedOrSent = "sender";
             HowReceivedSent = "packet";
         }
 
         public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
 
+        public override FormProviders FormProvider => FormProviders.PacItForm;
+
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
-        public override string PacFormName => "XSC_EOC-213RR_v1706";
+        public override string PacFormName => "form-scco-eoc-213rr";
 
         public override string PacFormType => "XSC_EOC_213RR";
 
@@ -65,9 +68,8 @@ namespace ICS213RRPackItFormControl
             outpostData = new List<string>
             {
                 "!SCCoPIFO!",
-                $"#Subject: {packetMessage.Subject}",    //6DM-175P_R_EOC213RR_
                 "#T: form-scco-eoc-213rr.html",
-                "#V: 1.3"
+                "#V: 2.16-2.0",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -102,5 +104,34 @@ namespace ICS213RRPackItFormControl
             }
         }
 
+        private void SuppReqFuel_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)(sender as CheckBox).IsChecked)
+            {
+                suppReqFuelType.Tag = "36d.,required";
+            }
+            else
+            {
+                suppReqFuelType.Tag = "36d.";
+            }
+            base.TextBoxRequired_TextChanged(suppReqFuelType, null);
+        }
+
+        protected override void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if ((sender as TextBox).Name == "suppReqFuelType")
+            {
+                if (string.IsNullOrEmpty(suppReqFuelType.Text))
+                {
+                    //suppReqFuel.IsChecked = false;
+                }
+                else
+                {
+                    suppReqFuel.IsChecked = true;
+                    return;
+                }
+            }
+            base.TextBoxRequired_TextChanged(sender, e);
+        }
     }
 }
