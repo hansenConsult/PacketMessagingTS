@@ -554,18 +554,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     continue;
                 }
 
-                DateTime now = DateTime.Now;
+                // Moved to send button processing
+                //DateTime now = DateTime.Now;
 
-                var operatorDateField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
-                if (operatorDateField != null)
-                {
-                    operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year):d4}";
-                }
-                var operatorTimeField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
-                if (operatorTimeField != null)
-                    operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
+                //var operatorDateField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
+                //if (operatorDateField != null)
+                //{
+                //    operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year):d4}";
+                //}
+                //var operatorTimeField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
+                //if (operatorTimeField != null)
+                //    operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-                formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
+                formControl = BaseFormsPage.CreateFormControlInstance(packetMessage.PacFormName);
                 if (formControl is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");

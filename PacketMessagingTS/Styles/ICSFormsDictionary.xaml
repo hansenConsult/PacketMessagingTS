@@ -60,6 +60,10 @@
     <Style x:Key="EOC213RRFieldLabel" TargetType="TextBlock" BasedOn="{StaticResource EOC213RRFieldBase}">
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
+    <Style x:Key="EOC213RRFieldLabelLarge" TargetType="TextBlock" BasedOn="{StaticResource EOC213RRFieldBase}">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
     <Style x:Key="EOC213RRFieldLabelRequired" TargetType="TextBlock" BasedOn="{StaticResource EOC213RRFieldLabel}">
         <Setter Property="Foreground" Value="Red"/>
     </Style>

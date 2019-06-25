@@ -219,10 +219,12 @@ namespace FormControlBaseClass
                 {
                     if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(sender as TextBox))
                     {
+                        textBox.BorderThickness = new Thickness(2);
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
                     }
                     else
                     {
+                        textBox.BorderThickness = new Thickness(1);
                         textBox.BorderBrush = formControl.BaseBorderColor;
                     }
                     break;
