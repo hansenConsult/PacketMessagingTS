@@ -50,13 +50,16 @@
                             <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"  
-                                   VerticalAlignment="Center" Margin="5,0">
-                            <Run FontSize="20" FontFamily="Arial Black" FontWeight="Bold">Message Form</Run>
-                            <LineBreak/>
-                            <Run FontSize="12" Text="SCCo ICS Form 213 (05/29/2019)"/>
-                            <Run  FontSize="12" Text="PIF 2.0" />
-                        </TextBlock>
+                        <StackPanel Grid.Column="0" Margin="5,0" VerticalAlignment="Center">
+                        <TextBlock  
+                                   VerticalAlignment="Center" 
+                                   FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                                   Text="Message Form" />
+                        <Grid>
+                            <TextBlock FontSize="12" Text="SCCo ICS Form 213 (05/29/2019)" HorizontalAlignment="Left" />
+                            <TextBlock  FontSize="12" Text="PIF 2.0" HorizontalAlignment="Right" />
+                        </Grid>
+                        </StackPanel>
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel >
                                 <TextBlock FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" 

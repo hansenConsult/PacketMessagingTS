@@ -374,9 +374,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     pktMsg.PacFormType = formControl.PacFormType;
                     pktMsg.PacFormName = formControl.PacFormName;
                     pktMsg.FormControlType = formControl.FormControlType;
-                    //pktMsg.MessageNumber = packetMessageOutpost.MessageNumber;
                     pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
-					//pktMsg.ReceivedTime = packetMessageOutpost.ReceivedTime;
 					if (pktMsg.ReceivedTime != null)
 					{
 						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;

@@ -355,6 +355,10 @@
       <Project>{58e010dc-1e9f-4d3f-9828-415f67b1229f}</Project>
       <Name>OAMunicipalStatus20130101FormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OAMunicipalStatusPackItFormControl\OAMunicipalStatusPackItFormControl.csproj">
+      <Project>{fc2a0b6b-3857-4fbd-a4ab-bb604edea948}</Project>
+      <Name>OAMunicipalStatusPackItFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OAShelterStatus\OAShelterStatus20130814FormControl.csproj">
       <Project>{b261c7fb-85b0-4d56-b536-d9b7856d6e79}</Project>
       <Name>OAShelterStatus20130814FormControl</Name>

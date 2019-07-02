@@ -114,6 +114,7 @@ namespace FormControlBaseClass
                 string tag = control.Tag as string;
                 if (!string.IsNullOrEmpty(tag) && control.IsEnabled && tag.Contains("conditionallyrequired"))
                 {
+                    control.BorderBrush = formControl.BaseBorderColor;
                     continue;
                 }
 

@@ -35,9 +35,15 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                        <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                        <TextBlock  FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" Text="SCC EOC RESOURCE REQUEST FORM" 
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
+                                   HorizontalAlignment="Center" Margin="5,0" />
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
+                                <TextBlock Text="Version 8/17" HorizontalAlignment="Left"/>
+                                <TextBlock Text="PIF: 2.0" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </StackPanel>
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
                         <TextBox Grid.Column="1" x:Name="messageNo"  
@@ -473,7 +479,8 @@
                                               Style="{StaticResource EOC213RRFieldHeaderCB}"
                                               VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36f."/>
                                     <CheckBox Grid.Column="0" Grid.Row="4" Name="suppReqWater" Content="Water" 
-                                              Style="{StaticResource EOC213RRFieldHeaderCB}" VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="37"/>
+                                              Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36h."/>
                                     <CheckBox Grid.Column="1" Grid.Row="1" Name="suppReqLodinng" Content="Lodging" 
                                               Style="{StaticResource EOC213RRFieldHeaderCB}" VerticalContentAlignment="Center" 
                                               Margin="10,0,0,0" Tag="36b."/>
@@ -483,12 +490,12 @@
                                     <CheckBox Grid.Column="1" Grid.Row="3" Name="suppReqMaintenance" 
                                               Content="Maintenance" 
                                               Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36f."/>
+                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36g."/>
                                     <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
                                         <CheckBox Name="suppReqOther" Content="Other " 
                                                   Style="{StaticResource EOC213RRFieldHeaderCB}" 
                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" 
-                                                  Width="65" MinWidth="50" Tag="36g."/>
+                                                  Width="65" MinWidth="50" Tag="36i."/>
                                         <TextBlock Text="(put details in #17)" Style="{StaticResource EOC213RRHeaderItalic}" VerticalAlignment="Center" Margin="0,5,0,0"/>
                                     </StackPanel>
                                 </Grid>
@@ -517,47 +524,46 @@
                         <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray"></Border>
                         <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" VerticalAlignment="Center" Margin="5,0,5,0"/>
                         <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
+                        <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
                                      Margin="8,4,4,4" Tag="OpRelayRcvd"/>
                         <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
+                        <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
                                      Margin="8,4,4,4" Tag="OpRelaySent" />
                     </Grid>
                     </Border>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                    <StackPanel Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,0,1">
-                        <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" CheckedControlName="{x:Bind HowReceivedSent}"/>
-                    </StackPanel>
-                    <Grid BorderBrush="Black" BorderThickness="0,0,1,1">
+                    <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.4*"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.4*"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.4*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
+                               Margin="8,0,8,0" VerticalAlignment="Center" />
                         <TextBox Grid.Column="1" Name="operatorName" 
                                  Text="{x:Bind OperatorName}"
                                  Margin="0" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
-                        <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
                         <TextBox Grid.Column="3" Name="operatorCallsign" 
                                  Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
                                  Margin="0"  BorderBrush="White" Tag="OpCall"/>
-                        <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
                         <TextBox Grid.Column="5" Name="operatorDate" 
                                  IsReadOnly="True"
                                  Margin="0" BorderBrush="White" Tag="OpDate"/>
-                        <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
                         <TextBox Grid.Column="7" Name="operatorTime" 
                                  IsReadOnly="True"
                                  Margin="0" BorderBrush="White" Tag="OpTime" />
                     </Grid>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 </StackPanel>
 
             </StackPanel>

@@ -198,4 +198,9 @@
         <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" HorizontalTextAlignment="Center"/>
     </DataTemplate>
 
+    <DataTemplate x:Name="ToFromHeaderTemplate">
+        <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" 
+                           FontWeight="Bold" Foreground="Black" />
+    </DataTemplate>
+
 </ResourceDictionary>

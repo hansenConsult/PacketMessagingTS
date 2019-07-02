@@ -63,6 +63,18 @@ namespace FormControlBaseClass
         //public event PropertyChangedEventHandler PropertyChanged;
 
         protected List<string> outpostData;
+        protected List<string> _ICSPositionFiltered = new List<string>();
+
+        protected string[] ICSPosition = new string[] {
+                "Incident Commander",
+                "Operations",
+                "Planning",
+                "Logistics",
+                "Finance",
+                "Public Info. Officer",
+                "Liaison Officer",
+                "Safety Officer"
+        };
 
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
@@ -998,7 +1010,7 @@ namespace FormControlBaseClass
             }
             else
             {
-                comboBox.SelectedItem = data[0];
+                comboBox.SelectedItem = formField.ControlContent;  // data[0];
             }
         }
 
@@ -1198,6 +1210,34 @@ namespace FormControlBaseClass
 
 			return convertedLine;
 		}
+
+        protected virtual void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            // Set sender.Text. You can use args.SelectedItem to build your text string.
+            sender.Text = args.SelectedItem as string;
+        }
+
+        protected virtual void TextBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                //sender.ItemsSource = null;
+                _ICSPositionFiltered = new List<string>();
+                foreach (string s in ICSPosition)
+                {
+                    string lowerS = s.ToLower();
+                    if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
+                    {
+                        _ICSPositionFiltered.Add(s);
+                    }
+                }
+                sender.ItemsSource = _ICSPositionFiltered;
+            }
+        }
 
         //protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         //{

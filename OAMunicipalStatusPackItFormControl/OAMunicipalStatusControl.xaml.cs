@@ -32,21 +32,19 @@ namespace OAMunicipalStatusPackItFormControl
                 "Campbell",
                 "Cupertino",
                 "Gilroy",
-                "Loma Prieta",
                 "Los Altos",
                 "Los Altos Hills",
-                "Los Gatos/Monte Sereno",
+                "Los Gatos",
                 "Milpitas",
+                "Monte Sereno",
                 "Morgan Hill",
                 "Mountain View",
-                "NASA-Ames",
                 "Palo Alto",
                 "San Jose",
                 "Santa Clara",
                 "Saratoga",
-                "Stanford",
                 "Sunnyvale",
-                "Unincorporated"
+                "*Unincorporated County Areas*"
         };
 
         string[] OfficeStatus = new string[]
@@ -57,24 +55,30 @@ namespace OAMunicipalStatusPackItFormControl
         };
 
         string[] UnknownYesNo = new string[] {
+                " ",
                 "Unknown",
                 "Yes",
                 "No"
         };
 
         string[] ActivationLevel = new string[] {
+                " ",
                 "Unknown",
+                "Duty Officer",
                 "Monitor",
-                "Minimal",
                 "Partial",
                 "Full"
         };
 
         string[] CurrentSituation = new string[] {
+                null,
                 "Unknown",
                 "Normal",
                 "Problem",
-                "Failure"
+                "Failure",
+                "Delayed",
+                "Closed,",
+                "Early Out",
         };
 
         public OAMunicipalStatusControl()
@@ -84,9 +88,6 @@ namespace OAMunicipalStatusPackItFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-            sender.IsChecked = true; ;
-            packet.IsChecked = true;
         }
 
         public string MunicipalityName
@@ -110,9 +111,12 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + MunicipalityName + '_' + incidentName.Text);
+            return (MessageNo + '_' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + MunicipalityName);
         }
 
+        public string ReportType
+        { get; set; }        
+        
         /// <summary>
         /// 
         /// </summary>
@@ -141,29 +145,29 @@ namespace OAMunicipalStatusPackItFormControl
                 Control control = formControl.InputControl;
                 switch (control.Name)
                 {
-                    case "municipalityName":
-                        notUpdated = (control as ComboBox).SelectedIndex == -1;
-                        UpdateControlValidationInfo(formControl, notUpdated);
-                        break;
+                    //case "municipalityName":
+                    //    notUpdated = (control as ComboBox).SelectedIndex == -1;
+                    //    UpdateControlValidationInfo(formControl, notUpdated);
+                    //    break;
                     case "eocOpen":
-                        notUpdated = (control as ComboBox).SelectedIndex == -1;
-                        UpdateControlValidationInfo(formControl, notUpdated);
+                        //notUpdated = (control as ComboBox).SelectedIndex == -1;
+                        //UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "activationLevel":
                         notUpdated = control.IsEnabled && (control as ComboBox).SelectedIndex == 0;
                         UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "stateOfEmergency":
-                        notUpdated = (control as ComboBox).SelectedIndex == -1;
-                        UpdateControlValidationInfo(formControl, notUpdated);
+                        //notUpdated = (control as ComboBox).SelectedIndex == -1;
+                        //UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "howSent":
                         notUpdated = stateOfEmergency.SelectedIndex == 1 && string.IsNullOrEmpty((control as TextBox).Text);
                         UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsCommunications":
-                        notUpdated = comboBoxCommunications.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
-                        UpdateControlValidationInfo(formControl, notUpdated);
+                        //notUpdated = comboBoxCommunications.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        //UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsDebris":
                         notUpdated = comboBoxDebris.SelectedIndex > 1 && string.IsNullOrEmpty((control as TextBox).Text);
@@ -243,6 +247,23 @@ namespace OAMunicipalStatusPackItFormControl
             return CreateOutpostMessageBody(outpostData);
         }
 
+        protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
+        {
+            if (formField.ControlName == "municipalityName")
+            {
+                string outpostData = formField.ControlContent;
+                if (outpostData.Contains("*"))
+                {
+                    outpostData = "Unincorporated";
+                }
+                return $"{id}: [{outpostData}]";
+            }
+            else
+            {
+                return base.CreateComboBoxOutpostDataString(formField, id);
+            }
+        }
+
         //public override FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
         //{
         //    FormField[] formFields = CreateEmptyFormFieldsArray();
@@ -299,13 +320,13 @@ namespace OAMunicipalStatusPackItFormControl
             if (comboBox.SelectedIndex > 1)
             {
                 textBox.Tag = (textBox.Tag as string).Replace("conditionallyrequired", "required");
-                ValidateForm();
+                //ValidateForm();
             }
             else
             {
                 textBox.Tag = (textBox.Tag as string).Replace(",required", ",conditionallyrequired");
-                ValidateForm();
             }
+            ValidateForm();
         }
 
         private void Status_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -361,11 +382,12 @@ namespace OAMunicipalStatusPackItFormControl
                     UpdateCommentsTag(sender as ComboBox, commentsAnimalIssues);
                     break;
             }
+            ComboBoxRequired_SelectionChanged(sender, e);
         }
 
         private void StateOfEmergency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((sender as ComboBox).SelectedIndex == 1)
+            if ((sender as ComboBox).SelectedIndex == 1 && (bool)complete.IsChecked)
             {
                 howSent.Tag = (howSent.Tag as string).Replace(",conditionallyrequired", ",required");
                 ValidateForm();
@@ -376,6 +398,52 @@ namespace OAMunicipalStatusPackItFormControl
                 ValidateForm();
             }
             ComboBoxRequired_SelectionChanged(sender, e);
+        }
+
+        private void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
+            {
+                eocPhone.Tag = (eocPhone.Tag as string).Replace(",required", ",conditionallyrequired");
+                primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",required", ",conditionallyrequired");
+                primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",required", ",conditionallyrequired");
+                officeStatus.Tag = (officeStatus.Tag as string).Replace(",required", ",conditionallyrequired");
+                eocOpen.Tag = (eocOpen.Tag as string).Replace(",required", ",conditionallyrequired");
+                stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",required", ",conditionallyrequired");
+            }
+            else
+            {
+                eocPhone.Tag = (eocPhone.Tag as string).Replace(",conditionallyrequired", ",required");
+                primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",conditionallyrequired", ",required");
+                primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",conditionallyrequired", ",required");
+                officeStatus.Tag = (officeStatus.Tag as string).Replace(",conditionallyrequired", ",required");
+                eocOpen.Tag = (eocOpen.Tag as string).Replace(",conditionallyrequired", ",required");
+                stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",conditionallyrequired", ",required");
+            }
+            string minval = "41";
+            bool startCurrentStatus = false;
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (formControl.InputControl is ComboBox comboBox)
+                {
+                    if ((comboBox.Tag as string).Contains(minval))
+                    {
+                        startCurrentStatus = true;
+                    }
+                    if (startCurrentStatus)
+                    {
+                        if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
+                        {
+                            comboBox.Tag = (comboBox.Tag as string).Replace(",required", ",conditionallyrequired");
+                        }
+                        else
+                        {
+                            comboBox.Tag = (comboBox.Tag as string).Replace(",conditionallyrequired", ",required");
+                        }
+                    }
+                }
+            }
+            ValidateForm();
         }
 
     }
