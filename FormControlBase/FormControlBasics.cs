@@ -233,13 +233,54 @@ namespace FormControlBaseClass
             }
         }
 
-        protected virtual void ComboBoxRequired_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        protected virtual void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e is null)
+                return;
+
             foreach (FormControl formControl in _formControlsList)
             {
                 if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
                 {
-                    if (comboBox.SelectedIndex < 0 && string.IsNullOrEmpty(comboBox.Text))
+                    if (e.AddedItems.Count == 0)
+                    {
+                        break;
+                    }
+                    if (string.IsNullOrEmpty(e.AddedItems[0] as string))
+                    {
+                        comboBox.SelectedIndex = -1;
+                    }
+                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)
+                    {
+                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        comboBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+            }
+        }
+
+        protected virtual void ComboBoxRequired_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e is null)
+                return;
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
+                {
+                    if (e.AddedItems.Count == 0)
+                    {
+                        break;
+                    }
+                    if (string.IsNullOrEmpty(e.AddedItems[0] as string))
+                    {
+                        comboBox.SelectedIndex = -1;
+                    }
+                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                     }

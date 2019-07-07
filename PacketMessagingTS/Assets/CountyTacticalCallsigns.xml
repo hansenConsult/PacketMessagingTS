@@ -16,7 +16,7 @@
     <TacticalCalls TacticalCallsign="MRGEOC" AgencyName="Morgan Hill, City of" Prefix="MRG" PrimaryBBS="W2XSC" SecondaryBBS="W1XSC" Selected="false" />
     <TacticalCalls TacticalCallsign="MTVEOC" AgencyName="Mountain View, City of" Prefix="MTV" PrimaryBBS="W3XSC" SecondaryBBS="W1XSC" Selected="false" />
     <TacticalCalls TacticalCallsign="NAMEOC" AgencyName="NASA - Ames" Prefix="NAM" PrimaryBBS="W3XSC" SecondaryBBS="W1XSC" Selected="false" />
-    <TacticalCalls TacticalCallsign="PAFEOC" AgencyName="Palo Alto, City of" Prefix="PAF" PrimaryBBS="W3XSC" SecondaryBBS="W1XSC" Selected="false" />
+    <TacticalCalls TacticalCallsign="PAFEOC" AgencyName="Palo Alto, City of" Prefix="PAF" PrimaryBBS="W3XSC" SecondaryBBS="W4XSC" Selected="false" />
     <TacticalCalls TacticalCallsign="SJCEOC" AgencyName="San Jose, City of" Prefix="SJC" PrimaryBBS="W1XSC" SecondaryBBS="W2XSC" Selected="false" />
     <TacticalCalls TacticalCallsign="SJWEOC" AgencyName="San Jose Water Co" Prefix="SJW" PrimaryBBS="W1XSC" SecondaryBBS="W2XSC" Selected="false" />
     <TacticalCalls TacticalCallsign="SNCEOC" AgencyName="Santa Clara, City of" Prefix="SNC" PrimaryBBS="W1XSC" SecondaryBBS="W2XSC" Selected="false" />

@@ -47,22 +47,23 @@ namespace OAMunicipalStatusPackItFormControl
                 "*Unincorporated County Areas*"
         };
 
-        string[] OfficeStatus = new string[]
+        object[] OfficeStatus = new object[]
         {
+                null,
                 "Unknown",
                 "Open",
                 "Closed"
         };
 
         string[] UnknownYesNo = new string[] {
-                " ",
+                null,
                 "Unknown",
                 "Yes",
                 "No"
         };
 
         string[] ActivationLevel = new string[] {
-                " ",
+                null,
                 "Unknown",
                 "Duty Officer",
                 "Monitor",
@@ -86,6 +87,8 @@ namespace OAMunicipalStatusPackItFormControl
             InitializeComponent();
 
             ScanControls(PrintableArea);
+
+            ColorRadioButtons(true);
 
             InitializeToggleButtonGroups();
         }
@@ -115,8 +118,8 @@ namespace OAMunicipalStatusPackItFormControl
         }
 
         public string ReportType
-        { get; set; }        
-        
+        { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -302,16 +305,17 @@ namespace OAMunicipalStatusPackItFormControl
         //    return formFields;
         //}
 
-        private void eocOpen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void EocOpen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (activationLevel != null)
             {
-                activationLevel.IsEnabled = (sender as ComboBox).SelectedIndex == 1;
-                if ((sender as ComboBox).SelectedIndex == 1)
+                activationLevel.IsEnabled = (sender as ComboBox).SelectedItem as string == "Yes";
+                if (activationLevel.IsEnabled)
                 {
-                    ComboBoxRequired_SelectionChanged(activationLevel, null);
+                    //ComboBoxRequired_SelectionChanged(activationLevel, null);
+                    activationLevel.SelectedIndex = 0;
                 }
-                ComboBoxRequired_SelectionChanged(sender, e);
+                ComboBox_SelectionChanged(sender, e);
             }
         }
 
@@ -320,7 +324,6 @@ namespace OAMunicipalStatusPackItFormControl
             if (comboBox.SelectedIndex > 1)
             {
                 textBox.Tag = (textBox.Tag as string).Replace("conditionallyrequired", "required");
-                //ValidateForm();
             }
             else
             {
@@ -400,9 +403,9 @@ namespace OAMunicipalStatusPackItFormControl
             ComboBoxRequired_SelectionChanged(sender, e);
         }
 
-        private void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ColorRadioButtons(bool conditionallyrequired)
         {
-            if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
+            if (conditionallyrequired)
             {
                 eocPhone.Tag = (eocPhone.Tag as string).Replace(",required", ",conditionallyrequired");
                 primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",required", ",conditionallyrequired");
@@ -432,7 +435,7 @@ namespace OAMunicipalStatusPackItFormControl
                     }
                     if (startCurrentStatus)
                     {
-                        if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
+                        if (conditionallyrequired)
                         {
                             comboBox.Tag = (comboBox.Tag as string).Replace(",required", ",conditionallyrequired");
                         }
@@ -443,6 +446,53 @@ namespace OAMunicipalStatusPackItFormControl
                     }
                 }
             }
+        }
+
+        private void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            bool conditionallyrequired = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update";
+            ColorRadioButtons(conditionallyrequired);
+                //if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
+                //{
+                //    eocPhone.Tag = (eocPhone.Tag as string).Replace(",required", ",conditionallyrequired");
+                //    primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",required", ",conditionallyrequired");
+                //    primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",required", ",conditionallyrequired");
+                //    officeStatus.Tag = (officeStatus.Tag as string).Replace(",required", ",conditionallyrequired");
+                //    eocOpen.Tag = (eocOpen.Tag as string).Replace(",required", ",conditionallyrequired");
+                //    stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",required", ",conditionallyrequired");
+                //}
+                //else
+                //{
+                //    eocPhone.Tag = (eocPhone.Tag as string).Replace(",conditionallyrequired", ",required");
+                //    primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",conditionallyrequired", ",required");
+                //    primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",conditionallyrequired", ",required");
+                //    officeStatus.Tag = (officeStatus.Tag as string).Replace(",conditionallyrequired", ",required");
+                //    eocOpen.Tag = (eocOpen.Tag as string).Replace(",conditionallyrequired", ",required");
+                //    stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",conditionallyrequired", ",required");
+                //}
+                //string minval = "41";
+                //bool startCurrentStatus = false;
+                //foreach (FormControl formControl in _formControlsList)
+                //{
+                //    if (formControl.InputControl is ComboBox comboBox)
+                //    {
+                //        if ((comboBox.Tag as string).Contains(minval))
+                //        {
+                //            startCurrentStatus = true;
+                //        }
+                //        if (startCurrentStatus)
+                //        {
+                //            if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
+                //            {
+                //                comboBox.Tag = (comboBox.Tag as string).Replace(",required", ",conditionallyrequired");
+                //            }
+                //            else
+                //            {
+                //                comboBox.Tag = (comboBox.Tag as string).Replace(",conditionallyrequired", ",required");
+                //            }
+                //        }
+                //    }
+                //}
             ValidateForm();
         }
 

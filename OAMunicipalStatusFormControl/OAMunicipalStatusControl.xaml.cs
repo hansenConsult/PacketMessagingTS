@@ -148,7 +148,7 @@ namespace OAMunicipalStatusFormControl
                         UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "activationLevel":
-                        notUpdated = control.IsEnabled && (control as ComboBox).SelectedIndex == 0;
+                        notUpdated = control.IsEnabled && (control as ComboBox).SelectedIndex == -1;
                         UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "stateOfEmergency":

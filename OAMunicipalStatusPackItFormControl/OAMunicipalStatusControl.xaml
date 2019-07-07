@@ -384,17 +384,16 @@
                                           SelectedIndex="-1" 
                                           Style="{StaticResource MuniStatusComboBox}" 
                                           Tag="34.,conditionallyrequired,Select EOC Open: Yes or No." 
-                                          HorizontalAlignment="Left" SelectionChanged="eocOpen_SelectionChanged"/>
+                                          HorizontalAlignment="Left" SelectionChanged="EocOpen_SelectionChanged"/>
                                 <StackPanel Grid.Column="2" Grid.Row="1">
                                     <TextBlock Text="Activation Level:" Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
                                     <TextBlock Text="(Required if EOC is Open)" Style="{StaticResource MuniStatusFieldText}" HorizontalAlignment="Right"/>
                                 </StackPanel>
                                 <ComboBox Grid.Column="3" Grid.Row="1" Name="activationLevel" 
                                           ItemsSource="{x:Bind ActivationLevel}"
-                                          SelectedIndex="-1"
                                           Style="{StaticResource MuniStatusComboBox}" IsEnabled="False" 
                                           Tag="35.,required,Select an Activation Level." HorizontalAlignment="Left"
-                                          SelectionChanged="ComboBoxRequired_SelectionChanged"/>
+                                          SelectionChanged="ComboBox_SelectionChanged"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Expected to Open Date: (MM/DD/YY)" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBox Grid.Column="1" Grid.Row="2" Name="eocOpenDate" 
                                          Style="{StaticResource MuniStatusTextBox}"  Tag="36."/>
