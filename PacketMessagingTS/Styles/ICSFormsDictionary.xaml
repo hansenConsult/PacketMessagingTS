@@ -190,6 +190,60 @@
 		<Setter Property="VerticalContentAlignment" Value="Center"/>
 	</Style>
 
+    <Style x:Key="AutoSuggestICSPosition" TargetType="AutoSuggestBox">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="AutoSuggestBox">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="Orientation">
+                                <VisualState x:Name="Landscape"/>
+                                <VisualState x:Name="Portrait"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <TextBox x:Name="TextBox"
+                                         Style="{TemplateBinding TextBoxStyle}"
+                                         PlaceholderText="{TemplateBinding PlaceholderText}"
+                                         Header="{TemplateBinding Header}"
+                                         Width="{TemplateBinding Width}"
+                                         BorderBrush="{TemplateBinding BorderBrush}"
+                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         ScrollViewer.BringIntoViewOnFocusChange="False"
+                                         Canvas.ZIndex="0"
+                                         Margin="0"
+                                         DesiredCandidateWindowAlignment="BottomEdge"/>
+                        <Popup x:Name="SuggestionsPopup">
+                            <Border x:Name="SuggestionsContainer" BorderThickness="0">
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="UpwardTransform"/>
+                                </Border.RenderTransform>
+                                <ListView x:Name="SuggestionsList"
+                                                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                                  BorderThickness="0"
+                                                  BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                                  DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                                  IsItemClickEnabled="True"
+                                                  ItemTemplate="{TemplateBinding ItemTemplate}"
+                                                  ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                  ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                                  MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                                                  Margin="{ThemeResource AutoSuggestListMargin}"
+                                                  Padding="{ThemeResource AutoSuggestListPadding}">
+                                    <ListView.ItemContainerTransitions>
+                                        <TransitionCollection />
+                                    </ListView.ItemContainerTransitions>
+                                </ListView>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <DataTemplate x:Name="ICSHeaderTemplate">
         <TextBlock Text="{Binding}" FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Black" Margin="4,0,0,0"/>
     </DataTemplate>

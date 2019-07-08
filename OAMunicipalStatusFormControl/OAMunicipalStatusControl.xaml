@@ -294,7 +294,7 @@
                                           SelectedIndex="-1"
                                           Style="{StaticResource MuniStatusComboBox}" IsEnabled="False" 
                                           Tag="29,required,Select an Activation Level." HorizontalAlignment="Left"
-                                          SelectionChanged="ComboBoxRequired_SelectionChanged"/>
+                                          SelectionChanged="ComboBox_SelectionChanged"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Expected to Open Date: (MM/DD/YY)" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBox Grid.Column="1" Grid.Row="2" Name="eocOpenDate" 
                                          Style="{StaticResource MuniStatusTextBox}"  Tag="30"/>

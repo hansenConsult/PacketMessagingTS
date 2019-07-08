@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Name="ToFromHeaderTemplate">
-                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" Margin="-5,0,0,0"/>
+                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" />
             </DataTemplate>
 
             <DataTemplate x:Name="HeaderTemplate">
@@ -204,9 +204,12 @@
                             <StackPanel Grid.Column="1" >
                                 <Border BorderBrush="Black" BorderThickness="0,1">
                                     <StackPanel >
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="7.) ICS Position:" Foreground="LightSalmon" FontFamily="Times New Roman" />
+                                        <TextBlock Padding="10,0,5,5" FontSize="12" FontFamily="Times New Roman" 
+                                                   FontWeight="Bold" Foreground="Black"
+                                                   Text="7.) ICS Position:" />
                                         <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"  
                                                         PlaceholderText="Select ICS Position"
+                                                        Style="{StaticResource AutoSuggestICSPosition}"
                                                         TextBoxStyle="{StaticResource AutoSuggestTextBoxStyle}"
                                                         TextChanged="TextBoxFromICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
@@ -248,9 +251,12 @@
                             <StackPanel Grid.Column="3" >
                                 <Border BorderBrush="Black" BorderThickness="0,1">
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Text="8.) ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
+                                        <TextBlock Padding="10,0,5,5" FontSize="12" FontFamily="Times New Roman" 
+                                                   FontWeight="Bold" Foreground="Black"
+                                                   Text="8.) ICS Position:" />
                                         <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
                                                         PlaceholderText="Select ICS Position"
+                                                        Style="{StaticResource AutoSuggestICSPosition}"
                                                         TextChanged="TextBoxFromICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                         Tag="8.,required,Enter a From position." FontFamily="Times New Roman"/>

@@ -13,7 +13,7 @@ namespace FormControlBaseClass
 	public class FormControl
 	{
         public Brush BaseBorderColor
-		{ get; private set; }
+		{ get; set; }
 
         public Brush RequiredBorderBrush { get; } = new SolidColorBrush(Colors.Red);
 

@@ -22,7 +22,6 @@
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
-
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="OAMunicipalStatusControl">
         <Border x:Name="FormOAMuniStatus" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel>
@@ -110,15 +109,19 @@
                         <TextBlock x:Name="labelTo" Grid.Column="0"  Style="{StaticResource LabelFontTNR14B}" Text=" To:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <StackPanel Grid.Column="1" >
                             <Border BorderBrush="Black" BorderThickness="0,1">
-                                <StackPanel >
-                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="7.) ICS Position:" Foreground="LightSalmon" FontFamily="Times New Roman" />
-                                    <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"                                                        
-                                                        PlaceholderText="Select ICS Position"
-                                                        TextChanged="TextBoxFromICSPosition_TextChanged"
-                                                        SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
-                                                        Tag="7a.,required,Enter a To Position." VerticalAlignment="Top"/>
-                                    <!--<ComboBox Visibility="Collapsed" Tag="21|" FontFamily="Times New Roman" />-->
-                                    <!--<TextBox  x:Name="textBoxToICSPosition" Visibility="Collapsed" Tag="20" />-->
+                                <StackPanel x:Name="toICSPositionPanel">
+                                    <TextBlock Padding="10,2,0,2" 
+                                               Text="7.) ICS Position:" FontSize="12" FontFamily="Times New Roman" 
+                                               FontWeight="Bold" Foreground="Black" />
+                                    <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"     
+                                                    PlaceholderText="Select ICS Position"
+                                                    Style="{StaticResource AutoSuggestICSPosition}"                                                    
+                                                    BorderBrush="Gray"
+                                                    BorderThickness="2"
+                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                    Tag="7a.,required,Enter a To Position." VerticalAlignment="Top">
+                                    </AutoSuggestBox>
                                     <!--<ComboBox x:Name="comboBoxToICSPosition" Margin="10,0,10,2" 	
                                                   ItemsSource="{x:Bind ICSPosition}"
                                                   HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
@@ -134,7 +137,7 @@
                                 <StackPanel >
                                     <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />-->
                                     <TextBox x:Name="toLocation" Margin="10,0,10,2" 
-                                             TextChanged="TextBoxRequired_TextChanged"
+                                             TextChanged="TextBox_TextChanged"
                                              Tag="7b.,required,Enter a To Location."
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Location:"/>
@@ -164,13 +167,19 @@
                         <StackPanel Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0">
                             <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <StackPanel>
-                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Text="8.) ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
+                                    <TextBlock Padding="10,2,0,2"
+                                               Style="{StaticResource LabelFontTNR14B}"
+                                               FontSize="12" FontFamily="Times New Roman" 
+                                               FontWeight="Bold" Foreground="Black"
+                                               Text="8.) ICS Position:" />
                                     <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
-                                                        PlaceholderText="Select ICS Position"
-                                                        TextChanged="TextBoxFromICSPosition_TextChanged"
-                                                        SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
-                                                        Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
-                                    <!--<ComboBox Visibility="Collapsed" Tag="24|" />-->
+                                                    PlaceholderText="Select ICS Position"
+                                                    Style="{StaticResource AutoSuggestICSPosition}"
+                                                    BorderBrush="Gray"
+                                                    BorderThickness="2"
+                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                    Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
                                     <!--<TextBox  x:Name="textBoxFromICSPosition" Visibility="Collapsed" Tag="23" />-->
                                     <!--<ComboBox x:Name="comboBoxFromICSPosition" Margin="10,0,10,2" 	
                                                   ItemsSource="{x:Bind ICSPosition}"
@@ -348,7 +357,7 @@
                                           ItemsSource="{x:Bind OfficeStatus}"
                                           Style="{StaticResource MuniStatusComboBox}"
                                           Tag="29.,conditionallyrequired" HorizontalAlignment="Left"
-                                          SelectionChanged="ComboBoxRequired_SelectionChanged"/>
+                                          SelectionChanged="ComboBox_SelectionChanged"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Expected to Open Date: (MM/DD/YY)" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBox Grid.Column="1" Grid.Row="2" Name="officeOpenDate" 
                                          Style="{StaticResource MuniStatusTextBox}" Tag="30."/>
@@ -381,7 +390,7 @@
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="EOC Open:" Style="{StaticResource MuniStatusFieldText}"/>
                                 <ComboBox Grid.Column="1" Grid.Row="1" Name="eocOpen" 
                                           ItemsSource="{x:Bind UnknownYesNo}"
-                                          SelectedIndex="-1" 
+                                          SelectedIndex="0" 
                                           Style="{StaticResource MuniStatusComboBox}" 
                                           Tag="34.,conditionallyrequired,Select EOC Open: Yes or No." 
                                           HorizontalAlignment="Left" SelectionChanged="EocOpen_SelectionChanged"/>
@@ -432,7 +441,8 @@
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Indicate how sent (method/to):" Style="{StaticResource MuniStatusFieldText}"/>
                                 <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Name="howSent" 
                                          Style="{StaticResource MuniStatusTextBox}" 
-                                         Tag="99.,conditionallyrequired,Enter how the Proclammation is being sent or None."/>
+                                         Tag="99.,conditionallyrequired,Enter how the Proclammation is being sent or None."
+                                         TextChanged="TextBox_TextChanged"/>
                             </Grid>
                         </Border>
                     </Grid>
@@ -484,7 +494,7 @@
                             <TextBox Grid.Column="2" Grid.Row="2" Name="commentsCommunications" 
                                      Style="{StaticResource MuniStatusCommentsText}" 
                                      Tag="41.1,conditionallyrequired,Enter a Comment for Communications" Margin="10,2,2,2" 
-                                     TextChanged="TextBoxRequired_TextChanged"/>
+                                     TextChanged="TextBox_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Debris" Style="{StaticResource MuniStatusFieldText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="3" Name="comboBoxDebris" 
                                       ItemsSource="{x:Bind CurrentSituation}"

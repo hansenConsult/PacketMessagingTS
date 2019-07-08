@@ -148,7 +148,7 @@
                                           SelectedIndex="-1"
                                           HorizontalAlignment="Left" VerticalAlignment="Center" Width="205" 
                                           Tag="14,required,Select a Municipality Name."
-                                          SelectionChanged="ComboBoxRequired_SelectionChanged"/>
+                                          SelectionChanged="ComboBox_SelectionChanged"/>
                                 <TextBlock Margin="10,0,0,0" 
                                            Text="Date:"
                                            Style="{StaticResource MuniStatusFieldText}"

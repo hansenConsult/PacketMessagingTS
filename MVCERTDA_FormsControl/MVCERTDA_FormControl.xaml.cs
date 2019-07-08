@@ -299,7 +299,7 @@ namespace MVCERTDA_FormsControl
                     textBoxFromLocation.Text = comboBoxFromLocation.SelectedItem.ToString();
                 }
             }
-            ComboBoxRequired_SelectionChanged(sender, e);
+            ComboBox_SelectionChanged(sender, e);
         }
 
         private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -326,7 +326,7 @@ namespace MVCERTDA_FormsControl
                     textBoxFromICSPosition.Text = comboBoxFromICSPosition.SelectedItem.ToString();
                 }
             }
-            ComboBoxRequired_SelectionChanged(sender, e);
+            ComboBox_SelectionChanged(sender, e);
         }
 
     }

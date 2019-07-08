@@ -225,10 +225,12 @@ namespace FormControlBaseClass
                     if (IsFieldRequired(control) && newForm)
                     {
                         control.BorderBrush = formControl.RequiredBorderBrush;
+                        control.BorderThickness = new Thickness(2);
                     }
                     else
                     {
                         control.BorderBrush = formControl.BaseBorderColor;
+                        control.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is ComboBox comboBox)
@@ -1237,6 +1239,7 @@ namespace FormControlBaseClass
                 }
                 sender.ItemsSource = _ICSPositionFiltered;
             }
+            AutoSuggestBox_TextChanged(sender, null);
         }
 
         //protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject

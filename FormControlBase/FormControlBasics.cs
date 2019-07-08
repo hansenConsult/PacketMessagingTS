@@ -22,6 +22,7 @@ namespace FormControlBaseClass
         public static SolidColorBrush _redBrush = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush _whiteBrush = new SolidColorBrush(Colors.White);
         public static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
+        public static SolidColorBrush TextBoxBorderBrush = new SolidColorBrush(Color.FromArgb(66, 0, 0, 0));
         public static SolidColorBrush _lightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
 
         protected List<FormControl> _formControlsList = new List<FormControl>();
@@ -63,10 +64,15 @@ namespace FormControlBaseClass
                 {
                     ScanControls(control);
                 }
-                else if (control is TextBox || control is AutoSuggestBox || control is ComboBox
-                                            || control is CheckBox || control is ToggleButtonGroup)
+                else if (control is TextBox || control is ComboBox || control is CheckBox || control is ToggleButtonGroup)
                 {
                     FormControl formControl = new FormControl((Control)control);
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is AutoSuggestBox)
+                {
+                    FormControl formControl = new FormControl((Control)control);
+                    formControl.BaseBorderColor = TextBoxBorderBrush;
                     _formControlsList.Add(formControl);
                 }
                 else if (control is RadioButton)
@@ -212,13 +218,55 @@ namespace FormControlBaseClass
                 return false;
         }
 
+        protected virtual void AutoSuggestBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is AutoSuggestBox textBox && textBox.Name == formControl.InputControl.Name)
+                {
+                    if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(textBox.Text))
+                    {
+                        textBox.BorderThickness = new Thickness(2);
+                        textBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        textBox.BorderThickness = new Thickness(1);
+                        textBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+            }
+        }
+
+        protected virtual void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+                {
+                    if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
+                    {
+                        textBox.BorderThickness = new Thickness(2);
+                        textBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        textBox.BorderThickness = new Thickness(1);
+                        textBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+            }
+        }
+
         protected virtual void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
         {
             foreach (FormControl formControl in _formControlsList)
             {
                 if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
                 {
-                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(sender as TextBox))
+                    if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
                     {
                         textBox.BorderThickness = new Thickness(2);
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
@@ -234,36 +282,6 @@ namespace FormControlBaseClass
         }
 
         protected virtual void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e is null)
-                return;
-
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
-                {
-                    if (e.AddedItems.Count == 0)
-                    {
-                        break;
-                    }
-                    if (string.IsNullOrEmpty(e.AddedItems[0] as string))
-                    {
-                        comboBox.SelectedIndex = -1;
-                    }
-                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)
-                    {
-                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        comboBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
-                }
-            }
-        }
-
-        protected virtual void ComboBoxRequired_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e is null)
                 return;

@@ -287,9 +287,9 @@ namespace OAMunicipalStatusFormControl
                 activationLevel.IsEnabled = (sender as ComboBox).SelectedIndex == 1;
                 if ((sender as ComboBox).SelectedIndex == 1)
                 {
-                    ComboBoxRequired_SelectionChanged(activationLevel, null);
+                    ComboBox_SelectionChanged(activationLevel, null);
                 }
-                ComboBoxRequired_SelectionChanged(sender, e);
+                ComboBox_SelectionChanged(sender, e);
             }
         }
 
@@ -374,7 +374,7 @@ namespace OAMunicipalStatusFormControl
                 howSent.Tag = (howSent.Tag as string).Replace(",required", ",conditionallyrequired");
                 ValidateForm();
             }
-            ComboBoxRequired_SelectionChanged(sender, e);
+            ComboBox_SelectionChanged(sender, e);
         }
 
     }

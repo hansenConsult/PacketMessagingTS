@@ -10,6 +10,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -94,17 +95,9 @@ namespace OAMunicipalStatusPackItFormControl
         }
 
         public string MunicipalityName
-        //{ get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
         { get => municipalityName.SelectedItem as string; }
 
         public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
-
-        private FormProviders formProvider = FormProviders.PacItForm;
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
@@ -148,13 +141,13 @@ namespace OAMunicipalStatusPackItFormControl
                 Control control = formControl.InputControl;
                 switch (control.Name)
                 {
-                    //case "municipalityName":
-                    //    notUpdated = (control as ComboBox).SelectedIndex == -1;
-                    //    UpdateControlValidationInfo(formControl, notUpdated);
-                    //    break;
+                    case "municipalityName":
+                        notUpdated = (control as ComboBox).SelectedIndex == -1;
+                        UpdateControlValidationInfo(formControl, notUpdated);
+                        break;
                     case "eocOpen":
-                        //notUpdated = (control as ComboBox).SelectedIndex == -1;
-                        //UpdateControlValidationInfo(formControl, notUpdated);
+                        notUpdated = (control as ComboBox).SelectedIndex == -1;
+                        UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "activationLevel":
                         notUpdated = control.IsEnabled && (control as ComboBox).SelectedIndex == 0;
@@ -165,7 +158,7 @@ namespace OAMunicipalStatusPackItFormControl
                         //UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "howSent":
-                        notUpdated = stateOfEmergency.SelectedIndex == 1 && string.IsNullOrEmpty((control as TextBox).Text);
+                        notUpdated = stateOfEmergency.SelectedItem as string == "Yes" && string.IsNullOrEmpty((control as TextBox).Text);
                         UpdateControlValidationInfo(formControl, notUpdated);
                         break;
                     case "commentsCommunications":
@@ -312,7 +305,6 @@ namespace OAMunicipalStatusPackItFormControl
                 activationLevel.IsEnabled = (sender as ComboBox).SelectedItem as string == "Yes";
                 if (activationLevel.IsEnabled)
                 {
-                    //ComboBoxRequired_SelectionChanged(activationLevel, null);
                     activationLevel.SelectedIndex = 0;
                 }
                 ComboBox_SelectionChanged(sender, e);
@@ -385,22 +377,24 @@ namespace OAMunicipalStatusPackItFormControl
                     UpdateCommentsTag(sender as ComboBox, commentsAnimalIssues);
                     break;
             }
-            ComboBoxRequired_SelectionChanged(sender, e);
+            ComboBox_SelectionChanged(sender, e);
         }
 
         private void StateOfEmergency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((sender as ComboBox).SelectedIndex == 1 && (bool)complete.IsChecked)
+            if (e == null || e.AddedItems.Count == 0)
+                return;
+
+            if (e.AddedItems[0] as string == "Yes")
             {
                 howSent.Tag = (howSent.Tag as string).Replace(",conditionallyrequired", ",required");
-                ValidateForm();
             }
             else
             {
                 howSent.Tag = (howSent.Tag as string).Replace(",required", ",conditionallyrequired");
-                ValidateForm();
             }
-            ComboBoxRequired_SelectionChanged(sender, e);
+            ValidateForm();
+            ComboBox_SelectionChanged(sender, e);
         }
 
         private void ColorRadioButtons(bool conditionallyrequired)
