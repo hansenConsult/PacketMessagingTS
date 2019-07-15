@@ -33,6 +33,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using System.Threading;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -76,6 +77,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 }
             }
             return _communicationsService;
+        }
+
+        public void AddRxTxStatus(string text)
+        {
+            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+            //Thread.Sleep(0); No effect
         }
 
         public void AbortConnection()
@@ -505,25 +512,26 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //WindowManagerService.Current.Initialize();
             // Only ever create one window. If the AppWindow already exists call TryShow on it to bring it to foreground.
 
-            if (_appWindow == null)
-            {
-                // Create a new window
-                _appWindow = await AppWindow.TryCreateAsync();
-                // Make sure we release the reference to this window, and release XAML resources, when it's closed
-                _appWindow.Closed += delegate { _appWindow = null; _appWindowFrame.Content = null; };
-                // Navigate the frame to the page we want to show in the new window
-                _appWindowFrame.Navigate(typeof(RxTxStatusPage));
-            }
-            // Request the size of our window
-            _appWindow.RequestSize(new Size(500, 320));
-            // Attach the XAML content to our window
-            ElementCompositionPreview.SetAppWindowContent(_appWindow, _appWindowFrame);
+            //if (_appWindow == null)
+            //{
+            //    // Create a new window
+            //    _appWindow = await AppWindow.TryCreateAsync();
+            //    // Make sure we release the reference to this window, and release XAML resources, when it's closed
+            //    _appWindow.Closed += delegate { _appWindow = null; _appWindowFrame.Content = null; };
+            //    // Navigate the frame to the page we want to show in the new window
+            //    _appWindowFrame.Navigate(typeof(RxTxStatusPage));
+            //    // Attach the XAML content to our window
+            //    //ElementCompositionPreview.SetAppWindowContent(_appWindow, _appWindowFrame);
+            //}
+            //// Request the size of our window
+            //_appWindow.RequestSize(new Size(500, 320));
+            //// Attach the XAML content to our window
+            //ElementCompositionPreview.SetAppWindowContent(_appWindow, _appWindowFrame);
 
-            // Now show the window
-            await _appWindow.TryShowAsync();
+            //// Now show the window
+            //await _appWindow.TryShowAsync();
 
-
-
+            AddRxTxStatus("\rSending");
 
             //return; // Test show status window
 
@@ -662,14 +670,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             Utilities.SetApplicationTitle(bbs.Name);
 
+            AddRxTxStatus("\rBefore new TNCInterface");
             _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+            AddRxTxStatus("\rAfter new TNCInterface and before BBSConnectThreadProcAsync()");
 
             // Collect remaining messages to be sent
             // Process files to be sent via BBS
             await _tncInterface.BBSConnectThreadProcAsync();
+            AddRxTxStatus("\rAfter BBSConnectThreadProcAsync()");
+
 
             // Close status window
-            await _appWindow?.CloseAsync();
+            //await Singleton<RxTxStatusViewModel>.Instance.AbortConnectionAsync();
+            //await _appWindow?.CloseAsync();
             //await rxTxStatusWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             //{
             //    rxTxStatusWindow.StartViewInUse();

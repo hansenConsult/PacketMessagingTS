@@ -309,6 +309,8 @@
 				    RelativePanel.AlignBottomWithPanel="True"
 				    RelativePanel.AlignRightWithPanel="True"
 				    RelativePanel.AlignLeftWithPanel="True" >
+            <AppBarButton Label="TestStatus" Icon="Print" Click="AppBarMainPage_TestStatusPage" HorizontalAlignment="Right" />
+            
             <AppBarButton Label="Open" Icon="OpenFile" Click="AppBarMainPage_OpenMessage" />
             <!--<AppBarButton x:Name="appBarPrint" Label="Print Message" HorizontalAlignment="Right" Click="AppBarPrint_Click">
                 <AppBarButton.Icon>

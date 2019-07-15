@@ -33,9 +33,16 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                        <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" Text="Santa Clara OA Jurisdiction Status" 
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
+                                <TextBlock Text="WebEOC: 20190327" HorizontalAlignment="Left"/>
+                                <TextBlock Text="PIF: 2.0" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </StackPanel>
+
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
 
                         <TextBox Grid.Column="1" x:Name="messageNo"  
@@ -283,7 +290,7 @@
                                                  Checked="ReportType_Checked"/>
                                     <TextBlock Grid.Column="3" Text="Jurisdiction Name:" 
                                                    Style="{StaticResource MuniStatusFieldText}" />
-                                    <ComboBox Grid.Column="4" Name="municipalityName"   
+                                    <ComboBox Grid.Column="4" Name="jurisdictionName"   
                                                   ItemsSource="{x:Bind Municipalities}"
                                                   Style="{StaticResource MuniStatusComboBox}"
                                                   SelectionChanged="Subject_Changed" 

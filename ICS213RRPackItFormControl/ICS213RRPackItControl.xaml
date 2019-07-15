@@ -36,7 +36,7 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                         <StackPanel Grid.Column="0" VerticalAlignment="Center" >
-                        <TextBlock  FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                            <TextBlock  FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" Text="SCC EOC RESOURCE REQUEST FORM" 
                                    HorizontalAlignment="Center" Margin="5,0" />
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">

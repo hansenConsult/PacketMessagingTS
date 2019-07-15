@@ -12,13 +12,18 @@ using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
 
 using Windows.UI.Core;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
     public class RxTxStatusViewModel : BaseViewModel
     {
+
         public RxTxStatusPage StatusPage { get; set; }
+
+        public AppWindow AppWindow
+        { get; set; }
 
         private string rxTxStatus;
         public string RxTxStatus
@@ -45,24 +50,25 @@ namespace PacketMessagingTS.ViewModels
             StatusPage.AddTextToStatusWindow(text);
         }
 
-        private ICommand _abortCommand;
+        //private ICommand _abortCommand;
 
-        public ICommand AbortCommand
+        //public ICommand AbortCommand
+        //{
+        //    get
+        //    {
+        //        if (_abortCommand is null)
+        //        {
+        //            _abortCommand = new RelayCommand(AbortConnectionAsync);
+        //        }
+
+        //        return _abortCommand;
+        //    }
+        //}
+
+        public async Task AbortConnectionAsync()
         {
-            get
-            {
-                if (_abortCommand is null)
-                {
-                    _abortCommand = new RelayCommand(AbortConnection);
-                }
-
-                return _abortCommand;
-            }
-        }
-
-        private void AbortConnection()
-        {
-            CommunicationsService.CreateInstance().AbortConnection();
+            //CommunicationsService.CreateInstance().AbortConnection();
+            await AppWindow?.CloseAsync();
         }
 
         //private ViewLifetimeControl _viewLifetimeControl;
@@ -81,6 +87,7 @@ namespace PacketMessagingTS.ViewModels
         //        WindowManagerService.Current.SecondaryViews.Remove(_viewLifetimeControl);
         //    });
         //}
+
     }
 
 

@@ -94,10 +94,11 @@ namespace OAMunicipalStatusPackItFormControl
             InitializeToggleButtonGroups();
         }
 
-        public string MunicipalityName
-        { get => municipalityName.SelectedItem as string; }
+        public string JurisdictionName
+        { get => jurisdictionName.SelectedItem as string; }
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
+        //public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
+        public override FormProviders FormProvider => FormProviders.PacItForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
@@ -107,7 +108,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return (MessageNo + '_' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + MunicipalityName);
+            return (MessageNo + '_' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + JurisdictionName);
         }
 
         public string ReportType

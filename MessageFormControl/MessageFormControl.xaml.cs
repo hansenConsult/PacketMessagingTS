@@ -96,17 +96,13 @@ namespace MessageFormControl
         //{ get; set; }
 
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 
-        private FormProviders formProvider = FormProviders.PacForm;
+        private FormProviders formProvider => FormProviders.PacForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
 
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
+        public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override string PacFormName => "SimpleMessage";
 

@@ -277,7 +277,7 @@ namespace PacketMessagingTS.Helpers
 
         public void FillFormFromPacketMessage()
         {
-            _packetForm.FormProvider = _packetMessage.FormProvider;
+            //_packetForm.FormProvider = _packetMessage.FormProvider;
             _packetAddressForm.MessageBBS = _packetMessage.BBSName;
             _packetAddressForm.MessageTNC = _packetMessage.TNCName;
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
@@ -447,7 +447,7 @@ namespace PacketMessagingTS.Helpers
                 return;
             }
 
-            _packetForm.FormProvider = _packetForm.DefaultFormProvider;
+            //_packetForm.FormProvider = _packetForm.DefaultFormProvider;
             _packetForm.InitializeFormRequiredColors(true);
             _packetMessage = new PacketMessage()
             {
@@ -561,7 +561,7 @@ namespace PacketMessagingTS.Helpers
 
             if (!_loadMessage)
             {
-                _packetForm.FormProvider = _packetForm.DefaultFormProvider;
+                //_packetForm.FormProvider = _packetForm.DefaultFormProvider;
 
                 _packetMessage = new PacketMessage()
                 {
@@ -587,8 +587,25 @@ namespace PacketMessagingTS.Helpers
                 {
                     _packetForm.Severity = "other";
                     _packetForm.HandlingOrder = "routine";
-                    _packetForm.IncidentName = practiceSubject;
-                    _packetForm.Subject = practiceSubject;
+                    switch (_packetForm.PacFormType)
+                    {
+                        case "ICS-213":
+                            _packetForm.Subject = practiceSubject;
+                            break;
+                        case "EOC-213RR":
+                            _packetForm.IncidentName = practiceSubject;
+                            break;
+                        case "OA Municipal Status":
+                            //_packetForm.JurisdictionName;
+                            break;
+                        case "OA Shelter Status":
+                            
+                            break;
+                        case "Allied Health Status":
+                            //_packetForm.FacilityName;
+                            break;
+                    }
+                    
 
                     //    foreach (FormField formField in _packetMessage.FormFieldArray)
                     //    {

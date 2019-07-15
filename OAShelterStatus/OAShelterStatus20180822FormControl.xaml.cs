@@ -79,14 +79,9 @@ namespace OAShelterStatusFormControl
             packet.IsChecked = true;
         }
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 
-        private FormProviders formProvider = FormProviders.PacForm;
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
+        public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override string PacFormName => "XSC_OA_ShelterStatus_v20130814";
 

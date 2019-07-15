@@ -60,16 +60,11 @@ namespace OAAlliedHealthStatus201802FormControl
         //    set { handlingOrder.SetRadioButtonCheckedState(value); }
         //}
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+
+        public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
-
-        private FormProviders formProvider = FormProviders.PacForm;
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
 
         public override string PacFormName => "XSC_OA_MuniStatus_v20130101";
 

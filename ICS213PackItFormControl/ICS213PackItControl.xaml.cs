@@ -50,7 +50,8 @@ namespace ICS213PackItFormControl
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
         }
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
+        //public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
+        public override FormProviders FormProvider => FormProviders.PacItForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 

@@ -93,14 +93,9 @@ namespace OAMunicipalStatusFormControl
         //{ get => (municipalityName.SelectedIndex == 0 ? "" : municipalityName.SelectedItem as string); }
         { get => municipalityName.SelectedItem as string; }
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacForm;
+        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
 
-        private FormProviders formProvider = FormProviders.PacForm;
-        public override FormProviders FormProvider
-        {
-            get => formProvider;
-            set => formProvider = value;
-        }
+        public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override string PacFormName => "XSC_OA_MuniStatus_v20130101";
 

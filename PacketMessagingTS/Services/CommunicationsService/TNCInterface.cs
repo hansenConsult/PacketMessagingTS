@@ -297,15 +297,22 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async void AddTextToStatusWindowAsync(string text)
         {
+            //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+            //communicationsService.AddRxTxStatus($"{text}");
+
             //Debug.Write(text);
             //CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
             //if (!dispatcher.HasThreadAccess)
             //{
-            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
+            await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
             {
-                    //MainPage.Current.AddTextToStatusWindow("\nTesting");
-                    Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+                //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+                //communicationsService.AddRxTxStatus($"{text}");
+
+                //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
+                //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+                Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
             });
             //}
             //else
@@ -653,6 +660,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
         public async Task BBSConnectThreadProcAsync()
         {
             //_appWindowFrame = appWindow;
+            //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+            //communicationsService.AddRxTxStatus($"\nIn BBSConnectThreadProcAsync");
+            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = $"\nIn BBSConnectThreadProcAsync";
 
             _packetMessagesSent.Clear();
             PacketMessagesReceived.Clear();

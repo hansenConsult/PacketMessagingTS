@@ -50,7 +50,8 @@ namespace ICS213_070628_FormControl
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
         }
 
-        public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
+        //public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
+        public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override string PacFormName => "XSC_ICS-213_Message_v070628";	// Used in CreateFileName() 
 

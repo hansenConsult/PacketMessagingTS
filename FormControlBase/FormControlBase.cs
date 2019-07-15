@@ -209,7 +209,7 @@ namespace FormControlBaseClass
             {
                 Control control = formControl.InputControl;
 
-                if (control is TextBox)
+                if (control is TextBox || control is ComboBox)
                 {
                     if (IsFieldRequired(control) && newForm)
                     {
@@ -233,18 +233,17 @@ namespace FormControlBaseClass
                         control.BorderThickness = new Thickness(1);
                     }
                 }
-                else if (control is ComboBox comboBox)
-                {
-                    string name = comboBox.Name;
-                    if (IsFieldRequired(control) && newForm)
-                    {
-                        control.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        control.BorderBrush = formControl.BaseBorderColor;
-                    }
-                }
+                //else if (control is ComboBox)
+                //{
+                //    if (IsFieldRequired(control) && newForm)
+                //    {
+                //        control.BorderBrush = formControl.RequiredBorderBrush;
+                //    }
+                //    else
+                //    {
+                //        control.BorderBrush = formControl.BaseBorderColor;
+                //    }
+                //}
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
                     if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()) && newForm)
@@ -385,11 +384,11 @@ namespace FormControlBaseClass
         public virtual FormControlAttribute.FormType FormControlType
         { get; }
 
-        public virtual FormProviders DefaultFormProvider
-        { get; }
+        //public virtual FormProviders DefaultFormProvider
+        //{ get; }
 
-        public virtual FormProviders FormProvider
-        { get; set; }
+        public abstract FormProviders FormProvider
+        { get; }
 
         public abstract string PacFormName
 		{ get; }

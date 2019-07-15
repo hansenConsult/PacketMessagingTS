@@ -6,11 +6,12 @@ using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-
+using Windows.UI.Xaml.Navigation;
 
 namespace PacketMessagingTS.Views
 {
@@ -20,31 +21,30 @@ namespace PacketMessagingTS.Views
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
-        public RxTxStatusViewModel _RxTxStatusViewModel { get; } = Singleton<RxTxStatusViewModel>.Instance;
+        public RxTxStatusViewModel RxTxStatusViewModel { get; } = Singleton<RxTxStatusViewModel>.Instance;
 
-        //private ViewLifetimeControl _viewLifetimeControl;
-        double _currentHeight;
-
-
+        private AppWindow _appWindow;
 
         public RxTxStatusPage()
         {
             InitializeComponent();
 
-            _RxTxStatusViewModel.StatusPage = this;
+            RxTxStatusViewModel.StatusPage = this;
         }
 
-        //protected override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedTo(e);
-        //    _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
-        //    _RxTxStatusViewModel.RxTxStatus = "";
-        //    _currentHeight = Height;
-        //    //_viewLifetimeControl.StartViewInUse();
-        //    //Height = 400;
-        //    //_viewLifetimeControl.StopViewInUse();
-        //    //_viewLifetimeControl.Released += OnViewLifetimeControlReleased;
-        //}
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            _appWindow = e.Parameter as AppWindow;
+            RxTxStatusViewModel.AppWindow = _appWindow;
+            base.OnNavigatedTo(e);
+            //    _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
+            //    _RxTxStatusViewModel.RxTxStatus = "";
+            //    _currentHeight = Height;
+            //    //_viewLifetimeControl.StartViewInUse();
+            //    //Height = 400;
+            //    //_viewLifetimeControl.StopViewInUse();
+            //    //_viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+        }
 
         private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         {
@@ -90,7 +90,8 @@ namespace PacketMessagingTS.Views
 
         private async void AbortButton_ClickAsync(object sender, RoutedEventArgs e)
         {
-            await ((AppWindow)sender).CloseAsync();
+            await _appWindow.CloseAsync();
+            RxTxStatusViewModel.RxTxStatus = "";
             //_viewLifetimeControl.StartViewInUse();
             //await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
             //    ApplicationView.GetForCurrentView().Id,
@@ -99,16 +100,19 @@ namespace PacketMessagingTS.Views
         }
 
         int i = 0;
+        string textBoxText = "";
         private void TextButton_Click(object sender, RoutedEventArgs e)
         {
-            //textBoxText += " \nTest text";
-            //textBoxStatus.Text = textBoxText;
             i++;
-            _RxTxStatusViewModel.AddRxTxStatus = $"\nTest text{i}";
+            //textBoxText += $" \nTest text{i}";
+            //textBoxStatus.Text = textBoxText;
+
+            RxTxStatusViewModel.AddRxTxStatus = $"\nTest text{i}";
         }
 
         private void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
         {
+            return;
             ScrollViewer sv = FindVisualChild<ScrollViewer>(textBoxStatus);
             if (sv.Visibility == Visibility.Visible)
             {
