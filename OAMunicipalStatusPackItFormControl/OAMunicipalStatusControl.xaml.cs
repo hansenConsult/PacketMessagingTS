@@ -447,47 +447,6 @@ namespace OAMunicipalStatusPackItFormControl
         {
             bool conditionallyrequired = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update";
             ColorRadioButtons(conditionallyrequired);
-                //if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
-                //{
-                //    eocPhone.Tag = (eocPhone.Tag as string).Replace(",required", ",conditionallyrequired");
-                //    primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",required", ",conditionallyrequired");
-                //    primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",required", ",conditionallyrequired");
-                //    officeStatus.Tag = (officeStatus.Tag as string).Replace(",required", ",conditionallyrequired");
-                //    eocOpen.Tag = (eocOpen.Tag as string).Replace(",required", ",conditionallyrequired");
-                //    stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",required", ",conditionallyrequired");
-                //}
-                //else
-                //{
-                //    eocPhone.Tag = (eocPhone.Tag as string).Replace(",conditionallyrequired", ",required");
-                //    primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",conditionallyrequired", ",required");
-                //    primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",conditionallyrequired", ",required");
-                //    officeStatus.Tag = (officeStatus.Tag as string).Replace(",conditionallyrequired", ",required");
-                //    eocOpen.Tag = (eocOpen.Tag as string).Replace(",conditionallyrequired", ",required");
-                //    stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",conditionallyrequired", ",required");
-                //}
-                //string minval = "41";
-                //bool startCurrentStatus = false;
-                //foreach (FormControl formControl in _formControlsList)
-                //{
-                //    if (formControl.InputControl is ComboBox comboBox)
-                //    {
-                //        if ((comboBox.Tag as string).Contains(minval))
-                //        {
-                //            startCurrentStatus = true;
-                //        }
-                //        if (startCurrentStatus)
-                //        {
-                //            if ((bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update")
-                //            {
-                //                comboBox.Tag = (comboBox.Tag as string).Replace(",required", ",conditionallyrequired");
-                //            }
-                //            else
-                //            {
-                //                comboBox.Tag = (comboBox.Tag as string).Replace(",conditionallyrequired", ",required");
-                //            }
-                //        }
-                //    }
-                //}
             ValidateForm();
         }
 

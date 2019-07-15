@@ -214,10 +214,12 @@ namespace FormControlBaseClass
                     if (IsFieldRequired(control) && newForm)
                     {
                         control.BorderBrush = formControl.RequiredBorderBrush;
+                        control.BorderThickness = new Thickness(2);
                     }
                     else
                     {
                         control.BorderBrush = formControl.BaseBorderColor;
+                        control.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is AutoSuggestBox)
@@ -362,6 +364,9 @@ namespace FormControlBaseClass
         { get; set; }
 
         public virtual string IncidentName
+        { get; set; }
+
+        public virtual string FacilityName
         { get; set; }
 
         public virtual string Subject

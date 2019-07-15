@@ -347,6 +347,10 @@
       <Project>{2322ba11-25a0-4a4c-a323-0dc147eef403}</Project>
       <Name>MVCERTDA_FormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OA Allied HealthStatusFormControl\OA Allied HealthStatusFormControl.csproj">
+      <Project>{070891aa-cad1-4722-b12a-cce51fa73122}</Project>
+      <Name>OA Allied HealthStatusFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OAAlliedHealthStatus201802FormControl\OAAlliedHealthStatus201802FormControl.csproj">
       <Project>{7e02b70e-c039-4fa7-8b23-b3ab78028d72}</Project>
       <Name>OAAlliedHealthStatus201802FormControl</Name>

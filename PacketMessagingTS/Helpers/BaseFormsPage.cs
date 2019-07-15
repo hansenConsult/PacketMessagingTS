@@ -589,20 +589,20 @@ namespace PacketMessagingTS.Helpers
                     _packetForm.HandlingOrder = "routine";
                     switch (_packetForm.PacFormType)
                     {
-                        case "ICS-213":
+                        case "ICS213":
                             _packetForm.Subject = practiceSubject;
                             break;
-                        case "EOC-213RR":
+                        case "XSC_EOC_213RR":
                             _packetForm.IncidentName = practiceSubject;
                             break;
                         case "OA Municipal Status":
-                            //_packetForm.JurisdictionName;
+                            //_packetForm.JurisdictionName = ;
                             break;
                         case "OA Shelter Status":
                             
                             break;
-                        case "Allied Health Status":
-                            //_packetForm.FacilityName;
+                        case "Allied_Health_Status":
+                            _packetForm.FacilityName = practiceSubject;
                             break;
                     }
                     
