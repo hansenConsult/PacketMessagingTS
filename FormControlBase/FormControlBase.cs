@@ -15,33 +15,32 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-
 namespace FormControlBaseClass
 {
- //   // This is for deciding at runtime which form is supported by an assembly
- //   [AttributeUsage(AttributeTargets.Class)]
-	//public class FormControlAttribute : Attribute
-	//{
-	//	public enum FormType
-	//	{
-	//		None,
-	//		CountyForm,
-	//		CityForm,
-	//		HospitalForm,
- //           TestForm,
-	//	};
+    //   // This is for deciding at runtime which form is supported by an assembly
+    //   [AttributeUsage(AttributeTargets.Class)]
+    //public class FormControlAttribute : Attribute
+    //{
+    //	public enum FormType
+    //	{
+    //		None,
+    //		CountyForm,
+    //		CityForm,
+    //		HospitalForm,
+    //           TestForm,
+    //	};
 
- //       // Form file name
-	//	public string FormControlName { get; set; }    // 
-         
- //       // Form type (County, Hospital etc.)
-	//	public FormType FormControlType { get; set; }
+    //       // Form file name
+    //	public string FormControlName { get; set; }    // 
 
- //       // Menu text
-	//	public string FormControlMenuName { get; set; }    // 
-	//}
+    //       // Form type (County, Hospital etc.)
+    //	public FormType FormControlType { get; set; }
 
-	public sealed class FormEventArgs : EventArgs
+    //       // Menu text
+    //	public string FormControlMenuName { get; set; }    // 
+    //}
+
+    public sealed class FormEventArgs : EventArgs
 	{
 		//public FormEventArgs() { }
 
@@ -57,7 +56,7 @@ namespace FormControlBaseClass
 		{ get; set; }
 	}
 
-    public abstract class FormControlBase : FormControlBasics
+    public abstract partial class FormControlBase : FormControlBasics
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
         //public event PropertyChangedEventHandler PropertyChanged;
@@ -79,8 +78,9 @@ namespace FormControlBaseClass
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
+    //public List<ComboBoxPackItItems> ComboBoxItemsList;
 
-        public FormControlBase()
+    public FormControlBase()
 		{
         }
 
@@ -203,7 +203,7 @@ namespace FormControlBaseClass
             }
         }
 
-        public virtual void InitializeFormRequiredColors(bool newForm = false)
+        public virtual void UpdateFormFieldsRequiredColors(bool newForm = true)
         {
             foreach (FormControl formControl in _formControlsList)
             {
@@ -367,6 +367,9 @@ namespace FormControlBaseClass
         { get; set; }
 
         public virtual string FacilityName
+        { get; set; }
+
+        public virtual string ShelterName
         { get; set; }
 
         public virtual string Subject
@@ -753,8 +756,15 @@ namespace FormControlBaseClass
                     }
                     break;
                 case FormProviders.PacItForm:
-                    string[] selection = formField.ControlContent.Split(new char[] { ' ' });
-                    return $"{id}: [{selection[0]}]";
+                    if (!string.IsNullOrEmpty(formField.ControlComboxContent?.Data))
+                    {
+                        return $"{id}: [{formField.ControlComboxContent.Data}]";
+                    }
+                    else
+                    {
+                        string[] selection = formField.ControlContent.Split(new char[] { ' ' });
+                        return $"{id}: [{selection[0]}]";
+                    }
             }
             return "";
         }
@@ -967,17 +977,26 @@ namespace FormControlBaseClass
                     }
                     else if (FormProvider == FormProviders.PacItForm)
                     {
-                        formField.ControlContent = comboBox.SelectedItem?.ToString();
-                        //if (string.IsNullOrEmpty(comboBox.SelectedItem?.ToString()))
-                        //{
-                        //    formField.ControlContent = null;
-                        //}
-                        //else
-                        //{
-                        //    formField.ControlContent = comboBox.SelectedItem?.ToString();
-                        //    //string[] item = (comboBox.SelectedItem.ToString()).Split(new char[] { ' ' });
-                        //    //formField.ControlContent = $"{item[0]}";
-                        //}
+                        if (comboBox.SelectedItem as ComboBoxPackItItem != null)
+                        {
+                            ComboBoxPackItItem comboBoxPackItItem = comboBox.SelectedItem as ComboBoxPackItItem;
+                            formField.ControlComboxContent = comboBoxPackItItem;
+                            formField.ControlContent = comboBoxPackItItem?.Item;
+                        }
+                        else
+                        {
+                            formField.ControlContent = comboBox.SelectedItem?.ToString();
+                            //if (string.IsNullOrEmpty(comboBox.SelectedItem?.ToString()))
+                            //{
+                            //    formField.ControlContent = null;
+                            //}
+                            //else
+                            //{
+                            //    formField.ControlContent = comboBox.SelectedItem?.ToString();
+                            //    //string[] item = (comboBox.SelectedItem.ToString()).Split(new char[] { ' ' });
+                            //    //formField.ControlContent = $"{item[0]}";
+                            //}
+                        }
                     }
 				}
                 else if (_formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
@@ -1151,12 +1170,14 @@ namespace FormControlBaseClass
                 }
                 else if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
                 {
-                    if (string.IsNullOrEmpty(textBox.Text))
+                    if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
                     {
+                        textBox.BorderThickness = new Thickness(2);
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
                     }
                     else
                     {
+                        textBox.BorderThickness = new Thickness(1);
                         textBox.BorderBrush = formControl.BaseBorderColor;
                     }
                 }
@@ -1244,6 +1265,24 @@ namespace FormControlBaseClass
                 sender.ItemsSource = _ICSPositionFiltered;
             }
             AutoSuggestBox_TextChanged(sender, null);
+        }
+
+        protected virtual void UpdateRequiredFields(bool required)
+        {
+            if (!required)
+            {
+            }
+            else
+            {
+            }
+            UpdateFormFieldsRequiredColors();
+        }
+
+        protected virtual void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
+            UpdateRequiredFields(required);
+            ValidateForm();
         }
 
         //protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject

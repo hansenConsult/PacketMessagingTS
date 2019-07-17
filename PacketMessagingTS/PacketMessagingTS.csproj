@@ -363,9 +363,9 @@
       <Project>{fc2a0b6b-3857-4fbd-a4ab-bb604edea948}</Project>
       <Name>OAMunicipalStatusPackItFormControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OAShelterStatus\OAShelterStatus20130814FormControl.csproj">
-      <Project>{b261c7fb-85b0-4d56-b536-d9b7856d6e79}</Project>
-      <Name>OAShelterStatus20130814FormControl</Name>
+    <ProjectReference Include="..\OAShelterStatusFormControl\OAShelterStatusFormControl.csproj">
+      <Project>{2dd67fba-93d0-49f2-97a5-f4fd08d17b6c}</Project>
+      <Name>OAShelterStatusFormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\PacketMessagingTS.Core\PacketMessagingTS.Core.csproj">
       <Project>{5b519096-6713-4d1e-a67c-fc5f22df5e3d}</Project>

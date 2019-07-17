@@ -448,7 +448,7 @@ namespace PacketMessagingTS.Helpers
             }
 
             //_packetForm.FormProvider = _packetForm.DefaultFormProvider;
-            _packetForm.InitializeFormRequiredColors(true);
+            _packetForm.UpdateFormFieldsRequiredColors(true);
             _packetMessage = new PacketMessage()
             {
                 FormProvider = _packetForm.FormProvider,
@@ -519,7 +519,7 @@ namespace PacketMessagingTS.Helpers
                 return;
             }
 
-            _packetForm.InitializeFormRequiredColors(!_loadMessage);
+            _packetForm.UpdateFormFieldsRequiredColors(!_loadMessage);
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
             _packetForm.OriginMsgNo = _packetForm.MessageNo;
 
@@ -599,7 +599,7 @@ namespace PacketMessagingTS.Helpers
                             //_packetForm.JurisdictionName = ;
                             break;
                         case "OA Shelter Status":
-                            
+                            _packetForm.ShelterName = practiceSubject;
                             break;
                         case "Allied_Health_Status":
                             _packetForm.FacilityName = practiceSubject;

@@ -89,8 +89,6 @@ namespace OAMunicipalStatusPackItFormControl
 
             ScanControls(PrintableArea);
 
-            ColorRadioButtons(true);
-
             InitializeToggleButtonGroups();
         }
 
@@ -398,9 +396,9 @@ namespace OAMunicipalStatusPackItFormControl
             ComboBox_SelectionChanged(sender, e);
         }
 
-        private void ColorRadioButtons(bool conditionallyrequired)
+        protected override void UpdateRequiredFields(bool required)
         {
-            if (conditionallyrequired)
+            if (!required)
             {
                 eocPhone.Tag = (eocPhone.Tag as string).Replace(",required", ",conditionallyrequired");
                 primEMContactName.Tag = (primEMContactName.Tag as string).Replace(",required", ",conditionallyrequired");
@@ -430,25 +428,25 @@ namespace OAMunicipalStatusPackItFormControl
                     }
                     if (startCurrentStatus)
                     {
-                        if (conditionallyrequired)
+                        if (required)
                         {
-                            comboBox.Tag = (comboBox.Tag as string).Replace(",required", ",conditionallyrequired");
+                            comboBox.Tag = (comboBox.Tag as string).Replace(",conditionallyrequired", ",required");
                         }
                         else
                         {
-                            comboBox.Tag = (comboBox.Tag as string).Replace(",conditionallyrequired", ",required");
+                            comboBox.Tag = (comboBox.Tag as string).Replace(",required", ",conditionallyrequired");
                         }
                     }
                 }
             }
         }
 
-        private void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            bool conditionallyrequired = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update";
-            ColorRadioButtons(conditionallyrequired);
-            ValidateForm();
-        }
+        //private void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        //{
+        //    bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
+        //    ColorRadioButtons(required);
+        //    ValidateForm();
+        //}
 
     }
 }

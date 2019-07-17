@@ -20,10 +20,11 @@ namespace FormControlBaseClass
     public class FormControlBasics : UserControl, INotifyPropertyChanged
     {
         public static SolidColorBrush _redBrush = new SolidColorBrush(Colors.Red);
-        public static SolidColorBrush _whiteBrush = new SolidColorBrush(Colors.White);
+        public static SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
         public static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
         public static SolidColorBrush TextBoxBorderBrush = new SolidColorBrush(Color.FromArgb(66, 0, 0, 0));
         public static SolidColorBrush _lightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
+        public static SolidColorBrush GreenBrush = new SolidColorBrush(Colors.Green);
 
         protected List<FormControl> _formControlsList = new List<FormControl>();
         protected List<RadioButton> _radioButtonsList = new List<RadioButton>();

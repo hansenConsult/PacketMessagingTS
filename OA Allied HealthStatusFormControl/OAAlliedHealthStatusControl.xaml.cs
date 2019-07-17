@@ -43,7 +43,6 @@ namespace OAAlliedHealthStatus201802FormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-            UpdateRequiredFields(true);
         }
 
 
@@ -92,9 +91,9 @@ namespace OAAlliedHealthStatus201802FormControl
             return CreateOutpostMessageBody(outpostData);
         }
 
-        private void UpdateRequiredFields(bool conditionallyrequired)
+        protected override void UpdateRequiredFields(bool required)
         {
-            if (conditionallyrequired)
+            if (!required)
             {
                 facilityContactName.Tag = (facilityContactName.Tag as string).Replace(",required", ",conditionallyrequired");
                 facilityType.Tag = (facilityType.Tag as string).Replace(",required", ",conditionallyrequired");
@@ -122,16 +121,16 @@ namespace OAAlliedHealthStatus201802FormControl
                 altContactNumber.Tag = (altContactNumber.Tag as string).Replace(",conditionallyrequired", ",required");
                 altContactEmail.Tag = (altContactEmail.Tag as string).Replace(",conditionallyrequired", ",required");
             }
-            InitializeFormRequiredColors();
+            UpdateFormFieldsRequiredColors();
         }
 
-        private void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            bool conditionallyrequired = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "update";
-            UpdateRequiredFields(conditionallyrequired);
-            //InitializeFormRequiredColors(conditionallyrequired);
-            ValidateForm();
-        }
+        //private void ReportType_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
+        //    UpdateRequiredFields(required);
+        //    UpdateFormFieldsRequiredColors();
+        //    ValidateForm();
+        //}
 
     }
 }

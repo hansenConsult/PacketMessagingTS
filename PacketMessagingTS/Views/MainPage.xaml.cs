@@ -123,8 +123,8 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                //_messagesInFolder = await PacketMessage.GetPacketMessages(_mainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
-                _messagesInFolder = await PacketMessage.GetPacketMessages((MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder).Path);
+                _messagesInFolder = await PacketMessage.GetPacketMessages(MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
+                //_messagesInFolder = await PacketMessage.GetPacketMessages((MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder).Path);
 
                 MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 

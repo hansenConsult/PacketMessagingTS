@@ -7,10 +7,16 @@
 
   <ItemGroup>
     <Compile Remove="Helpers\LogHelper.cs" />
+    <Compile Remove="Models\ComboBoxPackItItem.cs" />
+    <Compile Remove="Models\PacketMessage.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

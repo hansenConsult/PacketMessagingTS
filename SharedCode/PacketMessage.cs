@@ -205,24 +205,6 @@ namespace SharedCode
             }
         }
 
-        ///// <remarks/>
-        //[XmlIgnore]
-        //public string JNOSTimeAsString
-        //{
-        //    get
-        //    {
-        //        if (jNOSDateField != null)
-        //        {
-        //            DateTime dateTime = (DateTime)jNOSDateField;
-        //            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-        //        }
-        //        else
-        //        {
-        //            return "";
-        //        }
-        //    }
-        //}
-
         /// <remarks/>
         public DateTime? SentTime
         {
@@ -236,24 +218,6 @@ namespace SharedCode
             }
         }
 
-        ///// <remarks/>
-        //[XmlIgnore]
-        //public string SentTimeAsString
-        //{
-        //    get
-        //    {
-        //        if (messageSentTimeField != null)
-        //        {
-        //            DateTime dateTime = (DateTime)messageSentTimeField;
-        //            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-        //        }
-        //        else
-        //        {
-        //            return "";
-        //        }
-        //    }
-        //}
-
         /// <remarks/>
         public DateTime? CreateTime
         {
@@ -266,24 +230,6 @@ namespace SharedCode
                 this.messageCreateTimeField = value;
             }
         }
-
-        ///// <remarks/>
-        //[XmlIgnore]
-        //public string CreateTimeAsString
-        //{
-        //    get
-        //    {
-        //        if (messageCreateTimeField != null)
-        //        {
-        //            DateTime dateTime = (DateTime)messageCreateTimeField;
-        //            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-        //        }
-        //        else
-        //        {
-        //            return "";
-        //        }
-        //    }
-        //}
 
         /// <remarks/>
         public DateTime? ReceivedTime
@@ -302,24 +248,6 @@ namespace SharedCode
 
 			}
         }
-
-        ///// <remarks/>
-        //[XmlIgnore]
-        //public string ReceivedTimeAsString
-        //{
-        //    get
-        //    {
-        //        if (messageReceiveTimeField != null)
-        //        {
-        //            DateTime dateTime = (DateTime)messageReceiveTimeField;
-        //            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-        //        }
-        //        else
-        //        {
-        //            return "";
-        //        }
-        //    }
-        //}
 
         /// <remarks/>
         public string MessageNumber
@@ -516,37 +444,37 @@ namespace SharedCode
 			}
 			catch (Exception e)
 			{
-                //_logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, {e}");
+                _logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, {e}");
 			}
 			return null;
 		}
 
-		//public static PacketMessage Open(StorageFile file)
-  //      {
-		//	StreamReader reader = null;
-		//	//TextReader reader = null;
-		//	PacketMessage packetMessage;
-		//	try
-		//	{
-		//		//file = await storageFolder.GetFileAsync(fileName);
-		//		using (var stream = new FileStream(file.Path, FileMode.Open))
-		//		{
-		//			using (reader = new StreamReader(stream, System.Text.Encoding.UTF8))
-		//			{
-		//				var serializer = new XmlSerializer(typeof(PacketMessage));
-		//				packetMessage = (PacketMessage)serializer.Deserialize(reader);
-		//			}
-		//		}
-		//		return packetMessage;
-		//	}
-		//	catch (Exception e)
-		//	{
-  //              _logHelper.Log(LogLevel.Error, $"Failed to open {file?.Path}, {e}");
-		//	}
-		//	return null;
-		//}
+        public static PacketMessage Open(StorageFile file)
+        {
+            StreamReader reader = null;
+            //TextReader reader = null;
+            PacketMessage packetMessage;
+            try
+            {
+                //file = await storageFolder.GetFileAsync(fileName);
+                using (var stream = new FileStream(file.Path, FileMode.Open))
+                {
+                    using (reader = new StreamReader(stream, System.Text.Encoding.UTF8))
+                    {
+                        var serializer = new XmlSerializer(typeof(PacketMessage));
+                        packetMessage = (PacketMessage)serializer.Deserialize(reader);
+                    }
+                }
+                return packetMessage;
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"Failed to open {file?.Path}, {e}");
+            }
+            return null;
+        }
 
-		public void Save(string fileFolder)
+        public void Save(string fileFolder)
 		{
             string filePath = Path.Combine(fileFolder, this.FileName);
 			//StreamWriter writer = null;
@@ -638,30 +566,30 @@ namespace SharedCode
             return packetMessages;
         }
 
-  //      public static async Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
-		//{
-  //          if (storageFolder is null)
-  //              return null;
+        public static async Task<List<PacketMessage>> GetPacketMessages(StorageFolder storageFolder)
+        {
+            if (storageFolder is null)
+                return null;
 
-		//	List<PacketMessage> packetMessages = new List<PacketMessage>();
+            List<PacketMessage> packetMessages = new List<PacketMessage>();
 
-		//	List<string> fileTypeFilter = new List<string>() { ".xml" };
-		//	QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, fileTypeFilter);
+            List<string> fileTypeFilter = new List<string>() { ".xml" };
+            QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, fileTypeFilter);
 
-		//	var results = storageFolder.CreateFileQueryWithOptions(queryOptions);
-  //          // Iterate over the results
-  //          var files = await results.GetFilesAsync();
-  //          foreach (StorageFile file in files)
-  //          {
-  //              PacketMessage packetMessage = Open(file.Path);
-		//		if (packetMessage != null)
-		//		{                    
-		//			packetMessages.Add(packetMessage);
-		//		}
-		//	}
-		//	return packetMessages;
-		//}
-	}
+            var results = storageFolder.CreateFileQueryWithOptions(queryOptions);
+            // Iterate over the results
+            var files = await results.GetFilesAsync();
+            foreach (StorageFile file in files)
+            {
+                PacketMessage packetMessage = Open(file.Path);
+                if (packetMessage != null)
+                {
+                    packetMessages.Add(packetMessage);
+                }
+            }
+            return packetMessages;
+        }
+    }
 
 
     /// <remarks/>
@@ -678,9 +606,11 @@ namespace SharedCode
 
         private string controlContentField;
 
+        private ComboBoxPackItItem controlComboxContentField;
+
         private string misSpelsField;
 
-        private string pacFormIndex;
+        private string pacFormIndexFiels;
 
         ///// <remarks/>
         //[System.Xml.Serialization.XmlAttributeAttribute()]
@@ -724,6 +654,22 @@ namespace SharedCode
             }
         }
 
+
+        /// <remarks/>
+        //[System.Xml.Serialization.XmlAttributeAttribute()]
+        public ComboBoxPackItItem ControlComboxContent
+        {
+            get
+            {
+                return this.controlComboxContentField;
+            }
+            set
+            {
+                this.controlComboxContentField = value;
+            }
+        }
+
+
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string MisSpells
@@ -742,9 +688,46 @@ namespace SharedCode
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string PacFormIndex
         {
-            get => this.pacFormIndex;
-            set => this.pacFormIndex = value;
+            get => this.pacFormIndexFiels;
+            set => this.pacFormIndexFiels = value;
         }
         
     }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.81.0")]
+    //[System.SerializableAttribute()]
+    //[System.Diagnostics.DebuggerStepThroughAttribute()]
+    //[System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public sealed partial class ComboBoxPackItItem
+    {
+        private string itemField;
+
+        private string dataField;
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Item
+        {
+            get => this.itemField;
+            set => this.itemField = value;
+        }
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Data
+        {
+            get => this.dataField;
+            set => this.dataField = value;
+        }
+
+        public ComboBoxPackItItem()
+        { }
+
+        public ComboBoxPackItItem(string item, string data)
+        {
+            Item = item;
+            Data = data;
+        }
+    }
+
 }
