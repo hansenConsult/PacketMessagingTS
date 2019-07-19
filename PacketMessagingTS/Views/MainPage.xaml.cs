@@ -290,7 +290,7 @@ namespace PacketMessagingTS.Views
 
         private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
         {
-            if (_selectedMessages != null && _selectedMessages.Count == 1)
+             if (_selectedMessages != null && _selectedMessages.Count == 1)
             {
                 MainViewModel.OpenMessage(_selectedMessages[0]);
             }

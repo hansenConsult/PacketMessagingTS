@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using SharedCode;
@@ -24,7 +25,12 @@ namespace FormControlBaseClass
         public static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
         public static SolidColorBrush TextBoxBorderBrush = new SolidColorBrush(Color.FromArgb(66, 0, 0, 0));
         public static SolidColorBrush _lightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
-        public static SolidColorBrush GreenBrush = new SolidColorBrush(Colors.Green);
+        public static SolidColorBrush LightGreenBrush = new SolidColorBrush(Colors.LightGreen);
+        public static SolidColorBrush PinkBrush = new SolidColorBrush(Colors.Pink);
+        public static SolidColorBrush LightGrayBrush = new SolidColorBrush(Colors.LightGray);
+        public static SolidColorBrush YellowBrush = new SolidColorBrush(Colors.Yellow);
+        public static SolidColorBrush OrangeBrush = new SolidColorBrush(Colors.Orange);
+
 
         protected List<FormControl> _formControlsList = new List<FormControl>();
         protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
@@ -282,6 +288,108 @@ namespace FormControlBaseClass
             }
         }
 
+        protected virtual void TextBox_PhoneChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                foreach (FormControl formControl in _formControlsList)
+                {
+                    if (textBox.Name == formControl.InputControl.Name)
+                    {
+                        string date = textBox.Text;
+                        bool match = true;
+                        if (!string.IsNullOrEmpty(date))
+                        {
+                            string phonePattern = @"\b\d{3}[-]?\d{3}[-]?\d*\s*[x]\d*\b";
+                            match = Regex.IsMatch(date, phonePattern);
+                        }
+
+                        //if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
+                        if (!match || (IsFieldRequired(textBox) && !match))
+                        {
+                            textBox.BorderThickness = new Thickness(2);
+                            textBox.BorderBrush = formControl.RequiredBorderBrush;
+                        }
+                        else
+                        {
+                            textBox.BorderThickness = new Thickness(1);
+                            textBox.BorderBrush = formControl.BaseBorderColor;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        protected virtual void TextBox_DateChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                foreach (FormControl formControl in _formControlsList)
+                {
+                    if (textBox.Name == formControl.InputControl.Name)
+                    {
+                        string date = textBox.Text;
+                        bool match = true;
+                        if (!string.IsNullOrEmpty(date))
+                        {
+                            string datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";
+                            match = Regex.IsMatch(date, datePattern);
+                        }
+
+                        if (!match || (IsFieldRequired(textBox) && !match))
+                        {
+                            textBox.BorderThickness = new Thickness(2);
+                            textBox.BorderBrush = formControl.RequiredBorderBrush;
+                        }
+                        else
+                        {
+                            textBox.BorderThickness = new Thickness(1);
+                            textBox.BorderBrush = formControl.BaseBorderColor;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        protected virtual void TextBox_TimeChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                foreach (FormControl formControl in _formControlsList)
+                {
+                    if (textBox.Name == formControl.InputControl.Name)
+                    {
+                        string time = textBox.Text;
+                        bool match = true;
+                        if (!string.IsNullOrEmpty(time))
+                        {
+                            //string timePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";
+                            //match = Regex.IsMatch(date, timePattern);
+                        }
+
+                        //if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
+                        if (!match || (IsFieldRequired(textBox) && !match))
+                        {
+                            textBox.BorderThickness = new Thickness(2);
+                            textBox.BorderBrush = formControl.RequiredBorderBrush;
+                        }
+                        else
+                        {
+                            textBox.BorderThickness = new Thickness(1);
+                            textBox.BorderBrush = formControl.BaseBorderColor;
+                            if (!string.IsNullOrEmpty(time) && time.Length == 4 && time[2] != ':')
+                            {
+                                textBox.Text = time.Insert(2, ":");
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
         protected virtual void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e is null)
@@ -295,17 +403,29 @@ namespace FormControlBaseClass
                     {
                         break;
                     }
-                    if (string.IsNullOrEmpty(e.AddedItems[0] as string))
+                    string selection;
+                    if (e.AddedItems[0] is ComboBoxPackItItem)
+                    {
+                        selection = (e.AddedItems[0] as ComboBoxPackItItem).Item;
+                        (sender as ComboBox).Background = (e.AddedItems[0] as ComboBoxPackItItem).BackgroundBrush;
+                    }
+                    else
+                    {
+                        selection = e.AddedItems[0] as string;
+                    }
+                    if (string.IsNullOrEmpty(selection))
                     {
                         comboBox.SelectedIndex = -1;
                     }
                     if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
+                        comboBox.BorderThickness = new Thickness(2);
                     }
                     else
                     {
                         comboBox.BorderBrush = formControl.BaseBorderColor;
+                        comboBox.BorderThickness = new Thickness(1);
                     }
                     break;
                 }

@@ -92,23 +92,14 @@ namespace ToggleButtonGroupControl
         //	return null;
         //}
 
-        public string GetCheckedRadioButtonContent()
+        public string GetCheckedRadioButtonOutpostData()
         {
             foreach (RadioButton radioButton in RadioButtonGroup)
             {
-                if (CheckedControlName == radioButton.Name)
+                if ((bool)radioButton.IsChecked)
                 {
-                    // Return only the first word. This is for PacItForm
-                    string[] wordArray = (radioButton.Content as string).Split(new char[] { ' ' });
-                    return wordArray[0];
+                    return radioButton.Tag as string;
                 }
-                //if ((bool)radioButton.IsChecked)
-                //{
-                //    // Return only the first word. This is for PacItForm
-                //    string[] wordArray = (radioButton.Content as string).Split(new char[] { ' ' });
-                //    //return radioButton.Content as string;
-                //    return wordArray[0];
-                //}
             }
             return null;
         }

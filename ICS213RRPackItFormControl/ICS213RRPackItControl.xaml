@@ -78,13 +78,13 @@
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                         <TextBox Grid.Column="1" Name="textBoxMsgDate" Text="{x:Bind MsgDate, Mode=TwoWay}" 
                                  PlaceholderText="mm/dd/yy" Margin="2"  Tag="1a.,required"
-                                 TextChanged="TextBoxRequired_TextChanged"/>
+                                 TextChanged="TextBox_TextChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                         <TextBox Grid.Column="3" Name="textBoxMsgTime" Margin="2" 
                                  Text="{x:Bind MsgTime, Mode=TwoWay}" 
                                  PlaceholderText="hh:mm" Tag="1b.,required"
-                                 TextChanged="TextBoxRequired_TextChanged"/>
+                                 TextChanged="TextBox_TextChanged"/>
                         <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource LabelFontTNR14B}" 
@@ -92,14 +92,20 @@
                                 <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                CheckedControlName ="{x:Bind HandlingOrder, Mode=TwoWay}" 
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
-                                <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="IMMEDIATE" Checked="Subject_Changed"
-                                    ToolTipService.ToolTip="As soon as possible" >
+                                <RadioButton x:Name="immediate" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
+                                             Content="IMMEDIATE" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE">
                                 </RadioButton>
-                                <RadioButton x:Name="priority" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="PRIORITY" Checked="Subject_Changed"
-                                    ToolTipService.ToolTip="Less than one hour" >
+                                <RadioButton x:Name="priority" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
+                                             Content="PRIORITY" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY">
                                 </RadioButton>
-                                <RadioButton x:Name="routine" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="ROUTINE" Checked="Subject_Changed"
-                                    ToolTipService.ToolTip="More than one hour" />
+                                <RadioButton x:Name="routine" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
+                                             Content="ROUTINE" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -271,7 +277,7 @@
                                 <TextBox Name="msgDate" PlaceholderText="mm/dd/yy" 
                                          Text="{x:Bind MsgDate}"
                                          FontFamily="Ariel" FontSize="14"  Margin="5,2" 
-                                         TextChanged="TextBoxRequired_TextChanged"
+                                         TextChanged="TextBox_TextChanged"
                                          Tag="22.,required,Enter the Date Initialized."
                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                          Header="2. Date Initiated:"/>
@@ -283,7 +289,7 @@
                                 <TextBox Name="msgTime" PlaceholderText="hh:mm" 
                                          Text="{x:Bind MsgTime, Mode=TwoWay}"
                                          FontFamily="Helvetica" FontSize="14" Margin="5,2"  
-                                         TextChanged="TextBoxRequired_TextChanged"
+                                         TextChanged="TextBox_TextChanged"
                                          Tag="23.,required,Enter the message time."
                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                          Header="3. Time Initiated:"/>
@@ -302,7 +308,7 @@
                                 </TextBlock>
                                 <TextBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Name="requestedBy" FontFamily="Helvetica" FontSize="14"  
                                          AcceptsReturn="True" Margin="5,2" Height="122"
-                                         TextChanged="TextBoxRequired_TextChanged"
+                                         TextChanged="TextBox_TextChanged"
                                          Tag="25.,required,Enter 5. Requested By." />
                             </StackPanel>
                         <!--</Border>-->
@@ -388,16 +394,16 @@
                             <TextBlock Grid.Column="4" Grid.Row="1" Text="12. Est'd Cost" HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
                             <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" Margin="5,10,5,5" 
                                      AcceptsReturn="True" 
-                                     TextChanged="TextBoxRequired_TextChanged"
+                                     TextChanged="TextBox_TextChanged"
                                      Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" Margin="5,10,5,5" 
                                      AcceptsReturn="True" 
-                                     TextChanged="TextBoxRequired_TextChanged"
+                                     TextChanged="TextBox_TextChanged"
                                      Tag="29.,required,Enter 9. Resource Description."/>
                             <TextBox Grid.Column="2" Grid.Row="2" Name="resourceInfoArrival" AcceptsReturn="True" 
                                      PlaceholderText="mm/dd/yy hhmm" 
                                      Margin="5,10,5,5" 
-                                     TextChanged="TextBoxRequired_TextChanged"
+                                     TextChanged="TextBox_TextChanged"
                                      Tag="30.,required,Enter 10. Arrival Date/Time."/>
                             <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
                             <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" Margin="5,10,5,5" Tag="31.,required"
@@ -423,7 +429,7 @@
                                     <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                 </TextBlock>
                                 <TextBox Name="deliveryTo" MinHeight="48" Margin="5" AcceptsReturn="True" 
-                                         TextChanged="TextBoxRequired_TextChanged"
+                                         TextChanged="TextBox_TextChanged"
                                          Tag="33.,required,Enter 13. Delivery to."/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
@@ -432,7 +438,7 @@
                                     <Run Text=" (address or Lat/long., site type)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                 </TextBlock>
                                 <TextBox Name="deliveryLocation" MinHeight="48" Margin="5" AcceptsReturn="True" 
-                                         TextChanged="TextBoxRequired_TextChanged"
+                                         TextChanged="TextBox_TextChanged"
                                          Tag="34.,required,Enter 14. Location."/>
                             </StackPanel>
                         </Grid>
@@ -477,7 +483,7 @@
                                                    Checked="SuppReqFuel_Checked"
                                                    Unchecked="SuppReqFuel_Checked"/>
                                         <TextBox Name="suppReqFuelType" Width="83" BorderThickness="1" Tag="36d."
-                                                 TextChanged="TextBoxRequired_TextChanged"/>
+                                                 TextChanged="TextBox_TextChanged"/>
                                     </StackPanel>
                                     <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
                                               Style="{StaticResource EOC213RRFieldHeaderCB}"

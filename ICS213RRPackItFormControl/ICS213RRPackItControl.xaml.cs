@@ -23,19 +23,6 @@ namespace ICS213RRPackItFormControl
 
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {
-        //public string[] ICSPosition = new string[] {
-        //        "Incident Commander",
-        //        "Operations",
-        //        "Planning",
-        //        "Logistics",
-        //        "Finance",
-        //        "Public Info. Officer",
-        //        "Liaison Officer",
-        //        "Safety Officer"
-        //};
-
-        //List<string> _ICSPositionFiltered = new List<string>();
-
         public ICS213RRPackItControl()
         {
             InitializeComponent();
@@ -48,7 +35,6 @@ namespace ICS213RRPackItFormControl
             HowReceivedSent = "packet";
         }
 
-        //public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
@@ -86,10 +72,10 @@ namespace ICS213RRPackItFormControl
             {
                 suppReqFuelType.Tag = "36d.";
             }
-            base.TextBoxRequired_TextChanged(suppReqFuelType, null);
+            base.TextBox_TextChanged(suppReqFuelType, null);
         }
 
-        protected override void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
+        protected override void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if ((sender as TextBox).Name == "suppReqFuelType")
             {
@@ -103,7 +89,7 @@ namespace ICS213RRPackItFormControl
                     return;
                 }
             }
-            base.TextBoxRequired_TextChanged(sender, e);
+            base.TextBox_TextChanged(sender, e);
         }
     }
 }

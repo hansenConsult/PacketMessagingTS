@@ -209,9 +209,13 @@ namespace FormControlBaseClass
             {
                 Control control = formControl.InputControl;
 
-                if (control is TextBox || control is ComboBox)
+                if (control.Name == "howSent" || control.Name == "eocOpen") // TODO remove
                 {
-                    if (IsFieldRequired(control) && newForm)
+                    int a = 6;
+                }
+                if (control is TextBox textBox)
+                {
+                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(control) && newForm)
                     {
                         control.BorderBrush = formControl.RequiredBorderBrush;
                         control.BorderThickness = new Thickness(2);
@@ -222,9 +226,9 @@ namespace FormControlBaseClass
                         control.BorderThickness = new Thickness(1);
                     }
                 }
-                else if (control is AutoSuggestBox)
+                else if (control is AutoSuggestBox autoSuggestBox)
                 {
-                    if (IsFieldRequired(control) && newForm)
+                    if (string.IsNullOrEmpty(autoSuggestBox.Text) && IsFieldRequired(control) && newForm)
                     {
                         control.BorderBrush = formControl.RequiredBorderBrush;
                         control.BorderThickness = new Thickness(2);
@@ -235,17 +239,19 @@ namespace FormControlBaseClass
                         control.BorderThickness = new Thickness(1);
                     }
                 }
-                //else if (control is ComboBox)
-                //{
-                //    if (IsFieldRequired(control) && newForm)
-                //    {
-                //        control.BorderBrush = formControl.RequiredBorderBrush;
-                //    }
-                //    else
-                //    {
-                //        control.BorderBrush = formControl.BaseBorderColor;
-                //    }
-                //}
+                else if (control is ComboBox comboBox)
+                {
+                    if (comboBox.SelectedIndex < 0 && IsFieldRequired(control) && newForm)
+                    {
+                        control.BorderBrush = formControl.RequiredBorderBrush;
+                        control.BorderThickness = new Thickness(2);
+                    }
+                    else
+                    {
+                        control.BorderBrush = formControl.BaseBorderColor;
+                        control.BorderThickness = new Thickness(1);
+                    }
+                }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
                     if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()) && newForm)
@@ -603,17 +609,37 @@ namespace FormControlBaseClass
             Control control = null;
             try
             {
-                //control = formField.InputControl;
-                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                control = formControl?.InputControl;
-
-                string tag = (string)control.Tag;
-                if (!string.IsNullOrEmpty(tag))
+                // The control may not have a name, but the tag index is defined
+                if (!string.IsNullOrEmpty(formField.PacFormIndex))
                 {
-                    string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))
+                    // Index is known, no name
+                    foreach (FormControl frmControl in _formControlsList)
                     {
-                        return (tags[0], control);
+                        string tag = frmControl.InputControl.Tag as string;
+                        if (!string.IsNullOrEmpty(tag))
+                        {
+                            string[] tags = tag.Split(new char[] { ',' });
+                            if (tags[0] == formField.PacFormIndex)
+                            {
+                                return (tags[0], frmControl.InputControl);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Name is known
+                    FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                    control = formControl?.InputControl;
+
+                    string tag = (string)control.Tag;
+                    if (!string.IsNullOrEmpty(tag))
+                    {
+                        string[] tags = tag.Split(new char[] { ',' });
+                        if (!(tags[0].Contains("required") || tags[0].Contains("conditionallyrequired")))
+                        {
+                            return (tags[0], control);
+                        }
                     }
                 }
             }
@@ -645,6 +671,8 @@ namespace FormControlBaseClass
 
         public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)
         {
+            // Should not be used anymore!!
+
             if (formField is null)
                 return ("", null);
 
@@ -659,7 +687,7 @@ namespace FormControlBaseClass
                 if (!string.IsNullOrEmpty(tag))
                 {
                     string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))
+                    if (!(tags[0].Contains("required") || tags[0].Contains("conditionallyrequired")))
                     {
                         string[] formProviderTags = tags[0].Split(new char[] { '|' });
                         if (formProviderTags.Length > 1)
@@ -861,27 +889,32 @@ namespace FormControlBaseClass
                 {
                     if (toggleButtonGroup.Name == "severity" || toggleButtonGroup.Name == "handlingOrder")
                     {
-                        return $"{id}: [{formField.ControlContent.ToUpper()}]";
+                        //return $"{id}: [{formField.ControlContent.ToUpper()}]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]"; 
                     }
                     else if (formField.ControlContent.ToLower().Contains("yes"))
                     {
-                        return $"{id}: [Yes]";
+                        //return $"{id}: [Yes]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
                     }
                     else if (formField.ControlContent.ToLower().Contains("no"))
                     {
-                        return $"{id}: [No]";
+                        //return $"{id}: [No]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
                     }
                     else if (toggleButtonGroup.Tag as string == "Rec-Sent")
                     {
-                        return $"{id}: [sender]";
+                        //return $"{id}: [sender]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
                     }
                     else if (toggleButtonGroup.Name == "howRecevedSent")
                     {
-                        foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
-                        {
-                           if (formField.ControlContent == radioButton.Name)
-                                return $"{id}: [{radioButton.Content}]";
-                        }                        
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
+                        //foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
+                        //{
+                        //   if (formField.ControlContent == radioButton.Name)
+                        //        return $"{id}: [{radioButton.Content}]";
+                        //}                        
                     }
                     else return "";
                 }
@@ -980,6 +1013,7 @@ namespace FormControlBaseClass
                         if (comboBox.SelectedItem as ComboBoxPackItItem != null)
                         {
                             ComboBoxPackItItem comboBoxPackItItem = comboBox.SelectedItem as ComboBoxPackItItem;
+                            comboBoxPackItItem.SelectedIndex = comboBox.SelectedIndex;
                             formField.ControlComboxContent = comboBoxPackItItem;
                             formField.ControlContent = comboBoxPackItItem?.Item;
                         }
@@ -1035,7 +1069,17 @@ namespace FormControlBaseClass
             }
             else
             {
-                comboBox.SelectedItem = formField.ControlContent;  // data[0];
+                if (formField.ControlComboxContent != null)
+                {
+                    var count = comboBox.Items.Count;
+                    var item = comboBox.Items[9];
+                    //comboBox.SelectedValue = formField.ControlComboxContent.Item;
+                    comboBox.SelectedIndex = formField.ControlComboxContent.SelectedIndex;
+                }
+                else
+                {
+                    comboBox.SelectedItem = formField.ControlContent;  // data[0];
+                }
             }
         }
 
@@ -1278,7 +1322,7 @@ namespace FormControlBaseClass
             UpdateFormFieldsRequiredColors();
         }
 
-        protected virtual void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        protected virtual void ReportType_Checked(object sender, RoutedEventArgs e)
         {
             bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
             UpdateRequiredFields(required);

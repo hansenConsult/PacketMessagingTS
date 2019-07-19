@@ -23,7 +23,10 @@ using SharedCode.Helpers;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Media;
+
 using static SharedCode.Helpers.MessageOriginHelper;
+using Windows.UI;
 
 namespace SharedCode
 {
@@ -706,6 +709,12 @@ namespace SharedCode
 
         private string dataField;
 
+        private int selectedIndexField;
+
+        private string backgroundColorField;
+
+        private Brush backgroundBrushField = new SolidColorBrush(Colors.White);
+
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Item
         {
@@ -720,13 +729,64 @@ namespace SharedCode
             set => this.dataField = value;
         }
 
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public int SelectedIndex
+        {
+            get => selectedIndexField;
+            set => selectedIndexField = value;
+        }
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string BackgroundColor
+        {
+            get => this.backgroundColorField;
+            set => this.backgroundColorField = value;
+        }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public Brush BackgroundBrush
+        {
+            get => this.backgroundBrushField;
+            set => this.backgroundBrushField = value;
+        }
+
         public ComboBoxPackItItem()
         { }
+        
+        public ComboBoxPackItItem(string item)
+        {
+            Item = item;
+            Data = item;
+        }
+
+        public ComboBoxPackItItem(string item, Color color)
+        {
+            Item = item;
+            Data = item;
+            BackgroundColor = color.ToString();
+        }
+
+        public ComboBoxPackItItem(string item, Brush brush)
+        {
+            Item = item;
+            Data = item;
+            BackgroundBrush = brush;
+        }
 
         public ComboBoxPackItItem(string item, string data)
         {
             Item = item;
             Data = data;
+        }
+
+        public Brush GetBackgroundBrush()
+        {
+            byte a = Convert.ToByte(BackgroundColor.Substring(1, 2), 16);
+            byte r = Convert.ToByte(BackgroundColor.Substring(3, 2), 16);
+            byte g = Convert.ToByte(BackgroundColor.Substring(5, 2), 16);
+            byte b = Convert.ToByte(BackgroundColor.Substring(7, 2), 16);
+            Color color = ColorHelper.FromArgb(a, r, g, b);
+            return new SolidColorBrush(color);
         }
     }
 

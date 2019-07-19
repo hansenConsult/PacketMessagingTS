@@ -82,7 +82,7 @@
                         <TextBox Grid.Column="3" x:Name="textBoxMsgTime" Margin="2" 
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  PlaceholderText="hh:mm" Tag="1b.,required"
-                                 TextChanged="TextBoxRequired_TextChanged"/>
+                                 TextChanged="TextBox_TextChanged"/>
                         <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource LabelFontTNR14B}" 
@@ -195,7 +195,7 @@
                                 <StackPanel >
                                     <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />-->
                                     <TextBox x:Name="fromLocation" Margin="10,0,10,2" 
-                                             TextChanged="TextBoxRequired_TextChanged"
+                                             TextChanged="TextBox_TextChanged"
                                              Tag="8b.,required,Enter a From Location."
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Location:"/>
@@ -545,7 +545,7 @@
                                      Style="{StaticResource MuniStatusTextBox}" VerticalAlignment="Stretch"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Remove from List:" VerticalAlignment="Center"/>
                             <CheckBox Grid.Column="1" Grid.Row="1" Margin="2,0,0,0"
-                                      Content="" Tag="71." HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                      Content=" " Tag="71." HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </Grid>
                     </StackPanel>
                     <Border BorderBrush="Black" BorderThickness="0,2,0,0" Margin="0,12,0,12"/>

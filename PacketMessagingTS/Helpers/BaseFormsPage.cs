@@ -561,8 +561,6 @@ namespace PacketMessagingTS.Helpers
 
             if (!_loadMessage)
             {
-                //_packetForm.FormProvider = _packetForm.DefaultFormProvider;
-
                 _packetMessage = new PacketMessage()
                 {
                     FormProvider = _packetForm.FormProvider,
@@ -596,9 +594,9 @@ namespace PacketMessagingTS.Helpers
                             _packetForm.IncidentName = practiceSubject;
                             break;
                         case "OA Municipal Status":
-                            //_packetForm.JurisdictionName = ;
+                            // Use Jurisdiction Name
                             break;
-                        case "OA Shelter Status":
+                        case "OAShelterStat":
                             _packetForm.ShelterName = practiceSubject;
                             break;
                         case "Allied_Health_Status":

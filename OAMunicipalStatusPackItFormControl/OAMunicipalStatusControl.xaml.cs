@@ -29,58 +29,62 @@ namespace OAMunicipalStatusPackItFormControl
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
-        string[] Municipalities = new string[] {
-                "Campbell",
-                "Cupertino",
-                "Gilroy",
-                "Los Altos",
-                "Los Altos Hills",
-                "Los Gatos",
-                "Milpitas",
-                "Monte Sereno",
-                "Morgan Hill",
-                "Mountain View",
-                "Palo Alto",
-                "San Jose",
-                "Santa Clara",
-                "Saratoga",
-                "Sunnyvale",
-                "*Unincorporated County Areas*"
-        };
-
-        object[] OfficeStatus = new object[]
+        List<ComboBoxPackItItem> Municipalities = new List<ComboBoxPackItItem>
         {
-                null,
-                "Unknown",
-                "Open",
-                "Closed"
+                new ComboBoxPackItItem("Campbell"),
+                new ComboBoxPackItItem("Cupertino"),
+                new ComboBoxPackItItem("Gilroy"),
+                new ComboBoxPackItItem("Los Altos"),
+                new ComboBoxPackItItem("Los Altos Hills"),
+                new ComboBoxPackItItem("Los Gatos"),
+                new ComboBoxPackItItem("Milpitas"),
+                new ComboBoxPackItItem("Monte Sereno"),
+                new ComboBoxPackItItem("Morgan Hill"),
+                new ComboBoxPackItItem("Mountain View"),
+                new ComboBoxPackItItem("Palo Alto"),
+                new ComboBoxPackItItem("San Jose"),
+                new ComboBoxPackItItem("Santa Clara"),
+                new ComboBoxPackItItem("Saratoga"),
+                new ComboBoxPackItItem("Sunnyvale"),
+                new ComboBoxPackItItem("*Unincorporated County Areas*", "Unincorporated")
         };
 
-        string[] UnknownYesNo = new string[] {
-                null,
-                "Unknown",
-                "Yes",
-                "No"
+        List<ComboBoxPackItItem> OfficeStatus = new List<ComboBoxPackItItem>
+        {
+                new ComboBoxPackItItem(null, ""),
+                new ComboBoxPackItItem("Unknown", LightGrayBrush),
+                new ComboBoxPackItItem("Open", LightGreenBrush),
+                new ComboBoxPackItItem("Closed", PinkBrush),
         };
 
-        string[] ActivationLevel = new string[] {
-                null,
-                "Unknown",
-                "Duty Officer",
-                "Monitor",
-                "Partial",
-                "Full"
+        List<ComboBoxPackItItem> UnknownYesNo = new List<ComboBoxPackItItem>
+        {
+                new ComboBoxPackItItem(null, ""),
+                new ComboBoxPackItItem("Unknown", LightGrayBrush),
+                new ComboBoxPackItItem("Yes", PinkBrush),
+                new ComboBoxPackItItem("No", LightGreenBrush),
         };
 
-        string[] CurrentSituation = new string[] {
-                null,
-                "Unknown",
-                "Normal",
-                "Problem",
-                "Failure",
-                "Delayed",
-                "Closed,",
-                "Early Out",
+        List<ComboBoxPackItItem> ActivationLevel = new List<ComboBoxPackItItem>
+        {
+                new ComboBoxPackItItem(null, ""),
+                new ComboBoxPackItItem("Normal", LightGreenBrush),
+                new ComboBoxPackItItem("Duty Officer", YellowBrush),
+                new ComboBoxPackItItem("Monitor", OrangeBrush),
+                new ComboBoxPackItItem("Partial", PinkBrush),
+                new ComboBoxPackItItem("Full", PinkBrush)
+        };
+
+        List<ComboBoxPackItItem> CurrentSituation = new List<ComboBoxPackItItem>
+        {
+                new ComboBoxPackItItem(null, ""),
+                new ComboBoxPackItItem("Unknown", LightGrayBrush),
+                new ComboBoxPackItItem("Normal", LightGreenBrush),
+                new ComboBoxPackItItem("Problem", YellowBrush),
+                new ComboBoxPackItItem("Failure", PinkBrush),
+                new ComboBoxPackItItem("Delayed", WhiteBrush),
+                new ComboBoxPackItItem("Closed,", WhiteBrush),
+                new ComboBoxPackItItem("Early Out", WhiteBrush),
         };
 
         public OAMunicipalStatusControl()
@@ -93,9 +97,8 @@ namespace OAMunicipalStatusPackItFormControl
         }
 
         public string JurisdictionName
-        { get => jurisdictionName.SelectedItem as string; }
+        { get => jurisdictionName.SelectedValue as string; }
 
-        //public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
@@ -106,9 +109,10 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return (MessageNo + '_' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + JurisdictionName);
+            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_OAMuniStat_{JurisdictionName}";
         }
 
+        
         public string ReportType
         { get; set; }
 
@@ -235,7 +239,7 @@ namespace OAMunicipalStatusPackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-oa-muni-status.html",
-                "#V: 2.16-2.0",
+                "#V: 2.17-2.1",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -301,7 +305,7 @@ namespace OAMunicipalStatusPackItFormControl
         {
             if (activationLevel != null)
             {
-                activationLevel.IsEnabled = (sender as ComboBox).SelectedItem as string == "Yes";
+                activationLevel.IsEnabled = ((sender as ComboBox).SelectedItem as ComboBoxPackItItem)?.Item == "Yes";
                 if (activationLevel.IsEnabled)
                 {
                     activationLevel.SelectedIndex = 0;
@@ -312,6 +316,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         private void UpdateCommentsTag(ComboBox comboBox, TextBox textBox)
         {
+            return;
             if (comboBox.SelectedIndex > 1)
             {
                 textBox.Tag = (textBox.Tag as string).Replace("conditionallyrequired", "required");
@@ -325,57 +330,57 @@ namespace OAMunicipalStatusPackItFormControl
 
         private void Status_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch ((sender as ComboBox).Name)
-            {
-                case "comboBoxCommunications":
-                    UpdateCommentsTag(sender as ComboBox, commentsCommunications);
-                    break;
-                case "comboBoxDebris":
-                    UpdateCommentsTag(sender as ComboBox, commentsDebris);
-                    break;
-                case "comboBoxFlooding":
-                    UpdateCommentsTag(sender as ComboBox, commentsFlooding);
-                    break;
-                case "comboBoxHazmat":
-                    UpdateCommentsTag(sender as ComboBox, commentsHazmat);
-                    break;
-                case "comboBoxEmergencyServices":
-                    UpdateCommentsTag(sender as ComboBox, commentsEmergencyServices);
-                    break;
-                case "comboBoxCasualties":
-                    UpdateCommentsTag(sender as ComboBox, commentsCasualties);
-                    break;
-                case "comboBoxUtilitiesGas":
-                    UpdateCommentsTag(sender as ComboBox, commentsUtilitiesGas);
-                    break;
-                case "comboBoxUtilitiesElectric":
-                    UpdateCommentsTag(sender as ComboBox, commentsUtilitiesElectric);
-                    break;
-                case "comboBoxInfrastructurePower":
-                    UpdateCommentsTag(sender as ComboBox, commentsInfrastructurePower);
-                    break;
-                case "comboBoxInfrastructureWater":
-                    UpdateCommentsTag(sender as ComboBox, commentsInfrastructureWater);
-                    break;
-                case "comboBoxInfrastructureSewer":
-                    UpdateCommentsTag(sender as ComboBox, commentsInfrastructureSewer);
-                    break;
-                case "comboBoxSearchAndRescue":
-                    UpdateCommentsTag(sender as ComboBox, commentsSearchAndRescue);
-                    break;
-                case "comboBoxTransportationsRoads":
-                    UpdateCommentsTag(sender as ComboBox, commentsTransportationsRoads);
-                    break;
-                case "comboBoxTransportationsBridges":
-                    UpdateCommentsTag(sender as ComboBox, commentsTransportationsBridges);
-                    break;
-                case "comboBoxCivilUnrest":
-                    UpdateCommentsTag(sender as ComboBox, commentsCivilUnrest);
-                    break;
-                case "comboBoxAnimalIssues":
-                    UpdateCommentsTag(sender as ComboBox, commentsAnimalIssues);
-                    break;
-            }
+            //switch ((sender as ComboBox).Name)
+            //{
+            //    case "comboBoxCommunications":
+            //        UpdateCommentsTag(sender as ComboBox, commentsCommunications);
+            //        break;
+            //    case "comboBoxDebris":
+            //        UpdateCommentsTag(sender as ComboBox, commentsDebris);
+            //        break;
+            //    case "comboBoxFlooding":
+            //        UpdateCommentsTag(sender as ComboBox, commentsFlooding);
+            //        break;
+            //    case "comboBoxHazmat":
+            //        UpdateCommentsTag(sender as ComboBox, commentsHazmat);
+            //        break;
+            //    case "comboBoxEmergencyServices":
+            //        UpdateCommentsTag(sender as ComboBox, commentsEmergencyServices);
+            //        break;
+            //    case "comboBoxCasualties":
+            //        UpdateCommentsTag(sender as ComboBox, commentsCasualties);
+            //        break;
+            //    case "comboBoxUtilitiesGas":
+            //        UpdateCommentsTag(sender as ComboBox, commentsUtilitiesGas);
+            //        break;
+            //    case "comboBoxUtilitiesElectric":
+            //        UpdateCommentsTag(sender as ComboBox, commentsUtilitiesElectric);
+            //        break;
+            //    case "comboBoxInfrastructurePower":
+            //        UpdateCommentsTag(sender as ComboBox, commentsInfrastructurePower);
+            //        break;
+            //    case "comboBoxInfrastructureWater":
+            //        UpdateCommentsTag(sender as ComboBox, commentsInfrastructureWater);
+            //        break;
+            //    case "comboBoxInfrastructureSewer":
+            //        UpdateCommentsTag(sender as ComboBox, commentsInfrastructureSewer);
+            //        break;
+            //    case "comboBoxSearchAndRescue":
+            //        UpdateCommentsTag(sender as ComboBox, commentsSearchAndRescue);
+            //        break;
+            //    case "comboBoxTransportationsRoads":
+            //        UpdateCommentsTag(sender as ComboBox, commentsTransportationsRoads);
+            //        break;
+            //    case "comboBoxTransportationsBridges":
+            //        UpdateCommentsTag(sender as ComboBox, commentsTransportationsBridges);
+            //        break;
+            //    case "comboBoxCivilUnrest":
+            //        UpdateCommentsTag(sender as ComboBox, commentsCivilUnrest);
+            //        break;
+            //    case "comboBoxAnimalIssues":
+            //        UpdateCommentsTag(sender as ComboBox, commentsAnimalIssues);
+            //        break;
+            //}
             ComboBox_SelectionChanged(sender, e);
         }
 
@@ -384,7 +389,7 @@ namespace OAMunicipalStatusPackItFormControl
             if (e == null || e.AddedItems.Count == 0)
                 return;
 
-            if (e.AddedItems[0] as string == "Yes")
+            if ((e.AddedItems[0] as ComboBoxPackItItem).Item == "Yes" || (bool)complete.IsChecked)
             {
                 howSent.Tag = (howSent.Tag as string).Replace(",conditionallyrequired", ",required");
             }
@@ -392,7 +397,27 @@ namespace OAMunicipalStatusPackItFormControl
             {
                 howSent.Tag = (howSent.Tag as string).Replace(",required", ",conditionallyrequired");
             }
-            ValidateForm();
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (howSent.Name == formControl.InputControl.Name)
+                {
+                    if (string.IsNullOrEmpty(howSent.Text) && IsFieldRequired(howSent))
+                    {
+                        howSent.BorderBrush = formControl.RequiredBorderBrush;
+                        howSent.BorderThickness = new Thickness(2);
+                    }
+                    else
+                    {
+                        howSent.BorderBrush = formControl.BaseBorderColor;
+                        howSent.BorderThickness = new Thickness(1);
+                    }
+                }
+            }
+
+            (sender as ComboBox).Background = (e.AddedItems[0] as ComboBoxPackItItem).BackgroundBrush;
+
+            //UpdateFormFieldsRequiredColors();
+            //ValidateForm();
             ComboBox_SelectionChanged(sender, e);
         }
 
@@ -405,7 +430,9 @@ namespace OAMunicipalStatusPackItFormControl
                 primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",required", ",conditionallyrequired");
                 officeStatus.Tag = (officeStatus.Tag as string).Replace(",required", ",conditionallyrequired");
                 eocOpen.Tag = (eocOpen.Tag as string).Replace(",required", ",conditionallyrequired");
+                activationLevel.Tag = (activationLevel.Tag as string).Replace(",required", ",conditionallyrequired");
                 stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",required", ",conditionallyrequired");
+                howSent.Tag = (howSent.Tag as string).Replace(",required", ",conditionallyrequired");
             }
             else
             {
@@ -414,9 +441,11 @@ namespace OAMunicipalStatusPackItFormControl
                 primEMContactPhone.Tag = (primEMContactPhone.Tag as string).Replace(",conditionallyrequired", ",required");
                 officeStatus.Tag = (officeStatus.Tag as string).Replace(",conditionallyrequired", ",required");
                 eocOpen.Tag = (eocOpen.Tag as string).Replace(",conditionallyrequired", ",required");
+                activationLevel.Tag = (activationLevel.Tag as string).Replace(",conditionallyrequired", ",required");
                 stateOfEmergency.Tag = (stateOfEmergency.Tag as string).Replace(",conditionallyrequired", ",required");
+                howSent.Tag = (howSent.Tag as string).Replace(",conditionallyrequired", ",required");
             }
-            string minval = "41";
+            string minval = "41.";
             bool startCurrentStatus = false;
             foreach (FormControl formControl in _formControlsList)
             {
@@ -439,14 +468,8 @@ namespace OAMunicipalStatusPackItFormControl
                     }
                 }
             }
+            UpdateFormFieldsRequiredColors();
         }
-
-        //private void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        //{
-        //    bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
-        //    ColorRadioButtons(required);
-        //    ValidateForm();
-        //}
 
     }
 }

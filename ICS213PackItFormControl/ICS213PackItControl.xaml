@@ -116,7 +116,7 @@
                                                  Header="1b.) Time:"                                                                                                  
                                                  Text="{x:Bind MsgTime, Mode=TwoWay}"
                                                  TextAlignment="Center" BorderBrush="White" 
-                                                 TextChanged="TextBoxRequired_TextChanged"
+                                                 TextChanged="TextBox_TextChanged"
                                                  Margin="2" Tag="1b.,required,Enter message creation time"/>
                                     </StackPanel>
                                 </Border>
@@ -129,15 +129,15 @@
                                                                    CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4."/>
                                     <RadioButton x:Name="EMERGENCY" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="EMERGENCY"  
-										ToolTipService.ToolTip="Life threat">
+										         ToolTipService.ToolTip="Life threat" Tag="EMERGENCY">
                                     </RadioButton>
                                     <RadioButton x:Name="urgent" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="URGENT" 
-										ToolTipService.ToolTip="Property threat">
+										         ToolTipService.ToolTip="Property threat" Tag="URGENT">
                                     </RadioButton>
                                     <RadioButton x:Name="other" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="OTHER" 
-										         ToolTipService.ToolTip="All other">
+										         ToolTipService.ToolTip="All other" Tag="OTHER">
                                     </RadioButton>
                                 </StackPanel>
                             </Border>
@@ -149,13 +149,13 @@
                                                                    Tag="5.,required,Indicate Msg. Handling Order."/>
                                     <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="IMMEDIATE" Checked="Subject_Changed"
-                                                 ToolTipService.ToolTip="As soon as possible"/>
+                                                 ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
                                     <RadioButton x:Name="priority" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="PRIORITY" Checked="Subject_Changed"
-                                                 ToolTipService.ToolTip="Less than one hour"/>
+                                                 ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
                                     <RadioButton x:Name="routine" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
                                                  Margin="10, 8" Padding="4" Content="ROUTINE" Checked="Subject_Changed"
-                                                 ToolTipService.ToolTip="More than one hour"/>                                       
+                                                 ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>                                       
                                 </StackPanel>
                             </Border>
                             <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0">
@@ -167,10 +167,10 @@
                                     <StackPanel Orientation="Horizontal">
                                         <RadioButton x:Name="actionYes" GroupName="action" 
                                                      Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Margin="10, 0" Padding="4" Content="Yes" />
+                                                     Margin="10, 0" Padding="4" Content="Yes" Tag="Yes"/>
                                         <RadioButton x:Name="actionNo" GroupName="action" 
                                                      Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Content="No" Margin="-60,0,0,0"  Padding="4"/>
+                                                     Content="No" Margin="-60,0,0,0"  Padding="4" Tag="No"/>
                                     </StackPanel>
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,4,0,0" />
                                     <StackPanel Orientation="Horizontal">
@@ -178,14 +178,14 @@
                                                                        CheckedControlName="{x:Bind Reply, Mode=TwoWay}" Tag="6b."/>
                                         <RadioButton x:Name="replyYes" GroupName="reply" 
                                                      Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="50"/>
+                                                     Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="50" Tag="Yes"/>
                                         <TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hh:mm" 
                                                  UseLayoutRounding="False" 
                                                  d:LayoutRounding="Auto" VerticalAlignment="Center" Tag="6d."/>
 
                                         <RadioButton x:Name="replyNo" GroupName="reply" 
                                                      Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Content="No" Width="50" Margin="10,0,0,0" Padding="4" MinWidth="50"/>
+                                                     Content="No" Width="50" Margin="10,0,0,0" Padding="4" MinWidth="50" Tag="No"/>
                                     </StackPanel>
                                     <CheckBox x:Name="forInfo" Style="{StaticResource CheckBoxTNR12B}" 
                                               Margin="10,6,4,4" Content="FOR INFO" Padding="4" Tag="6c."/>
@@ -222,7 +222,7 @@
                                         <TextBox x:Name="toLocation"  BorderBrush="White" Margin="10,0,10,2" 
                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                  Header="9a.) Location:"                                                 
-                                                 TextChanged="TextBoxRequired_TextChanged"
+                                                 TextChanged="TextBox_TextChanged"
                                                  Tag="9a.,required,Enter a To Location."/>
                                     </StackPanel>
                                 </Border>
@@ -268,7 +268,7 @@
                                         <TextBox x:Name="fromLocation"  BorderBrush="White" Margin="10,0,10,2" 
                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                  Header="9b.) Location:"                                                                                                  
-                                                 TextChanged="TextBoxRequired_TextChanged"
+                                                 TextChanged="TextBox_TextChanged"
                                                  Tag="9b.,required,Enter a From Location." />
                                     </StackPanel>
                                 </Border>
@@ -317,7 +317,7 @@
                                  AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="12.,required,You must include a Message." 
 								 ToolTipService.ToolTip="What, when, where needed; how long; contact name and phone number. Keep message brief" 
                                  PlaceholderText="Type message here." IsSpellCheckEnabled="True"
-                                 TextChanged="TextBoxRequired_TextChanged"
+                                 TextChanged="TextBox_TextChanged"
                                  />
 
                     </StackPanel>
@@ -379,8 +379,10 @@
                                 <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
                                                                CheckedControlName="{x:Bind ReceivedOrSent}" Tag="Rec-Sent"/>
                                 <RadioButton x:Name="receiver" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=RadioButtonTNR12B}" 
-                                             Content="    or Sent" Padding="5" />
-                                <RadioButton x:Name="sender" GroupName="receivedOrSent" Content="" Margin="-38,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Times New Roman" />
+                                             Content="    or Sent" Padding="5" Tag=""/>
+                                <RadioButton x:Name="sender" GroupName="receivedOrSent" Content="" Margin="-38,0,0,0" 
+                                             HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                             FontFamily="Times New Roman" Tag="sender"/>
                                 <TextBlock Text="    " Width="120" Margin="-94,0,0,0" Height="32" FontFamily="Times New Roman" Canvas.ZIndex="1"/>
                             </StackPanel>
                         </Border>
@@ -401,28 +403,28 @@
                             <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3" Height="34"/>
                             <RadioButton Grid.Row="0" GroupName="howRecevedSent" Grid.Column="0" x:Name="telephone" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Telephone" 
-                                         Margin="5,0,0,0" Padding="4" />
+                                         Margin="5,0,0,0" Padding="4" Tag="Telephone"/>
                             <RadioButton Grid.Row="0" Grid.Column="1" x:Name="dispatchCenter" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Dispatch Center" 
-                                         Grid.ColumnSpan="2" Padding="4" Width="100" />
+                                         Grid.ColumnSpan="2" Padding="4" Width="100" Tag="Dispatch Center"/>
                             <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3"/>
                             <RadioButton Grid.Row="1" Grid.Column="0" x:Name="eOCRadio" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="EOC Radio" 
-                                         Margin="5,0,0,0" Padding="4" />
+                                         Margin="5,0,0,0" Padding="4" Tag="EOC Radio"/>
                             <RadioButton Grid.Row="1" Grid.Column="1" x:Name="fax" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="FAX" 
-                                         Grid.ColumnSpan="2" Padding="4" />
+                                         Grid.ColumnSpan="2" Padding="4" Tag="FAX"/>
                             <RadioButton Grid.Row="1" Grid.Column="2" x:Name="courier" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Courier" 
-                                         Padding="4" Height="34" Width="auto" />
+                                         Padding="4" Height="34" Width="auto" Tag="Courier"/>
                             <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="3"/>
                             <RadioButton Grid.Row="2" Grid.Column="0" x:Name="amateurRadio" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Amateur Radio" 
-                                         Margin="5,0,0,0" Padding="5" />
+                                         Margin="5,0,0,0" Padding="5" Tag="Amateur Radio"/>
                             <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="1.333,0,-1.667,0" Height="34" VerticalAlignment="Top">
                                 <RadioButton Grid.Row="2" Grid.Column="1" x:Name="otherRecvdType" GroupName="howRecevedSent" 
                                              Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Other" 
-                                             Width="auto" Grid.ColumnSpan="2" IsChecked="True" Padding="5" />
+                                             Width="auto" Grid.ColumnSpan="2" IsChecked="True" Padding="5" Tag="Other"/>
                                 <TextBox x:Name="otherText"  Margin="-20,0,0,0" VerticalContentAlignment="Center" 
                                          TextAlignment="Left" BorderBrush="White" Width="100" Text="Packet" 
                                          BorderThickness="0" HorizontalAlignment="Left" Padding="8" Tag="Other"/>

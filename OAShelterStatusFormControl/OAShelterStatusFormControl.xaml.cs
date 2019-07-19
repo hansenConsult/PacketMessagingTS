@@ -82,15 +82,15 @@ namespace OAShelterStatusFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-//            InitializeControls();
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+
         public override string PacFormName => "form-oa-shelter-status";
 
-        public override string PacFormType => "OA Shelter Status";
+        public override string PacFormType => "OAShelterStat";
 
         public string ReportType
         { get; set; }
@@ -110,7 +110,7 @@ namespace OAShelterStatusFormControl
 
         public override string CreateSubject()
         {
-            return $"{MessageNo}_'{HandlingOrder?.ToUpper()[0]}_OAShelterStat_{ShelterName}";
+            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_OAShelterStat_{ShelterName}";
         }
 
         private void capacity_TextChanged(object sender, TextChangedEventArgs e)
@@ -148,13 +148,6 @@ namespace OAShelterStatusFormControl
             }
             UpdateFormFieldsRequiredColors();
         }
-
-        //protected override void ReportType_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        //{
-        //    bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
-        //    UpdateRequiredFields(required);
-        //    ValidateForm();
-        //}
 
     }
 }
