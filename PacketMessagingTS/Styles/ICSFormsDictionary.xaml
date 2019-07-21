@@ -111,6 +111,10 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="5,2,2,2"/>
     </Style>
+    <Style x:Key="MuniStatusFieldTextRight" TargetType="TextBlock" BasedOn="{StaticResource MuniStatusFieldText}">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Margin" Value="5,2,5,2"/>
+    </Style>
     <Style x:Key="MuniStatusCommentsText" TargetType="TextBox">
         <Setter Property="FontFamily" Value="Ariel"/>
         <Setter Property="FontStyle" Value="Normal"/>
@@ -129,6 +133,7 @@
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="Width" Value="90"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Margin" Value="2"/>
     </Style>
     <Style x:Key="MuniStatusTextBox" TargetType="TextBox">
@@ -140,7 +145,11 @@
         <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="2"/>
     </Style>
-
+    <Style x:Key="MuniStatusDateTextBox" TargetType="TextBox" BasedOn="{StaticResource MuniStatusTextBox}">
+        <Setter Property="Width" Value="110"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
     <Style x:Key="ShelterStatusHeaderText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Ariel"/>
         <Setter Property="FontStyle" Value="Normal"/>

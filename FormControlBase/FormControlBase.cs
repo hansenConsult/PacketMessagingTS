@@ -890,26 +890,26 @@ namespace FormControlBaseClass
                     if (toggleButtonGroup.Name == "severity" || toggleButtonGroup.Name == "handlingOrder")
                     {
                         //return $"{id}: [{formField.ControlContent.ToUpper()}]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]"; 
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]"; 
                     }
                     else if (formField.ControlContent.ToLower().Contains("yes"))
                     {
                         //return $"{id}: [Yes]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
                     }
                     else if (formField.ControlContent.ToLower().Contains("no"))
                     {
                         //return $"{id}: [No]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
                     }
                     else if (toggleButtonGroup.Tag as string == "Rec-Sent")
                     {
                         //return $"{id}: [sender]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
                     }
                     else if (toggleButtonGroup.Name == "howRecevedSent")
                     {
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData()}]";
+                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
                         //foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
                         //{
                         //   if (formField.ControlContent == radioButton.Name)
@@ -1106,9 +1106,9 @@ namespace FormControlBaseClass
                         case "msgTime":
                             MsgTime = textBox.Text;
                             break;
-                        case "incidentName":
-                            IncidentName = textBox.Text;
-                            break;
+                        //case "incidentName":
+                        //    IncidentName = textBox.Text;
+                        //    break;
                         case "subject":
                             Subject = textBox.Text;
                             break;

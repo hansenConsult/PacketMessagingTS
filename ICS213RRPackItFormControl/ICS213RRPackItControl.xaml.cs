@@ -44,6 +44,12 @@ namespace ICS213RRPackItFormControl
 
         public override string PacFormType => "XSC_EOC_213RR";
 
+        public override string IncidentName
+        {
+            get => incidentName.Text;
+            set => incidentName.Text = value;
+        }
+
         public override string CreateSubject()
         {
             return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_EOC213RR_{IncidentName}";
@@ -55,7 +61,7 @@ namespace ICS213RRPackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-scco-eoc-213rr.html",
-                "#V: 2.16-2.0",
+                "#V: 2.17-2.1",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -91,5 +97,6 @@ namespace ICS213RRPackItFormControl
             }
             base.TextBox_TextChanged(sender, e);
         }
+
     }
 }

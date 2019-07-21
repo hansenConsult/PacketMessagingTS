@@ -97,7 +97,10 @@ namespace OAMunicipalStatusPackItFormControl
         }
 
         public string JurisdictionName
-        { get => jurisdictionName.SelectedValue as string; }
+        {
+            get => jurisdictionName.SelectedValue as string;
+            set => jurisdictionName.SelectedValue = value;
+        }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

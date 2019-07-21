@@ -297,6 +297,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async void AddTextToStatusWindowAsync(string text)
         {
+            return;
+
+
             //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             //communicationsService.AddRxTxStatus($"{text}");
 

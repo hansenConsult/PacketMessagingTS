@@ -104,7 +104,7 @@ namespace PacketMessagingTS.ViewModels
                 {
                     IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
                     DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, " +
-                                     $"{DateTime.Now.Month:d2}/{DateTime.Now.Day:d2}/{DateTime.Now.Year - 2000:d2}";
+                                     $"{DateTime.Now.Month:d2}/{DateTime.Now.Day:d2}/{DateTime.Now.Year:d4}";
                 }
                 else
                 {
