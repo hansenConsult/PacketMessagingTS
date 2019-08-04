@@ -242,7 +242,7 @@ namespace OAMunicipalStatusPackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-oa-muni-status.html",
-                "#V: 2.17-2.1",
+                $"#V: 2.17-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

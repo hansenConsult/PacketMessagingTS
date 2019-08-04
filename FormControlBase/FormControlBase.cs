@@ -286,6 +286,18 @@ namespace FormControlBaseClass
             set => _validationResultMessage = value;
         }
 
+        private string _pif = "2.1";
+        public virtual string PIF
+        {
+            get => _pif;
+            set => _pif = value;
+        }
+
+        public virtual string PIFString
+        {
+            get => $"PIF: {PIF}";
+        }
+
         public virtual string SenderMsgNo
         { get; set; }
 

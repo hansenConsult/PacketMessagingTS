@@ -19,7 +19,7 @@
                  AcceptsReturn="True"
                  TextChanged="TextBoxStatus_TextChanged"
                  IsReadOnly="True"
-                 Text="{x:Bind RxTxStatusViewModel.AddRxTxStatus, Mode=OneWay}"/>
+                 Text="{x:Bind RxTxStatusViewModel.AddRxTxStatus, Mode=TwoWay}"/>
 
         <Button x:Name="abortButton" Margin="8"
                 RelativePanel.AlignBottomWithPanel="True"

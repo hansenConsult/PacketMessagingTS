@@ -101,7 +101,7 @@ namespace OAShelterStatusFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-oa-shelter-status.html",
-                "#V: 2.17-2.1",
+                $"#V: 2.17-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

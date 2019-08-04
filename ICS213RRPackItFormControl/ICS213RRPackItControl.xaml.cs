@@ -31,8 +31,8 @@ namespace ICS213RRPackItFormControl
 
             InitializeToggleButtonGroups();
 
-            ReceivedOrSent = "sender";
-            HowReceivedSent = "packet";
+            //ReceivedOrSent = "sender";
+            //HowReceivedSent = "packet";
         }
 
 
@@ -44,11 +44,11 @@ namespace ICS213RRPackItFormControl
 
         public override string PacFormType => "XSC_EOC_213RR";
 
-        public override string IncidentName
-        {
-            get => incidentName.Text;
-            set => incidentName.Text = value;
-        }
+        //public override string IncidentName
+        //{
+        //    get => incidentName.Text;
+        //    set => incidentName.Text = value;
+        //}
 
         public override string CreateSubject()
         {
@@ -61,7 +61,7 @@ namespace ICS213RRPackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-scco-eoc-213rr.html",
-                "#V: 2.17-2.1",
+                $"#V: 2.17-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

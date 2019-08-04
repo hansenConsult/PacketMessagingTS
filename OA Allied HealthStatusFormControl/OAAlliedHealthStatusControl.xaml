@@ -80,7 +80,7 @@
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
                                 <TextBlock Text="Version: February 2018" HorizontalAlignment="Left"/>
-                                <TextBlock Text="PIF: 2.1" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>
                             </Grid>
                         </StackPanel>
 
@@ -108,7 +108,7 @@
                     <Grid BorderBrush="Black" BorderThickness="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
@@ -116,14 +116,17 @@
                         <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" x:Name="msgDate" Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
-                                 PlaceholderText="mm/dd/yy" Margin="2"  Tag="1a.,required"
+                        <TextBox Grid.Column="1" x:Name="msgDate" 
+                                 Style="{StaticResource MuniStatusDateTextBox}"
+                                 Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
+                                 Tag="1a.,required"
                                  TextChanged="TextBox_TextChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="3" x:Name="msgTime" Margin="2" 
+                        <TextBox Grid.Column="3" x:Name="msgTime" 
+                                 Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
-                                 PlaceholderText="hh:mm" Tag="1b.,required"
+                                 Tag="1b.,required"
                                  TextChanged="TextBox_TextChanged"/>
                         <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel Orientation="Horizontal">
@@ -333,19 +336,21 @@
                         <Grid Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="1.4*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBox Grid.Column="0" x:Name="facilityType" Header="Facility Type:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"  BorderBrush="White"
                                      Margin="2" TextChanged="TextBox_TextChanged"
                                      Tag="21.,conditionallyrequired" />
                             <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
-                            <TextBox Grid.Column="1"  Header="Date:"  BorderBrush="White"
-                                     Margin="2" Text="{x:Bind Mode=TwoWay, Path=MsgDate}"
-                                     HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="15,required" PlaceholderText="mm/dd/yy"/>
+                            <TextBox Grid.Column="1"  Header="Date:" 
+                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Text="{x:Bind Mode=TwoWay, Path=MsgDate}"
+                                     HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="15,required" />
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,1,0"/>
-                            <TextBox Grid.Column="2"  Header="Time:"  BorderBrush="White" Margin="2"
+                            <TextBox Grid.Column="2"  Header="Time:"  
+                                     Style="{StaticResource MuniStatusTimeTextBox}"
                                      Text="{x:Bind Mode=TwoWay, Path=MsgTime}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16,required" 
                                      PlaceholderText="hh:mm" TextChanged="TextBox_TextChanged"/>
@@ -361,10 +366,13 @@
                                 <ColumnDefinition Width="177"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="facilityPhone" Header="Phone #:" Margin="2"
+                            <TextBox Grid.Column="0" x:Name="facilityPhone" Header="Phone #:"
+                                     Style="{StaticResource MuniStatusPhoneTextBox}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="18,conditionallyrequired"/>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                            <TextBox Grid.Column="1" x:Name="facilityFax" Header="Fax #:" BorderThickness="1" Margin="2"
+                            <TextBox Grid.Column="1" x:Name="facilityFax" 
+                                     Style="{StaticResource MuniStatusPhoneTextBox}"
+                                     Header="Fax #:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="19"/>
                         </Grid>
                         <Border Grid.Column="0" Grid.Row="2" BorderBrush="black" BorderThickness="0,0,1,1"/>
@@ -372,16 +380,17 @@
                                   HeaderTemplate="{StaticResource alliedHeaderTemplate}" BorderThickness="1" Margin="2" />
                         <Grid Grid.Column="1" Grid.Row="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="226"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBox Grid.Column="0" x:Name="incidentName" Header="Incident Name and Date:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Margin="2"
                                      TextChanged="TextBox_TextChanged" Tag=",conditionallyrequired"/>
-                            <TextBox Grid.Column="1" x:Name="incidentDate" Margin="2"
+                            <TextBox Grid.Column="1" x:Name="incidentDate"
+                                     Style="{StaticResource MuniStatusDateTextBox}"
                                      Header=" "
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"
-                                     PlaceholderText="mm/dd/yyyy" TextChanged="TextBox_TextChanged"
+                                     TextChanged="TextBox_TextChanged"
                                      Tag=",conditionallyrequired"/>
                         </Grid>
                         <Border Grid.Column="0" Grid.Row="3"  Background="LightGray"/>

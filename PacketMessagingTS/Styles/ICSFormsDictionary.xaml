@@ -33,7 +33,8 @@
         <Setter Property="FontSize" Value="12"/>
 		<Setter Property="Foreground" Value="Black"/>
 		<Setter Property="FontWeight" Value="Bold"/>
-	</Style>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
     <Style x:Key="LabelFontTNR12" TargetType="TextBlock" BasedOn="{StaticResource LabelFontTNR12B}">
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -123,7 +124,7 @@
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="AcceptsReturn" Value="True"/>
         <Setter Property="Height" Value="40"/>
-        <Setter Property="Margin" Value="10,2,2,2"/>
+        <Setter Property="Margin" Value="10,2,10,2"/>
     </Style>
     <Style x:Key="MuniStatusComboBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="Ariel"/>
@@ -136,20 +137,37 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Margin" Value="2"/>
     </Style>
+    <Style x:Key="MuniStatusSituationComboBox" TargetType="ComboBox" BasedOn="{StaticResource MuniStatusComboBox}">
+        <Setter Property="DisplayMemberPath" Value="Item"/>
+        <Setter Property="Margin" Value="5,2,2,2"/>
+    </Style>
+
     <Style x:Key="MuniStatusTextBox" TargetType="TextBox">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Background" Value="White"/>
         <Setter Property="Foreground" Value="Black"/>
         <!--<Setter Property="TextBox.FontWeight" Value="Bold"/>-->
-        <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
+        <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="2"/>
     </Style>
     <Style x:Key="MuniStatusDateTextBox" TargetType="TextBox" BasedOn="{StaticResource MuniStatusTextBox}">
         <Setter Property="Width" Value="110"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="PlaceholderText" Value="mm/dd/yyyy"/>
     </Style>
+    <Style x:Key="MuniStatusTimeTextBox" TargetType="TextBox" BasedOn="{StaticResource MuniStatusTextBox}">
+        <Setter Property="Width" Value="90"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <!--<Setter Property="TextChanged" Value="TextBox_TimeChanged"/>-->
+        <Setter Property="PlaceholderText" Value="hh:mm"/>
+    </Style>
+    <Style x:Key="MuniStatusPhoneTextBox" TargetType="TextBox" BasedOn="{StaticResource MuniStatusTextBox}">
+        <Setter Property="Width" Value="180"/>
+        <Setter Property="PlaceholderText" Value="000-000-0000- x00"/>
+    </Style>
+
     <Style x:Key="ShelterStatusHeaderText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Ariel"/>
         <Setter Property="FontStyle" Value="Normal"/>
@@ -191,8 +209,8 @@
 		<Setter Property="Foreground" Value="Black"/>
 	</Style >
 	<Style x:Key="RadioButtonTNR12B" TargetType="RadioButton">
-		<Setter Property="FontFamily" Value="Times New Roman"/>
-		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="FontFamily" Value="Sans serif"/>
+		<Setter Property="FontSize" Value="10"/>
 		<Setter Property="Foreground" Value="Black"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="FontWeight" Value="Bold"/>

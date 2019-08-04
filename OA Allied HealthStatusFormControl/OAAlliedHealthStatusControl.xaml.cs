@@ -84,7 +84,7 @@ namespace OAAlliedHealthStatus201802FormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-allied-health-facility-status.html",
-                "#V: 2.17-2.1",
+                $"#V: 2.17-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -123,14 +123,6 @@ namespace OAAlliedHealthStatus201802FormControl
             }
             UpdateFormFieldsRequiredColors();
         }
-
-        //private void ReportType_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
-        //    UpdateRequiredFields(required);
-        //    UpdateFormFieldsRequiredColors();
-        //    ValidateForm();
-        //}
 
     }
 }

@@ -104,10 +104,10 @@ namespace PacketMessagingTS.Views
         private void TextButton_Click(object sender, RoutedEventArgs e)
         {
             i++;
-            //textBoxText += $" \nTest text{i}";
-            //textBoxStatus.Text = textBoxText;
+            textBoxText += $" \nTest text{i}";
+            textBoxStatus.Text = textBoxText;
 
-            RxTxStatusViewModel.AddRxTxStatus = $"\nTest text{i}";
+            //RxTxStatusViewModel.AddRxTxStatus = $"\nTest text{i}";
         }
 
         private void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)

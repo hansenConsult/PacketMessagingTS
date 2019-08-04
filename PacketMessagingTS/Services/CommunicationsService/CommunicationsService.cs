@@ -79,10 +79,26 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return _communicationsService;
         }
 
-        public void AddRxTxStatus(string text)
+        static RxTxStatusPage rxTxStatusPage;
+        public async void AddRxTxStatusAsync(string text)
         {
-            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+            //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
             //Thread.Sleep(0); No effect
+            //{
+            if (rxTxStatusPage == null)
+            {
+                rxTxStatusPage = Singleton<RxTxStatusViewModel>.Instance.StatusPage;
+                if (rxTxStatusPage == null)
+                    return;
+            }
+            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
+            {
+                //rxTxStatusPage.AddTextToStatusWindow(text);
+                MainPage.Current.AddTextToStatusWindow(text);
+            });
+
         }
 
         public void AbortConnection()
@@ -505,7 +521,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return sendMailSuccess;
         }
 
-        //public async void BBSConnectAsync2(AppWindow appWindow)
+        CoreDispatcher _dispatcher;
+        public async void BBSConnectAsync2(CoreDispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;
+            BBSConnectAsync2();
+        }
+
         public async void BBSConnectAsync2()
         {
             //_appWindow = appWindow;
@@ -531,9 +553,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //// Now show the window
             //await _appWindow.TryShowAsync();
 
-            AddRxTxStatus("\rSending");
-
-            //return; // Test show status window
+            //AddRxTxStatus("\rSending");
+            AddRxTxStatusAsync("\rSending");
 
             FormControlBase formControl;
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
@@ -549,7 +570,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
             // Get the files in the Outbox folder
             StorageFileQueryResult results = SharedData.UnsentMessagesFolder.CreateFileQueryWithOptions(queryOptions);
             // Iterate over the results
+            //AddRxTxStatusAsync("\rSending before await");
             IReadOnlyList<StorageFile> files = await results.GetFilesAsync();
+
+            AddRxTxStatusAsync("\rSending after await");
+
             foreach (StorageFile file in files)
             {
                 // Add Outpost message format by Filling the MessageBody field in packetMessage. 
@@ -670,14 +695,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             Utilities.SetApplicationTitle(bbs.Name);
 
-            AddRxTxStatus("\rBefore new TNCInterface");
+            AddRxTxStatusAsync("\rBefore new TNCInterface");
             _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
-            AddRxTxStatus("\rAfter new TNCInterface and before BBSConnectThreadProcAsync()");
+            AddRxTxStatusAsync("\rAfter new TNCInterface and before BBSConnectThreadProcAsync()");
 
             // Collect remaining messages to be sent
             // Process files to be sent via BBS
             await _tncInterface.BBSConnectThreadProcAsync();
-            AddRxTxStatus("\rAfter BBSConnectThreadProcAsync()");
+            AddRxTxStatusAsync("\rAfter BBSConnectThreadProcAsync()");
 
 
             // Close status window

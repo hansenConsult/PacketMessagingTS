@@ -333,7 +333,7 @@ namespace FormControlBaseClass
                         bool match = true;
                         if (!string.IsNullOrEmpty(date))
                         {
-                            string datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";
+                            string datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";//(0[1-9]|1[012])/(0[1-9]|1[0-9]|2[0-9]|3[01])/[1-2][0-9][0-9][0-9]
                             match = Regex.IsMatch(date, datePattern);
                         }
 
@@ -365,8 +365,8 @@ namespace FormControlBaseClass
                         bool match = true;
                         if (!string.IsNullOrEmpty(time))
                         {
-                            //string timePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";
-                            //match = Regex.IsMatch(date, timePattern);
+                            string timePattern = @"^((0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9])|24:?00$";
+                            match = Regex.IsMatch(time, timePattern);
                         }
 
                         //if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))

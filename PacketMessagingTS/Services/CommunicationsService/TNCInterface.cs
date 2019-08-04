@@ -11,6 +11,7 @@ using MessageFormControl;
 
 using MetroLog;
 
+using PacketMessagingTS.Views;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
@@ -297,9 +298,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async void AddTextToStatusWindowAsync(string text)
         {
-            return;
-
-
+            if (Singleton<RxTxStatusViewModel>.Instance.StatusPage == null)
+                return;
+                    
             //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             //communicationsService.AddRxTxStatus($"{text}");
 
@@ -315,7 +316,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
                 //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-                Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
+                //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
+                MainPage.Current.AddTextToStatusWindow(text);
             });
             //}
             //else
@@ -665,7 +667,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //_appWindowFrame = appWindow;
             //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             //communicationsService.AddRxTxStatus($"\nIn BBSConnectThreadProcAsync");
-            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = $"\nIn BBSConnectThreadProcAsync";
+            //ngleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = $"\nIn BBSConnectThreadProcAsync";
 
             _packetMessagesSent.Clear();
             PacketMessagesReceived.Clear();
@@ -739,6 +741,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     exitedBeforeConnect = true;
                     goto AbortWithoutConnect;
                 }
+
+                return; //TEST
+
 
                 _connectState = ConnectState.ConnectStateBBSTryConnect;
                 _serialPort.Write("connect " + _bbsConnectName + "\r");

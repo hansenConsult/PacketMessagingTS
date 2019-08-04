@@ -38,7 +38,7 @@
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
                                 <TextBlock Text="WebEOC: 20130814" HorizontalAlignment="Left"/>
-                                <TextBlock Text="PIF: 2.1" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>
                             </Grid>
                         </StackPanel>
 
@@ -66,7 +66,7 @@
                     <Grid BorderBrush="Black" BorderThickness="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
@@ -74,14 +74,17 @@
                         <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" x:Name="textBoxMsgDate" Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
-                                 PlaceholderText="mm/dd/yy" Margin="2"  Tag="1a.,required"
-                                 TextChanged="TextBox_TextChanged"/>
+                        <TextBox Grid.Column="1" x:Name="textBoxMsgDate" 
+                                 Style="{StaticResource MuniStatusDateTextBox}"
+                                 Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
+                                 Tag="1a.,required"
+                                 TextChanged="TextBox_DateChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="3" x:Name="textBoxMsgTime" Margin="2" 
+                        <TextBox Grid.Column="3" x:Name="textBoxMsgTime" 
+                                 Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
-                                 PlaceholderText="hh:mm" Tag="1b.,required"
+                                 Tag="1b.,required"
                                  TextChanged="TextBox_TextChanged"/>
                         <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel Orientation="Horizontal">
@@ -91,11 +94,14 @@
                                                                CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
                                 <RadioButton x:Name="immediate" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
+                                             Style="{StaticResource RadioButtonTNR12B}" 
+                                             Margin="10,0" Padding="4" 
                                              Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
-                                    ToolTipService.ToolTip="As soon as possible" />
-                                <RadioButton x:Name="priority" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" Content="PRIORITY" Checked="Subject_Changed"
-                                    ToolTipService.ToolTip="Less than one hour" />
+                                             ToolTipService.ToolTip="As soon as possible" />
+                                <RadioButton x:Name="priority" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" 
+                                             Margin="10,0" Padding="4" Content="PRIORITY (1 hr)" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="Less than one hour" />
                                 <RadioButton x:Name="routine" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
                                              Content="ROUTINE (\ 2 hrs)" Checked="Subject_Changed"
@@ -291,8 +297,8 @@
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33a.,conditionallyrequired"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="City:" 
                                        VerticalAlignment="Center" />
-                            <ComboBox Grid.Column="1" Grid.Row="4" x:Name="shelterCity"
-                                      DisplayMemberPath="Item"
+                            <ComboBox Grid.Column="1" Grid.Row="4" x:Name="shelterCity" Margin="2"
+                                      DisplayMemberPath="Item" Width="160"
                                       ItemsSource="{x:Bind Municipalities}" 
                                       Tag="33b.,conditionallyrequired"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="State:" 
@@ -301,7 +307,8 @@
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33c.,conditionallyrequired"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Zip:" 
                                        VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.Row="6" 
+                            <TextBox Grid.Column="1" Grid.Row="6" Width="100"
+                                     HorizontalAlignment="Left"
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33d."/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Margin="5,0,0,0" Text="Latitude:" 
                                        VerticalAlignment="Center" />
@@ -445,7 +452,7 @@
                                        Text="Primary Contact Phone:" 
                                        HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" Grid.Row="3" x:Name="primaryContactPhone"
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource MuniStatusPhoneTextBox}"
                                      PlaceholderText="000-000-0000 x00"
                                      HorizontalAlignment="Left" Tag="51b.,conditionallyrequired" />
                             <TextBlock Grid.Column="0" Grid.Row="4" 
@@ -458,7 +465,7 @@
                                        Text="Secondary Phone:" 
                                        VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" Grid.Row="5"
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource MuniStatusPhoneTextBox}"
                                      PlaceholderText="000-000-0000 x00"
                                      HorizontalAlignment="Left" Tag="52b."/>
                         </Grid>

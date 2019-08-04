@@ -20,7 +20,8 @@ namespace PacketMessagingTS.ViewModels
     public class RxTxStatusViewModel : BaseViewModel
     {
 
-        public RxTxStatusPage StatusPage { get; set; }
+        public RxTxStatusPage StatusPage
+        { get; set; }
 
         public AppWindow AppWindow
         { get; set; }
@@ -38,9 +39,10 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 string status = rxTxStatus + value;
-                //StatusPage.textBoxStatus.Text = 
-                //Debug.Write(value);
+                //StatusPage.AddTextToStatusWindow.Text = status;
+                Debug.Write(value);
                 Set(ref rxTxStatus, status);
+
             }
             //set => RxTxStatusPage.AddRxTxStatus = value;
         }

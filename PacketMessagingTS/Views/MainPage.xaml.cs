@@ -191,34 +191,34 @@ namespace PacketMessagingTS.Views
             Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
         }
 
-       // private void OpenMessage(PacketMessage packetMessage)
-       // {
-       //     string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
-       //     string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
-       //     Type type = typeof(FormsPage);
-       //     switch (packetMessage.FormControlType)
-       //     {
-       //         case FormControlAttribute.FormType.Undefined:
-       //             type = typeof(FormsPage);
-       //             break;
-       //         case FormControlAttribute.FormType.None:
-       //             type = typeof(FormsPage);
-       //             break;
-			    //case FormControlAttribute.FormType.CountyForm:
-       //             type = typeof(FormsPage);
-       //             break;
-			    //case FormControlAttribute.FormType.CityForm:
-       //             type = typeof(CityFormsPage);
-       //             break;
-			    //case FormControlAttribute.FormType.HospitalForm:
-       //             type = typeof(HospitalFormsPage);
-       //             break;
-       //         case FormControlAttribute.FormType.TestForm:
-       //             type = typeof(TestFormsPage);
-       //             break;
-       //     }
-       //     NavigationService.Navigate(type, packetMessagePath);
-       // }
+        // private void OpenMessage(PacketMessage packetMessage)
+        // {
+        //     string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
+        //     string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
+        //     Type type = typeof(FormsPage);
+        //     switch (packetMessage.FormControlType)
+        //     {
+        //         case FormControlAttribute.FormType.Undefined:
+        //             type = typeof(FormsPage);
+        //             break;
+        //         case FormControlAttribute.FormType.None:
+        //             type = typeof(FormsPage);
+        //             break;
+        //case FormControlAttribute.FormType.CountyForm:
+        //             type = typeof(FormsPage);
+        //             break;
+        //case FormControlAttribute.FormType.CityForm:
+        //             type = typeof(CityFormsPage);
+        //             break;
+        //case FormControlAttribute.FormType.HospitalForm:
+        //             type = typeof(HospitalFormsPage);
+        //             break;
+        //         case FormControlAttribute.FormType.TestForm:
+        //             type = typeof(TestFormsPage);
+        //             break;
+        //     }
+        //     NavigationService.Navigate(type, packetMessagePath);
+        // }
 
         private async Task DeleteMessageAsync(PacketMessage packetMessage)
         {
@@ -278,12 +278,22 @@ namespace PacketMessagingTS.Views
             // Attach the XAML content to our window
             ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
 
+            //AppWindowPlacement placement = appWindow.GetPlacement();
+            //double width = placement.Size.Width;
+            //Point offset = new Point(-width, 50);
+            //appWindow.RequestMoveRelativeToCurrentViewContent(offset);
+
             // Now show the window
             await appWindow.TryShowAsync();
+            AppWindowPlacement placement = appWindow.GetPlacement();
+            double width = placement.Size.Width;
+            Point offset = new Point(-width, 50);
+            appWindow.RequestMoveRelativeToCurrentViewContent(offset);
 
             CommunicationsService communicationsService = CommunicationsService.CreateInstance();
 
-            communicationsService.BBSConnectAsync2();
+            //communicationsService.BBSConnectAsync2();
+            communicationsService.BBSConnectAsync2(Dispatcher);
 
             await RefreshDataGridAsync();
         }
@@ -351,14 +361,14 @@ namespace PacketMessagingTS.Views
         int i = 0;
         private void AppBarMainPage_TestStatusPage(object sender, RoutedEventArgs e)
         {
-            i++;
+            //i++;
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
 
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = $"\nTest text{i}";
 
             CommunicationsService communicationsService = CommunicationsService.CreateInstance();
-            communicationsService.AddRxTxStatus($"\nTest text{i}");
+            //communicationsService.AddRxTxStatusAsync($"\nTest text{i}");
         }
 
         public object GetDynamicSortProperty(object item, string propName)

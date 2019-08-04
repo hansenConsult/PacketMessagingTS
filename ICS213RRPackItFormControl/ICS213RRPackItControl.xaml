@@ -37,11 +37,11 @@
                         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                         <StackPanel Grid.Column="0" VerticalAlignment="Center" >
                             <TextBlock  FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                                   Foreground="Black" Text="SCC EOC RESOURCE REQUEST FORM" 
+                                   Foreground="Black" Text="SCC EOC RESOURCE REQUEST FORM 213RR" 
                                    HorizontalAlignment="Center" Margin="5,0" />
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
                                 <TextBlock Text="Version 8/17" HorizontalAlignment="Left"/>
-                                <TextBlock Text="PIF: 2.0" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>
                             </Grid>
                         </StackPanel>
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
@@ -68,20 +68,23 @@
                     <Grid BorderBrush="Black" BorderThickness="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
-                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" Name="textBoxMsgDate" Text="{x:Bind MsgDate, Mode=TwoWay}" 
-                                 PlaceholderText="mm/dd/yy" Margin="2"  Tag="1a.,required"
+                                   Margin="8,0,0,0"/>
+                        <TextBox Grid.Column="1" Name="textBoxMsgDate" 
+                                 Style="{StaticResource MuniStatusDateTextBox}" 
+                                 Text="{x:Bind MsgDate, Mode=TwoWay}" 
+                                 Margin="2"  Tag="1a.,required"
                                  TextChanged="TextBox_TextChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                         <TextBox Grid.Column="3" Name="textBoxMsgTime" Margin="2" 
+                                 Style="{StaticResource MuniStatusTimeTextBox}" 
                                  Text="{x:Bind MsgTime, Mode=TwoWay}" 
                                  PlaceholderText="hh:mm" Tag="1b.,required"
                                  TextChanged="TextBox_TextChanged"/>
@@ -156,7 +159,7 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <StackPanel >
                                     <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
-                                    <TextBox x:Name="toName" BorderThickness="1" Margin="10,0,10,2" Tag="7c."
+                                    <TextBox x:Name="toName" Margin="10,0,10,2" Tag="7c."
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Name:"/>
                                 </StackPanel>
@@ -164,8 +167,8 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">
                                 <StackPanel >
                                     <TextBox x:Name="toContactInfo" 
-                                             BorderThickness="1" Margin="10,0,10,2" Tag="7d."
-                                             TextChanged="PhoneNumber_TextChanged"
+                                             Margin="10,0,10,2" Tag="7d."
+                                             TextChanged="TextBox_PhoneChanged"
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Contact Info:"/>
 
@@ -229,7 +232,7 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <StackPanel >
                                     <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
-                                    <TextBox x:Name="fromName"  BorderThickness="1" Margin="10,0,10,2" Tag="8c."
+                                    <TextBox x:Name="fromName" Margin="10,0,10,2" Tag="8c."
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Name:"/>
 
@@ -238,8 +241,8 @@
                             <!--<Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">-->
                                 <StackPanel >
                                     <TextBox x:Name="fromContactInfo" 
-                                             Margin="10,0,10,2" Tag="8d." BorderThickness="1" 
-                                             TextChanged="PhoneNumber_TextChanged"
+                                             Margin="10,0,10,2" Tag="8d." 
+                                             TextChanged="TextBox_PhoneChanged"
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Contact Info:"/>
                                 </StackPanel>
@@ -276,7 +279,7 @@
                                 <!--<TextBlock Text="2. Date Initiated" Style="{StaticResource EOC213RRFieldHeader}"/>-->
                                 <TextBox Name="msgDate" PlaceholderText="mm/dd/yyyy" 
                                          Text="{x:Bind MsgDate}"
-                                         FontFamily="Ariel" FontSize="14"  Margin="5,2" 
+                                         Style="{StaticResource MuniStatusDateTextBox}"                                             
                                          TextChanged="TextBox_TextChanged"
                                          Tag="22.,required,Enter the Date Initialized."
                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
@@ -288,8 +291,8 @@
                                 </TextBlock>-->
                                 <TextBox Name="msgTime" PlaceholderText="hh:mm" 
                                          Text="{x:Bind MsgTime, Mode=TwoWay}"
-                                         FontFamily="Helvetica" FontSize="14" Margin="5,2"  
-                                         TextChanged="TextBox_TextChanged"
+                                         Style="{StaticResource MuniStatusTimeTextBox}"                                         
+                                         TextChanged="TextBox_TimeChanged"
                                          Tag="23.,required,Enter the message time."
                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                          Header="3. Time Initiated:"/>
@@ -318,7 +321,7 @@
                                     <Run Text="6. Prepared by"/>
                                     <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                 </TextBlock>
-                                <TextBox Name="preparedBy" FontFamily="Helvetica" FontSize="14"  BorderThickness="1" 
+                                <TextBox Name="preparedBy" FontFamily="Helvetica" FontSize="14"  
                                          MinHeight="50" AcceptsReturn="True" Margin="5,2" Tag="26."/>
                             </StackPanel>
                         </Border>
@@ -329,7 +332,7 @@
                                     <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                 </TextBlock>
                                 <TextBox Name="approvedBy" FontFamily="Helvetica" FontSize="14" MinHeight="50"  
-                                         BorderThickness="1" AcceptsReturn="True" Margin="5,2" Tag="27."/>
+                                         AcceptsReturn="True" Margin="5,2" Tag="27."/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -366,7 +369,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition MinHeight="64"/>
                             </Grid.RowDefinitions>
                             <Border Grid.ColumnSpan="5" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                             <TextBlock Grid.ColumnSpan="5" Grid.Row="0" Text="REQUESTED RESOURCE DETAILS" HorizontalAlignment="Center" 
@@ -415,7 +418,7 @@
                                 <x:String>Low (12+ hrs.)</x:String>
                             </ComboBox>
                             <TextBox Grid.Column="4" Grid.Row="2" Name="resourceInfoCost1"  
-                                     BorderThickness="1" InputScope="CurrencyAmount" 
+                                     InputScope="CurrencyAmount" 
                                      AcceptsReturn="True" Margin="5,10,5,5" MinWidth="0" Tag="32."/>
                         </Grid>
                         <Grid Grid.Column="1" Grid.Row="1">
@@ -482,7 +485,7 @@
                                                    MinHeight="12" MinWidth="100" Tag="36c."
                                                    Checked="SuppReqFuel_Checked"
                                                    Unchecked="SuppReqFuel_Checked"/>
-                                        <TextBox Name="suppReqFuelType" Width="83" BorderThickness="1" Tag="36d."
+                                        <TextBox Name="suppReqFuelType" Width="83" Tag="36d."
                                                  TextChanged="TextBox_TextChanged"/>
                                     </StackPanel>
                                     <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
@@ -513,7 +516,7 @@
                             <StackPanel Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>
                                 <TextBox Name="specialInstructions"  Margin="5,5,5,5" 
-                                         AcceptsReturn="True" Height="136" BorderThickness="1" 
+                                         AcceptsReturn="True" Height="136"
                                          Tag="37."/>
                             </StackPanel>
                         </Grid>
