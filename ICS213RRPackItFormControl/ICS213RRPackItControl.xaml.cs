@@ -30,9 +30,6 @@ namespace ICS213RRPackItFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-            //ReceivedOrSent = "sender";
-            //HowReceivedSent = "packet";
         }
 
 

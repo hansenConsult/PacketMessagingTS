@@ -57,7 +57,7 @@
                                    Text="Message Form" />
                         <Grid>
                             <TextBlock FontSize="12" Text="SCCo ICS Form 213 (05/29/2019)" HorizontalAlignment="Left" />
-                            <TextBlock  FontSize="12" Text="PIF 2.0" HorizontalAlignment="Right" />
+                                <TextBlock  FontSize="12" Text="{x:Bind PIFString}" HorizontalAlignment="Right" />
                         </Grid>
                         </StackPanel>
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">

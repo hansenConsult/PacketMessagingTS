@@ -96,11 +96,11 @@ namespace OAMunicipalStatusPackItFormControl
             InitializeToggleButtonGroups();
         }
 
-        public string JurisdictionName
-        {
-            get => jurisdictionName.SelectedValue as string;
-            set => jurisdictionName.SelectedValue = value;
-        }
+        //public string JurisdictionName
+        //{
+        //    get => jurisdictionName.SelectedValue as string;
+        //    set => jurisdictionName.SelectedValue = value;
+        //}
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
@@ -112,7 +112,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_OAMuniStat_{JurisdictionName}";
+            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_OAMuniStat_{jurisdictionName.SelectedValue as string}";
         }
 
         public string ReportType
@@ -248,60 +248,6 @@ namespace OAMunicipalStatusPackItFormControl
             return CreateOutpostMessageBody(outpostData);
         }
 
-        //protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
-        //{
-        //    if (formField.ControlName == "municipalityName")
-        //    {
-        //        string outpostData = formField.ControlContent;
-        //        if (outpostData.Contains("*"))
-        //        {
-        //            outpostData = "Unincorporated";
-        //        }
-        //        return $"{id}: [{outpostData}]";
-        //    }
-        //    else
-        //    {
-        //        return base.CreateComboBoxOutpostDataString(formField, id);
-        //    }
-        //}
-
-        //public override FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines)
-        //{
-        //    FormField[] formFields = CreateEmptyFormFieldsArray();
-
-        //    foreach (FormField formField in formFields)
-        //    {
-        //        (string id, Control control) = GetTagIndex(formField);
-
-        //        if (control is ToggleButtonGroup)
-        //        {
-        //            foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
-        //            {
-        //                string radioButtonIndex = GetTagIndex(radioButton);
-        //                if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
-        //                {
-        //                    formField.ControlContent = radioButton.Name;
-        //                }
-        //            }
-
-        //        }
-        //        else if (control is CheckBox)
-        //        {
-        //            formField.ControlContent = (GetOutpostValue(id, ref msgLines) == "true" ? "True" : "False");
-        //        }
-        //        else if (control is ComboBox comboBox)
-        //        {
-        //            string conboBoxData = GetOutpostValue(id, ref msgLines);
-        //            var comboBoxDataSet = conboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-        //            formField.ControlContent = comboBoxDataSet[0];
-        //        }
-        //        else
-        //        {
-        //            formField.ControlContent = GetOutpostValue(id, ref msgLines);
-        //        }
-        //    }
-        //    return formFields;
-        //}
 
         //private void EocOpen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
@@ -398,6 +344,9 @@ namespace OAMunicipalStatusPackItFormControl
             {
                 howSent.Tag = (howSent.Tag as string).Replace(",required", ",conditionallyrequired");
             }
+
+            //FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == howSent.Name);
+
             //foreach (FormControl formControl in _formControlsList)
             //{
             //    if (howSent.Name == formControl.InputControl.Name)

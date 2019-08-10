@@ -480,7 +480,7 @@ namespace FormControlBaseClass
             foreach (FormField formField in formFields)
             {
                 (string id, Control control) = GetTagIndex(formField);
-                formField.PacFormIndex = id;
+                formField.FormIndex = id;
 
                 if (control is ToggleButtonGroup)
                 {
@@ -552,7 +552,7 @@ namespace FormControlBaseClass
                 foreach (FormField formField in formFields)
                 {
                     (string id, Control control) = GetTagIndex(formField);
-                    formField.PacFormIndex = id;    
+                    formField.FormIndex = id;    
                     if (control is ToggleButtonGroup)
                     {
                         foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
@@ -611,7 +611,7 @@ namespace FormControlBaseClass
             try
             {
                 // The control may not have a name, but the tag index is defined
-                if (!string.IsNullOrEmpty(formField.PacFormIndex))
+                if (!string.IsNullOrEmpty(formField.FormIndex))
                 {
                     // Index is known, no name
                     foreach (FormControl frmControl in _formControlsList)
@@ -620,7 +620,7 @@ namespace FormControlBaseClass
                         if (!string.IsNullOrEmpty(tag))
                         {
                             string[] tags = tag.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (tags[0] == formField.PacFormIndex)
+                            if (tags[0] == formField.FormIndex)
                             {
                                 return (tags[0], frmControl.InputControl);
                             }
@@ -915,7 +915,7 @@ namespace FormControlBaseClass
                     //InputControl = _formControlsList[i].InputControl;
                     ControlName = _formControlsList[i].InputControl.Name,
                     ControlContent = "",
-                    PacFormIndex = tagIndexString,  //tagIndex,
+                    FormIndex = tagIndexString,  //tagIndex,
                 };
                 formFields.SetValue(formField, i);
 
@@ -933,7 +933,7 @@ namespace FormControlBaseClass
                 {
                     //InputControl = _formControlsList[i].InputControl,
                     ControlName = _formControlsList[i].InputControl.Name,
-                    PacFormIndex = GetTagIndex(_formControlsList[i].InputControl),
+                    FormIndex = GetTagIndex(_formControlsList[i].InputControl),
                 };
 
                 if (_formControlsList[i].InputControl is TextBox textBox)
@@ -1070,9 +1070,9 @@ namespace FormControlBaseClass
                         case "msgTime":
                             MsgTime = textBox.Text;
                             break;
-                        //case "incidentName":
-                        //    IncidentName = textBox.Text;
-                        //    break;
+                        case "incidentName":
+                            IncidentName = textBox.Text;
+                            break;
                         case "subject":
                             Subject = textBox.Text;
                             break;
@@ -1159,10 +1159,10 @@ namespace FormControlBaseClass
             {
                 if (sender is RadioButton radioButton)
                 {
-                    if (radioButton.Name == "emergency")
-                    {
-                        HandlingOrder = "immediate";
-                    }
+                    //if (radioButton.Name == "emergency") No longer allowed
+                    //{
+                    //    HandlingOrder = "immediate";
+                    //}
                     if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
                     {
                         toggleButtonGroup.CheckedControlName = radioButton.Name;
@@ -1174,6 +1174,7 @@ namespace FormControlBaseClass
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
                         }
+                        break;
                     }
                 }
                 else if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
@@ -1188,6 +1189,7 @@ namespace FormControlBaseClass
                         textBox.BorderThickness = new Thickness(1);
                         textBox.BorderBrush = formControl.BaseBorderColor;
                     }
+                    break;
                 }
                 else if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
                 {
@@ -1199,6 +1201,7 @@ namespace FormControlBaseClass
                     {
                         comboBox.BorderBrush = formControl.BaseBorderColor;
                     }
+                    break;
                 }
             }
             EventHandler<FormEventArgs> OnSubjectChange = EventSubjectChanged;
@@ -1290,13 +1293,13 @@ namespace FormControlBaseClass
         {
             bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
             UpdateRequiredFields(required);
-            ValidateForm();
+            //ValidateForm();
         }
 
         protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
-            if (FormPacketMessage != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
+            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
             {
                 foreach (FormField formField in FormPacketMessage.FormFieldArray)
                 {

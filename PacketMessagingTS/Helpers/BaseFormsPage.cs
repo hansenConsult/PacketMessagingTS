@@ -293,11 +293,13 @@ namespace PacketMessagingTS.Helpers
             {
                 _packetForm.MessageSentTime = _packetMessage.JNOSDate;
                 _packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
+                _packetForm.OriginMsgNo = _packetMessage.SenderMessageNumber;
                 _packetForm.ReceivedOrSent = "Receiver";
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
             {
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
+                _packetForm.DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
                 _packetForm.OriginMsgNo = _packetMessage.MessageNumber;
                 _packetForm.ReceivedOrSent = "Sender";
 
@@ -496,10 +498,11 @@ namespace PacketMessagingTS.Helpers
         {
             if (e?.SubjectLine?.Length > 0)
             {
+                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
                 if (_packetMessage != null)
                 {
                     _packetMessage.Subject = _packetForm.CreateSubject();
-                    _packetAddressForm.MessageSubject = _packetMessage.Subject;
+                    //_packetAddressForm.MessageSubject = _packetMessage.Subject;
                 }
             }
         }
@@ -691,16 +694,22 @@ namespace PacketMessagingTS.Helpers
 
         public void AppBarSave_Click(object sender, RoutedEventArgs e)
         {
-            // if the message state was locked it means it was previously sent or received.
-            // We must assign a new message number
-            if (_packetMessage.MessageState == MessageState.Locked)
+            if (_packetMessage != null)     // Not a new message
             {
-                _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+                // if the message state was locked it means it was previously sent or received.
+                // We must assign a new message number
+                if (_packetMessage.MessageState == MessageState.Locked)
+                {
+                    _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+                    _packetMessage.MessageNumber = _packetForm.MessageNo;
+                }
             }
-
-            CreatePacketMessage(MessageState.None);
-            //DateTime dateTime = DateTime.Now;                     // This and following line is in CreatePacketMessage()
-            //_packetMessage.CreateTime = DateTime.Now;
+            else
+            {
+                CreatePacketMessage(MessageState.None);
+                //DateTime dateTime = DateTime.Now;                     // This and following line is in CreatePacketMessage()
+                //_packetMessage.CreateTime = DateTime.Now;
+            }
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
             Utilities.MarkMessageNumberAsUsed();
