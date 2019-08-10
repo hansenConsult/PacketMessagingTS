@@ -24,39 +24,39 @@ namespace OAShelterStatusFormControl
     {
         List<ComboBoxPackItItem> Municipalities = new List<ComboBoxPackItItem>
         {
-                new ComboBoxPackItItem("Campbell", "Campbell"),
-                new ComboBoxPackItItem("Cupertino", "Cupertino"),
-                new ComboBoxPackItItem("Gilroy", "Gilroy"),
-                new ComboBoxPackItItem("Los Altos", "Los Altos"),
-                new ComboBoxPackItItem("Los Altos Hills", "Los Altos Hills"),
-                new ComboBoxPackItItem("Los Gatos", "Los Gatos"),
-                new ComboBoxPackItItem("Milpitas", "Milpitas"),
-                new ComboBoxPackItItem("Monte Sereno", "Monte Sereno"),
-                new ComboBoxPackItItem("Morgan Hill", "Morgan Hill"),
-                new ComboBoxPackItItem("Mountain View", "Mountain View"),
-                new ComboBoxPackItItem("Palo Alto", "Palo Alto"),
-                new ComboBoxPackItItem("San Jose", "San Jose"),
-                new ComboBoxPackItItem("Santa Clara", "Santa Clara"),
-                new ComboBoxPackItItem("Saratoga", "Saratoga"),
-                new ComboBoxPackItItem("Sunnyvale", "Sunnyvale"),
+                new ComboBoxPackItItem("Campbell"),
+                new ComboBoxPackItItem("Cupertino"),
+                new ComboBoxPackItItem("Gilroy"),
+                new ComboBoxPackItItem("Los Altos"),
+                new ComboBoxPackItItem("Los Altos Hills"),
+                new ComboBoxPackItItem("Los Gatos"),
+                new ComboBoxPackItItem("Milpitas"),
+                new ComboBoxPackItItem("Monte Sereno"),
+                new ComboBoxPackItItem("Morgan Hill"),
+                new ComboBoxPackItItem("Mountain View"),
+                new ComboBoxPackItItem("Palo Alto"),
+                new ComboBoxPackItItem("San Jose"),
+                new ComboBoxPackItItem("Santa Clara"),
+                new ComboBoxPackItItem("Saratoga"),
+                new ComboBoxPackItItem("Sunnyvale"),
                 new ComboBoxPackItItem("Unincorporated Areas", "Unincorporated")
         };
 
         List<ComboBoxPackItItem> ShelterTypes = new List<ComboBoxPackItItem>
         {
                 new ComboBoxPackItItem(null, ""),
-                new ComboBoxPackItItem("Type 1", "Type 1"),
-                new ComboBoxPackItItem("Type 2", "Type 2"),
-                new ComboBoxPackItItem("Type 3", "Type 3"),
-                new ComboBoxPackItItem("Type 4", "Type 4"),
+                new ComboBoxPackItItem("Type 1"),
+                new ComboBoxPackItItem("Type 2"),
+                new ComboBoxPackItItem("Type 3"),
+                new ComboBoxPackItItem("Type 4"),
         };
 
         List<ComboBoxPackItItem> ShelterStatuses = new List<ComboBoxPackItItem>
         {
                 new ComboBoxPackItItem(null, ""),
-                new ComboBoxPackItItem("Open", "Open"),
-                new ComboBoxPackItItem("Closed", "Closed"),
-                new ComboBoxPackItItem("Full", "Full"),
+                new ComboBoxPackItItem("Open"),
+                new ComboBoxPackItItem("Closed"),
+                new ComboBoxPackItItem("Full"),
         };
 
         List<ComboBoxPackItItem> YesNoContent = new List<ComboBoxPackItItem>
@@ -68,11 +68,11 @@ namespace OAShelterStatusFormControl
 
         List<ComboBoxPackItItem> Managers = new List<ComboBoxPackItItem>
         {
-                new ComboBoxPackItItem("American Red Cross", "American Red Cross"),
-                new ComboBoxPackItItem("Private", "Private"),
-                new ComboBoxPackItItem("Community", "Community"),
-                new ComboBoxPackItItem("Government", "Government"),
-                new ComboBoxPackItItem("Other", "Other"),
+                new ComboBoxPackItItem("American Red Cross"),
+                new ComboBoxPackItItem("Private"),
+                new ComboBoxPackItItem("Community"),
+                new ComboBoxPackItItem("Government"),
+                new ComboBoxPackItItem("Other"),
         };
 
         public OAShelterStatusControl()

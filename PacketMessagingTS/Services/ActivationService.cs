@@ -52,15 +52,16 @@ namespace PacketMessagingTS.Services
                 {
                     // Create a Frame to act as the navigation context and navigate to the first page
                     Window.Current.Content = _shell?.Value ?? new Frame();
-                    NavigationService.NavigationFailed += (sender, e) =>
-                    {
-                        throw e.Exception;
-                    };
-                    NavigationService.Navigated += Frame_Navigated;
-                    if (SystemNavigationManager.GetForCurrentView() != null)
-                    {
-                        SystemNavigationManager.GetForCurrentView().BackRequested += ActivationService_BackRequested;
-                    }
+                    // Below is removed for WinUI
+                    //NavigationService.NavigationFailed += (sender, e) =>
+                    //{
+                    //    throw e.Exception;
+                    //};
+                    //NavigationService.Navigated += Frame_Navigated;
+                    //if (SystemNavigationManager.GetForCurrentView() != null)
+                    //{
+                    //    SystemNavigationManager.GetForCurrentView().BackRequested += ActivationService_BackRequested;
+                    //}
                 }
             }
 
@@ -91,13 +92,13 @@ namespace PacketMessagingTS.Services
         private async Task InitializeAsync()
         {
             //await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync();
-            await ThemeSelectorService.InitializeAsync();
+            await ThemeSelectorService.InitializeAsync();   // WinUI
             await Task.CompletedTask;
         }
 
         private async Task StartupAsync()
         {
-            await ThemeSelectorService.SetRequestedThemeAsync();
+            await ThemeSelectorService.SetRequestedThemeAsync();        // WinUI
             await Task.CompletedTask;
         }
 
@@ -113,19 +114,20 @@ namespace PacketMessagingTS.Services
             return args is IActivatedEventArgs;
         }
 
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack ?
-                AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-        }
+        //private void Frame_Navigated(object sender, NavigationEventArgs e)    // WinUI
+        //{
+        //    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack ?
+        //        AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        //}
 
-        private void ActivationService_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-                e.Handled = true;
-            }
-        }
+        //private void ActivationService_BackRequested(object sender, BackRequestedEventArgs e) // WinUI
+        //{
+        //    if (NavigationService.CanGoBack)
+        //    {
+        //        NavigationService.GoBack();
+        //        e.Handled = true;
+        //    }
+        //}
+
     }
 }

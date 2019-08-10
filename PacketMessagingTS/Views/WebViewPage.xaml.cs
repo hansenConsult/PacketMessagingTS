@@ -134,7 +134,7 @@ namespace PacketMessagingTS.Views
             string value = "";
             foreach (FormField formField in formFields)
             {
-                (string id, Control control) = formControl.GetTagIndex(formField, formProvider);
+                (string id, Control control) = formControl.GetTagIndex(formField);
                 value = FormControlBase.GetOutpostValue(id, ref msgLines);
                 if (!string.IsNullOrEmpty(value))
                 {

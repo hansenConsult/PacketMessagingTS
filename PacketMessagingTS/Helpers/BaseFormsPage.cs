@@ -375,6 +375,7 @@ namespace PacketMessagingTS.Helpers
             {
                 // Open last used empty form
                 _formsPagePivot.SelectedIndex = GetFormsPagePivotSelectedIndex();
+                _packetMessage = null;
                 return;
             }
 
@@ -519,6 +520,7 @@ namespace PacketMessagingTS.Helpers
                 return;
             }
 
+            _packetForm.FormPacketMessage = _packetMessage;
             _packetForm.UpdateFormFieldsRequiredColors(!_loadMessage);
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
             _packetForm.OriginMsgNo = _packetForm.MessageNo;

@@ -51,6 +51,7 @@ namespace PacketMessagingTS
             InitializeComponent();
 
             EnteredBackground += App_EnteredBackground;
+            Resuming += App_Resuming;
             //Suspending += App_SuspendingAsync;
 
             // Deferred execution until used. Check https://msdn.microsoft.com/library/dd642331(v=vs.110).aspx for further info on Lazy<T> class.
@@ -259,6 +260,11 @@ namespace PacketMessagingTS
 
             suspendDeferral?.Complete();
             suspendDeferral = null;
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+            Singleton<SuspendAndResumeService>.Instance.ResumeApp();
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)

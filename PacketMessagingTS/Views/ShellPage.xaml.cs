@@ -52,7 +52,7 @@ namespace PacketMessagingTS.Views
         public ShellPage()
         {
             InitializeComponent();
-            HideNavViewBackButton();
+            //HideNavViewBackButton();  // WinUI
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
 
@@ -72,13 +72,20 @@ namespace PacketMessagingTS.Views
             StartHandlingAppEvents();
         }
 
-        private void HideNavViewBackButton()
-        {
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
-            {
-                navigationView.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
-            }
-        }
+        //private void HideNavViewBackButton()// WinUI
+        //{
+        //    if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
+        //    {
+        //        navigationView.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
+        //    }
+        //}
+
+        //private void OnItemInvoked(WinUI.NavigationView sender, WinUI.NavigationViewItemInvokedEventArgs args)
+        //{
+        //    // Workaround for Issue https://github.com/Microsoft/WindowsTemplateStudio/issues/2774
+        //    // Using EventTriggerBehavior does not work on WinUI NavigationView ItemInvoked event in Release mode.
+        //    ViewModel.ItemInvokedCommand.Execute(args);
+        //}
 
         private void ClearDeviceEntries()
         {

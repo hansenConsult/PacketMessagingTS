@@ -78,10 +78,10 @@ namespace FormControlBaseClass
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
-    //public List<ComboBoxPackItItems> ComboBoxItemsList;
+        //public List<ComboBoxPackItItems> ComboBoxItemsList;
 
-    public FormControlBase()
-		{
+        public FormControlBase()
+        {
         }
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
@@ -271,6 +271,9 @@ namespace FormControlBaseClass
         //public static readonly DependencyProperty OperatorCallsignProperty =
         //	DependencyProperty.Register("OperatorCallsign", typeof(string), typeof(FormControlBase), null);
 
+        public PacketMessage FormPacketMessage
+        { get; set; }
+
         public virtual string TacticalCallsign
         { get; set; }
 
@@ -410,9 +413,6 @@ namespace FormControlBaseClass
         public virtual FormControlAttribute.FormType FormControlType
         { get; }
 
-        //public virtual FormProviders DefaultFormProvider
-        //{ get; }
-
         public abstract FormProviders FormProvider
         { get; }
 
@@ -460,15 +460,15 @@ namespace FormControlBaseClass
         protected virtual string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
         {
             string comboBoxData = GetOutpostValue(id, ref msgLines);
-            var comboBoxDataSet = comboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
+            var comboBoxDataSet = comboBoxData?.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
 
-            return comboBoxDataSet[0];
+            return comboBoxDataSet?[0];
         }
 
         protected virtual FormField[] ConvertFromOutpostPackItForm(FormField[] formFields, ref string[] msgLines)
         {
             string senderMsgNo = "";
-            if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
+            if (!string.IsNullOrEmpty(GetOutpostValue("MsgNo", ref msgLines)))
             {
                 senderMsgNo = GetOutpostValue("1", ref msgLines);
             }
@@ -511,10 +511,6 @@ namespace FormControlBaseClass
                 else if (control is ComboBox comboBox)
                 {
                     formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
-
-                    //string conboBoxData = GetOutpostValue(id, ref msgLines);
-                    //var comboBoxDataSet = conboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-                    //formField.ControlContent = comboBoxDataSet[0];
                 }
                 else if (control is TextBox || control is AutoSuggestBox)
                 {
@@ -531,7 +527,7 @@ namespace FormControlBaseClass
             return formFields;
         }
 
-    public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines, FormProviders formProvider)
+        public virtual FormField[] ConvertFromOutpost(string msgNumber, ref string[] msgLines, FormProviders formProvider)
         {
             FormField[] formFields = CreateEmptyFormFieldsArray();
 
@@ -544,72 +540,65 @@ namespace FormControlBaseClass
             else
             {
                 string senderMsgNo = "";
-
+                    
                 if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
-            {
-                senderMsgNo = GetOutpostValue("1", ref msgLines);
-            }
-            else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
-            {
-                senderMsgNo = GetOutpostValue("3", ref msgLines);
-            }
-
-            foreach (FormField formField in formFields)
-            {
-                (string id, Control control) = GetTagIndex(formField, formProvider);
-                formField.PacFormIndex = id;    //Convert.ToInt32(id == "" ? "-1" : id);
-
-                if (control is ToggleButtonGroup)
                 {
-                    foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
+                    senderMsgNo = GetOutpostValue("1", ref msgLines);
+                }
+                else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
+                {
+                    senderMsgNo = GetOutpostValue("3", ref msgLines);
+                }
+                foreach (FormField formField in formFields)
+                {
+                    (string id, Control control) = GetTagIndex(formField);
+                    formField.PacFormIndex = id;    
+                    if (control is ToggleButtonGroup)
                     {
-                        string radioButtonIndex = GetTagIndex(radioButton, formProvider);
-                        if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
+                        foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
                         {
-                            formField.ControlContent = radioButton.Name;
+                            string radioButtonIndex = GetTagIndex(radioButton, formProvider);
+                            if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
+                            {
+                                formField.ControlContent = radioButton.Name;
+                            }
                         }
                     }
-                }
-                else if (control is CheckBox)
-                {
-                    formField.ControlContent = (GetOutpostValue(id, ref msgLines) == "true" ? "True" : "False");
-                }
-                else if (control is ComboBox comboBox)
-                {
-                    formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
-
-                    //string conboBoxData = GetOutpostValue(id, ref msgLines);
-                    //var comboBoxDataSet = conboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-                    //formField.ControlContent = comboBoxDataSet[0];
-                }
-                else if (control is TextBox || control is AutoSuggestBox)
-                {
-                    if (control.Name == "senderMsgNo")
+                    else if (control is CheckBox)
                     {
-                        formField.ControlContent = senderMsgNo;
+                        formField.ControlContent = (GetOutpostValue(id, ref msgLines) == "true" ? "True" : "False");
                     }
-                    else
+                    else if (control is ComboBox comboBox)
                     {
-                        formField.ControlContent = GetOutpostValue(id, ref msgLines);
-                        // Filter operator date and time
-                        if (!string.IsNullOrEmpty(formField.ControlContent))
+                        formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
+                    }
+                    else if (control is TextBox || control is AutoSuggestBox)
+                    {
+                        if (control.Name == "senderMsgNo")
                         {
-                            int index = formField.ControlContent.IndexOf("{odate");
-                            if (index > 0)
+                            formField.ControlContent = senderMsgNo;
+                        }
+                        else
+                        {
+                            formField.ControlContent = GetOutpostValue(id, ref msgLines);
+                            // Filter operator date and time
+                            if (!string.IsNullOrEmpty(formField.ControlContent))
                             {
-                                formField.ControlContent = formField.ControlContent.Substring(0, index);
-                            }
-                            index = formField.ControlContent.IndexOf("{otime");
-                            if (index > 0)
-                            {
-                                formField.ControlContent = formField.ControlContent.Substring(0, index);
+                                int index = formField.ControlContent.IndexOf("{odate");
+                                if (index > 0)
+                                {
+                                    formField.ControlContent = formField.ControlContent.Substring(0, index);
+                                }
+                                index = formField.ControlContent.IndexOf("{otime");
+                                if (index > 0)
+                                {
+                                    formField.ControlContent = formField.ControlContent.Substring(0, index);
+                                }
                             }
                         }
                     }
                 }
             }
-            }
-
             return formFields;
         }
 
@@ -630,7 +619,7 @@ namespace FormControlBaseClass
                         string tag = frmControl.InputControl.Tag as string;
                         if (!string.IsNullOrEmpty(tag))
                         {
-                            string[] tags = tag.Split(new char[] { ',' });
+                            string[] tags = tag.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                             if (tags[0] == formField.PacFormIndex)
                             {
                                 return (tags[0], frmControl.InputControl);
@@ -647,7 +636,7 @@ namespace FormControlBaseClass
                     string tag = (string)control.Tag;
                     if (!string.IsNullOrEmpty(tag))
                     {
-                        string[] tags = tag.Split(new char[] { ',' });
+                        string[] tags = tag.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                         if (!(tags[0].Contains("required") || tags[0].Contains("conditionallyrequired")))
                         {
                             return (tags[0], control);
@@ -681,43 +670,35 @@ namespace FormControlBaseClass
             return "";
         }
 
-        public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)
-        {
-            // Should not be used anymore!!
+        //public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)
+        //{
+        //    // Should not be used anymore!!
 
-            if (formField is null)
-                return ("", null);
+        //    if (formField is null)
+        //        return ("", null);
 
-            Control control = null;
-            try
-            {
-                //control = formField.InputControl;
-                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                control = formControl?.InputControl;
+        //    Control control = null;
+        //    try
+        //    {
+        //        //control = formField.InputControl;
+        //        FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+        //        control = formControl?.InputControl;
 
-                string tag = (string)control.Tag;
-                if (!string.IsNullOrEmpty(tag))
-                {
-                    string[] tags = tag.Split(new char[] { ',' });
-                    if (!(tags[0].Contains("required") || tags[0].Contains("conditionallyrequired")))
-                    {
-                        string[] formProviderTags = tags[0].Split(new char[] { '|' });
-                        if (formProviderTags.Length > 1)
-                        {
-                            return (formProviderTags[(int)formProvider], control);
-                        }
-                        else
-                        { 
-                            return (tags[0], control);
-                        }
-                    }
-                }
-            }
-            catch
-            {                
-            }
-            return ("", control);
-        }
+        //        string tag = (string)control.Tag;
+        //        if (!string.IsNullOrEmpty(tag))
+        //        {
+        //            string[] tags = tag.Split(new char[] { ',' });
+        //            if (!(tags[0].Contains("required") || tags[0].Contains("conditionallyrequired")))
+        //            {
+        //                return (tags[0], control);
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {                
+        //    }
+        //    return ("", control);
+        //}
 
         public static string GetTagIndex(Control control, FormProviders formProvider)
         {
@@ -899,36 +880,7 @@ namespace FormControlBaseClass
             {
                 if (formProvider == FormProviders.PacItForm)
                 {
-                    if (toggleButtonGroup.Name == "severity" || toggleButtonGroup.Name == "handlingOrder")
-                    {
-                        //return $"{id}: [{formField.ControlContent.ToUpper()}]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]"; 
-                    }
-                    else if (formField.ControlContent.ToLower().Contains("yes"))
-                    {
-                        //return $"{id}: [Yes]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
-                    }
-                    else if (formField.ControlContent.ToLower().Contains("no"))
-                    {
-                        //return $"{id}: [No]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
-                    }
-                    else if (toggleButtonGroup.Tag as string == "Rec-Sent")
-                    {
-                        //return $"{id}: [sender]";
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
-                    }
-                    else if (toggleButtonGroup.Name == "howRecevedSent")
-                    {
-                        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
-                        //foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
-                        //{
-                        //   if (formField.ControlContent == radioButton.Name)
-                        //        return $"{id}: [{radioButton.Content}]";
-                        //}                        
-                    }
-                    else return "";
+                    return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
                 }
             }
             else if (control is ComboBox comboBox)
@@ -1090,7 +1042,7 @@ namespace FormControlBaseClass
                 }
                 else
                 {
-                    comboBox.SelectedItem = formField.ControlContent;  // data[0];
+                    comboBox.SelectedItem = formField.ControlContent;
                 }
             }
         }
@@ -1193,7 +1145,7 @@ namespace FormControlBaseClass
 				{
 					continue;
 				}
-				if (fieldIdent == msgLines[i].Substring(0, index))
+                if (fieldIdent == msgLines[i].Substring(0, index))
 				{
 					return GetOutpostFieldValue(msgLines[i]);
 				}
@@ -1339,6 +1291,32 @@ namespace FormControlBaseClass
             bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
             UpdateRequiredFields(required);
             ValidateForm();
+        }
+
+        protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (FormPacketMessage != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
+            {
+                foreach (FormField formField in FormPacketMessage.FormFieldArray)
+                {
+                    if (formField.ControlName == comboBox.Name)
+                    {
+                        int index = 0;
+                        foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
+                        {
+                            if (packItItem.Item == formField.ControlContent)
+                            {
+                                packItItem.SelectedIndex = index;
+                                comboBox.SelectedIndex = index;
+                                break;
+                            }
+                            index++;
+                        }
+                        break;
+                    }
+                }
+            }
         }
 
         //protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject

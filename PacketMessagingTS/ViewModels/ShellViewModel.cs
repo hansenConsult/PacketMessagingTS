@@ -24,8 +24,10 @@ namespace PacketMessagingTS.ViewModels
         private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
 
         private IList<KeyboardAccelerator> _keyboardAccelerators;
-        private NavigationView _navigationView;
-        private NavigationViewItem _selected;
+        //private NavigationView _navigationView;
+        //private NavigationViewItem _selected;
+        private WinUI.NavigationView _navigationView;
+        private WinUI.NavigationViewItem _selected;
         private ICommand _loadedCommand;
         private ICommand _itemInvokedCommand;
 
@@ -36,7 +38,8 @@ namespace PacketMessagingTS.ViewModels
             set { Set(ref _isBackEnabled, value); }
         }
 
-        public NavigationViewItem Selected
+        //public NavigationViewItem Selected
+        public WinUI.NavigationViewItem Selected
         {
             get { return _selected; }
             set { SetProperty(ref _selected, value); }
@@ -44,13 +47,15 @@ namespace PacketMessagingTS.ViewModels
 
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(OnLoaded));
 
-        public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked));
+        //public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnItemInvoked));
+        public ICommand ItemInvokedCommand => _itemInvokedCommand ?? (_itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(OnItemInvoked));
 
         public ShellViewModel()
         {
         }
 
-        public void Initialize(Frame frame, NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
+        //public void Initialize(Frame frame, NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
+        public void Initialize(Frame frame, WinUI.NavigationView navigationView, IList<KeyboardAccelerator> keyboardAccelerators)
         {
             _navigationView = navigationView;
             _keyboardAccelerators = keyboardAccelerators;
@@ -69,7 +74,8 @@ namespace PacketMessagingTS.ViewModels
             await Task.CompletedTask;
         }
 
-        private void OnItemInvoked(NavigationViewItemInvokedEventArgs args)
+        //private void OnItemInvoked(NavigationViewItemInvokedEventArgs args)
+        private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked)
             {
@@ -78,13 +84,15 @@ namespace PacketMessagingTS.ViewModels
             }
 
             var item = _navigationView.MenuItems
-                            .OfType<NavigationViewItem>()
+                            //.OfType<NavigationViewItem>()
+                            .OfType<WinUI.NavigationViewItem>()
                             .First(menuItem => (string)menuItem.Content == (string)args.InvokedItem);
             var pageType = item.GetValue(NavHelper.NavigateToProperty) as Type;
             NavigationService.Navigate(pageType);
         }
 
-        private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        //private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        private void OnBackRequested(WinUI.NavigationView sender, WinUI.NavigationViewBackRequestedEventArgs args)
         {
             NavigationService.GoBack();
         }
@@ -99,16 +107,19 @@ namespace PacketMessagingTS.ViewModels
             IsBackEnabled = NavigationService.CanGoBack;  //TODO new
             if (e.SourcePageType == typeof(SettingsPage))
             {
-                Selected = _navigationView.SettingsItem as NavigationViewItem;
+                //Selected = _navigationView.SettingsItem as NavigationViewItem;
+                Selected = _navigationView.SettingsItem as WinUI.NavigationViewItem;
                 return;
             }
 
             Selected = _navigationView.MenuItems
-                            .OfType<NavigationViewItem>()
+                            //.OfType<NavigationViewItem>()
+                            .OfType<WinUI.NavigationViewItem>()
                             .FirstOrDefault(menuItem => IsMenuItemForPageType(menuItem, e.SourcePageType));
         }
 
-        private bool IsMenuItemForPageType(NavigationViewItem menuItem, Type sourcePageType)
+        //private bool IsMenuItemForPageType(NavigationViewItem menuItem, Type sourcePageType)
+        private bool IsMenuItemForPageType(WinUI.NavigationViewItem menuItem, Type sourcePageType)
         {
             var pageType = menuItem.GetValue(NavHelper.NavigateToProperty) as Type;
             return pageType == sourcePageType;

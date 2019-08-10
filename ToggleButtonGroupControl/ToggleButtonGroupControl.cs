@@ -96,7 +96,6 @@ namespace ToggleButtonGroupControl
         {
             foreach (RadioButton radioButton in RadioButtonGroup)
             {
-                //if ((bool)radioButton.IsChecked)
                 if (radioButtonName == radioButton.Name)
                 {
                     return radioButton.Tag as string;

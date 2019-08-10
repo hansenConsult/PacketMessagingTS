@@ -742,7 +742,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     goto AbortWithoutConnect;
                 }
 
-                return; //TEST
+                //return; //TEST
 
 
                 _connectState = ConnectState.ConnectStateBBSTryConnect;

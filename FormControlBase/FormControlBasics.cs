@@ -404,10 +404,10 @@ namespace FormControlBaseClass
                         break;
                     }
                     string selection;
-                    if (e.AddedItems[0] is ComboBoxPackItItem)
+                    if (e.AddedItems[0] is ComboBoxPackItItem comboBoxPackItItem)
                     {
-                        selection = (e.AddedItems[0] as ComboBoxPackItItem).Item;
-                        (sender as ComboBox).Background = (e.AddedItems[0] as ComboBoxPackItItem).BackgroundBrush;
+                        selection = comboBoxPackItItem.Item;
+                        comboBox.Background = comboBoxPackItItem.BackgroundBrush;
                     }
                     else
                     {
