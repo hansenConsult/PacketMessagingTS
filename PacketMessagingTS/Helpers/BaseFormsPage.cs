@@ -226,7 +226,7 @@ namespace PacketMessagingTS.Helpers
 
         protected static string ValidateSubject(string subject)
         {
-            if (subject is null)
+            if (string.IsNullOrEmpty(subject))
                 return subject;
 
             try

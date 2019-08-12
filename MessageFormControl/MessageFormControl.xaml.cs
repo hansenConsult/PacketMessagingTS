@@ -28,7 +28,7 @@ namespace MessageFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeControls();
+            InitializeToggleButtonGroups();
 		}
 
 

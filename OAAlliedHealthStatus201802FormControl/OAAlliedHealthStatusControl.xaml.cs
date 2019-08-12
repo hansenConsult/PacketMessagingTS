@@ -42,7 +42,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
             ScanControls(PrintableArea);
 
-            InitializeControls();
+            InitializeToggleButtonGroups();
 
             sent.IsChecked = true; ;
             packet.IsChecked = true;

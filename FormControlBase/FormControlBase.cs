@@ -78,8 +78,6 @@ namespace FormControlBaseClass
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
-        //public List<ComboBoxPackItItems> ComboBoxItemsList;
-
         public FormControlBase()
         {
         }
@@ -149,48 +147,48 @@ namespace FormControlBaseClass
         //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         //}
 
-        public void InitializeControls()
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                Control control = formControl.InputControl;
+        //public void InitializeControls()
+        //{
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        Control control = formControl.InputControl;
 
-                if (control is TextBox)
-                {
-                    //if (IsFieldRequired(control))
-                    //{
-                    //    control.BorderBrush = formControl.RequiredBorderBrush;
-                    //}
-                    //else
-                    //{
-                    //    control.BorderBrush = formControl.BaseBorderColor;
-                    //}
-                }
-                //else if (control is AutoSuggestBox)
-                //{
-                //    control.BorderBrush = formControl.BaseBorderColor;
-                //}
-                //else if (control is ComboBox)
-                //{
-                //    if (IsFieldRequired(control))
-                //    {
-                //        control.BorderBrush = formControl.RequiredBorderBrush;
-                //    }
-                //    else
-                //    {
-                //        control.BorderBrush = formControl.BaseBorderColor;
-                //    }
-                //}
-                else if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    toggleButtonGroup.Initialize(_radioButtonsList, control.Name);
-                }
-                //else if (control is CheckBox checkBox)
-                //{
-                //    checkBox.IsChecked = false;
-                //}
-            }
-        }
+        //        if (control is TextBox)
+        //        {
+        //            //if (IsFieldRequired(control))
+        //            //{
+        //            //    control.BorderBrush = formControl.RequiredBorderBrush;
+        //            //}
+        //            //else
+        //            //{
+        //            //    control.BorderBrush = formControl.BaseBorderColor;
+        //            //}
+        //        }
+        //        //else if (control is AutoSuggestBox)
+        //        //{
+        //        //    control.BorderBrush = formControl.BaseBorderColor;
+        //        //}
+        //        //else if (control is ComboBox)
+        //        //{
+        //        //    if (IsFieldRequired(control))
+        //        //    {
+        //        //        control.BorderBrush = formControl.RequiredBorderBrush;
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        control.BorderBrush = formControl.BaseBorderColor;
+        //        //    }
+        //        //}
+        //        else if (control is ToggleButtonGroup toggleButtonGroup)
+        //        {
+        //            toggleButtonGroup.Initialize(_radioButtonsList, control.Name);
+        //        }
+        //        //else if (control is CheckBox checkBox)
+        //        //{
+        //        //    checkBox.IsChecked = false;
+        //        //}
+        //    }
+        //}
 
         public void InitializeToggleButtonGroups()
         {
@@ -209,10 +207,6 @@ namespace FormControlBaseClass
             {
                 Control control = formControl.InputControl;
 
-                if (control.Name == "howSent" || control.Name == "eocOpen") // TODO remove
-                {
-                    int a = 6;
-                }
                 if (control is TextBox textBox)
                 {
                     if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(control) && newForm)
@@ -390,8 +384,13 @@ namespace FormControlBaseClass
         public virtual string FacilityName
         { get; set; }
 
+        // Implemented this way to facilitate synchronizing two name fields
+        private string _shelterName;
         public virtual string ShelterName
-        { get; set; }
+        {
+            get => _shelterName;
+            set => Set(ref _shelterName, value);
+        }
 
         public virtual string Subject
         { get; set; }

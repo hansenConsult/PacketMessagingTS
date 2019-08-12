@@ -73,7 +73,7 @@ namespace OAShelterStatusFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeControls();
+            InitializeToggleButtonGroups();
 
             sent.IsChecked = true; ;
             packet.IsChecked = true;

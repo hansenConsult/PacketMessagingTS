@@ -48,22 +48,39 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
         public override string PacFormName => "form-allied-health-facility-status";
 
         public override string PacFormType => "Allied_Health_Status";
 
-        private string _facilityName;
-        public override string FacilityName
-        {
-            get => GetProperty(ref _facilityName);
-            set => SetProperty(ref _facilityName, value, true);
-        }
-
-        private string _reportType;
         public string ReportType
         { get; set; }
+
+        public string FacilityStatus
+        { get; set; }
+
+        public string NhicsChart
+        { get; set; }
+
+        public string ResReqForms
+        { get; set; }
+
+        public string RepFormStd
+        { get; set; }
+
+        public string IncidentActPlan
+        { get; set; }
+
+        public string ComsDirectory
+        { get; set; }
+
+        //private string _facilityName;
+        //public override string FacilityName
+        //{
+        //    get => GetProperty(ref _facilityName);
+        //    set => SetProperty(ref _facilityName, value, true);
+        //}
 
         //private string facilityType;
         //public string FacilityType
@@ -75,7 +92,7 @@ namespace OAAlliedHealthStatus201802FormControl
         //6DM-783P_R_AHFacStat_dfg
         public override string CreateSubject()
         {
-            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_AHFacStat_{FacilityName}";
+            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -101,6 +118,8 @@ namespace OAAlliedHealthStatus201802FormControl
                 facilityPhone.Tag = (facilityPhone.Tag as string).Replace(",required", ",conditionallyrequired");
                 incidentName.Tag = (incidentName.Tag as string).Replace(",required", ",conditionallyrequired");
                 incidentDate.Tag = (incidentDate.Tag as string).Replace(",required", ",conditionallyrequired");
+                facilityStatus.Tag = (facilityStatus.Tag as string).Replace(",required", ",conditionallyrequired");
+                resReqForms.Tag = (resReqForms.Tag as string).Replace(",required", ",conditionallyrequired");
                 facilityEOCContactNumber.Tag = (facilityEOCContactNumber.Tag as string).Replace(",required", ",conditionallyrequired");
                 liasonToPublicHealth.Tag = (liasonToPublicHealth.Tag as string).Replace(",required", ",conditionallyrequired");
                 altContact.Tag = (altContact.Tag as string).Replace(",required", ",conditionallyrequired");
@@ -115,6 +134,8 @@ namespace OAAlliedHealthStatus201802FormControl
                 facilityPhone.Tag = (facilityPhone.Tag as string).Replace(",conditionallyrequired", ",required");
                 incidentName.Tag = (incidentName.Tag as string).Replace(",conditionallyrequired", ",required");
                 incidentDate.Tag = (incidentDate.Tag as string).Replace(",conditionallyrequired", ",required");
+                facilityStatus.Tag = (facilityStatus.Tag as string).Replace(",conditionallyrequired", ",required");
+                resReqForms.Tag = (resReqForms.Tag as string).Replace(",conditionallyrequired", ",required");
                 facilityEOCContactNumber.Tag = (facilityEOCContactNumber.Tag as string).Replace(",conditionallyrequired", ",required");
                 liasonToPublicHealth.Tag = (liasonToPublicHealth.Tag as string).Replace(",conditionallyrequired", ",required");
                 altContact.Tag = (altContact.Tag as string).Replace(",conditionallyrequired", ",required");

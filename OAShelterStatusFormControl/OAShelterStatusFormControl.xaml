@@ -27,7 +27,7 @@
                 <Border BorderBrush="Black" BorderThickness="1,1,1,0">
                     <Grid >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="300"/>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
@@ -95,15 +95,15 @@
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
                                 <RadioButton x:Name="immediate" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" 
-                                             Margin="8,0" Padding="4" 
+                                             Margin="8,0" 
                                              Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="As soon as possible" />
                                 <RadioButton x:Name="priority" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" 
-                                             Margin="8,0" Padding="4" Content="PRIORITY (1 hr)" Checked="Subject_Changed"
+                                             Margin="8,0" Content="PRIORITY (1 hr)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than one hour" />
                                 <RadioButton x:Name="routine" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" Padding="4" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                              Content="ROUTINE (\ 2 hrs)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than two hours" />
                             </StackPanel>
@@ -245,10 +245,10 @@
                         <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
                                                  Checked="ReportType_Checked" Tag="Complete"/>
                         <TextBlock Grid.Column="3" Text="Shelter Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
-                        <TextBox Grid.Column="4" Margin="0,2,10,2" 
+                        <TextBox Grid.Column="4" Margin="0,2,10,2" x:Name="shelterName"
                                  Text="{x:Bind ShelterName, Mode=TwoWay}"
                                  TextChanged="Subject_Changed"
-                                 Tag="32.,required"/>
+                                 Tag="32.,required,Enter Shelter Name"/>
                     </Grid>
 
                     <Border BorderBrush="Black" BorderThickness="1,1,1,0"/>
@@ -276,14 +276,16 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Shelter Type:"                                        
                                        VerticalAlignment="Center" FontSize="13"/>
-                            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="shelterType" Margin="2"
+                            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="shelterType" 
+                                      Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind ShelterTypes}" 
                                       Tag="30.,conditionallyrequired"
                                       Loaded="ComboBox_Loaded"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Shelter Status:" FontSize="13"
                                        VerticalAlignment="Center" />
-                            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterStatus" Margin="2"
+                            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterStatus" 
+                                      Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind ShelterStatuses}" 
                                       Tag="31.,conditionallyrequired,Select shelter status"
@@ -299,8 +301,9 @@
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33a.,conditionallyrequired,Enter shelter address"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="City:" 
                                        VerticalAlignment="Center" />
-                            <ComboBox Grid.Column="1" Grid.Row="4" x:Name="shelterCity" Margin="2"
-                                      DisplayMemberPath="Item" Width="160"
+                            <ComboBox Grid.Column="1" Grid.Row="4" x:Name="shelterCity" 
+                                      Style="{StaticResource MuniStatusComboBox}"
+                                      DisplayMemberPath="Item" Width="180"
                                       ItemsSource="{x:Bind Municipalities}" 
                                       Tag="33b.,conditionallyrequired,Select a city name"
                                       Loaded="ComboBox_Loaded"/>
@@ -379,19 +382,22 @@
                                      Margin="2" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="Pet Friendly:" 
                                        HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Column="1" Grid.Row="5" Margin="2" 
+                            <ComboBox Grid.Column="1" Grid.Row="5" 
+                                      Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=YesNoContent}" Tag="43a."
                                       Loaded="ComboBox_Loaded"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Basic Safety Inspection:" 
                                        HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Column="1" Grid.Row="6" Margin="2"
+                            <ComboBox Grid.Column="1" Grid.Row="6" 
+                                      Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=YesNoContent}" Tag="43b."
                                       Loaded="ComboBox_Loaded"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="ATC 20 Inspection:" 
                                        HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Column="1" Grid.Row="7" Margin="2,0,0,0" 
+                            <ComboBox Grid.Column="1" Grid.Row="7" 
+                                      Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=YesNoContent}" Tag="43c."
                                       Loaded="ComboBox_Loaded"/>
@@ -437,7 +443,8 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Managed By:" 
                                        HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="managedBy" Margin="2"
+                            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="managedBy" 
+                                      Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=Managers}" 
                                       SelectedItem="American Red Cross" 

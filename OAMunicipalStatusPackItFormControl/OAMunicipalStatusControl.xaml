@@ -94,17 +94,17 @@
                                                                CheckedControlName ="{x:Bind HandlingOrder, Mode=TwoWay}" 
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
                                 <RadioButton x:Name="immediate" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
-                                             Content="IMMEDIATE" Checked="Subject_Changed"
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
+                                             Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE">
                                 </RadioButton>
                                 <RadioButton x:Name="priority" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
                                              Content="PRIORITY" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY">
                                 </RadioButton>
                                 <RadioButton x:Name="routine" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
                                              Content="ROUTINE" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
                             </StackPanel>
