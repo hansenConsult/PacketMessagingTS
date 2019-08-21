@@ -76,8 +76,10 @@
                         <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" Name="msgDate" Text="{x:Bind MsgDate, Mode=TwoWay}" 
-                                 PlaceholderText="mm/dd/yyyy" Margin="2"  Tag="1a.,required"
+                        <TextBox Grid.Column="1" Name="msgDate" 
+                                 Style="{StaticResource MuniStatusDateTextBox}"
+                                 Text="{x:Bind MsgDate, Mode=TwoWay}" 
+                                 Tag="1a.,required"
                                  TextChanged="TextBox_TextChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
@@ -85,7 +87,7 @@
                                  Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind MsgTime, Mode=TwoWay}" 
                                  Tag="1b.,required,Enter a time"
-                                 TextChanged="TextBox_TimeChanged"/>
+                                 TextChanged="TextBox_TimeChanged" Padding="10,4,6,6"/>
                         <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource LabelFontTNR14B}" 
@@ -100,12 +102,11 @@
                                 </RadioButton>
                                 <RadioButton x:Name="priority" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
-                                             Content="PRIORITY" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY">
-                                </RadioButton>
+                                             Content="PRIORITY (&lt; 1 hr)" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
                                 <RadioButton x:Name="routine" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
-                                             Content="ROUTINE" Checked="Subject_Changed"
+                                             Content="ROUTINE (&lt; 2 hrs)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
                             </StackPanel>
                         </Border>

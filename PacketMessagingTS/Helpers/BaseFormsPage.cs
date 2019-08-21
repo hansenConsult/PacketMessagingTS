@@ -607,35 +607,7 @@ namespace PacketMessagingTS.Helpers
                         case "Allied_Health_Status":
                             _packetForm.FacilityName = practiceSubject;
                             break;
-                    }
-                    
-
-                    //    foreach (FormField formField in _packetMessage.FormFieldArray)
-                    //    {
-                    //        FormControl formControl = _packetForm.FormControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                    //        if (formControl is null)
-                    //            continue;
-
-                    //        Control control = formControl?.InputControl;
-                    //        bool controlFound = false;
-                    //        switch (control.Name)
-                    //        {
-                    //            case "subject":
-                    //                (control as TextBox).Text = practiceSubject;
-                    //                //_packetForm.CreateSubject = 
-                    //                controlFound = true;
-                    //                break;
-                    //            case "incidentName":
-                    //                //(control as TextBox).Text = practiceSubject;
-                    //                //_packetForm.IncidentName = practiceSubject;
-                    //                controlFound = true;
-                    //                break;
-                    //        }
-                    //        if (controlFound)
-                    //        {
-                    //            break;
-                    //        }
-                    //    }
+                    }                   
                 }
             }
             else

@@ -112,7 +112,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_OAMuniStat_{jurisdictionName.SelectedValue as string}";
+            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_MuniStat_{jurisdictionName.SelectedValue as string}";
         }
 
         public string ReportType

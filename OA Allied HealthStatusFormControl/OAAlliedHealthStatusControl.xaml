@@ -20,23 +20,24 @@
 
             <Style x:Key="AlliedNumberTextBox" TargetType="TextBox">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
-                <Setter Property="FontSize" Value="5"/>
+                <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="TextBox.FontWeight" Value="Bold"/>
                 <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
-                <Setter Property="Height" Value="24"/>
+                <!--<Setter Property="Height" Value="24"/>-->
+                <Setter Property="HorizontalTextAlignment" Value="Right"/>
                 <Setter Property="Margin" Value="2"/>
             </Style>
             
             <Style x:Key="AlliedTextBox" TargetType="TextBox">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
-                <Setter Property="FontSize" Value="5"/>
+                <Setter Property="FontSize" Value="10"/>
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="TextBox.FontWeight" Value="Bold"/>
                 <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
-                <Setter Property="Height" Value="24"/>
+                <!--<Setter Property="Height" Value="24"/>-->
                 <Setter Property="Margin" Value="2"/>
             </Style>
 
@@ -63,15 +64,156 @@
             <DataTemplate x:Name="alliedHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
-            <DataTemplate x:Name="alliedHeaderRequiredTemplate">
+            <!--<DataTemplate x:Name="alliedHeaderRequiredTemplate">
                 <TextBlock Text="{Binding}" FontSize="8" FontFamily="Arial" FontWeight="Bold" Foreground="Red" Margin="2,0,0,0"/>
-            </DataTemplate>
+            </DataTemplate>-->
             <DataTemplate x:Name="AlliedFieldNameTemplate">
                 <TextBlock Text="{Binding}" FontSize="7" FontFamily="Arial" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
             <DataTemplate x:Name="AlliedFieldHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="7" FontFamily="Arial" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
+            <ControlTemplate x:Key="TextBoxTemplate1" TargetType="TextBox">
+                <Grid>
+                    <Grid.Resources>
+                        <Style x:Name="DeleteButtonStyle" TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid x:Name="ButtonLayoutGrid" Background="{ThemeResource TextControlButtonBackground}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{ThemeResource TextControlButtonBorderBrush}">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal"/>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Pressed">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Disabled">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0" Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Opacity" To="0"/>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <TextBlock x:Name="GlyphElement" AutomationProperties.AccessibilityView="Raw" FontStyle="Normal" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource TextControlButtonForeground}" FontSize="12" HorizontalAlignment="Center" Text="&#xE10A;" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="Disabled">
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlHeaderForegroundDisabled}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundDisabled}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushDisabled}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundDisabled}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundDisabled}}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushPointerOver}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundPointerOver}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundPointerOver}}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundPointerOver}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Focused">
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundFocused}}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocused}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushFocused}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundFocused}"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="RequestedTheme">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="Light"/>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                        <VisualStateGroup x:Name="ButtonStates">
+                            <VisualState x:Name="ButtonVisible">
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="ButtonCollapsed"/>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.ColumnSpan="2" Grid.Column="0" FontWeight="Normal" Foreground="{ThemeResource TextControlHeaderForeground}" Margin="{ThemeResource TextBoxTopHeaderMargin}" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                    <Border x:Name="BorderElement" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}" Grid.ColumnSpan="2" Grid.Column="0" Control.IsTemplateFocusTarget="True" MinHeight="{ThemeResource TextControlThemeMinHeight}" MinWidth="{ThemeResource TextControlThemeMinWidth}" Grid.RowSpan="1" Grid.Row="1"/>
+                    <ScrollViewer x:Name="ContentElement" AutomationProperties.AccessibilityView="Raw" Grid.Column="0" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsTabStop="False" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" Margin="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="1" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" ZoomMode="Disabled"/>
+                    <TextBlock x:Name="PlaceholderTextContentPresenter" Grid.ColumnSpan="2" Grid.Column="0" Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForeground}}" IsHitTestVisible="False" Margin="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="1" Text="{TemplateBinding PlaceholderText}" TextWrapping="{TemplateBinding TextWrapping}" TextAlignment="{TemplateBinding TextAlignment}"/>
+                    <Button x:Name="DeleteButton" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="1" FontSize="{TemplateBinding FontSize}" IsTabStop="False" MinWidth="34" Margin="{ThemeResource HelperButtonThemePadding}" Grid.Row="1" Style="{StaticResource DeleteButtonStyle}" VerticalAlignment="Stretch" Visibility="Collapsed"/>
+                    <ContentPresenter x:Name="DescriptionPresenter" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Description}" Grid.ColumnSpan="2" Grid.Column="0" Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}" Grid.Row="2" x:Load="False"/>
+                </Grid>
+            </ControlTemplate>
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -128,18 +270,18 @@
                         <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" x:Name="msgDate" 
+                        <TextBox Grid.Column="1" x:Name="msgDate"
                                  Style="{StaticResource MuniStatusDateTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
                                  Tag="1a.,required"
-                                 TextChanged="TextBox_TextChanged"/>
+                                 TextChanged="TextBox_DateChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                         <TextBox Grid.Column="3" x:Name="msgTime" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  Tag="1b.,required"
-                                 TextChanged="TextBox_TextChanged"/>
+                                 TextChanged="TextBox_TimeChanged"/>
                         <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource LabelFontTNR14B}" 
@@ -148,17 +290,18 @@
                                                                CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
                                 <RadioButton x:Name="immediate" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
                                              Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
                                 <RadioButton x:Name="priority" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
-                                             Content="PRIORITY" Checked="Subject_Changed"
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0"  
+                                             Content="PRIORITY (&lt; 1 hr)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
                                 <RadioButton x:Name="routine" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
-                                             Content="ROUTINE (\ 2 hrs)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0"  
+                                             Content="ROUTINE (&lt; 2 hrs)" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE">
+                                </RadioButton>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -174,7 +317,7 @@
                         <StackPanel Grid.Column="1" >
                             <Border BorderBrush="Black" BorderThickness="0,1">
                                 <StackPanel x:Name="toICSPositionPanel">
-                                    <TextBlock Padding="10,2,0,2" 
+                                    <TextBlock Padding="10,0,0,2" 
                                                Text="7.) ICS Position:" FontSize="12" FontFamily="Times New Roman" 
                                                FontWeight="Bold" Foreground="Black" />
                                     <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"     
@@ -191,6 +334,7 @@
                                 <StackPanel >
                                     <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />-->
                                     <TextBox x:Name="toLocation" Margin="10,0,10,2" 
+                                             Style="{StaticResource MuniStatusTextBox}"
                                              TextChanged="TextBox_TextChanged"
                                              Tag="7b.,required,Enter a To Location."
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
@@ -200,7 +344,8 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <StackPanel >
                                     <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
-                                    <TextBox x:Name="toName" BorderThickness="1" Margin="10,0,10,2" Tag="7c."
+                                    <TextBox x:Name="toName" Margin="10,0,10,2" Tag="7c."
+                                             Style="{StaticResource MuniStatusTextBox}"
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Name:"/>
                                 </StackPanel>
@@ -208,7 +353,8 @@
                             <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">
                                 <StackPanel >
                                     <TextBox x:Name="toContactInfo" 
-                                             BorderThickness="1" Margin="10,0,10,2" Tag="7d."
+                                             Style="{StaticResource MuniStatusTextBox}"
+                                             Margin="10,0,10,2" Tag="7d."
                                              TextChanged="PhoneNumber_TextChanged"
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                              Header="Contact Info:"/>
@@ -291,7 +437,6 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
@@ -313,14 +458,14 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
-                            <RowDefinition MinHeight="24"/>
+                            <RowDefinition />
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
-                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
@@ -612,8 +757,8 @@ to Public Health/Medical Health Branch"
                                        Style="{StaticResource AlliedHeaderText}" 
                                        TextWrapping="WrapWholeWords" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                             <TextBox x:Name="liasonToPublicHealth" Grid.Column="1" Grid.Row="0" 
-                                     Style="{StaticResource AlliedTextBox}" TextChanged="TextBox_TextChanged"
-                                     Tag="28.,conditionallyrequired,Ebter Liason Officer information" />
+                                     Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
+                                     Tag="28.,conditionallyrequired,Enter Liason Officer information" />
                         </Grid>
                         <Border Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,1">
                             <TextBox Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" x:Name="summary"  BorderBrush="White" />
@@ -638,7 +783,7 @@ to Public Health/Medical Health Branch"
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Information Officer Name" 
                                        Style="{StaticResource AlliedHeaderText}" />
                             <TextBox x:Name="infoOfficerName" Grid.Column="1" Grid.Row="0" 
-                                     Style="{StaticResource AlliedTextBox}" BorderThickness="1" Tag="29.,conditionallyrequired,Enter Information Officer Name" />
+                                     Style="{StaticResource MuniStatusTextBox}" BorderThickness="1" Tag="29.,conditionallyrequired,Enter Information Officer Name" HorizontalAlignment="Stretch" />
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="13" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
@@ -660,7 +805,7 @@ to Public Health/Medical Health Branch"
                             <TextBlock Grid.Column="0" Text="Facility Information Officer Contact Email" 
                                        Style="{StaticResource AlliedHeaderText}" />
                             <TextBox Grid.Column="1" x:Name="infoOfficerEmail" 
-                                     Style="{StaticResource AlliedTextBox}" BorderThickness="1" Tag="29c." />
+                                     Style="{StaticResource MuniStatusTextBox}" BorderThickness="1" Tag="29c." />
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="15" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
@@ -672,7 +817,7 @@ to Public Health/Medical Health Branch"
                                        Text="If Facility EOC is Not Activated, Who Should be Contacted for Questions/Requests" 
                                        Style="{StaticResource AlliedHeaderText}" />
                             <TextBox Grid.Column="1" x:Name="altContact"  
-                                     Style="{StaticResource AlliedTextBox}" TextChanged="TextBox_TextChanged"
+                                     Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="30.,conditionallyrequired,Enter alternate contact" />
                         </Grid>
                         <Grid Grid.Row="15" Grid.Column="1" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="1,0,0,1">
@@ -801,7 +946,7 @@ to Public Health/Medical Health Branch"
                             <TextBlock Grid.Column="0" Text="Facility Contact Email"
                                        Style="{StaticResource AlliedHeaderText}" />
                             <TextBox Grid.Column="1" x:Name="altContactEmail" 
-                                     Style="{StaticResource AlliedTextBox}" TextChanged="TextBox_TextChanged"
+                                     Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="30e.,conditionallyrequired" />
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="18" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -824,7 +969,7 @@ to Public Health/Medical Health Branch"
                             <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
                             <TextBlock Grid.Column="0" Text="PATIENTS TO EVACUATE" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                            <TextBox Grid.Column="3" x:Name="patientsToEvacuate"
+                            <TextBox Grid.Column="1" x:Name="patientsToEvacuate"
                                        Style="{StaticResource AlliedTextBox}" Tag="31a." />
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="20" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -860,7 +1005,7 @@ to Public Health/Medical Health Branch"
                                        Text="OTHER PATIENT CARE INFORMATION" 
                                        Style="{StaticResource AlliedHeaderText}" />
                             <TextBox Grid.Column="1" x:Name="patientInfoOther"
-                                     Style="{StaticResource AlliedTextBox}" Tag="33." />
+                                     Style="{StaticResource MuniStatusTextBox}" Tag="33." />
                         </Grid>
                         <Border Grid.Row="23" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                         <TextBlock  Grid.Row="23" Grid.Column="0" Text="DEOC/EOC/DUTY CHIEF USE" 
@@ -922,11 +1067,11 @@ to Public Health/Medical Health Branch"
                                     BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="DIALYSIS"
                                        Style="{StaticResource AlliedHeaderText}" />
-                            <TextBox x:Name="dialysis1" Grid.Row="1" Grid.Column="1" Style="{StaticResource AlliedNumberTextBox}" Tag="50a."/>
-                            <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource AlliedNumberTextBox}"  Tag="50b."/>
+                            <TextBox Template="{StaticResource TextBoxTemplate1}" Grid.Row="1" Grid.Column="1" Tag="50a." />
+                            <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource AlliedNumberTextBox}" Tag="50b."/>
                             <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource AlliedNumberTextBox}" Tag="50c."/>
                             <TextBox Grid.Row="1" Grid.Column="4" Style="{StaticResource AlliedNumberTextBox}" Tag="50d."/>
-                            <TextBox Grid.Row="1" Grid.Column="5" Style="{StaticResource AlliedNumberTextBox}" Width="23" Tag="50e."/>
+                            <TextBox Grid.Row="1" Grid.Column="5" Style="{StaticResource AlliedNumberTextBox}" MinWidth="20" Tag="50e."/>
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="SURGICAL"
