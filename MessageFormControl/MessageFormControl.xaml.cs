@@ -171,7 +171,7 @@ namespace MessageFormControl
             return formFields;
         }
 
-		//public override string CreateSubject() => MessageNo + "_O/R_";
+		//public override string CreateSubject() => MessageNo + "_R_";
 		public override string CreateSubject() => null;
 	}
 }

@@ -480,7 +480,7 @@ namespace PacketMessagingTS.Helpers
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_<subject>";
+                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_<subject>";
 
                 (_packetForm as MessageControl).NewHeaderVisibility = true;
                 _packetForm.MessageReceivedTime = DateTime.Now;
@@ -537,7 +537,7 @@ namespace PacketMessagingTS.Helpers
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_O/R_";
+                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_";
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     _packetAddressForm.MessageSubject += practiceSubject;
