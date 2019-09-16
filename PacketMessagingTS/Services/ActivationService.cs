@@ -91,6 +91,7 @@ namespace PacketMessagingTS.Services
 
         private async Task InitializeAsync()
         {
+            WindowManagerService.Current.Initialize();      // Second window
             //await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync();
             await ThemeSelectorService.InitializeAsync();   // WinUI
             await Task.CompletedTask;

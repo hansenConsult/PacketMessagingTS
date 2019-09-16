@@ -113,7 +113,7 @@ namespace PacketMessagingTS.Services
                     refCountCopy = --_refCount;
                     if (refCountCopy == 0)
                     {
-                        var task = Dispatcher.RunAsync(CoreDispatcherPriority.Low, FinalizeRelease);
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Low, FinalizeRelease).AsTask();
                     }
                 }
             }
@@ -162,7 +162,7 @@ namespace PacketMessagingTS.Services
                     throw new InvalidOperationException("ExceptionViewLifeTimeControlMissingReleasedSubscription".GetLocalized());
                 }
 
-                InternalReleased(this, null);
+	                InternalReleased.Invoke(this, null);
             }
         }
     }

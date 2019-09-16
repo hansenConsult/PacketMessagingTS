@@ -6,9 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\DateTimeConverter.cs" />
     <Compile Remove="Helpers\LogHelper.cs" />
     <Compile Remove="Models\ComboBoxPackItItem.cs" />
     <Compile Remove="Models\PacketMessage.cs" />
+    <Compile Remove="Models\TacticalCallsigns.cs" />
   </ItemGroup>
 
   <ItemGroup>

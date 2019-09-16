@@ -58,7 +58,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private bool _error = false;        // Disconnect if an error is detected
 
-        //private ViewLifetimeControl _viewLifetimeControl;
+        private ViewLifetimeControl _viewLifetimeControl;
         //private RxTxStatusPage _appWindowFrame;
 
 
@@ -300,7 +300,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         {
             if (Singleton<RxTxStatusViewModel>.Instance.StatusPage == null)
                 return;
-                    
+
             //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             //communicationsService.AddRxTxStatus($"{text}");
 
@@ -309,15 +309,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //if (!dispatcher.HasThreadAccess)
             //{
             await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
+            ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
             {
-                //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
-                //communicationsService.AddRxTxStatus($"{text}");
+            //    //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+            //    //communicationsService.AddRxTxStatus($"{text}");
 
-                //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
-                //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-                //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
-                MainPage.Current.AddTextToStatusWindow(text);
+            //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
+                Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+            //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
+            //    MainPage.Current.AddTextToStatusWindow(text);
             });
             //}
             //else

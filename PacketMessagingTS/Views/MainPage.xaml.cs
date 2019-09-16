@@ -48,8 +48,8 @@ namespace PacketMessagingTS.Views
         List<PacketMessage> _selectedMessages = new List<PacketMessage>();
         PacketMessage _packetMessageRightClicked;
 
-        private AppWindow appWindow = null;
-        private Frame appWindowFrame = new Frame();
+        //private AppWindow appWindow = null;
+        //private Frame appWindowFrame = new Frame();
 
 
         public MainPage()
@@ -178,10 +178,10 @@ namespace PacketMessagingTS.Views
             //_currentPivotItem = (PivotItem)e.AddedItems[0];
             MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
 
-            if (!(appWindow is null))
-            {
-                await appWindow.CloseAsync();      // TODO remove testing only
-            }
+            //if (!(appWindow is null))
+            //{
+            //    await appWindow.CloseAsync();      // TODO remove testing only
+            //}
 
             await RefreshDataGridAsync();
         }
@@ -264,36 +264,40 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
         {
-            if (appWindow == null)
-            {
-                // Create a new window
-                appWindow = await AppWindow.TryCreateAsync();
-                // Make sure we release the reference to this window, and release XAML resources, when it's closed
-                appWindow.Closed += delegate { appWindow = null; appWindowFrame.Content = null; };
-                // Navigate the frame to the page we want to show in the new window
-                appWindowFrame.Navigate(typeof(RxTxStatusPage), appWindow);
-            }
-            // Request the size of our window
-            appWindow.RequestSize(new Size(500, 320));
-            // Attach the XAML content to our window
-            ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
+            //if (appWindow == null)
+            //{
+            //    // Create a new window
+            //    appWindow = await AppWindow.TryCreateAsync();
+            //    // Make sure we release the reference to this window, and release XAML resources, when it's closed
+            //    appWindow.Closed += delegate { appWindow = null; appWindowFrame.Content = null; };
+            //    // Navigate the frame to the page we want to show in the new window
+            //    appWindowFrame.Navigate(typeof(RxTxStatusPage), appWindow);
+            //}
+            //// Request the size of our window
+            //appWindow.RequestSize(new Size(500, 320));
+            //// Attach the XAML content to our window
+            //ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
 
             //AppWindowPlacement placement = appWindow.GetPlacement();
             //double width = placement.Size.Width;
             //Point offset = new Point(-width, 50);
             //appWindow.RequestMoveRelativeToCurrentViewContent(offset);
 
-            // Now show the window
-            await appWindow.TryShowAsync();
-            AppWindowPlacement placement = appWindow.GetPlacement();
-            double width = placement.Size.Width;
-            Point offset = new Point(-width, 50);
-            appWindow.RequestMoveRelativeToCurrentViewContent(offset);
+            //// Now show the window
+            //await appWindow.TryShowAsync();
+            //AppWindowPlacement placement = appWindow.GetPlacement();
+            //double width = placement.Size.Width;
+            //Point offset = new Point(-width, 50);
+            //appWindow.RequestMoveRelativeToCurrentViewContent(offset);
+
+
+            // Using ViewLifetimeControl
+            await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
             CommunicationsService communicationsService = CommunicationsService.CreateInstance();
 
-            //communicationsService.BBSConnectAsync2();
-            communicationsService.BBSConnectAsync2(Dispatcher);
+            communicationsService.BBSConnectAsync2();
+            //communicationsService.BBSConnectAsync2(Dispatcher);
 
             await RefreshDataGridAsync();
         }

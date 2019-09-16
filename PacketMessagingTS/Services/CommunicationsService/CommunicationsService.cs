@@ -24,16 +24,11 @@ using SharedCode;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.ApplicationModel.Email;
-using Windows.Foundation;
-using Windows.Networking.Sockets;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using System.Threading;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -48,15 +43,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //Collection<DeviceListEntry> _listOfDevices;
 
         public List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
-        List<PacketMessage> _packetMessagesToSend = new List<PacketMessage>();
+        private List<PacketMessage> _packetMessagesToSend = new List<PacketMessage>();
 
         private static readonly Object singletonCreationLock = new Object();
-        static volatile CommunicationsService _communicationsService = null;
+        private static volatile CommunicationsService _communicationsService = null;
         //static bool _deviceFound = false;
-        public StreamSocket _socket = null;
+        //public StreamSocket _socket = null;
         public SerialPort _serialPort;
-
-        TNCInterface _tncInterface = null;
+        private TNCInterface _tncInterface = null;
 
 
 
@@ -79,31 +73,32 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return _communicationsService;
         }
 
-        static RxTxStatusPage rxTxStatusPage;
+        //private static RxTxStatusPage rxTxStatusPage;
         public async void AddRxTxStatusAsync(string text)
         {
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
             //Thread.Sleep(0); No effect
             //{
-            if (rxTxStatusPage == null)
+            //if (rxTxStatusPage == null)
+            //{
+            //    rxTxStatusPage = Singleton<RxTxStatusViewModel>.Instance.StatusPage;
+            //    if (rxTxStatusPage == null)
+            //        return;
+            //}
+            //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            ////await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
+            await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                rxTxStatusPage = Singleton<RxTxStatusViewModel>.Instance.StatusPage;
-                if (rxTxStatusPage == null)
-                    return;
-            }
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
-            {
-                //rxTxStatusPage.AddTextToStatusWindow(text);
-                MainPage.Current.AddTextToStatusWindow(text);
+                Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+                //    //rxTxStatusPage.AddTextToStatusWindow(text);
+                //    MainPage.Current.AddTextToStatusWindow(text);
             });
-
         }
 
         public void AbortConnection()
         {
-            _logHelper.Log(LogLevel.Error, $"Connection aborted.");
+            _logHelper.Log(LogLevel.Info, $"Connection aborted.");
             _tncInterface?.AbortConnection();
         }
 
@@ -521,8 +516,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return sendMailSuccess;
         }
 
-        CoreDispatcher _dispatcher;
-        public async void BBSConnectAsync2(CoreDispatcher dispatcher)
+        private CoreDispatcher _dispatcher;
+        public void BBSConnectAsync2(CoreDispatcher dispatcher)
         {
             _dispatcher = dispatcher;
             BBSConnectAsync2();
@@ -530,6 +525,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public async void BBSConnectAsync2()
         {
+            /* Using AppWindow
             //_appWindow = appWindow;
             //WindowManagerService.Current.Initialize();
             // Only ever create one window. If the AppWindow already exists call TryShow on it to bring it to foreground.
@@ -552,9 +548,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             //// Now show the window
             //await _appWindow.TryShowAsync();
+            */
+
+            //// Using ViewLifetimeControl
+            //await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
             //AddRxTxStatus("\rSending");
             AddRxTxStatusAsync("\rSending");
+
+            return;
 
             FormControlBase formControl;
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
