@@ -3,10 +3,13 @@
 using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
+
+using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
@@ -22,8 +25,7 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-
-        public RxTxStatusViewModel RxTxStatusViewModel { get; } = Singleton<RxTxStatusViewModel>.Instance;
+        public RxTxStatViewModel RxTxStatusViewModel { get; } = Singleton<RxTxStatViewModel>.Instance;
 
         //private AppWindow _appWindow;
         ViewLifetimeControl _viewLifetimeControl;
@@ -32,7 +34,10 @@ namespace PacketMessagingTS.Views
         {
             InitializeComponent();
 
-            RxTxStatusViewModel.StatusPage = this;
+            // To avoid problems with a new thread generated for the rxTXStatus edit control
+            //Singleton<RxTxStatViewModel>.UpdateInstance();
+
+            //RxTxStatusViewModel.StatusPage = this;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -42,10 +47,13 @@ namespace PacketMessagingTS.Views
 
             base.OnNavigatedTo(e);
             _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
-            RxTxStatusViewModel.Initialize(_viewLifetimeControl);
+            RxTxStatusViewModel.Initialize(_viewLifetimeControl, Dispatcher);
+            RxTxStatusViewModel.StatusPage = this;
             RxTxStatusViewModel.RxTxStatus = "";
             //_currentHeight = Height;
             //_viewLifetimeControl.StartViewInUse();
+            //_viewLifetimeControl.
+            //Arrange
             //Height = 400;
             //_viewLifetimeControl.StopViewInUse();
         }
@@ -67,41 +75,23 @@ namespace PacketMessagingTS.Views
             return null;
         }
 
-        public void AddTextToStatusWindow(string text)
-        {
-            //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-            string current = textBoxStatus.Text;
-            textBoxStatus.Text = current + text;
-        }
-
-        //private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
+        //public void AddTextToStatusWindow(string text)
         //{
-        //    _viewLifetimeControl.Released -= OnViewLifetimeControlReleased;
-        //    await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        //    {
-        //        WindowManagerService.Current.SecondaryViews.Remove(_viewLifetimeControl);
-        //    });
-
-        //    // The released event is fired on the thread of the window
-        //    // it pertains to.
-        //    //
-        //    // It's important to make sure no work is scheduled on this thread
-        //    // after it starts to close (no data binding changes, no changes to
-        //    // XAML, creating new objects in destructors, etc.) since
-        //    // that will throw exceptions
-        //    Window.Current.Close();
+        //    //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+        //    string current = textBoxStatus.Text;
+        //    textBoxStatus.Text = current + text;
         //}
 
-        private async void AbortButton_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            //await _appWindow.CloseAsync();
-            //RxTxStatusViewModel.RxTxStatus = "";
-            _viewLifetimeControl.StartViewInUse();
-            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-                ApplicationView.GetForCurrentView().Id,
-                ApplicationViewSwitchingOptions.ConsolidateViews);
-            _viewLifetimeControl.StopViewInUse();
-        }
+        //private async void AbortButton_ClickAsync(object sender, RoutedEventArgs e)
+        //{
+        //    //await _appWindow.CloseAsync();
+        //    //RxTxStatusViewModel.RxTxStatus = "";
+        //    _viewLifetimeControl.StartViewInUse();
+        //    await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+        //        ApplicationView.GetForCurrentView().Id,
+        //        ApplicationViewSwitchingOptions.ConsolidateViews);
+        //    _viewLifetimeControl.StopViewInUse();
+        //}
 
         int i = 0;
         //string textBoxText = "";
@@ -112,6 +102,20 @@ namespace PacketMessagingTS.Views
             //textBoxStatus.Text = textBoxText;
 
             RxTxStatusViewModel.AddRxTxStatus = $"\nTest text{i}";
+            ScrollText();
+        }
+
+        ScrollViewer sv = null;
+        public void ScrollText()
+        {            
+            //if (sv is null)
+            //{
+                sv = FindVisualChild<ScrollViewer>(textBoxStatus);
+            //}
+            //if (sv.Visibility == Visibility.Visible)
+            {
+                bool? viewChanged = sv?.ChangeView(null, sv.ExtentHeight, 1.0f, true);
+            }
         }
 
         private void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
@@ -122,7 +126,7 @@ namespace PacketMessagingTS.Views
             {
                 bool? viewChanged = sv?.ChangeView(null, sv.ExtentHeight, 1.0f, true);
 
-                _logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {sv.ExtentHeight}");
+                //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {sv.ExtentHeight}");
             }
             //DependencyObject grid = (Grid)VisualTreeHelper.GetChild(textBoxStatus, 0);
             //for (int i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)

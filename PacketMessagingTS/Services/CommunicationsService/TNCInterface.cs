@@ -298,7 +298,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async void AddTextToStatusWindowAsync(string text)
         {
-            if (Singleton<RxTxStatusViewModel>.Instance.StatusPage == null)
+            if (Singleton<RxTxStatViewModel>.Instance.Dispatcher == null)
                 return;
 
             //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
@@ -308,16 +308,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
             //if (!dispatcher.HasThreadAccess)
             //{
-            await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Singleton<RxTxStatViewModel>.Instance.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
             {
             //    //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             //    //communicationsService.AddRxTxStatus($"{text}");
 
             //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
-                Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-            //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
-            //    MainPage.Current.AddTextToStatusWindow(text);
+                Singleton<RxTxStatViewModel>.Instance.AddRxTxStatus = text;
+                //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
+                //    MainPage.Current.AddTextToStatusWindow(text);
+                Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
             });
             //}
             //else
@@ -672,7 +673,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _packetMessagesSent.Clear();
             PacketMessagesReceived.Clear();
 
-            bool exitedBeforeConnect = false;
+            bool exitedBeforeConnect = true;
 
             if (string.IsNullOrEmpty(_bbsConnectName))
                 return;
@@ -737,13 +738,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 BBSConnectTime = DateTime.Now;
 
                 if (_error)
-                {
-                    exitedBeforeConnect = true;
+                {                    
                     goto AbortWithoutConnect;
                 }
 
-                //return; //TEST
-
+                //goto AbortWithoutConnect;    //Test
 
                 _connectState = ConnectState.ConnectStateBBSTryConnect;
                 _serialPort.Write("connect " + _bbsConnectName + "\r");
@@ -752,6 +751,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText + "\r\n");      // log last Write command
                 AddTextToStatusWindowAsync(readCmdText + _TNCPrompt + " " + readText);
 
+                exitedBeforeConnect = false;
                 _connectState = ConnectState.ConnectStateBBSConnect;
                 string readConnectText = _serialPort.ReadTo(_BBSPromptRN);      // read connect response  
                 _logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText + _BBSPrompt);
@@ -918,7 +918,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
 
             //SendMessageReceipts();          // TODO testing
-            //CloseDlgWindow(ConnectDlg);
         }
 
         #region IDisposable Support

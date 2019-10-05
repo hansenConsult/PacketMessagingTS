@@ -12,15 +12,19 @@ using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
 
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class RxTxStatusViewModel : BaseViewModel
+    public class RxTxStatViewModel : BaseViewModel
     {
 
         public RxTxStatusPage StatusPage
+        { get; set; }
+
+        public CoreDispatcher Dispatcher
         { get; set; }
 
         //public AppWindow AppWindow
@@ -30,7 +34,8 @@ namespace PacketMessagingTS.ViewModels
         public string RxTxStatus
         {
             get => rxTxStatus;
-            set => Set(ref rxTxStatus, value);
+            //set => Set(ref rxTxStatus, value);
+            set => rxTxStatus = value;
         }
 
         public string AddRxTxStatus
@@ -40,11 +45,11 @@ namespace PacketMessagingTS.ViewModels
             {
                 string status = rxTxStatus + value;
                 //StatusPage.AddTextToStatusWindow.Text = status;
-                Debug.Write(value);
+                //Debug.Write(value);
                 Set(ref rxTxStatus, status);
 
+                //StatusPage.ScrollText();
             }
-            //set => RxTxStatusPage.AddRxTxStatus = value;
         }
 
         //public void AddStatusWindowText(string text)
@@ -52,33 +57,33 @@ namespace PacketMessagingTS.ViewModels
         //    StatusPage.AddTextToStatusWindow(text);
         //}
 
-        //private ICommand _abortCommand;
+        private ICommand _abortCommand;
 
-        //public ICommand AbortCommand
-        //{
-        //    get
-        //    {
-        //        if (_abortCommand is null)
-        //        {
-        //            _abortCommand = new RelayCommand(AbortConnectionAsync);
-        //        }
+        public ICommand AbortCommand => _abortCommand ?? (_abortCommand = new RelayCommand(AbortConnectionAsync));
 
-        //        return _abortCommand;
-        //    }
-        //}
-
-        public async Task AbortConnectionAsync()
+        public async void AbortConnectionAsync()
         {
-            //CommunicationsService.CreateInstance().AbortConnection();
-            //await AppWindow?.CloseAsync();
+            _viewLifetimeControl.StartViewInUse();
+            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+                ApplicationView.GetForCurrentView().Id,
+                ApplicationViewSwitchingOptions.ConsolidateViews);
+            _viewLifetimeControl.StopViewInUse();
         }
 
         private ViewLifetimeControl _viewLifetimeControl;
 
-        public void Initialize(ViewLifetimeControl viewLifetimeControl)
+        public void Initialize(ViewLifetimeControl viewLifetimeControl, CoreDispatcher dispatcher)
         {
             _viewLifetimeControl = viewLifetimeControl;
             _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+            Dispatcher = dispatcher;
+        }
+
+        public void Initialize(ViewLifetimeControl viewLifetimeControl, RxTxStatusPage statusPage)
+        {
+            _viewLifetimeControl = viewLifetimeControl;
+            _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+            StatusPage = statusPage;
         }
 
         private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
@@ -91,6 +96,5 @@ namespace PacketMessagingTS.ViewModels
         }
 
     }
-
 
 }

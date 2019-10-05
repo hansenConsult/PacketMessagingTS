@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,8 +69,11 @@ namespace PacketMessagingTS.Services
                 viewControl.StartViewInUse();
                 var frame = new Frame();
                 frame.RequestedTheme = ThemeSelectorService.Theme;
+                //frame.Arrange(new Windows.Foundation.Rect(0,0,300,500));
                 frame.Navigate(pageType, viewControl);
+                //Window.Current.CoreWindow.Bounds
                 Window.Current.Content = frame;
+                //Window.Current.Bounds = new Windows.Foundation.Rect(500,60,400,500);
                 Window.Current.Activate();
                 ApplicationView.GetForCurrentView().Title = viewControl.Title;
             });
@@ -78,5 +82,38 @@ namespace PacketMessagingTS.Services
         }
 
         public bool IsWindowOpen(string windowTitle) => SecondaryViews.Any(v => v.Title == windowTitle);
+
+        //// This method is designed to always be run on the thread that's
+        //// binding to the list above
+        //public void UpdateTitle(String newTitle, int viewId)
+        //{
+        //    ViewLifetimeControl foundData;
+        //    if (TryFindViewLifetimeControlForViewId(viewId, out foundData))
+        //    {
+        //        foundData.Title = newTitle;
+        //    }
+        //    else
+        //    {
+        //        throw new KeyNotFoundException("Couldn't find the view ID in the collection");
+        //    }
+        //}
+
+        //// Loop through the collection to find the view ID
+        //// This should only be run on the main thread.
+        //private bool TryFindViewLifetimeControlForViewId(int viewId, out ViewLifetimeControl foundData)
+        //{
+        //    foreach (var ViewLifetimeControl in SecondaryViews)
+        //    {
+        //        if (ViewLifetimeControl.Id == viewId)
+        //        {
+        //            foundData = ViewLifetimeControl;
+        //            return true;
+        //        }
+        //    }
+        //    foundData = null;
+        //    return false;
+        //}
+
     }
+
 }

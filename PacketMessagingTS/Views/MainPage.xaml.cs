@@ -186,10 +186,10 @@ namespace PacketMessagingTS.Views
             await RefreshDataGridAsync();
         }
 
-        public void AddTextToStatusWindow(string text)
-        {
-            Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-        }
+        //public void AddTextToStatusWindow(string text)
+        //{
+        //    Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+        //}
 
         // private void OpenMessage(PacketMessage packetMessage)
         // {
@@ -291,8 +291,8 @@ namespace PacketMessagingTS.Views
             //appWindow.RequestMoveRelativeToCurrentViewContent(offset);
 
 
-            // Using ViewLifetimeControl
-            await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+            //// Using ViewLifetimeControl
+            //await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
             CommunicationsService communicationsService = CommunicationsService.CreateInstance();
 

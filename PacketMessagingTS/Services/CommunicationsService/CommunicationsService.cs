@@ -76,6 +76,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //private static RxTxStatusPage rxTxStatusPage;
         public async void AddRxTxStatusAsync(string text)
         {
+            if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
+                return;
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
             //Thread.Sleep(0); No effect
             //{
@@ -88,11 +90,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             ////await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
-            await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Singleton<RxTxStatViewModel>.Instance.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+                Singleton<RxTxStatViewModel>.Instance.AddRxTxStatus = text;
                 //    //rxTxStatusPage.AddTextToStatusWindow(text);
                 //    MainPage.Current.AddTextToStatusWindow(text);
+                Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
             });
         }
 
@@ -550,13 +553,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //await _appWindow.TryShowAsync();
             */
 
-            //// Using ViewLifetimeControl
-            //await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+            // Using ViewLifetimeControl
+            await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+            AddRxTxStatusAsync("Sending");
 
-            //AddRxTxStatus("\rSending");
-            AddRxTxStatusAsync("\rSending");
-
-            return;
+            //return; // Test
 
             FormControlBase formControl;
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
@@ -572,10 +573,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             // Get the files in the Outbox folder
             StorageFileQueryResult results = SharedData.UnsentMessagesFolder.CreateFileQueryWithOptions(queryOptions);
             // Iterate over the results
-            //AddRxTxStatusAsync("\rSending before await");
             IReadOnlyList<StorageFile> files = await results.GetFilesAsync();
-
-            AddRxTxStatusAsync("\rSending after await");
 
             foreach (StorageFile file in files)
             {
@@ -697,27 +695,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             Utilities.SetApplicationTitle(bbs.Name);
 
-            AddRxTxStatusAsync("\rBefore new TNCInterface");
             _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
-            AddRxTxStatusAsync("\rAfter new TNCInterface and before BBSConnectThreadProcAsync()");
 
             // Collect remaining messages to be sent
             // Process files to be sent via BBS
             await _tncInterface.BBSConnectThreadProcAsync();
-            AddRxTxStatusAsync("\rAfter BBSConnectThreadProcAsync()");
-
 
             // Close status window
-            //await Singleton<RxTxStatusViewModel>.Instance.AbortConnectionAsync();
+            //Singleton<RxTxStatusViewModel>.Instance.AbortConnectionAsync();
             //await _appWindow?.CloseAsync();
-            //await rxTxStatusWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            //{
-            //    rxTxStatusWindow.StartViewInUse();
-            //    await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-            //        ApplicationView.GetForCurrentView().Id,
-            //        ApplicationViewSwitchingOptions.ConsolidateViews);
-            //    rxTxStatusWindow.StopViewInUse();
-            //});
+            await Singleton<RxTxStatViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Singleton<RxTxStatViewModel>.Instance.AbortConnectionAsync();
+            });
 
             Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
             if (!string.IsNullOrEmpty(bbs?.Name))

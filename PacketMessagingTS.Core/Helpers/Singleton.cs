@@ -15,5 +15,17 @@ namespace PacketMessagingTS.Core.Helpers
                 return _instances.GetOrAdd(typeof(T), (t) => new T());
             }
         }
+
+        public static void UpdateInstance()
+        {
+            T newValue = new T();
+            _instances.TryUpdate(typeof(T), newValue, Instance);
+        }
+
+        public static bool RemoveInstance()
+        {
+            return _instances.TryRemove(typeof(T), out T value);
+        }
+
     }
 }

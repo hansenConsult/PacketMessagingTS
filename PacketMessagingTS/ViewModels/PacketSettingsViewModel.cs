@@ -59,6 +59,26 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private DateTime GetNextNetDate(string netDay)
+        {
+            DayOfWeek dayOfWeek;
+            if (netDay == "PKTMON")
+            {
+                dayOfWeek = DayOfWeek.Monday;
+            }
+            else
+                dayOfWeek = DayOfWeek.Tuesday;
+
+            DateTime now = DateTime.Now;
+            DateTime date = now;
+            while (date.DayOfWeek != dayOfWeek)
+            {
+                date = date.Add(new TimeSpan(24, 0, 0));
+            };
+            
+            return date;
+        }
+
         private Profile currentProfile;
         public Profile CurrentProfile
         {
@@ -102,9 +122,22 @@ namespace PacketMessagingTS.ViewModels
                 DefaultTo = currentProfile.SendTo;
                 if (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE"))
                 {
+                    DateTime netTime;
+                    if (DefaultTo.Contains("PKTMON"))
+                    {
+                        netTime = GetNextNetDate("PKTMON");
+                    }
+                    else if (DefaultTo.Contains("PKTTUE"))
+                    {
+                        netTime = GetNextNetDate("PKTTUE");
+                    }
+                    else
+                    {
+                        return;
+                    }
                     IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
                     DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, " +
-                                     $"{DateTime.Now.Month:d2}/{DateTime.Now.Day:d2}/{DateTime.Now.Year:d4}";
+                                     $"{netTime.Month:d2}/{netTime.Day:d2}/{netTime.Year:d4}";
                 }
                 else
                 {
