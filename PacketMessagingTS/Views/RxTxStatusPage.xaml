@@ -21,13 +21,13 @@
                  AcceptsReturn="True"
                  
                  IsReadOnly="True"
-                 Text="{x:Bind RxTxStatusViewModel.AddRxTxStatus, Mode=TwoWay}"/>
+                 Text="{x:Bind RxTxStatusViewmodel.AddRxTxStatus, Mode=TwoWay}"/>
         <!--TextChanged="TextBoxStatus_TextChanged"-->
         <Button x:Name="abortButton" Margin="8"
                 RelativePanel.AlignBottomWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 Content="Abort Connection" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                Command="{x:Bind RxTxStatusViewModel.AbortCommand}"/>
+                Command="{x:Bind RxTxStatusViewmodel.AbortCommand}"/>
                 <!--Command="{x:Bind RxTxStatusViewModel.AbortCommand, Mode=OneWay}"-->
         <Button x:Name="textButton" Margin="8"
                 RelativePanel.AlignBottomWithPanel="True"

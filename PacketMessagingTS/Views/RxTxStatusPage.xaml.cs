@@ -25,18 +25,18 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public RxTxStatViewModel RxTxStatusViewModel { get; } = Singleton<RxTxStatViewModel>.Instance;
+        public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
 
         //private AppWindow _appWindow;
         ViewLifetimeControl _viewLifetimeControl;
+
+        public static RxTxStatusPage rxtxStatusPage;
 
         public RxTxStatusPage()
         {
             InitializeComponent();
 
-            // To avoid problems with a new thread generated for the rxTXStatus edit control
-            //Singleton<RxTxStatViewModel>.UpdateInstance();
-
+            rxtxStatusPage = this;
             //RxTxStatusViewModel.StatusPage = this;
         }
 
@@ -46,10 +46,14 @@ namespace PacketMessagingTS.Views
             //RxTxStatusViewModel.AppWindow = _appWindow;
 
             base.OnNavigatedTo(e);
+            // To avoid problems with a new thread generated for the rxTXStatus edit control
+            bool success = Singleton<RxTxStatViewModel>.UpdateInstance();
+
             _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
-            RxTxStatusViewModel.Initialize(_viewLifetimeControl, Dispatcher);
-            RxTxStatusViewModel.StatusPage = this;
-            RxTxStatusViewModel.RxTxStatus = "";
+            RxTxStatusViewmodel.Initialize(_viewLifetimeControl, Dispatcher);
+            RxTxStatusViewmodel.StatusPage = this;
+            RxTxStatusViewmodel.RxTxStatus = "";
+
             //_currentHeight = Height;
             //_viewLifetimeControl.StartViewInUse();
             //_viewLifetimeControl.
@@ -77,9 +81,7 @@ namespace PacketMessagingTS.Views
 
         //public void AddTextToStatusWindow(string text)
         //{
-        //    //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-        //    string current = textBoxStatus.Text;
-        //    textBoxStatus.Text = current + text;
+        //    RxTxStatusViewmodel.AddRxTxStatus = text;
         //}
 
         //private async void AbortButton_ClickAsync(object sender, RoutedEventArgs e)
@@ -101,8 +103,8 @@ namespace PacketMessagingTS.Views
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
 
-            RxTxStatusViewModel.AddRxTxStatus = $"\nTest text{i}";
-            ScrollText();
+            RxTxStatusViewmodel.AddRxTxStatus = $"\nTest text{i}";
+            //ScrollText();
         }
 
         ScrollViewer sv = null;

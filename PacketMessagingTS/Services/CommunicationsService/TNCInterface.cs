@@ -298,7 +298,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async void AddTextToStatusWindowAsync(string text)
         {
-            if (Singleton<RxTxStatViewModel>.Instance.Dispatcher == null)
+            if (RxTxStatusPage.rxtxStatusPage.Dispatcher == null)
                 return;
 
             //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
@@ -308,17 +308,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
             //if (!dispatcher.HasThreadAccess)
             //{
-            await Singleton<RxTxStatViewModel>.Instance.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
+            //await Singleton<RxTxStatViewModel>.Instance.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunTaskAsync( async () =>
             {
-            //    //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
-            //    //communicationsService.AddRxTxStatus($"{text}");
+                //    //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+                //    //communicationsService.AddRxTxStatus($"{text}");
 
-            //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
-                Singleton<RxTxStatViewModel>.Instance.AddRxTxStatus = text;
+                //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
+                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AddRxTxStatus = text;
                 //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
                 //    MainPage.Current.AddTextToStatusWindow(text);
-                Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
+                //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
             });
             //}
             //else

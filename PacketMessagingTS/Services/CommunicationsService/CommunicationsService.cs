@@ -76,7 +76,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //private static RxTxStatusPage rxTxStatusPage;
         public async void AddRxTxStatusAsync(string text)
         {
-            if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
+
+            //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
+            if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
                 return;
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
             //Thread.Sleep(0); No effect
@@ -90,12 +92,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             ////await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
-            await Singleton<RxTxStatViewModel>.Instance.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Singleton<RxTxStatViewModel>.Instance.AddRxTxStatus = text;
+                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AddRxTxStatus = text;
                 //    //rxTxStatusPage.AddTextToStatusWindow(text);
                 //    MainPage.Current.AddTextToStatusWindow(text);
-                Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
+                //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
             });
         }
 
@@ -554,7 +556,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
             */
 
             // Using ViewLifetimeControl
-            await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+            ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+
+            //bool success = Singleton<RxTxStatViewModel>.UpdateInstance();
+            //Singleton<RxTxStatViewModel>.Instance.Initialize(viewLifetimeControl, _dispatcher);
+            //Singleton<RxTxStatViewModel>.Instance.RxTxStatus = "";
+
+
+            //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("Sending");
             AddRxTxStatusAsync("Sending");
 
             //return; // Test
@@ -704,9 +713,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
             // Close status window
             //Singleton<RxTxStatusViewModel>.Instance.AbortConnectionAsync();
             //await _appWindow?.CloseAsync();
-            await Singleton<RxTxStatViewModel>.Instance.StatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Singleton<RxTxStatViewModel>.Instance.AbortConnectionAsync();
+                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
             });
 
             Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;

@@ -48,7 +48,7 @@ namespace PacketMessagingTS.ViewModels
                 //Debug.Write(value);
                 Set(ref rxTxStatus, status);
 
-                //StatusPage.ScrollText();
+                RxTxStatusPage.rxtxStatusPage.ScrollText();
             }
         }
 

@@ -16,10 +16,11 @@ namespace PacketMessagingTS.Core.Helpers
             }
         }
 
-        public static void UpdateInstance()
+        public static bool UpdateInstance()
         {
             T newValue = new T();
-            _instances.TryUpdate(typeof(T), newValue, Instance);
+            bool success = _instances.TryUpdate(typeof(T), newValue, Instance);
+            return success;
         }
 
         public static bool RemoveInstance()

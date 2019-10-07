@@ -36,7 +36,7 @@ namespace PacketMessagingTS.Services
         }
 
         // Displays a view as a standalone
-        // You can use the resulting ViewLifeTileControl to interact with the new window.
+        // You can use the resulting ViewLifeTimeControl to interact with the new window.
         public async Task<ViewLifetimeControl> TryShowAsStandaloneAsync(string windowTitle, Type pageType)
         {
             ViewLifetimeControl viewControl = await CreateViewLifetimeControlAsync(windowTitle, pageType);
