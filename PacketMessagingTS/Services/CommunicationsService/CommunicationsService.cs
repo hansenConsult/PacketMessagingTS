@@ -712,11 +712,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             // Close status window
             //Singleton<RxTxStatusViewModel>.Instance.AbortConnectionAsync();
-            //await _appWindow?.CloseAsync();
-            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
-            });
+            //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
+            //});
 
             Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
             if (!string.IsNullOrEmpty(bbs?.Name))

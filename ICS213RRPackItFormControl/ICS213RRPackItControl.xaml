@@ -128,11 +128,11 @@
                                                FontWeight="Bold" Foreground="Black"
                                                Text="7.) ICS Position:"  />
                                     <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"                                                        
-                                                        PlaceholderText="Select ICS Position"
+                                                    PlaceholderText="Select ICS Position"
                                                     Style="{StaticResource AutoSuggestICSPosition}"
-                                                        TextChanged="TextBoxFromICSPosition_TextChanged"
-                                                        SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
-                                                        Tag="7a.,required,Enter a To Position." VerticalAlignment="Top"/>
+                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                    Tag="7a.,required,Enter a To Position." VerticalAlignment="Top"/>
                                     <!--<ComboBox Visibility="Collapsed" Tag="21|" FontFamily="Times New Roman" />-->
                                     <!--<TextBox  x:Name="textBoxToICSPosition" Visibility="Collapsed" Tag="20" />-->
                                     <!--<ComboBox x:Name="comboBoxToICSPosition" Margin="10,0,10,2" 	

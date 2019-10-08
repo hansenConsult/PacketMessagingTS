@@ -107,17 +107,17 @@ namespace PacketMessagingTS.Views
             //ScrollText();
         }
 
-        ScrollViewer sv = null;
+        ScrollViewer scrollViewer = null;
         public void ScrollText()
         {            
             //if (sv is null)
             //{
-                sv = FindVisualChild<ScrollViewer>(textBoxStatus);
+                scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
             //}
             //if (sv.Visibility == Visibility.Visible)
-            {
-                bool? viewChanged = sv?.ChangeView(null, sv.ExtentHeight, 1.0f, true);
-            }
+            //{
+                bool? viewChanged = scrollViewer?.ChangeView(null, scrollViewer.ExtentHeight, 1.0f, true);
+            //}
         }
 
         private void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)

@@ -22,19 +22,6 @@ namespace ICS213PackItFormControl
 
 	public partial class ICS213PackItControl : FormControlBase
 	{
-		public string[] ICSPosition = new string[] {
-				"Incident Commander",
-				"Operations",
-				"Planning",
-				"Logistics",
-				"Finance",
-				"Public Info. Officer",
-				"Liaison Officer",
-				"Safety Officer"
-		};
-
-		List<string> _ICSPositionFiltered = new List<string>();
-
         public ICS213PackItControl()
         {
             InitializeComponent();
@@ -50,7 +37,6 @@ namespace ICS213PackItFormControl
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
         }
 
-        //public override FormProviders DefaultFormProvider => FormProviders.PacItForm;
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
@@ -115,40 +101,40 @@ namespace ICS213PackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-ics213.html",
-                "#V: 2.16-2.0",
+                "#V: 2.17-2.1",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }
 
-        private void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            // Set sender.Text. You can use args.SelectedItem to build your text string.
-            sender.Text = args.SelectedItem as string;
-        }
+        //private void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        //{
+        //    // Set sender.Text. You can use args.SelectedItem to build your text string.
+        //    sender.Text = args.SelectedItem as string;
+        //}
 
-        private void TextBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            // Only get results when it was a user typing, 
-            // otherwise assume the value got filled in by TextMemberPath 
-            // or the handler for SuggestionChosen.
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                //Set the ItemsSource to be your filtered dataset
-                //sender.ItemsSource = null;
-                _ICSPositionFiltered = new List<string>();
-                foreach (string s in ICSPosition)
-                {
-                    string lowerS = s.ToLower();
-                    if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
-                    {
-                        _ICSPositionFiltered.Add(s);
-                    }
-                }
-                sender.ItemsSource = _ICSPositionFiltered;
-            }
-        }
+        //private void TextBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        //{
+        //    // Only get results when it was a user typing, 
+        //    // otherwise assume the value got filled in by TextMemberPath 
+        //    // or the handler for SuggestionChosen.
+        //    if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        //    {
+        //        //Set the ItemsSource to be your filtered dataset
+        //        //sender.ItemsSource = null;
+        //        _ICSPositionFiltered = new List<string>();
+        //        foreach (string s in ICSPosition)
+        //        {
+        //            string lowerS = s.ToLower();
+        //            if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
+        //            {
+        //                _ICSPositionFiltered.Add(s);
+        //            }
+        //        }
+        //        sender.ItemsSource = _ICSPositionFiltered;
+        //    }
+        //}
 
         //private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{

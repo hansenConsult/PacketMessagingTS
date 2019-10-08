@@ -329,8 +329,8 @@
 										RelativePanel.AlignVerticalCenterWithPanel="True"/>
                                 <ComboBox x:Name="comboBoxProfiles"  Width="323"
 										  RelativePanel.RightOf="labelProfile"
-                                          ItemsSource="{x:Bind _packetSettingsViewModel.ObservableProfileCollection, Mode=OneWay}"
-                                          SelectedIndex="{x:Bind _packetSettingsViewModel.ProfileSelectedIndex, Mode=TwoWay}"
+                                          ItemsSource="{x:Bind _PacketSettingsViewmodel.ObservableProfileCollection, Mode=OneWay}"
+                                          SelectedIndex="{x:Bind _PacketSettingsViewmodel.ProfileSelectedIndex, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
                                           VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,0"/>
                                 <!--SelectionChanged="ComboBoxProfiles_SelectionChanged"   />-->
@@ -364,61 +364,61 @@
 									      ItemsSource="{x:Bind TNCDeviceListSource.View}"
                                           DisplayMemberPath="Name"
 									      SelectedValuePath="Name"
-                                          SelectedValue="{x:Bind _packetSettingsViewModel.TNC, Mode=TwoWay}"
+                                          SelectedValue="{x:Bind _PacketSettingsViewmodel.TNC, Mode=TwoWay}"
                                           
                                           HorizontalAlignment="Left"/>
                                 <TextBlock x:Name="label"  Grid.Column="0" Grid.Row="1" Text="BBS:"  VerticalAlignment="Center" />
                                 <ComboBox x:Name="comboBoxBBS"  Grid.Column="1" Grid.Row="1"
-										  ItemsSource="{x:Bind _packetSettingsViewModel.BBSDataCollection, Mode=OneTime}"
+										  ItemsSource="{x:Bind _PacketSettingsViewmodel.BBSDataCollection, Mode=OneTime}"
 										  DisplayMemberPath="Name"
 										  SelectedValuePath = "Name"
-                                          SelectedValue="{x:Bind _packetSettingsViewModel.BBSSelectedValue, Mode=TwoWay}"
-                                          SelectedItem="{x:Bind _packetSettingsViewModel.CurrentBBS, Mode=TwoWay}"
+                                          SelectedValue="{x:Bind _PacketSettingsViewmodel.BBSSelectedValue, Mode=TwoWay}"
+                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.CurrentBBS, Mode=TwoWay}"
 										  VerticalAlignment="Center" Width="200"   />
                                 <!--SelectionChanged="ComboBoxBBS_SelectionChanged"/>-->
                                 <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Description:"  HorizontalAlignment="Left" Margin="0,6,5,0" />
                                 <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" Width="270" Height="88"
 										 IsReadOnly="True" TextWrapping="Wrap" 
 										 VerticalAlignment="Center"
-                                         Text="{x:Bind _packetSettingsViewModel.BBSDescription, Mode=TwoWay}"/>
+                                         Text="{x:Bind _PacketSettingsViewmodel.BBSDescription, Mode=TwoWay}"/>
                                 <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:"
                                            VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Width="85"
 									     HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center"
-                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency1, Mode=OneWay}" Height="32"/>
+                                         Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency1, Mode=OneWay}" Height="32"/>
                                 <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="48,0,0,0"
 										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
-                                         Text="{x:Bind _packetSettingsViewModel.BBSFrequency2, Mode=OneWay}"/>
+                                         Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency2, Mode=OneWay}"/>
                                 <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4" Width="270"
-										 Text="{x:Bind _packetSettingsViewModel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
+										 Text="{x:Bind _PacketSettingsViewmodel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
 										  />
                                 <TextBlock x:Name="label3" Grid.Column="0" Grid.Row="5"  Text="Default Subject:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxSubject"  Grid.Column="1" Grid.Row="5" Width="270"
-										 Text="{x:Bind _packetSettingsViewModel.DefaultSubject, Mode=TwoWay}"
+										 Text="{x:Bind _PacketSettingsViewmodel.DefaultSubject, Mode=TwoWay}"
                                          VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="0" Grid.Row="6"  Text="Default Message:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxMessageBody"  Grid.Column="1" Grid.Row="6" Width="270"
-										 Text="{x:Bind _packetSettingsViewModel.DefaultMessage, Mode=TwoWay}"
+										 Text="{x:Bind _PacketSettingsViewmodel.DefaultMessage, Mode=TwoWay}"
                                          VerticalAlignment="Center" />
                             </Grid>
                             <ToggleSwitch x:Name="displayProfileOnStart" Header="Display on start" Margin="8"
-                                          IsOn="{x:Bind _packetSettingsViewModel.DisplayProfileOnStart, Mode=TwoWay}"
+                                          IsOn="{x:Bind _PacketSettingsViewmodel.DisplayProfileOnStart, Mode=TwoWay}"
                                           />
 
                             <TextBox x:Name="textBoxFirstMessageNumber" Header="Message Number Start:"
                                      Width="155" HorizontalAlignment="Left" Margin="8,16,0,0" 
-                                     Text="{x:Bind _packetSettingsViewModel.FirstMessageNumber, Mode=TwoWay}"/>
+                                     Text="{x:Bind _PacketSettingsViewmodel.FirstMessageNumber, Mode=TwoWay}"/>
 
                             <TextBox x:Name="areaString" Header="Area string" MinHeight="60" Margin="8,8,0,0"                                   
                                      Width="300"  AcceptsReturn="True" HorizontalAlignment="Left"
-                                     Text="{x:Bind _packetSettingsViewModel.AreaString, Mode=TwoWay}" 
+                                     Text="{x:Bind _PacketSettingsViewmodel.AreaString, Mode=TwoWay}" 
                                      />
                             <ToggleSwitch x:Name="sendReceivedReceipt" Header="Send Received Receipt" Margin="8"
-                                          IsOn="{x:Bind _packetSettingsViewModel.SendReceipt, Mode=TwoWay}"
+                                          IsOn="{x:Bind _PacketSettingsViewmodel.SendReceipt, Mode=TwoWay}"
                                           />
                             <ToggleSwitch x:Name="forceReadBulletins" Header="Force onetime get bulletins" Margin="8"
-                                          IsOn="{x:Bind _packetSettingsViewModel.ForceReadBulletins, Mode=TwoWay}"
+                                          IsOn="{x:Bind _PacketSettingsViewmodel.ForceReadBulletins, Mode=TwoWay}"
                                           />
                         </StackPanel>
                     </ScrollViewer>
@@ -430,7 +430,7 @@
                                       HorizontalAlignment="Right"
                                       Click="ProfileSettingsAdd_Click" />
                         <AppBarButton x:Name="profileSave"  Label="Save Profile" Icon="Save"
-                                      IsEnabled="{x:Bind _packetSettingsViewModel.IsAppBarSaveEnabled, Mode=TwoWay}"
+                                      IsEnabled="{x:Bind _PacketSettingsViewmodel.IsAppBarSaveEnabled, Mode=TwoWay}"
                                       Click="PacketSettingsSave_ClickAsync" />
                         <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete"
                                       Click="ProfileSettingsDelete_Click"  />

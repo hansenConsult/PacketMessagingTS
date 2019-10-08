@@ -29,7 +29,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Right"/>
                 <Setter Property="Margin" Value="2"/>
             </Style>
-            
+
             <Style x:Key="AlliedTextBox" TargetType="TextBox">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="FontSize" Value="10"/>
@@ -578,19 +578,17 @@
                                                                CheckedControlName ="{x:Bind FacilityStatus, Mode=TwoWay}" 
                                                                Tag="35.,conditionallyrequired,Select Facility Status"/>
                         <Grid Grid.Column="0" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,1">
-                            <Grid.ColumnDefinitions>
+                            <!--<Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="51*"/>
                                 <ColumnDefinition Width="55*"/>
                                 <ColumnDefinition Width="262*"/>
                                 <ColumnDefinition Width="74*"/>
-                            </Grid.ColumnDefinitions>
+                            </Grid.ColumnDefinitions>-->
                             <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="3" Margin="0,2,0,2"/>
-                            <TextBlock Grid.Column="0" Text="Green - Fully Functional" 
-                                       Style="{StaticResource AlliedHeaderText}" Grid.ColumnSpan="3" Margin="2,0,0,0" 
-                                       VerticalAlignment="Center" />
-                            <RadioButton Grid.Column="3"  GroupName="facilityStatus" Margin="24,0,0,0" Padding="0,0,0,0"
-                                         Content="Green - Fully Functional"
-                                         HorizontalAlignment="Left" VerticalAlignment="Center" Tag="Fully Functional"/>
+                            <!--<TextBlock Grid.Column="0" Text="Green - Fully Functional" 
+                                       Style="{StaticResource AlliedHeaderText}" Grid.ColumnSpan="3" Margin="2,0,228,0" />-->
+                            <RadioButton Grid.Column="0"  GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
+                                         Content="Green - Fully Functional" Tag="Fully Functional" Grid.ColumnSpan="3" />
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="5" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>

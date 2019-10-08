@@ -30,7 +30,7 @@ namespace PacketMessagingTS.Views
 
         public SettingsViewModel _settingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
-        public PacketSettingsViewModel _packetSettingsViewModel { get; } = Singleton<PacketSettingsViewModel>.Instance;
+        public PacketSettingsViewModel _PacketSettingsViewmodel { get; } = Singleton<PacketSettingsViewModel>.Instance;
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
@@ -115,7 +115,7 @@ namespace PacketMessagingTS.Views
                 // Disable Save button
                 _TNCSettingsViewModel.ResetChangedProperty();
             }
-            if (_packetSettingsViewModel.IsAppBarSaveEnabled)
+            if (_PacketSettingsViewmodel.IsAppBarSaveEnabled)
             {
                 bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
                 if (save)
@@ -123,7 +123,7 @@ namespace PacketMessagingTS.Views
                     PacketSettingsSave_ClickAsync(this, null);
                 }
                 // Disable Save button
-                _packetSettingsViewModel.ResetChangedProperty();
+                _PacketSettingsViewmodel.ResetChangedProperty();
             }
 
             base.OnNavigatingFrom(e);
@@ -353,7 +353,7 @@ namespace PacketMessagingTS.Views
 
         private async void PacketSettingsSave_ClickAsync(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            int index = comboBoxProfiles.SelectedIndex;
+            //int index = comboBoxProfiles.SelectedIndex;
             if (comboBoxProfiles.Visibility == Visibility.Collapsed)
             {
                 Profile newProfile = new Profile()
@@ -372,7 +372,7 @@ namespace PacketMessagingTS.Views
                 await ProfileArray.Instance.SaveAsync();
                 comboBoxProfiles.Visibility = Visibility.Visible;
                 textBoxNewProfileName.Visibility = Visibility.Collapsed;
-                index = ProfileArray.Instance.ProfileList.Count - 1;
+                //index = ProfileArray.Instance.ProfileList.Count - 1;
             }
             else
             {
@@ -381,8 +381,8 @@ namespace PacketMessagingTS.Views
                 profile.BBS = comboBoxBBS.SelectedValue as string;
                 profile.TNC = comboBoxTNCs.SelectedValue as string;
                 profile.SendTo = textBoxTo.Text;
-                profile.Subject = _packetSettingsViewModel.DefaultSubject;
-                profile.Message = _packetSettingsViewModel.DefaultMessage;
+                profile.Subject = _PacketSettingsViewmodel.DefaultSubject;
+                profile.Message = _PacketSettingsViewmodel.DefaultMessage;
 
                 //ProfileArray.Instance.ProfileList[ProfileArray.Instance.ProfileList.IndexOf(profile)] = profile;
                 ProfileArray.Instance.ProfileList[comboBoxProfiles.SelectedIndex] = profile;
@@ -390,7 +390,8 @@ namespace PacketMessagingTS.Views
 
             await ProfileArray.Instance.SaveAsync();
 
-            _packetSettingsViewModel.ResetChangedProperty();
+            //_PacketSettingsViewmodel.ResetChangedProperty();
+            _PacketSettingsViewmodel.IsAppBarSaveEnabled = false;
             //comboBoxProfiles.SelectedIndex = index;
 
         }

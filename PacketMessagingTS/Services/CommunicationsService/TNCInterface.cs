@@ -538,7 +538,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _serialPort.Write($"A {area}\r");        // A XSCPERM
                     readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
                     _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
-                    AddTextToStatusWindowAsync(readText + _BBSPrompt);
+                    AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
 
                     if (!_forceReadBulletins && readText.Contains("0 messages"))
                     {
@@ -731,6 +731,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     readCmdText = _serialPort.ReadTo(_TNCPrompt);	// Next command
                 }
+                //_logHelper.Log(LogLevel.Info, $"{readCmdText}{_TNCPrompt} ");      // log last Write command
                 // Connect to JNOS
                 int readTimeout = _serialPort.ReadTimeout;
                 //_serialPort.ReadTimeout = 5000;
@@ -738,7 +739,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 BBSConnectTime = DateTime.Now;
 
                 if (_error)
-                {                    
+                {
                     goto AbortWithoutConnect;
                 }
 
@@ -748,14 +749,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _serialPort.Write("connect " + _bbsConnectName + "\r");
 
                 readText = _serialPort.ReadLine();          // Read command
-                _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText + "\r\n");      // log last Write command
-                AddTextToStatusWindowAsync(readCmdText + _TNCPrompt + " " + readText);
+                //_logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText + "\r\n");      // log last Write command
+                _logHelper.Log(LogLevel.Info, $"{_TNCPrompt}  {readText}");      // log last Write command
+                AddTextToStatusWindowAsync($"{_TNCPrompt} {readText}\r\n");
 
                 exitedBeforeConnect = false;
                 _connectState = ConnectState.ConnectStateBBSConnect;
                 string readConnectText = _serialPort.ReadTo(_BBSPromptRN);      // read connect response  
                 _logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText + _BBSPrompt);
-                AddTextToStatusWindowAsync("\n" + readConnectText + _BBSPrompt);
+                AddTextToStatusWindowAsync($"\r\n{readConnectText}{_BBSPromptRN}");
 
                 //_logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText);
                 _serialPort.ReadTimeout = readTimeout;
@@ -764,7 +766,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 readCmdText = _serialPort.ReadTo(_BBSPromptRN); // Read to prompt incl command
                 _logHelper.Log(LogLevel.Info, readCmdText + _BBSPrompt);
-                AddTextToStatusWindowAsync(readCmdText + _BBSPrompt);
+                AddTextToStatusWindowAsync(readCmdText + _BBSPromptRN);
 
                 _logHelper.Log(LogLevel.Info, $"Messages to send: {_packetMessagesToSend.Count}");
                 // Send messages
@@ -787,7 +789,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                             readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                             _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);   // Subject + message body plus stuff
-                            AddTextToStatusWindowAsync(readText + _BBSPrompt);
+                            AddTextToStatusWindowAsync(readText + _BBSPromptRN);
 
                             packetMessage.SentTime = DateTime.Now;
                             _packetMessagesSent.Add(packetMessage);
@@ -798,7 +800,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             //_serialPort.DiscardInBuffer();
                             //_serialPort.DiscardOutBuffer();
                             _error = true;
-                            throw;
+                            //throw;
                         }
                         _serialPort.ReadTimeout = 5000;
                     }
@@ -871,11 +873,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _serialPort.Write(fccId + "\r");
                     readText = _serialPort.ReadLine();
                     _logHelper.Log(LogLevel.Info, readText);
-                    AddTextToStatusWindowAsync(readText);
+                    AddTextToStatusWindowAsync($"{readText}\n");
                     _serialPort.Write("\x03\r");                        // Ctrl-C exits converse mode
                     readCmdText = _serialPort.ReadTo(_TNCPrompt);
                     _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt);
-                    AddTextToStatusWindowAsync(readCmdText + _TNCPrompt);
+                    AddTextToStatusWindowAsync(readCmdText + _TNCPrompt + "\n");
                 }
             }
             catch (Exception e)
