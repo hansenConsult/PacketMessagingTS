@@ -309,17 +309,23 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //if (!dispatcher.HasThreadAccess)
             //{
             //await Singleton<RxTxStatViewModel>.Instance.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunTaskAsync( async () =>
+            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 //    //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
                 //    //communicationsService.AddRxTxStatus($"{text}");
 
                 //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
                 RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AddRxTxStatus = text;
+                //RxTxStatusPage.rxtxStatusPage.TestAddRxTxStatus();
                 //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
-                //    MainPage.Current.AddTextToStatusWindow(text);
-                //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
+                //RxTxStatusPage.rxtxStatusPage.ScrollText();
             });
+
+            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunTaskAsync(async () =>
+            {
+                RxTxStatusPage.rxtxStatusPage.ScrollText();
+            });
+
             //}
             //else
             //{
@@ -340,10 +346,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (newText.Length > 0)
                 {
                     AddTextToStatusWindowAsync(newText);
-                    //    await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    //    {
-                    //        Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = newText;
-                    //    });
                 }
                 Thread.Sleep(10);
             }
@@ -558,8 +560,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 }
                 //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                 //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+                //readText = ReadTo(_BBSPromptRN);      // read response
                 readText = ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
+                //AddTextToStatusWindowAsync(readText + _BBSPromptRN);
 
                 // read messages
                 string[] lines = readText.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -613,7 +617,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 _serialPort.Write("K " + msgIndex + "\r");
                                 readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                                 _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
-                                AddTextToStatusWindowAsync(readText + _BBSPrompt);
+                                AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
                             }
                         }
                     }
@@ -662,6 +666,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //        window.Dispatcher.Invoke(DispatcherPriority.Normal, new CloseDialogWindow(CloseWindow), window);
         //    }
         //}
+        private string ReadToBBSPrompt()
+        {
+            string bbsMessage = "";
+            string readText;
+
+            do
+            {
+                readText = _serialPort.ReadLine();
+                bbsMessage += readText;
+                AddTextToStatusWindowAsync(readText + "\n");
+            }
+            while (!readText.Contains(_BBSPrompt));
+
+            return bbsMessage;
+        }
 
         public async Task BBSConnectThreadProcAsync()
         {
@@ -751,13 +770,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 readText = _serialPort.ReadLine();          // Read command
                 //_logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText + "\r\n");      // log last Write command
                 _logHelper.Log(LogLevel.Info, $"{_TNCPrompt}  {readText}");      // log last Write command
-                AddTextToStatusWindowAsync($"{_TNCPrompt} {readText}\r\n");
+                AddTextToStatusWindowAsync($"{_TNCPrompt} {readText}\n");
 
                 exitedBeforeConnect = false;
                 _connectState = ConnectState.ConnectStateBBSConnect;
-                string readConnectText = _serialPort.ReadTo(_BBSPromptRN);      // read connect response  
-                _logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText + _BBSPrompt);
-                AddTextToStatusWindowAsync($"\r\n{readConnectText}{_BBSPromptRN}");
+                //string readConnectText = _serialPort.ReadTo(_BBSPromptRN);      // read connect response  
+                string readConnectText = ReadToBBSPrompt(); // Read to prompt incl command
+                _logHelper.Log(LogLevel.Info, readText + "\n" + readConnectText + _BBSPrompt);
+                //AddTextToStatusWindowAsync($"{readConnectText}{_BBSPromptRN}");
 
                 //_logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText);
                 _serialPort.ReadTimeout = readTimeout;
@@ -787,9 +807,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             _serialPort.Write(packetMessage.Subject + "\r");
                             _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
-                            readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
+                            //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
+                            readText = ReadToBBSPrompt();      // read response
                             _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);   // Subject + message body plus stuff
-                            AddTextToStatusWindowAsync(readText + _BBSPromptRN);
+                            //AddTextToStatusWindowAsync(readText + _BBSPromptRN);
 
                             packetMessage.SentTime = DateTime.Now;
                             _packetMessagesSent.Add(packetMessage);

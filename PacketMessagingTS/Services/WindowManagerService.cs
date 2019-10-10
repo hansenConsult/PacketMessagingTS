@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -43,6 +44,9 @@ namespace PacketMessagingTS.Services
             SecondaryViews.Add(viewControl);
             viewControl.StartViewInUse();
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewControl.Id, ViewSizePreference.Custom, ApplicationView.GetForCurrentView().Id, ViewSizePreference.Default);
+            //Size viewControlSize = new Size(viewControl.Width, viewControl.Height);
+            //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
+            //viewControl.ResizeWindow(viewControlSize);
             viewControl.StopViewInUse();
             return viewControl;
         }
@@ -54,6 +58,9 @@ namespace PacketMessagingTS.Services
             SecondaryViews.Add(viewControl);
             viewControl.StartViewInUse();
             await ApplicationViewSwitcher.TryShowAsViewModeAsync(viewControl.Id, viewMode);
+            //Size viewControlSize = new Size(viewControl.Width, viewControl.Height);
+            //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
+
             viewControl.StopViewInUse();
             return viewControl;
         }
@@ -66,16 +73,21 @@ namespace PacketMessagingTS.Services
             {
                 viewControl = ViewLifetimeControl.CreateForCurrentView();
                 viewControl.Title = windowTitle;
+                viewControl.Height = 800;
+                viewControl.Width = 500;
                 viewControl.StartViewInUse();
                 var frame = new Frame();
                 frame.RequestedTheme = ThemeSelectorService.Theme;
                 //frame.Arrange(new Windows.Foundation.Rect(0,0,300,500));
                 frame.Navigate(pageType, viewControl);
-                //Window.Current.CoreWindow.Bounds
+                //Rect rect = Window.Current.CoreWindow.Bounds
                 Window.Current.Content = frame;
                 //Window.Current.Bounds = new Windows.Foundation.Rect(500,60,400,500);
+                //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
                 Window.Current.Activate();
+                //ApplicationView.GetForCurrentView().Title = "";
                 ApplicationView.GetForCurrentView().Title = viewControl.Title;
+                //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
             });
 
             return viewControl;

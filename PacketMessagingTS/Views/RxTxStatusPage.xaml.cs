@@ -27,7 +27,6 @@ namespace PacketMessagingTS.Views
 
         public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
 
-        //private AppWindow _appWindow;
         ViewLifetimeControl _viewLifetimeControl;
 
         public static RxTxStatusPage rxtxStatusPage;
@@ -42,16 +41,14 @@ namespace PacketMessagingTS.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //_appWindow = e.Parameter as AppWindow;
-            //RxTxStatusViewModel.AppWindow = _appWindow;
-
             base.OnNavigatedTo(e);
             // To avoid problems with a new thread generated for the rxTXStatus edit control
             bool success = Singleton<RxTxStatViewModel>.UpdateInstance();
 
             _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
-            RxTxStatusViewmodel.Initialize(_viewLifetimeControl, Dispatcher);
-            RxTxStatusViewmodel.StatusPage = this;
+            //RxTxStatusViewmodel.Initialize(_viewLifetimeControl, Dispatcher);
+            RxTxStatusViewmodel.Initialize(_viewLifetimeControl);
+            //RxTxStatusViewmodel.StatusPage = this;
             RxTxStatusViewmodel.RxTxStatus = "";
 
             //_currentHeight = Height;
@@ -97,26 +94,42 @@ namespace PacketMessagingTS.Views
 
         int i = 0;
         //string textBoxText = "";
+        public void TestAddRxTxStatus()
+        {
+            i++;
+            RxTxStatusViewmodel.AddRxTxStatus = $"Test text{i}\n";
+
+            //ScrollText();
+        }
+
         private void TextButton_Click(object sender, RoutedEventArgs e)
         {
+            //ScrollText();
+            //TestAddRxTxStatus();
+            //for (int j = 0; j < 100; j++)
+            //{
             i++;
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
 
             RxTxStatusViewmodel.AddRxTxStatus = $"\nTest text{i}";
-            //ScrollText();
+            //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";
+
+            ScrollText();
+                //}
         }
 
-        ScrollViewer scrollViewer = null;
+        //ScrollViewer scrollViewer = null;
         public void ScrollText()
-        {            
+        {
             //if (sv is null)
             //{
-                scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+            ScrollViewer scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
             //}
-            //if (sv.Visibility == Visibility.Visible)
+            //if (scrollViewer.Visibility == Visibility.Visible)
             //{
                 bool? viewChanged = scrollViewer?.ChangeView(null, scrollViewer.ExtentHeight, 1.0f, true);
+            //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {scrollViewer.ExtentHeight}");
             //}
         }
 

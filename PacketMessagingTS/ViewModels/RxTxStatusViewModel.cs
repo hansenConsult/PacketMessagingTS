@@ -21,21 +21,18 @@ namespace PacketMessagingTS.ViewModels
     public class RxTxStatViewModel : BaseViewModel
     {
 
-        public RxTxStatusPage StatusPage
-        { get; set; }
+        //public RxTxStatusPage StatusPage
+        //{ get; set; }
 
-        public CoreDispatcher Dispatcher
-        { get; set; }
-
-        //public AppWindow AppWindow
+        //public CoreDispatcher Dispatcher
         //{ get; set; }
 
         private string rxTxStatus;
         public string RxTxStatus
         {
             get => rxTxStatus;
-            //set => Set(ref rxTxStatus, value);
-            set => rxTxStatus = value;
+            set => Set(ref rxTxStatus, value);
+            //set => rxTxStatus = value;
         }
 
         public string AddRxTxStatus
@@ -48,14 +45,9 @@ namespace PacketMessagingTS.ViewModels
                 //Debug.Write(value);
                 Set(ref rxTxStatus, status);
 
-                RxTxStatusPage.rxtxStatusPage.ScrollText();
+                //RxTxStatusPage.rxtxStatusPage.ScrollText();
             }
         }
-
-        //public void AddStatusWindowText(string text)
-        //{
-        //    StatusPage.AddTextToStatusWindow(text);
-        //}
 
         private ICommand _abortCommand;
 
@@ -72,19 +64,25 @@ namespace PacketMessagingTS.ViewModels
 
         private ViewLifetimeControl _viewLifetimeControl;
 
-        public void Initialize(ViewLifetimeControl viewLifetimeControl, CoreDispatcher dispatcher)
+        public void Initialize(ViewLifetimeControl viewLifetimeControl)
         {
             _viewLifetimeControl = viewLifetimeControl;
             _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
-            Dispatcher = dispatcher;
         }
 
-        public void Initialize(ViewLifetimeControl viewLifetimeControl, RxTxStatusPage statusPage)
-        {
-            _viewLifetimeControl = viewLifetimeControl;
-            _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
-            StatusPage = statusPage;
-        }
+        //public void Initialize(ViewLifetimeControl viewLifetimeControl, CoreDispatcher dispatcher)
+        //{
+        //    _viewLifetimeControl = viewLifetimeControl;
+        //    _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+        //    Dispatcher = dispatcher;
+        //}
+
+        //public void Initialize(ViewLifetimeControl viewLifetimeControl, RxTxStatusPage statusPage)
+        //{
+        //    _viewLifetimeControl = viewLifetimeControl;
+        //    _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+        //    StatusPage = statusPage;
+        //}
 
         private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
         {

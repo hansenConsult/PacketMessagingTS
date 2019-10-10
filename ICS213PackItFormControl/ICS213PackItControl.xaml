@@ -65,6 +65,7 @@
                                 <TextBlock FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" 
                                            HorizontalAlignment="Center" Text="2.) Sender's msg #:"/>
                                 <TextBox x:Name="senderMsgNo"  
+                                         Text="{x:Bind SenderMsgNo, Mode=TwoWay}"
 										 TextAlignment="Center" BorderBrush="White" Margin="2,0,2,2" Tag="1" />
                             </StackPanel>
                         </Border>
@@ -310,7 +311,7 @@
                                       Margin="5,2,5,2" IsSpellCheckEnabled="True" />
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="11. REFERENCE:" Style="{StaticResource LabelFontTNR14B}"   VerticalAlignment="Center" Margin="5,0,0,0"/>
                             <TextBox  Grid.Column="1" Grid.Row="1" x:Name="reference" TextChanged="Subject_Changed" 
-                                      PlaceholderText="e.g. Number of earlier message"
+                                      PlaceholderText="e.g. Number of earlier message" BorderThickness="1"
                                       Margin="5,2,5,2" Tag="11."/>
                         </Grid>
                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="12. Message:" Margin="5,0,0,0"/>

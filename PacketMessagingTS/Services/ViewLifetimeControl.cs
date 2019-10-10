@@ -1,7 +1,7 @@
 ﻿using System;
-
 using PacketMessagingTS.Helpers;
 
+using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 
@@ -31,6 +31,10 @@ namespace PacketMessagingTS.Services
         public int Id { get; private set; }
 
         public string Title { get; set; }
+
+        public double Height { get; set; }
+
+        public double Width { get; set; }
 
         public event ViewReleasedHandler Released
         {
@@ -72,6 +76,13 @@ namespace PacketMessagingTS.Services
         public static ViewLifetimeControl CreateForCurrentView()
         {
             return new ViewLifetimeControl(CoreWindow.GetForCurrentThread());
+        }
+
+        public bool ResizeWindow()
+        {
+            Size size = new Size(Width, Height);
+            bool success = ApplicationView.GetForCurrentView().TryResizeView(size);
+            return success;
         }
 
         // Signals that the view is being interacted with by another view,

@@ -23,10 +23,5 @@ namespace PacketMessagingTS.Core.Helpers
             return success;
         }
 
-        public static bool RemoveInstance()
-        {
-            return _instances.TryRemove(typeof(T), out T value);
-        }
-
     }
 }

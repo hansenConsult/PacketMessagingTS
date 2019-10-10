@@ -29,6 +29,9 @@ using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.ViewManagement;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -38,8 +41,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private LogHelper _logHelper = new LogHelper(log);
 
         //ViewLifetimeControl rxTxStatusWindow = null;
-        private AppWindow _appWindow = null;
-        private Frame _appWindowFrame = new Frame();
+        //private AppWindow _appWindow = null;
+        //private Frame _appWindowFrame = new Frame();
         //Collection<DeviceListEntry> _listOfDevices;
 
         public List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
@@ -95,8 +98,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
             await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AddRxTxStatus = text;
-                //    //rxTxStatusPage.AddTextToStatusWindow(text);
-                //    MainPage.Current.AddTextToStatusWindow(text);
                 //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
             });
         }
@@ -557,16 +558,20 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             // Using ViewLifetimeControl
             ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+            //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsViewModeAsync("Connection Status", typeof(RxTxStatusPage));
 
-            //bool success = Singleton<RxTxStatViewModel>.UpdateInstance();
-            //Singleton<RxTxStatViewModel>.Instance.Initialize(viewLifetimeControl, _dispatcher);
-            //Singleton<RxTxStatViewModel>.Instance.RxTxStatus = "";
+            //Rect rect = Window.Current.Bounds;
+            //viewLifetimeControl.ResizeWindow(new Size(rect.Width, rect.Height - 20));
 
+            await viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                bool success = viewLifetimeControl.ResizeWindow();
+            });
 
             //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("Sending");
-            AddRxTxStatusAsync("Sending");
+            //AddRxTxStatusAsync("Sending\n");
 
-            //return; // Test
+            //return; //Test
 
             FormControlBase formControl;
             PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
@@ -714,7 +719,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //Singleton<RxTxStatusViewModel>.Instance.AbortConnectionAsync();
             //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //{
-            //    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
+            //    //    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
+            //    RxTxStatusPage.rxtxStatusPage.ScrollText();
             //});
 
             Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;

@@ -292,9 +292,17 @@ namespace PacketMessagingTS.Helpers
             if (_packetMessage.MessageOrigin == MessageOrigin.Received)
             {
                 _packetForm.MessageSentTime = _packetMessage.JNOSDate;
-                _packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
-                _packetForm.OriginMsgNo = _packetMessage.SenderMessageNumber;
                 _packetForm.ReceivedOrSent = "Receiver";
+                if (_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
+                {
+                    _packetForm.MessageNo = _packetMessage.MessageNumber;
+                    _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
+                }
+                else
+                {
+                    _packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
+                    _packetForm.OriginMsgNo = _packetMessage.SenderMessageNumber;
+                }
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
             {
