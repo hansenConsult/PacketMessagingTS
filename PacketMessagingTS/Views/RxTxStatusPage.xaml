@@ -19,7 +19,7 @@
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.ZoomMode="Disabled"
                  AcceptsReturn="True"
-                 
+                 VerticalContentAlignment="Bottom"
                  IsReadOnly="False"
                  Text="{x:Bind RxTxStatusViewmodel.AddRxTxStatus, Mode=TwoWay}"/>
         <!--TextChanged="TextBoxStatus_TextChanged"-->

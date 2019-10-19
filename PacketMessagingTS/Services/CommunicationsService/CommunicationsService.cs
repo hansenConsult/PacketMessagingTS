@@ -558,15 +558,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             // Using ViewLifetimeControl
             ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
-            //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsViewModeAsync("Connection Status", typeof(RxTxStatusPage));
 
-            //Rect rect = Window.Current.Bounds;
-            //viewLifetimeControl.ResizeWindow(new Size(rect.Width, rect.Height - 20));
-
-            await viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                bool success = viewLifetimeControl.ResizeWindow();
-            });
+            //await viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    bool success = viewLifetimeControl.ResizeWindow();
+            //});
 
             //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("Sending");
             //AddRxTxStatusAsync("Sending\n");

@@ -51,6 +51,8 @@ namespace PacketMessagingTS.Views
             //RxTxStatusViewmodel.StatusPage = this;
             RxTxStatusViewmodel.RxTxStatus = "";
 
+            _viewLifetimeControl.Height = RxTxStatusViewmodel.ViewControlHeight;
+            _viewLifetimeControl.Width = RxTxStatusViewmodel.ViewControlWidth;
             //_currentHeight = Height;
             //_viewLifetimeControl.StartViewInUse();
             //_viewLifetimeControl.
@@ -125,10 +127,22 @@ namespace PacketMessagingTS.Views
             //if (sv is null)
             //{
             ScrollViewer scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+
+            //double textBoxHeight = textBoxStatus.ActualHeight;
+            ////while (scrollViewer.ExtentHeight > textBoxHeight)
+            //{
+            //    int index = RxTxStatusViewmodel.RxTxStatus.IndexOfAny(new char[] { '\n', '\r' });
+            //    if (index >= 0)
+            //    {
+            //        RxTxStatusViewmodel.RxTxStatus = RxTxStatusViewmodel.RxTxStatus.Substring(index + 1);
+            //    }
+            //}
+            //_logHelper.Log(LogLevel.Trace, $"TextBox Hight: {textBoxHeight}, ExtendHeight: {scrollViewer.ExtentHeight}");
+
             //}
             //if (scrollViewer.Visibility == Visibility.Visible)
             //{
-                bool? viewChanged = scrollViewer?.ChangeView(null, scrollViewer.ExtentHeight, 1.0f, true);
+            bool? viewChanged = scrollViewer?.ChangeView(null, scrollViewer.ExtentHeight, 1.0f, true);
             //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {scrollViewer.ExtentHeight}");
             //}
         }
@@ -153,5 +167,10 @@ namespace PacketMessagingTS.Views
             //}
         }
 
+        private void TextBoxStatus_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Windows.Foundation.Rect bounds = Window.Current.CoreWindow.Bounds;
+            _viewLifetimeControl.Height = bounds.Bottom;
+        }
     }
 }

@@ -62,10 +62,22 @@ namespace PacketMessagingTS.Models
         {
             get
             {
-                tncDeviceList = deviceField.ToList();
-
+                if (tncDeviceList is null || tncDeviceList.Count == 0)
+                {
+                    tncDeviceList = deviceField.ToList();
+                }
                 return tncDeviceList;
             }
+            set
+            {
+                tncDeviceList = value;
+            }
+        }
+
+        public void TNCDeviceListUpdate(int index, TNCDevice tncDevice)
+        {
+            tncDeviceList.RemoveAt(index);
+            tncDeviceList.Insert(index, tncDevice);
         }
 
         private TNCDeviceArray()
@@ -115,8 +127,12 @@ namespace PacketMessagingTS.Models
 					using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8))
 					{
 						XmlSerializer serializer = new XmlSerializer(typeof(TNCDeviceArray));
-						_instance = (TNCDeviceArray)serializer.Deserialize(reader);
-					}
+                        _instance = (TNCDeviceArray)serializer.Deserialize(reader);
+                        //TNCDeviceArray devarray = (TNCDeviceArray)serializer.Deserialize(reader);
+                        //TNCDeviceList = _instance.deviceField.ToList<TNCDevice>();
+                        //tncDeviceList = deviceField.ToList();
+
+                    }
 				}
 			}
 			catch (FileNotFoundException e)
@@ -136,11 +152,21 @@ namespace PacketMessagingTS.Models
 
         public async Task SaveAsync()
         {
-            this.TNCDevices = TNCDeviceList.ToArray();
+            TNCDevice[] deviceList = TNCDeviceList.ToArray();
+            deviceField = new TNCDevice[TNCDeviceList.Count];
+            for (int i = 0; i < deviceList.Length; i++)
+            {
+                TNCDevice dev = deviceList[i];
+                deviceField[i] = dev;
+            }
+
+            if (TNCDevices.Length == 0)
+                return;
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             try
             {
+
                 var storageItem = await localFolder.CreateFileAsync(tncFileName, CreationCollisionOption.ReplaceExisting);
                 if (storageItem != null)
                 {

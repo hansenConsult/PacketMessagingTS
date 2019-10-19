@@ -11,11 +11,11 @@ using MessageFormControl;
 
 using MetroLog;
 
-using PacketMessagingTS.Views;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+using PacketMessagingTS.Views;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
@@ -31,14 +31,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         enum ConnectState
         {
-            ConnectStateNone,
-            ConnectStatePrepareTNCType,
-            ConnectStatePrepare,
-            ConnectStateBBSTryConnect,
-            ConnectStateBBSConnect,
-            ConnectStatePost,
-            ConnectStateDisconnected,
-            ConnectStateConverseMode
+            None,
+            PrepareTNCType,
+            Prepare,
+            BBSTryConnect,
+            BBSConnected,
+            Post,
+            Disconnected,
+            ConverseMode
         }
         ConnectState _connectState;
 
@@ -59,7 +59,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private bool _error = false;        // Disconnect if an error is detected
 
         private ViewLifetimeControl _viewLifetimeControl;
-        //private RxTxStatusPage _appWindowFrame;
 
 
         //const byte send = 0x5;
@@ -68,9 +67,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         }
 
-        public TNCInterface(string messageBBS, ref TNCDevice tncDevice, bool forceReadBulletins, string areas, ref List<PacketMessage> packetMessagesToSend)
+        public TNCInterface(string bbsConnectName, ref TNCDevice tncDevice, bool forceReadBulletins, string areas, ref List<PacketMessage> packetMessagesToSend)
         {
-            _bbsConnectName = messageBBS;
+            _bbsConnectName = bbsConnectName;
             _TncDevice = tncDevice;
             _TNCPrompt = _TncDevice.Prompts.Command;
             _forceReadBulletins = forceReadBulletins;
@@ -321,10 +320,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //RxTxStatusPage.rxtxStatusPage.ScrollText();
             });
 
-            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunTaskAsync(async () =>
-            {
-                RxTxStatusPage.rxtxStatusPage.ScrollText();
-            });
+            //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
+            //    RxTxStatusPage.rxtxStatusPage.ScrollText();
+            //});
 
             //}
             //else
@@ -684,11 +683,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public async Task BBSConnectThreadProcAsync()
         {
-            //_appWindowFrame = appWindow;
-            //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
-            //communicationsService.AddRxTxStatus($"\nIn BBSConnectThreadProcAsync");
-            //ngleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = $"\nIn BBSConnectThreadProcAsync";
-
             _packetMessagesSent.Clear();
             PacketMessagesReceived.Clear();
 
@@ -716,11 +710,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
             string readCmdText = "";
             try
             {
-                _connectState = ConnectState.ConnectStateNone;
+                _connectState = ConnectState.None;
 
                 _serialPort.Open();
 
-                _connectState = ConnectState.ConnectStatePrepareTNCType;
+                _connectState = ConnectState.PrepareTNCType;
                 if (_TncDevice.Name == "XSC_Kantronics_KPC3-Plus")
                 {
                     readCmdText = KPC3Plus();
@@ -732,7 +726,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 // Send Precommands
                 string preCommands = _TncDevice.InitCommands.Precommands;
                 string[] preCommandLines = preCommands.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                _connectState = ConnectState.ConnectStatePrepare;
+                _connectState = ConnectState.Prepare;
                 foreach (string commandLine in preCommandLines)
                 {
                     _serialPort.Write(commandLine + "\r");
@@ -764,7 +758,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 //goto AbortWithoutConnect;    //Test
 
-                _connectState = ConnectState.ConnectStateBBSTryConnect;
+                _connectState = ConnectState.BBSTryConnect;
                 _serialPort.Write("connect " + _bbsConnectName + "\r");
 
                 readText = _serialPort.ReadLine();          // Read command
@@ -773,10 +767,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 AddTextToStatusWindowAsync($"{_TNCPrompt} {readText}\n");
 
                 exitedBeforeConnect = false;
-                _connectState = ConnectState.ConnectStateBBSConnect;
+                _connectState = ConnectState.BBSConnected;
                 //string readConnectText = _serialPort.ReadTo(_BBSPromptRN);      // read connect response  
                 string readConnectText = ReadToBBSPrompt(); // Read to prompt incl command
-                _logHelper.Log(LogLevel.Info, readText + "\n" + readConnectText + _BBSPrompt);
+                _logHelper.Log(LogLevel.Info, readConnectText);
                 //AddTextToStatusWindowAsync($"{readConnectText}{_BBSPromptRN}");
 
                 //_logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText);
@@ -866,7 +860,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 // Send PostCommands
                 string postCommands = _TncDevice.InitCommands.Postcommands;
                 string[] postCommandLines = postCommands.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                _connectState = ConnectState.ConnectStatePost;
+                _connectState = ConnectState.Post;
                 foreach (string commandLine in postCommandLines)
                 {
                     _serialPort.Write(commandLine + "\r");
@@ -884,7 +878,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (!exitedBeforeConnect)
                 {
                     // Enter converse mode and send FCC call sign
-                    _connectState = ConnectState.ConnectStateConverseMode;
+                    _connectState = ConnectState.ConverseMode;
                     _serialPort.Write(_TncDevice.Commands.Conversmode + "\r");
                     readText = _serialPort.ReadLine();       // Read command
                     _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
@@ -905,15 +899,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 //Console.WriteLine($"Serial port exception: {e.GetType().ToString()}");
                 _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())} {e.Message}");
-                if (_connectState == ConnectState.ConnectStateBBSConnect)
+                if (_connectState == ConnectState.BBSConnected)
                 {
                     await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                 }
-                else if (_connectState == ConnectState.ConnectStatePrepareTNCType)
+                else if (_connectState == ConnectState.PrepareTNCType)
                 {
                     await Utilities.ShowSingleButtonContentDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
                 }
-                else if (_connectState == ConnectState.ConnectStateConverseMode)
+                else if (_connectState == ConnectState.ConverseMode)
                 {
                     await Utilities.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
                 }
@@ -927,7 +921,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     await Utilities.ShowSingleButtonContentDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
                 }
 
-                if (_connectState == ConnectState.ConnectStateBBSConnect)
+                if (_connectState == ConnectState.BBSConnected)
                 {
                     _serialPort.Write("B\r\n");
                     string disconnectString = _serialPort.ReadLine();

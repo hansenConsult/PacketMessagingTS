@@ -44,10 +44,13 @@ namespace PacketMessagingTS.Services
             SecondaryViews.Add(viewControl);
             viewControl.StartViewInUse();
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewControl.Id, ViewSizePreference.Custom, ApplicationView.GetForCurrentView().Id, ViewSizePreference.Default);
-            //Size viewControlSize = new Size(viewControl.Width, viewControl.Height);
-            //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
-            //viewControl.ResizeWindow(viewControlSize);
             viewControl.StopViewInUse();
+
+            await viewControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                bool success = viewControl.ResizeView();
+            });
+
             return viewControl;
         }
 
@@ -58,9 +61,6 @@ namespace PacketMessagingTS.Services
             SecondaryViews.Add(viewControl);
             viewControl.StartViewInUse();
             await ApplicationViewSwitcher.TryShowAsViewModeAsync(viewControl.Id, viewMode);
-            //Size viewControlSize = new Size(viewControl.Width, viewControl.Height);
-            //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
-
             viewControl.StopViewInUse();
             return viewControl;
         }
@@ -73,12 +73,11 @@ namespace PacketMessagingTS.Services
             {
                 viewControl = ViewLifetimeControl.CreateForCurrentView();
                 viewControl.Title = windowTitle;
-                viewControl.Height = 800;
-                viewControl.Width = 500;
+                //viewControl.Height = 600;
+                //viewControl.Width = 500;
                 viewControl.StartViewInUse();
                 var frame = new Frame();
                 frame.RequestedTheme = ThemeSelectorService.Theme;
-                //frame.Arrange(new Windows.Foundation.Rect(0,0,300,500));
                 frame.Navigate(pageType, viewControl);
                 //Rect rect = Window.Current.CoreWindow.Bounds
                 Window.Current.Content = frame;

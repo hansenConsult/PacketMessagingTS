@@ -95,8 +95,8 @@ namespace PacketMessagingTS
             }
             //await UserCallsigns.OpenAsync();
 
-            await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
             await TNCDeviceArray.Instance.OpenAsync();
+            await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
             await EmailAccountArray.Instance.OpenAsync();
             await ProfileArray.Instance.OpenAsync();
             await AddressBook.Instance.OpenAsync();

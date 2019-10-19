@@ -70,7 +70,7 @@ namespace PacketMessagingTS.Services
             Dispatcher = newWindow.Dispatcher;
             _window = newWindow;
             Id = ApplicationView.GetApplicationViewIdForWindow(_window);
-            RegisterForEvents();
+            RegisterForEvents();            
         }
 
         public static ViewLifetimeControl CreateForCurrentView()
@@ -78,11 +78,17 @@ namespace PacketMessagingTS.Services
             return new ViewLifetimeControl(CoreWindow.GetForCurrentThread());
         }
 
-        public bool ResizeWindow()
+        public bool ResizeView()
         {
             Size size = new Size(Width, Height);
             bool success = ApplicationView.GetForCurrentView().TryResizeView(size);
             return success;
+        }
+
+        public Rect GetBounds()
+        {
+            Rect rect = ApplicationView.GetForCurrentView().VisibleBounds;
+            return rect;
         }
 
         // Signals that the view is being interacted with by another view,
@@ -140,6 +146,7 @@ namespace PacketMessagingTS.Services
         private void RegisterForEvents()
         {
             ApplicationView.GetForCurrentView().Consolidated += ViewConsolidated;
+            ApplicationView.GetForCurrentView().VisibleBoundsChanged += BoundsChanged;
         }
 
         private void UnregisterForEvents()
@@ -150,6 +157,13 @@ namespace PacketMessagingTS.Services
         private void ViewConsolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs e)
         {
             StopViewInUse();
+        }
+
+        private void BoundsChanged(ApplicationView sender, object obj)
+        {
+            Rect rect = sender.VisibleBounds;
+            Width = rect.Width;
+            Height = rect.Height;
         }
 
         private void FinalizeRelease()

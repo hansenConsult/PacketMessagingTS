@@ -450,12 +450,15 @@
                         <SplitView.Pane >
                             <StackPanel>
                                 <ListBox x:Name="ConnectDevices"  Width="auto"  Height="auto"  Background="LightGray"
-									     ItemsSource="{x:Bind TNCDeviceListSource.View}" 									     
+									     ItemsSource="{x:Bind TNCDeviceListSource.View}"							     
                                          DisplayMemberPath="Name"
-									     SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									     SelectedIndex="{x:Bind _TNCSettingsViewModel.TNCDeviceSelectedIndex, Mode=TwoWay}"
 									     SelectionChanged="ConnectDevices_SelectionChanged"
 								>
                                 </ListBox>
+                                <!--ItemsSource="{x:Bind TNCDeviceListSource.View}"-->
+                                <!--SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+
                                 <TextBox x:Name="newTNCDeviceName" Header="New Device Name" 
                                      Margin="5,58,5,0" Visibility="Collapsed"/>
                             </StackPanel>

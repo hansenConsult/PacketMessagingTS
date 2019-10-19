@@ -40,17 +40,20 @@ namespace PacketMessagingTS.Views
         //TacticalCallsignData _tacticalCallsignData;
 
         // Profiles settings
-        
+
+        // TNC settings
+
 
         public SettingsPage()
         {
             InitializeComponent();
 
-            ObservableCollection<TNCDevice> tncDeviceCollection = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList );
+            ObservableCollection<TNCDevice> tncDeviceCollection = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
             TNCDeviceListSource.Source = tncDeviceCollection;
 
+            //ConnectDevices.ItemsSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
             // Serial ports
-    //        _TNCSettingsViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();
+            //        _TNCSettingsViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();
             //_listOfBluetoothDevices = new List<DeviceInformation>();
             //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
             //_comportComparer = new ComportComparer();
@@ -123,7 +126,8 @@ namespace PacketMessagingTS.Views
                     PacketSettingsSave_ClickAsync(this, null);
                 }
                 // Disable Save button
-                _PacketSettingsViewmodel.ResetChangedProperty();
+                _PacketSettingsViewmodel.IsAppBarSaveEnabled = false;
+                //_PacketSettingsViewmodel.ResetChangedProperty();
             }
 
             base.OnNavigatingFrom(e);
@@ -140,7 +144,7 @@ namespace PacketMessagingTS.Views
                     comboBoxProfiles.Visibility = Visibility.Visible;
                     textBoxNewProfileName.Visibility = Visibility.Collapsed;
 
-                    //_packetSettingsViewModel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                    //_PacketSettingsViewmodel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
                     break;
                 case "pivotIdentity":
                     _identityViewModel.UserCallsign = Utilities.GetProperty<string>("UserCallsign");
@@ -468,6 +472,7 @@ namespace PacketMessagingTS.Views
 
         private void UpdateTNCFromUI(TNCDevice tncDevice)
         {
+            _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport = _TNCSettingsViewModel.TNCComPort;
             //if (_initCommandsChanged)
             //{
             //    tncDevice.InitCommands.Precommands = textBoxInitCommandsPre.Text;
@@ -664,7 +669,6 @@ namespace PacketMessagingTS.Views
             comboBoxBaudRate.SelectedItem = 9600;
             comboBoxDatabits.SelectedItem = 8;
 
-
             int i = 0;
             var values = Enum.GetValues(typeof(SerialParity));
             for (; i < values.Length; i++)
@@ -704,8 +708,7 @@ namespace PacketMessagingTS.Views
 
         private void ConnectDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if ((PivotItem)PivotTNC.SelectedItem is null)
-            //    return;
+            // TODO Use index changed only. Need to move email code to viewmodel
 
             if (e.AddedItems.Count > 0)
             {
@@ -714,7 +717,10 @@ namespace PacketMessagingTS.Views
                 if (TNCDevices != null && TNCDevices.Count == 1)
                 {
                     tncDevice = (TNCDevice)TNCDevices[0];
-                    Singleton<PacketSettingsViewModel>.Instance.CurrentTNC = tncDevice;
+                    //_logHelper.Log(LogLevel.Trace, $"Selection changed, Comport: {tncDevice.CommPort.Comport}");
+                    //_TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
+                    //Singleton<PacketSettingsViewModel>.Instance.CurrentTNC = tncDevice; // this is wrong
+
                     if (tncDevice.Name.Contains(SharedData.EMail))
                     {
                         UpdateMailState(TNCState.EMail);
@@ -728,6 +734,7 @@ namespace PacketMessagingTS.Views
                         {
                             _tncState = TNCState.None;
                         }
+                        _tncState = TNCState.None;
                         EMailSettings.Visibility = Visibility.Collapsed;
                         PivotTNC.Visibility = Visibility.Visible;
                     }
@@ -930,6 +937,10 @@ namespace PacketMessagingTS.Views
             {
                 UpdateMailState(TNCState.EMailEdit);
             }
+            else
+            {
+                _tncState = TNCState.Edit;
+            }
         }
 
         private async void appBarDeleteTNC_ClickAsync(object sender, RoutedEventArgs e)
@@ -967,8 +978,8 @@ namespace PacketMessagingTS.Views
                 tncDevice.Name = $"{SharedData.EMail}-" + emailAccount.MailUserName;
                 await TNCDeviceArray.Instance.SaveAsync();
 
-                //TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-                TNCDeviceListSource.Source = TNCDeviceArray.Instance.TNCDeviceList;
+                TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                //TNCDeviceListSource.Source = TNCDeviceArray.Instance.TNCDeviceList;
             }
             else if (_tncState == TNCState.EMailDelete)
             {
@@ -1030,10 +1041,24 @@ namespace PacketMessagingTS.Views
                 await TNCDeviceArray.Instance.SaveAsync();
                 _tncState = TNCState.None;
             }
+            else if (_tncState == TNCState.Edit)
+            {
+                TNCDevice tncDevice = _TNCSettingsViewModel.TNCDeviceFromUI;
+                tncDevice.Name = _TNCSettingsViewModel.CurrentTNCDevice.Name;
+                _TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
+                //List<TNCDevice> tncDeviceList = TNCDeviceArray.Instance.TNCDeviceList;
+                TNCDeviceArray.Instance.TNCDeviceListUpdate(_TNCSettingsViewModel.TNCDeviceSelectedIndex, tncDevice);
+                await TNCDeviceArray.Instance.SaveAsync();
+                TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                //ConnectDevices.ItemsSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                _tncState = TNCState.None;
+                _logHelper.Log(LogLevel.Trace, $"Saving, Comport: {tncDevice.CommPort.Comport}");
+            }
             ConnectDevices.Visibility = Visibility.Visible;
             newTNCDeviceName.Visibility = Visibility.Collapsed;
 
             // Disable Save button
+            _PacketSettingsViewmodel.IsAppBarSaveEnabled = false;
             _TNCSettingsViewModel.ResetChangedProperty();
         }
         #endregion Interface

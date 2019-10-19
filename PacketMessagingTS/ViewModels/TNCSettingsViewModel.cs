@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
-
+using MetroLog;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+using SharedCode;
 using Windows.UI.Xaml;
 
 
@@ -15,16 +16,14 @@ namespace PacketMessagingTS.ViewModels
 {
     public class TNCSettingsViewModel : BaseViewModel
     {
+        protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCSettingsViewModel>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
+
         public TNCSettingsViewModel()
         {
 
         }
-
-        //public override void ResetChangedProperty()
-        //{
-        //    base.ResetChangedProperty();
-        //    IsAppBarSaveEnabled = false;
-        //}
 
         private int pivotTNCSelectedIndex;
         public int PivotTNCSelectedIndex
@@ -57,6 +56,49 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        //private TNCDevice originalTNCDevice;
+        //public TNCDevice OriginalTNCDevice
+        //{
+        //    get
+        //    {
+        //        return TNCDeviceArray.Instance.TNCDevices[TNCDeviceSelectedIndex];
+        //    }
+        //    set
+        //    {
+        //        originalTNCDevice = value;
+        //    }
+        //}
+
+        public TNCDevice TNCDeviceFromUI
+        {
+            get
+            {
+                TNCDevice tncDeviceFromUI = new TNCDevice();
+
+                tncDeviceFromUI.InitCommands.Precommands = TNCInitCommandsPre;
+                tncDeviceFromUI.InitCommands.Postcommands = TNCInitCommandsPost;
+                tncDeviceFromUI.CommPort.IsBluetooth = IsToggleSwitchOn;
+                tncDeviceFromUI.CommPort.Comport = TNCComPort;
+                tncDeviceFromUI.CommPort.BluetoothName = TNCComName;
+                tncDeviceFromUI.CommPort.Baudrate = TNCComBaudRate;
+                tncDeviceFromUI.CommPort.Databits = TNCComDatabits;
+                tncDeviceFromUI.CommPort.Stopbits = TNCComStopbits;
+                tncDeviceFromUI.CommPort.Parity = TNCComParity;
+                tncDeviceFromUI.CommPort.Flowcontrol = TNCComHandshake;
+                tncDeviceFromUI.Commands.MyCall = TNCCommandsMyCall;
+                tncDeviceFromUI.Commands.Connect = TNCCommandsConnect;
+                tncDeviceFromUI.Commands.Retry = TNCCommandsRetry;
+                tncDeviceFromUI.Commands.Conversmode = TNCCommandsConversMode;
+                tncDeviceFromUI.Commands.Datetime = TNCCommandsDateTime;
+                tncDeviceFromUI.Prompts.Command = TNCPromptsCommand;
+                tncDeviceFromUI.Prompts.Timeout = TNCPromptsTimeout;
+                tncDeviceFromUI.Prompts.Connected = TNCPromptsConnected;
+                tncDeviceFromUI.Prompts.Disconnected = TNCPromptsDisconnected;
+
+                return tncDeviceFromUI;
+            }
+        }
+
         private TNCDevice currentTNCDevice;
         public TNCDevice CurrentTNCDevice
         {
@@ -66,6 +108,13 @@ namespace PacketMessagingTS.ViewModels
                 {
                     TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
                 }
+                //if (currentTNCDevice.Name.Contains(SharedData.EMail))
+                //{ }
+                //else
+                //{
+                 //   currentTNCDevice.CommPort.Comport = TNCComPort;
+                //}
+                
                 return currentTNCDevice;
             }
             set
@@ -94,6 +143,8 @@ namespace PacketMessagingTS.ViewModels
                 }
                 else
                 {
+                    _logHelper.Log(LogLevel.Trace, $"Current device, Comport: {currentTNCDevice.CommPort.Comport}");
+
                     TNCInitCommandsPre = currentTNCDevice.InitCommands.Precommands;
                     TNCInitCommandsPost = currentTNCDevice.InitCommands.Postcommands;
                     IsToggleSwitchOn = currentTNCDevice.CommPort.IsBluetooth;
@@ -191,10 +242,12 @@ namespace PacketMessagingTS.ViewModels
             get => tncComPort;
             set
             {
+                _logHelper.Log(LogLevel.Trace, $"Comport: {value}");
+
                 if (value is null || CollectionOfSerialDevices.Count == 0)
                     return;
 
-                SetProperty(ref tncComPort, value);
+                SetProperty(ref tncComPort, value);                
 
                 bool changed = CurrentTNCDevice.CommPort.Comport != tncComPort;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
@@ -260,23 +313,23 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private ObservableCollection<uint> CreateBaudRatesCollection()
+        private ObservableCollection<ushort> CreateBaudRatesCollection()
         {
-            ObservableCollection<uint> baudRatesCollection = new ObservableCollection<uint>();
-            for (uint i = 1200; i< 39000; i *= 2)
+            ObservableCollection<ushort> baudRatesCollection = new ObservableCollection<ushort>();
+            for (ushort i = 1200; i< 39000; i *= 2)
             {
                 baudRatesCollection.Add(i);
             }
             return baudRatesCollection;
         }
 
-        public ObservableCollection<uint> BaudRatesCollection
+        public ObservableCollection<ushort> BaudRatesCollection
         {
             get => CreateBaudRatesCollection();
         }
 
-        private uint tncComBaudRate;
-        public uint TNCComBaudRate
+        private ushort tncComBaudRate;
+        public ushort TNCComBaudRate
         {
             get => tncComBaudRate;
             set
@@ -314,7 +367,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComStopbits, value);
 
-                bool changed = CurrentTNCDevice.CommPort.Stopbits != tncComStopbits;
+                bool changed = CurrentTNCDevice?.CommPort.Stopbits != tncComStopbits;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -327,7 +380,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComParity, value);
 
-                bool changed = CurrentTNCDevice.CommPort.Parity != tncComParity;
+                bool changed = CurrentTNCDevice?.CommPort.Parity != tncComParity;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -340,7 +393,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComHandshake, value);
 
-                bool changed = CurrentTNCDevice.CommPort.Flowcontrol != tncComHandshake;
+                bool changed = CurrentTNCDevice?.CommPort.Flowcontrol != tncComHandshake;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
             }

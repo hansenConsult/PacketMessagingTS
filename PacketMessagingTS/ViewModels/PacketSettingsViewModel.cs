@@ -120,7 +120,7 @@ namespace PacketMessagingTS.ViewModels
                 TNC = currentProfile.TNC;
                 BBSSelectedValue = currentProfile.BBS;
                 DefaultTo = currentProfile.SendTo;
-                if (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE"))
+                if (DefaultTo != null && (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE")))
                 {
                     DateTime netTime;
                     if (DefaultTo.Contains("PKTMON"))
