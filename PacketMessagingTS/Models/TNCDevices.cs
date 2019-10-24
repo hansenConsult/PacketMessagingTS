@@ -131,7 +131,6 @@ namespace PacketMessagingTS.Models
                         //TNCDeviceArray devarray = (TNCDeviceArray)serializer.Deserialize(reader);
                         //TNCDeviceList = _instance.deviceField.ToList<TNCDevice>();
                         //tncDeviceList = deviceField.ToList();
-
                     }
 				}
 			}
@@ -154,11 +153,7 @@ namespace PacketMessagingTS.Models
         {
             TNCDevice[] deviceList = TNCDeviceList.ToArray();
             deviceField = new TNCDevice[TNCDeviceList.Count];
-            for (int i = 0; i < deviceList.Length; i++)
-            {
-                TNCDevice dev = deviceList[i];
-                deviceField[i] = dev;
-            }
+            deviceList.CopyTo(deviceField, 0);
 
             if (TNCDevices.Length == 0)
                 return;
@@ -279,7 +274,7 @@ namespace PacketMessagingTS.Models
                 this.commPortField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string MailUserName
@@ -458,9 +453,16 @@ namespace PacketMessagingTS.Models
             }
         }
 
-		public TNCDevicePrompts()
+		public static bool IsTNCDevicePromptsEqual(TNCDevicePrompts prompts1, TNCDevicePrompts prompts2)
 		{
-		}
+            if (prompts1.Command == prompts2.Command
+                && prompts1.Connected == prompts2.Connected
+                && prompts1.Disconnected == prompts2.Disconnected
+                && prompts1.Timeout == prompts2.Timeout)
+                return true;
+            else
+                return false;
+        }
 	}
 
     /// <remarks/>
@@ -551,6 +553,19 @@ namespace PacketMessagingTS.Models
                 this.datetimeField = value;
             }
         }
+
+        public static bool IsTNCDeviceCommandsEqual(TNCDeviceCommands commands1, TNCDeviceCommands commands2)
+        {
+            if (commands1.Retry == commands2.Retry
+                && commands1.MyCall == commands2.MyCall
+                && commands1.Datetime == commands2.Datetime
+                && commands1.Conversmode == commands2.Conversmode
+                && commands1.Connect == commands2.Connect)
+                return true;
+            else
+                return false;
+        }
+
     }
 
     /// <remarks/>
@@ -593,6 +608,16 @@ namespace PacketMessagingTS.Models
                 this.postcommandsField = value;
             }
         }
+
+        public static bool IsTNCDeviceInitCommandsEqual(TNCDeviceInitCommands initCommands1, TNCDeviceInitCommands initCommands2)
+        {
+            if (initCommands1.Precommands == initCommands2.Precommands
+                && initCommands1.Postcommands == initCommands2.Postcommands)
+                return true;
+            else
+                return false;
+        }
+
     }
 
     /// <remarks/>
@@ -746,5 +771,21 @@ namespace PacketMessagingTS.Models
                 this.flowcontrolField = value;
             }
         }
+
+        public static bool IsTNCDeviceComportsEqual(TNCDeviceCommPort comport1, TNCDeviceCommPort comport2)
+        {
+            if (comport1.IsBluetooth == comport2.IsBluetooth
+                && comport1.BluetoothName == comport2.BluetoothName
+                && comport1.Comport == comport2.Comport
+                && comport1.Parity == comport2.Parity
+                && comport1.Baudrate == comport2.Baudrate
+                && comport1.Databits == comport2.Databits
+                && comport1.Stopbits == comport2.Stopbits
+                && comport1.Flowcontrol == comport2.Flowcontrol)
+                return true;
+            else
+                return false;
+        }
+
     }
 }

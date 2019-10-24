@@ -317,6 +317,18 @@ namespace PacketMessagingTS.Models
 			return MailServer;
 		}
 
-	}
+        public static bool IsEMailAccountsEqual(EmailAccount account1, EmailAccount account2)
+        {
+            if (account1.MailServer == account2.MailServer
+                && account1.MailServerPort == account2.MailServerPort
+                && account1.MailUserName == account2.MailUserName
+                && account1.MailPassword == account2.MailPassword                
+                && account1.MailIsSSLField == account2.MailIsSSLField)
+                return true;
+            else
+                return false;
+
+        }
+    }
 
 }

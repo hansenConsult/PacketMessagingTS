@@ -42,16 +42,17 @@ namespace PacketMessagingTS.Views
         // Profiles settings
 
         // TNC settings
+        int _deletedIndex;
 
 
         public SettingsPage()
         {
             InitializeComponent();
 
-            ObservableCollection<TNCDevice> tncDeviceCollection = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-            TNCDeviceListSource.Source = tncDeviceCollection;
+            //_TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
 
-            //ConnectDevices.ItemsSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+
+            //_TNCSettingsViewModel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
             // Serial ports
             //        _TNCSettingsViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();
             //_listOfBluetoothDevices = new List<DeviceInformation>();
@@ -65,15 +66,7 @@ namespace PacketMessagingTS.Views
 
             //_isAllDevicesEnumerated = false;
 
-            //_packetSettingsViewModel.ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
-
-            //ObservableCollection<EmailAccount> EmailAccountsObservableCollection = new ObservableCollection<EmailAccount>();
-            //foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccounts)
-            //{
-            //    EmailAccountsObservableCollection.Add(account);
-            //}
-            ////EmailAccountsSource.Source = EmailAccountsObservableCollection;
-            EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
+            //EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
 
             ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
 
@@ -108,16 +101,16 @@ namespace PacketMessagingTS.Views
 
         protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            if (_TNCSettingsViewModel.IsAppBarSaveEnabled)
-            {
-                bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
-                if (save)
-                {
-                    appBarSaveTNC_ClickAsync(this, null);
-                }
-                // Disable Save button
-                _TNCSettingsViewModel.ResetChangedProperty();
-            }
+            //if (_TNCSettingsViewModel.IsAppBarSaveEnabled)
+            //{
+            //    bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
+            //    if (save)
+            //    {
+            //        AppBarSaveTNC_ClickAsync(this, null);
+            //    }
+            //    // Disable Save button
+            //    _TNCSettingsViewModel.ResetChangedProperty();
+            //}
             if (_PacketSettingsViewmodel.IsAppBarSaveEnabled)
             {
                 bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
@@ -455,73 +448,73 @@ namespace PacketMessagingTS.Views
             profileSave.IsEnabled = true;
         }
 
-#endregion
-#region Interface
-        enum TNCState
-        {
-            None,
-            Edit,
-            Add,
-            Delete,
-            EMail,
-            EMailEdit,
-            EMailDelete,
-            EMailAdd
-        }
-        TNCState _tncState = TNCState.None;
+        #endregion
+        #region Interface
+        //enum TNCState
+        //{
+        //    None,
+        //    Edit,
+        //    Add,
+        //    Delete,
+        //    EMail,
+        //    EMailEdit,
+        //    EMailDelete,
+        //    EMailAdd
+        //}
+        //TNCState _tncState = TNCSettingsViewModel.TNCState.None;
 
-        private void UpdateTNCFromUI(TNCDevice tncDevice)
-        {
-            _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport = _TNCSettingsViewModel.TNCComPort;
-            //if (_initCommandsChanged)
-            //{
-            //    tncDevice.InitCommands.Precommands = textBoxInitCommandsPre.Text;
-            //    tncDevice.InitCommands.Postcommands = textBoxInitCommandsPost.Text;
-            //}
+        //private void UpdateTNCFromUI(TNCDevice tncDevice)
+        //{
+        //    _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport = _TNCSettingsViewModel.TNCComPort;
+        //    //if (_initCommandsChanged)
+        //    //{
+        //    //    tncDevice.InitCommands.Precommands = textBoxInitCommandsPre.Text;
+        //    //    tncDevice.InitCommands.Postcommands = textBoxInitCommandsPost.Text;
+        //    //}
 
-            //if (_comportSettingsChanged)
-            //{
-            //    tncDevice.CommPort.IsBluetooth = toggleSwitchBluetooth.IsOn;
-            //    if (tncDevice.CommPort.IsBluetooth)
-            //    {
-            //        tncDevice.CommPort.BluetoothName = comboBoxComName.SelectedValue as string;
-            //        tncDevice.CommPort.DeviceId = ((DeviceInformation)comboBoxComName.SelectedItem)?.Id as string;
-            //    }
-            //    tncDevice.CommPort.Comport = comboBoxComPort.SelectedValue as string;
-            //    tncDevice.CommPort.Baudrate = (uint)comboBoxBaudRate.SelectedValue;
-            //    tncDevice.CommPort.Databits = (ushort)comboBoxDatabits.SelectedValue;
-            //    tncDevice.CommPort.Stopbits = (SerialStopBitCount)comboBoxStopBits.SelectedValue;
-            //    tncDevice.CommPort.Parity = (SerialParity)comboBoxParity.SelectedValue;
-            //    tncDevice.CommPort.Flowcontrol = (SerialHandshake)comboBoxFlowControl.SelectedValue;
-            //}
+        //    //if (_comportSettingsChanged)
+        //    //{
+        //    //    tncDevice.CommPort.IsBluetooth = toggleSwitchBluetooth.IsOn;
+        //    //    if (tncDevice.CommPort.IsBluetooth)
+        //    //    {
+        //    //        tncDevice.CommPort.BluetoothName = comboBoxComName.SelectedValue as string;
+        //    //        tncDevice.CommPort.DeviceId = ((DeviceInformation)comboBoxComName.SelectedItem)?.Id as string;
+        //    //    }
+        //    //    tncDevice.CommPort.Comport = comboBoxComPort.SelectedValue as string;
+        //    //    tncDevice.CommPort.Baudrate = (uint)comboBoxBaudRate.SelectedValue;
+        //    //    tncDevice.CommPort.Databits = (ushort)comboBoxDatabits.SelectedValue;
+        //    //    tncDevice.CommPort.Stopbits = (SerialStopBitCount)comboBoxStopBits.SelectedValue;
+        //    //    tncDevice.CommPort.Parity = (SerialParity)comboBoxParity.SelectedValue;
+        //    //    tncDevice.CommPort.Flowcontrol = (SerialHandshake)comboBoxFlowControl.SelectedValue;
+        //    //}
 
-            //if (_promptsChanged)
-            //{
-            //    tncDevice.Prompts.Command = textBoxPrompsCommand.Text;
-            //    tncDevice.Prompts.Timeout = textBoxPromptsTimeout.Text;
-            //    tncDevice.Prompts.Connected = textBoxPromptsConnected.Text;
-            //    tncDevice.Prompts.Disconnected = textBoxPromptsDisconnected.Text;
-            //}
+        //    //if (_promptsChanged)
+        //    //{
+        //    //    tncDevice.Prompts.Command = textBoxPrompsCommand.Text;
+        //    //    tncDevice.Prompts.Timeout = textBoxPromptsTimeout.Text;
+        //    //    tncDevice.Prompts.Connected = textBoxPromptsConnected.Text;
+        //    //    tncDevice.Prompts.Disconnected = textBoxPromptsDisconnected.Text;
+        //    //}
 
-            //if (_commandsChanged)
-            //{
-            //    tncDevice.Commands.Connect = textBoxCommandsConnect.Text;
-            //    tncDevice.Commands.Conversmode = textBoxCommandsConversMode.Text;
-            //    tncDevice.Commands.MyCall = textBoxCommandsMyCall.Text;
-            //    tncDevice.Commands.Retry = textBoxCommandsRetry.Text;
-            //    tncDevice.Commands.Datetime = textBoxCommandsDateTime.Text;
-            //}
-        }
+        //    //if (_commandsChanged)
+        //    //{
+        //    //    tncDevice.Commands.Connect = textBoxCommandsConnect.Text;
+        //    //    tncDevice.Commands.Conversmode = textBoxCommandsConversMode.Text;
+        //    //    tncDevice.Commands.MyCall = textBoxCommandsMyCall.Text;
+        //    //    tncDevice.Commands.Retry = textBoxCommandsRetry.Text;
+        //    //    tncDevice.Commands.Datetime = textBoxCommandsDateTime.Text;
+        //    //}
+        //}
 
-        private void TNCSaveAsCurrent()
-        {
-            if (_tncState == TNCState.Add)      // New setting have been created but not saved
-                return;
+        //private void TNCSaveAsCurrent()
+        //{
+        //    if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.TNCAdd)      // New setting have been created but not saved _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCSettingsViewModel.TNCState.None;
+        //        return;
 
-            //TNCDevice tncDevice = SharedData.CurrentTNCDevice;
+        //    //TNCDevice tncDevice = SharedData.CurrentTNCDevice;
 
-            UpdateTNCFromUI(Singleton<PacketSettingsViewModel>.Instance.CurrentTNC);
-        }
+        //    UpdateTNCFromUI(Singleton<PacketSettingsViewModel>.Instance.CurrentTNC);
+        //}
 
         //private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
         //{
@@ -561,71 +554,68 @@ namespace PacketMessagingTS.Views
 
         private void SetMailControlsEditState(bool enabledState)
         {
-            mailPortString.IsEnabled = enabledState;
-            mailUserName.IsEnabled = enabledState;
-            mailPassword.IsEnabled = enabledState;
+            _TNCSettingsViewModel.IsMailPasswordEnabled = enabledState;
             if (enabledState)
             {
-                mailIsSSL.Visibility = Visibility.Visible;
-                mailServerComboBox.Visibility = Visibility.Visible;
-                mailServerComboBox.IsEnabled = false;
+                _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Visible;
+                //mailServerComboBox.Visibility = Visibility.Visible;
+                _TNCSettingsViewModel.IsMailUserNameEnabled = false;
                 //mailServer.Visibility = Visibility.Visible;
+                _TNCSettingsViewModel.IsMailServerPortEnabled = !enabledState;
+                _TNCSettingsViewModel.IsMailServerEnabled = !enabledState;
             }
             else
             {
-                mailIsSSL.Visibility = Visibility.Collapsed;
-                mailServerComboBox.Visibility = Visibility.Visible;
-                mailServer.Visibility = Visibility.Collapsed;
+                _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Collapsed;
+                //mailServerComboBox.Visibility = Visibility.Visible;
+                //mailServer.Visibility = Visibility.Collapsed;
             }
         }
 
         private void SetMailControlsEnabledState(bool enabledState)
         {
-            mailPortString.IsEnabled = enabledState;
-            mailUserName.IsEnabled = enabledState;
-            mailPassword.IsEnabled = enabledState;
+            _TNCSettingsViewModel.IsMailPasswordEnabled = enabledState;
+            _TNCSettingsViewModel.IsMailUserNameEnabled = true;
             if (enabledState)
             {
-                mailIsSSL.Visibility = Visibility.Visible;
-                mailServerComboBox.Visibility = Visibility.Collapsed;
-                mailServer.Visibility = Visibility.Visible;
+                _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Visible;
+                _TNCSettingsViewModel.IsMailServerPortEnabled = enabledState;
+                _TNCSettingsViewModel.IsMailServerEnabled = enabledState;
             }
             else
             {
-                mailIsSSL.Visibility = Visibility.Collapsed;
-                mailServerComboBox.Visibility = Visibility.Visible;
-                mailServerComboBox.IsEnabled = true;
-                mailServer.Visibility = Visibility.Collapsed;
+                _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Collapsed;
+                _TNCSettingsViewModel.IsMailServerPortEnabled = enabledState;
+                _TNCSettingsViewModel.IsMailServerEnabled = enabledState;
             }
         }
 
-        private void UpdateMailState(TNCState newMailState)
+        private void UpdateMailState(TNCSettingsViewModel.TNCState newMailState)
         {
-            if (newMailState == _tncState)
+            if (newMailState == _TNCSettingsViewModel.State)
                 return;
 
-            _tncState = newMailState;
+            _TNCSettingsViewModel.State = newMailState;
             switch (newMailState)
             {
-                case TNCState.EMail:
+                case TNCSettingsViewModel.TNCState.EMail:
                     SetMailControlsEnabledState(false);
                     break;
-                case TNCState.EMailEdit:
-                    //SetMailControlsEnabledState(true);
+                case TNCSettingsViewModel.TNCState.EMailEdit:
                     SetMailControlsEditState(true);
                     break;
-                case TNCState.EMailDelete:
+                case TNCSettingsViewModel.TNCState.EMailDelete:
                     SetMailControlsEnabledState(false);
                     break;
-                case TNCState.EMailAdd:
+                case TNCSettingsViewModel.TNCState.EMailAdd:
                     SetMailControlsEnabledState(true);
-                    mailServer.Text = "";
+                    //mailServer.Text = "";
                     mailPortString.Text = "0";
-                    mailUserName.Text = "";
+                    mailUserNameComboBox.Text = "";
                     mailPassword.Password = "";
                     mailIsSSL.IsOn = false;
                     break;
-                case TNCState.None:
+                case TNCSettingsViewModel.TNCState.None:
                     SetMailControlsEnabledState(false);
                     break;
             }
@@ -694,7 +684,7 @@ namespace PacketMessagingTS.Views
             }
             comboBoxFlowControl.SelectedIndex = i;
 
-            textBoxPrompsCommand.Text = "";
+            _TNCSettingsViewModel.TNCPromptsCommand = "";
             textBoxPromptsTimeout.Text = "";
             textBoxPromptsConnected.Text = "";
             textBoxPromptsDisconnected.Text = "";
@@ -704,40 +694,59 @@ namespace PacketMessagingTS.Views
             textBoxCommandsMyCall.Text = "";
             textBoxCommandsRetry.Text = "";
             textBoxCommandsDateTime.Text = "";
+
+            TNCDevice tncDevice = _TNCSettingsViewModel.TNCDeviceFromUI;
+            TNCDeviceArray.Instance.TNCDeviceList.Add(tncDevice);
+            _TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
+            _TNCSettingsViewModel.IsAppBarSaveEnabled = true;
         }
 
-        private void ConnectDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ConnectDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // TODO Use index changed only. Need to move email code to viewmodel
 
             if (e.AddedItems.Count > 0)
             {
-                TNCDevice tncDevice = null;
+                //TNCDevice tncDevice = null;
                 var TNCDevices = e.AddedItems;
                 if (TNCDevices != null && TNCDevices.Count == 1)
                 {
-                    tncDevice = (TNCDevice)TNCDevices[0];
+                    if (_TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.None
+                        && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMail
+                        && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCDelete
+                        && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCAdd)
+                    {
+                        bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
+                        if (save)
+                        {
+                            AppBarSaveTNC_ClickAsync(this, null);
+                        }
+                        // Disable Save button
+                        _TNCSettingsViewModel.ResetChangedProperty();
+
+                    }
+                    //tncDevice = (TNCDevice)TNCDevices[0];
                     //_logHelper.Log(LogLevel.Trace, $"Selection changed, Comport: {tncDevice.CommPort.Comport}");
                     //_TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
-                    //Singleton<PacketSettingsViewModel>.Instance.CurrentTNC = tncDevice; // this is wrong
+                    UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
 
-                    if (tncDevice.Name.Contains(SharedData.EMail))
-                    {
-                        UpdateMailState(TNCState.EMail);
-                        EMailSettings.Visibility = Visibility.Visible;
-                        PivotTNC.Visibility = Visibility.Collapsed;
-                        mailServerComboBox.SelectedIndex = _TNCSettingsViewModel.MailAccountSelectedIndex;
-                    }
-                    else
-                    {
-                        if (_tncState == TNCState.EMail)
-                        {
-                            _tncState = TNCState.None;
-                        }
-                        _tncState = TNCState.None;
-                        EMailSettings.Visibility = Visibility.Collapsed;
-                        PivotTNC.Visibility = Visibility.Visible;
-                    }
+                    //if (tncDevice.Name.Contains(SharedData.EMail))
+                    //{
+                        //UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
+                        //EMailSettings.Visibility = Visibility.Visible;
+                        //PivotTNC.Visibility = Visibility.Collapsed;
+                        //mailServerComboBox.SelectedIndex = _TNCSettingsViewModel.MailAccountSelectedIndex;
+                    //}
+                    //else
+                    //{
+                        //if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
+                        //{
+                        //    _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
+                        //}
+                        //_TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
+                        //EMailSettings.Visibility = Visibility.Collapsed;
+                        //PivotTNC.Visibility = Visibility.Visible;
+                    //}
                 }
                 else
                 {
@@ -841,17 +850,12 @@ namespace PacketMessagingTS.Views
 
         private void UpdateEMailAccountFromUI(ref EmailAccount emailAccount)
         {
-            emailAccount.MailServer = mailServer.Text;
+            //emailAccount.MailServer = mailServer.Text;
             emailAccount.MailServerPort = Convert.ToUInt16(mailPortString.Text);
-            emailAccount.MailUserName = mailUserName.Text;
+            emailAccount.MailUserName = mailUserNameComboBox.Text;
             emailAccount.MailPassword = mailPassword.Password;
             emailAccount.MailIsSSLField = mailIsSSL.IsOn;
         }
-
-        //private void MailServerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-
-        //}
 
         private void MailServer_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -871,7 +875,7 @@ namespace PacketMessagingTS.Views
         {
             //sender.Text = args.SelectedItem.ToString();
             //TNCPartViewModel viewModel = SettingsPageViewModel.TNCPartViewModel;
-            UpdateMailState(TNCState.EMail);
+            UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
             _TNCSettingsViewModel.CurrentMailAccount = args.SelectedItem as EmailAccount;
             // Set comboBox selection
             for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
@@ -906,46 +910,40 @@ namespace PacketMessagingTS.Views
             eMailTNC.Name = $"E-Mail-{eMailTNC.MailUserName}";
             //await TNCDeviceArray.Instance.SaveAsync();
 
-            TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+            //TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
         }
-
-        //private void MailPassword_PasswordChanged(object sender, RoutedEventArgs e)
-        //{
-        //}
-
-        //private void MailIsSSL_Toggled(object sender, RoutedEventArgs e)
-        //{
-        //}
 
         private void AppBarAddTNC_Clicked(object sender, RoutedEventArgs e)
         {
-            if (_tncState == TNCState.EMail || _tncState == TNCState.EMailEdit)
+            if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
             {
-                UpdateMailState(TNCState.EMailAdd);
+                UpdateMailState(TNCSettingsViewModel.TNCState.EMailAdd);
             }
-            else if (_tncState != TNCState.EMail || _tncState != TNCState.EMailEdit || _tncState != TNCState.EMailAdd)
+            else if (_TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMail
+                            || _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMailEdit
+                            || _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMailAdd)
             {
-                _tncState = TNCState.Add;
+                // Not an e-mail device
+                _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.TNCAdd;
                 NewTNCDevice();
             }
-
         }
 
         private void AppBarEditTNC_ClickAsync(object sender, RoutedEventArgs e)
         {
-            if (_tncState == TNCState.EMail)
+            if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
             {
-                UpdateMailState(TNCState.EMailEdit);
+                UpdateMailState(TNCSettingsViewModel.TNCState.EMailEdit);
             }
             else
             {
-                _tncState = TNCState.Edit;
+                _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.TNCEdit;
             }
         }
 
-        private async void appBarDeleteTNC_ClickAsync(object sender, RoutedEventArgs e)
+        private async void AppBarDeleteTNC_ClickAsync(object sender, RoutedEventArgs e)
         {
-            if (_tncState == TNCState.EMail)
+            if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
             {
                 int index = mailServerComboBox.SelectedIndex;
                 EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
@@ -958,107 +956,124 @@ namespace PacketMessagingTS.Views
                     return;
                 }
 
-                EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
+                _TNCSettingsViewModel.MailAccountListSource = new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
 
                 mailServerComboBox.SelectedIndex = Math.Max(0, index - 1);
                 await EmailAccountArray.Instance.SaveAsync();
-                UpdateMailState(TNCState.EMail);
+                UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
             }
-
+            else
+            {
+                _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.TNCDelete;
+                _deletedIndex = _TNCSettingsViewModel.TNCDeviceSelectedIndex;
+                TNCDeviceArray.Instance.TNCDeviceList.RemoveAt(_deletedIndex);
+                //_TNCSettingsViewModel.TNCDeviceListSource = TNCDeviceArray.Instance.TNCDeviceList;
+                _TNCSettingsViewModel.IsAppBarSaveEnabled = true;
+            }
         }
 
-        private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
+        private async void AppBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)
         {
-            if (_tncState == TNCState.EMail)
+            if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail
+                || _TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailDelete
+                || _TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailEdit
+                || _TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailAdd)
             {
-                // Server changed
-                EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
-                TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
-                tncDevice.MailUserName = emailAccount.MailUserName;
-                tncDevice.Name = $"{SharedData.EMail}-" + emailAccount.MailUserName;
-                await TNCDeviceArray.Instance.SaveAsync();
-
-                TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-                //TNCDeviceListSource.Source = TNCDeviceArray.Instance.TNCDeviceList;
-            }
-            else if (_tncState == TNCState.EMailDelete)
-            {
-                EmailAccountArray.Instance.EmailAccountList.Remove(_TNCSettingsViewModel.CurrentMailAccount);
-                await EmailAccountArray.Instance.SaveAsync();
-                UpdateMailState(TNCState.EMail);
-            }
-            else if (_tncState == TNCState.EMailEdit)
-            {
-                EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
-                UpdateEMailAccountFromUI(ref emailAccount);
-                for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
+                if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
                 {
-                    if (EmailAccountArray.Instance.EmailAccounts[i].MailServer == emailAccount.MailServer)
+                    // Server changed
+                    EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
+                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
+                    tncDevice.MailUserName = emailAccount.MailUserName;
+                    tncDevice.Name = $"{SharedData.EMail}-" + emailAccount.MailUserName;    // Change TNCDevice.Name
+                    await TNCDeviceArray.Instance.SaveAsync();
+                }
+                else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailDelete)
+                {
+                    EmailAccountArray.Instance.EmailAccountList.Remove(_TNCSettingsViewModel.CurrentMailAccount);
+                    await EmailAccountArray.Instance.SaveAsync();
+                    UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
+                }
+                else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailEdit)
+                {
+                    EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
+                    UpdateEMailAccountFromUI(ref emailAccount);
+                    for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
                     {
-                        EmailAccountArray.Instance.EmailAccounts[i] = emailAccount;
-                        break;
+                        if (EmailAccountArray.Instance.EmailAccounts[i].MailServer == emailAccount.MailServer)
+                        {
+                            EmailAccountArray.Instance.EmailAccounts[i] = emailAccount;
+                            break;
+                        }
                     }
+                    await EmailAccountArray.Instance.SaveAsync();
+                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
+                    tncDevice.MailUserName = emailAccount.MailUserName;     // TODO double user name??
+                    tncDevice.Name += "-" + emailAccount.MailUserName;
+                    await TNCDeviceArray.Instance.SaveAsync();
+                    UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
                 }
-                await EmailAccountArray.Instance.SaveAsync();
-                TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
-                tncDevice.MailUserName = emailAccount.MailUserName;
-                tncDevice.Name += "-" + emailAccount.MailUserName;
-                await TNCDeviceArray.Instance.SaveAsync();
-                UpdateMailState(TNCState.EMail);
-            }
-            else if (_tncState == TNCState.EMailAdd)
-            {
-                EmailAccount emailAccount = new EmailAccount();
-                UpdateEMailAccountFromUI(ref emailAccount);
-                List<EmailAccount> emailAccountList = EmailAccountArray.Instance.EmailAccounts.ToList();
-                emailAccountList.Add(emailAccount);
-                EmailAccountArray.Instance.EmailAccounts = emailAccountList.ToArray();
-                await EmailAccountArray.Instance.SaveAsync();
-                UpdateMailState(TNCState.EMail);
-
-                //ObservableCollection<EmailAccount> EmailAccountsObservableCollection = new ObservableCollection<EmailAccount>();
-                //foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccounts)
-                //{
-                //    EmailAccountsObservableCollection.Add(account);
-                //}
-                //int selectedIndex = SettingsPageViewModel.TNCPartViewModel.MailAccountSelectedIndex;
-                EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
-                mailServerComboBox.SelectedIndex = EmailAccountArray.Instance.EmailAccounts.Length - 1;
-            }
-            else if (_tncState == TNCState.Add)
-            {
-                string tncDeviceName = newTNCDeviceName.Text;
-                if (string.IsNullOrEmpty(tncDeviceName))
+                else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailAdd)
                 {
-                    //await Utilities.ShowMessageDialogAsync("The new TNC Device must have a name.", "Add TNC Device error");
-                    return;
+                    EmailAccount emailAccount = new EmailAccount();
+                    UpdateEMailAccountFromUI(ref emailAccount);
+                    List<EmailAccount> emailAccountList = EmailAccountArray.Instance.EmailAccounts.ToList();
+                    emailAccountList.Add(emailAccount);
+                    EmailAccountArray.Instance.EmailAccounts = emailAccountList.ToArray();
+                    await EmailAccountArray.Instance.SaveAsync();
+                    UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
+
+                    //ObservableCollection<EmailAccount> EmailAccountsObservableCollection = new ObservableCollection<EmailAccount>();
+                    //foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccounts)
+                    //{
+                    //    EmailAccountsObservableCollection.Add(account);
+                    //}
+                    //int selectedIndex = SettingsPageViewModel.TNCPartViewModel.MailAccountSelectedIndex;
+                    _TNCSettingsViewModel.MailAccountListSource = new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
+                    //EmailAccountsSource.Source = EmailAccountArray.Instance.EmailAccounts;
+                    _TNCSettingsViewModel.MailAccountSelectedIndex = EmailAccountArray.Instance.EmailAccountList.Count - 1;
+                    //mailServerComboBox.SelectedIndex = EmailAccountArray.Instance.EmailAccounts.Length - 1;
                 }
-                TNCDevice tncDevice = new TNCDevice();
-                tncDevice.Name = tncDeviceName;
-                UpdateTNCFromUI(tncDevice);       // Fill the new TNCDevice with data
-                                                  // Add to existing array
-                TNCDeviceArray.Instance.TNCDeviceList.Add(tncDevice);
-                await TNCDeviceArray.Instance.SaveAsync();
-                _tncState = TNCState.None;
             }
-            else if (_tncState == TNCState.Edit)
+            else
             {
-                TNCDevice tncDevice = _TNCSettingsViewModel.TNCDeviceFromUI;
-                tncDevice.Name = _TNCSettingsViewModel.CurrentTNCDevice.Name;
-                _TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
-                //List<TNCDevice> tncDeviceList = TNCDeviceArray.Instance.TNCDeviceList;
-                TNCDeviceArray.Instance.TNCDeviceListUpdate(_TNCSettingsViewModel.TNCDeviceSelectedIndex, tncDevice);
-                await TNCDeviceArray.Instance.SaveAsync();
-                TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-                //ConnectDevices.ItemsSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-                _tncState = TNCState.None;
-                _logHelper.Log(LogLevel.Trace, $"Saving, Comport: {tncDevice.CommPort.Comport}");
+                if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.TNCAdd)
+                {
+                    if (string.IsNullOrEmpty(_TNCSettingsViewModel.NewTNCDeviceName))
+                    {
+                        //await Utilities.ShowMessageDialogAsync("The new TNC Device must have a name.", "Add TNC Device error");
+                        return;
+                    }
+                    TNCDevice tncDevice = _TNCSettingsViewModel.TNCDeviceFromUI;
+                    _TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
+                    TNCDeviceArray.Instance.TNCDeviceListUpdate(TNCDeviceArray.Instance.TNCDeviceList.Count - 1, tncDevice);
+                    await TNCDeviceArray.Instance.SaveAsync();
+                    _TNCSettingsViewModel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = TNCDeviceArray.Instance.TNCDeviceList.Count - 1;
+                    _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
+                }
+                else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.TNCEdit)
+                {
+                    TNCDevice tncDevice = _TNCSettingsViewModel.TNCDeviceFromUI;
+                    _TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
+                    TNCDeviceArray.Instance.TNCDeviceListUpdate(_TNCSettingsViewModel.TNCDeviceSelectedIndex, tncDevice);
+                    await TNCDeviceArray.Instance.SaveAsync();
+                    _TNCSettingsViewModel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                    _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
+                    //_logHelper.Log(LogLevel.Trace, $"Saving, Comport: {tncDevice.CommPort.Comport}");
+                }
+                else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.TNCDelete)
+                {
+                    await TNCDeviceArray.Instance.SaveAsync();
+                    _TNCSettingsViewModel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = Math.Min(TNCDeviceArray.Instance.TNCDeviceList.Count - 1, _deletedIndex);
+                    _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
+                }
             }
             ConnectDevices.Visibility = Visibility.Visible;
             newTNCDeviceName.Visibility = Visibility.Collapsed;
 
             // Disable Save button
-            _PacketSettingsViewmodel.IsAppBarSaveEnabled = false;
             _TNCSettingsViewModel.ResetChangedProperty();
         }
         #endregion Interface

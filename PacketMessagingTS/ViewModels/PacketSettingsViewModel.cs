@@ -156,6 +156,11 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref name, value);
         }
 
+        public List<TNCDevice> TNCDeviceListSource
+        {
+            get => TNCDeviceArray.Instance.TNCDeviceList;
+        }
+
         private string tnc;
         public string TNC
         {
@@ -180,7 +185,11 @@ namespace PacketMessagingTS.ViewModels
                 }
                 return currentTNC;
             }
-            set => currentTNC = value;
+            set
+            {
+                currentTNC = value;
+                TNC = currentTNC.Name;
+            }
         }
 
         public ObservableCollection<BBSData> BBSDataCollection

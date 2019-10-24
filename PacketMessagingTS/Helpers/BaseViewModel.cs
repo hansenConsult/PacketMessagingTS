@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using Newtonsoft.Json;
-
+using PacketMessagingTS.Models;
 using SharedCode.Models;
 
 
@@ -53,7 +54,7 @@ namespace PacketMessagingTS.Helpers
             return saveEnabled;
         }
 
-        protected bool isAppBarSaveEnabled = false;
+        protected bool isAppBarSaveEnabled;
         public bool IsAppBarSaveEnabled
         {
             get => isAppBarSaveEnabled;
@@ -176,6 +177,85 @@ namespace PacketMessagingTS.Helpers
             return true;
         }
 
+        private bool Equals(ObservableCollection<EmailAccount> collection1, ObservableCollection<EmailAccount> collection2)
+        {
+            if (collection1?.Count != collection2.Count)
+                return false;
+
+            bool equal = false;
+            foreach (EmailAccount account1 in collection1)
+            {
+                foreach (EmailAccount account2 in collection2)
+                {
+                    if (account1.MailUserName == account2.MailUserName)
+                    {
+                        equal = EmailAccount.IsEMailAccountsEqual(account1, account2);
+                        if (!equal)
+                            return false;
+                    }
+                }
+                return true;
+            }
+            return equal;
+        }
+
+        protected void Set(ref ObservableCollection<EmailAccount> storage, ObservableCollection<EmailAccount> value, [CallerMemberName]string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
+
+        private bool Equals(ObservableCollection<TNCDevice> collection1, ObservableCollection<TNCDevice> collection2)
+        {
+            if (collection1?.Count != collection2.Count)
+                return false;
+
+            bool equal = false;
+            foreach (TNCDevice dev1 in collection1)
+            {
+                foreach (TNCDevice dev2 in collection2)
+                {
+                    if (dev1.Name == dev2.Name)
+                    {
+                        equal = dev1.MailUserName == dev2.MailUserName;
+                        if (!equal)
+                            return false;
+                        equal = TNCDevicePrompts.IsTNCDevicePromptsEqual(dev1.Prompts, dev2.Prompts);
+                        if (!equal)
+                            return false;
+                        equal = TNCDeviceCommands.IsTNCDeviceCommandsEqual(dev1.Commands, dev2.Commands);
+                        if (!equal)
+                            return false;
+                        equal = TNCDeviceInitCommands.IsTNCDeviceInitCommandsEqual(dev1.InitCommands, dev2.InitCommands);
+                        if (!equal)
+                            return false;
+                        equal = TNCDeviceCommPort.IsTNCDeviceComportsEqual(dev1.CommPort, dev2.CommPort);
+                        if (!equal)
+                            return false;
+                    }
+                }
+                return true;
+            }
+
+
+            return equal;
+        }
+
+        protected void Set(ref ObservableCollection<TNCDevice> storage, ObservableCollection<TNCDevice> value, [CallerMemberName]string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return;
+            }
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+        }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {

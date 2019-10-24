@@ -19,10 +19,32 @@ namespace PacketMessagingTS.ViewModels
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCSettingsViewModel>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        public enum TNCState
+        {
+            None,
+            TNC,
+            TNCAdd,
+            TNCDelete,
+            TNCEdit,
+            EMail,
+            EMailAdd,
+            EMailDelete,
+            EMailEdit,
+        };
+
 
         public TNCSettingsViewModel()
         {
 
+        }
+
+        public TNCState State { get; set; }
+
+        private Visibility pivotTNCVisibility;
+        public Visibility PivotTNCVisibility
+        {
+            get => pivotTNCVisibility;
+            set => Set(ref pivotTNCVisibility, value);
         }
 
         private int pivotTNCSelectedIndex;
@@ -38,36 +60,60 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref tncDeviceSelectedIndex);
             set
             {
+                bool setPropertySuccess = false;
                 if (value < 0 || value >= TNCDeviceArray.Instance.TNCDeviceList.Count)
                 {
-                    if (SetProperty(ref tncDeviceSelectedIndex, 0, true))
-                    {
-                        Utilities.SetApplicationTitle();
-                    }
+                    setPropertySuccess = SetProperty(ref tncDeviceSelectedIndex, 0, true);
                 }
                 else
                 {
-                    if (SetProperty(ref tncDeviceSelectedIndex, value, true))
-                    {
-                        Utilities.SetApplicationTitle();
-                    }
+                    setPropertySuccess = SetProperty(ref tncDeviceSelectedIndex, value, true);
+                }
+                if (setPropertySuccess)
+                {
+                    Utilities.SetApplicationTitle();
                 }
                 CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
+                if (CurrentTNCDevice.Name.Contains(SharedData.EMail))
+                {
+                    //State = TNCState.EMail;
+                    //UpdateMailState(TNCState.EMail);                     
+                    MailAccountSelectedIndex = MailAccountSelectedIndex;
+
+                    EMailSettingsVisibility = Visibility.Visible;
+                    PivotTNCVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    State = TNCState.None;
+                    EMailSettingsVisibility = Visibility.Collapsed;
+                    PivotTNCVisibility = Visibility.Visible;
+                }
+
             }
         }
 
-        //private TNCDevice originalTNCDevice;
-        //public TNCDevice OriginalTNCDevice
-        //{
-        //    get
-        //    {
-        //        return TNCDeviceArray.Instance.TNCDevices[TNCDeviceSelectedIndex];
-        //    }
-        //    set
-        //    {
-        //        originalTNCDevice = value;
-        //    }
-        //}
+        private ObservableCollection<TNCDevice> _TNCDeviceListSource;
+        public ObservableCollection<TNCDevice> TNCDeviceListSource
+        {
+            get
+            {
+                return new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+            }
+            set
+            { 
+                //_TNCDeviceListSource.ClearItems();
+                Set(ref _TNCDeviceListSource, value);
+            }
+        }
+
+
+        private string _NewTNCDeviceName = "new Device Name";
+        public string NewTNCDeviceName
+        {
+            get => _NewTNCDeviceName;
+            set => Set(ref _NewTNCDeviceName, value);
+        }
 
         public TNCDevice TNCDeviceFromUI
         {
@@ -95,6 +141,14 @@ namespace PacketMessagingTS.ViewModels
                 tncDeviceFromUI.Prompts.Connected = TNCPromptsConnected;
                 tncDeviceFromUI.Prompts.Disconnected = TNCPromptsDisconnected;
 
+                if (State == TNCState.TNCAdd)
+                {
+                    tncDeviceFromUI.Name = NewTNCDeviceName;
+                }
+                else
+                {
+                    tncDeviceFromUI.Name = CurrentTNCDevice.Name;
+                }
                 return tncDeviceFromUI;
             }
         }
@@ -121,10 +175,10 @@ namespace PacketMessagingTS.ViewModels
             {
                 currentTNCDevice = value;
 
-                if (currentTNCDevice.Name.Contains(SharedData.EMail))
+                if (!string.IsNullOrEmpty(currentTNCDevice.Name) && currentTNCDevice.Name.Contains(SharedData.EMail))
                 {
                     // Update email account index
-                    string mailPreample = SharedData.EMail + '-';
+                    string mailPreample = SharedData.EMail + "-";
                     string mailUserName;
                     int index = currentTNCDevice.Name.IndexOf(mailPreample);
                     if (index == 0)
@@ -133,17 +187,20 @@ namespace PacketMessagingTS.ViewModels
                         int i = 0;
                         for (; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
                         {
-                            if (EmailAccountArray.Instance.EmailAccounts[i].MailUserName == mailUserName)
+                            if (mailUserName.Contains(EmailAccountArray.Instance.EmailAccounts[i].MailUserName))
                             {
                                 break;
                             }
                         }
-                        MailAccountSelectedIndex = i;
+                        if (i >= EmailAccountArray.Instance.EmailAccounts.Length)
+                            MailAccountSelectedIndex = 0;
+                        else
+                            MailAccountSelectedIndex = i;
                     }
                 }
                 else
                 {
-                    _logHelper.Log(LogLevel.Trace, $"Current device, Comport: {currentTNCDevice.CommPort.Comport}");
+                    //_logHelper.Log(LogLevel.Trace, $"Current device, Comport: {currentTNCDevice.CommPort.Comport}");
 
                     TNCInitCommandsPre = currentTNCDevice.InitCommands.Precommands;
                     TNCInitCommandsPost = currentTNCDevice.InitCommands.Postcommands;
@@ -231,7 +288,6 @@ namespace PacketMessagingTS.ViewModels
         //private ObservableCollection<string> collectionOfSerialDevices;
         public ObservableCollection<string> CollectionOfSerialDevices
         {
-            //get => collectionOfSerialDevices;
             get => Singleton<ShellViewModel>.Instance.CollectionOfSerialDevices;
             //get => new ObservableCollection<string>(SerialPort.GetPortNames());
         }
@@ -242,7 +298,7 @@ namespace PacketMessagingTS.ViewModels
             get => tncComPort;
             set
             {
-                _logHelper.Log(LogLevel.Trace, $"Comport: {value}");
+                //_logHelper.Log(LogLevel.Trace, $"Comport: {value}");
 
                 if (value is null || CollectionOfSerialDevices.Count == 0)
                     return;
@@ -517,12 +573,20 @@ namespace PacketMessagingTS.ViewModels
             }
         }
         #region Mail Settings
+        private Visibility eMailSettingsVisibility;
+        public Visibility EMailSettingsVisibility
+        {
+            get => eMailSettingsVisibility;
+            set => Set(ref eMailSettingsVisibility, value);
+        }
+
         private int mailAccountSelectedIndex;
         public int MailAccountSelectedIndex
         {
             get
             {
                 GetProperty(ref mailAccountSelectedIndex);
+
                 //if (mailAccountSelectedIndex >= 0)
                 //{
                 //    CurrentMailAccount = EmailAccountArray.Instance.EmailAccounts[mailAccountSelectedIndex];
@@ -531,9 +595,21 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
-                SetProperty(ref mailAccountSelectedIndex, value, true);
+                bool setPropertySuccess = false;
+                if (value < 0 || value >= EmailAccountArray.Instance.EmailAccountList.Count)
+                {
+                    setPropertySuccess = SetProperty(ref mailAccountSelectedIndex, 0, true);
+                }
+                else
+                {
+                    setPropertySuccess = SetProperty(ref mailAccountSelectedIndex, value, true);
+                }
+                if (setPropertySuccess)
+                {
+                    Utilities.SetApplicationTitle();
+                }
 
-                EmailAccount mailAccount = EmailAccountArray.Instance.EmailAccounts[mailAccountSelectedIndex];
+                EmailAccount mailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
                 MailServer = mailAccount.MailServer;
                 MailPort = mailAccount.MailServerPort;
                 IsMailSSL = mailAccount.MailIsSSLField;
@@ -544,15 +620,51 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        EmailAccount currentMailAccount;
+        private ObservableCollection<EmailAccount> _MailAccountListSource;
+        public ObservableCollection<EmailAccount> MailAccountListSource
+        {
+            get
+            {
+                return new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
+            }
+            set
+            {
+                Set(ref _MailAccountListSource, value);
+            }
+        }
+
+        private EmailAccount _SelectedMailAccount;
+        public EmailAccount SelectedMailAccount
+        {
+            get => _SelectedMailAccount;
+            set => Set(ref _SelectedMailAccount, value);
+        }
+
+        private EmailAccount currentMailAccount;
         public EmailAccount CurrentMailAccount
         {
             get => GetProperty(ref currentMailAccount);
+            //get => currentMailAccount;
             set
             {
+                //currentMailAccount = value;
+
+                //MailServer = currentMailAccount.MailServer;
+                //MailPort = currentMailAccount.MailServerPort;
+                //IsMailSSL = currentMailAccount.MailIsSSLField;
+                //MailUserName = currentMailAccount.MailUserName;
+                //MailPassword = currentMailAccount.MailPassword;
+
                 SetProperty(ref currentMailAccount, value);
 
             }
+        }
+
+        private bool isMailServerEnabled;
+        public bool IsMailServerEnabled
+        {
+            get => isMailServerEnabled;
+            set => Set(ref isMailServerEnabled, value);
         }
 
         private string mailServer;
@@ -583,20 +695,12 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        //private string mailPortString;
-        //public string MailPortString
-        //{
-        //    get => mailPortString;
-        //    set
-        //    {
-        //        SetProperty(ref mailPortString, value);
-        //        bool changed = (Convert.ToInt32(MailPortString) != CurrentMailAccount.MailServerPort);
-        //        if (changed)
-        //            MailPort = Convert.ToInt32(mailPortString);
-
-        //        IsAppBarSaveEnabled = SaveEnabled(changed);
-        //    }
-        //}
+        private bool isMailServerPortEnabled;
+        public bool IsMailServerPortEnabled
+        {
+            get => isMailServerPortEnabled;
+            set => Set(ref isMailServerPortEnabled, value);
+        }
 
         private Int32 mailPort;
         public Int32 MailPort
@@ -618,6 +722,13 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private Visibility isMailServerSSLVisible;
+        public Visibility IsMailServerSSLVisible
+        {
+            get => isMailServerSSLVisible;
+            set => Set(ref isMailServerSSLVisible, value);
+        }
+
         bool isMailSSL;
         public bool IsMailSSL
         {
@@ -636,6 +747,13 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private bool isMailUserNameEnabled;
+        public bool IsMailUserNameEnabled
+        {
+            get => isMailUserNameEnabled;
+            set => Set(ref isMailUserNameEnabled, value);
+        }
+
         private string mailUserName;
         public string MailUserName
         {
@@ -652,6 +770,13 @@ namespace PacketMessagingTS.ViewModels
 
                 Services.SMTPClient.SmtpClient.Instance.UserName = MailUserName;
             }
+        }
+
+        private bool isMailPasswordEnabled;
+        public bool IsMailPasswordEnabled
+        {
+            get => isMailPasswordEnabled;
+            set => Set(ref isMailPasswordEnabled, value);
         }
 
         private string mailPassword;
