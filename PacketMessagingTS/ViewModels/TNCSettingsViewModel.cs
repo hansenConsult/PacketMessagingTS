@@ -71,13 +71,12 @@ namespace PacketMessagingTS.ViewModels
                 }
                 if (setPropertySuccess)
                 {
-                    Utilities.SetApplicationTitle();
+                    // Utilities.SetApplicationTitle();
                 }
                 CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
                 if (CurrentTNCDevice.Name.Contains(SharedData.EMail))
                 {
-                    //State = TNCState.EMail;
-                    //UpdateMailState(TNCState.EMail);                     
+                    UpdateMailState(TNCState.EMail);                     
                     MailAccountSelectedIndex = MailAccountSelectedIndex;
 
                     EMailSettingsVisibility = Visibility.Visible;
@@ -89,7 +88,6 @@ namespace PacketMessagingTS.ViewModels
                     EMailSettingsVisibility = Visibility.Collapsed;
                     PivotTNCVisibility = Visibility.Visible;
                 }
-
             }
         }
 
@@ -177,26 +175,26 @@ namespace PacketMessagingTS.ViewModels
 
                 if (!string.IsNullOrEmpty(currentTNCDevice.Name) && currentTNCDevice.Name.Contains(SharedData.EMail))
                 {
-                    // Update email account index
-                    string mailPreample = SharedData.EMail + "-";
-                    string mailUserName;
-                    int index = currentTNCDevice.Name.IndexOf(mailPreample);
-                    if (index == 0)
-                    {
-                        mailUserName = currentTNCDevice.Name.Substring(mailPreample.Length);
-                        int i = 0;
-                        for (; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
-                        {
-                            if (mailUserName.Contains(EmailAccountArray.Instance.EmailAccounts[i].MailUserName))
-                            {
-                                break;
-                            }
-                        }
-                        if (i >= EmailAccountArray.Instance.EmailAccounts.Length)
-                            MailAccountSelectedIndex = 0;
-                        else
-                            MailAccountSelectedIndex = i;
-                    }
+                    //    // Update email account index
+                    //    string mailPreample = SharedData.EMailPreample;
+                    //    string mailUserName;
+                    //    int index = currentTNCDevice.Name.IndexOf(mailPreample);
+                    //    if (index == 0)
+                    //    {
+                    //        mailUserName = currentTNCDevice.Name.Substring(mailPreample.Length);
+                    //        int i = 0;
+                    //        for (; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
+                    //        {
+                    //            if (mailUserName.Contains(EmailAccountArray.Instance.EmailAccounts[i].MailUserName))
+                    //            {
+                    //                break;
+                    //            }
+                    //        }
+                    //        if (i >= EmailAccountArray.Instance.EmailAccounts.Length)
+                    //            MailAccountSelectedIndex = 0;
+                    //        else
+                    //            MailAccountSelectedIndex = i;
+                    //    }
                 }
                 else
                 {
@@ -595,6 +593,9 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
+                if (State == TNCState.EMailAdd)
+                    return;
+
                 bool setPropertySuccess = false;
                 if (value < 0 || value >= EmailAccountArray.Instance.EmailAccountList.Count)
                 {
@@ -604,58 +605,71 @@ namespace PacketMessagingTS.ViewModels
                 {
                     setPropertySuccess = SetProperty(ref mailAccountSelectedIndex, value, true);
                 }
-                if (setPropertySuccess)
+                //if (setPropertySuccess)
                 {
-                    Utilities.SetApplicationTitle();
-                }
+                    CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
 
-                EmailAccount mailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
-                MailServer = mailAccount.MailServer;
-                MailPort = mailAccount.MailServerPort;
-                IsMailSSL = mailAccount.MailIsSSLField;
-                MailUserName = mailAccount.MailUserName;
-                MailPassword = mailAccount.MailPassword;
+                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
+                    tncDevice.MailUserName = CurrentMailAccount.MailUserName;
+                    tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
 
-                CurrentMailAccount = mailAccount;
+                    //CurrentTNCDevice.MailUserName = CurrentMailAccount.MailUserName;
+                    //CurrentTNCDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
+                    //int tncDeviceSelectedIndex = TNCDeviceSelectedIndex;
+                    //TNCDevice tncDevice = TNCDeviceFromUI;
+                    //tncDevice.MailUserName = CurrentMailAccount.MailUserName;
+                    //tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
+                    //TNCDeviceArray.Instance.TNCDeviceListUpdate(tncDeviceSelectedIndex, tncDevice);
+                    //TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
+                    TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+
+                    //Utilities.SetApplicationTitle();
+                }                
+
+                UpdateMailState(TNCState.EMail);
             }
         }
 
         private ObservableCollection<EmailAccount> _MailAccountListSource;
         public ObservableCollection<EmailAccount> MailAccountListSource
         {
-            get
-            {
-                return new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
-            }
-            set
-            {
-                Set(ref _MailAccountListSource, value);
-            }
+            get => new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
+            set => Set(ref _MailAccountListSource, value);
         }
 
-        private EmailAccount _SelectedMailAccount;
-        public EmailAccount SelectedMailAccount
+        public EmailAccount EMailAccountFromUI
         {
-            get => _SelectedMailAccount;
-            set => Set(ref _SelectedMailAccount, value);
+            get
+            {
+                EmailAccount eMailAccountFromUI = new EmailAccount();
+
+                eMailAccountFromUI.MailServer = MailServer;
+                eMailAccountFromUI.MailServerPort = MailServerPort;
+                eMailAccountFromUI.MailIsSSLField = IsMailSSL;
+                eMailAccountFromUI.MailUserName = MailUserName;
+                eMailAccountFromUI.MailPassword = MailPassword;
+
+                return eMailAccountFromUI;
+            }
         }
 
         private EmailAccount currentMailAccount;
         public EmailAccount CurrentMailAccount
         {
-            get => GetProperty(ref currentMailAccount);
-            //get => currentMailAccount;
+            //get => GetProperty(ref currentMailAccount);
+            get => currentMailAccount;
             set
             {
-                //currentMailAccount = value;
+                currentMailAccount = value;
 
-                //MailServer = currentMailAccount.MailServer;
-                //MailPort = currentMailAccount.MailServerPort;
-                //IsMailSSL = currentMailAccount.MailIsSSLField;
-                //MailUserName = currentMailAccount.MailUserName;
-                //MailPassword = currentMailAccount.MailPassword;
+                MailServer = currentMailAccount.MailServer;
+                MailServerPort = currentMailAccount.MailServerPort;
+                IsMailSSL = currentMailAccount.MailIsSSLField;
+                MailUserName = currentMailAccount.MailUserName;
+                MailPassword = currentMailAccount.MailPassword;
 
-                SetProperty(ref currentMailAccount, value);
+                ResetChangedProperty();
+
 
             }
         }
@@ -702,31 +716,29 @@ namespace PacketMessagingTS.ViewModels
             set => Set(ref isMailServerPortEnabled, value);
         }
 
-        private Int32 mailPort;
-        public Int32 MailPort
+        private ushort eMailServerPort;
+        public ushort MailServerPort
         {
-            get => mailPort;
+            get => eMailServerPort;
             set
             {
-                SetProperty(ref mailPort, value);
-                //if (MailPortString != MailPort.ToString())
-                //    MailPortString = MailPort.ToString();
+                SetProperty(ref eMailServerPort, value);
 
                 if (CurrentMailAccount != null)
                 {
-                    bool changed = CurrentMailAccount.MailServerPort != mailPort;
+                    bool changed = CurrentMailAccount.MailServerPort != eMailServerPort;
                     IsAppBarSaveEnabled = SaveEnabled(changed);
                 }
 
-                Services.SMTPClient.SmtpClient.Instance.Port = MailPort;
+                Services.SMTPClient.SmtpClient.Instance.Port = MailServerPort;
             }
         }
 
-        private Visibility isMailServerSSLVisible;
+        private Visibility isEMailServerSSLVisible;
         public Visibility IsMailServerSSLVisible
         {
-            get => isMailServerSSLVisible;
-            set => Set(ref isMailServerSSLVisible, value);
+            get => isEMailServerSSLVisible;
+            set => Set(ref isEMailServerSSLVisible, value);
         }
 
         bool isMailSSL;
@@ -747,11 +759,11 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private bool isMailUserNameEnabled;
-        public bool IsMailUserNameEnabled
+        private bool isEMailUserNameEnabled;
+        public bool IsEMailUserNameEnabled
         {
-            get => isMailUserNameEnabled;
-            set => Set(ref isMailUserNameEnabled, value);
+            get => isEMailUserNameEnabled;
+            set => Set(ref isEMailUserNameEnabled, value);
         }
 
         private string mailUserName;
@@ -760,6 +772,9 @@ namespace PacketMessagingTS.ViewModels
             get => mailUserName;
             set
             {
+                //if (State == TNCState.EMailAdd)
+                //    return;
+
                 SetProperty(ref mailUserName, value);
 
                 if (CurrentMailAccount != null)
@@ -772,11 +787,11 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private bool isMailPasswordEnabled;
+        private bool isEMailPasswordEnabled;
         public bool IsMailPasswordEnabled
         {
-            get => isMailPasswordEnabled;
-            set => Set(ref isMailPasswordEnabled, value);
+            get => isEMailPasswordEnabled;
+            set => Set(ref isEMailPasswordEnabled, value);
         }
 
         private string mailPassword;
@@ -796,6 +811,74 @@ namespace PacketMessagingTS.ViewModels
                 Services.SMTPClient.SmtpClient.Instance.Password = MailPassword;
             }
         }
+
+        public void SetMailControlsEditState(bool enabledState)
+        {
+            IsMailPasswordEnabled = enabledState;
+            if (enabledState)
+            {
+                IsMailServerSSLVisible = Visibility.Collapsed;
+                IsEMailUserNameEnabled = false;
+                //mailServer.Visibility = Visibility.Visible;
+                IsMailServerPortEnabled = !enabledState;
+                IsMailServerEnabled = !enabledState;
+            }
+            else
+            {
+                IsMailServerSSLVisible = Visibility.Collapsed;
+                //mailServer.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void SetMailControlsEnabledState(bool enabledState)
+        {
+            IsMailPasswordEnabled = enabledState;
+            IsEMailUserNameEnabled = true;
+            if (enabledState)
+            {
+                IsMailServerSSLVisible = Visibility.Visible;
+                IsMailServerPortEnabled = enabledState;
+                IsMailServerEnabled = enabledState;
+            }
+            else
+            {
+                IsMailServerSSLVisible = Visibility.Collapsed;
+                IsMailServerPortEnabled = enabledState;
+                IsMailServerEnabled = enabledState;
+            }
+        }
+
+        public void UpdateMailState(TNCState newMailState)
+        {
+            if (newMailState == State)
+                return;
+
+            State = newMailState;
+            switch (newMailState)
+            {
+                case TNCState.EMail:
+                    SetMailControlsEnabledState(false);
+                    break;
+                case TNCState.EMailEdit:
+                    SetMailControlsEditState(true);
+                    break;
+                case TNCState.EMailDelete:
+                    SetMailControlsEnabledState(false);
+                    break;
+                case TNCState.EMailAdd:
+                    SetMailControlsEnabledState(true);
+                    //mailServer.Text = "";
+                    //MailServerPort = 0;
+                    //MailUserName = "";
+                    //MailPassword = "";
+                    //IsMailSSL = false;
+                    break;
+                case TNCState.None:
+                    SetMailControlsEnabledState(false);
+                    break;
+            }
+        }
+
         #endregion Mail Settings
         private bool isAppBarAddEnabled = true;
         public bool IsAppBarAddEnabled

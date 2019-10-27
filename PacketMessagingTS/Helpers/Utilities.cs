@@ -215,7 +215,7 @@ namespace PacketMessagingTS.Helpers
             {
                 title += " as " + Singleton<IdentityViewModel>.Instance.TacticalCallsign;
             }
-            
+
             (string bbs, string tnc, string from) = GetProfileData();
             //string bbs = GetBBSName(out string from, out string tnc);
 

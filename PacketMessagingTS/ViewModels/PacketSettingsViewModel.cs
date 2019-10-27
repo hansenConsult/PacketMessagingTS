@@ -47,15 +47,14 @@ namespace PacketMessagingTS.ViewModels
                 if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
                 {
                     SetProperty(ref profileSelectedIndex, value, true);
-                    CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
                 }
                 else
                 {
                     _logHelper.Log(LogLevel.Error, $"ProfileSelectedIndex = {value}");
-                    ProfileSelectedIndex = 0;
+                    //profileSelectedIndex = 0;
                     SetProperty(ref profileSelectedIndex, 0, true);
-                    CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
                 }
+                CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
             }
         }
 
@@ -103,17 +102,17 @@ namespace PacketMessagingTS.ViewModels
                     }
                 }
 
-                int i = 0;
-                for (; i < TNCDeviceArray.Instance.TNCDeviceList.Count; i++)
-                {
-                    if (TNCDeviceArray.Instance.TNCDeviceList[i].Name == currentProfile.TNC)
-                        break;
-                }
-                if (i >= TNCDeviceArray.Instance.TNCDeviceList.Count || i < 0)
-                {
-                    i = 0;
-                }
-                Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = i;
+                //int i = 0;
+                //for (; i < TNCDeviceArray.Instance.TNCDeviceList.Count; i++)
+                //{
+                //    if (TNCDeviceArray.Instance.TNCDeviceList[i].Name == currentProfile.TNC)
+                //        break;
+                //}
+                //if (i >= TNCDeviceArray.Instance.TNCDeviceList.Count || i < 0)
+                //{
+                //    i = 0;
+                //}
+                //Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = i;
 
                 CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
                 Name = currentProfile.Name;
@@ -169,6 +168,14 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tnc, value);
 
+                if (tnc.Contains(SharedData.EMail))
+                {
+                    BBSSelectedValue = "";
+                }
+                else
+                {
+                    BBSSelectedValue = "W3XSC";
+                }
                 bool changed = CurrentProfile.TNC != tnc;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }

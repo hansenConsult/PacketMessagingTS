@@ -389,8 +389,8 @@ namespace PacketMessagingTS.Models
 				return;
 
 			string callsign = address.Substring(0, index);
-            _addressDictionary.TryGetValue(callsign, out AddressBookEntry addressBookEntry);
-            if (addressBookEntry is null)
+            bool entryFound = _addressDictionary.TryGetValue(callsign, out AddressBookEntry addressBookEntry);
+            if (!entryFound)
             {
                 string temp = address.Substring(index + 1);
                 temp = temp.ToLower();
@@ -408,7 +408,7 @@ namespace PacketMessagingTS.Models
                     Callsign = callsign,
                     NameDetail = address,
                     BBSPrimary = bbsPrimary,
-                    BBSSecondary = bbsPrimary,
+                    BBSSecondary = "",
                     BBSPrimaryActive = primaryActive
                 };
                 _addressDictionary.Add(callsign, entry);
@@ -483,6 +483,45 @@ namespace PacketMessagingTS.Models
             //CreateAddressBook();
         }
 
+        public void UpdateLastUsedBBS(string address)
+        {
+            // extract callsign
+            int index = address.IndexOf('@');
+            if (index < 0)
+                return;
+
+            string callsign = address.Substring(0, index);
+
+            // Extract BBS if address is not an email address
+            string bbs;
+            string temp = address.Substring(index + 1);
+            temp = temp.ToLower();
+            index = temp.IndexOf('.');
+            if (index > 0)
+                temp = temp.Substring(0, index);
+            if (temp.StartsWith("w") && temp.EndsWith("xsc"))
+            {
+                bbs = temp;
+            }
+            else
+            {
+                // this was an email address
+                return; 
+            }
+
+            bool entryFound = _addressDictionary.TryGetValue(callsign, out AddressBookEntry entry);
+            if (entryFound)
+            {
+                entry.LastUsedBBS = bbs;
+                entry.LastUsedBBSTime = DateTime.Now;
+            }
+            else
+            {
+                AddAddressAsync(address);
+                UpdateLastUsedBBS(address);
+            }
+        }
+
         public ObservableCollection<AddressBookEntry> GetContacts()
         {
             ObservableCollection<AddressBookEntry> contacts = new ObservableCollection<AddressBookEntry>();
@@ -552,6 +591,10 @@ namespace PacketMessagingTS.Models
         private string bBSSecondaryField;
 
         private bool bbsPrimaryActiveField = true;
+
+        private string lastUsedBBSField;
+
+        private DateTime? lastUsedBBSTimeField;
 
         /// <remarks/>
         [XmlAttribute()]
@@ -644,6 +687,18 @@ namespace PacketMessagingTS.Models
                 //    //ContactsCVS.Source = AddressBook.GetContactsGrouped();
                 //}
             }
+        }
+
+        public string LastUsedBBS
+        {
+            get => lastUsedBBSField;
+            set => lastUsedBBSField = value;
+        }
+
+        public DateTime? LastUsedBBSTime
+        {
+            get => lastUsedBBSTimeField;
+            set => lastUsedBBSTimeField = value;
         }
 
         public string Address

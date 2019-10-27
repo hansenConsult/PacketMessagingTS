@@ -326,7 +326,7 @@
                             <RelativePanel x:Name="panelProfileSelection" >
                                 <TextBlock x:Name="labelProfile"  Text="Profile:" Margin="12,0,6,0" 
 										RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                                <ComboBox x:Name="comboBoxProfiles"  Width="323"
+                                <ComboBox x:Name="comboBoxProfiles"  Width="324"
 										  RelativePanel.RightOf="labelProfile"
                                           ItemsSource="{x:Bind _PacketSettingsViewmodel.ObservableProfileCollection, Mode=OneWay}"
                                           SelectedIndex="{x:Bind _PacketSettingsViewmodel.ProfileSelectedIndex, Mode=TwoWay}"
@@ -449,7 +449,7 @@
                         <SplitView.Pane >
                             <StackPanel>
                                 <ListBox x:Name="ConnectDevices"  Width="auto"  Height="auto"  Background="LightGray"
-									     ItemsSource="{x:Bind _TNCSettingsViewModel.TNCDeviceListSource, Mode=TwoWay}"
+									     ItemsSource="{x:Bind _TNCSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"
                                          DisplayMemberPath="Name"
 									     SelectedIndex="{x:Bind _TNCSettingsViewModel.TNCDeviceSelectedIndex, Mode=TwoWay}"
 									     SelectionChanged="ConnectDevices_SelectionChanged"
@@ -633,22 +633,6 @@
                                     </PivotItem>
 
                                     <!--E Mail Settings-->
-                                    <!--<PivotItem Header="E-Mail Settings" >
-                                    <Grid x:Name="EMailSettings" Margin="0,10,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <TextBox Grid.Column="0" Grid.Row="0" x:Name="mailServer" Text="{Binding MailServer, Mode=TwoWay}" Header="Mail Server"/>
-                                        <TextBox Grid.Column="1" Grid.Row="0" x:Name="mailPortString" Text="{Binding MailPortString, Mode=TwoWay}" Header="Mail port:" Margin="10,0,0,0"/>
-                                        <TextBox Grid.Column="0" Grid.Row="1" x:Name="mailUserName" Text="{Binding MailUserName, Mode=TwoWay}" Header="Mail username:" Margin="0,5,0,0"/>
-                                        <PasswordBox Grid.Column="1" Grid.Row="1" x:Name="mailPassword" Password="{Binding MailPassword, Mode=TwoWay}" Header="Mail password:" Margin="10,5,0,0"/>
-                                    </Grid>
-                                </PivotItem>-->
                                 </Pivot>
                                 <!--E Mail Settings-->
                                 <Grid x:Name="EMailSettings" Margin="10,20,0,0"
@@ -678,28 +662,30 @@
                                               DisplayMemberPath="MailUserName"
                                               IsEditable="True"
                                               Header="Mail User Account:" Margin="10,20,10,0"
+                                              TextSubmitted="MailUserNameComboBox_TextSubmitted"
                                               SelectedIndex="{x:Bind _TNCSettingsViewModel.MailAccountSelectedIndex, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                               />
                                     <PasswordBox Grid.Column="1" Grid.Row="0" x:Name="mailPassword" 
-                                                 Password="{Binding MailPassword, Mode=TwoWay}" 
+                                                 Password="{x:Bind _TNCSettingsViewModel.MailPassword, Mode=TwoWay}" 
                                                  Header="Mail password:"
                                                  IsEnabled="{x:Bind _TNCSettingsViewModel.IsMailPasswordEnabled, Mode=OneWay}"
                                                  Margin="10,20,10,0" PasswordRevealMode="Peek"/>
                                     <ComboBox Grid.Column="0" Grid.Row="1" x:Name="mailServerComboBox"
-                                              Header="Mail Server:" 
+                                              Header="EMail Server:" 
                                               ItemsSource="{x:Bind _TNCSettingsViewModel.MailAccountListSource, Mode=OneWay}"
-                                              SelectedIndex="{Binding MailAccountSelectedIndex, Mode=TwoWay}"
+                                              SelectedIndex="{x:Bind _TNCSettingsViewModel.MailAccountSelectedIndex, Mode=TwoWay}"
+                                              TextSubmitted="MailServerComboBox_TextSubmitted"
                                               Margin="10,10,10,0" IsEditable="True"
                                               IsEnabled="{x:Bind _TNCSettingsViewModel.IsMailServerEnabled, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                     <TextBox Grid.Column="1" Grid.Row="1" x:Name="mailPortString" 
-                                             Text="{Binding MailPort, Mode=TwoWay}" 
-                                             Header="Mail server port:"
+                                             Text="{x:Bind _TNCSettingsViewModel.MailServerPort, Mode=TwoWay}" 
+                                             Header="EMail server port:"
                                              IsEnabled="{x:Bind _TNCSettingsViewModel.IsMailServerPortEnabled, Mode=OneWay}"
                                              Margin="10,10,10,0" />
                                     <ToggleSwitch Grid.Column="0" Grid.Row="2" x:Name="mailIsSSL" 
-                                                  IsOn="{Binding IsMailSSL}"
-                                                  Visibility="Collapsed"
-                                                  Header="SSL:" Margin="10,20,0,0"
+                                                  IsOn="{x:Bind _TNCSettingsViewModel.IsMailSSL, Mode=TwoWay}"                                                  
+                                                  Visibility="{x:Bind _TNCSettingsViewModel.IsMailServerSSLVisible, Mode=OneWay}"
+                                                  Header="EMail Server SSL:" Margin="10,20,0,0"
                                                   />
                                 </Grid>
                             </StackPanel>
@@ -711,13 +697,17 @@
 							    RelativePanel.AlignRightWithPanel="True"
 							    RelativePanel.AlignLeftWithPanel="True">
                         <AppBarButton x:Name="appBarAddTNC" Label="Add" Icon="Add" HorizontalAlignment="Right"
-                                      IsEnabled="{Binding IsAppBarAddEnabled, Mode=OneWay}" Click="AppBarAddTNC_Clicked"/>
+                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarAddEnabled, Mode=OneWay}"
+                                      Click="AppBarAddTNC_Clicked"/>
                         <AppBarButton x:Name="appBarSettingsEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right"
-                                      IsEnabled="{Binding IsAppBarEditEnabled, Mode=OneWay}"  Click="AppBarEditTNC_ClickAsync"/>
+                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarEditEnabled, Mode=OneWay}"
+                                      Click="AppBarEditTNC_Click"/>
                         <AppBarButton x:Name="appBarSaveTNC" Label="Save" Icon="Save" HorizontalAlignment="Right"
-                                      IsEnabled="{Binding IsAppBarSaveEnabled, Mode=TwoWay}" Click="AppBarSaveTNC_ClickAsync" />
+                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarSaveEnabled, Mode=TwoWay}"
+                                      Click="AppBarSaveTNC_ClickAsync" />
                         <AppBarButton x:Name="appBarDeleteTNC" Label="Delete" Icon="Delete" HorizontalAlignment="Right"
-                                      IsEnabled="{Binding IsAppBarDeleteEnabled, Mode=OneWay}" Click="AppBarDeleteTNC_ClickAsync"/>
+                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarDeleteEnabled, Mode=OneWay}"
+                                      Click="AppBarDeleteTNC_Click"/>
                     </CommandBar>
                 </RelativePanel>
             </PivotItem>

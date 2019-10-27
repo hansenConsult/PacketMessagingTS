@@ -194,7 +194,6 @@ namespace PacketMessagingTS.Helpers
                             return false;
                     }
                 }
-                return true;
             }
             return equal;
         }
@@ -212,6 +211,9 @@ namespace PacketMessagingTS.Helpers
 
         private bool Equals(ObservableCollection<TNCDevice> collection1, ObservableCollection<TNCDevice> collection2)
         {
+            //if (collection1 != collection2)
+            //    return false;
+
             if (collection1?.Count != collection2.Count)
                 return false;
 
@@ -239,10 +241,7 @@ namespace PacketMessagingTS.Helpers
                             return false;
                     }
                 }
-                return true;
             }
-
-
             return equal;
         }
 
