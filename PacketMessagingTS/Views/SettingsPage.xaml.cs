@@ -130,7 +130,7 @@ namespace PacketMessagingTS.Views
                 case "pivotPacketSettings":
                     comboBoxProfiles.Visibility = Visibility.Visible;
                     textBoxNewProfileName.Visibility = Visibility.Collapsed;
-                    _TNCSettingsViewModel.TNCDeviceListSource = _TNCSettingsViewModel.TNCDeviceListSource;
+                    //_TNCSettingsViewModel.TNCDeviceListSource = _TNCSettingsViewModel.TNCDeviceListSource;
                     //_PacketSettingsViewmodel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
                     break;
                 case "pivotIdentity":
@@ -198,7 +198,7 @@ namespace PacketMessagingTS.Views
                     bool retval = await Utilities.ShowDualButtonMessageDialogAsync("The Call-Sign is not in the Address Book. \nPlease select 'Add to Address Book'.", "Add to Address Book");
                     if (retval)
                     {
-                        AddressBook addressBook = AddressBook.Instance;
+                        //AddressBook addressBook = AddressBook.Instance;
 
                         ContentDialogAddressBookEntry contentDialog = new ContentDialogAddressBookEntry();
                         AddressBookEntry emptyEntry = new AddressBookEntry()
@@ -223,14 +223,14 @@ namespace PacketMessagingTS.Views
                             emptyEntry.Prefix = contentDialog.AddressBookPrefix;
                             emptyEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
                             emptyEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
-                            bool success = addressBook.AddAddressAsync(emptyEntry);
+                            bool success = UserAddressArray.Instance.AddAddressAsync(emptyEntry);
                             if (!success)
                             {
                                 await Utilities.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
                             }
                             else
                             {
-                                await AddressBook.Instance.SaveAsync();
+                                await UserAddressArray.Instance.SaveAsync();
                                 await Utilities.ShowSingleButtonContentDialogAsync("Call Sign successfully added. Now try to add a user Call Sign again.");
                             }
                         }
@@ -1135,7 +1135,7 @@ namespace PacketMessagingTS.Views
                 emptyEntry.Prefix = contentDialog.AddressBookPrefix;
                 emptyEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
                 emptyEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
-                bool success = addressBook.AddAddressAsync(emptyEntry);
+                bool success = UserAddressArray.Instance.AddAddressAsync(emptyEntry);
                 if (!success)
                 {
                     await Utilities.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
@@ -1151,11 +1151,11 @@ namespace PacketMessagingTS.Views
 
         private void AddressBookDelete_Click(object sender, RoutedEventArgs e)
         {
-            AddressBook addressBook = AddressBook.Instance;
+            //AddressBook addressBook = AddressBook.Instance;
 
-            addressBook.DeleteAddress(_selectedEntry);
+            UserAddressArray.Instance.DeleteAddress(_selectedEntry);
 
-            ContactsCVS.Source = addressBook.GetContactsGrouped();
+            ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
             addressBookSave.IsEnabled = true;
         }
 
@@ -1169,10 +1169,12 @@ namespace PacketMessagingTS.Views
 
             contentDialog.AddressBookCallsign = _selectedEntry.Callsign;
             contentDialog.AddressBookName = _selectedEntry.NameDetail;
-            contentDialog.AddressBookCity = _selectedEntry.City ?? "";
-            contentDialog.AddressBookPrefix = _selectedEntry.Prefix ?? "";
+            contentDialog.AddressBookCity = _selectedEntry.City;
+            contentDialog.AddressBookPrefix = _selectedEntry.Prefix;
             contentDialog.SelectedPrimaryBBS = _selectedEntry.BBSPrimary;
             contentDialog.SelectedSecondaryBBS = _selectedEntry.BBSSecondary;
+            contentDialog.SelectedLastUsedBBS = _selectedEntry.LastUsedBBS;
+            contentDialog.LastUsedBBSDate = _selectedEntry.LastUsedBBSDate;
 
             ContentDialogResult result = await contentDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
@@ -1183,6 +1185,8 @@ namespace PacketMessagingTS.Views
                 _selectedEntry.Prefix = contentDialog.AddressBookPrefix;
                 _selectedEntry.BBSPrimary = contentDialog.SelectedPrimaryBBS;
                 _selectedEntry.BBSSecondary = contentDialog.SelectedSecondaryBBS;
+                _selectedEntry.LastUsedBBS = contentDialog.SelectedLastUsedBBS;
+                _selectedEntry.LastUsedBBSDate = contentDialog.LastUsedBBSDate;
 
                 ContactsCVS.Source = addressBook.GetContactsGrouped();
                 addressBookSave.IsEnabled = true;
@@ -1195,7 +1199,7 @@ namespace PacketMessagingTS.Views
 
         private async void AddressBookSave_ClickAsync(object sender, RoutedEventArgs e)
         {
-            await AddressBook.Instance.SaveAsync();
+            await UserAddressArray.Instance.SaveAsync();
 
             addressBookSave.IsEnabled = false;
         }

@@ -325,6 +325,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     bool toFound = false;
 					bool subjectFound = false;
+                    string prefix = "";
 					for (int i = 0; i < Math.Min(msgLines.Length, 20); i++)
 					{
                         if (msgLines[i].StartsWith("Date:"))
@@ -332,7 +333,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
                         }
                         else if (msgLines[i].StartsWith("From:"))
+                        {
                             pktMsg.MessageFrom = msgLines[i].Substring(6);
+                        }
                         else if (!toFound && msgLines[i].StartsWith("To:"))
                         {
                             pktMsg.MessageTo = msgLines[i].Substring(4);
@@ -353,6 +356,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         else if (!subjectFound && msgLines[i].StartsWith("Subject:"))
                         {
                             pktMsg.Subject = msgLines[i].Substring(9);
+                            if (pktMsg.Subject[3] == '-')
+                            {
+                                prefix = pktMsg.Subject.Substring(0, 3);
+                            }
                             //pktMsg.MessageSubject = pktMsg.MessageSubject.Replace('\t', ' ');
                             subjectFound = true;
                         }
@@ -408,6 +415,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         throw new Exception();
                     }
 
+                    AddressBook.Instance.UpdateLastUsedBBS(pktMsg.MessageFrom, prefix);
                     _logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} received");
 
                     // If the received message is a delivery confirmation, update receivers message number in the original sent message

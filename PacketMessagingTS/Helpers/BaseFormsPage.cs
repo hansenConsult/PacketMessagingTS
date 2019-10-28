@@ -264,7 +264,7 @@ namespace PacketMessagingTS.Helpers
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
             };
-            AddressBook.Instance.AddAddressAsync(_packetMessage.MessageTo);
+            UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
             string subject = CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line

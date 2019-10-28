@@ -99,7 +99,7 @@ namespace PacketMessagingTS
             await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
             await EmailAccountArray.Instance.OpenAsync();
             await ProfileArray.Instance.OpenAsync();
-            await AddressBook.Instance.OpenAsync();
+            await UserAddressArray.Instance.OpenAsync();
             AddressBook.Instance.CreateAddressBook();
             await DistributionListArray.Instance.OpenAsync();
 

@@ -139,6 +139,7 @@
     <Compile Include="Helpers\BulletinHelpers.cs" />
     <Compile Include="Helpers\ComportComparer.cs" />
     <Compile Include="Helpers\DataGridSortData.cs" />
+    <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\DeviceListEntry.cs" />
     <Compile Include="Helpers\DispatcherTaskExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Models\GroupInfoList.cs" />
     <Compile Include="Models\Profiles.cs" />
     <Compile Include="Models\TNCDevices.cs" />
+    <Compile Include="Models\UserAddressBook.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />

@@ -87,21 +87,23 @@ namespace PacketMessagingTS.ViewModels
             get => userName;
             set
             {
-                //SetProperty(ref userName, value, true);
                 SetProperty(ref userName, value);
-                string userFirstName = userName;
-                int index = userFirstName.IndexOf(' ');
-                if (index < 0 && userFirstName.Length > 0)
+                if (!string.IsNullOrEmpty(userName))
                 {
-                    index = userFirstName.Length;
-                }
-                if (index > 0)
-                {
-                    UserFirstName = userFirstName.Substring(0, index);
-                }
-                else
-                {
-                    UserFirstName = "";
+                    string userFirstName = userName;
+                    int index = userFirstName.IndexOf(' ');
+                    if (index < 0 && userFirstName.Length > 0)
+                    {
+                        index = userFirstName.Length;
+                    }
+                    if (index > 0)
+                    {
+                        UserFirstName = userFirstName.Substring(0, index);
+                    }
+                    else
+                    {
+                        UserFirstName = "";
+                    }
                 }
             }
         }

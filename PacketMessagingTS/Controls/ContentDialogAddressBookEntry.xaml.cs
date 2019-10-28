@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using Windows.UI.Xaml;
@@ -113,6 +114,20 @@ namespace PacketMessagingTS.Controls
         {
             get => selectedSecondaryBBS;
             set => Set(ref selectedSecondaryBBS, value);
+        }
+
+        private string selectedLastUsedBBS;
+        public string SelectedLastUsedBBS
+        {
+            get => selectedLastUsedBBS;
+            set => Set(ref selectedLastUsedBBS, value);
+        }
+
+        private DateTime lastUsedBBSDate;
+        public DateTime LastUsedBBSDate
+        {
+            get => lastUsedBBSDate;
+            set => Set(ref lastUsedBBSDate, value);
         }
     }
 }

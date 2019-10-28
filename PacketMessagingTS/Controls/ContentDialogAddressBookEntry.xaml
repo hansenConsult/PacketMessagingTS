@@ -2,36 +2,41 @@
     x:Class="PacketMessagingTS.Controls.ContentDialogAddressBookEntry"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helpers="using:PacketMessagingTS.Helpers"
     Title="Address Book Entry"
     PrimaryButtonText="Save"
     CloseButtonText="Cancel"
     DefaultButton="Primary"
     >
+    <ContentDialog.Resources>
+        <helpers:DateConverter x:Key="dateConverter" />
+    </ContentDialog.Resources>
+    
     <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" >
             <TextBlock Text="Call sign or E-Mail:" VerticalAlignment="Center" Width="124"/>
             <TextBox x:Name="textBoxCallsign" 
-                     Text="{x:Bind AddressBookCallsign, Mode=TwoWay}" Width="200" Margin="5,2,0,0"/>
+                     Text="{x:Bind AddressBookCallsign, Mode=TwoWay}" Width="220" Margin="5,2,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Name:" VerticalAlignment="Center" Width="124"/>
-            <TextBox Width="200" Margin="5,2,0,0"
+            <TextBox Width="220" Margin="5,2,0,0"
                      Text="{x:Bind addressBookName, Mode=TwoWay}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="City:" VerticalAlignment="Center" Width="124"/>
-            <TextBox x:Name="textBoxCity" Width="200" Margin="5,2,0,0"
+            <TextBox x:Name="textBoxCity" Width="220" Margin="5,2,0,0"
                      Text="{x:Bind AddressBookCity, Mode=TwoWay}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Prefix:" VerticalAlignment="Center" Width="124"/>
-            <TextBox x:Name="textBoxPrefix" Width="116" Margin="5,2,0,0"
+            <TextBox x:Name="textBoxPrefix" Width="100" Margin="5,2,0,0"
                      IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
                      Text="{x:Bind AddressBookPrefix, Mode=TwoWay}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Primary BBS:" VerticalAlignment="Center" Width="124"/>
-            <ComboBox x:Name="addressBookPrimaryBBS" Width="116" Margin="5,2,0,0"
+            <ComboBox x:Name="addressBookPrimaryBBS" Width="100" Margin="5,2,0,0"
                       IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
                       SelectedValue="{x:Bind SelectedPrimaryBBS, Mode=TwoWay}">
                 <x:String>W1XSC</x:String>
@@ -43,7 +48,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Secondary BBS:" VerticalAlignment="Center" Width="124"/>
-            <ComboBox x:Name="addressBookSecondaryBBS" Width="116" Margin="5,2,0,0"
+            <ComboBox x:Name="addressBookSecondaryBBS" Width="100" Margin="5,2,0,0"
                       IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
                       SelectedValue="{x:Bind SelectedSecondaryBBS, Mode=TwoWay}">
                 <x:String>W1XSC</x:String>
@@ -52,6 +57,21 @@
                 <x:String>W4XSC</x:String>
                 <x:String>W5XSC</x:String>
             </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Last Used BBS:" VerticalAlignment="Center" Width="124"/>
+            <ComboBox x:Name="addressBookLastUsedBBS" Width="100" Margin="5,2,20,0"
+                      IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
+                      SelectedValue="{x:Bind SelectedLastUsedBBS, Mode=TwoWay}">
+                <x:String>W1XSC</x:String>
+                <x:String>W2XSC</x:String>
+                <x:String>W3XSC</x:String>
+                <x:String>W4XSC</x:String>
+                <x:String>W5XSC</x:String>
+            </ComboBox>
+            <TextBox x:Name="textBoxLastUsedBBSDate" Width="100"
+                     IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
+                     Text="{x:Bind LastUsedBBSDate, Mode=OneWay, Converter={StaticResource dateConverter}}"/>
         </StackPanel>
     </StackPanel>
 </ContentDialog>
