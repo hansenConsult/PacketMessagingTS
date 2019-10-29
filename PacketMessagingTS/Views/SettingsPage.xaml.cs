@@ -701,10 +701,11 @@ namespace PacketMessagingTS.Views
                 var TNCDevices = e.AddedItems;
                 if (TNCDevices != null && TNCDevices.Count == 1)
                 {
-                    if (_TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.None
-                        && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMail
-                        && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCDelete
-                        && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCAdd)
+                    //if (_TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.None
+                    //    && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMail
+                    //    && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCDelete
+                    //    && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCAdd)
+                    if (_TNCSettingsViewModel.IsAppBarSaveEnabled)
                     {
                         bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
                         if (save)
@@ -1012,10 +1013,14 @@ namespace PacketMessagingTS.Views
                 {
                     // Server changed
                     EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
+
+                    int tncDeviceSelectedIndex = _TNCSettingsViewModel.TNCDeviceSelectedIndex;
                     TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
                     tncDevice.MailUserName = emailAccount.MailUserName;
-                    tncDevice.Name = $"{SharedData.EMail}-" + emailAccount.MailUserName;    // Change TNCDevice.Name
+                    tncDevice.Name = $"{SharedData.EMailPreample}{emailAccount.MailUserName}";
                     await TNCDeviceArray.Instance.SaveAsync();
+                    _TNCSettingsViewModel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
                 }
                 else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailDelete)
                 {
@@ -1096,9 +1101,11 @@ namespace PacketMessagingTS.Views
 
             // Disable Save button
             _TNCSettingsViewModel.ResetChangedProperty();
+            _TNCSettingsViewModel.IsAppBarSaveEnabled = false;
+
         }
         #endregion Interface
-#region Address Book
+        #region Address Book
         AddressBookEntry _selectedEntry;
         private void AddressBookListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

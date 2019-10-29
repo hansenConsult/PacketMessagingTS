@@ -720,7 +720,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             await _tncInterface.BBSConnectThreadProcAsync();
 
             // Close status window
-            //Singleton<RxTxStatusViewModel>.Instance.AbortConnectionAsync();
+            Singleton<RxTxStatViewModel>.Instance.AbortConnectionAsync();
             //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //{
             //    //    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();

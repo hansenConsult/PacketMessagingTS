@@ -33,8 +33,8 @@ namespace PacketMessagingTS.Helpers
 
         public static IReadOnlyList<StorageFile> FilesInInstalledLocation;
 
-        public static string EMail = "EMail";
-        public static string EMailPreample = $"EMail: ";
+        public static string EMail = "Email";
+        public static string EMailPreample = $"Email: ";
     }
 
 }

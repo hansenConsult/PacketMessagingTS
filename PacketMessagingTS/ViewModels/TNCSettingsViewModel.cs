@@ -596,37 +596,34 @@ namespace PacketMessagingTS.ViewModels
                 if (State == TNCState.EMailAdd)
                     return;
 
-                bool setPropertySuccess = false;
                 if (value < 0 || value >= EmailAccountArray.Instance.EmailAccountList.Count)
                 {
-                    setPropertySuccess = SetProperty(ref mailAccountSelectedIndex, 0, true);
+                    SetProperty(ref mailAccountSelectedIndex, 0, true);
                 }
                 else
                 {
-                    setPropertySuccess = SetProperty(ref mailAccountSelectedIndex, value, true);
+                    SetProperty(ref mailAccountSelectedIndex, value, true);
                 }
-                //if (setPropertySuccess)
-                {
-                    CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
 
-                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
-                    tncDevice.MailUserName = CurrentMailAccount.MailUserName;
-                    tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
+                CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
 
-                    //CurrentTNCDevice.MailUserName = CurrentMailAccount.MailUserName;
-                    //CurrentTNCDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
-                    //int tncDeviceSelectedIndex = TNCDeviceSelectedIndex;
-                    //TNCDevice tncDevice = TNCDeviceFromUI;
-                    //tncDevice.MailUserName = CurrentMailAccount.MailUserName;
-                    //tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
-                    //TNCDeviceArray.Instance.TNCDeviceListUpdate(tncDeviceSelectedIndex, tncDevice);
-                    //TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
-                    TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
+                //tncDevice.MailUserName = CurrentMailAccount.MailUserName;
+                //tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
 
-                    //Utilities.SetApplicationTitle();
-                }                
+                //CurrentTNCDevice.MailUserName = CurrentMailAccount.MailUserName;
+                //CurrentTNCDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
+                //int tncDeviceSelectedIndex = TNCDeviceSelectedIndex;
+                //TNCDevice tncDevice = TNCDeviceFromUI;
+                //tncDevice.MailUserName = CurrentMailAccount.MailUserName;
+                //tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
+                //TNCDeviceArray.Instance.TNCDeviceListUpdate(tncDeviceSelectedIndex, tncDevice);
+                //TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
+                //TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
 
-                UpdateMailState(TNCState.EMail);
+                //Utilities.SetApplicationTitle();
+                bool changed = CurrentTNCDevice.MailUserName != CurrentMailAccount.MailUserName;
+                IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
 
@@ -668,9 +665,7 @@ namespace PacketMessagingTS.ViewModels
                 MailUserName = currentMailAccount.MailUserName;
                 MailPassword = currentMailAccount.MailPassword;
 
-                ResetChangedProperty();
-
-
+                //ResetChangedProperty();
             }
         }
 
@@ -699,11 +694,8 @@ namespace PacketMessagingTS.ViewModels
                 //		break;
                 //	}
                 //}
-                if (CurrentMailAccount != null)
-                {
-                    bool changed = CurrentMailAccount.MailServer != mailServer;
-                    IsAppBarSaveEnabled = SaveEnabled(changed);
-                }
+                bool changed = CurrentMailAccount?.MailServer != mailServer;
+                IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.Server = MailServer;
             }
@@ -900,5 +892,13 @@ namespace PacketMessagingTS.ViewModels
             get => isAppBarEditEnabled;
             set => SetProperty(ref isAppBarEditEnabled, value);
         }
+
+        private new bool isAppBarSaveEnabled;
+        public new bool IsAppBarSaveEnabled
+        {
+            get => isAppBarSaveEnabled;
+            set => SetProperty(ref isAppBarSaveEnabled, value);
+        }
+
     }
 }
