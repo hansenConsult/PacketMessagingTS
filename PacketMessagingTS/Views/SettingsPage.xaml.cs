@@ -839,14 +839,14 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void UpdateEMailAccountFromUI(ref EmailAccount emailAccount)
-        {
-            //emailAccount.MailServer = mailServer.Text;
-            emailAccount.MailServerPort = Convert.ToUInt16(mailPortString.Text);
-            emailAccount.MailUserName = mailUserNameComboBox.Text;
-            emailAccount.MailPassword = mailPassword.Password;
-            emailAccount.MailIsSSLField = mailIsSSL.IsOn;
-        }
+        //private void UpdateEMailAccountFromUI(ref EmailAccount emailAccount)
+        //{
+        //    //emailAccount.MailServer = mailServer.Text;
+        //    emailAccount.MailServerPort = Convert.ToUInt16(mailPortString.Text);
+        //    emailAccount.MailUserName = mailUserNameComboBox.Text;
+        //    emailAccount.MailPassword = mailPassword.Password;
+        //    emailAccount.MailIsSSLField = mailIsSSL.IsOn;
+        //}
 
         //private void MailServer_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         //{
@@ -946,11 +946,8 @@ namespace PacketMessagingTS.Views
         {
             if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailAdd)
             {
-
-            }
-            else
-            {
-                //mailServerComboBox.Text = _TNCSettingsViewModel.CurrentMailAccount.MailServer;
+                // Update server data
+                _TNCSettingsViewModel.MailServer = args.Text;
             }
         }
 
@@ -1032,7 +1029,7 @@ namespace PacketMessagingTS.Views
                 else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailEdit)
                 {
                     EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
-                    UpdateEMailAccountFromUI(ref emailAccount);
+                    emailAccount = _TNCSettingsViewModel.EMailAccountFromUI;
                     for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
                     {
                         if (EmailAccountArray.Instance.EmailAccounts[i].MailServer == emailAccount.MailServer)
@@ -1052,7 +1049,7 @@ namespace PacketMessagingTS.Views
                 else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailAdd)
                 {
                     EmailAccount emailAccount = new EmailAccount();
-                    UpdateEMailAccountFromUI(ref emailAccount);
+                    emailAccount = _TNCSettingsViewModel.EMailAccountFromUI;
                     EmailAccountArray.Instance.EmailAccountList.Add(emailAccount);
                     await EmailAccountArray.Instance.SaveAsync();
                     _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);

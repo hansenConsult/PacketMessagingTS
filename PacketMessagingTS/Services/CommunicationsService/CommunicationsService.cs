@@ -12,7 +12,6 @@ using MessageFormControl;
 using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
-
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.SMTPClient;
@@ -21,17 +20,12 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 
-using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
-
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
-using Windows.UI.WindowManagement;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.ViewManagement;
-using Windows.Foundation;
-using Windows.UI.Xaml;
+
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

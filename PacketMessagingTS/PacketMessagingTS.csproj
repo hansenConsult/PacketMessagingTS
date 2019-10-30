@@ -185,7 +185,6 @@
     <Compile Include="Services\WindowManagerService.cs" />
     <Compile Include="ViewModels\AddressBookViewModel.cs" />
     <Compile Include="ViewModels\CityFormsViewModel.cs" />
-    <Compile Include="ViewModels\ContinuationViewModel.cs" />
     <Compile Include="ViewModels\FormsPageViewModel.cs" />
     <Compile Include="ViewModels\HospitalFormsViewModel.cs" />
     <Compile Include="ViewModels\IdentityViewModel.cs" />

@@ -107,12 +107,13 @@ namespace FormControlBaseClass
             {
                 firstTime = true;
             }
+            _propertyFirstTime[propertyName] = false;
             // Do not update displayed value if not changed or not first time or not forced
             if (Equals(backingStore, value) && !firstTime && !forceUpdate)
             {
                 return false;
             }
-            _propertyFirstTime[propertyName] = false;
+            //_propertyFirstTime[propertyName] = false;
 
             if (persist)
             {

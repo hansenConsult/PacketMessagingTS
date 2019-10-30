@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
-using MetroLog;
-using PacketMessagingTS.Core.Helpers;
 
+using MetroLog;
+
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+
 using SharedCode;
+
 using Windows.UI.Xaml;
 
 
@@ -769,11 +772,8 @@ namespace PacketMessagingTS.ViewModels
 
                 SetProperty(ref mailUserName, value);
 
-                if (CurrentMailAccount != null)
-                {
-                    bool changed = CurrentMailAccount.MailUserName != mailUserName;
-                    IsAppBarSaveEnabled = SaveEnabled(changed);
-                }
+                bool changed = CurrentMailAccount?.MailUserName != mailUserName;
+                IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.UserName = MailUserName;
             }

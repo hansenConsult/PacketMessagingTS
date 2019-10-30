@@ -1,18 +1,11 @@
-﻿using System;
-
-using MetroLog;
+﻿using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
-
-using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -53,12 +46,6 @@ namespace PacketMessagingTS.Views
 
             _viewLifetimeControl.Height = RxTxStatusViewmodel.ViewControlHeight;
             _viewLifetimeControl.Width = RxTxStatusViewmodel.ViewControlWidth;
-            //_currentHeight = Height;
-            //_viewLifetimeControl.StartViewInUse();
-            //_viewLifetimeControl.
-            //Arrange
-            //Height = 400;
-            //_viewLifetimeControl.StopViewInUse();
         }
 
         private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
@@ -81,17 +68,6 @@ namespace PacketMessagingTS.Views
         //public void AddTextToStatusWindow(string text)
         //{
         //    RxTxStatusViewmodel.AddRxTxStatus = text;
-        //}
-
-        //private async void AbortButton_ClickAsync(object sender, RoutedEventArgs e)
-        //{
-        //    //await _appWindow.CloseAsync();
-        //    //RxTxStatusViewModel.RxTxStatus = "";
-        //    _viewLifetimeControl.StartViewInUse();
-        //    await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-        //        ApplicationView.GetForCurrentView().Id,
-        //        ApplicationViewSwitchingOptions.ConsolidateViews);
-        //    _viewLifetimeControl.StopViewInUse();
         //}
 
         int i = 0;
