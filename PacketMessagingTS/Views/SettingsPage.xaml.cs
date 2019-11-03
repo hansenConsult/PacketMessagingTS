@@ -43,6 +43,7 @@ namespace PacketMessagingTS.Views
 
         // TNC settings
         int _deletedIndex;
+        int _modifiedEmailAccountSelectedIndex;
 
 
         public SettingsPage()
@@ -449,52 +450,8 @@ namespace PacketMessagingTS.Views
             profileSave.IsEnabled = true;
         }
 
-        #endregion
-        #region Interface
-        //TNCState _tncState = TNCSettingsViewModel.TNCState.None;
-
-        //private void UpdateTNCFromUI(TNCDevice tncDevice)
-        //{
-        //    _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport = _TNCSettingsViewModel.TNCComPort;
-        //    //if (_initCommandsChanged)
-        //    //{
-        //    //    tncDevice.InitCommands.Precommands = textBoxInitCommandsPre.Text;
-        //    //    tncDevice.InitCommands.Postcommands = textBoxInitCommandsPost.Text;
-        //    //}
-
-        //    //if (_comportSettingsChanged)
-        //    //{
-        //    //    tncDevice.CommPort.IsBluetooth = toggleSwitchBluetooth.IsOn;
-        //    //    if (tncDevice.CommPort.IsBluetooth)
-        //    //    {
-        //    //        tncDevice.CommPort.BluetoothName = comboBoxComName.SelectedValue as string;
-        //    //        tncDevice.CommPort.DeviceId = ((DeviceInformation)comboBoxComName.SelectedItem)?.Id as string;
-        //    //    }
-        //    //    tncDevice.CommPort.Comport = comboBoxComPort.SelectedValue as string;
-        //    //    tncDevice.CommPort.Baudrate = (uint)comboBoxBaudRate.SelectedValue;
-        //    //    tncDevice.CommPort.Databits = (ushort)comboBoxDatabits.SelectedValue;
-        //    //    tncDevice.CommPort.Stopbits = (SerialStopBitCount)comboBoxStopBits.SelectedValue;
-        //    //    tncDevice.CommPort.Parity = (SerialParity)comboBoxParity.SelectedValue;
-        //    //    tncDevice.CommPort.Flowcontrol = (SerialHandshake)comboBoxFlowControl.SelectedValue;
-        //    //}
-
-        //    //if (_promptsChanged)
-        //    //{
-        //    //    tncDevice.Prompts.Command = textBoxPrompsCommand.Text;
-        //    //    tncDevice.Prompts.Timeout = textBoxPromptsTimeout.Text;
-        //    //    tncDevice.Prompts.Connected = textBoxPromptsConnected.Text;
-        //    //    tncDevice.Prompts.Disconnected = textBoxPromptsDisconnected.Text;
-        //    //}
-
-        //    //if (_commandsChanged)
-        //    //{
-        //    //    tncDevice.Commands.Connect = textBoxCommandsConnect.Text;
-        //    //    tncDevice.Commands.Conversmode = textBoxCommandsConversMode.Text;
-        //    //    tncDevice.Commands.MyCall = textBoxCommandsMyCall.Text;
-        //    //    tncDevice.Commands.Retry = textBoxCommandsRetry.Text;
-        //    //    tncDevice.Commands.Datetime = textBoxCommandsDateTime.Text;
-        //    //}
-        //}
+#endregion
+#region Interface
 
         //private void TNCSaveAsCurrent()
         //{
@@ -540,89 +497,6 @@ namespace PacketMessagingTS.Views
         //    await TNCDeviceArray.Instance.SaveAsync();
         //    SharedData.SavedTNCDevice = new TNCDevice(SharedData.CurrentTNCDevice);
         //    appBarSaveTNC.IsEnabled = false;
-        //}
-
-        //private void SetMailControlsEditState(bool enabledState)
-        //{
-        //    _TNCSettingsViewModel.IsMailPasswordEnabled = enabledState;
-        //    if (enabledState)
-        //    {
-        //        _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Visible;
-        //        //mailServerComboBox.Visibility = Visibility.Visible;
-        //        _TNCSettingsViewModel.IsMailUserNameEnabled = false;
-        //        //mailServer.Visibility = Visibility.Visible;
-        //        _TNCSettingsViewModel.IsMailServerPortEnabled = !enabledState;
-        //        _TNCSettingsViewModel.IsMailServerEnabled = !enabledState;
-        //    }
-        //    else
-        //    {
-        //        _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Collapsed;
-        //        //mailServerComboBox.Visibility = Visibility.Visible;
-        //        //mailServer.Visibility = Visibility.Collapsed;
-        //    }
-        //}
-
-        //private void SetMailControlsEnabledState(bool enabledState)
-        //{
-        //    _TNCSettingsViewModel.IsMailPasswordEnabled = enabledState;
-        //    _TNCSettingsViewModel.IsMailUserNameEnabled = true;
-        //    if (enabledState)
-        //    {
-        //        _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Visible;
-        //        _TNCSettingsViewModel.IsMailServerPortEnabled = enabledState;
-        //        _TNCSettingsViewModel.IsMailServerEnabled = enabledState;
-        //    }
-        //    else
-        //    {
-        //        _TNCSettingsViewModel.IsMailServerSSLVisible = Visibility.Collapsed;
-        //        _TNCSettingsViewModel.IsMailServerPortEnabled = enabledState;
-        //        _TNCSettingsViewModel.IsMailServerEnabled = enabledState;
-        //    }
-        //}
-
-        //private void UpdateMailState(TNCSettingsViewModel.TNCState newMailState)
-        //{
-        //    if (newMailState == _TNCSettingsViewModel.State)
-        //        return;
-
-        //    _TNCSettingsViewModel.State = newMailState;
-        //    switch (newMailState)
-        //    {
-        //        case TNCSettingsViewModel.TNCState.EMail:
-        //            SetMailControlsEnabledState(false);
-        //            break;
-        //        case TNCSettingsViewModel.TNCState.EMailEdit:
-        //            SetMailControlsEditState(true);
-        //            break;
-        //        case TNCSettingsViewModel.TNCState.EMailDelete:
-        //            SetMailControlsEnabledState(false);
-        //            break;
-        //        case TNCSettingsViewModel.TNCState.EMailAdd:
-        //            SetMailControlsEnabledState(true);
-        //            //mailServer.Text = "";
-        //            mailPortString.Text = "0";
-        //            mailUserNameComboBox.Text = "";
-        //            mailPassword.Password = "";
-        //            mailIsSSL.IsOn = false;
-        //            break;
-        //        case TNCSettingsViewModel.TNCState.None:
-        //            SetMailControlsEnabledState(false);
-        //            break;
-        //    }
-        //}
-
-        //private void SetComportComboBoxVisibility()
-        //{
-        //    if (toggleSwitchBluetooth.IsOn)
-        //    {
-        //        comboBoxComName.Visibility = Visibility.Visible;
-        //        comboBoxComPort.Visibility = Visibility.Collapsed;
-        //    }
-        //    else
-        //    {
-        //        comboBoxComName.Visibility = Visibility.Collapsed;
-        //        comboBoxComPort.Visibility = Visibility.Visible;
-        //    }
         //}
 
         private void NewTNCDevice()
@@ -697,7 +571,6 @@ namespace PacketMessagingTS.Views
 
             if (e.AddedItems.Count > 0)
             {
-                //TNCDevice tncDevice = null;
                 var TNCDevices = e.AddedItems;
                 if (TNCDevices != null && TNCDevices.Count == 1)
                 {
@@ -705,38 +578,28 @@ namespace PacketMessagingTS.Views
                     //    && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMail
                     //    && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCDelete
                     //    && _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.TNCAdd)
-                    if (_TNCSettingsViewModel.IsAppBarSaveEnabled)
-                    {
-                        bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
-                        if (save)
-                        {
-                            AppBarSaveTNC_ClickAsync(this, null);
-                        }
-                        // Disable Save button
-                        _TNCSettingsViewModel.ResetChangedProperty();
 
-                    }
-                    //tncDevice = (TNCDevice)TNCDevices[0];
-                    //_logHelper.Log(LogLevel.Trace, $"Selection changed, Comport: {tncDevice.CommPort.Comport}");
-                    //_TNCSettingsViewModel.CurrentTNCDevice = tncDevice;
-                    //_TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
-
-                    //if (tncDevice.Name.Contains(SharedData.EMail))
+                    //if (_TNCSettingsViewModel.IsAppBarSaveEnabled)
                     //{
-                        //UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
-                        //EMailSettings.Visibility = Visibility.Visible;
-                        //PivotTNC.Visibility = Visibility.Collapsed;
-                        //mailServerComboBox.SelectedIndex = _TNCSettingsViewModel.MailAccountSelectedIndex;
-                    //}
-                    //else
-                    //{
-                        //if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
-                        //{
-                        //    _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
-                        //}
-                        //_TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.None;
-                        //EMailSettings.Visibility = Visibility.Collapsed;
-                        //PivotTNC.Visibility = Visibility.Visible;
+                    //    bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
+                    //    if (save)
+                    //    {
+                    //        AppBarSaveTNC_ClickAsync(this, null);
+                    //    }
+                    //    else
+                    //    {
+                    //        // Restore to default
+                    //        string mailUserName = "";
+                    //        foreach (TNCDevice tncDevice in TNCDeviceArray.Instance.TNCDeviceList)
+                    //        {
+                    //            if (!string.IsNullOrEmpty(tncDevice.MailUserName))
+                    //            {
+                    //                mailUserName = tncDevice.MailUserName;
+                    //            }
+                    //        }
+                    //        int i = EmailAccountArray.Instance.GetSelectedIndexFromEmailUserName(mailUserName);
+                    //        _TNCSettingsViewModel.MailAccountSelectedIndex = i;
+                    //    }
                     //}
                 }
                 else
@@ -819,126 +682,15 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (sender is ToggleSwitch)
-            {
-                ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-                if (toggleSwitch.IsHitTestVisible && !(toggleSwitch.FocusState == FocusState.Unfocused))
-                {
-                    AddressBook addressBook = AddressBook.Instance;
-
-                    Grid parent = toggleSwitch.Parent as Grid;
-                    string callsign = (parent.Children[1] as TextBlock).Text;
-                    if (string.IsNullOrEmpty(callsign))
-                        return;
-
-                    addressBook.UpdateAddressBookEntry(callsign, toggleSwitch.IsOn);
-                    ContactsCVS.Source = addressBook.GetContactsGrouped();
-                }
-            }
-        }
-
-        //private void UpdateEMailAccountFromUI(ref EmailAccount emailAccount)
-        //{
-        //    //emailAccount.MailServer = mailServer.Text;
-        //    emailAccount.MailServerPort = Convert.ToUInt16(mailPortString.Text);
-        //    emailAccount.MailUserName = mailUserNameComboBox.Text;
-        //    emailAccount.MailPassword = mailPassword.Password;
-        //    emailAccount.MailIsSSLField = mailIsSSL.IsOn;
-        //}
-
-        //private void MailServer_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        //{
-        //    //if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailServer != (string)((AutoSuggestBox)sender).Text)
-        //    //{
-        //    //    _emailMailServerChanged = true;
-        //    //}
-        //    //else
-        //    //{
-        //    //    _emailMailServerChanged = false;
-        //    //}
-        //    //appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
-        //    //    | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
-        //}
-
-        //private void MailServer_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        //{
-        //    //sender.Text = args.SelectedItem.ToString();
-        //    //TNCPartViewModel viewModel = SettingsPageViewModel.TNCPartViewModel;
-        //    _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
-        //    _TNCSettingsViewModel.CurrentMailAccount = args.SelectedItem as EmailAccount;
-        //    // Set comboBox selection
-        //    for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
-        //    {
-        //        if (_TNCSettingsViewModel.MailServer == EmailAccountArray.Instance.EmailAccounts[i].MailServer)
-        //        {
-        //            mailServerComboBox.SelectedIndex = i;
-        //            break;
-        //        }
-        //    }
-        //}
-
-        //private void MailPortString_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    if (SettingsPageViewModel.TNCPartViewModel.CurrentMailAccount.MailServerPort.ToString() != (string)((TextBox)sender).Text)
-        //    {
-        //        _emailMailServerPortChanged = true;
-        //    }
-        //    else
-        //    {
-        //        _emailMailServerPortChanged = false;
-        //    }
-        //    appBarSettingsSave.IsEnabled = _emailMailServerChanged | _emailMailServerPortChanged
-        //        | _emailMailUserNameChanged | _emailMailPasswordChanged | _emailMailIsSSLChanged;
-        //}
-
-        private void MailUserName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // Update TNC mail name
-            var eMailTNC = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
-            eMailTNC.MailUserName = ((TextBox)sender).Text;
-            //eMailTNC.Name = $"E-Mail-{eMailTNC.MailUserName}";
-            eMailTNC.Name = $"{SharedData.EMailPreample}{eMailTNC.MailUserName}";
-            //await TNCDeviceArray.Instance.SaveAsync();
-
-            //TNCDeviceListSource.Source = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-        }
-
         private void MailUserNameComboBox_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
         {
             if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailAdd)
             {
-                // Update server data if domain exists
-                string newEMailUserName = args.Text;
-                int index = newEMailUserName.IndexOf('@');
-                string domain = newEMailUserName.Substring(index);
-                string newUserDomain = domain;
-                bool domainFound = false;
-                foreach (EmailAccount account in EmailAccountArray.Instance.EmailAccountList)
-                {
-                    index = account.MailUserName.IndexOf('@');
-                    domain = account.MailUserName.Substring(index);
-                    if (domain == newUserDomain)
-                    {
-                        _TNCSettingsViewModel.MailServer = account.MailServer;
-                        _TNCSettingsViewModel.MailServerPort = account.MailServerPort;
-                        _TNCSettingsViewModel.IsMailSSL = account.MailIsSSLField;
-                        domainFound = true;
-                        break;
-                    }
-                }
-                if (!domainFound)
-                {
-                    //_TNCSettingsViewModel.MailServer = "";
-                    mailServerComboBox.SelectedIndex = -1;
-                    _TNCSettingsViewModel.MailServerPort = 0;
-                }
+                _TNCSettingsViewModel.MailUserName = args.Text;
             }
-            else
+            else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailEdit)
             {
-                //mailUserNameComboBox.Text = _TNCSettingsViewModel.CurrentMailAccount.MailUserName;
-                //_TNCSettingsViewModel.MailUserName = _TNCSettingsViewModel.CurrentMailAccount.MailUserName;
+                _TNCSettingsViewModel.MailUserName = args.Text;
             }
         }
 
@@ -946,7 +698,6 @@ namespace PacketMessagingTS.Views
         {
             if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailAdd)
             {
-                // Update server data
                 _TNCSettingsViewModel.MailServer = args.Text;
             }
         }
@@ -955,10 +706,11 @@ namespace PacketMessagingTS.Views
         {
             if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
             {
+                _modifiedEmailAccountSelectedIndex = _TNCSettingsViewModel.MailAccountSelectedIndex;
                 _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMailAdd);
                 _TNCSettingsViewModel.IsAppBarSaveEnabled = true;
             }
-            else if (_TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMail
+            else if (_TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMailDelete
                             || _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMailEdit
                             || _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMailAdd)
             {
@@ -973,6 +725,7 @@ namespace PacketMessagingTS.Views
             if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
             {
                 _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMailEdit);
+                _modifiedEmailAccountSelectedIndex = _TNCSettingsViewModel.MailAccountSelectedIndex;
             }
             else
             {
@@ -1008,7 +761,6 @@ namespace PacketMessagingTS.Views
             {
                 if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMail)
                 {
-                    // Server changed
                     EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
 
                     int tncDeviceSelectedIndex = _TNCSettingsViewModel.TNCDeviceSelectedIndex;
@@ -1021,41 +773,50 @@ namespace PacketMessagingTS.Views
                 }
                 else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailDelete)
                 {
+                    int tncDeviceSelectedIndex = _TNCSettingsViewModel.TNCDeviceSelectedIndex;
+
                     await EmailAccountArray.Instance.SaveAsync();
+                    _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
                     _TNCSettingsViewModel.MailAccountListSource = new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
                     _TNCSettingsViewModel.MailAccountSelectedIndex = Math.Min(EmailAccountArray.Instance.EmailAccountList.Count - 1, _deletedIndex);
-                    _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
+
+                    EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
+                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
+                    tncDevice.MailUserName = emailAccount.MailUserName;
+                    tncDevice.Name = $"{SharedData.EMailPreample}{emailAccount.MailUserName}";
+                    await TNCDeviceArray.Instance.SaveAsync();
+                    _TNCSettingsViewModel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
                 }
                 else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailEdit)
                 {
-                    EmailAccount emailAccount = _TNCSettingsViewModel.CurrentMailAccount;
-                    emailAccount = _TNCSettingsViewModel.EMailAccountFromUI;
-                    for (int i = 0; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
-                    {
-                        if (EmailAccountArray.Instance.EmailAccounts[i].MailServer == emailAccount.MailServer)
-                        {
-                            EmailAccountArray.Instance.EmailAccounts[i] = emailAccount;
-                            break;
-                        }
-                    }
+                    EmailAccount emailAccount = _TNCSettingsViewModel.EMailAccountFromUI;
+                    EmailAccountArray.Instance.EmailAccountList[_modifiedEmailAccountSelectedIndex] = emailAccount;
                     await EmailAccountArray.Instance.SaveAsync();
+
+                    _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
+                    _TNCSettingsViewModel.MailAccountListSource = new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
+                    _TNCSettingsViewModel.MailAccountSelectedIndex = _modifiedEmailAccountSelectedIndex;
+
+                    int tncDeviceSelectedIndex = _TNCSettingsViewModel.TNCDeviceSelectedIndex;
                     TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[_TNCSettingsViewModel.TNCDeviceSelectedIndex];
                     tncDevice.MailUserName = emailAccount.MailUserName;     // TODO double user name??
-                    //tncDevice.Name += "-" + emailAccount.MailUserName;
                     tncDevice.Name = $"{SharedData.EMailPreample}{emailAccount.MailUserName}";
                     await TNCDeviceArray.Instance.SaveAsync();
-                    _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
+
+                    _TNCSettingsViewModel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
                 }
                 else if (_TNCSettingsViewModel.State == TNCSettingsViewModel.TNCState.EMailAdd)
                 {
-                    EmailAccount emailAccount = new EmailAccount();
-                    emailAccount = _TNCSettingsViewModel.EMailAccountFromUI;
+                    EmailAccount emailAccount = _TNCSettingsViewModel.EMailAccountFromUI;
                     EmailAccountArray.Instance.EmailAccountList.Add(emailAccount);
                     await EmailAccountArray.Instance.SaveAsync();
                     _TNCSettingsViewModel.UpdateMailState(TNCSettingsViewModel.TNCState.EMail);
 
                     _TNCSettingsViewModel.MailAccountListSource = new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
-                    _TNCSettingsViewModel.MailAccountSelectedIndex = EmailAccountArray.Instance.EmailAccountList.Count - 1;
+                    _TNCSettingsViewModel.MailAccountSelectedIndex = _modifiedEmailAccountSelectedIndex;
+                    // No need to update connected devides because we always select the last used email account
                 }
             }
             else
@@ -1109,6 +870,26 @@ namespace PacketMessagingTS.Views
             if (e.AddedItems.Count > 0)
             {
                 _selectedEntry = e.AddedItems[0] as AddressBookEntry;
+            }
+        }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch)
+            {
+                ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+                if (toggleSwitch.IsHitTestVisible && !(toggleSwitch.FocusState == FocusState.Unfocused))
+                {
+                    AddressBook addressBook = AddressBook.Instance;
+
+                    Grid parent = toggleSwitch.Parent as Grid;
+                    string callsign = (parent.Children[1] as TextBlock).Text;
+                    if (string.IsNullOrEmpty(callsign))
+                        return;
+
+                    addressBook.UpdateAddressBookEntry(callsign, toggleSwitch.IsOn);
+                    ContactsCVS.Source = addressBook.GetContactsGrouped();
+                }
             }
         }
 

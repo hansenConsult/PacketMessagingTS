@@ -155,7 +155,20 @@ namespace PacketMessagingTS.Models
 			//_dataChanged = false;
 		}
 
-		public List<string> GetMailServers(string partialName = null)
+        public int GetSelectedIndexFromEmailUserName(string emailUserName)
+        {
+            int i = 0;
+            for (; i < EmailAccountList.Count; i++)
+            {
+                if (emailUserName == EmailAccountList[i].MailUserName)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public List<string> GetMailServers(string partialName = null)
 		{
 			if (EmailAccounts is null || EmailAccounts.Length == 0)
 				return null;
@@ -199,7 +212,6 @@ namespace PacketMessagingTS.Models
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 	public partial class EmailAccount
 	{
-
 		private string mailServerField;
 
 		private ushort mailServerPortField;
@@ -210,7 +222,6 @@ namespace PacketMessagingTS.Models
 
 		private bool mailIsSSLField;
 
-		//private string nameField;
 
 		/// <remarks/>
 		public string MailServer
@@ -314,7 +325,7 @@ namespace PacketMessagingTS.Models
         //}
         public override string ToString()
 		{
-			return MailServer;
+			return MailUserName;
 		}
 
         public static bool IsEMailAccountsEqual(EmailAccount account1, EmailAccount account2)

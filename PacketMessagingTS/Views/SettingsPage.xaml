@@ -452,8 +452,8 @@
 									     ItemsSource="{x:Bind _TNCSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"
                                          DisplayMemberPath="Name"
 									     SelectedIndex="{x:Bind _TNCSettingsViewModel.TNCDeviceSelectedIndex, Mode=TwoWay}"
-									     SelectionChanged="ConnectDevices_SelectionChanged"
 								>
+                                    <!--SelectionChanged="ConnectDevices_SelectionChanged"-->
                                 </ListBox>
                                 <!--ItemsSource="{x:Bind _TNCSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"-->
                                 <!--SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
@@ -673,6 +673,7 @@
                                     <ComboBox Grid.Column="0" Grid.Row="1" x:Name="mailServerComboBox"
                                               Header="EMail Server:" 
                                               ItemsSource="{x:Bind _TNCSettingsViewModel.MailAccountListSource, Mode=OneWay}"
+                                              DisplayMemberPath="MailServer"
                                               SelectedIndex="{x:Bind _TNCSettingsViewModel.MailAccountSelectedIndex, Mode=TwoWay}"
                                               TextSubmitted="MailServerComboBox_TextSubmitted"
                                               Margin="10,10,10,0" IsEditable="True"
@@ -685,8 +686,7 @@
                                     <ToggleSwitch Grid.Column="0" Grid.Row="2" x:Name="mailIsSSL" 
                                                   IsOn="{x:Bind _TNCSettingsViewModel.IsMailSSL, Mode=TwoWay}"                                                  
                                                   Visibility="{x:Bind _TNCSettingsViewModel.IsMailServerSSLVisible, Mode=OneWay}"
-                                                  Header="EMail Server SSL:" Margin="10,20,0,0"
-                                                  />
+                                                  Header="EMail Server SSL:" Margin="10,20,0,0" />
                                 </Grid>
                             </StackPanel>
                         </SplitView.Content>

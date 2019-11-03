@@ -63,8 +63,14 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref tncDeviceSelectedIndex);
             set
             {
+                SaveChanges();
+
                 bool setPropertySuccess = false;
-                if (value < 0 || value >= TNCDeviceArray.Instance.TNCDeviceList.Count)
+                if (value < 0)
+                {
+                    setPropertySuccess = SetProperty(ref tncDeviceSelectedIndex, 0, true);
+                }
+                else if (value >= TNCDeviceArray.Instance.TNCDeviceList.Count)
                 {
                     setPropertySuccess = SetProperty(ref tncDeviceSelectedIndex, 0, true);
                 }
@@ -76,6 +82,7 @@ namespace PacketMessagingTS.ViewModels
                 {
                     // Utilities.SetApplicationTitle();
                 }
+
                 CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
                 if (CurrentTNCDevice.Name.Contains(SharedData.EMail))
                 {
@@ -103,7 +110,6 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             { 
-                //_TNCDeviceListSource.ClearItems();
                 Set(ref _TNCDeviceListSource, value);
             }
         }
@@ -174,6 +180,8 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
+                ResetChangedProperty();
+
                 currentTNCDevice = value;
 
                 if (!string.IsNullOrEmpty(currentTNCDevice.Name) && currentTNCDevice.Name.Contains(SharedData.EMail))
@@ -223,7 +231,7 @@ namespace PacketMessagingTS.ViewModels
                     TNCPromptsConnected = currentTNCDevice.Prompts.Connected;
                     TNCPromptsDisconnected = currentTNCDevice.Prompts.Disconnected;
                 }
-                ResetChangedProperty();
+                //ResetChangedProperty();
             }
         }
 
@@ -235,7 +243,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncInitCommandsPre, value);
 
-                bool changed = CurrentTNCDevice.InitCommands.Precommands != tncInitCommandsPre;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].InitCommands.Precommands != tncInitCommandsPre;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -248,7 +256,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncInitCommandsPost, value);
 
-                bool changed = CurrentTNCDevice.InitCommands.Precommands != tncInitCommandsPre;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].InitCommands.Postcommands != tncInitCommandsPost;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -304,9 +312,9 @@ namespace PacketMessagingTS.ViewModels
                 if (value is null || CollectionOfSerialDevices.Count == 0)
                     return;
 
-                SetProperty(ref tncComPort, value);                
+                SetProperty(ref tncComPort, value);
 
-                bool changed = CurrentTNCDevice.CommPort.Comport != tncComPort;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].CommPort.Comport != tncComPort;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -355,7 +363,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComName, value);
 
-                bool changed = CurrentTNCDevice.CommPort.BluetoothName != tncComName;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].CommPort.BluetoothName != tncComName;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -393,7 +401,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComBaudRate, value);
 
-                bool changed = CurrentTNCDevice.CommPort.Baudrate != tncComBaudRate;
+                //bool changed = CurrentTNCDevice.CommPort.Baudrate != tncComBaudRate;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].CommPort.Baudrate != tncComBaudRate;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -411,7 +420,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComDatabits, value);
 
-                bool changed = CurrentTNCDevice.CommPort.Databits != tncComDatabits;
+                //bool changed = CurrentTNCDevice.CommPort.Databits != tncComDatabits;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].CommPort.Databits != tncComDatabits;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -424,7 +434,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComStopbits, value);
 
-                bool changed = CurrentTNCDevice?.CommPort.Stopbits != tncComStopbits;
+                //bool changed = CurrentTNCDevice?.CommPort.Stopbits != tncComStopbits;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].CommPort.Stopbits != tncComStopbits;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -437,7 +448,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComParity, value);
 
-                bool changed = CurrentTNCDevice?.CommPort.Parity != tncComParity;
+                //bool changed = CurrentTNCDevice?.CommPort.Parity != tncComParity;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].CommPort.Parity != tncComParity;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -450,7 +462,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComHandshake, value);
 
-                bool changed = CurrentTNCDevice?.CommPort.Flowcontrol != tncComHandshake;
+                //bool changed = CurrentTNCDevice?.CommPort.Flowcontrol != tncComHandshake;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].CommPort.Flowcontrol != tncComHandshake;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
             }
@@ -464,7 +477,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsMyCall, value);
 
-                bool changed = CurrentTNCDevice.Commands.MyCall != tncCommandsMyCall;
+                //bool changed = CurrentTNCDevice.Commands.MyCall != tncCommandsMyCall;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.MyCall != tncCommandsMyCall;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -477,7 +491,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsConnect, value);
 
-                bool changed = CurrentTNCDevice.Commands.Connect != value;
+                //bool changed = CurrentTNCDevice.Commands.Connect != value;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Connect != value;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -490,7 +505,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsRetry, value);
 
-                bool changed = CurrentTNCDevice.Commands.Retry != tncCommandsRetry;
+                //bool changed = CurrentTNCDevice.Commands.Retry != tncCommandsRetry;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Retry != tncCommandsRetry;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -503,7 +519,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsConversMode, value);
 
-                bool changed = CurrentTNCDevice.Commands.Conversmode != tncCommandsConversMode;
+                //bool changed = CurrentTNCDevice.Commands.Conversmode != tncCommandsConversMode;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Conversmode != tncCommandsConversMode;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -516,7 +533,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsDateTime, value);
 
-                bool changed = CurrentTNCDevice.Commands.Datetime != tncCommandsDateTime;
+                //bool changed = CurrentTNCDevice.Commands.Datetime != tncCommandsDateTime;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Datetime != tncCommandsDateTime;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -529,7 +547,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncPromptsCommand, value);
 
-                bool changed = CurrentTNCDevice.Prompts.Command != tncPromptsCommand;
+                //bool changed = CurrentTNCDevice.Prompts.Command != tncPromptsCommand;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Command != tncPromptsCommand;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -542,7 +561,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncPromptsTimeout, value);
 
-                bool changed = CurrentTNCDevice.Prompts.Timeout != tncPromptsTimeout;
+                //bool changed = CurrentTNCDevice.Prompts.Timeout != tncPromptsTimeout;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Timeout != tncPromptsTimeout;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -555,7 +575,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncPromptsConnected, value);
 
-                bool changed = CurrentTNCDevice.Prompts.Connected != tncPromptsConnected;
+                //bool changed = CurrentTNCDevice.Prompts.Connected != tncPromptsConnected;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Connected != tncPromptsConnected;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
@@ -568,11 +589,43 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncPromptsDisconnected, value);
 
-                bool changed = CurrentTNCDevice.Prompts.Disconnected != tncPromptsDisconnected;
+                //bool changed = CurrentTNCDevice.Prompts.Disconnected != tncPromptsDisconnected;
+                bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Disconnected != tncPromptsDisconnected;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
-
             }
         }
+
+        private async void SaveChanges()
+        {
+            if (IsAppBarSaveEnabled)
+            {
+                bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
+                if (save)
+                {
+                    //AppBarSaveTNC_ClickAsync(this, null);
+                }
+                else
+                {
+                    // Restore to default
+                    string mailUserName = "";
+                    foreach (TNCDevice tncDevice in TNCDeviceArray.Instance.TNCDeviceList)
+                    {
+                        if (!string.IsNullOrEmpty(tncDevice.MailUserName))
+                        {
+                            mailUserName = tncDevice.MailUserName;
+                            int i = EmailAccountArray.Instance.GetSelectedIndexFromEmailUserName(mailUserName);
+                            MailAccountSelectedIndex = i;
+                        }
+                        else if (tncDevice.Name == CurrentTNCDevice.Name)
+                        {
+                            CurrentTNCDevice = tncDevice;
+                        }
+                    }
+                }
+            }
+            IsAppBarSaveEnabled = false;
+        }
+
         #region Mail Settings
         private Visibility eMailSettingsVisibility;
         public Visibility EMailSettingsVisibility
@@ -596,35 +649,28 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
-                if (State == TNCState.EMailAdd)
-                    return;
+                //if (State == TNCState.EMailAdd || State == TNCState.EMailEdit)
+                //    return;
 
-                if (value < 0 || value >= EmailAccountArray.Instance.EmailAccountList.Count)
+                if (value < 0)
                 {
-                    SetProperty(ref mailAccountSelectedIndex, 0, true);
+                    //    SetProperty(ref mailAccountSelectedIndex, 0, true);
+                    SetProperty(ref mailAccountSelectedIndex, value, true);
+                    return;
+                }
+                if (value >= EmailAccountArray.Instance.EmailAccountList.Count)
+                {
+                    SetProperty(ref mailAccountSelectedIndex, EmailAccountArray.Instance.EmailAccountList.Count - 1, true);
+                    //CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
                 }
                 else
                 {
                     SetProperty(ref mailAccountSelectedIndex, value, true);
+                    //CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
                 }
 
                 CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
 
-                //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
-                //tncDevice.MailUserName = CurrentMailAccount.MailUserName;
-                //tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
-
-                //CurrentTNCDevice.MailUserName = CurrentMailAccount.MailUserName;
-                //CurrentTNCDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
-                //int tncDeviceSelectedIndex = TNCDeviceSelectedIndex;
-                //TNCDevice tncDevice = TNCDeviceFromUI;
-                //tncDevice.MailUserName = CurrentMailAccount.MailUserName;
-                //tncDevice.Name = $"{SharedData.EMailPreample}{CurrentMailAccount.MailUserName}";
-                //TNCDeviceArray.Instance.TNCDeviceListUpdate(tncDeviceSelectedIndex, tncDevice);
-                //TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
-                //TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-
-                //Utilities.SetApplicationTitle();
                 bool changed = CurrentTNCDevice.MailUserName != CurrentMailAccount.MailUserName;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }

@@ -187,12 +187,12 @@ namespace PacketMessagingTS.Helpers
             {
                 foreach (EmailAccount account2 in collection2)
                 {
-                    if (account1.MailUserName == account2.MailUserName)
-                    {
+                    //if (account1.MailUserName == account2.MailUserName)
+                    //{
                         equal = EmailAccount.IsEMailAccountsEqual(account1, account2);
                         if (!equal)
                             return false;
-                    }
+                    //}
                 }
             }
             return equal;
