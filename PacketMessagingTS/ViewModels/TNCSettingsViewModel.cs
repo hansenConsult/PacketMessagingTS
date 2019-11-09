@@ -204,8 +204,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (currentTNCDevice is null)
                 {
-                    string name = nameof(TNCDeviceSelectedIndex);
-                    TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
+                    TNCDeviceSelectedIndex = Utilities.GetProperty(nameof(TNCDeviceSelectedIndex));
                 }
                 
                 return currentTNCDevice;
@@ -276,8 +275,8 @@ namespace PacketMessagingTS.ViewModels
                 SetProperty(ref tncInitCommandsPre, value);
 
                 //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].InitCommands.Precommands != tncInitCommandsPre;
-                UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Precommands, tncInitCommandsPre);
                 //UpdateTNCStateAndButtons(changed);
+                UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Precommands, tncInitCommandsPre);
             }
         }
 
@@ -315,14 +314,14 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //}
 
-        private void UpdateTNCStateAndButtons(bool changed)
-        {
-            IsAppBarSaveEnabled = SaveEnabled(changed);
-            if (State == TNCState.TNC && IsAppBarSaveEnabled)
-            {
-                State = TNCState.TNCEdit;
-            }
-        }
+        //private void UpdateTNCStateAndButtons(bool changed)
+        //{
+        //    IsAppBarSaveEnabled = SaveEnabled(changed);
+        //    if (State == TNCState.TNC && IsAppBarSaveEnabled)
+        //    {
+        //        State = TNCState.TNCEdit;
+        //    }
+        //}
 
         private bool isToggleSwitchOn;
         public bool IsToggleSwitchOn
@@ -503,9 +502,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComParity, value);
 
-                if (TNCDeviceSelectedIndex < 0)
-                    return;
-
                 UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Parity, tncComParity);
             }
         }
@@ -534,9 +530,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsMyCall, value);
 
-                //bool changed = CurrentTNCDevice.Commands.MyCall != tncCommandsMyCall;
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.MyCall != tncCommandsMyCall;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.MyCall, tncCommandsMyCall);
             }
         }
@@ -549,9 +542,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsConnect, value);
 
-                //bool changed = CurrentTNCDevice.Commands.Connect != value;
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Connect != value;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Connect, tncCommandsConnect);
             }
         }
@@ -564,9 +554,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsRetry, value);
 
-                //bool changed = CurrentTNCDevice.Commands.Retry != tncCommandsRetry;
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Retry != tncCommandsRetry;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Retry, tncCommandsRetry);
             }
         }
@@ -579,9 +566,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsConversMode, value);
 
-                //bool changed = CurrentTNCDevice.Commands.Conversmode != tncCommandsConversMode;
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Conversmode != tncCommandsConversMode;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Conversmode, tncCommandsConversMode);
             }
         }
@@ -594,9 +578,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsDateTime, value);
 
-                //bool changed = CurrentTNCDevice.Commands.Datetime != tncCommandsDateTime;
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Commands.Datetime != tncCommandsDateTime;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Datetime, tncCommandsDateTime);
             }
         }
@@ -654,9 +635,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncPromptsDisconnected, value);
 
-                //bool changed = CurrentTNCDevice.Prompts.Disconnected != tncPromptsDisconnected;
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Disconnected != tncPromptsDisconnected;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.Prompts.Disconnected, tncPromptsDisconnected);
             }
         }
@@ -1058,6 +1036,7 @@ namespace PacketMessagingTS.ViewModels
                 TNCDeviceSelectedIndex = 0;
                 TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
                 Singleton<PacketSettingsViewModel>.Instance.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                Singleton<PacketSettingsViewModel>.Instance.TNC = tncDevice.Name;
             }
             else if (State == TNCState.EMailDelete)
             {

@@ -1030,8 +1030,10 @@ namespace PacketMessagingTS.Views
             List<PacketMessage> packetMessagesReceived = new List<PacketMessage>();
             packetMessagesReceived.Add(packetMsg);
             TNCInterface tncInterface = new TNCInterface();
-            TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
-            string messageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS.Name;
+            //TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
+            string tncName = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
+            string messageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
             tncInterface.SendMessageReceipts(messageBBS, ref tncDevice, "", packetMessagesReceived);
             foreach (PacketMessage packetMessage in tncInterface.PacketMessagesSent)
             {

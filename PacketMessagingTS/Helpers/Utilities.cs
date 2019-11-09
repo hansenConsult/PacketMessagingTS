@@ -207,9 +207,9 @@ namespace PacketMessagingTS.Helpers
         public static void SetApplicationTitle(string bbsName = "")
         {
             ApplicationView appView = ApplicationView.GetForCurrentView();
-            appView.Title = "";
+            //appView.Title = "";
 
-            string title = "Packet Messaging, ";
+            string title = appView.Title;   // "Packet Messaging, ";
             title += Singleton<IdentityViewModel>.Instance.UserCallsign;
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {

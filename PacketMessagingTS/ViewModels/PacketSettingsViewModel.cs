@@ -21,6 +21,8 @@ namespace PacketMessagingTS.ViewModels
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        Profile _SavedProfile;
+
         public PacketSettingsViewModel()
         {
 
@@ -46,12 +48,20 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
                 {
+                    _SavedProfile = ProfileArray.Instance.ProfileList[value];
+                }
+                else if (value >= ProfileArray.Instance.ProfileList.Count)
+                {
+                    _SavedProfile = ProfileArray.Instance.ProfileList[0];
+                }
+
+                if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
+                {
                     SetProperty(ref profileSelectedIndex, value, true);
                 }
                 else
                 {
                     _logHelper.Log(LogLevel.Error, $"ProfileSelectedIndex = {value}");
-                    //profileSelectedIndex = 0;
                     SetProperty(ref profileSelectedIndex, 0, true);
                 }
                 CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
@@ -67,6 +77,31 @@ namespace PacketMessagingTS.ViewModels
             }
             else
                 dayOfWeek = DayOfWeek.Tuesday;
+
+            //switch (netDay)
+            //{
+            //    case "PKTMON":
+            //        dayOfWeek = DayOfWeek.Monday;
+            //        break;
+            //    case "PKTTUE":
+            //        dayOfWeek = DayOfWeek.Tuesday;
+            //        break;
+            //    case "PKTWED":
+            //        dayOfWeek = DayOfWeek.Wednesday;
+            //        break;
+            //    case "PKTTHU":
+            //        dayOfWeek = DayOfWeek.Thursday;
+            //        break;
+            //    case "PKTFRI":
+            //        dayOfWeek = DayOfWeek.Friday;
+            //        break;
+            //    case "PKTSAT":
+            //        dayOfWeek = DayOfWeek.Saturday;
+            //        break;
+            //    case "PKTSUN":
+            //        dayOfWeek = DayOfWeek.Sunday;
+            //        break;
+            //}
 
             DateTime now = DateTime.Now;
             DateTime date = now;
@@ -93,14 +128,14 @@ namespace PacketMessagingTS.ViewModels
             {
                 currentProfile = value;
 
-                foreach (TNCDevice tnc in TNCDeviceArray.Instance.TNCDeviceList)
-                {
-                    if (tnc.Name == currentProfile.TNC || tnc.Name.Contains(SharedData.EMail))
-                    {
-                        CurrentTNC = tnc;
-                        break;
-                    }
-                }
+                //foreach (TNCDevice tnc in TNCDeviceArray.Instance.TNCDeviceList)
+                //{
+                //    if (tnc.Name == currentProfile.TNC || tnc.Name.Contains(SharedData.EMail))
+                //    {
+                //        CurrentTNC = tnc;
+                //        break;
+                //    }
+                //}
 
                 //int i = 0;
                 //for (; i < TNCDeviceArray.Instance.TNCDeviceList.Count; i++)
@@ -114,10 +149,10 @@ namespace PacketMessagingTS.ViewModels
                 //}
                 //Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = i;
 
-                CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
+                //CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
                 Name = currentProfile.Name;
                 TNC = currentProfile.TNC;
-                BBSSelectedValue = currentProfile.BBS;
+                BBS = currentProfile.BBS;
                 DefaultTo = currentProfile.SendTo;
                 if (TNC.Contains(SharedData.EMail))
                 {
@@ -174,47 +209,50 @@ namespace PacketMessagingTS.ViewModels
         //    get => TNCDeviceArray.Instance.TNCDeviceList;
         //}
 
+        private void UpdateProfileSaveButton<T>(T savedProperty, T newProperty)
+        {
+            bool changed = !Equals(savedProperty, newProperty);
+            IsAppBarSaveEnabled = SaveEnabled(changed);
+        }
+
         private string tnc;
         public string TNC
         {
             get => tnc;
             set
             {
-                if (value is null)
-                    return;
+                //if (value is null)
+                //    return;
 
                 SetProperty(ref tnc, value);
 
-                if (tnc.Contains(SharedData.EMail))
+                if (!(tnc is null) && tnc.Contains(SharedData.EMail))
                 {
-                    BBSSelectedValue = "";
+                    BBS = "";
                 }
-                else
-                {
-                    BBSSelectedValue = "W3XSC";
-                }
-                bool changed = CurrentProfile.TNC != tnc;
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                //bool changed = ProfileArray.Instance.ProfileList[ProfileSelectedIndex].TNC != tnc;
+                //IsAppBarSaveEnabled = SaveEnabled(changed);
+                UpdateProfileSaveButton(_SavedProfile.TNC, tnc);
             }
         }
 
-        private TNCDevice currentTNC;
-        public TNCDevice CurrentTNC
-        {
-            get
-            {
-                if (currentTNC is null)
-                {
-                    ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
-                }
-                return currentTNC;
-            }
-            set
-            {
-                currentTNC = value;
-                TNC = currentTNC.Name;
-            }
-        }
+        //private TNCDevice currentTNC;
+        //public TNCDevice CurrentTNC
+        //{
+        //    get
+        //    {
+        //        if (currentTNC is null)
+        //        {
+        //            ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+        //        }
+        //        return currentTNC;
+        //    }
+        //    set
+        //    {
+        //        currentTNC = value;
+        //        TNC = currentTNC.Name;
+        //    }
+        //}
 
         public ObservableCollection<BBSData> BBSDataCollection
         {
@@ -229,15 +267,16 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private string bbsSelectedValue;
-        public string BBSSelectedValue
+        public string BBS
         {
             get => bbsSelectedValue;
             set
             {
                 SetProperty(ref bbsSelectedValue, value);
 
-                bool changed = CurrentProfile.BBS != bbsSelectedValue;
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                //bool changed = CurrentProfile.BBS != bbsSelectedValue;
+                //IsAppBarSaveEnabled = SaveEnabled(changed);
+                UpdateProfileSaveButton(_SavedProfile.BBS, bbsSelectedValue);
             }
         }
 
@@ -299,8 +338,9 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref defaultSubject, value);
 
-                bool changed = CurrentProfile.Subject != defaultSubject;
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                //bool changed = CurrentProfile.Subject != defaultSubject;
+                //IsAppBarSaveEnabled = SaveEnabled(changed);
+                UpdateProfileSaveButton(_SavedProfile.Subject, defaultSubject);
             }
         }
 
@@ -312,8 +352,9 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref defaultMessage, value);
 
-                bool changed = CurrentProfile.Message != defaultMessage;
-                IsAppBarSaveEnabled = SaveEnabled(changed);
+                //bool changed = CurrentProfile.Message != defaultMessage;
+                //IsAppBarSaveEnabled = SaveEnabled(changed);
+                UpdateProfileSaveButton(_SavedProfile.Message, defaultMessage);
             }
         }
     
