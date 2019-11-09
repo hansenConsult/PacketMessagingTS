@@ -58,9 +58,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private bool _error = false;        // Disconnect if an error is detected
 
-        private ViewLifetimeControl _viewLifetimeControl;
-
-
         //const byte send = 0x5;
         public TNCInterface()
         {
@@ -426,11 +423,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         for (int i = 0; i < Math.Min(msgLines.Length, 10); i++)
                         {
                             if (msgLines[i].StartsWith("Date:"))
+                            {
                                 pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
+                            }
                             else if (msgLines[i].StartsWith("From:"))
-                                pktMsg.MessageFrom = msgLines[i].Substring(6);
+                            {
+                                pktMsg.MessageFrom = CommunicationsService.NormalizeEmailField(msgLines[i].Substring(6));
+                                //pktMsg.MessageFrom = msgLines[i].Substring(6);
+                            }
                             else if (msgLines[i].StartsWith("To:"))
-                                pktMsg.MessageTo = msgLines[i].Substring(4);
+                            {
+                                pktMsg.MessageFrom = CommunicationsService.NormalizeEmailField(msgLines[i].Substring(4));
+                                //pktMsg.MessageTo = msgLines[i].Substring(4);
+                            }
                             else if (msgLines[i].StartsWith("Subject:"))
                             {
                                 if (msgLines[i].Length > 10)
@@ -689,7 +694,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             bool exitedBeforeConnect = true;
 
             if (string.IsNullOrEmpty(_bbsConnectName))
-                return;
+                return;     // TODO Send via Email
 
             Parity parity = _TncDevice.CommPort.Parity;
             ushort dataBits = _TncDevice.CommPort.Databits;
@@ -901,6 +906,18 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())} {e.Message}");
                 if (_connectState == ConnectState.BBSConnected)
                 {
+                    // Try to disconnect
+                    _serialPort.Write("B\r");                   // Disconnect from BBS (JNOS)
+
+                    readText = _serialPort.ReadLine();           // Read command
+                    _logHelper.Log(LogLevel.Info, readText);
+                    AddTextToStatusWindowAsync(readText + "\n");
+
+                    readText = _serialPort.ReadLine();           // Read disconnect response
+                    readText = readText.Replace('\0', ' ');
+                    _logHelper.Log(LogLevel.Info, readText);     // Log disconnect response
+                    AddTextToStatusWindowAsync(readText);
+
                     await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                 }
                 else if (_connectState == ConnectState.PrepareTNCType)

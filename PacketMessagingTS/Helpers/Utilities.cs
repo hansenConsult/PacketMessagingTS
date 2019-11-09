@@ -184,10 +184,10 @@ namespace PacketMessagingTS.Helpers
 
             string bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
             string tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
-            if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail))
-            {
-                bbs = AddressBook.Instance.GetBBS(from);
-            }
+            //if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail))
+            //{
+            //    bbs = AddressBook.Instance.GetBBS(from);
+            //}
             return (bbs, tnc, from);
         }
         //public static string GetBBSName(out string from, out string tnc)
@@ -218,8 +218,8 @@ namespace PacketMessagingTS.Helpers
 
             (string bbs, string tnc, string from) = GetProfileData();
             //string bbs = GetBBSName(out string from, out string tnc);
-
-            title += " - " + (string.IsNullOrEmpty(bbsName) ? bbs : bbsName);
+            if (!string.IsNullOrEmpty(bbs))
+                title += " - " + (string.IsNullOrEmpty(bbsName) ? bbs : bbsName);
             title += " - " + tnc;
 
             appView.Title = title;

@@ -119,7 +119,14 @@ namespace PacketMessagingTS.ViewModels
                 TNC = currentProfile.TNC;
                 BBSSelectedValue = currentProfile.BBS;
                 DefaultTo = currentProfile.SendTo;
-                if (DefaultTo != null && (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE")))
+                if (TNC.Contains(SharedData.EMail))
+                {
+                    // Update SMTP data if using Email for sending
+                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
+                    int index = EmailAccountArray.Instance.GetSelectedIndexFromEmailUserName(tncDevice.MailUserName);
+                    Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = index;
+                }
+                if (!string.IsNullOrEmpty(DefaultTo) && (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE")))
                 {
                     DateTime netTime;
                     if (DefaultTo.Contains("PKTMON"))
@@ -155,10 +162,17 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref name, value);
         }
 
-        public List<TNCDevice> TNCDeviceListSource
+        private ObservableCollection<TNCDevice> _TNCDeviceListSource;
+        public ObservableCollection<TNCDevice> TNCDeviceListSource
         {
-            get => TNCDeviceArray.Instance.TNCDeviceList;
+            get => new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+            set => Set(ref _TNCDeviceListSource, value);
         }
+
+        //public List<TNCDevice> TNCDeviceListSource
+        //{
+        //    get => TNCDeviceArray.Instance.TNCDeviceList;
+        //}
 
         private string tnc;
         public string TNC
@@ -166,6 +180,9 @@ namespace PacketMessagingTS.ViewModels
             get => tnc;
             set
             {
+                if (value is null)
+                    return;
+
                 SetProperty(ref tnc, value);
 
                 if (tnc.Contains(SharedData.EMail))

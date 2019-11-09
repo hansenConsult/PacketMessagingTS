@@ -291,6 +291,23 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
         }
 
+        public static string NormalizeEmailField(string emailAddress)
+        {
+            int startIndex = emailAddress.IndexOf('<');
+            if (startIndex < 0)
+            {
+                return emailAddress;
+            }
+            else
+            {
+                int stopIndex = emailAddress.IndexOf('>');
+                if (stopIndex < 0)
+                    return "";
+
+                return emailAddress.Substring(startIndex + 1, stopIndex - startIndex - 1);
+            }
+        }
+
         public async void ProcessReceivedMessagesAsync()
 		{
 			if (_packetMessagesReceived.Count() > 0)
@@ -328,11 +345,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         }
                         else if (msgLines[i].StartsWith("From:"))
                         {
-                            pktMsg.MessageFrom = msgLines[i].Substring(6);
+                            pktMsg.MessageFrom = NormalizeEmailField(msgLines[i].Substring(6));
+                            //pktMsg.MessageFrom = msgLines[i].Substring(6);
                         }
                         else if (!toFound && msgLines[i].StartsWith("To:"))
                         {
-                            pktMsg.MessageTo = msgLines[i].Substring(4);
+                            pktMsg.MessageFrom = NormalizeEmailField(msgLines[i].Substring(4));
+                            //pktMsg.MessageTo = msgLines[i].Substring(4);
                             toFound = true;
                         }
                         else if (msgLines[i].StartsWith("Cc:"))
@@ -559,7 +578,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             */
 
             // Using ViewLifetimeControl
-            ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+            //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
             //await viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //{
@@ -571,12 +590,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             //return; //Test
 
-            FormControlBase formControl;
-            PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
-            TNCDevice tncDevice;
-            BBSData bbs;
+            //FormControlBase formControl;
 
-            _logHelper.Log(LogLevel.Info, "Start a new BBS Connection");
+            _logHelper.Log(LogLevel.Info, "Start a new send/receive session");
             // Collect messages to be sent
             _packetMessagesToSend.Clear();
             List<string> fileTypeFilter = new List<string>() { ".xml" };
@@ -585,9 +601,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
             // Get the files in the Outbox folder
             StorageFileQueryResult results = SharedData.UnsentMessagesFolder.CreateFileQueryWithOptions(queryOptions);
             // Iterate over the results
-            IReadOnlyList<StorageFile> files = await results.GetFilesAsync();
+            IReadOnlyList<StorageFile> unsentFiles = await results.GetFilesAsync();
 
-            foreach (StorageFile file in files)
+            foreach (StorageFile file in unsentFiles)
             {
                 // Add Outpost message format by Filling the MessageBody field in packetMessage. 
                 PacketMessage packetMessage = PacketMessage.Open(file.Path);
@@ -609,7 +625,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //if (operatorTimeField != null)
                 //    operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-                formControl = BaseFormsPage.CreateFormControlInstance(packetMessage.PacFormName);
+                FormControlBase formControl = BaseFormsPage.CreateFormControlInstance(packetMessage.PacFormName);
                 if (formControl is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");
@@ -625,12 +641,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
             _logHelper.Log(LogLevel.Info, $"Send messages count: {_packetMessagesToSend.Count}");
 
+            (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
+            BBSData bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == bbsName).FirstOrDefault();
+            TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
+
             List<PacketMessage> messagesSentAsEMail = new List<PacketMessage>();
             //
             foreach (PacketMessage packetMessage in _packetMessagesToSend)
             {
-                tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == packetMessage.TNCName).FirstOrDefault();
-                bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == packetMessage.BBSName).FirstOrDefault();
+                //tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == packetMessage.TNCName).FirstOrDefault();
+                //bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == packetMessage.BBSName).FirstOrDefault();
 
                 //TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
                 // Send as email if a TNC is not reachable, or if message is defined as an e-mail message
@@ -639,11 +659,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     try
                     {
                         // Mark message as sent by email
-                        //packetMessage.TNCName = tncDevice.Name;
-                        if (!tncDevice.Name.Contains(SharedData.EMail))
-                        {
-                            packetMessage.TNCName = "E-Mail-" + Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
-                        }
+                        packetMessage.TNCName = tncDevice.Name;
+                        //if (!tncDevice.Name.Contains(SharedData.EMail))
+                        //{
+                        //    packetMessage.TNCName = "E-Mail-" + Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
+                        //}
 
                         bool sendMailSuccess = await SendMessageViaEMailAsync(packetMessage);
 
@@ -678,165 +698,171 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
 
             // TODO check if TNC connected otherwise suggest send via email
-            if (_packetMessagesToSend.Count == 0)
-            {
-                tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
-
-                (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
-                //string MessageFrom = from;
-                BBSData MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
-                if (MessageBBS == null || !MessageBBS.Name.Contains("XSC") && !tncDevice.Name.Contains(SharedData.EMail))
-                {
-                    //string bbsName = AddressBook.Instance.GetBBS(MessageFrom);
-                    bbs = BBSDefinitions.Instance.GetBBSFromName(bbsName);
-                }
-                else
-                {
-                    bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
-                }
-                tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
-            }
-            else
-            {
-                //tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
-                tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
-                bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
-                //Utilities.SetApplicationTitle(bbs.Name);
-                //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
-            }
-
-            Utilities.SetApplicationTitle(bbs.Name);
-
-            _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
-
-            // Collect remaining messages to be sent
-            // Process files to be sent via BBS
-            await _tncInterface.BBSConnectThreadProcAsync();
-
-            // Close status window
-            Singleton<RxTxStatViewModel>.Instance.AbortConnectionAsync();
-            //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //if (_packetMessagesToSend.Count == 0)
             //{
-            //    //    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
-            //    RxTxStatusPage.rxtxStatusPage.ScrollText();
-            //});
+            //    tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
 
-            Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
-            if (!string.IsNullOrEmpty(bbs?.Name))
-            {
-                _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs?.ConnectName}. Connect time = {_tncInterface.BBSDisconnectTime - _tncInterface.BBSConnectTime}");
-            }
+            //    (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
+            //    //string MessageFrom = from;
+            //    BBSData MessageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+            //    if (MessageBBS == null || !MessageBBS.Name.Contains("XSC") && !tncDevice.Name.Contains(SharedData.EMail))
+            //    {
+            //        //string bbsName = AddressBook.Instance.GetBBS(MessageFrom);
+            //        bbs = BBSDefinitions.Instance.GetBBSFromName(bbsName);
+            //    }
+            //    else
+            //    {
+            //        bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+            //    }
+            //    tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
+            //}
+            //else
+            //{
+            //    //tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
+            //    tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
+            //    bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
+            //    //Utilities.SetApplicationTitle(bbs.Name);
+            //    //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+            //}
 
-            // Move sent messages from unsent folder to the Sent folder
-            foreach (PacketMessage packetMsg in _tncInterface.PacketMessagesSent)
+            //Utilities.SetApplicationTitle(bbs?.Name);
+
+            if (!tncDevice.Name.Contains(SharedData.EMail))
             {
-                try
+                ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+
+                PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+
+                _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+
+                // Collect remaining messages to be sent
+                // Process files to be sent via BBS
+                await _tncInterface.BBSConnectThreadProcAsync();
+
+                // Close status window
+                //       Singleton<RxTxStatViewModel>.Instance.AbortConnectionAsync();
+                await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
+                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
+                    //RxTxStatusPage.rxtxStatusPage.ScrollText();
+                });
 
-                    StorageFile file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
-                    await file.DeleteAsync();
-
-                    // Do a save to ensure that updates from tncInterface.BBSConnect are saved
-                    packetMsg.Save(SharedData.SentMessagesFolder.Path);
-                }
-                catch (Exception e)
+                Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
+                if (!string.IsNullOrEmpty(bbs?.Name))
                 {
-                    _logHelper.Log(LogLevel.Error, $"Exception {e.Message}");
+                    _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs?.ConnectName}. Connect time = {_tncInterface.BBSDisconnectTime - _tncInterface.BBSConnectTime}");
                 }
-            }
-            _packetMessagesReceived = _tncInterface.PacketMessagesReceived;
-            ProcessReceivedMessagesAsync();
 
-            /*
-            ApplicationTrigger trigger = new ApplicationTrigger();
-            var task = RxTxBackgroundTask.RegisterBackgroundTask(RxTxBackgroundTask.RxTxBackgroundTaskEntryPoint,
-                                                                   RxTxBackgroundTask.ApplicationTriggerTaskName,
-                                                                   trigger,
-                                                                   null);
-            task.Progress += new BackgroundTaskProgressEventHandler(OnProgress);
-            task.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+                // Move sent messages from unsent folder to the Sent folder
+                foreach (PacketMessage packetMsg in _tncInterface.PacketMessagesSent)
+                {
+                    try
+                    {
+                        _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
+
+                        StorageFile file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
+                        await file.DeleteAsync();
+
+                        // Do a save to ensure that updates from tncInterface.BBSConnect are saved
+                        packetMsg.Save(SharedData.SentMessagesFolder.Path);
+                    }
+                    catch (Exception e)
+                    {
+                        _logHelper.Log(LogLevel.Error, $"Exception {e.Message}");
+                    }
+                }
+                _packetMessagesReceived = _tncInterface.PacketMessagesReceived;
+                ProcessReceivedMessagesAsync();
+
+                /*
+                ApplicationTrigger trigger = new ApplicationTrigger();
+                var task = RxTxBackgroundTask.RegisterBackgroundTask(RxTxBackgroundTask.RxTxBackgroundTaskEntryPoint,
+                                                                       RxTxBackgroundTask.ApplicationTriggerTaskName,
+                                                                       trigger,
+                                                                       null);
+                task.Progress += new BackgroundTaskProgressEventHandler(OnProgress);
+                task.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
 
 
-            // Register a ApplicationTriggerTask.
-            RxTxBackgroundTask rxTxBackgroundTask = new RxTxBackgroundTask(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
-                        rxTxBackgroundTask.Register();
-            // Start backgroung task
-            // Reset the completion status
-            var settings = ApplicationData.Current.LocalSettings;
-            settings.Values.Remove(BackgroundTaskSample.ApplicationTriggerTaskName);
+                // Register a ApplicationTriggerTask.
+                RxTxBackgroundTask rxTxBackgroundTask = new RxTxBackgroundTask(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+                            rxTxBackgroundTask.Register();
+                // Start backgroung task
+                // Reset the completion status
+                var settings = ApplicationData.Current.LocalSettings;
+                settings.Values.Remove(BackgroundTaskSample.ApplicationTriggerTaskName);
 
-            //Signal the ApplicationTrigger
-            var result = await trigger.RequestAsync();
+                //Signal the ApplicationTrigger
+                var result = await trigger.RequestAsync();
 
-            ApplicationTriggerResult result = await rxTxBackgroundTask._applicationTrigger.RequestAsync();
-            //            await Singleton<BackgroundTaskService>.Instance.HandleAsync(RxTxBackgroundTask);
-            // RxTxBackgroundTask is finished
+                ApplicationTriggerResult result = await rxTxBackgroundTask._applicationTrigger.RequestAsync();
+                //            await Singleton<BackgroundTaskService>.Instance.HandleAsync(RxTxBackgroundTask);
+                // RxTxBackgroundTask is finished
 
-            if (_connectState == ConnectState.ConnectStateBBSConnect)
-            {
-                await Utilities.ShowSingleButtonContentDialogAsync(_result, "Close", "BBS Connect Error");
-                //_result = "It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach";
-            }
-                        else if (_connectState == ConnectState.ConnectStatePrepareTNCType)
-                        {
-                            await Utilities.ShowSingleButtonContentDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
-                            //_result = "";
-                        }
-                        else if (_connectState == ConnectState.ConnectStateConverseMode)
-                        {
-                            await Utilities.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
-                            //_result = $"Error sending FCC Identification - { Singleton<IdentityViewModel>.Instance.UserCallsign}.";
-                        }
-                        //else if (e.Message.Contains("not exist"))
-                        else if (e.GetType() == typeof(IOException))
-                        {
-                            await Utilities.ShowSingleButtonContentDialogAsync("Looks like the USB or serial cable to the TNC is disconnected", "Close", "TNC Connect Error");
-                            //_result = "Looks like the USB or serial cable to the TNC is disconnected";
-                        }
-                        else if (e.GetType() == typeof(UnauthorizedAccessException))
-                        {
-                            await Utilities.ShowSingleButtonContentDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
-                            //_result = $"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application.";
-                        }
-
-                        Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
-                        if (!string.IsNullOrEmpty(bbs?.Name))
-                        {
-                            _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs?.ConnectName}. Connect time = {rxTxBackgroundTask.BBSDisconnectTime - rxTxBackgroundTask.BBSConnectTime}");
-                        }
-
-                        // Move sent messages from unsent folder to the Sent folder
-                        foreach (PacketMessage packetMsg in rxTxBackgroundTask.PacketMessagesSent)
-                        {
-                            try
+                if (_connectState == ConnectState.ConnectStateBBSConnect)
+                {
+                    await Utilities.ShowSingleButtonContentDialogAsync(_result, "Close", "BBS Connect Error");
+                    //_result = "It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach";
+                }
+                            else if (_connectState == ConnectState.ConnectStatePrepareTNCType)
                             {
-                                _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
-
-                                StorageFile file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
-                                await file.DeleteAsync();
-
-                                // Do a save to ensure that updates from tncInterface.BBSConnect are saved
-                                packetMsg.Save(SharedData.SentMessagesFolder.Path);
+                                await Utilities.ShowSingleButtonContentDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
+                                //_result = "";
                             }
-                            catch (Exception e)
+                            else if (_connectState == ConnectState.ConnectStateConverseMode)
                             {
-                                _logHelper.Log(LogLevel.Error, $"Exception {e.Message}");
+                                await Utilities.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
+                                //_result = $"Error sending FCC Identification - { Singleton<IdentityViewModel>.Instance.UserCallsign}.";
                             }
-                        }
-                        _packetMessagesReceived = rxTxBackgroundTask.PacketMessagesReceived;
-                        ProcessReceivedMessagesAsync();
-            */            //_deviceFound = true;
-                          //try
-                          //{
-                          //    _serialPort = new SerialPort(Singleton<TNCSettingsViewModel>.Instance.CurrentTNCDevice.CommPort.Comport);
-                          //}
-                          //catch (IOException e)
-                          //{
-                          //    _deviceFound = false;
-                          //}
-                          //_serialPort.Close();
+                            //else if (e.Message.Contains("not exist"))
+                            else if (e.GetType() == typeof(IOException))
+                            {
+                                await Utilities.ShowSingleButtonContentDialogAsync("Looks like the USB or serial cable to the TNC is disconnected", "Close", "TNC Connect Error");
+                                //_result = "Looks like the USB or serial cable to the TNC is disconnected";
+                            }
+                            else if (e.GetType() == typeof(UnauthorizedAccessException))
+                            {
+                                await Utilities.ShowSingleButtonContentDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
+                                //_result = $"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application.";
+                            }
 
+                            Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
+                            if (!string.IsNullOrEmpty(bbs?.Name))
+                            {
+                                _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs?.ConnectName}. Connect time = {rxTxBackgroundTask.BBSDisconnectTime - rxTxBackgroundTask.BBSConnectTime}");
+                            }
+
+                            // Move sent messages from unsent folder to the Sent folder
+                            foreach (PacketMessage packetMsg in rxTxBackgroundTask.PacketMessagesSent)
+                            {
+                                try
+                                {
+                                    _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} Sent");
+
+                                    StorageFile file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMsg.FileName, CreationCollisionOption.OpenIfExists);
+                                    await file.DeleteAsync();
+
+                                    // Do a save to ensure that updates from tncInterface.BBSConnect are saved
+                                    packetMsg.Save(SharedData.SentMessagesFolder.Path);
+                                }
+                                catch (Exception e)
+                                {
+                                    _logHelper.Log(LogLevel.Error, $"Exception {e.Message}");
+                                }
+                            }
+                            _packetMessagesReceived = rxTxBackgroundTask.PacketMessagesReceived;
+                            ProcessReceivedMessagesAsync();
+                */            //_deviceFound = true;
+                              //try
+                              //{
+                              //    _serialPort = new SerialPort(Singleton<TNCSettingsViewModel>.Instance.CurrentTNCDevice.CommPort.Comport);
+                              //}
+                              //catch (IOException e)
+                              //{
+                              //    _deviceFound = false;
+                              //}
+                              //_serialPort.Close();
+            }
         }
 
 

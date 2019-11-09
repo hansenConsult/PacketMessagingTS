@@ -192,6 +192,17 @@ namespace PacketMessagingTS.Models
             TNCDeviceList.Remove(tncDevice);
         }
 
+        public int GetSelectedIndexFromDeviceName(string deviceName)
+        {
+            for (int i = 0; i < TNCDeviceList.Count; i++)
+            {
+                if (deviceName == TNCDeviceList[i].Name)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
         //public static void CreateBackupFile()
         //{

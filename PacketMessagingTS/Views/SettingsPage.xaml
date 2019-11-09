@@ -451,7 +451,9 @@
                                 <ListBox x:Name="ConnectDevices"  Width="auto"  Height="auto"  Background="LightGray"
 									     ItemsSource="{x:Bind _TNCSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"
                                          DisplayMemberPath="Name"
+                                         Visibility="{x:Bind _TNCSettingsViewModel.DeviceListBoxVisibility, Mode=OneWay}"
 									     SelectedIndex="{x:Bind _TNCSettingsViewModel.TNCDeviceSelectedIndex, Mode=TwoWay}"
+                                         SelectionChanged="ConnectDevices_SelectionChanged"
 								>
                                     <!--SelectionChanged="ConnectDevices_SelectionChanged"-->
                                 </ListBox>
@@ -460,7 +462,8 @@
 
                                 <TextBox x:Name="newTNCDeviceName" Header="New Device Name"
                                          Text="{x:Bind _TNCSettingsViewModel.NewTNCDeviceName, Mode=TwoWay}"
-                                     Margin="5,58,5,0" Visibility="Collapsed"/>
+                                         Margin="5,58,5,0"
+                                         Visibility="{x:Bind _TNCSettingsViewModel.NewTNCDeviceNameVisibility, Mode=OneWay}"/>
                             </StackPanel>
                             <!--<ListView x:Name="tncDeviceList" Width="100"/>-->
                         </SplitView.Pane>

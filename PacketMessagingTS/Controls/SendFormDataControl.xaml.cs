@@ -79,7 +79,7 @@ namespace PacketMessagingTS.Controls
             set
             {
                 Set(ref messageBBS, value);
-                Utilities.SetApplicationTitle(messageBBS);
+                //Utilities.SetApplicationTitle(messageBBS);
             }
         }
 
