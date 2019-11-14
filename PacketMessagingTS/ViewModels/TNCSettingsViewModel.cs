@@ -83,7 +83,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref tncDeviceSelectedIndex);
             set
             {
-                _logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index: {value}, {tncDeviceSelectedIndex}");
+                //_logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index: {value}, {tncDeviceSelectedIndex}");
                 if (value >= 0 && value < TNCDeviceArray.Instance.TNCDeviceList.Count)
                 {
                     _SavedTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[value];
@@ -97,7 +97,7 @@ namespace PacketMessagingTS.ViewModels
 
                 SaveChanges(tncDeviceSelectedIndex, State);
 
-                _logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after SaveChanges(): {value}, {tncDeviceSelectedIndex}");
+                //_logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after SaveChanges(): {value}, {tncDeviceSelectedIndex}");
 
                 bool setPropertySuccess = false;
                 if (value < 0)
@@ -134,7 +134,7 @@ namespace PacketMessagingTS.ViewModels
                     PivotTNCVisibility = Visibility.Visible;
                     IsAppBarEditEnabled = false;
                 }
-                _logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after: {value}, {tncDeviceSelectedIndex}");
+                //_logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after: {value}, {tncDeviceSelectedIndex}");
             }
         }
 
@@ -274,8 +274,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncInitCommandsPre, value);
 
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].InitCommands.Precommands != tncInitCommandsPre;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Precommands, tncInitCommandsPre);
             }
         }
@@ -288,8 +286,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncInitCommandsPost, value);
 
-                //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].InitCommands.Postcommands != tncInitCommandsPost;
-                //UpdateTNCStateAndButtons(changed);
                 UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Postcommands, tncInitCommandsPost);
             }
         }

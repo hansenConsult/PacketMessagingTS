@@ -49,7 +49,7 @@ namespace ICS213RRPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_EOC213RR_{IncidentName}";
+            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -94,6 +94,5 @@ namespace ICS213RRPackItFormControl
             }
             base.TextBox_TextChanged(sender, e);
         }
-
     }
 }

@@ -99,15 +99,15 @@ namespace FormControlBaseClass
                     [CallerMemberName]string propertyName = "", Action onChanged = null)
         {
             bool firstTime = false;
-            //if (_propertyFirstTime.ContainsKey(propertyName))
-            //{
-            //    firstTime = _propertyFirstTime[propertyName];
-            //}
-            //else
-            //{
-            //    firstTime = true;
-            //}
-            //_propertyFirstTime[propertyName] = false;
+            if (_propertyFirstTime.ContainsKey(propertyName))
+            {
+                firstTime = _propertyFirstTime[propertyName];
+            }
+            else
+            {
+                firstTime = true;
+            }
+            _propertyFirstTime[propertyName] = false;
             //Do not update displayed value if not changed or not first time or not forced
             if (Equals(backingStore, value) && !firstTime && !forceUpdate)
             {
@@ -379,8 +379,12 @@ namespace FormControlBaseClass
         public virtual string HowReceivedSent
         { get; set; }
 
+        private string _IncidentName; 
         public virtual string IncidentName
-        { get; set; }
+        { 
+            get => _IncidentName; 
+            set => Set(ref _IncidentName, value);
+        }
 
         public virtual string FacilityName
         { get; set; }

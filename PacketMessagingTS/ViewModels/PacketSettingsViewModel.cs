@@ -120,7 +120,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (currentProfile is null)
                 {
-                    ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                    ProfileSelectedIndex = Utilities.GetProperty(nameof(ProfileSelectedIndex));
                 }
                 return currentProfile;
             }
@@ -128,33 +128,13 @@ namespace PacketMessagingTS.ViewModels
             {
                 currentProfile = value;
 
-                //foreach (TNCDevice tnc in TNCDeviceArray.Instance.TNCDeviceList)
-                //{
-                //    if (tnc.Name == currentProfile.TNC || tnc.Name.Contains(SharedData.EMail))
-                //    {
-                //        CurrentTNC = tnc;
-                //        break;
-                //    }
-                //}
-
-                //int i = 0;
-                //for (; i < TNCDeviceArray.Instance.TNCDeviceList.Count; i++)
-                //{
-                //    if (TNCDeviceArray.Instance.TNCDeviceList[i].Name == currentProfile.TNC)
-                //        break;
-                //}
-                //if (i >= TNCDeviceArray.Instance.TNCDeviceList.Count || i < 0)
-                //{
-                //    i = 0;
-                //}
-                //Singleton<TNCSettingsViewModel>.Instance.TNCDeviceSelectedIndex = i;
-
-                //CurrentBBS = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
-                Name = currentProfile.Name;
+                TNCFromSelectedProfile = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == currentProfile.TNC).FirstOrDefault();
+                BBSFromSelectedProfile = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
+                //Name = currentProfile.Name;
                 TNC = currentProfile.TNC;
                 BBS = currentProfile.BBS;
                 DefaultTo = currentProfile.SendTo;
-                if (TNC.Contains(SharedData.EMail))
+                if (currentProfile.TNC.Contains(SharedData.EMail))
                 {
                     // Update SMTP data if using Email for sending
                     TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
@@ -186,16 +166,18 @@ namespace PacketMessagingTS.ViewModels
                 }
                 DefaultMessage = CurrentProfile.Message;
 
+                Utilities.SetApplicationTitle();
+
                 ResetChangedProperty();
             }
         }
 
-        private string name;
-        public string Name
-        {
-            get => name;
-            set => SetProperty(ref name, value);
-        }
+        //private string name;
+        //public string Name
+        //{
+        //    get => name;
+        //    set => SetProperty(ref name, value);
+        //}
 
         private ObservableCollection<TNCDevice> _TNCDeviceListSource;
         public ObservableCollection<TNCDevice> TNCDeviceListSource
@@ -203,11 +185,6 @@ namespace PacketMessagingTS.ViewModels
             get => new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
             set => Set(ref _TNCDeviceListSource, value);
         }
-
-        //public List<TNCDevice> TNCDeviceListSource
-        //{
-        //    get => TNCDeviceArray.Instance.TNCDeviceList;
-        //}
 
         private void UpdateProfileSaveButton<T>(T savedProperty, T newProperty)
         {
@@ -226,33 +203,29 @@ namespace PacketMessagingTS.ViewModels
 
                 SetProperty(ref tnc, value);
 
-                if (!(tnc is null) && tnc.Contains(SharedData.EMail))
-                {
-                    BBS = "";
-                }
                 //bool changed = ProfileArray.Instance.ProfileList[ProfileSelectedIndex].TNC != tnc;
                 //IsAppBarSaveEnabled = SaveEnabled(changed);
                 UpdateProfileSaveButton(_SavedProfile.TNC, tnc);
             }
         }
 
-        //private TNCDevice currentTNC;
-        //public TNCDevice CurrentTNC
-        //{
-        //    get
-        //    {
-        //        if (currentTNC is null)
-        //        {
-        //            ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
-        //        }
-        //        return currentTNC;
-        //    }
-        //    set
-        //    {
-        //        currentTNC = value;
-        //        TNC = currentTNC.Name;
-        //    }
-        //}
+        private TNCDevice currentTNC;
+        public TNCDevice TNCFromSelectedProfile
+        {
+            get
+            {
+                if (currentTNC is null)
+                {
+                    ProfileSelectedIndex = Utilities.GetProperty(nameof(ProfileSelectedIndex));
+                }
+                return currentTNC;
+            }
+            set
+            {
+                //Set(ref currentTNC, value);
+                currentTNC = value;
+            }
+        }
 
         public ObservableCollection<BBSData> BBSDataCollection
         {
@@ -281,7 +254,7 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private BBSData currentBBS;
-        public BBSData CurrentBBS
+        public BBSData BBSFromSelectedProfile
         {
             get => currentBBS;
             set
@@ -291,7 +264,7 @@ namespace PacketMessagingTS.ViewModels
                 BBSFrequency1 = currentBBS?.Frequency1;
                 BBSFrequency2 = currentBBS?.Frequency2;
 
-                bool changed = CurrentBBS?.Name != currentProfile.BBS;            
+                bool changed = BBSFromSelectedProfile?.Name != currentProfile.BBS;            
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }

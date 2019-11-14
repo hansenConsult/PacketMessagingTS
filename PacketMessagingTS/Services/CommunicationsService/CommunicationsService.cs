@@ -296,7 +296,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             int startIndex = emailAddress.IndexOf('<');
             if (startIndex < 0)
             {
-                return emailAddress;
+                return emailAddress.Trim();
             }
             else
             {
@@ -304,7 +304,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (stopIndex < 0)
                     return "";
 
-                return emailAddress.Substring(startIndex + 1, stopIndex - startIndex - 1);
+                return emailAddress.Substring(startIndex + 1, stopIndex - startIndex - 1).Trim();
             }
         }
 
@@ -332,26 +332,53 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         MessageOpened = false,
                         MessageOrigin = SharedCode.Helpers.MessageOriginHelper.MessageOrigin.Received,
                     };
+                    //string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
                     string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
+                    // Check if base64 encoded
+                    int startOfMessage = 0;
+                    int endOfMessage = 0;
+                    for (int k = 0; k < msgLines.Length; k++)
+                    {
+                        if (msgLines[k].StartsWith("Date:"))
+                        {
+                            startOfMessage = k + 1;
+                            break;
+                        }
+                    }
+                    endOfMessage = msgLines.Length - 1;
+                    try
+                    {
+                        // Process encoded message
+                        string message = "";
+                        for (int j = startOfMessage; j <= endOfMessage; j++)
+                        {
+                            message += msgLines[j];
+                        }
+                        byte[] messageText = Convert.FromBase64String(message);
+                        string decodedString = Encoding.UTF8.GetString(messageText);
 
+                        List<string> msgLinesList = msgLines.ToList();
+                        msgLinesList.RemoveRange(startOfMessage, endOfMessage - startOfMessage + 1);
+                        string[] decodedMsgLines = decodedString.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                        msgLinesList.InsertRange(startOfMessage, decodedMsgLines);
+                        msgLines = msgLinesList.ToArray();
+                    }
+                    catch 
+                    {
+                        // Not an encoded message
+                    }
                     bool toFound = false;
 					bool subjectFound = false;
                     string prefix = "";
 					for (int i = 0; i < Math.Min(msgLines.Length, 20); i++)
 					{
-                        if (msgLines[i].StartsWith("Date:"))
-                        {
-                            pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
-                        }
-                        else if (msgLines[i].StartsWith("From:"))
+                        if (msgLines[i].StartsWith("From:"))
                         {
                             pktMsg.MessageFrom = NormalizeEmailField(msgLines[i].Substring(6));
-                            //pktMsg.MessageFrom = msgLines[i].Substring(6);
                         }
                         else if (!toFound && msgLines[i].StartsWith("To:"))
                         {
-                            pktMsg.MessageFrom = NormalizeEmailField(msgLines[i].Substring(4));
-                            //pktMsg.MessageTo = msgLines[i].Substring(4);
+                            pktMsg.MessageTo = NormalizeEmailField(msgLines[i].Substring(4));
                             toFound = true;
                         }
                         else if (msgLines[i].StartsWith("Cc:"))
@@ -376,6 +403,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             //pktMsg.MessageSubject = pktMsg.MessageSubject.Replace('\t', ' ');
                             subjectFound = true;
                         }
+                        else if (msgLines[i].StartsWith("Date:"))
+                        {
+                            pktMsg.JNOSDate = DateTime.Parse(msgLines[i].Substring(10, 21));
+                        }
+
                         else if (msgLines[i].StartsWith("# FORMFILENAME:"))
                         {
                             string html = ".html";
@@ -401,7 +433,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             formName.Trim();
                             pktMsg.PacFormName = formName;
 
-                            formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                            formControl = BaseFormsPage.CreateFormControlInstance(pktMsg.PacFormName);
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
@@ -577,6 +609,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //await _appWindow.TryShowAsync();
             */
 
+            //(string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
+            BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.BBSFromSelectedProfile;
+            //BBSData bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == bbsName).FirstOrDefault();
+            //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
+            TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.TNCFromSelectedProfile;
+
+            //if (tncName.Contains(SharedData.EMail) && tncDevice is null)
+            //{
+            //    tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
+            //}
+
             // Using ViewLifetimeControl
             //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
@@ -589,8 +632,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //AddRxTxStatusAsync("Sending\n");
 
             //return; //Test
-
-            //FormControlBase formControl;
 
             _logHelper.Log(LogLevel.Info, "Start a new send/receive session");
             // Collect messages to be sent
@@ -640,10 +681,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _packetMessagesToSend.Add(packetMessage);
             }
             _logHelper.Log(LogLevel.Info, $"Send messages count: {_packetMessagesToSend.Count}");
-
-            (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
-            BBSData bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == bbsName).FirstOrDefault();
-            TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
 
             List<PacketMessage> messagesSentAsEMail = new List<PacketMessage>();
             //

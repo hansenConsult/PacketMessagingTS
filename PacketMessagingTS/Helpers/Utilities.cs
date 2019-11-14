@@ -47,7 +47,7 @@ namespace PacketMessagingTS.Helpers
                 //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
                 App.Properties["MessageNumber"] = messageNumber;
             }
-            _logHelper.Log(LogLevel.Info, $"GetMessageNumber Used:{reserveMessageNumber}, {messageNumberString}");
+            //_logHelper.Log(LogLevel.Info, $"GetMessageNumber Used:{reserveMessageNumber}, {messageNumberString}");
             return messageNumberString;
         }
 
@@ -207,9 +207,9 @@ namespace PacketMessagingTS.Helpers
         public static void SetApplicationTitle(string bbsName = "")
         {
             ApplicationView appView = ApplicationView.GetForCurrentView();
-            //appView.Title = "";
+            appView.Title = "";
 
-            string title = appView.Title;   // "Packet Messaging, ";
+            string title = "Packet Messaging, ";
             title += Singleton<IdentityViewModel>.Instance.UserCallsign;
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {
@@ -217,7 +217,6 @@ namespace PacketMessagingTS.Helpers
             }
 
             (string bbs, string tnc, string from) = GetProfileData();
-            //string bbs = GetBBSName(out string from, out string tnc);
             if (!string.IsNullOrEmpty(bbs))
                 title += " - " + (string.IsNullOrEmpty(bbsName) ? bbs : bbsName);
             title += " - " + tnc;

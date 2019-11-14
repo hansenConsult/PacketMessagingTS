@@ -78,15 +78,15 @@ namespace PacketMessagingTS.Services.SMTPClient
         {
             try
             {
-				//this.hostName = new HostName("mail3.intermedia.net");
+                //this.hostName = new HostName("mail3.intermedia.net");
 
-				//if (this.userName.Contains("hansenca"))
-				//{
-				//	await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, new HostName("mail3.intermedia.net"));
-				//}
-				//else
-				//{
-					await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, this.hostName);
+                //if (this.userName.Contains("hansenca"))
+                //{
+                //	await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, new HostName("mail3.intermedia.net"));
+                //}
+                //else
+                //{
+                await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, this.hostName);
 				//}
 
 			}

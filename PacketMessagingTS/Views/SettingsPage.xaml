@@ -363,7 +363,7 @@
                                           DisplayMemberPath="Name"
 									      SelectedValuePath="Name"
                                           SelectedValue="{x:Bind _PacketSettingsViewmodel.TNC, Mode=TwoWay}"
-                                          
+                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.TNCFromSelectedProfile, Mode=TwoWay}"
                                           HorizontalAlignment="Stretch"/>
                                 <TextBlock x:Name="label"  Grid.Column="0" Grid.Row="1" Text="BBS:"  VerticalAlignment="Center" />
                                 <ComboBox x:Name="comboBoxBBS"  Grid.Column="1" Grid.Row="1"
@@ -371,7 +371,7 @@
 										  DisplayMemberPath="Name"
 										  SelectedValuePath = "Name"
                                           SelectedValue="{x:Bind _PacketSettingsViewmodel.BBS, Mode=TwoWay}"
-                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.CurrentBBS, Mode=TwoWay}"
+                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"
 										  VerticalAlignment="Center" Width="200"   />
                                 <!--SelectionChanged="ComboBoxBBS_SelectionChanged"/>-->
                                 <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Description:"  HorizontalAlignment="Left" Margin="0,6,5,0" />

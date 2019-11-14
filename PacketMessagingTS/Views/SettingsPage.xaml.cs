@@ -125,8 +125,11 @@ namespace PacketMessagingTS.Views
                 case "pivotPacketSettings":
                     comboBoxProfiles.Visibility = Visibility.Visible;
                     textBoxNewProfileName.Visibility = Visibility.Collapsed;
+
                     //_TNCSettingsViewModel.TNCDeviceListSource = _TNCSettingsViewModel.TNCDeviceListSource;
-                    //_PacketSettingsViewmodel.ProfileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                    //int profileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
+                    //_PacketSettingsViewmodel.ProfileSelectedIndex = 1;
+                    //_PacketSettingsViewmodel.ProfileSelectedIndex = profileSelectedIndex;
                     break;
                 case "pivotIdentity":
                     _identityViewModel.UserCallsign = Utilities.GetProperty<string>("UserCallsign");

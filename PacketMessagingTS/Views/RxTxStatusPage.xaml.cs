@@ -1,11 +1,13 @@
-﻿using MetroLog;
+﻿using System;
+
+using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -23,6 +25,7 @@ namespace PacketMessagingTS.Views
         ViewLifetimeControl _viewLifetimeControl;
 
         public static RxTxStatusPage rxtxStatusPage;
+        //private ScrollViewer _scrollViewer;
 
         public RxTxStatusPage()
         {
@@ -30,6 +33,7 @@ namespace PacketMessagingTS.Views
 
             rxtxStatusPage = this;
             //RxTxStatusViewModel.StatusPage = this;
+            //_scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -98,11 +102,15 @@ namespace PacketMessagingTS.Views
         }
 
         //ScrollViewer scrollViewer = null;
-        public void ScrollText()
+        public async void ScrollText()
         {
-            //if (sv is null)
-            //{
-            ScrollViewer scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+            await rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ScrollViewer _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+                bool? _viewChanged = _scrollViewer?.ChangeView(null, _scrollViewer.ExtentHeight, 1.0f, true);
+            });
+
+ //           ScrollViewer scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
 
             //double textBoxHeight = textBoxStatus.ActualHeight;
             ////while (scrollViewer.ExtentHeight > textBoxHeight)
@@ -118,7 +126,7 @@ namespace PacketMessagingTS.Views
             //}
             //if (scrollViewer.Visibility == Visibility.Visible)
             //{
-            bool? viewChanged = scrollViewer?.ChangeView(null, scrollViewer.ExtentHeight, 1.0f, true);
+ //           bool? viewChanged = scrollViewer?.ChangeView(null, scrollViewer.ExtentHeight, 1.0f, true);
             //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {scrollViewer.ExtentHeight}");
             //}
         }
