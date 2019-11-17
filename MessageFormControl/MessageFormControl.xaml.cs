@@ -108,6 +108,9 @@ namespace MessageFormControl
 
         public override string PacFormType => "SimpleMessage";
 
+        public override void AppendDrillTraffic()
+        { }
+
         protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
             foreach (FormField formField in packetMessage.FormFieldArray)

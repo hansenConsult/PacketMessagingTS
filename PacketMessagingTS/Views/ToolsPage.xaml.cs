@@ -1028,11 +1028,13 @@ namespace PacketMessagingTS.Views
             };
 
             List<PacketMessage> packetMessagesReceived = new List<PacketMessage>();
+            BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.BBSFromSelectedProfile;
+            TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.TNCFromSelectedProfile;
+            //bbs?.ConnectName, ref tncDevice, bool forceReadBulletins, string areas, ref List<PacketMessage> packetMessagesToSend
             packetMessagesReceived.Add(packetMsg);
             TNCInterface tncInterface = new TNCInterface();
-            //TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
             string tncName = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
-            TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
+            //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
             string messageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
             tncInterface.SendMessageReceipts(messageBBS, ref tncDevice, "", packetMessagesReceived);
             foreach (PacketMessage packetMessage in tncInterface.PacketMessagesSent)
@@ -1040,7 +1042,6 @@ namespace PacketMessagingTS.Views
                 packetMessage.Save(SharedData.SentMessagesFolder.Path);
             }
         }
-
 
         private async void AppBarButtonTest_SaveFileAsync(object sender, RoutedEventArgs e)
         {

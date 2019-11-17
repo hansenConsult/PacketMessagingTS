@@ -331,11 +331,18 @@ namespace PacketMessagingTS.ViewModels
             }
         }
     
-    private bool displayProfileOnStart;
+        private bool displayProfileOnStart;
         public bool DisplayProfileOnStart
         {
             get => GetProperty(ref displayProfileOnStart);
             set => SetProperty(ref displayProfileOnStart, value, true);
+        }
+
+        private bool isDrillTraffic = false;
+        public bool IsDrillTraffic
+        {
+            get => isDrillTraffic;
+            set => Set(ref isDrillTraffic, value);
         }
 
         private int firstMessageNumber;

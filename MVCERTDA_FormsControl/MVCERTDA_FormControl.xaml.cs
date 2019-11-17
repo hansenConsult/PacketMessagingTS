@@ -78,6 +78,17 @@ namespace MVCERTDA_FormsControl
             set => CERTLocationValue = value;
         }
 
+        private TacticalCall certLocation;
+        public TacticalCall CERTLocation
+        {
+            get => certLocation;
+            set
+            {
+                Set(ref certLocation, value);
+                subject.Text = subjectText + certLocation.AgencyName;
+            }
+        }
+
         private string toICSPosition;
         public string ToICSPosition
         {
@@ -111,6 +122,11 @@ namespace MVCERTDA_FormsControl
         public override string CreateSubject()
         {
             return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
+        }
+
+        public override void AppendDrillTraffic()
+        {
+            message.Text = message.Text + DrillTraffic;
         }
 
         protected override string CreateComboBoxOutpostDataString(FormField formField, string id)

@@ -358,14 +358,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _serialPort.Write(packetMessage.Subject + "\r");
                 _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
-                //string readText = _serialPort.ReadLine();       // Read SP
-                //_logHelper.Log(LogLevel.Info, readText);
-
                 string readText = ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
-
-                //readText = _serialPort.ReadTo("\n");         // Next command
-                //_logHelper.Log(LogLevel.Info, readText + "\n");
 
                 packetMessage.SentTime = DateTime.Now;
                 _packetMessagesSent.Add(packetMessage);
@@ -428,12 +422,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             else if (msgLines[i].StartsWith("From:"))
                             {
                                 pktMsg.MessageFrom = CommunicationsService.NormalizeEmailField(msgLines[i].Substring(6));
-                                //pktMsg.MessageFrom = msgLines[i].Substring(6);
                             }
                             else if (msgLines[i].StartsWith("To:"))
                             {
                                 pktMsg.MessageTo = CommunicationsService.NormalizeEmailField(msgLines[i].Substring(4));
-                                //pktMsg.MessageTo = msgLines[i].Substring(4);
                             }
                             else if (msgLines[i].StartsWith("Subject:"))
                             {
@@ -560,12 +552,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     //log.Info($"Timeout = {_serialPort.ReadTimeout}");        // For testing
                     _serialPort.Write("LM\r");
                 }
-                //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
-                //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
-                //readText = ReadTo(_BBSPromptRN);      // read response
                 readText = ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
-                //AddTextToStatusWindowAsync(readText + _BBSPromptRN);
 
                 // read messages
                 string[] lines = readText.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -606,8 +594,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             int msgIndex = Convert.ToInt32(lineSections[1]);
 
                             _serialPort.Write("R " + msgIndex + "\r");
-                            //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response eg R1 plus message
-                            //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
                             readText = ReadTo(_BBSPromptRN);      // read response eg R1 plus message
                             _logHelper.Log(LogLevel.Info, readText);
 
@@ -617,11 +603,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             if (area.Length == 0)
                             {
                                 _serialPort.Write("K " + msgIndex + "\r");
-                                //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                                 readText = ReadTo(_BBSPromptRN);      // read response
-                                //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
                                 _logHelper.Log(LogLevel.Info, readText);
-                                //Not needed with ReadTo()  //AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
                             }
                         }
                     }
@@ -669,21 +652,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //    {
         //        window.Dispatcher.Invoke(DispatcherPriority.Normal, new CloseDialogWindow(CloseWindow), window);
         //    }
-        //}
-        //private string ReadToBBSPrompt()
-        //{
-        //    string bbsMessage = "";
-        //    string readText;
-
-        //    do
-        //    {
-        //        readText = _serialPort.ReadLine();
-        //        bbsMessage += readText;
-        //        AddTextToStatusWindowAsync(readText + "\n");
-        //    }
-        //    while (!readText.Contains(_BBSPrompt));
-
-        //    return bbsMessage;
         //}
 
         public async Task BBSConnectThreadProcAsync()
@@ -773,21 +741,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 exitedBeforeConnect = false;
                 _connectState = ConnectState.BBSConnected;
-                //string readConnectText = _serialPort.ReadTo(_BBSPromptRN);      // read connect response
                 string readConnectText = ReadTo(_BBSPromptRN);      // read connect response  
-                //string readConnectText = ReadToBBSPrompt(); // Read to prompt incl command
                 _logHelper.Log(LogLevel.Info, readConnectText);
 
-                //_logHelper.Log(LogLevel.Info, readText + "\r\n" + readConnectText);
                 _serialPort.ReadTimeout = readTimeout;
 
                 _serialPort.Write("XM 0\r");
 
-                //readCmdText = _serialPort.ReadTo(_BBSPromptRN); // Read to prompt incl command
                 readCmdText = ReadTo(_BBSPromptRN); // Read to prompt incl command
-                //_logHelper.Log(LogLevel.Info, readCmdText + _BBSPrompt);
                 _logHelper.Log(LogLevel.Info, readCmdText);
-                //AddTextToStatusWindowAsync(readCmdText + _BBSPromptRN);
 
                 _logHelper.Log(LogLevel.Info, $"Messages to send: {_packetMessagesToSend.Count}");
                 // Send messages
@@ -801,6 +763,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     if (_bbsConnectName.Contains(packetMessage.BBSName))
                     {
+                        // Use SendMessage(ref packetMessage) here
                         _serialPort.ReadTimeout = 240000;
                         try
                         {
@@ -808,12 +771,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             _serialPort.Write(packetMessage.Subject + "\r");
                             _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
-                            //readText = _serialPort.ReadTo(_BBSPromptRN);      // read response
                             readText = ReadTo(_BBSPromptRN);      // read response
-                            //readText = ReadToBBSPrompt();      // read response
-                            //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);   // Subject + message body plus stuff
                             _logHelper.Log(LogLevel.Info, readText);   // Subject + message body plus stuff
-                            //AddTextToStatusWindowAsync(readText + _BBSPromptRN);
 
                             packetMessage.SentTime = DateTime.Now;
                             _packetMessagesSent.Add(packetMessage);

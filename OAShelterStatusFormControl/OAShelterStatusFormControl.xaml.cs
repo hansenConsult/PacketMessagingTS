@@ -92,6 +92,9 @@ namespace OAShelterStatusFormControl
 
         public override string PacFormType => "OAShelterStat";
 
+        public override void AppendDrillTraffic()
+        { }
+
         public string ReportType
         { get; set; }
 

@@ -44,6 +44,9 @@ namespace EOC213RRFormControl
 
         public override string PacFormType => "XSC_EOC_213RR";
 
+        public override void AppendDrillTraffic()
+        { }
+
         public override string CreateSubject()
 		{
 			return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_EOC213RR_" + incidentName.Text);

@@ -110,6 +110,9 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string PacFormType => "OA Municipal Status";
 
+        public override void AppendDrillTraffic()
+        { }
+
         public override string CreateSubject()
         {
             return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_MuniStat_{jurisdictionName.SelectedValue as string}";

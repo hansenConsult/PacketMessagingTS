@@ -70,6 +70,9 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override string PacFormType => "OA Municipal Status";
 
+        public override void AppendDrillTraffic()
+        { }
+
         private string facilityName;
         public string FacilityName
         {

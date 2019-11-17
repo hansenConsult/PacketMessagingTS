@@ -271,14 +271,14 @@
                                                   ItemsSource="{x:Bind CERTLocationTacticalCalls, Mode=OneWay}" 
                                                   HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                   Header="9b.) Location:"
-                                                  Text="{x:Bind FromLocation, Mode=TwoWay}"
                                                   DisplayMemberPath="AgencyName"
                                                   SelectedValuePath = "TacticalCallsign"
-                                                  SelectedValue="{x:Bind CERTLocationValue, Mode=OneWay}"
-                                                  Margin="10,0,10,2" IsEditable="True"
+                                                  SelectedValue="{x:Bind CERTLocationValue, Mode=TwoWay}"
+                                                  SelectedItem="{x:Bind CERTLocation, Mode=TwoWay}"
+                                                  Margin="10,0,10,2" IsEditable="False"
                                                   Tag="28,required,Enter a CERT Location." 
                                                   HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                                                  SelectionChanged="ComboBoxFromLocation_SelectionChanged"/>
+                                                  />
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1">

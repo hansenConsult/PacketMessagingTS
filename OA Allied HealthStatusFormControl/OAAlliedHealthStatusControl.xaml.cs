@@ -54,6 +54,9 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override string PacFormType => "Allied_Health_Status";
 
+        public override void AppendDrillTraffic()
+        { }
+
         public string ReportType
         { get; set; }
 

@@ -224,6 +224,8 @@ namespace PacketMessagingTS.Helpers
 
         protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
 
+        //protected abstract void AppendTrillTraffic();
+
         protected static string ValidateSubject(string subject)
         {
             if (string.IsNullOrEmpty(subject))
@@ -458,7 +460,6 @@ namespace PacketMessagingTS.Helpers
                 return;
             }
 
-            //_packetForm.FormProvider = _packetForm.DefaultFormProvider;
             _packetForm.UpdateFormFieldsRequiredColors(true);
             _packetMessage = new PacketMessage()
             {
@@ -707,6 +708,12 @@ namespace PacketMessagingTS.Helpers
                 validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
                 await Utilities.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
                 return;
+            }
+
+            // append "Drill Traffic" if requested
+            if (Singleton<PacketSettingsViewModel>.Instance.IsDrillTraffic)
+            {
+                _packetForm.AppendDrillTraffic();
             }
 
             CreatePacketMessage(MessageState.Edit);

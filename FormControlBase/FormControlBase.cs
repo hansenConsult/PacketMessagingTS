@@ -78,6 +78,8 @@ namespace FormControlBaseClass
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
+        public static string DrillTraffic = "\r\nDrill Traffic";
+
         public FormControlBase()
         {
         }
@@ -428,7 +430,9 @@ namespace FormControlBaseClass
 
         public abstract string CreateSubject();
 
-		public abstract string CreateOutpostData(ref PacketMessage packetMessage);
+        public abstract void AppendDrillTraffic();
+
+        public abstract string CreateOutpostData(ref PacketMessage packetMessage);
 
 		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {

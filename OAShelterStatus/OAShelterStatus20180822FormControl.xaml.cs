@@ -79,16 +79,14 @@ namespace OAShelterStatusFormControl
             packet.IsChecked = true;
         }
 
-        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
-
         public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override string PacFormName => "XSC_OA_ShelterStatus_v20130814";
 
         public override string PacFormType => "OA Shelter Status";
 
-        //public string IncidentName
-        //{ get => incidentName.Text; }
+        public override void AppendDrillTraffic()
+        { }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {

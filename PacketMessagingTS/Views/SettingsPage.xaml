@@ -401,9 +401,18 @@
 										 Text="{x:Bind _PacketSettingsViewmodel.DefaultMessage, Mode=TwoWay}"
                                          VerticalAlignment="Center" />
                             </Grid>
-                            <ToggleSwitch x:Name="displayProfileOnStart" Header="Display on start" Margin="8"
-                                          IsOn="{x:Bind _PacketSettingsViewmodel.DisplayProfileOnStart, Mode=TwoWay}"
-                                          />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <ToggleSwitch Grid.Column="0" x:Name="displayProfileOnStart"
+                                          Header="Display on start" Margin="8"
+                                          IsOn="{x:Bind _PacketSettingsViewmodel.DisplayProfileOnStart, Mode=TwoWay}" />
+                                <ToggleSwitch Grid.Column="1" x:Name="drillTraffic"
+                                          Header="Append Drill Traffic" Margin="8"
+                                          IsOn="{x:Bind _PacketSettingsViewmodel.IsDrillTraffic, Mode=TwoWay}" />
+                            </Grid>
 
                             <TextBox x:Name="textBoxFirstMessageNumber" Header="Message Number Start:"
                                      Width="155" HorizontalAlignment="Left" Margin="8,16,0,0" 

@@ -57,6 +57,9 @@ namespace ICS213_070628_FormControl
 
         public override string PacFormType => "ICS213";
 
+        public override void AppendDrillTraffic()
+        { }
+
         public override string CreateSubject()
 		{
 			return ($"{MessageNo}_{Severity?.ToUpper()[0]}/{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}");

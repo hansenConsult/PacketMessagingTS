@@ -45,6 +45,11 @@ namespace ICS213PackItFormControl
 
         public override string PacFormType => "ICS213";
 
+        public override void AppendDrillTraffic()
+        {
+            message.Text = message.Text + DrillTraffic;
+        }
+
         public override string CreateSubject()
 		{
 			return ($"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}");

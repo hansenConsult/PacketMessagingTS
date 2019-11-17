@@ -101,6 +101,9 @@ namespace OAMunicipalStatusFormControl
 
         public override string PacFormType => "OA Municipal Status";
 
+        public override void AppendDrillTraffic()
+        { }
+
         public override string CreateSubject()
         {
             return (MessageNo + '_' + Severity?.ToUpper()[0] + '/' + HandlingOrder?.ToUpper()[0] + "_OAMuniStat_" + MunicipalityName + '_' + incidentName.Text);

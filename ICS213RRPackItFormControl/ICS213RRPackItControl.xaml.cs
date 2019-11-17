@@ -47,6 +47,9 @@ namespace ICS213RRPackItFormControl
         //    set => incidentName.Text = value;
         //}
 
+        public override void AppendDrillTraffic()
+        { }
+
         public override string CreateSubject()
         {
             return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
