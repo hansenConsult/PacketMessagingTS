@@ -77,28 +77,6 @@ namespace MessageFormControl
             }
         }
 
-        //public DateTime MessageReceivedTime
-        //{ get; set; }
-
-        //public DateTime MessageSentTime
-        //{ get; set; }
-
-        //public override string MessageNo
-        //{ get; set; }
-
-        //public override string MsgDate
-        //{ get; set; }
-
-        //public override string MsgTime
-        //{ get; set; }
-
-        //public override string OperatorCallsign
-        //{ get; set; }
-
-
-        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
-
-        private FormProviders formProvider => FormProviders.PacForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
 
@@ -109,7 +87,9 @@ namespace MessageFormControl
         public override string PacFormType => "SimpleMessage";
 
         public override void AppendDrillTraffic()
-        { }
+        {
+            messageBody.Text += DrillTraffic;
+        }
 
         protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
@@ -126,7 +106,6 @@ namespace MessageFormControl
                         break;
                 }
             }
-            //return outpostData;
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

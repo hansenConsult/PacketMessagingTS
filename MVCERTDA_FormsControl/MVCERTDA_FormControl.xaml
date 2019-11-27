@@ -10,7 +10,7 @@
 
     mc:Ignorable="d"
     d:DesignHeight="1200"
-    d:DesignWidth="800">
+    d:DesignWidth="900">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary >
@@ -26,8 +26,177 @@
                 <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
 
+            <Style x:Key="TextBoxDA" TargetType="TextBox">
+                <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
+                <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
+                <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
+                <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}"/>
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
+                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+                <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+                <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
+                <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>
+                <Setter Property="ContextFlyout" Value="{StaticResource TextControlCommandBarContextFlyout}"/>
+                <Setter Property="SelectionFlyout" Value="{StaticResource TextControlCommandBarSelectionFlyout}"/>
+                <Setter Property="Width" Value="44"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Margin" Value="4"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <Grid>
+                                <Grid.Resources>
+                                    <Style x:Name="DeleteButtonStyle" TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Grid x:Name="ButtonLayoutGrid" Background="{ThemeResource TextControlButtonBackground}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{ThemeResource TextControlButtonBorderBrush}">
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                <VisualState x:Name="Normal"/>
+                                                                <VisualState x:Name="PointerOver">
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPointerOver}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPointerOver}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPointerOver}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                                <VisualState x:Name="Pressed">
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPressed}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPressed}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPressed}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                                <VisualState x:Name="Disabled">
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Duration="0" Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Opacity" To="0"/>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                        <TextBlock x:Name="GlyphElement" AutomationProperties.AccessibilityView="Raw" FontStyle="Normal" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource TextControlButtonForeground}" FontSize="12" HorizontalAlignment="Center" Text="&#xE10A;" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlHeaderForegroundDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundDisabled}}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushPointerOver}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundPointerOver}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundPointerOver}}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundPointerOver}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundFocused}}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocused}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushFocused}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundFocused}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="RequestedTheme">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="Light"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="ButtonStates">
+                                        <VisualState x:Name="ButtonVisible">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="ButtonCollapsed"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.ColumnSpan="2" Grid.Column="0" FontWeight="Normal" Foreground="{ThemeResource TextControlHeaderForeground}" Margin="{ThemeResource TextBoxTopHeaderMargin}" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
+                                <Border x:Name="BorderElement" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}" Grid.ColumnSpan="2" Grid.Column="0" Control.IsTemplateFocusTarget="True" MinHeight="24" MinWidth="32" Grid.RowSpan="1" Grid.Row="1"/>
+                                <ScrollViewer x:Name="ContentElement" AutomationProperties.AccessibilityView="Raw" Grid.Column="0" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsTabStop="False" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" Margin="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="1" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" ZoomMode="Disabled"/>
+                                <TextBlock x:Name="PlaceholderTextContentPresenter" Grid.ColumnSpan="2" Grid.Column="0" Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForeground}}" IsHitTestVisible="False" Margin="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="1" Text="{TemplateBinding PlaceholderText}" TextWrapping="{TemplateBinding TextWrapping}" TextAlignment="{TemplateBinding TextAlignment}"/>
+                                <Button x:Name="DeleteButton" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="1" FontSize="{TemplateBinding FontSize}" IsTabStop="False" MinWidth="34" Margin="{ThemeResource HelperButtonThemePadding}" Grid.Row="1" Style="{StaticResource DeleteButtonStyle}" VerticalAlignment="Stretch" Visibility="Collapsed"/>
+                                <ContentPresenter x:Name="DescriptionPresenter" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Description}" Grid.ColumnSpan="2" Grid.Column="0" Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}" Grid.Row="2" x:Load="False"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
+    <!--<Border x:Name="BorderElement" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}" Grid.ColumnSpan="2" Grid.Column="0" Control.IsTemplateFocusTarget="True" MinHeight="{ThemeResource TextControlThemeMinHeight}" MinWidth="{ThemeResource TextControlThemeMinWidth}" Grid.RowSpan="1" Grid.Row="1"/>-->
+
+
 
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
         <Border x:Name="Form213" BorderBrush="Black" BorderThickness="1" Padding="15" >
@@ -189,7 +358,7 @@
                                                         SuggestionChosen="textBoxFromICSPosition_SuggestionChosen"
                                                         Tag="20,required,Enter a To Position." VerticalAlignment="Top"/>-->
                                         <TextBox  x:Name="textBoxToICSPosition" Visibility="Collapsed" Tag="20" />
-                                        <ComboBox x:Name="comboBoxToICSPosition" Margin="10,0,10,0" 	
+                                        <ComboBox x:Name="comboBoxToICSPosition" Margin="10,0,10,2" 	
                                                   ItemsSource="{x:Bind ICSPosition}"
                                                   HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                   Header="7.) ICS Position:"
@@ -197,7 +366,7 @@
                                                   PlaceholderText="Choose one or type a position"
 												  HorizontalAlignment="Stretch" IsEditable="True"
 												  BorderThickness="2" 
-                                                  Tag="21,required,Enter a From position."  
+                                                  Tag="21,required,Enter a To position."  
                                                   SelectionChanged="ICSPosition_SelectionChanged" VerticalAlignment="Top"
                                                   />
 
@@ -248,7 +417,8 @@
                                                   PlaceholderText="Choose one or type a position"
 												  IsEditable="True"
                                                   Tag="24,required,Enter a From position."  
-                                                  SelectionChanged="ICSPosition_SelectionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                  SelectionChanged="ICSPosition_SelectionChanged" 
+                                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                   />
 
                                         <!--<AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
@@ -274,11 +444,18 @@
                                                   DisplayMemberPath="AgencyName"
                                                   SelectedValuePath = "TacticalCallsign"
                                                   SelectedValue="{x:Bind CERTLocationValue, Mode=TwoWay}"
-                                                  SelectedItem="{x:Bind CERTLocation, Mode=TwoWay}"
-                                                  Margin="10,0,10,2" IsEditable="False"
+                                                  TextSubmitted="ComboBoxFromLocation_TextSubmitted"
+                                                  SelectionChanged="ComboBoxFromLocation_SelectionChanged"
+                                                  Margin="10,0,10,2" IsEditable="True"
                                                   Tag="28,required,Enter a CERT Location." 
                                                   HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                                                   />
+                                        <!--SelectionChanged="ComboBoxFromLocation_SelectionChanged"-->
+                                        <!--SelectedItem="{x:Bind CERTLocation, Mode=TwoWay}"-->
+                                        <!--SelectedValuePath = "TacticalCallsign"
+                                                  SelectedValue="{x:Bind CERTLocationValue, Mode=TwoWay}"-->
+                                        <!--TextSubmitted="ComboBoxFromLocation_TextSubmitted"-->
+
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -314,17 +491,16 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="10.) SUBJECT:" Style="{StaticResource LabelFontTNR14B}" 
                                        VerticalAlignment="Center" Margin="5,0,0,0"/>
-                            <TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" 
-                                      
-                                      Tag="33,required,Enter a Subject." 
-                                      TextChanged="Subject_Changed" 
-                                      Margin="5,2,5,2" IsSpellCheckEnabled="True" HorizontalAlignment="Stretch" />
+                            <TextBox Grid.Column="1" Grid.Row="0" x:Name="subject"                                       
+                                     Tag="33,required,Enter a Subject." 
+                                     TextChanged="Subject_Changed" 
+                                     Margin="5,2,5,2" IsSpellCheckEnabled="True" HorizontalAlignment="Stretch" />
                             <TextBox Grid.Column="2" Grid.Row="0" x:Name="comments" Margin="5,2,5,2" 
-                                         IsSpellCheckEnabled="True" Tag="34"
-                                         TextChanged="Subject_Changed"/>
+                                     IsSpellCheckEnabled="True" Tag="34"
+                                     TextChanged="Subject_Changed"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="11.) REFERENCE:" Style="{StaticResource LabelFontTNR14B}"   VerticalAlignment="Center" Margin="5,0,0,0"/>
-                            <TextBox  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="reference" TextChanged="Subject_Changed" 
-                                      Margin="5,2,5,2" Tag="36"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="reference" TextChanged="Subject_Changed" 
+                                     Margin="5,2,5,2" Tag="36"/>
                         </Grid>
                         <!--<StackPanel Orientation="Horizontal">
 							<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="SUBJECT:" Foreground="LightSalmon" VerticalAlignment="Center" Margin="5,0,0,0"/>
@@ -341,100 +517,162 @@
                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="12.) Message:" Margin="5,0,0,0"/>
                         <Grid BorderBrush="Black" BorderThickness="0,1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="36"/>
-                                <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition MinWidth="52" />
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
+                                <ColumnDefinition MinWidth="52"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                <TextBlock  Text="Fire and Hazard" HorizontalAlignment="Center" />
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,0,1,0">
+                                <TextBlock  Text="Fire and Hazard" Style="{StaticResource LabelFontTNR12B}" HorizontalAlignment="Center" />
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                <TextBlock Text="Building" HorizontalAlignment="Center" />
+                            <Border Grid.Row="0"  Grid.Column="5" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                <TextBlock Text="Building" Style="{StaticResource LabelFontTNR12B}" HorizontalAlignment="Center" />
                             </Border>
                             <Border Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                <TextBlock  Text="People" HorizontalAlignment="Center" />
+                                <TextBlock  Text="People" Style="{StaticResource LabelFontTNR12B}" HorizontalAlignment="Center" />
                             </Border>
-                            <Border Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                <TextBlock Grid.ColumnSpan="2" Text="Roads" HorizontalAlignment="Center" />
+                            <Border Grid.Row="0" Grid.Column="12" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,1,1"/>
+                            <TextBlock Grid.Column="12" Grid.ColumnSpan="2" Text="Roads" HorizontalAlignment="Center" />
+                            <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0,0,1,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="14" Grid.RowSpan="2" Style="{StaticResource LabelFontTNR9B}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" >
+                                <Underline>O</Underline>ther
+                            </TextBlock>
+                            <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                <TextBlock Text="Neighborhood" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center" />
                             </Border>
-                            <TextBlock Grid.Row="0" Grid.Column="14" Grid.RowSpan="2" Text="Other" 
-                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" BorderThickness="0">
-                                <TextBlock Text="Neighborhood" HorizontalAlignment="Center" />
-                            </Border>
-                            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Fires" Style="{StaticResource LabelFontTNR14B}"/>
-                            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="Gas Leak" Style="{StaticResource LabelFontTNR12}"/>
-                            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Water Leak" />
-                            <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Electrical" />
-                            <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="4" Text="Chemical" />
+                            <!--Row 1-->
+                            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0"  Style="{StaticResource LabelFontTNR9B}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Underline>F</Underline>ires
+                            </TextBlock>
+                            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>G</Underline>as Leak
+                            </TextBlock>
+                            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>W</Underline>ater Leak
+                            </TextBlock>
+                            <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>E</Underline>lectrical
+                            </TextBlock>
+                            <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource LabelFontTNR12}">
+                                <Underline>C</Underline>hemical
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="5" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="5" Text="Light" />
+                            <TextBlock Grid.Row="1" Grid.Column="5" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>L</Underline>ight
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="6" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="6" Text="Mod" />
+                            <TextBlock Grid.Row="1" Grid.Column="6" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>M</Underline>od
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="7" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="7" Text="Heavy" />
+                            <TextBlock Grid.Row="1" Grid.Column="7" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>H</Underline>eavy
+                            </TextBlock>
+                            <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="8" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBlock Grid.Row="1" Grid.Column="8" Style="{StaticResource LabelFontTNR9B}" 
+                                       HorizontalAlignment="Center" >
+                                <Underline>I</Underline>mmediate
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="9" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="8" Text="Immediate" />
-                            <Border Grid.Row="1" Grid.Column="9" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="9" Text="Delayed" />
+                            <TextBlock Grid.Row="1" Grid.Column="9" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>D</Underline>elayed
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="10" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="10" Text="Trapped" />
+                            <TextBlock Grid.Row="1" Grid.Column="10" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>T</Underline>rapped
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="11" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="11" Text="Morgue" />
+                            <TextBlock Grid.Row="1" Grid.Column="11" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
+                                <Underline>M</Underline>orgue
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="12" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="12" Text="Access" />
+                            <TextBlock Grid.Row="1" Grid.Column="12" Style="{StaticResource LabelFontTNR9B}" HorizontalAlignment="Center">
+                                <Underline>A</Underline>ccess
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="13" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="13" Text="No Access" />
-                            <!--<TextBlock Grid.Row="1" Grid.Column="14" Text="Other" />-->
+                            <TextBlock Grid.Row="1" Grid.Column="13" Style="{StaticResource LabelFontTNR9B}" HorizontalAlignment="Center">
+                                <Underline>N</Underline>o Access
+                            </TextBlock>
                             <Border Grid.Row="1" Grid.Column="15" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="15" Text="% Surveyed" Width="auto"/>
+                            <TextBlock Grid.Row="1" Grid.Column="15" Text="% Surveyed" Style="{StaticResource LabelFontTNR12}" Width="auto" HorizontalAlignment="Center">
+                                
+                            </TextBlock>
+                            <!--Row 2-->
                             <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                            <TextBox Grid.Row="2" Grid.Column="0" x:Name="fires" Margin="4" Tag="37" TextChanged="DamageAccessmentRequired_TextChanged"/>
+                            <TextBox Grid.Row="2" Grid.Column="0" x:Name="fires" 
+                                     Style="{StaticResource TextBoxDA}" Tag="37"/>
                             <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="gasLeak" Margin="4" Tag="38"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" x:Name="waterLeak" Margin="4" Tag="39"/>
-                            <TextBox Grid.Row="2" Grid.Column="3" x:Name="electrical" Margin="4" Tag="40"/>
-                            <TextBox Grid.Row="2" Grid.Column="4" x:Name="chemical" Margin="4" Tag="41" />
-                            <TextBox Grid.Row="2" Grid.Column="5" x:Name="light" Margin="4" Tag="42" />
-                            <TextBox Grid.Row="2" Grid.Column="6" x:Name="mod" Margin="4" Tag="43" />
-                            <TextBox Grid.Row="2" Grid.Column="7" x:Name="heavy" Margin="4" Tag="44" />
-                            <TextBox Grid.Row="2" Grid.Column="8" x:Name="peopleImmediate" Margin="4" Tag="45" />
-                            <TextBox Grid.Row="2" Grid.Column="9" x:Name="delayed" Margin="4" Tag="46" />
-                            <TextBox Grid.Row="2" Grid.Column="10" x:Name="trapped" Margin="4" Tag="47" />
-                            <TextBox Grid.Row="2" Grid.Column="11" x:Name="morgue" Margin="4" Tag="48" />
-                            <TextBox Grid.Row="2" Grid.Column="12" x:Name="access" Margin="4" Tag="49" />
-                            <TextBox Grid.Row="2" Grid.Column="13" x:Name="noAccess" Margin="4" Tag="50" />
-                            <TextBox Grid.Row="2" Grid.Column="14" x:Name="messageOther" Margin="4" Tag="51"/>
-                            <TextBox Grid.Row="2" Grid.Column="15" x:Name="surveyed" Margin="4" Tag="52" />
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="gasLeak" 
+                                     Style="{StaticResource TextBoxDA}" Tag="38"/>
+                            <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" x:Name="waterLeak" 
+                                     Style="{StaticResource TextBoxDA}" Tag="39"/>
+                            <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="3" x:Name="electrical" 
+                                     Style="{StaticResource TextBoxDA}" Tag="40"/>
+                            <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="4" x:Name="chemical" 
+                                     Style="{StaticResource TextBoxDA}" Tag="41" />
+                            <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="5" x:Name="light" 
+                                     Style="{StaticResource TextBoxDA}" Tag="42" />
+                            <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="6" x:Name="mod" 
+                                     Style="{StaticResource TextBoxDA}" Tag="43" />
+                            <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="7" x:Name="heavy" 
+                                     Style="{StaticResource TextBoxDA}" Tag="44" />
+                            <Border Grid.Row="2" Grid.Column="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="8" x:Name="peopleImmediate" 
+                                     Style="{StaticResource TextBoxDA}" Tag="45" />
+                            <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="9" x:Name="delayed" 
+                                     Style="{StaticResource TextBoxDA}" Tag="46"/>
+                            <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="10" x:Name="trapped" 
+                                     Style="{StaticResource TextBoxDA}" Tag="47"/>
+                            <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="11" x:Name="morgue" 
+                                     Style="{StaticResource TextBoxDA}" Tag="48" />
+                            <Border Grid.Row="2" Grid.Column="12" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="12" x:Name="access" 
+                                     Style="{StaticResource TextBoxDA}" Tag="49" />
+                            <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="13" x:Name="noAccess" 
+                                     Style="{StaticResource TextBoxDA}" Tag="50" />
+                            <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                            <TextBox Grid.Row="2" Grid.Column="14" x:Name="messageOther" 
+                                     Style="{StaticResource TextBoxDA}" Tag="51"/>
+                            <TextBox Grid.Row="2" Grid.Column="15" x:Name="surveyed" 
+                                     Style="{StaticResource TextBoxDA}" Tag="52" />
                         </Grid>
                         <TextBlock Margin="8" 
                             Text="12b.) Other Info:   (Top 1 or 2 incidents with locations and situation details.) "/>
                         <TextBox x:Name="message" ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                  AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="53,required,You must include a Message." 
-								 ToolTipService.ToolTip="What, when, where needed; how long; contact name and phone number. Keep message brief" 
                                  PlaceholderText="Type message here." IsSpellCheckEnabled="True"
                                  TextChanged="TextBox_TextChanged"/>
                     </StackPanel>
@@ -451,7 +689,7 @@
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="1,0,1,1">
                     <StackPanel Orientation="Horizontal" >
-                        <TextBlock Width="35" FontFamily="Times New Roman" FontSize="10" FontWeight="Bold" Text=" CC:"/>
+                        <TextBlock Width="35" FontFamily="Times New Roman" FontSize="10" FontWeight="Bold" Text=" CC:" VerticalAlignment="Center"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -583,7 +821,7 @@
                 </Grid>
                 <TextBlock FontSize="11" FontWeight="Bold" FontFamily="Helvetica"
                            Margin="0,12,4,0" HorizontalAlignment="Right" >
-                    <Underline>SCCo ICS Form 213, 6/28/2007; (PR-4.3-3.2, 07/18/17)</Underline>
+                    <Underline>FORM 213 MTV CERT Summary (Ver. MV/PR-4.7-3.4)</Underline>, 11/05/19
                 </TextBlock>
             </StackPanel>
         </Border>

@@ -411,7 +411,7 @@ namespace FormControlBaseClass
                     }
                     else
                     {
-                        selection = e.AddedItems[0] as string;
+                        selection = e.AddedItems[0].ToString();
                     }
                     if (string.IsNullOrEmpty(selection))
                     {

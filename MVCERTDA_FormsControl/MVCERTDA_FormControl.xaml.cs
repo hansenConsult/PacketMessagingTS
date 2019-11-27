@@ -11,6 +11,7 @@ using SharedCode.Models;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -24,19 +25,8 @@ namespace MVCERTDA_FormsControl
 
     public sealed partial class MVCERTDAControl : FormControlBase
     {
-        private string[] ICSPosition = new string[] {
-                "Incident Commander",
-                "Operations",
-                "Planning",
-                "Logistics",
-                "Finance",
-                "Public Info. Officer",
-                "Liaison Officer",
-                "Safety Officer"
-        };
-
-        List<string> _ICSPositionFiltered = new List<string>();
-        string subjectText = "Damage Summary for ";
+        //List<string> _ICSPositionFiltered = new List<string>();
+        readonly string subjectText = "Damage Summary for ";
 
         private List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
 
@@ -48,7 +38,8 @@ namespace MVCERTDA_FormsControl
 
             InitializeToggleButtonGroups();
 
-            //CERTLocationTacticalCalls = TacticalCallsigns.CreateMountainViewCERTList();
+            //TacticalCall currentTacticalCallsign = GetSelectedMTVTactical();
+            //CERTLocation = currentTacticalCallsign;
 
             Severity = "other";
             HandlingOrder = "priority";
@@ -68,8 +59,20 @@ namespace MVCERTDA_FormsControl
         private string tacticalCallsign;
         public string CERTLocationValue
         {
-            get => tacticalCallsign;
-            set => Set(ref tacticalCallsign, value);
+            get
+            {
+                if (tacticalCallsign is null)
+                {
+                    CERTLocationValue = GetSelectedMTVTactical()?.TacticalCallsign;
+                }
+                return tacticalCallsign;
+            }
+            set
+            {
+                Set(ref tacticalCallsign, value);
+                string agencyName = GetSelectedMTVTactical()?.AgencyName.Replace(" CERT", "");
+                subject.Text = subjectText + agencyName;
+            }
         }
 
         public override string TacticalCallsign
@@ -78,16 +81,23 @@ namespace MVCERTDA_FormsControl
             set => CERTLocationValue = value;
         }
 
-        private TacticalCall certLocation;
-        public TacticalCall CERTLocation
-        {
-            get => certLocation;
-            set
-            {
-                Set(ref certLocation, value);
-                subject.Text = subjectText + certLocation.AgencyName;
-            }
-        }
+        //private TacticalCall certLocation;
+        //public TacticalCall CERTLocation
+        //{
+        //    get
+        //    {
+        //        if (certLocation is null)
+        //        {
+        //            CERTLocation = GetSelectedMTVTactical();
+        //        }
+        //        return certLocation;
+        //    }
+        //    set
+        //    {
+        //        Set(ref certLocation, value);
+        //        subject.Text = subjectText + certLocation?.AgencyName;
+        //    }
+        //}
 
         private string toICSPosition;
         public string ToICSPosition
@@ -260,6 +270,29 @@ namespace MVCERTDA_FormsControl
             messageField.ControlContent = message;
         }
 
+        private TacticalCall GetSelectedMTVTactical()
+        {
+            // Find Mountain View Tactical Call signs
+            TacticalCallsignData mtvTacticalCallsigns = null;
+            foreach (TacticalCallsignData data in TacticalCallsigns.TacticalCallsignDataDictionary.Values)
+            {
+                if (data.AreaName == "Local Mountain View")
+                {
+                    mtvTacticalCallsigns = data;
+                    break;
+                }
+            }
+            int index = mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArraySelectedIndex;
+            if (index < 0)
+            {
+                return null;
+            }
+            else
+            {
+                return mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArray[index];
+            }
+        }
+
         //private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
          //{
         //    // Set sender.Text. You can use args.SelectedItem to build your text string.
@@ -309,7 +342,7 @@ namespace MVCERTDA_FormsControl
                 if (comboBoxFromLocation.SelectedIndex < 0 && comboBoxFromLocation.IsEditable)
                 {              
                     textBoxFromLocation.Text = comboBoxFromLocation.Text;
-                    FromLocation = comboBoxFromLocation.Text;
+                    //FromLocation = comboBoxFromLocation.Text;
                 }
                 else
                 {
@@ -346,5 +379,31 @@ namespace MVCERTDA_FormsControl
             ComboBox_SelectionChanged(sender, e);
         }
 
+        private void ComboBoxFromLocation_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
+        {
+            subject.Text = subjectText + args.Text;
+            textBoxFromLocation.Text = args.Text;
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                Control control = formControl.InputControl;
+
+                if (control.Name == sender.Name)
+                {
+                    if (string.IsNullOrEmpty(args.Text) && IsFieldRequired(sender))
+                    {
+                        sender.BorderBrush = formControl.RequiredBorderBrush;
+                        sender.BorderThickness = new Thickness(2);
+                    }
+                    else
+                    {
+                        sender.BorderBrush = formControl.BaseBorderColor;
+                        sender.BorderThickness = new Thickness(1);
+                    }
+                    break;
+                }
+            }
+
+        }
     }
 }

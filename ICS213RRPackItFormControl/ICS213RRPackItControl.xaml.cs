@@ -41,14 +41,10 @@ namespace ICS213RRPackItFormControl
 
         public override string PacFormType => "XSC_EOC_213RR";
 
-        //public override string IncidentName
-        //{
-        //    get => incidentName.Text;
-        //    set => incidentName.Text = value;
-        //}
-
         public override void AppendDrillTraffic()
-        { }
+        {
+            specialInstructions.Text += DrillTraffic;
+        }
 
         public override string CreateSubject()
         {
@@ -72,13 +68,26 @@ namespace ICS213RRPackItFormControl
         {
             if ((bool)(sender as CheckBox).IsChecked)
             {
-                suppReqFuelType.Tag = "36d.,required";
+                suppReqFuelType.Tag = suppReqFuelType.Tag.ToString().Replace("conditionallyrequired", "required");
             }
             else
             {
-                suppReqFuelType.Tag = "36d.";
+                suppReqFuelType.Tag = suppReqFuelType.Tag.ToString().Replace("required", "conditionallyrequired");
             }
             base.TextBox_TextChanged(suppReqFuelType, null);
+        }
+
+        private void SuppReqOther_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)(sender as CheckBox).IsChecked)
+            {
+                specialInstructions.Tag = specialInstructions.Tag.ToString().Replace("conditionallyrequired", "required");
+            }
+            else
+            {
+                specialInstructions.Tag = specialInstructions.Tag.ToString().Replace("required", "conditionallyrequired");
+            }
+            base.TextBox_TextChanged(specialInstructions, null);
         }
 
         protected override void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -97,5 +106,6 @@ namespace ICS213RRPackItFormControl
             }
             base.TextBox_TextChanged(sender, e);
         }
+
     }
 }

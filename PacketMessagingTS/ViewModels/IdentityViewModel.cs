@@ -228,6 +228,14 @@ namespace PacketMessagingTS.ViewModels
                     //TacticalCallsignOther = TacticalCallsign;
                     TacticalAgencyNameSelectedIndex = tacticalCallsignSelectedIndex;
                     TacticalMsgPrefix = TacticalCallsignsSource[tacticalCallsignSelectedIndex].Prefix;
+                    if (UseTacticalCallsign)
+                    {
+                        TacticalCallsignsAreaSource[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArraySelectedIndex = tacticalCallsignSelectedIndex;
+                    }
+                    else
+                    {
+                        TacticalCallsignsAreaSource[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArraySelectedIndex = -1;
+                    }
                 }
             }
         }

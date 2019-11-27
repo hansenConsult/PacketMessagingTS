@@ -486,7 +486,7 @@
                                                    MinHeight="12" MinWidth="100" Tag="36c."
                                                    Checked="SuppReqFuel_Checked"
                                                    Unchecked="SuppReqFuel_Checked"/>
-                                        <TextBox Name="suppReqFuelType" Width="83" Tag="36d."
+                                        <TextBox Name="suppReqFuelType" Width="83" Tag="36d.,conditionallyrequired"
                                                  TextChanged="TextBox_TextChanged"/>
                                     </StackPanel>
                                     <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
@@ -509,8 +509,10 @@
                                         <CheckBox Name="suppReqOther" Content="Other " 
                                                   Style="{StaticResource EOC213RRFieldHeaderCB}" 
                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" 
-                                                  Width="65" MinWidth="50" Tag="36i."/>
-                                        <TextBlock Text="(put details in #17)" Style="{StaticResource EOC213RRHeaderItalic}" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                                                  Width="65" MinWidth="50" 
+                                                  Unchecked="SuppReqOther_Checked"
+                                                  Checked="SuppReqOther_Checked" Tag="36i."/>
+                                        <TextBlock Text="(see #17)" Style="{StaticResource EOC213RRHeaderItalic}" VerticalAlignment="Center" Margin="0,5,0,0"/>
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
@@ -518,7 +520,8 @@
                                 <TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>
                                 <TextBox Name="specialInstructions"  Margin="5,5,5,5" 
                                          AcceptsReturn="True" Height="136"
-                                         Tag="37."/>
+                                         TextChanged="TextBox_TextChanged"
+                                         Tag="37.,conditionallyrequired"/>
                             </StackPanel>
                         </Grid>
                     </Grid>

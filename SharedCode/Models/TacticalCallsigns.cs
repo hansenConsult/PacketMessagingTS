@@ -124,7 +124,7 @@ namespace SharedCode.Models
 
         private static string TactiCallsMasterFileName = "Tactical_Calls.txt";
 
-        public static Dictionary<string, TacticalCallsignData> _tacticalCallsignDataDictionary;
+        public static Dictionary<string, TacticalCallsignData> TacticalCallsignDataDictionary;
         public static List<TacticalCallsignData> _TacticalCallsignDataList;
 
 
@@ -133,6 +133,8 @@ namespace SharedCode.Models
         private string areaField;
 
         private DateTime bulletinCreationTimeField;
+
+        private int tacticalCallsignsArraySelectedIndexField = -1;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("TacticalCalls", IsNullable = false)]
@@ -176,7 +178,21 @@ namespace SharedCode.Models
             }
         }
 
-		private static async Task<TacticalCallsigns> GetTacticalCallsfromMasterFile(TacticalCallsignData tacticalCallsignData)
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public int TacticalCallsignsArraySelectedIndex
+        {
+            get
+            {
+                return this.tacticalCallsignsArraySelectedIndexField;
+            }
+            set
+            {
+                this.tacticalCallsignsArraySelectedIndexField = value;
+            }
+        }
+
+        private static async Task<TacticalCallsigns> GetTacticalCallsfromMasterFile(TacticalCallsignData tacticalCallsignData)
 		{
 			StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
@@ -204,7 +220,7 @@ namespace SharedCode.Models
             TacticalCallsigns tacticalCallsigns = null;
             try
             {
-				TacticalCallsignData tacticalCallsignData = _tacticalCallsignDataDictionary[fileName];
+				TacticalCallsignData tacticalCallsignData = TacticalCallsignDataDictionary[fileName];
 
 				StorageFolder localFolder = ApplicationData.Current.LocalFolder;
                 var tacticalCallFile = await localFolder.TryGetItemAsync(fileName);
@@ -846,7 +862,7 @@ namespace SharedCode.Models
 
         private static (string primaryBBS, string secondaryBBS) FindCountyPrimSecBBS(string callsign)
         {
-            TacticalCallsignData tacticalCallsignData = _tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
+            TacticalCallsignData tacticalCallsignData = TacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
 
             string primBBS = "", secBBS = "";
             foreach (var callsignData in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
@@ -863,7 +879,7 @@ namespace SharedCode.Models
 
         private static string  FindCountyPrefix(string callsign)
         {
-            TacticalCallsignData tacticalCallsignData = _tacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
+            TacticalCallsignData tacticalCallsignData = TacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
 
             string prefix = "";
             foreach (var callsignData in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
@@ -879,7 +895,7 @@ namespace SharedCode.Models
 
         public static void CreateTacticalCallsignsData()
         {
-            _tacticalCallsignDataDictionary = new Dictionary<string, TacticalCallsignData>();
+            TacticalCallsignDataDictionary = new Dictionary<string, TacticalCallsignData>();
             _TacticalCallsignDataList = new List<TacticalCallsignData>();
 
             TacticalCallsignData tacticalCallsignData = new TacticalCallsignData()
@@ -889,7 +905,7 @@ namespace SharedCode.Models
                 StartString = "Santa Clara County Cities/Agencies",
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
             _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
@@ -899,7 +915,7 @@ namespace SharedCode.Models
                 StartString = "Other (non-SCCo) Agencies",
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
             _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
@@ -911,7 +927,7 @@ namespace SharedCode.Models
                 StopString = "#MTV001 thru MTV010 also permissible",
                 RawDataFileName = "Tactical_Calls.txt"
             };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
             _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
@@ -923,7 +939,7 @@ namespace SharedCode.Models
                 StopString = "# City of Palo Alto",
                 RawDataFileName = "Tactical_Calls.txt"
             };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
             _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
@@ -935,7 +951,7 @@ namespace SharedCode.Models
                 StopString = "# HOS001 - HOS010",
                 RawDataFileName = "Tactical_Calls.txt"
             };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
             _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
@@ -945,7 +961,7 @@ namespace SharedCode.Models
                 StartString = "",
                 BulletinFileName = "https://scc-ares-races.org/activities/showtacticalcalls.php"
             };
-            _tacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
+            TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
             _TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
@@ -962,7 +978,7 @@ namespace SharedCode.Models
         {
             // Find Mountain View Tactical Call signs
             TacticalCallsignData mtvTacticalCallsigns = null;
-            foreach (TacticalCallsignData data in _tacticalCallsignDataDictionary.Values)
+            foreach (TacticalCallsignData data in TacticalCallsignDataDictionary.Values)
             {
                 if (data.AreaName == "Local Mountain View")
                 {
@@ -971,17 +987,32 @@ namespace SharedCode.Models
                 }
             }
             List<TacticalCall> mtvCERTTacticalCallsigns = new List<TacticalCall>();
+            TacticalCall LAHSDist = null;
+            TacticalCall WSDist = null;
             foreach (TacticalCall tacticalCall in mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArray)
             {
                 if (tacticalCall.AgencyName.Contains("CERT") || tacticalCall.AgencyName.Contains("Los Altos H.S. Dist")
                                                              || tacticalCall.AgencyName.Contains("Whisman School Dist"))
                 {
                     TacticalCall certTacticalCall = new TacticalCall(tacticalCall);
-                    certTacticalCall.AgencyName = tacticalCall.AgencyName.Replace(" CERT", "");
-                    mtvCERTTacticalCallsigns.Add(certTacticalCall);
+                    if (tacticalCall.AgencyName.Contains("Los Altos H.S. Dist"))
+                    {
+                        LAHSDist = certTacticalCall;
+                    }
+                    else if (tacticalCall.AgencyName.Contains("Whisman School Dist"))
+                    {
+                        WSDist = certTacticalCall;
+                    }
+                    else
+                    {
+                        certTacticalCall.AgencyName = tacticalCall.AgencyName.Replace(" CERT", "");
+                        mtvCERTTacticalCallsigns.Add(certTacticalCall);
+                    }
                 }
             }
             mtvCERTTacticalCallsigns.Sort();
+            mtvCERTTacticalCallsigns.Add(LAHSDist);
+            mtvCERTTacticalCallsigns.Add(WSDist);
             return mtvCERTTacticalCallsigns;
         }
     }
