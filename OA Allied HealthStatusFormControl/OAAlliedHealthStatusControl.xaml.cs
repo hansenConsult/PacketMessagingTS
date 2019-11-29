@@ -148,5 +148,35 @@ namespace OAAlliedHealthStatus201802FormControl
             UpdateFormFieldsRequiredColors();
         }
 
+        void UpdateRequiredResourceFields(string tagId, bool required)
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                Control control = formControl.InputControl;
+                string tag = control.Tag?.ToString();
+                if (!string.IsNullOrEmpty(tag) && tag.Length > 2)
+                {
+                    string tagID = tag.Substring(0, 2);
+                    if (tagID == tagId && required)
+                    {
+                        control.Tag = (control.Tag as string).Replace(",conditionallyrequired", ",required");
+                    }
+                    else
+                    {
+                        control.Tag = (control.Tag as string).Replace(",required", ",conditionallyrequired");
+                    }
+                }
+            }
+        }
+
+        private void TextBoxResource_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            bool required = !string.IsNullOrEmpty(textBox.Text);
+            string tagId = textBox.Tag.ToString().Substring(0, 2);
+            UpdateRequiredResourceFields(tagId, required);
+
+            UpdateFormFieldsRequiredColors();
+        }
     }
 }
