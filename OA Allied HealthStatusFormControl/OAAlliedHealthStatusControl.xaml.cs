@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 
 using FormControlBaseClass;
 
@@ -21,6 +22,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.System;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -148,23 +150,41 @@ namespace OAAlliedHealthStatus201802FormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        void UpdateRequiredResourceFields(string tagId, bool required)
+        void UpdateRequiredResourceFields(string tagId)
         {
+            List<Control> resourceRow = new List<Control>();
+            bool rowEmpty = true;
             foreach (FormControl formControl in _formControlsList)
             {
                 Control control = formControl.InputControl;
-                string tag = control.Tag?.ToString();
-                if (!string.IsNullOrEmpty(tag) && tag.Length > 2)
+                if (control is TextBox textBox)
                 {
-                    string tagID = tag.Substring(0, 2);
-                    if (tagID == tagId && required)
+                    string tag = control.Tag?.ToString();
+                    if (!string.IsNullOrEmpty(tag) && tag.Length > 2)
                     {
-                        control.Tag = (control.Tag as string).Replace(",conditionallyrequired", ",required");
+                        string tagID = tag.Substring(0, 2);
+                        if (tagID == tagId)
+                        {
+                            rowEmpty &= string.IsNullOrEmpty(textBox.Text);
+                            
+                            resourceRow.Add(control);
+                        }
                     }
-                    else
-                    {
-                        control.Tag = (control.Tag as string).Replace(",required", ",conditionallyrequired");
-                    }
+                }
+                if (resourceRow.Count >= 5)
+                {
+                    break;
+                }
+            }
+            foreach (Control control in resourceRow)
+            {
+                if (rowEmpty)
+                {
+                    control.Tag = (control.Tag as string).Replace(",required", ",conditionallyrequired");
+                }
+                else
+                {
+                    control.Tag = (control.Tag as string).Replace(",conditionallyrequired", ",required");
                 }
             }
         }
@@ -172,11 +192,29 @@ namespace OAAlliedHealthStatus201802FormControl
         private void TextBoxResource_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            bool required = !string.IsNullOrEmpty(textBox.Text);
+
+            //string pattern = @"\b[0-9]+\b";
+            //bool match = Regex.IsMatch(textBox.Text, pattern);
+            //if (!match)
+            //{
+            //    textBox.Text = textBox.Text.Substring(0, textBox.Text.Length - 1);
+            //}
+
             string tagId = textBox.Tag.ToString().Substring(0, 2);
-            UpdateRequiredResourceFields(tagId, required);
+            UpdateRequiredResourceFields(tagId);
 
             UpdateFormFieldsRequiredColors();
         }
+
+        private void TextBoxResource_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (!((e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Number9) || (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.NumberPad9)
+                || e.Key == VirtualKey.Delete || e.Key == VirtualKey.End || e.Key == VirtualKey.Left || e.Key == VirtualKey.Right
+                || e.Key == VirtualKey.Back))
+            {
+                e.Handled = true;         
+            }
+        }
+
     }
 }
