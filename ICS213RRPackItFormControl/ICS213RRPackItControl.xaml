@@ -97,17 +97,17 @@
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
                                 <RadioButton x:Name="immediate" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
-                                             Content="IMMEDIATE" Checked="Subject_Changed"
+                                             Content="Immediate (ASAP)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE">
                                 </RadioButton>
                                 <RadioButton x:Name="priority" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
-                                             Content="PRIORITY" Checked="Subject_Changed"
+                                             Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY">
                                 </RadioButton>
                                 <RadioButton x:Name="routine" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" Padding="4" 
-                                             Content="ROUTINE" Checked="Subject_Changed"
+                                             Content="Routine (&lt;2 hr)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
                             </StackPanel>
                         </Border>
@@ -351,12 +351,11 @@
                         </Grid.RowDefinitions>
                         <Border Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,0" />
                         <Border Grid.Column="0" Grid.RowSpan="5" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0" />
-                        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="5" Text="Requesting Agency/EOC Section" 
+                        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="5" Text="Requesting Agency/EOC Section" Width="auto"
                                    Style="{StaticResource EOC213RRFieldLabel}" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
+                                   HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
                             <TextBlock.RenderTransform>
-                                <CompositeTransform Rotation="-90" TranslateX="-370"  />
-                                <!--<RotateTransform Angle="-90"/>-->
+                                <CompositeTransform Rotation="-90" TranslateX="-70" />
                             </TextBlock.RenderTransform>
                         </TextBlock>
                         <Grid Grid.Column="1" Grid.Row="0">

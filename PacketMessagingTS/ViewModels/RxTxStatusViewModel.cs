@@ -61,14 +61,14 @@ namespace PacketMessagingTS.ViewModels
 
         public async void AbortConnectionAsync()
         {
-            _viewLifetimeControl.StartViewInUse();
+            //_viewLifetimeControl.StartViewInUse();
             Rect rect = _viewLifetimeControl.GetBounds();
             ViewControlHeight = rect.Height;
 
             await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
                 ApplicationView.GetForCurrentView().Id,
                 ApplicationViewSwitchingOptions.ConsolidateViews);
-            _viewLifetimeControl.StopViewInUse();
+            //_viewLifetimeControl.StopViewInUse();
         }
 
         private ViewLifetimeControl _viewLifetimeControl;

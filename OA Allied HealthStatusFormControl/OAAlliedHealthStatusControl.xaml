@@ -444,6 +444,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
@@ -461,10 +462,11 @@
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  Tag="1b.,required"
                                  TextChanged="TextBox_TimeChanged"/>
-                        <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource LabelFontTNR14B}" 
+                        <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                            Text="Handling:" VerticalAlignment="Center" Margin=" 5"/>
+
+                        <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0">
+                            <StackPanel Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
@@ -652,12 +654,13 @@
                             <RowDefinition/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
-                            <RowDefinition />
+                            <RowDefinition Height="24"/>
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
-                            <RowDefinition MinHeight="24" />
+                            <RowDefinition/>
+                            <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
@@ -1338,12 +1341,11 @@ to Public Health/Medical Health Branch"
                             <TextBox Grid.Row="1" x:Name="patientInfoOther"
                                      Style="{StaticResource TextBoxOAAlliedHealth}" Tag="33." />
                         </Grid>
-                        <Border Grid.Row="23" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                        <Border Grid.Row="23" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1" Height="24"/>
                         <TextBlock  Grid.Row="23" Grid.Column="0" Text="DEOC/EOC/DUTY Chief Use" 
                                     Style="{StaticResource AlliedHeaderTextBold}" 
-                                    HorizontalAlignment="Center" />
-                        <TextBox Grid.Row="23" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse"  BorderBrush="White" />
-                        <!--<Border Grid.Row="24" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="1,0,0,1"/>-->
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="24" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse"  BorderBrush="White" />
                         <Grid Grid.Row="23" Grid.RowSpan="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>

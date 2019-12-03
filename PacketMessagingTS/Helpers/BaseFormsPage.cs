@@ -224,8 +224,6 @@ namespace PacketMessagingTS.Helpers
 
         protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
 
-        //protected abstract void AppendTrillTraffic();
-
         protected static string ValidateSubject(string subject)
         {
             if (string.IsNullOrEmpty(subject))
@@ -240,7 +238,7 @@ namespace PacketMessagingTS.Helpers
             // we should return Empty.
             catch (RegexMatchTimeoutException)
             {
-                return String.Empty;
+                return string.Empty;
             }
         }
 
