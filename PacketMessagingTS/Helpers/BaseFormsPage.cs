@@ -260,10 +260,11 @@ namespace PacketMessagingTS.Helpers
                 PacFormType = _packetForm.PacFormType,
                 MessageFrom = _packetAddressForm.MessageFrom,
                 MessageTo = _packetAddressForm.MessageTo,
-                MessageNumber = _packetForm.MessageNo,
+                MessageNumber = _packetForm.OriginMsgNo,
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
             };
+            
             UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
             string subject = CreateSubject();

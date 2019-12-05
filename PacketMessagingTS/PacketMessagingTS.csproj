@@ -105,14 +105,14 @@
       <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.2.190917002</Version>
+      <Version>2.3.191129002</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
     </PackageReference>
     <!-- Nuget package references -->
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -332,17 +332,9 @@
       <Project>{64fb6dbf-750a-490d-aaea-f1e41cf750fe}</Project>
       <Name>ICS213PackItFormControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ICS213RRFormControl\ICS213RR1706FormControl.csproj">
-      <Project>{93f74750-00f2-44d3-bd5b-189487733a59}</Project>
-      <Name>ICS213RR1706FormControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ICS213RRPackItFormControl\ICS213RRPackItFormControl.csproj">
       <Project>{f9ab8eac-ea13-475a-9333-126b4c8c3e0a}</Project>
       <Name>ICS213RRPackItFormControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ICS213_070628_FormControl\ICS213_070628_FormControl.csproj">
-      <Project>{268fbd5c-fbd7-46c3-834a-a8e83b2904f0}</Project>
-      <Name>ICS213_070628_FormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\MessageFormControl\MessageFormControl.csproj">
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>
@@ -359,10 +351,6 @@
     <ProjectReference Include="..\OAAlliedHealthStatus201802FormControl\OAAlliedHealthStatus201802FormControl.csproj">
       <Project>{7e02b70e-c039-4fa7-8b23-b3ab78028d72}</Project>
       <Name>OAAlliedHealthStatus201802FormControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OAMunicipalStatusFormControl\OAMunicipalStatus20130101FormControl.csproj">
-      <Project>{58e010dc-1e9f-4d3f-9828-415f67b1229f}</Project>
-      <Name>OAMunicipalStatus20130101FormControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\OAMunicipalStatusPackItFormControl\OAMunicipalStatusPackItFormControl.csproj">
       <Project>{fc2a0b6b-3857-4fbd-a4ab-bb604edea948}</Project>

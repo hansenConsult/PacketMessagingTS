@@ -113,7 +113,7 @@ namespace OAShelterStatusFormControl
 
         public override string CreateSubject()
         {
-            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
+            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
         }
 
         private void capacity_TextChanged(object sender, TextChangedEventArgs e)

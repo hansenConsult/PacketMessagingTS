@@ -129,9 +129,19 @@ namespace MVCERTDA_FormsControl
 
         public override string PacFormType => "MVCERTSummary";
 
+        public override string MessageNo 
+        { 
+            get => base.MessageNo;
+            set
+            {
+                base.MessageNo = value;
+                OriginMsgNo = value;
+            }
+        }
+
         public override string CreateSubject()
         {
-            return (MessageNo + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
+            return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
         }
 
         public override void AppendDrillTraffic()

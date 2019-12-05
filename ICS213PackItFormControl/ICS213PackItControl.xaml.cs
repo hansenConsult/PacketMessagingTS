@@ -45,6 +45,16 @@ namespace ICS213PackItFormControl
 
         public override string PacFormType => "ICS213";
 
+        public override string MessageNo
+        {
+            get => base.MessageNo;
+            set
+            {
+                base.MessageNo = value;
+                OriginMsgNo = value;
+            }
+        }
+
         public override void AppendDrillTraffic()
         {
             message.Text = message.Text + DrillTraffic;
@@ -52,7 +62,7 @@ namespace ICS213PackItFormControl
 
         public override string CreateSubject()
 		{
-			return ($"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}");
+			return ($"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}");
 		}
 
         protected override string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)

@@ -73,12 +73,12 @@ namespace OAAlliedHealthStatus201802FormControl
         public override void AppendDrillTraffic()
         { }
 
-        private string facilityName;
-        public string FacilityName
-        {
-            get => GetProperty(ref facilityName);
-            set => SetProperty(ref facilityName, value, true);
-        }
+        //private string facilityName;
+        //public string FacilityName
+        //{
+        //    get => GetProperty(ref facilityName);
+        //    set => SetProperty(ref facilityName, value, true);
+        //}
 
         private string facilityType;
         public string FacilityType
