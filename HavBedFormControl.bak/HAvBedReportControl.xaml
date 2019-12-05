@@ -1,0 +1,233 @@
+﻿<MyBaseNamespace:FormControlBase
+    x:Class="HAvBedReportFormControl.HAvBedReportControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HAvBedReportFormControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:MyNamespace="using:ToggleButtonGroupControl"
+    xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <!--<MyBaseNamespace:FormControlBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </MyBaseNamespace:FormControlBase.Resources>-->
+
+    <!--<StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="HAvBedReportControl" >
+        <Border x:Name="FormHAvBedReport" BorderBrush="Black" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
+            <StackPanel>
+                <Border BorderBrush="Black" BorderThickness="1,1,1,0">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                                   Foreground="Black" Text="Santa Clara OA Shelter Status" 
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
+                                <TextBlock Text="WebEOC: 20130814" HorizontalAlignment="Left"/>
+                                <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+
+                        <TextBox Grid.Column="1" x:Name="messageNo"  
+                                     Text="{x:Bind Mode=TwoWay, Path=OriginMsgNo}"
+							    	 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
+                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                     Header="Origin:"
+                                     Tag="MsgNo,required,Enter a Message Number." 
+                                     TextChanged="Subject_Changed"/>
+
+                        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                        <TextBox Grid.Column="2" x:Name="destinationMsgNo" 
+                                     TextAlignment="Center" BorderBrush="White" 
+                                     Margin="10,0,10,2" Tag="2"
+                                     Text="{x:Bind Path=DestinationMsgNo}"
+                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                     Header="Destination:"/>
+
+                    </Grid>
+                </Border>
+                <StackPanel>
+                    <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        --><!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">--><!--
+                        <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
+                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
+                        <TextBox Grid.Column="1" x:Name="textBoxMsgDate" 
+                                 Style="{StaticResource MuniStatusDateTextBox}"
+                                 Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
+                                 Tag="1a.,required"
+                                 TextChanged="TextBox_DateChanged"/>
+                        <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
+                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
+                        <TextBox Grid.Column="3" x:Name="textBoxMsgTime" 
+                                 Style="{StaticResource MuniStatusTimeTextBox}"
+                                 Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
+                                 Tag="1b.,required"
+                                 TextChanged="TextBox_TextChanged"/>
+                        <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                        <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
+                                       Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                        <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
+                                                       CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                                       Tag="5.,required,Indicate Msg. Handling Order."/>
+                        <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" 
+                                             Margin="8,0" 
+                                             Content="Immediate (ASAP)" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="As soon as possible" />
+                        <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" 
+                                             Margin="8,0" Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="Less than one hour" />
+                        <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
+                                             Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
+                                             ToolTipService.ToolTip="Less than two hours" />
+                    </Grid>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
+                        <TextBlock x:Name="labelTo" Grid.Column="0"  Style="{StaticResource LabelFontTNR14B}" Text=" To:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" >
+                            <Border BorderBrush="Black" BorderThickness="0,1">
+                                <StackPanel x:Name="toICSPositionPanel">
+                                    <TextBlock Padding="10,2,0,2" 
+                                               Text="7.) ICS Position:" FontSize="12" FontFamily="Times New Roman" 
+                                               FontWeight="Bold" Foreground="Black" />
+                                    <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"     
+                                                    PlaceholderText="Select ICS Position"
+                                                    Style="{StaticResource AutoSuggestICSPosition}"                                                    
+                                                    BorderBrush="Gray"
+                                                    BorderThickness="2"
+                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                    Tag="7a.,required,Enter a To Position." VerticalAlignment="Top"/>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
+                                <StackPanel >
+                                    --><!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />--><!--
+                                    <TextBox x:Name="toLocation" Margin="10,0,10,2" 
+                                             TextChanged="TextBox_TextChanged"
+                                             Tag="7b.,required,Enter a To Location."
+                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                             Header="Location:"/>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <StackPanel >
+                                    --><!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />--><!--
+                                    <TextBox x:Name="toName" BorderThickness="1" Margin="10,0,10,2" Tag="7c."
+                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                             Header="Name:"/>
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">
+                                <StackPanel >
+                                    <TextBox x:Name="toContactInfo" 
+                                             BorderThickness="1" Margin="10,0,10,2" Tag="7d."
+                                             TextChanged="PhoneNumber_TextChanged"
+                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                             Header="Contact Info:"/>
+
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <Border Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
+                        <TextBlock x:Name="labelFrom" Grid.Column="2" Style="{StaticResource LabelFontTNR14B}" Text=" From:" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0">
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <StackPanel>
+                                    <TextBlock Padding="10,2,0,2"
+                                               Style="{StaticResource LabelFontTNR14B}"
+                                               FontSize="12" FontFamily="Times New Roman" 
+                                               FontWeight="Bold" Foreground="Black"
+                                               Text="8.) ICS Position:" />
+                                    <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
+                                                    PlaceholderText="Select ICS Position"
+                                                    Style="{StaticResource AutoSuggestICSPosition}"
+                                                    BorderBrush="Gray"
+                                                    BorderThickness="2"
+                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                    Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
+                                    --><!--<TextBox  x:Name="textBoxFromICSPosition" Visibility="Collapsed" Tag="23" />--><!--
+                                </StackPanel>
+                                --><!--<StackPanel >
+										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
+										<RelativePanel x:Name="fromICSPos" >
+											<Button x:Name="buttonSelectFromICSPosInput" RelativePanel.AlignVerticalCenterWithPanel="True" Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2" />
+											<TextBox x:Name="textBoxFromICSPosition" Style="{StaticResource TypedText}" 
+												RelativePanel.RightOf="buttonSelectFromICSPosInput"
+												RelativePanel.AlignRightWithPanel="True"	 
+												BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
+                                                Tag="required,Enter a From position."/>
+											-->
+                                <!--
+										</RelativePanel>
+									</StackPanel>--><!--
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
+                                <StackPanel >
+                                    --><!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />--><!--
+                                    <TextBox x:Name="fromLocation" Margin="10,0,10,2" 
+                                             TextChanged="TextBox_TextChanged"
+                                             Tag="8b.,required,Enter a From Location."
+                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                             Header="Location:"/>
+
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <StackPanel >
+                                    --><!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />--><!--
+                                    <TextBox x:Name="fromName"  BorderThickness="1" Margin="10,0,10,2" Tag="8c."
+                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                             Header="Name:"/>
+
+                                </StackPanel>
+                            </Border>
+                            --><!--</Border>-->
+                            <!--<Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">--><!--
+                            <StackPanel >
+                                <TextBox x:Name="fromContactInfo" 
+                                             Margin="10,0,10,2" Tag="8d." BorderThickness="1" 
+                                             TextChanged="PhoneNumber_TextChanged"
+                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                             Header="Contact Info:"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </StackPanel>-->
+</MyBaseNamespace:FormControlBase>

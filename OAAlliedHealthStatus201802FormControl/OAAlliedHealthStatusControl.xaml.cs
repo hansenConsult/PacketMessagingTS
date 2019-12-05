@@ -36,6 +36,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
     public sealed partial class OAAlliedHealthStatusControl : FormControlBase
     {
+
         public OAAlliedHealthStatusControl()
         {
             InitializeComponent();

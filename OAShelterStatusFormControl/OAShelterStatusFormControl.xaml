@@ -22,7 +22,7 @@
 
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="OAShelterStatusControl" >
         <!--<Border x:Name="FormOAMuniStatus" BorderBrush="Black" BorderThickness="1" Padding="15" >-->
-        <Border x:Name="FormOAShelterStatus" BorderBrush="White" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
+        <Border x:Name="FormOAShelterStatus" BorderBrush="Black" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
             <StackPanel>
                 <Border BorderBrush="Black" BorderThickness="1,1,1,0">
                     <Grid >

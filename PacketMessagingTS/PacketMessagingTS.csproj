@@ -328,6 +328,10 @@
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HavBedReportFormControl\HavBedReportFormControl.csproj">
+      <Project>{6b998efe-8a41-47b2-8671-4c9757f150df}</Project>
+      <Name>HavBedReportFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ICS213PackItFormControl\ICS213PackItFormControl.csproj">
       <Project>{64fb6dbf-750a-490d-aaea-f1e41cf750fe}</Project>
       <Name>ICS213PackItFormControl</Name>
