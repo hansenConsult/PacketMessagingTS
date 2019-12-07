@@ -352,10 +352,6 @@
       <Project>{070891aa-cad1-4722-b12a-cce51fa73122}</Project>
       <Name>OA Allied HealthStatusFormControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OAAlliedHealthStatus201802FormControl\OAAlliedHealthStatus201802FormControl.csproj">
-      <Project>{7e02b70e-c039-4fa7-8b23-b3ab78028d72}</Project>
-      <Name>OAAlliedHealthStatus201802FormControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OAMunicipalStatusPackItFormControl\OAMunicipalStatusPackItFormControl.csproj">
       <Project>{fc2a0b6b-3857-4fbd-a4ab-bb604edea948}</Project>
       <Name>OAMunicipalStatusPackItFormControl</Name>

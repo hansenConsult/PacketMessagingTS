@@ -49,20 +49,6 @@ namespace OAAlliedHealthStatus201802FormControl
             packet.IsChecked = true;
         }
 
-        //public override string Severity
-        //{
-        //    get { return severity.GetRadioButtonCheckedState(); }
-        //    set { severity.SetRadioButtonCheckedState(value); }
-        //}
-
-        //public override string HandlingOrder
-        //{
-        //    get { return handlingOrder.GetRadioButtonCheckedState(); }
-        //    set { handlingOrder.SetRadioButtonCheckedState(value); }
-        //}
-
-        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
-
         public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;

@@ -86,6 +86,19 @@
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
+
+    <Style x:Key="HAvBedNumberTextBox" TargetType="TextBox">
+        <!--<Setter Property="FontFamily" Value="Arial"/>-->
+        <!--<Setter Property="FontSize" Value="12"/>-->
+        <!--<Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>-->
+        <!--<Setter Property="TextBox.FontWeight" Value="Bold"/>-->
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Width" Value="72"/>
+    </Style>
+
     <Style x:Key="MuniStatusHeaderText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Ariel"/>
         <Setter Property="FontStyle" Value="Normal"/>

@@ -20,11 +20,11 @@ namespace FormControlBaseClass
 {
     public class FormControlBasics : UserControl, INotifyPropertyChanged
     {
-        public static SolidColorBrush _redBrush = new SolidColorBrush(Colors.Red);
+        public static SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
         public static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
         public static SolidColorBrush TextBoxBorderBrush = new SolidColorBrush(Color.FromArgb(66, 0, 0, 0));
-        public static SolidColorBrush _lightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
+        public static SolidColorBrush LightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
         public static SolidColorBrush LightGreenBrush = new SolidColorBrush(Colors.LightGreen);
         public static SolidColorBrush PinkBrush = new SolidColorBrush(Colors.Pink);
         public static SolidColorBrush LightGrayBrush = new SolidColorBrush(Colors.LightGray);
@@ -246,6 +246,29 @@ namespace FormControlBaseClass
             }
         }
 
+        protected virtual void TextBox_IntegerChanged(object sender, TextChangedEventArgs e)
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+                {
+                    string pattern = @"\b[0-9]+\b";
+                    bool match = Regex.IsMatch(textBox.Text, pattern);
+                    if (IsFieldRequired(sender as TextBox) && !match)
+                    {
+                        textBox.BorderThickness = new Thickness(2);
+                        textBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        textBox.BorderThickness = new Thickness(1);
+                        textBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+            }
+        }
+
         protected virtual void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             foreach (FormControl formControl in _formControlsList)
@@ -267,26 +290,26 @@ namespace FormControlBaseClass
             }
         }
 
-        protected virtual void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-                {
-                    if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
-                    {
-                        textBox.BorderThickness = new Thickness(2);
-                        textBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        textBox.BorderThickness = new Thickness(1);
-                        textBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
-                }
-            }
-        }
+        //protected virtual void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+        //        {
+        //            if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
+        //            {
+        //                textBox.BorderThickness = new Thickness(2);
+        //                textBox.BorderBrush = formControl.RequiredBorderBrush;
+        //            }
+        //            else
+        //            {
+        //                textBox.BorderThickness = new Thickness(1);
+        //                textBox.BorderBrush = formControl.BaseBorderColor;
+        //            }
+        //            break;
+        //        }
+        //    }
+        //}
 
         protected virtual void TextBox_PhoneChanged(object sender, TextChangedEventArgs e)
         {
@@ -408,6 +431,14 @@ namespace FormControlBaseClass
                     {
                         selection = comboBoxPackItItem.Item;
                         comboBox.Background = comboBoxPackItItem.BackgroundBrush;
+                        if (comboBox.Background == _blackBrush)
+                        {
+                            comboBox.Foreground = WhiteBrush;
+                        }
+                        else
+                        {
+                            comboBox.Foreground = _blackBrush;
+                        }
                     }
                     else
                     {
