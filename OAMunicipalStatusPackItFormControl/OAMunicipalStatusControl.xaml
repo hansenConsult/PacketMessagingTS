@@ -28,15 +28,15 @@
                 <Border BorderBrush="Black" BorderThickness="1,1,1,0">
                     <Grid >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="152"/>
+                            <ColumnDefinition Width="152"/>
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                         <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                            <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                            <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial" FontWeight="Bold" 
                                    Foreground="Black" Text="Santa Clara OA Jurisdiction Status" 
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
+                                   VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0" />
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
                                 <TextBlock Text="WebEOC: 20190327" HorizontalAlignment="Left"/>
                                 <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>

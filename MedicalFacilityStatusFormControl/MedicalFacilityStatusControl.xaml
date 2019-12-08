@@ -28,35 +28,34 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="152"/>
+                            <ColumnDefinition Width="152"/>
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
-                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <!--<StackPanel Grid.Column="0" VerticalAlignment="Center">-->
                             <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" Text="Medical facility Status" 
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
-                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="WebEOC: 20160101" HorizontalAlignment="Left"/>
-                                <TextBlock Grid.Column="1" Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>
-                            </Grid>
-                        </StackPanel>
+                                   VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0" />
+                        <Grid Grid.Column="1" Margin="5,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="WebEOC: 20160101" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Row="1" Text="{x:Bind PIFString}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        </Grid>
+                        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
 
-                        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-
-                        <TextBox Grid.Column="1" x:Name="messageNo"  
-                                     Text="{x:Bind Mode=TwoWay, Path=OriginMsgNo}"
+                        <TextBox Grid.Column="2" x:Name="messageNo"  
+                                     Text="{x:Bind OriginMsgNo, Mode=TwoWay}"
 							    	 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Origin:"
                                      Tag="MsgNo,required,Enter a Message Number." 
                                      TextChanged="Subject_Changed"/>
 
-                        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                        <TextBox Grid.Column="2" x:Name="destinationMsgNo" 
+                        <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                        <TextBox Grid.Column="3" x:Name="destinationMsgNo" 
                                      TextAlignment="Center" BorderBrush="White" 
                                      Margin="10,0,10,2" Tag="2"
                                      Text="{x:Bind Path=DestinationMsgNo}"
@@ -174,7 +173,7 @@
                                                Style="{StaticResource LabelFontTNR14B}"
                                                FontSize="12" FontFamily="Times New Roman" 
                                                FontWeight="Bold" Foreground="Black"
-                                               Text="8.) ICS Position:" />
+                                               Text="ICS Position:" />
                                     <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
                                                     PlaceholderText="Select ICS Position"
                                                     Style="{StaticResource AutoSuggestICSPosition}"
