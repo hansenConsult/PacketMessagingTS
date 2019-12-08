@@ -29,11 +29,18 @@
         <Setter Property="FontSize" Value="11"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
-	<Style x:Key="LabelFontTNR12B" TargetType="TextBlock">
+    <Style x:Key="LabelFontTNR12B" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Times New Roman"/>
         <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="LabelFontTNR14" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Times New Roman"/>
+        <Setter Property="FontSize" Value="14"/>
 		<Setter Property="Foreground" Value="Black"/>
-		<Setter Property="FontWeight" Value="Bold"/>
+		<Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style x:Key="LabelFontTNR12" TargetType="TextBlock" BasedOn="{StaticResource LabelFontTNR12B}">
@@ -44,6 +51,12 @@
     <Style x:Key="LabelFontTNR14B" TargetType="TextBlock" BasedOn="{StaticResource LabelFontTNR12B}">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Margin" Value="0"/>
+        <!--<Setter Property="Panel.VerticalAlignment" Value="Top"/>-->
+    </Style>
+    <Style x:Key="LabelFontTNR14SB" TargetType="TextBlock" BasedOn="{StaticResource LabelFontTNR12B}">
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="8,0,0,0"/>
         <!--<Setter Property="Panel.VerticalAlignment" Value="Top"/>-->
     </Style>
     <Style x:Key="EOC213RRFieldBase" TargetType="TextBlock">
@@ -227,7 +240,7 @@
         <!--<Setter Property="FontSize" Value="13"/>-->
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="8,0,8,0"/>
     </Style>
 
@@ -271,14 +284,18 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
 		<Setter Property="Foreground" Value="Black"/>
 	</Style >
-	<Style x:Key="RadioButtonTNR12B" TargetType="RadioButton">
-		<Setter Property="FontFamily" Value="Sans serif"/>
-		<Setter Property="FontSize" Value="11"/>
-		<Setter Property="Foreground" Value="Black"/>
-		<Setter Property="VerticalAlignment" Value="Center"/>
-		<Setter Property="FontWeight" Value="Bold"/>
-		<Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Style x:Key="RadioButtonTNR12" TargetType="RadioButton">
+        <Setter Property="FontFamily" Value="Sans serif"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="8,0,0,0"/>
         <Setter Property="Padding" Value="4"/>
+    </Style>
+    <Style x:Key="RadioButtonTNR12B" TargetType="RadioButton" BasedOn="{StaticResource RadioButtonTNR12}">
+		<Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
     <Style x:Key="AutoSuggestICSPosition" TargetType="AutoSuggestBox">

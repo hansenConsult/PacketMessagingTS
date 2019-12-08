@@ -730,7 +730,8 @@
                              TextChanged="TextBox_DateChanged"
                              Tag="15.1d."/>
                     <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Ophthalmology" Style="{StaticResource ShelterStatusHeaderText}" SelectionChanged="TextBlock_SelectionChanged"/>
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Ophthalmology" 
+                               Style="{StaticResource ShelterStatusHeaderText}" />
                     <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                     <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
                         <MyNamespace:ToggleButtonGroup x:Name="ophthalmologyService" Visibility="Collapsed"

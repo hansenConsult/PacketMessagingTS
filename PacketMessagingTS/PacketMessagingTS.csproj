@@ -344,6 +344,10 @@
       <Project>{4c30c8f5-e20a-4b17-a089-4622e59980a3}</Project>
       <Name>MedicalFacilityStatusFormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MedicalHealthBranchRRFormControl\MedicalHealthBranchRRFormControl.csproj">
+      <Project>{a8105140-f83b-4e09-abe3-29d244479cd6}</Project>
+      <Name>MedicalHealthBranchRRFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MessageFormControl\MessageFormControl.csproj">
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>
       <Name>MessageFormControl</Name>

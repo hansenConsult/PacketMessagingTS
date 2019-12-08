@@ -92,6 +92,14 @@ namespace FormControlBaseClass
             "Valley Medical Center",
         };
 
+        readonly protected List<string> Priority = new List<string>
+        {
+            "Now",
+            "High (0-4 hrs.)",
+            "Medium (5-12 hrs.)",
+            "Low (12+ hrs.)",
+        };
+
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
