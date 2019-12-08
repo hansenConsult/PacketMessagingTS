@@ -340,6 +340,10 @@
       <Project>{f9ab8eac-ea13-475a-9333-126b4c8c3e0a}</Project>
       <Name>ICS213RRPackItFormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MedicalFacilityStatusFormControl\MedicalFacilityStatusFormControl.csproj">
+      <Project>{4c30c8f5-e20a-4b17-a089-4622e59980a3}</Project>
+      <Name>MedicalFacilityStatusFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MessageFormControl\MessageFormControl.csproj">
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>
       <Name>MessageFormControl</Name>

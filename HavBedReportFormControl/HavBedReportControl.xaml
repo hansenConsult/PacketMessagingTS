@@ -399,7 +399,7 @@
                                Margin="8,0,8,0" VerticalAlignment="Center" />
                     <TextBox Grid.Column="1" Name="operatorName" 
                                  Text="{x:Bind OperatorName, Mode=TwoWay}"
-                                 Margin="0" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
+                                 Margin="2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
                     <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
                     <TextBox Grid.Column="3" Name="operatorCallsign" 
                                  Text="{x:Bind OperatorCallsign, Mode=TwoWay}"

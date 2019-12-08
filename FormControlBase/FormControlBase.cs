@@ -75,6 +75,23 @@ namespace FormControlBaseClass
                 "Safety Officer"
         };
 
+        readonly protected List<string> Hospitals = new List<string>
+        {
+            "El Camino Hospital Los Gatos",
+            "El Camino Hospital Mountain view",
+            "Good Samaritan Hospital",
+            "Kaiser Gan Jose Medical Center",
+            "Kaiser Santa Clara Hospital",
+            "Lucile Packard Children's Hospital",
+            "O'Connor Hospital",
+            "Palo Alto Veterans Hospital",
+            "Regional San Jose Medical Center",
+            "Saint Loise Regional Hospital",
+            "Stanford Hospital",
+            "Stanford School of Medicine",
+            "Valley Medical Center",
+        };
+
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
@@ -390,6 +407,10 @@ namespace FormControlBaseClass
 
         public virtual string FacilityName
         { get; set; }
+
+        public virtual string ReportType
+        { get; 
+            set; }
 
         // Implemented this way to facilitate synchronizing two name fields
         private string _shelterName;

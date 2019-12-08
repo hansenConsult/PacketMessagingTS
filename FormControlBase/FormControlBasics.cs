@@ -353,14 +353,25 @@ namespace FormControlBaseClass
                     if (textBox.Name == formControl.InputControl.Name)
                     {
                         string date = textBox.Text;
-                        bool match = true;
+                        bool match = false;
                         if (!string.IsNullOrEmpty(date))
                         {
                             string datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";//(0[1-9]|1[012])/(0[1-9]|1[0-9]|2[0-9]|3[01])/[1-2][0-9][0-9][0-9]
                             match = Regex.IsMatch(date, datePattern);
                         }
+                        else
+                        {
+                            if (IsFieldRequired(textBox))
+                            {
+                                match = false;
+                            }
+                            else
+                            {
+                                match = true;
+                            }
+                        }
 
-                        if (!match || (IsFieldRequired(textBox) && !match))
+                        if (!match)
                         {
                             textBox.BorderThickness = new Thickness(2);
                             textBox.BorderBrush = formControl.RequiredBorderBrush;

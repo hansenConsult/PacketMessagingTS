@@ -118,9 +118,6 @@ namespace OAMunicipalStatusPackItFormControl
             return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_MuniStat_{jurisdictionName.SelectedValue as string}";
         }
 
-        public string ReportType
-        { get; set; }
-
         /// <summary>
         /// 
         /// </summary>

@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Collections.Generic;
+
 using FormControlBaseClass;
+
 using SharedCode;
 using SharedCode.Helpers;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -32,23 +22,6 @@ namespace HavBedReportFormControl
     /// </summary>
     public sealed partial class HavBedReportControl : FormControlBase
     {
-        readonly List<string> Hospitals = new List<string>
-        {
-            "El Camino Hospital Los Gatos",
-            "El Camino Hospital Mountain view",
-            "Good Samaritan Hospital",
-            "Kaiser Gan Jose Medical Center",
-            "Kaiser Santa Clara Hospital",
-            "Lucile Packard Children's Hospital",
-            "O'Connor Hospital",
-            "Palo Alto Veterans Hospital",
-            "Regional San Jose Medical Center",
-            "Saint Loise Regional Hospital",
-            "Stanford Hospital",
-            "Stanford School of Medicine",
-            "Valley Medical Center",
-        };
-
         readonly List<ComboBoxPackItItem> CommandCenterStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),

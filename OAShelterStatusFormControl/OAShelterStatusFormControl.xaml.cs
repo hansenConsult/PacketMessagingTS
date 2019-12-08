@@ -95,9 +95,6 @@ namespace OAShelterStatusFormControl
         public override void AppendDrillTraffic()
         { }
 
-        public string ReportType
-        { get; set; }
-
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
             outpostData = new List<string>
