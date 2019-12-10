@@ -75,21 +75,21 @@ namespace FormControlBaseClass
                 "Safety Officer"
         };
 
-        readonly protected List<string> Hospitals = new List<string>
+        readonly protected List<ComboBoxPackItItem> Hospitals = new List<ComboBoxPackItItem>
         {
-            "El Camino Hospital Los Gatos",
-            "El Camino Hospital Mountain view",
-            "Good Samaritan Hospital",
-            "Kaiser Gan Jose Medical Center",
-            "Kaiser Santa Clara Hospital",
-            "Lucile Packard Children's Hospital",
-            "O'Connor Hospital",
-            "Palo Alto Veterans Hospital",
-            "Regional San Jose Medical Center",
-            "Saint Loise Regional Hospital",
-            "Stanford Hospital",
-            "Stanford School of Medicine",
-            "Valley Medical Center",
+            new ComboBoxPackItItem("El Camino Hospital Los Gatos"),
+            new ComboBoxPackItItem("El Camino Hospital Mountain view"),
+            new ComboBoxPackItItem("Good Samaritan Hospital"),
+            new ComboBoxPackItItem("Kaiser Gan Jose Medical Center"),
+            new ComboBoxPackItItem("Kaiser Santa Clara Hospital"),
+            new ComboBoxPackItItem("Lucile Packard Children's Hospital"),
+            new ComboBoxPackItItem("O'Connor Hospital"),
+            new ComboBoxPackItItem("Palo Alto Veterans Hospital"),
+            new ComboBoxPackItItem("Regional San Jose Medical Center"),
+            new ComboBoxPackItItem("Saint Loise Regional Hospital"),
+            new ComboBoxPackItItem("Stanford Hospital"),
+            new ComboBoxPackItItem("Stanford School of Medicine"),
+            new ComboBoxPackItItem("Valley Medical Center"),
         };
 
         readonly protected List<string> Priority = new List<string>
@@ -105,7 +105,7 @@ namespace FormControlBaseClass
 
         public static string DrillTraffic = "\r\nDrill Traffic";
 
-        public FormControlBase()
+        protected FormControlBase()
         {
         }
 
@@ -302,14 +302,14 @@ namespace FormControlBaseClass
         public virtual string OperatorCallsign
         { get; set; }
 
-        public List<FormControl> FormControlsList
-        { get => _formControlsList; }
+        //public List<FormControl> FormControlsList
+        //{ get => _formControlsList; }
 
-        public string ValidationResultMessage
-        {
-            get => _validationResultMessage;
-            set => _validationResultMessage = value;
-        }
+        //public string ValidationResultMessage
+        //{
+        //    get => _validationResultMessage;
+        //    set => _validationResultMessage = value;
+        //}
 
         private string _pif = "2.1";
         public virtual string PIF
@@ -829,9 +829,6 @@ namespace FormControlBaseClass
 
         public string CreateOutpostDataString(FormField formField, FormProviders formProvider)
         {
-            //if (string.IsNullOrEmpty(formField.ControlContent))
-            //    return "";
-
             (string id, Control control) = GetTagIndex(formField);
             if (string.IsNullOrEmpty(id))
                 return "";

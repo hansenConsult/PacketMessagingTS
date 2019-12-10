@@ -57,9 +57,9 @@ namespace HavBedReportFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
-        public override string PacFormName => "form-scco-eoc-213rr";
+        public override string PacFormName => "form-mhoc-beds-status";
 
-        public override string PacFormType => "XSC_EOC_213RR";
+        public override string PacFormType => "HAVBEDSTATUS";
 
         public override void AppendDrillTraffic()
         {

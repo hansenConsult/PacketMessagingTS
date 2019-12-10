@@ -97,15 +97,15 @@ Resource Request Form #9A"
                                              Style="{StaticResource RadioButtonTNR12B}" 
                                              Margin="8,0" 
                                              Content="Immediate (ASAP)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="As soon as possible" />
+                                             ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
                         <RadioButton Grid.Column="6" x:Name="handlingOrderPriority" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" 
                                              Margin="8,0" Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than one hour" />
+                                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
                         <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                              Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than two hours" />
+                                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
                     </Grid>
                     <Grid >
                         <Grid.ColumnDefinitions>

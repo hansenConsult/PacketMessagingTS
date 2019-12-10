@@ -126,51 +126,51 @@ namespace ToggleButtonGroupControl
 			return null;
 		}
 
-			//delegate void SetRadioButtonChecked(RadioButton radioButton, string name);
-			//void SetRadioButton(RadioButton radioButton, string name)
-			//{
-			//	if (radioButton.Name == name)
-			//	{
-			//		radioButton.IsChecked = true;
-			//	}
-			//	else
-			//	{
-			//		radioButton.IsChecked = false;
-			//	}
-			//}
+        //delegate void SetRadioButtonChecked(RadioButton radioButton, string name);
+        //void SetRadioButton(RadioButton radioButton, string name)
+        //{
+        //	if (radioButton.Name == name)
+        //	{
+        //		radioButton.IsChecked = true;
+        //	}
+        //	else
+        //	{
+        //		radioButton.IsChecked = false;
+        //	}
+        //}
 
-			public void SetRadioButtonCheckedState(string name)
-			{
-				//if (name is null || name.Length == 0)
-                if ((name?.Length ?? 0) == 0)
-                    return;
+        public void SetRadioButtonCheckedState(string name)
+        {
+            //if (name is null || name.Length == 0)
+            if ((name?.Length ?? 0) == 0)
+                return;
 
-				// First character must be lower case
-				string firstCharacter = name.Substring(0, 1);
-				firstCharacter = firstCharacter.ToLower();
-				string AllButFirst = name.Substring(1);
-				string nameWithLowercase = firstCharacter + AllButFirst;
+            // First character must be lower case
+            string firstCharacter = name.Substring(0, 1);
+            firstCharacter = firstCharacter.ToLower();
+            string AllButFirst = name.Substring(1);
+            string nameWithLowercase = firstCharacter + AllButFirst;
 
-				foreach (RadioButton radioButton in RadioButtonGroup)
-				{
-					//if ((radioButton.Dispatcher.CheckAccess()))
-					//{
-						if (radioButton.Name == nameWithLowercase)
-						{
-							radioButton.IsChecked = true;
-							break;
-						}
-					else
-					{
-						radioButton.IsChecked = false;
-					}
-				//}
-				//	else
-				//	{
-				//		radioButton.Dispatcher.Invoke(DispatcherPriority.Normal, new SetRadioButtonChecked(SetRadioButton), radioButton, nameWithLowercase);
-				//	}
-				}
-			}
+            foreach (RadioButton radioButton in RadioButtonGroup)
+            {
+                //if ((radioButton.Dispatcher.CheckAccess()))
+                //{
+                if (radioButton.Name == nameWithLowercase)
+                {
+                    radioButton.IsChecked = true;
+                    break;
+                }
+                else
+                {
+                    radioButton.IsChecked = false;
+                }
+                //}
+                //	else
+                //	{
+                //		radioButton.Dispatcher.Invoke(DispatcherPriority.Normal, new SetRadioButtonChecked(SetRadioButton), radioButton, nameWithLowercase);
+                //	}
+            }
+        }
 
         public bool Validate()
         {

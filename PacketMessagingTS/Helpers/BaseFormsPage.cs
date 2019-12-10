@@ -460,11 +460,11 @@ namespace PacketMessagingTS.Helpers
             }
 
             _packetForm.UpdateFormFieldsRequiredColors(true);
-            _packetMessage = new PacketMessage()
-            {
-                FormProvider = _packetForm.FormProvider,
-                FormControlType = _packetForm.FormControlType,
-            };
+            //_packetMessage = new PacketMessage()
+            //{
+            //    FormProvider = _packetForm.FormProvider,
+            //    FormControlType = _packetForm.FormControlType,
+            //};
 
             _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
             _packetForm.OriginMsgNo = _packetForm.MessageNo;
@@ -510,7 +510,6 @@ namespace PacketMessagingTS.Helpers
                 if (_packetMessage != null)
                 {
                     _packetMessage.Subject = _packetForm.CreateSubject();
-                    //_packetAddressForm.MessageSubject = _packetMessage.Subject;
                 }
             }
         }
@@ -574,12 +573,12 @@ namespace PacketMessagingTS.Helpers
 
             if (!_loadMessage)
             {
-                _packetMessage = new PacketMessage()
-                {
-                    FormProvider = _packetForm.FormProvider,
-                    FormControlType = _packetForm.FormControlType,
-                    MessageState = MessageState.None,
-                };
+    //            _packetMessage = new PacketMessage()
+    //            {
+    //                FormProvider = _packetForm.FormProvider,
+    //                FormControlType = _packetForm.FormControlType,
+    //                MessageState = MessageState.None,
+    //            };
 
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
 
@@ -593,7 +592,7 @@ namespace PacketMessagingTS.Helpers
                     _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
                 }
 
-                _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
+    //            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     _packetForm.Severity = "other";

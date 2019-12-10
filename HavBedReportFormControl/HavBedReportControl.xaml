@@ -1,8 +1,8 @@
 ﻿<MyBaseNamespace:FormControlBase
     x:Class="HavBedReportFormControl.HavBedReportControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:HavBedReportFormControl"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                                                                                                                                                                                                                                                                                                                                              
+    xmlns:local="using:HavBedReportFormControl"                                                                                                        
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
@@ -99,17 +99,17 @@
                                                        Tag="5.,required,Indicate Msg. Handling Order."/>
                         <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" 
-                                             Margin="8,0" 
+                                             Margin="8,0" Tag="IMMEDIATE"
                                              Content="Immediate (ASAP)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="As soon as possible" />
                         <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" 
                                              Margin="8,0" Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than one hour" />
+                                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
                         <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                              Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than two hours" />
+                                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
                     </Grid>
                     <Grid >
                         <Grid.ColumnDefinitions>
@@ -261,9 +261,11 @@
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Hospital Name:" Style="{StaticResource ShelterStatusHeaderText}"/>
                     <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                     <ComboBox Grid.Row="1" Grid.Column="1" x:Name="hospitalName" Width="300"
+                              DisplayMemberPath="Item"
                               Style="{StaticResource MuniStatusComboBox}"  
                               ItemsSource="{x:Bind Hospitals}"
                               SelectionChanged="Subject_Changed" 
+                              Loaded="ComboBox_Loaded"
                               Tag="20.,required" />
                     <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Command Center Status:" Style="{StaticResource ShelterStatusHeaderText}"/>

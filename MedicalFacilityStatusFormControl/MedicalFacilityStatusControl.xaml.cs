@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using FormControlBaseClass;
 using SharedCode;
 using SharedCode.Helpers;
+using ToggleButtonGroupControl;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -33,7 +34,7 @@ namespace MedicalFacilityStatusFormControl
     /// </summary>
     public sealed partial class MedicalFacilityStatusControl : FormControlBase
     {
-        readonly List<ComboBoxPackItItem> Status = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxPackItItem> DiversionStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
             new ComboBoxPackItItem("Unknown", LightGrayBrush),
@@ -41,6 +42,72 @@ namespace MedicalFacilityStatusFormControl
             new ComboBoxPackItItem("Diverting Ambulances"),
             new ComboBoxPackItItem("Internal Disaster", _blackBrush),
             new ComboBoxPackItItem("Specialty Bypass", YellowBrush),
+        };
+
+        readonly List<ComboBoxPackItItem> DeconStatus = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem(null, ""),
+            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Not Available", OrangeBrush),
+            new ComboBoxPackItItem("Active", LightGreenBrush),
+            new ComboBoxPackItItem("Available", YellowBrush),
+        };
+
+        readonly List<ComboBoxPackItItem> CommandCenterStatus = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem(null, ""),
+            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Inactive", LightGreenBrush),
+            new ComboBoxPackItItem("Acyivated", PinkBrush),
+        };
+
+        readonly List<ComboBoxPackItItem> MorgueStatus = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem(null, ""),
+            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Open", LightGreenBrush),
+            new ComboBoxPackItItem("Full", YellowBrush),
+        };
+
+        readonly List<ComboBoxPackItItem> PowerStatus = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem(null, ""),
+            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Normal", LightGreenBrush),
+            new ComboBoxPackItItem("Generator", YellowBrush),
+            new ComboBoxPackItItem("None"),
+        };
+
+        readonly List<ComboBoxPackItItem> BuildingStatus = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem(null, ""),
+            new ComboBoxPackItItem("Unknown", LightGrayBrush),
+            new ComboBoxPackItItem("Restricted Use"),
+            new ComboBoxPackItItem("Unsafe to Occupy"),
+            new ComboBoxPackItItem("Not Inspected", LightGrayBrush),
+            new ComboBoxPackItItem("Safe to Occupy", YellowBrush),
+            new ComboBoxPackItItem("Normal", LightGreenBrush),
+            new ComboBoxPackItItem("Compromised"),
+            new ComboBoxPackItItem("Evacuating", PinkBrush),
+            new ComboBoxPackItItem("Closed"),
+        };
+
+        readonly List<ComboBoxPackItItem> SecurityStatus = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem(null, ""),
+            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Normal", LightGreenBrush),
+            new ComboBoxPackItItem("Ekevated", YellowBrush),
+            new ComboBoxPackItItem("Restricted Access", OrangeBrush),
+            new ComboBoxPackItItem("Lockdown", PinkBrush),
+        };
+
+        readonly List<ComboBoxPackItItem> Status = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem(null, ""),
+            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Adequate", LightGreenBrush),
+            new ComboBoxPackItItem("Insufficient", LightGrayBrush),
         };
 
         public MedicalFacilityStatusControl()
@@ -65,7 +132,7 @@ namespace MedicalFacilityStatusFormControl
         public string CardiologyService
         { get; set; }
 
-        
+
         public override void AppendDrillTraffic()
         {
             //specialInstructions.Text += DrillTraffic;
@@ -150,26 +217,41 @@ namespace MedicalFacilityStatusFormControl
             var parent = radioButton.Parent;
             if ((radioButton.Tag as string).Contains("Y") && ReportType == "update")
             {
-                cardiologyServiceComment.Text = "{CLEAR}";
+                cardiologyServiceComment.Text = "";
                 cardiologyServiceComment.IsReadOnly = true;
-                //cardiologyServiceReopening.Tag = (cardiologyServiceReopening.Tag as string).Replace(",required", ",conditionallyrequired");
                 cardiologyServiceReopening.IsReadOnly = true;
-                cardiologyServiceReopening.Text = "{CLEAR}";
-                //cardiologyServiceReopening.BorderThickness = new Thickness(1);
-                //cardiologyServiceReopening.BorderBrush = new SolidColorBrush(Colors.Black);
+                cardiologyServiceReopening.Text = "";
 
             }
             else
             {
                 cardiologyServiceComment.IsReadOnly = false;
                 cardiologyServiceComment.Text = "";
-                //cardiologyServiceReopening.Tag = (cardiologyServiceReopening.Tag as string).Replace(",conditionallyrequired", ",required");
                 cardiologyServiceReopening.IsReadOnly = false;
                 cardiologyServiceReopening.Text = "";
-                //cardiologyServiceReopening.BorderThickness = new Thickness(2);
-                //cardiologyServiceReopening.BorderBrush = new SolidColorBrush(Colors.Red);
 
             }
+
+            //foreach (FormControl formControl in _formControlsList)
+            //{
+            //    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
+            //    {
+            //        if (radioButton.GroupName == toggleButtonGroup.RadioButtonGroup[0].GroupName)
+            //        {
+            //            string tag = GetTagIndex(toggleButtonGroup);
+            //        }
+            //    }
+            //}
+
+            //if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+            //{
+            //    toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+            //}
+            //else
+            //{
+            //    toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+            //}
+            UpdateFormFieldsRequiredColors();
         }
 
     }
