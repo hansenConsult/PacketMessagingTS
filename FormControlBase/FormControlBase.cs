@@ -78,7 +78,7 @@ namespace FormControlBaseClass
         readonly protected List<ComboBoxPackItItem> Hospitals = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem("El Camino Hospital Los Gatos"),
-            new ComboBoxPackItItem("El Camino Hospital Mountain view"),
+            new ComboBoxPackItItem("El Camino Hospital Mountain View"),
             new ComboBoxPackItItem("Good Samaritan Hospital"),
             new ComboBoxPackItItem("Kaiser Gan Jose Medical Center"),
             new ComboBoxPackItItem("Kaiser Santa Clara Hospital"),
@@ -92,12 +92,12 @@ namespace FormControlBaseClass
             new ComboBoxPackItItem("Valley Medical Center"),
         };
 
-        readonly protected List<string> Priority = new List<string>
+        protected List<ComboBoxPackItItem> Priority = new List<ComboBoxPackItItem>
         {
-            "Now",
-            "High (0-4 hrs.)",
-            "Medium (5-12 hrs.)",
-            "Low (12+ hrs.)",
+            new ComboBoxPackItItem("Now", "Now", 0),
+            new ComboBoxPackItItem("High (0-4 hrs.)", "High", 1),
+            new ComboBoxPackItItem("Medium (5-12 hrs.)", "Medium", 2),
+            new ComboBoxPackItItem("Low (12+ hrs.)", "Low", 3),
         };
 
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
@@ -341,10 +341,11 @@ namespace FormControlBaseClass
         //public static string DefaultMessageTo
         //{ get; set; }
 
+        protected string _msgDate;
         public virtual string MsgDate
         { get; set; }
 
-        protected string TimeCheck(string time)
+        protected static string TimeCheck(string time)
         {
             try
             {
@@ -494,25 +495,39 @@ namespace FormControlBaseClass
             }
         }
 
+        protected Control GetControlFromTagIndex(string id)
+        {
+            foreach (FormControl  formControl in _formControlsList)
+            {
+                Control control = formControl.InputControl;
+                string tagIndex = GetTagIndex(control);
+                if (id == tagIndex)
+                {
+                    return control;
+                }
+            }
+            return null;
+        }
+
         protected virtual string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
         {
             string comboBoxData = GetOutpostValue(id, ref msgLines);
             var comboBoxDataSet = comboBoxData?.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-
+            
             return comboBoxDataSet?[0];
         }
 
         protected virtual FormField[] ConvertFromOutpostPackItForm(FormField[] formFields, ref string[] msgLines)
         {
-            string senderMsgNo = "";
-            if (!string.IsNullOrEmpty(GetOutpostValue("MsgNo", ref msgLines)))
-            {
-                senderMsgNo = GetOutpostValue("1", ref msgLines);
-            }
-            else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
-            {
-                senderMsgNo = GetOutpostValue("3", ref msgLines);
-            }
+            //string senderMsgNo = "";
+            //if (!string.IsNullOrEmpty(GetOutpostValue("MsgNo", ref msgLines)))
+            //{
+            //    senderMsgNo = GetOutpostValue("1", ref msgLines);
+            //}
+            //else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
+            //{
+            //    senderMsgNo = GetOutpostValue("3", ref msgLines);
+            //}
 
             foreach (FormField formField in formFields)
             {
@@ -526,18 +541,18 @@ namespace FormControlBaseClass
                     {
                         foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
                         {
-                            //if (outpostValue == radioButton.Content as string)
+                            if (outpostValue == radioButton.Tag as string)
+                            {
+                                formField.ControlContent = radioButton.Name;
+                            }
+                            //if ((radioButton.Content as string).Contains(outpostValue))
                             //{
                             //    formField.ControlContent = radioButton.Name;
                             //}
-                            if ((radioButton.Content as string).Contains(outpostValue))
-                            {
-                                formField.ControlContent = radioButton.Name;
-                            }
-                            else if (radioButton.Name == outpostValue)
-                            {
-                                formField.ControlContent = radioButton.Name;
-                            }
+                            //else if (radioButton.Name == outpostValue)
+                            //{
+                            //    formField.ControlContent = radioButton.Name;
+                            //}
                         }
                     }
                 }
@@ -551,11 +566,11 @@ namespace FormControlBaseClass
                 }
                 else if (control is TextBox || control is AutoSuggestBox)
                 {
-                    if (control.Name == "senderMsgNo")
-                    {
-                        formField.ControlContent = senderMsgNo;
-                    }
-                    else
+                    //if (control.Name == "senderMsgNo")
+                    //{
+                    //    formField.ControlContent = senderMsgNo;
+                    //}
+                    //else
                     {
                         formField.ControlContent = GetOutpostValue(id, ref msgLines);
                     }
@@ -569,7 +584,7 @@ namespace FormControlBaseClass
             FormField[] formFields = CreateEmptyFormFieldsArray();
 
             // Populate Sender Message Number from received message number
-            // Sender message number can be either in 1 or 3
+            // Sender message number can be either in 1 or 3 in PACFORM
             if (formProvider == FormProviders.PacItForm)
             {
                 formFields = ConvertFromOutpostPackItForm(formFields, ref msgLines);
@@ -578,14 +593,14 @@ namespace FormControlBaseClass
             {
                 string senderMsgNo = "";
                     
-                if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
-                {
-                    senderMsgNo = GetOutpostValue("1", ref msgLines);
-                }
-                else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
-                {
-                    senderMsgNo = GetOutpostValue("3", ref msgLines);
-                }
+                //if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
+                //{
+                //    senderMsgNo = GetOutpostValue("1", ref msgLines);
+                //}
+                //else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
+                //{
+                //    senderMsgNo = GetOutpostValue("3", ref msgLines);
+                //}
                 foreach (FormField formField in formFields)
                 {
                     (string id, Control control) = GetTagIndex(formField);
@@ -594,7 +609,7 @@ namespace FormControlBaseClass
                     {
                         foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
                         {
-                            string radioButtonIndex = GetTagIndex(radioButton, formProvider);
+                            string radioButtonIndex = GetTagIndex(radioButton);
                             if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
                             {
                                 formField.ControlContent = radioButton.Name;
@@ -737,33 +752,33 @@ namespace FormControlBaseClass
         //    return ("", control);
         //}
 
-        public static string GetTagIndex(Control control, FormProviders formProvider)
-        {
-            try
-            {
-                string tag = (string)control.Tag;
-                if (!string.IsNullOrEmpty(tag))
-                {
-                    string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))
-                    {
-                        string[] formProviderTags = tags[0].Split(new char[] { '|' });
-                        if (formProviderTags.Length > 1)
-                        {
-                            return formProviderTags[(int)formProvider];
-                        }
-                        else
-                        {
-                            return tags[0];
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-            return "";
-        }
+        //public static string GetTagIndex(Control control, FormProviders formProvider)
+        //{
+        //    try
+        //    {
+        //        string tag = (string)control.Tag;
+        //        if (!string.IsNullOrEmpty(tag))
+        //        {
+        //            string[] tags = tag.Split(new char[] { ',' });
+        //            if (!tags[0].Contains("required"))
+        //            {
+        //                string[] formProviderTags = tags[0].Split(new char[] { '|' });
+        //                if (formProviderTags.Length > 1)
+        //                {
+        //                    return formProviderTags[(int)formProvider];
+        //                }
+        //                else
+        //                {
+        //                    return tags[0];
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //    }
+        //    return "";
+        //}
 
         public string GetTagErrorMessage(FormField formField)
         {
@@ -942,7 +957,6 @@ namespace FormControlBaseClass
             for (int i = 0; i < _formControlsList.Count; i++)
             {
                 //int tagIndex;
-                //string tagIndexString = GetTagIndex(_formControlsList[i].InputControl, FormProvider);
                 string tagIndexString = GetTagIndex(_formControlsList[i].InputControl);
                 FormField formField = new FormField()
                 {
@@ -1053,6 +1067,7 @@ namespace FormControlBaseClass
             var data = formField.ControlContent.Split(new char[] { ',' });
             if (data.Length == 2)
             {
+                // This is a PacForm ComboBox
                 int index = Convert.ToInt32(data[1]);
                 if (index < 0 && comboBox.IsEditable)
                 {
@@ -1067,16 +1082,18 @@ namespace FormControlBaseClass
             }
             else
             {
+                // Received forms neds to have their ControlComboxContent updated
+                var items = comboBox.Items;
+                var selectedItem = comboBox.Items[0];
+                var itemSource = comboBox.ItemsSource;
+                //Type typeofitem = comboBox.Items[0].GetType();
                 if (formField.ControlComboxContent != null)
                 {
-                    var count = comboBox.Items.Count;
-                    var item = comboBox.Items[9];
-                    //comboBox.SelectedValue = formField.ControlComboxContent.Item;
                     comboBox.SelectedIndex = formField.ControlComboxContent.SelectedIndex;
                 }
                 else
                 {
-                    comboBox.SelectedItem = formField.ControlContent;
+                    comboBox.SelectedValue = formField.ControlContent;
                 }
             }
         }
@@ -1256,7 +1273,7 @@ namespace FormControlBaseClass
 			return sb.ToString();
 		}
 
-		protected string ConvertLineTabsToSpaces(string line, int tabWidth)
+		protected static string ConvertLineTabsToSpaces(string line, int tabWidth)
 		{
 			string convertedLine;
 			StringBuilder sb = new StringBuilder();
@@ -1342,7 +1359,8 @@ namespace FormControlBaseClass
                         int index = 0;
                         foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
                         {
-                            if (packItItem.Item == formField.ControlContent)
+                            //if (packItItem.Item == formField.ControlContent)
+                            if (packItItem.Data == formField.ControlContent)
                             {
                                 packItItem.SelectedIndex = index;
                                 comboBox.SelectedIndex = index;

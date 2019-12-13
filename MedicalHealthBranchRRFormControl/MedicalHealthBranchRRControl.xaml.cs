@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Collections.Generic;
+
 using FormControlBaseClass;
+
 using SharedCode;
 using SharedCode.Helpers;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -43,13 +33,34 @@ namespace MedicalHealthBranchRRFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
         public override string PacFormName => "form-medical-resource-request";
 
         public override string PacFormType => "XSC_MedicalResourceRequest";
 
         public override string PIFString => "PIF: 3.1";
+
+        public override string MsgDate
+        {
+            get => _msgDate;
+            set
+            {
+                Set(ref _msgDate, value);
+                requestDate.Text = _msgDate;
+            }
+        }
+
+        public override string MsgTime
+        {
+            get => _msgTime;
+            set
+            {
+                string time = TimeCheck(value);
+                Set(ref _msgTime, time);
+                requestTime.Text = time;
+            }
+        }
 
         public override void AppendDrillTraffic()
         {

@@ -78,14 +78,14 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" x:Name="textBoxMsgDate" 
+                        <TextBox Grid.Column="1" x:Name="msgDate" 
                                  Style="{StaticResource MuniStatusDateTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
                                  Tag="1a.,required"
                                  TextChanged="TextBox_DateChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0" />
-                        <TextBox Grid.Column="3" x:Name="textBoxMsgTime" Margin="0,0,8,0" 
+                        <TextBox Grid.Column="3" x:Name="msgTime" Margin="0,0,8,0" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  Tag="1b.,required"
@@ -478,7 +478,7 @@
                         </Grid.ColumnDefinitions>
                         <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="medicalFacilitySuppliesStatus" Width="150"
                                   DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind Status}"
+                                  ItemsSource="{x:Bind Status, Mode=OneWay}"
                                   Style="{StaticResource MuniStatusComboBox}"                              
                                   SelectionChanged="ComboBox_SelectionChanged"
                                   Loaded="ComboBox_Loaded"
@@ -606,10 +606,10 @@
                                                         
                                                         Tag="15.1.,conditionallyrequired"/>
                         <RadioButton x:Name="cardiologyServiceYes"  GroupName="cardiologyService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="cardiologyServiceNo" GroupName="cardiologyService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -629,10 +629,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.3.,conditionallyrequired"/>
                         <RadioButton x:Name="dialysisServiceYes" GroupName="dialysisService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="dialysisServiceNo" GroupName="dialysisService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -652,10 +652,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.4.,conditionallyrequired"/>
                         <RadioButton x:Name="emergencyDepartmentServiceYes" GroupName="emergencyDepartmentService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="emergencyDepartmentServiceNo" GroupName="emergencyDepartmentService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -669,16 +669,16 @@
                              Tag="15.4d."/>
                     <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Neurology" Style="{StaticResource ShelterStatusHeaderText}"/>
-                    <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                    <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                     <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
                         <MyNamespace:ToggleButtonGroup x:Name="neurologyService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.5.,conditionallyrequired"/>
                         <RadioButton x:Name="neurologyServiceYes" GroupName="neurologyService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="neurologyServiceNo" GroupName="neurologyService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -698,10 +698,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.7.,conditionallyrequired"/>
                         <RadioButton x:Name="obstetricsServiceYes" GroupName="obstetricsService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="obstetricsServiceNo" GroupName="obstetricsService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -721,10 +721,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.8.,conditionallyrequired"/>
                         <RadioButton x:Name="obstetricsLaborServiceYes" GroupName="obstetricsLaborService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="obstetricsLaborServiceNo" GroupName="obstetricsLaborService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -745,10 +745,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.9.,conditionallyrequired"/>
                         <RadioButton x:Name="ophthalmologyServiceYes" GroupName="ophthalmologyService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="ophthalmologyServiceNo" GroupName="ophthalmologyService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="8" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -768,10 +768,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.10.,conditionallyrequired"/>
                         <RadioButton x:Name="orthopedicsServiceYes" GroupName="orthopedicsService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="orthopedicsServiceNo" GroupName="orthopedicsService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="9" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -791,10 +791,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.11.,conditionallyrequired"/>
                         <RadioButton x:Name="pediatricsServiceYes" GroupName="pediatricsService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="pediatricsServiceNo" GroupName="pediatricsService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="10" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -814,10 +814,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.12.,conditionallyrequired"/>
                         <RadioButton x:Name="surgeryServiceYes" GroupName="surgeryService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="SpecialtyService_Checked" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="surgeryServiceNo" GroupName="surgeryService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                     <Border Grid.Row="11" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -840,10 +840,10 @@
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="16.,conditionallyrequired"/>
                         <RadioButton x:Name="evacuatingServiceYes" GroupName="evacuatingService" Content="Yes"
-                                     Checked="SpecialtyServeice_Checked" Margin="8,0,0,0" 
+                                     Checked="RadioButton_SelectionChanged" Margin="8,0,0,0" 
                                      Tag="Y"/>
                         <RadioButton x:Name="evacuatingServiceNo" GroupName="evacuatingService" Content="No"
-                                     Checked="SpecialtyServeice_Checked" Margin="-52,0,0,0"
+                                     Checked="RadioButton_SelectionChanged" Margin="-52,0,0,0"
                                      Tag="N" />
                     </StackPanel>
                 </Grid>

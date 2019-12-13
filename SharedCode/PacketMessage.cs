@@ -715,6 +715,8 @@ namespace SharedCode
 
         private Brush backgroundBrushField = new SolidColorBrush(Colors.White);
 
+        private Brush foregroundBrushField = new SolidColorBrush(Colors.Black);
+
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Item
         {
@@ -750,6 +752,13 @@ namespace SharedCode
             set => this.backgroundBrushField = value;
         }
 
+        [System.Xml.Serialization.XmlIgnore]
+        public Brush ForegroundBrush
+        {
+            get => this.foregroundBrushField;
+            set => this.foregroundBrushField = value;
+        }
+
         public ComboBoxPackItItem()
         { }
         
@@ -759,12 +768,12 @@ namespace SharedCode
             Data = item;
         }
 
-        public ComboBoxPackItItem(string item, Color color)
-        {
-            Item = item;
-            Data = item;
-            BackgroundColor = color.ToString();
-        }
+        //public ComboBoxPackItItem(string item, Color color)
+        //{
+        //    Item = item;
+        //    Data = item;
+        //    BackgroundColor = color.ToString();
+        //}
 
         public ComboBoxPackItItem(string item, Brush brush)
         {
@@ -773,21 +782,36 @@ namespace SharedCode
             BackgroundBrush = brush;
         }
 
+        public ComboBoxPackItItem(string item, Brush brush, Brush foregroundBrush)
+        {
+            Item = item;
+            Data = item;
+            BackgroundBrush = brush;
+            ForegroundBrush = foregroundBrush;
+        }
+
         public ComboBoxPackItItem(string item, string data)
         {
             Item = item;
             Data = data;
         }
 
-        public Brush GetBackgroundBrush()
+        public ComboBoxPackItItem(string item, string data, int index)
         {
-            byte a = Convert.ToByte(BackgroundColor.Substring(1, 2), 16);
-            byte r = Convert.ToByte(BackgroundColor.Substring(3, 2), 16);
-            byte g = Convert.ToByte(BackgroundColor.Substring(5, 2), 16);
-            byte b = Convert.ToByte(BackgroundColor.Substring(7, 2), 16);
-            Color color = ColorHelper.FromArgb(a, r, g, b);
-            return new SolidColorBrush(color);
+            Item = item;
+            Data = data;
+            SelectedIndex = index;
         }
+
+        //public Brush GetBackgroundBrush()
+        //{
+        //    byte a = Convert.ToByte(BackgroundColor.Substring(1, 2), 16);
+        //    byte r = Convert.ToByte(BackgroundColor.Substring(3, 2), 16);
+        //    byte g = Convert.ToByte(BackgroundColor.Substring(5, 2), 16);
+        //    byte b = Convert.ToByte(BackgroundColor.Substring(7, 2), 16);
+        //    Color color = ColorHelper.FromArgb(a, r, g, b);
+        //    return new SolidColorBrush(color);
+        //}
     }
 
 }

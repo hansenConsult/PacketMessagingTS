@@ -269,7 +269,7 @@
                                 <ComboBox Grid.Column="4" Name="jurisdictionName"   
                                           DisplayMemberPath="Item"
                                           SelectedValuePath="Item"
-                                          ItemsSource="{x:Bind Municipalities}"
+                                          ItemsSource="{x:Bind Municipalities, Mode=OneWay}"
                                           Style="{StaticResource MuniStatusComboBox}"
                                           SelectionChanged="Subject_Changed" 
                                           Loaded="ComboBox_Loaded"

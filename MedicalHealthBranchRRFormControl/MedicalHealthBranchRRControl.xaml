@@ -75,14 +75,14 @@ Resource Request Form #9A"
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14SB}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" x:Name="textBoxMsgDate" 
+                        <TextBox Grid.Column="1" x:Name="msgDate" 
                                  Style="{StaticResource MuniStatusDateTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
                                  Tag="1a.,required"
                                  TextChanged="TextBox_DateChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14SB}"
                                    VerticalAlignment="Center" Margin="8,0,0,0" />
-                        <TextBox Grid.Column="3" x:Name="textBoxMsgTime" Margin="0,0,8,0" 
+                        <TextBox Grid.Column="3" x:Name="msgTime" Margin="0,0,8,0" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  Tag="1b.,required"
@@ -227,18 +227,23 @@ Resource Request Form #9A"
                     <Grid BorderBrush="Black" BorderThickness="1,1,1,1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                        <TextBox Grid.Column="1" Style="{StaticResource MedicalFacilityStatusCommentsText}"
+                        <TextBox Grid.Column="1"  x:Name="requestDate"
+                                 Text="{x:Bind Mode=OneWay, Path=MsgDate}"
+                                 Style="{StaticResource MuniStatusDateTextBox}"
+                                 TextChanged="TextBox_TextChanged"
                                  Tag="20a.,required"/>
                         <TextBlock Grid.Column="2" Text="Time of Request:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
-                        <TextBox Grid.Column="3" Style="{StaticResource MedicalFacilityStatusCommentsText}"
+                        <TextBox Grid.Column="3" x:Name="requestTime" 
+                                 Style="{StaticResource MuniStatusTimeTextBox}"
+                                 TextChanged="TextBox_TimeChanged"
                                  Tag="20b.,required"/>
                         <TextBlock Grid.Column="4" Text="Requesting Facility:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                         <TextBox Grid.Column="5" x:Name="requestingFacility" 
@@ -248,23 +253,30 @@ Resource Request Form #9A"
                     </Grid>
                     <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="48"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="323*"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Contact:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
-                        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                        <TextBox Grid.Column="1" Style="{StaticResource MedicalFacilityStatusCommentsText}" 
+                        <TextBlock Grid.Column="0" Text="Contact:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0" Grid.ColumnSpan="2"/>
+                        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="3" Margin="2,0,53,2"/>
+                        <TextBox Grid.Column="2" Grid.ColumnSpan="2" x:Name="contact" Margin="4,2,6,4" 
+                                 Style="{StaticResource MedicalFacilityStatusCommentsText}" 
+                                 TextChanged="TextBox_TextChanged"
                                  Tag="22.,required"/>
-                        <TextBlock Grid.Column="2" Text="Phone:" Style="{StaticResource LabelFontTNR14}"/>
-                        <TextBox Grid.Column="3" 
-                                 Style="{StaticResource MedicalFacilityStatusCommentsText}" Tag="22p.,required"/>
-                        <TextBlock Grid.Column="4" Text="Fax:" Style="{StaticResource LabelFontTNR14SB}"/>
-                        <TextBox Grid.Column="5" 
-                                 Style="{StaticResource MedicalFacilityStatusCommentsText}" Tag="22f."/>
+                        <TextBlock Grid.Column="4" Text="Phone:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="12,0,0,0"/>
+                        <Border Grid.Column="5" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="2" Margin="2,0,33,2"/>
+                        <TextBox Grid.Column="5" x:Name="contactPhone" Style="{StaticResource MuniStatusPhoneTextBox}" 
+                                 TextChanged="TextBox_PhoneChanged"
+                                 Tag="22p.,required" Margin="4,0,6,0"/>
+                        <TextBlock Grid.Column="6" Text="Fax:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0"/>
+                        <TextBox Grid.Column="7" x:Name="contactFax" Style="{StaticResource MuniStatusPhoneTextBox}" 
+                                 TextChanged="TextBox_PhoneChanged"
+                                 Tag="22f." Margin="4,0,6,0"/>
                     </Grid>
                     <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                         <Grid.ColumnDefinitions>
@@ -285,28 +297,32 @@ Resource Request Form #9A"
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0"/>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="NATURE"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="NATURE" HorizontalAlignment="Center" FontWeight="SemiBold"/>
                             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <MyNamespace:ToggleButtonGroup x:Name="nature" Visibility="Collapsed"
                                                        CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                        Tag="23.,required,Select Nature."/>
                             <RadioButton Grid.Row="1" Grid.Column="0" Margin="8,0" 
                                          x:Name="natureSupply" GroupName="nature"
-                                         Content="Supply"/>
+                                         Content="Supply" 
+                                         Checked="RadioButton_SelectionChanged" Tag="Supply"/>
                             <RadioButton Grid.Row="2" Grid.Column="0" Margin="8,0" 
                                          x:Name="natureMedicalGuidance" GroupName="nature"
-                                         Content="Medical Guidance"/>
+                                         Content="Medical Guidance" Tag="Medical Guidance"/>
                             <RadioButton Grid.Row="3" Grid.Column="0" Margin="8,0" 
                                          x:Name="natureOther" GroupName="nature"
-                                         Content="Other"/>
+                                         Content="Other"
+                                         Checked="RadioButton_SelectionChanged" Tag="Other"/>
                             <RadioButton Grid.Row="1" Grid.Column="1" 
                                          x:Name="natureEquipment" GroupName="nature"
-                                         Content="Equipment"/>
+                                         Content="Equipment" 
+                                         Checked="RadioButton_SelectionChanged" Tag="Equipment"/>
                             <RadioButton Grid.Row="2" Grid.Column="1" 
                                          x:Name="naturePersonnel" GroupName="nature"
-                                         Content="Personnel"/>
-                            <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                                     Style="{StaticResource MedicalFacilityStatusCommentsText}" Tag="23."/>
+                                         Content="Personnel"
+                                         Checked="RadioButton_SelectionChanged" Tag="Personnel"/>
+                            <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="natureOtherComments" 
+                                     Style="{StaticResource MedicalFacilityStatusCommentsText}" Tag="23o."/>
                         </Grid>
                         <Grid Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0">
                             <Grid.RowDefinitions>
@@ -323,38 +339,45 @@ Resource Request Form #9A"
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Row="0" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="FACILITY TYPE"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="FACILITY TYPE" HorizontalAlignment="Center" FontWeight="SemiBold"/>
                             <MyNamespace:ToggleButtonGroup x:Name="facilityType" Visibility="Collapsed"
                                                        CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                        Tag="24.,required,Select Facility Type."/>
                             <RadioButton Grid.Row="1" x:Name="facilitypeCity" GroupName="facilityType"
                                          Style="{StaticResource RadioButtonTNR12}" 
                                          Margin="8,0" 
-                                         Content="City" />
+                                         Content="City"  
+                                         Checked="RadioButton_SelectionChanged" Tag="City"/>
                             <RadioButton Grid.Row="2" x:Name="facilityHospital" GroupName="facilityType" 
                                          Style="{StaticResource RadioButtonTNR12}" 
                                          Margin="8,0" 
-                                         Content="Hospital" />
+                                         Content="Hospital"  
+                                         Checked="RadioButton_SelectionChanged" Tag="Hospital"/>
                             <RadioButton Grid.Row="3" x:Name="facilityAlliedHealthcare" GroupName="facilityType" 
                                          Style="{StaticResource RadioButtonTNR12}" 
                                          Margin="8,0" 
-                                         Content="Allied Healthcare" />
+                                         Content="Allied Healthcare" 
+                                         Checked="RadioButton_SelectionChanged" Tag="Allied Healthcare"/>
                             <RadioButton Grid.Row="4" x:Name="facilityPublicHealth" GroupName="facilityType" 
                                          Style="{StaticResource RadioButtonTNR12}" 
                                          Margin="8,0" 
-                                         Content="Public Health" />
+                                         Content="Public Health" 
+                                         Checked="RadioButton_SelectionChanged" Tag="Public Health"/>
                             <RadioButton Grid.Row="5" x:Name="facilityHHSDept" GroupName="facilityType" 
                                          Style="{StaticResource RadioButtonTNR12}" 
                                          Margin="8,0" 
-                                         Content=" HHS Dept." />
+                                         Content="HHS Dept."
+                                         Checked="RadioButton_SelectionChanged" Tag="HHS Dept."/>
                             <RadioButton Grid.Row="6" x:Name="facilityDEOCRequest" GroupName="facilityType" 
                                          Style="{StaticResource RadioButtonTNR12}" 
                                          Margin="8,0" 
-                                         Content="DEOC Request" />
+                                         Content="DEOC Request"
+                                         Checked="RadioButton_SelectionChanged" Tag="DEOC Request" />
                             <RadioButton Grid.Row="7" x:Name="facilityOther" GroupName="facilityType" 
                                          Style="{StaticResource RadioButtonTNR12}" 
                                          Margin="8,0" 
-                                         Content="Other" />
+                                         Content="Other"
+                                         Checked="RadioButton_SelectionChanged" Tag="Other"/>
                         </Grid>
                         <Grid Grid.Row="0" Grid.Column="2">
                             <Grid.RowDefinitions>
@@ -366,18 +389,21 @@ Resource Request Form #9A"
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Row="0" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="BILLING"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="BILLING" HorizontalAlignment="Center" FontWeight="SemiBold" />
                             <StackPanel Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <TextBlock Text="Bill to:" Margin="8,4,0,0"
                                            Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" />
                                 <TextBox x:Name="billTo" Height="78"
-                                         Style="{StaticResource MedicalFacilityStatusCommentsText}" Tag="25a.,required" />
+                                         Style="{StaticResource MedicalFacilityStatusCommentsText}" 
+                                         TextChanged="TextBox_TextChanged"
+                                         Tag="25a.,required" />
                             </StackPanel>
                             <StackPanel Grid.Row="2">
                                 <TextBlock Text="Organizational Authorization ID:" Margin="8,4,0,0"
                                            Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBox x:Name="iD" Height="78"
                                          Style="{StaticResource MedicalFacilityStatusCommentsText}"
+                                         TextChanged="TextBox_TextChanged"
                                          Tag="25b.,required" />
                             </StackPanel>
                         </Grid>
@@ -385,12 +411,15 @@ Resource Request Form #9A"
                     <StackPanel Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
                         <TextBlock Text="Priority:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                         <ComboBox x:Name="priority" Width="150"
+                                  DisplayMemberPath="Item"
                                   ItemsSource="{x:Bind Priority, Mode=OneWay}"
                                   Style="{StaticResource MuniStatusComboBox}"
+                                  SelectionChanged="ComboBox_SelectionChanged"
+                                  Loaded="ComboBox_Loaded"
                                   Tag="26.,required"/>
                     </StackPanel>
                     <Border Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1">
-                        <TextBlock Text="DESCRIBE THE RESOURCE REQUESTED" HorizontalAlignment="Center" />
+                        <TextBlock Text="DESCRIBE THE RESOURCE REQUESTED" HorizontalAlignment="Center" FontWeight="SemiBold"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1,0,1,1">
                         <StackPanel>
@@ -398,9 +427,10 @@ Resource Request Form #9A"
                                Text="Directions: Include quantity, need by, deliver location, duration, specifications, etc. Use one form per request."/>
                             <TextBox x:Name="resourceDescription" Height="120" 
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
+                                     TextChanged="TextBox_TextChanged"
                                      Tag="27.,required"/>
                             <Border Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,1">
-                                <TextBlock Text="STATEMENT OF REQUESTOR" HorizontalAlignment="Center" />
+                                <TextBlock Text="STATEMENT OF REQUESTOR"  HorizontalAlignment="Center" FontWeight="SemiBold"/>
                             </Border>
                             <TextBlock TextWrapping="WrapWholeWords" Margin="8,0,8,0"
                                        Text="I certify that that the resources requested are currently not available and that our organization has exhausted all appropriate means to procure such resources. I understand that my organization is responsible for all costs related to filling this request."/>
@@ -416,6 +446,7 @@ Resource Request Form #9A"
                                 <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBox Grid.Column="1" x:Name="requestorName" 
                                          Style="{StaticResource MedicalFacilityStatusCommentsText}"
+                                         TextChanged="TextBox_TextChanged"
                                          Tag="30.,required"/>
                                 <TextBlock Grid.Column="2" Text="Signed:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBlock Grid.Column="3"  Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>

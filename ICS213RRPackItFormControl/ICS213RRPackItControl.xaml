@@ -76,14 +76,14 @@
                         <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" Name="textBoxMsgDate" 
+                        <TextBox Grid.Column="1" Name="msgDate" 
                                  Style="{StaticResource MuniStatusDateTextBox}" 
                                  Text="{x:Bind MsgDate, Mode=TwoWay}" 
                                  Margin="2"  Tag="1a.,required"
                                  TextChanged="TextBox_TextChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="3" Name="textBoxMsgTime" Margin="2" 
+                        <TextBox Grid.Column="3" Name="msgTime" Margin="2" 
                                  Style="{StaticResource MuniStatusTimeTextBox}" 
                                  Text="{x:Bind MsgTime, Mode=TwoWay}" 
                                  PlaceholderText="hh:mm" Tag="1b.,required"
@@ -278,7 +278,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0,1">
                                 <!--<TextBlock Text="2. Date Initiated" Style="{StaticResource EOC213RRFieldHeader}"/>-->
-                                <TextBox Name="msgDate" PlaceholderText="mm/dd/yyyy" 
+                                <TextBox Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
                                          Text="{x:Bind MsgDate}"
                                          Style="{StaticResource MuniStatusDateTextBox}"                                             
                                          TextChanged="TextBox_TextChanged"
@@ -290,8 +290,8 @@
                                 <!--<TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                                 <Run Text="3. Time Initiated"/>
                                 </TextBlock>-->
-                                <TextBox Name="msgTime" PlaceholderText="hh:mm" 
-                                         Text="{x:Bind MsgTime, Mode=TwoWay}"
+                                <TextBox Name="initiatedTime" PlaceholderText="hh:mm" 
+                                         Text="{x:Bind MsgTime}"
                                          Style="{StaticResource MuniStatusTimeTextBox}"                                         
                                          TextChanged="TextBox_TimeChanged"
                                          Tag="23.,required,Enter the message time."

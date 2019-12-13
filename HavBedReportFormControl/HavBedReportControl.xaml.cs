@@ -37,7 +37,7 @@ namespace HavBedReportFormControl
         readonly List<ComboBoxPackItItem> Decon = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Exceeded", _blackBrush),
+            new ComboBoxPackItItem("Exceeded", BlackBrush),
             new ComboBoxPackItItem("Full", PinkBrush),
             new ComboBoxPackItItem("Interactive", YellowBrush),
             new ComboBoxPackItItem("Open", LightGreenBrush),
@@ -55,7 +55,7 @@ namespace HavBedReportFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
         public override string PacFormName => "form-mhoc-beds-status";
 
@@ -68,7 +68,7 @@ namespace HavBedReportFormControl
 
         public override string CreateSubject()
         {
-            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_HAvBed_{hospitalName.SelectedItem}";
+            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_HAvBed_{(hospitalName.SelectedItem as ComboBoxPackItItem)?.Item}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

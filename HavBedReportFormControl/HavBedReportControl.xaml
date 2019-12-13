@@ -79,14 +79,14 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                        <TextBox Grid.Column="1" x:Name="textBoxMsgDate" 
+                        <TextBox Grid.Column="1" x:Name="msgDate" 
                                  Style="{StaticResource MuniStatusDateTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
                                  Tag="1a.,required"
                                  TextChanged="TextBox_DateChanged"/>
                         <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0" />
-                        <TextBox Grid.Column="3" x:Name="textBoxMsgTime" Margin="0,0,8,0" 
+                        <TextBox Grid.Column="3" x:Name="msgTime" Margin="0,0,8,0" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  Tag="1b.,required"
@@ -263,7 +263,7 @@
                     <ComboBox Grid.Row="1" Grid.Column="1" x:Name="hospitalName" Width="300"
                               DisplayMemberPath="Item"
                               Style="{StaticResource MuniStatusComboBox}"  
-                              ItemsSource="{x:Bind Hospitals}"
+                              ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
                               SelectionChanged="Subject_Changed" 
                               Loaded="ComboBox_Loaded"
                               Tag="20.,required" />
@@ -272,11 +272,11 @@
                     <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                     <ComboBox Grid.Row="2" Grid.Column="1" x:Name="commandCenterStatus" Width="200"
                               DisplayMemberPath="Item"
-                              ItemsSource="{x:Bind CommandCenterStatus}"
                               Style="{StaticResource MuniStatusComboBox}"                              
+                              ItemsSource="{x:Bind CommandCenterStatus, Mode=OneWay}"
                               SelectionChanged="ComboBox_SelectionChanged"
                               Loaded="ComboBox_Loaded"
-                              Tag="22.,required"/>
+                              Tag="22.,required" Margin="3,2,0,0" VerticalAlignment="Top"/>
                     <Border Grid.Row="3" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,1,0" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Bed Availability" Style="{StaticResource ShelterStatusHeaderText}"/>
                     <Border Grid.Row="3" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />

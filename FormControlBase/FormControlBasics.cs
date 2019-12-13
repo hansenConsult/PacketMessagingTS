@@ -18,11 +18,11 @@ using Windows.UI.Xaml.Media;
 
 namespace FormControlBaseClass
 {
-    public class FormControlBasics : UserControl, INotifyPropertyChanged
+    public partial class FormControlBasics : UserControl, INotifyPropertyChanged
     {
         public static SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
-        public static SolidColorBrush _blackBrush = new SolidColorBrush(Colors.Black);
+        public static SolidColorBrush BlackBrush = new SolidColorBrush(Colors.Black);
         public static SolidColorBrush TextBoxBorderBrush = new SolidColorBrush(Color.FromArgb(66, 0, 0, 0));
         public static SolidColorBrush LightSalmonBrush = new SolidColorBrush(Colors.LightSalmon);
         public static SolidColorBrush LightGreenBrush = new SolidColorBrush(Colors.LightGreen);
@@ -442,14 +442,7 @@ namespace FormControlBaseClass
                     {
                         selection = comboBoxPackItItem.Item;
                         comboBox.Background = comboBoxPackItItem.BackgroundBrush;
-                        if (comboBox.Background == _blackBrush)
-                        {
-                            comboBox.Foreground = WhiteBrush;
-                        }
-                        else
-                        {
-                            comboBox.Foreground = _blackBrush;
-                        }
+                        comboBox.Foreground = comboBoxPackItItem.ForegroundBrush;
                     }
                     else
                     {
@@ -474,7 +467,7 @@ namespace FormControlBaseClass
             }
         }
 
-        protected virtual void RadioButtonRequired_SelectionChanged(object sender, RoutedEventArgs e)
+        protected virtual void RadioButton_SelectionChanged(object sender, RoutedEventArgs e)
         {
             foreach (FormControl formControl in _formControlsList)
             {
@@ -483,7 +476,7 @@ namespace FormControlBaseClass
                     if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
                     {
                         toggleButtonGroup.CheckedControlName = radioButton.Name;
-                        if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+                        if (IsFieldRequired(toggleButtonGroup) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
                         }

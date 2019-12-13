@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Collections.Generic;
+
 using FormControlBaseClass;
+
 using SharedCode;
 using SharedCode.Helpers;
+
 using ToggleButtonGroupControl;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -40,7 +34,7 @@ namespace MedicalFacilityStatusFormControl
             new ComboBoxPackItItem("Unknown", LightGrayBrush),
             new ComboBoxPackItItem("Open", LightGreenBrush),
             new ComboBoxPackItItem("Diverting Ambulances"),
-            new ComboBoxPackItItem("Internal Disaster", _blackBrush),
+            new ComboBoxPackItItem("Internal Disaster", BlackBrush, WhiteBrush),
             new ComboBoxPackItItem("Specialty Bypass", YellowBrush),
         };
 
@@ -58,7 +52,7 @@ namespace MedicalFacilityStatusFormControl
             new ComboBoxPackItItem(null, ""),
             new ComboBoxPackItItem("Unknown"),
             new ComboBoxPackItItem("Inactive", LightGreenBrush),
-            new ComboBoxPackItItem("Acyivated", PinkBrush),
+            new ComboBoxPackItItem("Activated", PinkBrush),
         };
 
         readonly List<ComboBoxPackItItem> MorgueStatus = new List<ComboBoxPackItItem>
@@ -121,7 +115,7 @@ namespace MedicalFacilityStatusFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
         public override string PacFormName => "form-medical-facility-status-v2";
 
@@ -211,47 +205,60 @@ namespace MedicalFacilityStatusFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        private void SpecialtyServeice_Checked(object sender, RoutedEventArgs e)
+        private void SpecialtyService_Checked(object sender, RoutedEventArgs e)
         {
             RadioButton radioButton = sender as RadioButton;
-            var parent = radioButton.Parent;
-            if ((radioButton.Tag as string).Contains("Y") && ReportType == "update")
-            {
-                cardiologyServiceComment.Text = "";
-                cardiologyServiceComment.IsReadOnly = true;
-                cardiologyServiceReopening.IsReadOnly = true;
-                cardiologyServiceReopening.Text = "";
 
-            }
-            else
+            string tag = "";
+            ToggleButtonGroup toggleButtonGroupYN = null;
+            foreach (FormControl formControl in _formControlsList)
             {
-                cardiologyServiceComment.IsReadOnly = false;
-                cardiologyServiceComment.Text = "";
-                cardiologyServiceReopening.IsReadOnly = false;
-                cardiologyServiceReopening.Text = "";
-
+                if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
+                {
+                    if (radioButton.GroupName == toggleButtonGroup.Name)
+                    {
+                        tag = GetTagIndex(toggleButtonGroup);
+                        toggleButtonGroupYN = toggleButtonGroup;
+                        toggleButtonGroupYN.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                    }
+                }
             }
 
-            //foreach (FormControl formControl in _formControlsList)
-            //{
-            //    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
-            //    {
-            //        if (radioButton.GroupName == toggleButtonGroup.RadioButtonGroup[0].GroupName)
-            //        {
-            //            string tag = GetTagIndex(toggleButtonGroup);
-            //        }
-            //    }
-            //}
+            string commentsTag = tag.TrimEnd('.') + "c.";
+            FormControl formControlComment = null;
+            string dateTag = tag.TrimEnd('.') + "d.";
+            FormControl formControlDate = null;
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (formControl.InputControl is TextBox textBox)
+                {
+                    if (textBox.Tag as string == commentsTag)
+                    {
+                        formControlComment = formControl;
+                    }
+                    if (textBox.Tag as string == dateTag)
+                    {
+                        formControlDate = formControl;
+                    }
+                }
+            }
+            TextBox textBoxComment = formControlComment?.InputControl as TextBox;
+            TextBox textBoxDate = formControlDate?.InputControl as TextBox;
 
-            //if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-            //{
-            //    toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-            //}
-            //else
-            //{
-            //    toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-            //}
-            UpdateFormFieldsRequiredColors();
+            if ((radioButton.Tag as string).Contains("Y"))
+            {
+                textBoxComment.Text = "";
+                textBoxComment.IsReadOnly = true;
+                textBoxDate.IsReadOnly = true;
+                textBoxDate.Text = "";                
+            }
+            else if ((radioButton.Tag as string).Contains("N"))
+            {
+                textBoxComment.IsReadOnly = false;
+                //textBoxComment.Text = "";
+                textBoxDate.IsReadOnly = false;
+                //textBoxDate.Text = "";
+            }
         }
 
     }
