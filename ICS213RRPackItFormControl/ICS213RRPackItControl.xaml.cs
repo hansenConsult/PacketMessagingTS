@@ -9,6 +9,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using ToggleButtonGroupControl;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -40,6 +41,34 @@ namespace ICS213RRPackItFormControl
         public override string PacFormName => "form-scco-eoc-213rr";
 
         public override string PacFormType => "XSC_EOC_213RR";
+
+        public override string MsgDate
+        {
+            get => _msgDate;
+            set
+            {
+                InitiatedDate = value;
+                Set(ref _msgDate, value);
+            }
+        }
+
+        private string _initiatedDate;
+        public string InitiatedDate
+        {
+            get => _initiatedDate;
+            set => Set(ref _initiatedDate, value);
+        }
+
+        public override string MsgTime
+        {
+            get => _msgTime;
+            set
+            {
+                string time = TimeCheck(value);
+                Set(ref _msgTime, time);
+                initiatedTime.Text = time;
+            }
+        }
 
         public override void AppendDrillTraffic()
         {
@@ -105,6 +134,67 @@ namespace ICS213RRPackItFormControl
                 }
             }
             base.TextBox_TextChanged(sender, e);
+        }
+
+        public override void FillFormFromFormFields(FormField[] formFields)
+        {
+            foreach (FormField formField in formFields)
+            {
+                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+
+                Control control = formControl?.InputControl;
+
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
+
+                if (control is TextBox textBox)
+                {
+                    textBox.Text = formField.ControlContent;
+                    // Fields that use Binding requires special handling
+                    switch (control.Name)
+                    {
+                        case "msgDate":
+                            MsgDate = textBox.Text;
+                            break;
+                        case "msgTime":
+                            MsgTime = textBox.Text;
+                            break;
+                        case "initiatedDate":
+                            InitiatedDate = textBox.Text;
+                            break;
+                        case "incidentName":
+                            IncidentName = textBox.Text;
+                            break;
+                        case "subject":
+                            Subject = textBox.Text;
+                            break;
+                        case "operatorCallsign":
+                            OperatorCallsign = textBox.Text;
+                            break;
+                        case "operatorName":
+                            OperatorName = textBox.Text;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
+                else if (control is AutoSuggestBox autoSuggsetBox)
+                {
+                    autoSuggsetBox.Text = formField.ControlContent;
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    FillComboBoxFromFormFields(formField, comboBox);
+                }
+                else if (control is ToggleButtonGroup toggleButtonGroup)
+                {
+                    toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
+                }
+                else if (control is CheckBox checkBox)
+                {
+                    checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
+                }
+            }
         }
 
     }

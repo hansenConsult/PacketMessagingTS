@@ -336,15 +336,29 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
                     // Check if base64 encoded
                     int startOfMessage = 0;
+                    int startOfMessage1 = 0;
+                    int startOfMessage2 = 0;
                     int endOfMessage = 0;
+                    bool dateFound = false;
+                    bool subjectFound = false;
                     for (int k = 0; k < msgLines.Length; k++)
                     {
                         if (msgLines[k].StartsWith("Date:"))
                         {
-                            startOfMessage = k + 1;
+                            dateFound = true;
+                            startOfMessage1 = k + 1;
+                        }
+                        if (msgLines[k].StartsWith("Subject:"))
+                        {
+                            subjectFound = true;
+                            startOfMessage2 = k + 1;
+                        }
+                        if (dateFound && subjectFound)
+                        {
                             break;
                         }
                     }
+                    startOfMessage = Math.Max(startOfMessage1, startOfMessage2);
                     endOfMessage = msgLines.Length - 1;
                     try
                     {
@@ -354,6 +368,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         {
                             message += msgLines[j];
                         }
+                        const string outpostEncodedMarker = "!B64!";
+                        if (message.StartsWith(outpostEncodedMarker))
+                        {
+                            message = message.Substring(outpostEncodedMarker.Length);
+                        }
                         byte[] messageText = Convert.FromBase64String(message);
                         string decodedString = Encoding.UTF8.GetString(messageText);
 
@@ -362,13 +381,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         string[] decodedMsgLines = decodedString.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
                         msgLinesList.InsertRange(startOfMessage, decodedMsgLines);
                         msgLines = msgLinesList.ToArray();
+                        _logHelper.Log(LogLevel.Info, "This message was an encoded message");
                     }
-                    catch 
+                    catch (FormatException)
                     {
                         // Not an encoded message
+                        _logHelper.Log(LogLevel.Info, "Not an encoded message");
                     }
                     bool toFound = false;
-					bool subjectFound = false;
+					subjectFound = false;
                     string prefix = "";
 					for (int i = 0; i < Math.Min(msgLines.Length, 20); i++)
 					{

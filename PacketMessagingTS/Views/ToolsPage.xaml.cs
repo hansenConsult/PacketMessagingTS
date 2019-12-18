@@ -624,11 +624,21 @@ namespace PacketMessagingTS.Views
             await communicationsService.CreatePacketMessageFromMessageAsync(message);
         }
 
-        private void ConvertFromBase64_Click(object sender, RoutedEventArgs e)
+        private async void ConvertFromBase64_Click(object sender, RoutedEventArgs e)
         {
-            byte[] message = Convert.FromBase64String(PacFormText.Text);
-            string decodedString = Encoding.UTF8.GetString(message);
-            PacFormText.Text = decodedString;
+            try
+            {
+                if (!string.IsNullOrEmpty(PacFormText.Text))
+                {
+                    byte[] message = Convert.FromBase64String(PacFormText.Text);
+                    string decodedString = Encoding.UTF8.GetString(message);
+                    PacFormText.Text = decodedString;
+                }
+            }
+            catch (FormatException fe)
+            {
+                await Utilities.ShowSingleButtonContentDialogAsync(fe.Message);
+            }
         }
 
         private string FormatDateTime(DateTime dateTime)

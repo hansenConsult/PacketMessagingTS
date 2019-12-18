@@ -249,7 +249,7 @@
                     <ComboBox Grid.Column="4" x:Name="hospitalName" Width="300"
                               DisplayMemberPath="Item"
                               Style="{StaticResource MuniStatusComboBox}"  
-                              ItemsSource="{x:Bind Hospitals}"
+                              ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
                               SelectionChanged="Subject_Changed" 
                               Loaded="ComboBox_Loaded"
                               Tag="20.,required" />

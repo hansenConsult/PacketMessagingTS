@@ -4,7 +4,8 @@ using FormControlBaseClass;
 
 using SharedCode;
 using SharedCode.Helpers;
-
+using ToggleButtonGroupControl;
+using Windows.UI.Xaml.Controls;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -46,9 +47,17 @@ namespace MedicalHealthBranchRRFormControl
             get => _msgDate;
             set
             {
+                RequestMsgDate = value;
                 Set(ref _msgDate, value);
-                requestDate.Text = _msgDate;
+                
             }
+        }
+
+        private string requestMsgDate;
+        public string RequestMsgDate
+        {
+            get => requestMsgDate;
+            set => Set(ref requestMsgDate, value);
         }
 
         public override string MsgTime
@@ -83,6 +92,64 @@ namespace MedicalHealthBranchRRFormControl
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
+        }
+
+        public override void FillFormFromFormFields(FormField[] formFields)
+        {
+            foreach (FormField formField in formFields)
+            {
+                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+
+                Control control = formControl?.InputControl;
+
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
+
+                if (control is TextBox textBox)
+                {
+                    textBox.Text = formField.ControlContent;
+                    // Fields that use Binding requires special handling
+                    switch (control.Name)
+                    {
+                        case "msgDate":
+                            MsgDate = textBox.Text;
+                            break;
+                        case "msgTime":
+                            MsgTime = textBox.Text;
+                            break;
+                        case "requestDate":
+                            RequestMsgDate = textBox.Text;
+                            break;
+                        case "subject":
+                            Subject = textBox.Text;
+                            break;
+                        case "operatorCallsign":
+                            OperatorCallsign = textBox.Text;
+                            break;
+                        case "operatorName":
+                            OperatorName = textBox.Text;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
+                else if (control is AutoSuggestBox autoSuggsetBox)
+                {
+                    autoSuggsetBox.Text = formField.ControlContent;
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    FillComboBoxFromFormFields(formField, comboBox);
+                }
+                else if (control is ToggleButtonGroup toggleButtonGroup)
+                {
+                    toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
+                }
+                else if (control is CheckBox checkBox)
+                {
+                    checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
+                }
+            }
         }
 
     }

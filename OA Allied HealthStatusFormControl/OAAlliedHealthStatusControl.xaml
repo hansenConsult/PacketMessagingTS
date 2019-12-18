@@ -459,6 +459,7 @@
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                         <TextBox Grid.Column="3" x:Name="msgTime" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"                                 
+                                 Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  TextChanged="TextBox_TimeChanged"
                                  Tag="1b.,required"/>
                         <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
@@ -687,16 +688,15 @@
                                      Header="Facility Type:" 
                                      Tag="21.,conditionallyrequired" />
                             <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
-                            <TextBox Grid.Column="1"   
+                            <TextBox Grid.Column="1" x:Name="facilityDate"
                                      Style="{StaticResource MuniStatusDateTextBox}"
                                      Text="{x:Bind Mode=OneWay, Path=MsgDate}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22d.,required"
                                      Header="Date:"
                                      TextChanged="TextBox_TextChanged"/>
                             <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                            <TextBox Grid.Column="2"  Header="Time:"  
+                            <TextBox Grid.Column="2" x:Name="facilityTime" Header="Time:"  
                                      Style="{StaticResource MuniStatusTimeTextBox}"
-                                     Text="{x:Bind Mode=OneWay, Path=MsgTime}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16,required" 
                                      PlaceholderText="hh:mm" TextChanged="TextBox_TextChanged"/>
                         </Grid>

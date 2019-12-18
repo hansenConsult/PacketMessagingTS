@@ -279,9 +279,9 @@
                             <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0,1">
                                 <!--<TextBlock Text="2. Date Initiated" Style="{StaticResource EOC213RRFieldHeader}"/>-->
                                 <TextBox Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
-                                         Text="{x:Bind MsgDate}"
+                                         Text="{x:Bind InitiatedDate, Mode=TwoWay}"
                                          Style="{StaticResource MuniStatusDateTextBox}"                                             
-                                         TextChanged="TextBox_TextChanged"
+                                         TextChanged="TextBox_DateChanged"
                                          Tag="22.,required,Enter the Date Initialized."
                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                          Header="2. Date Initiated:"/>
@@ -291,7 +291,6 @@
                                 <Run Text="3. Time Initiated"/>
                                 </TextBlock>-->
                                 <TextBox Name="initiatedTime" PlaceholderText="hh:mm" 
-                                         Text="{x:Bind MsgTime}"
                                          Style="{StaticResource MuniStatusTimeTextBox}"                                         
                                          TextChanged="TextBox_TimeChanged"
                                          Tag="23.,required,Enter the message time."

@@ -290,27 +290,6 @@ namespace FormControlBaseClass
             }
         }
 
-        //protected virtual void TextBoxRequired_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    foreach (FormControl formControl in _formControlsList)
-        //    {
-        //        if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-        //        {
-        //            if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
-        //            {
-        //                textBox.BorderThickness = new Thickness(2);
-        //                textBox.BorderBrush = formControl.RequiredBorderBrush;
-        //            }
-        //            else
-        //            {
-        //                textBox.BorderThickness = new Thickness(1);
-        //                textBox.BorderBrush = formControl.BaseBorderColor;
-        //            }
-        //            break;
-        //        }
-        //    }
-        //}
-
         protected virtual void TextBox_PhoneChanged(object sender, TextChangedEventArgs e)
         {
             if (sender is TextBox textBox)
@@ -319,24 +298,24 @@ namespace FormControlBaseClass
                 {
                     if (textBox.Name == formControl.InputControl.Name)
                     {
-                        string date = textBox.Text;
-                        bool match = true;
-                        if (!string.IsNullOrEmpty(date))
+                        string phoneNumber = textBox.Text;
+                        bool match = false;
+                        if (!string.IsNullOrEmpty(phoneNumber))
                         {
-                            string phonePattern = @"\b\d{3}[-]?\d{3}[-]?\d*\s*[x]\d*\b";
-                            match = Regex.IsMatch(date, phonePattern);
+                            string phonePattern = @"\b\d{3}[-]?\d{3}[-]?\d{4}\s*[xX]?\d*\b";
+                            match = Regex.IsMatch(phoneNumber, phonePattern);
                         }
 
-                        //if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
-                        if (!match || (IsFieldRequired(textBox) && !match))
-                        {
-                            textBox.BorderThickness = new Thickness(2);
-                            textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
+                        //if (!match || (IsFieldRequired(textBox) && !match))
+                        if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
                         {
                             textBox.BorderThickness = new Thickness(1);
                             textBox.BorderBrush = formControl.BaseBorderColor;
+                        }
+                        else
+                        {
+                            textBox.BorderThickness = new Thickness(2);
+                            textBox.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         break;
                     }
@@ -359,27 +338,15 @@ namespace FormControlBaseClass
                             string datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";//(0[1-9]|1[012])/(0[1-9]|1[0-9]|2[0-9]|3[01])/[1-2][0-9][0-9][0-9]
                             match = Regex.IsMatch(date, datePattern);
                         }
-                        else
-                        {
-                            if (IsFieldRequired(textBox))
-                            {
-                                match = false;
-                            }
-                            else
-                            {
-                                match = true;
-                            }
-                        }
-
-                        if (!match)
-                        {
-                            textBox.BorderThickness = new Thickness(2);
-                            textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
+                        if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
                         {
                             textBox.BorderThickness = new Thickness(1);
                             textBox.BorderBrush = formControl.BaseBorderColor;
+                        }
+                        else
+                        {
+                            textBox.BorderThickness = new Thickness(2);
+                            textBox.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         break;
                     }
@@ -396,20 +363,14 @@ namespace FormControlBaseClass
                     if (textBox.Name == formControl.InputControl.Name)
                     {
                         string time = textBox.Text;
-                        bool match = true;
+                        bool match = false;
                         if (!string.IsNullOrEmpty(time))
                         {
                             string timePattern = @"^((0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9])|24:?00$";
                             match = Regex.IsMatch(time, timePattern);
                         }
 
-                        //if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
-                        if (!match || (IsFieldRequired(textBox) && !match))
-                        {
-                            textBox.BorderThickness = new Thickness(2);
-                            textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
+                        if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
                         {
                             textBox.BorderThickness = new Thickness(1);
                             textBox.BorderBrush = formControl.BaseBorderColor;
@@ -417,6 +378,11 @@ namespace FormControlBaseClass
                             {
                                 textBox.Text = time.Insert(2, ":");
                             }
+                        }
+                        else
+                        {
+                            textBox.BorderThickness = new Thickness(2);
+                            textBox.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         break;
                     }

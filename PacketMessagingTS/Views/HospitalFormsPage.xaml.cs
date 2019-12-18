@@ -33,6 +33,7 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
         }
 
+
         protected override int GetFormsPagePivotSelectedIndex()
         {
             return _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;

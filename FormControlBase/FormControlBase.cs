@@ -407,21 +407,21 @@ namespace FormControlBaseClass
         public virtual string HowReceivedSent
         { get; set; }
 
-        private string _IncidentName; 
-        public virtual string IncidentName
-        { 
-            get => _IncidentName; 
+        private string _IncidentName;
+        public virtual string IncidentName      // Required for setting Practice
+        {
+            get => _IncidentName;
             set => Set(ref _IncidentName, value);
         }
 
-        public virtual string FacilityName
+        public virtual string FacilityName      // Required for setting Practice
         { get; set; }
 
         public virtual string ReportType
         { get; 
             set; }
 
-        // Implemented this way to facilitate synchronizing two name fields
+        // Implemented this way to facilitate synchronizing two name fields and required for setting Practice 
         private string _shelterName;
         public virtual string ShelterName
         {
@@ -429,7 +429,7 @@ namespace FormControlBaseClass
             set => Set(ref _shelterName, value);
         }
 
-        public virtual string Subject
+        public virtual string Subject       // Required for setting Practice
         { get; set; }
 
         private DateTime? messageReceivedTime = null;
@@ -1098,7 +1098,7 @@ namespace FormControlBaseClass
             }
         }
 
-        public void FillFormFromFormFields(FormField[] formFields)
+        public virtual void FillFormFromFormFields(FormField[] formFields)
 		{
 			foreach (FormField formField in formFields)
 			{
