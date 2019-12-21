@@ -8,17 +8,17 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class CityFormsViewModel : BaseViewModel
+    public class CityFormsViewModel : FormsBaseViewModel
     {
-        private int cityFormsPagePivotSelectedIndex;
-        public int CityFormsPagePivotSelectedIndex
-        {
-            get => GetProperty(ref cityFormsPagePivotSelectedIndex);
-            set
-            {
-                SetProperty(ref cityFormsPagePivotSelectedIndex, value, true);
-            }
-        }
+        //private int cityFormsPagePivotSelectedIndex;
+        //public int CityFormsPagePivotSelectedIndex
+        //{
+        //    get => GetProperty(ref cityFormsPagePivotSelectedIndex);
+        //    set
+        //    {
+        //        SetProperty(ref cityFormsPagePivotSelectedIndex, value, true);
+        //    }
+        //}
 
     }
 }

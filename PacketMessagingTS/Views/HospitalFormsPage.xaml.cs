@@ -36,12 +36,12 @@ namespace PacketMessagingTS.Views
 
         protected override int GetFormsPagePivotSelectedIndex()
         {
-            return _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
+            return _hospitalFormsViewModel.FormsPagePivotSelectedIndex;
         }
 
         protected override void SetFormsPagePivotSelectedIndex(int index)
         {
-            _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = index;
+            _hospitalFormsViewModel.FormsPagePivotSelectedIndex = index;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)

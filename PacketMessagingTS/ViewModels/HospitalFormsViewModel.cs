@@ -13,17 +13,17 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class HospitalFormsViewModel : BaseViewModel
+    public class HospitalFormsViewModel : FormsBaseViewModel
     {
-        private int hospitalFormsPagePivotSelectedIndex;
-        public int HospitalFormsPagePivotSelectedIndex
-        {
-            get => GetProperty(ref hospitalFormsPagePivotSelectedIndex);
-            set
-            {
-                SetProperty(ref hospitalFormsPagePivotSelectedIndex, value, true);
-            }
-        }
+        //private int hospitalFormsPagePivotSelectedIndex;
+        //public int HospitalFormsPagePivotSelectedIndex
+        //{
+        //    get => GetProperty(ref hospitalFormsPagePivotSelectedIndex);
+        //    set
+        //    {
+        //        SetProperty(ref hospitalFormsPagePivotSelectedIndex, value, true);
+        //    }
+        //}
 
     }
 }

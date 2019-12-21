@@ -17,7 +17,7 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class CityFormsPage : BaseFormsPage
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<HospitalFormsPage>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CityFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
         public CityFormsViewModel _cityFormsViewModel { get; } = Singleton<CityFormsViewModel>.Instance;
@@ -34,12 +34,12 @@ namespace PacketMessagingTS.Views
 
         protected override int GetFormsPagePivotSelectedIndex()
         {
-            return _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
+            return _cityFormsViewModel.FormsPagePivotSelectedIndex;
         }
 
         protected override void SetFormsPagePivotSelectedIndex(int index)
         {
-            _cityFormsViewModel.CityFormsPagePivotSelectedIndex = index;
+            _cityFormsViewModel.FormsPagePivotSelectedIndex = index;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)
