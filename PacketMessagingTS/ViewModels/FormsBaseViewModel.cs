@@ -14,10 +14,7 @@ namespace PacketMessagingTS.ViewModels
         public int FormsPagePivotSelectedIndex
         {
             get => GetProperty(ref formsPagePivotSelectedIndex);
-            set
-            {
-                SetProperty(ref formsPagePivotSelectedIndex, value, true);
-            }
+            set => SetProperty(ref formsPagePivotSelectedIndex, value, true);
         }
 
     }
