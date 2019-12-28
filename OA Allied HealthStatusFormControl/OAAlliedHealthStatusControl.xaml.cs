@@ -234,7 +234,15 @@ namespace OAAlliedHealthStatus201802FormControl
         {
             foreach (FormField formField in formFields)
             {
-                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                FormControl formControl;
+                if (string.IsNullOrEmpty(formField.ControlName))
+                {
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
+                }
+                else
+                {
+                    formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                }
 
                 Control control = formControl?.InputControl;
 
@@ -253,8 +261,8 @@ namespace OAAlliedHealthStatus201802FormControl
                         case "msgTime":
                             MsgTime = textBox.Text;
                             break;
-                        case "facilityDate":
-                            FacilityDate = textBox.Text;
+                        case "facilityName":
+                            FacilityName = textBox.Text;
                             break;
                         case "operatorCallsign":
                             OperatorCallsign = textBox.Text;
@@ -276,6 +284,7 @@ namespace OAAlliedHealthStatus201802FormControl
                 }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
+                    //toggleButtonGroup.SetRadioButtonCheckedStateFromTag(formField.ControlContent);
                     toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
                 }
                 else if (control is CheckBox checkBox)
@@ -283,6 +292,7 @@ namespace OAAlliedHealthStatus201802FormControl
                     checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
                 }
             }
+            UpdateFormFieldsRequiredColors();
         }
 
     }

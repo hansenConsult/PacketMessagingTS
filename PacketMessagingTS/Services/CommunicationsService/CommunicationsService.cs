@@ -386,7 +386,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     catch (FormatException)
                     {
                         // Not an encoded message
-                        _logHelper.Log(LogLevel.Info, "Not an encoded message");
+                        //_logHelper.Log(LogLevel.Info, "Not an encoded message");
                     }
                     bool toFound = false;
 					subjectFound = false;

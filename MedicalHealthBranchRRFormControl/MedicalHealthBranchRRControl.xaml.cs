@@ -98,7 +98,15 @@ namespace MedicalHealthBranchRRFormControl
         {
             foreach (FormField formField in formFields)
             {
-                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                FormControl formControl;
+                if (string.IsNullOrEmpty(formField.ControlName))
+                {
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
+                }
+                else
+                {
+                    formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                }
 
                 Control control = formControl?.InputControl;
 
@@ -150,6 +158,7 @@ namespace MedicalHealthBranchRRFormControl
                     checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
                 }
             }
+            UpdateFormFieldsRequiredColors();
         }
 
     }

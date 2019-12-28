@@ -102,50 +102,43 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private string KPC3Plus()
         {
             string readText;
+            string cmdResult;
+            //string readCmdText;
             _serialPort.Write("\r");
             readText = ReadLine();
 
             _logHelper.Log(LogLevel.Info, readText);
-            //AddTextToStatusWindowAsync(readText);
 
-            string readCmdText = ReadTo(_TNCPrompt);
+            cmdResult = ReadTo(_TNCPrompt);
 
             _serialPort.Write("D\r");
             readText = ReadLine();
 
-            _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
+            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
 
-            //readText = _serialPort.ReadLine();
             readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            //AddTextToStatusWindowAsync(readText);
 
-            readCmdText = ReadTo(_TNCPrompt);
+            cmdResult = ReadTo(_TNCPrompt);
 
             _serialPort.Write("b\r");
-            //readText = _serialPort.ReadLine();
             readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
+            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
 
             readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            //AddTextToStatusWindowAsync(readText);
 
-            readCmdText = ReadTo(_TNCPrompt);
+            cmdResult = ReadTo(_TNCPrompt);
 
             _serialPort.Write("Echo on\r");
 
             readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
+            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
 
             readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            //AddTextToStatusWindowAsync(readText);
 
-            readCmdText = ReadTo(_TNCPrompt);
+            cmdResult = ReadTo(_TNCPrompt);
 
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {
@@ -156,33 +149,29 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _serialPort.Write($"my {Singleton<IdentityViewModel>.Instance.UserCallsign}\r");
             }
             readText = ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
+            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
 
-            readCmdText = ReadTo(_TNCPrompt);
+            cmdResult = ReadTo(_TNCPrompt);
 
             _serialPort.Write("Mon off\r");
 
             readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
+            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
 
             readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            //AddTextToStatusWindowAsync(readText);
 
-            readCmdText = ReadTo(_TNCPrompt);
+            cmdResult = ReadTo(_TNCPrompt);
 
             DateTime dateTime = DateTime.Now;
             string dayTime = $"{dateTime.Year - 2000:d2}{dateTime.Month:d2}{dateTime.Day:d2}{dateTime.Hour:d2}{dateTime.Minute:d2}{dateTime.Second:d2}";
             _serialPort.Write($"daytime {dayTime}\r");
             readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
+            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
 
-            readCmdText = ReadTo(_TNCPrompt);
+            cmdResult = ReadTo(_TNCPrompt);
 
-            return readCmdText;
+            return cmdResult;
         }
 
         private string Kenwood()
@@ -194,6 +183,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //readText = ReadLine();
 
             readPrompt = ReadTo(_TNCPrompt);
+            readPrompt = readPrompt.Trim();
 
             _logHelper.Log(LogLevel.Info, readPrompt);
             //AddTextToStatusWindowAsync(readPrompt);
@@ -205,42 +195,32 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             _serialPort.Write("D\r");
 
-            //readText = _serialPort.ReadLine();
             readText = ReadLine();
 
             _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
 
-            //readText = _serialPort.ReadLine();
             readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            //AddTextToStatusWindowAsync(readText);
 
             readPrompt = ReadTo(_TNCPrompt);
 
             _serialPort.Write("b\r");
 
-            //readText = _serialPort.ReadLine();
             readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-            //AddTextToStatusWindowAsync(readText);
 
-            //readText = _serialPort.ReadLine();
             readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            //AddTextToStatusWindowAsync(readText);
 
             readPrompt = ReadTo(_TNCPrompt);
 
             _serialPort.Write("Echo on\r");
 
-            readText = _serialPort.ReadLine();
+            readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-            AddTextToStatusWindowAsync(readText);
 
-            readText = _serialPort.ReadLine();
+            readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            AddTextToStatusWindowAsync(readText);
 
             readPrompt = ReadTo(_TNCPrompt);
 
@@ -252,25 +232,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 _serialPort.Write("my " + Singleton<IdentityViewModel>.Instance.UserCallsign + "\r");
             }
-            readText = _serialPort.ReadLine();       // Read command
+            readText = ReadLine();       // Read command
             _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-            AddTextToStatusWindowAsync(readText);
 
-            readText = _serialPort.ReadLine();
+            readText = ReadLine();
             _logHelper.Log(LogLevel.Info, readText);
-            AddTextToStatusWindowAsync(readText);
 
             readPrompt = ReadTo(_TNCPrompt);
 
             _serialPort.Write("Mon off\r");
 
-            readText = _serialPort.ReadLine();       // Read command
+            readText = ReadLine();       // Read command
             _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-            AddTextToStatusWindowAsync(readText);
 
-            readText = _serialPort.ReadLine();       // Result for Mon off
+            readText = ReadLine();       // Result for Mon off
             _logHelper.Log(LogLevel.Info, readText);
-            AddTextToStatusWindowAsync(readText);
 
             readPrompt = ReadTo(_TNCPrompt);
 
@@ -278,9 +254,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             string dayTime = $"{dateTime.Year - 2000:d2}{dateTime.Month:d2}{dateTime.Day:d2}{dateTime.Hour:d2}{dateTime.Minute:d2}{dateTime.Second:d2}";
             _serialPort.Write("daytime " + dayTime + "\r");
 
-            readText = _serialPort.ReadLine();       // Read command
+            readText = ReadLine();       // Read command
             _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-            AddTextToStatusWindowAsync(readText);
 
             readPrompt = ReadTo(_TNCPrompt);   // Ready for pre commands
 
@@ -333,7 +308,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //Debug.Write(text);
         }
 
-        // Returns next line read, does not return ThemeSelectorService new line characters
+        // Returns next line read, returns line read plua \r
         private string ReadLine()
         {
             //string readText = "";
@@ -351,15 +326,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     break;
                 }
             }
-            int lineEndIndex = _readBuffer.IndexOf(NewLine);
-            string line = _readBuffer.Substring(0, lineEndIndex + 1);   // Only return '\r'
-            //if (_readBuffer[lineEndIndex + 1] == '\n')
-            //{
-            //    lineEndIndex++;
-            //}
-            if (_readBuffer.Length > lineEndIndex + NewLine.Length)
+            int readLength = _readBuffer.IndexOf(NewLine) + NewLine.Length;
+            string line = _readBuffer.Substring(0, _readBuffer.IndexOf(NewLine) + 1);   // Only return '\r'
+            if (_readBuffer.Length > readLength)
             {
-                _readBuffer = _readBuffer.Substring(lineEndIndex + NewLine.Length);
+                _readBuffer = _readBuffer.Substring(readLength);
             }
             else
             {
@@ -374,11 +345,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private string ReadTo(string readTo)
         {
             string readText = "";
-            //while (!readText.Contains(readTo))
             while (!_readBuffer.Contains(readTo))
             {
                 string newText = _serialPort.ReadExisting();
-                //readText += newText;
                 _readBuffer += newText;
                 if (newText.Length > 0)
                 {
@@ -387,14 +356,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 Thread.Sleep(10);
                 if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
                 {
-                    break;
+                    readText = _readBuffer;
+                    _readBuffer = "";
+                    return readText;
                 }
             }
-            int lineEndIndex = _readBuffer.IndexOf(readTo);
-            readText = _readBuffer.Substring(0, lineEndIndex + readTo.Length);
-            if (_readBuffer.Length > lineEndIndex + readTo.Length)
+            int readLength = _readBuffer.IndexOf(readTo) + readTo.Length;
+            readText = _readBuffer.Substring(0, readLength);
+            if (_readBuffer.Length > readLength)
             {
-                _readBuffer = _readBuffer.Substring(lineEndIndex + readTo.Length + 1);
+                _readBuffer = _readBuffer.Substring(readLength);
             }
             else
             {
@@ -764,19 +735,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 {
                     _serialPort.Write(commandLine + "\r");
 
-                    //readText = _serialPort.ReadLine();       // Read command
                     readText = ReadLine();       // Read command
                     _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-                    //AddTextToStatusWindowAsync(readText);
 
-                    //readText = _serialPort.ReadLine();       // Result for command
                     readText = ReadLine();       // Result for command
                     _logHelper.Log(LogLevel.Info, readText);
-                    //AddTextToStatusWindowAsync(readText);
 
                     readCmdText = ReadTo(_TNCPrompt);	// Next command
                 }
-                //_logHelper.Log(LogLevel.Info, $"{readCmdText}{_TNCPrompt} ");      // log last Write command
                 // Connect to JNOS
                 int readTimeout = _serialPort.ReadTimeout;
                 //_serialPort.ReadTimeout = 5000;
@@ -791,11 +757,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //goto AbortWithoutConnect;    //Test
 
                 _connectState = ConnectState.BBSTryConnect;
-                _serialPort.Write("connect " + _bbsConnectName + "\r");
+                _serialPort.Write($"connect {_bbsConnectName}\r");
 
-                readText = _serialPort.ReadLine();          // Read command
+                readText = ReadLine();          // Read command
                 _logHelper.Log(LogLevel.Info, $"{_TNCPrompt}  {readText}");      // log last Write command
-                AddTextToStatusWindowAsync($"{_TNCPrompt} {readText}\n");
 
                 string readConnectText = ReadTo(_BBSPromptRN);      // read connect response  
                 _logHelper.Log(LogLevel.Info, readConnectText);
@@ -803,15 +768,17 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 {
                     _logHelper.Log(LogLevel.Error, $"Timeout while connecting to { _bbsConnectName}");
                     await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
+                    //_serialPort.Write("\r");
+                    //readCmdText = ReadTo(_TNCPrompt);
                     goto AbortWithoutConnect;
                 }
+
+                exitedBeforeConnect = false;
+                _connectState = ConnectState.BBSConnected;
 
                 _serialPort.ReadTimeout = readTimeout;
 
                 _serialPort.Write("XM 0\r");
-
-                exitedBeforeConnect = false;
-                _connectState = ConnectState.BBSConnected;
 
                 readCmdText = ReadTo(_BBSPromptRN); // Read to prompt incl command
                 _logHelper.Log(LogLevel.Info, readCmdText);
@@ -876,12 +843,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 readText = ReadLine();           // Read command
                 _logHelper.Log(LogLevel.Info, readText);
-                //AddTextToStatusWindowAsync(readText + "\n");
 
                 readText = ReadLine();           // Read disconnect response
                 readText = readText.Replace('\0', ' ');
                 _logHelper.Log(LogLevel.Info, readText);     // Log disconnect response
-                //AddTextToStatusWindowAsync(readText);
 
                 //serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
 
@@ -900,11 +865,9 @@ AbortWithoutConnect:
 
                     readText = ReadLine();				// Read command
                     _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-                    //AddTextToStatusWindowAsync(readText);
 
                     readText = ReadLine();              // Command result
                     _logHelper.Log(LogLevel.Info, readText);
-                    //AddTextToStatusWindowAsync(readText);
 
                     readCmdText = ReadTo(_TNCPrompt);	// Next command
                 }
@@ -914,18 +877,15 @@ AbortWithoutConnect:
                     _connectState = ConnectState.ConverseMode;
                     _serialPort.Write(_TncDevice.Commands.Conversmode + "\r");
                     readText = ReadLine();       // Read command
-                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt + " " + readText);
-                    //AddTextToStatusWindowAsync(readCmdText + _TNCPrompt + " " + readText);
+                    _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
 
                     string fccId = $"de {Singleton<IdentityViewModel>.Instance.UserCallsign}";
                     _serialPort.Write(fccId + "\r");
                     readText = ReadLine();
                     _logHelper.Log(LogLevel.Info, readText);
-                    //AddTextToStatusWindowAsync($"{readText}\n");
                     _serialPort.Write("\x03\r");                        // Ctrl-C exits converse mode
                     readCmdText = ReadTo(_TNCPrompt);
-                    _logHelper.Log(LogLevel.Info, readCmdText + _TNCPrompt);
-                    //AddTextToStatusWindowAsync(readCmdText + _TNCPrompt + "\n");
+                    _logHelper.Log(LogLevel.Info, readCmdText);
                 }
             }
             catch (Exception e)
@@ -937,14 +897,12 @@ AbortWithoutConnect:
                     // Try to disconnect
                     _serialPort.Write("B\r");                   // Disconnect from BBS (JNOS)
 
-                    readText = _serialPort.ReadLine();           // Read command
+                    readText = ReadLine();           // Read command
                     _logHelper.Log(LogLevel.Info, readText);
-                    AddTextToStatusWindowAsync(readText + "\n");
 
-                    readText = _serialPort.ReadLine();           // Read disconnect response
+                    readText = ReadLine();           // Read disconnect response
                     readText = readText.Replace('\0', ' ');
                     _logHelper.Log(LogLevel.Info, readText);     // Log disconnect response
-                    AddTextToStatusWindowAsync(readText);
 
                     await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                 }
@@ -978,8 +936,6 @@ AbortWithoutConnect:
             {
                 _serialPort.Close();
             }
-
-            //SendMessageReceipts();          // TODO testing
         }
 
         //#region IDisposable Support

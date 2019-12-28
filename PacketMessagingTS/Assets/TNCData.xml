@@ -7,7 +7,7 @@
     <CommPort IsBluetooth="false" Comport="COM6" Baudrate="9600" Databits="8" Parity="None" Stopbits="One" Flowcontrol="RequestToSend" />
   </Device>
   <Device Name="XSC_Kenwood_TM-D710A" Selected="true">
-    <Prompts Command="cmd:" Timeout="*** retry count exceeded" Connected="*** CONNECTED" Disconnected="*** DISCONNECTED" />
+    <Prompts Command="cmd:" Timeout="*** Retry count exceeded" Connected="*** CONNECTED" Disconnected="*** DISCONNECTED" />
     <Commands MyCall="my" Connect="connect" Retry="retry" Conversmode="conv" Datetime="daytime" />
     <InitCommands Precommands="NEWMODE ON&#xD;8BITCONV ON&#xD;BEACON EVERY 0&#xD;SLOTTIME 10&#xD;PERSIST 63&#xD;PPERSIST ON&#xD;PACLEN 128&#xD;MAXFRAME 2&#xD;FRACK 6&#xD;RETRY 8&#xD;RESPTIME 5&#xD;CHECK 30&#xD;TXDELAY 40&#xD;XFLOW OFF&#xD;SENDPAC $05&#xD;CR OFF&#xD;PACTIME AFTER 2&#xD;CPACTIME ON&#xD;STREAMSW $00" Postcommands="SENDPAC $0D&#xD;CR ON&#xD;PACTIME AFTER 10&#xD;CPACTIME OFF&#xD;STREAMSW $01" />
     <CommPort IsBluetooth="false" Comport="COM4" Baudrate="9600" Databits="8" Parity="None" Stopbits="One" Flowcontrol="RequestToSend" />
