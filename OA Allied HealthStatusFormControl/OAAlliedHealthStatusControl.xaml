@@ -944,8 +944,8 @@ to Public Health/Medical Health Branch"
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="14" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBlock Grid.Column="0" Text="Facility Information Officer Contact Email" 

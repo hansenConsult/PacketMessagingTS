@@ -284,7 +284,6 @@ namespace OAAlliedHealthStatus201802FormControl
                 }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
-                    //toggleButtonGroup.SetRadioButtonCheckedStateFromTag(formField.ControlContent);
                     toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
                 }
                 else if (control is CheckBox checkBox)

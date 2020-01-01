@@ -33,10 +33,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
         {
             None,
             PrepareTNCType,
-            Prepare,
+            PreCommand,
             BBSTryConnect,
             BBSConnected,
-            Post,
+            PostCommand,
             Disconnected,
             ConverseMode
         }
@@ -105,6 +105,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             string cmdResult;
             //string readCmdText;
             _serialPort.Write("\r");
+            //readText = _serialPort.ReadLine();
             readText = ReadLine();
 
             _logHelper.Log(LogLevel.Info, readText);
@@ -181,6 +182,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _serialPort.Write("\r");
             //readText = _serialPort.ReadLine();
             //readText = ReadLine();
+            //readPrompt = ReadToTimeout(_TNCPrompt);
 
             readPrompt = ReadTo(_TNCPrompt);
             readPrompt = readPrompt.Trim();
@@ -308,24 +310,49 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //Debug.Write(text);
         }
 
-        // Returns next line read, returns line read plua \r
+        // Returns next line read, returns line read plua \r. Supports timeout.
         private string ReadLine()
         {
-            //string readText = "";
-            while (!_readBuffer.Contains(NewLine))
+            Task task = Task.Run(() =>
             {
-                string newText = _serialPort.ReadExisting();
-                _readBuffer += newText;
-                if (newText.Length > 0)
+                while (!_readBuffer.Contains(NewLine) && _serialPort.IsOpen)
                 {
-                    AddTextToStatusWindowAsync(newText);
+                    string newText = _serialPort.ReadExisting();
+                    if (newText.Length > 0)
+                    {
+                        _readBuffer += newText;
+                        AddTextToStatusWindowAsync(newText);
+
+                        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+                        {
+                            break;
+                        }
+                    }
+                    Thread.Sleep(10);
                 }
-                Thread.Sleep(10);
-                if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+            });
+            try
+            {
+                if (!task.Wait(_serialPort.ReadTimeout) || !_serialPort.IsOpen)
                 {
-                    break;
+                    _readBuffer = "";
+                    _logHelper.Log(LogLevel.Error, $"Serial port timeout in ReadLine. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}");
+                    throw (new Exception("Serial port timeout"));
                 }
             }
+            catch (AggregateException e)
+            {
+                _logHelper.Log(LogLevel.Error, $"Serial port timeout in ReadLine. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}");
+                throw;
+            }
+
+            if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+            {
+                string readText = _readBuffer;
+                _readBuffer = "";
+                return readText;
+            }
+
             int readLength = _readBuffer.IndexOf(NewLine) + NewLine.Length;
             string line = _readBuffer.Substring(0, _readBuffer.IndexOf(NewLine) + 1);   // Only return '\r'
             if (_readBuffer.Length > readLength)
@@ -337,30 +364,211 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _readBuffer = "";
             }
 
-            //line = ReadTo(NewLine);
             return line;
         }
 
-        // Returns the string including readTo. As opposed to SerialPort.ReadTo()
+        // Returns next line read, returns line read plua \r
+        //private string ReadLineTimeout()
+        //{
+        //    //string readText = "";
+        //    CancellationTokenSource tokenSource = new CancellationTokenSource(_serialPort.ReadTimeout);
+        //    CancellationToken token = tokenSource.Token;
+        //    Task task = Task.Run(() =>
+        //    {
+        //        while (!_readBuffer.Contains(NewLine))
+        //        {
+        //            string newText = "";
+        //            if (_serialPort.IsOpen)
+        //            {
+        //                newText = _serialPort.ReadExisting();
+        //            }
+        //            else
+        //            {
+        //                tokenSource.Cancel();
+        //                newText = "";
+        //                break;
+        //            }
+        //            _readBuffer += newText;
+        //            if (newText.Length > 0)
+        //            {
+        //                AddTextToStatusWindowAsync(newText);
+        //            }
+        //            if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+        //            {
+        //                break;
+        //            }
+        //            Thread.Sleep(10);
+        //        }
+        //    }, token);
+        //    try
+        //    {
+        //        task.Wait();
+        //    }
+        //    catch (AggregateException e)
+        //    {
+        //        _logHelper.Log(LogLevel.Error, $"Serial port timeout. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}");
+        //        _logHelper.Log(LogLevel.Error, $"Serialport timeout, {e.InnerExceptions.GetType().Name}");
+        //        throw;
+        //    }
+
+        //    int readLength = _readBuffer.IndexOf(NewLine) + NewLine.Length;
+        //    string line = _readBuffer.Substring(0, _readBuffer.IndexOf(NewLine) + 1);   // Only return '\r'
+        //    if (_readBuffer.Length > readLength)
+        //    {
+        //        _readBuffer = _readBuffer.Substring(readLength);
+        //    }
+        //    else
+        //    {
+        //        _readBuffer = "";
+        //    }
+
+        //    return line;
+        //}
+
+        // Returns next line read, returns line read plua \r
+        //private string ReadLine()
+        //{
+        //    while (!_readBuffer.Contains(NewLine))
+        //    {
+        //        string newText = _serialPort.ReadExisting();
+        //        if (newText.Length > 0)
+        //        {
+        //            _readBuffer += newText;
+        //            AddTextToStatusWindowAsync(newText);
+        //        }
+        //        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+        //        {
+        //            break;
+        //        }
+        //        Thread.Sleep(10);
+        //    }
+        //    int readLength = _readBuffer.IndexOf(NewLine) + NewLine.Length;
+        //    string line = _readBuffer.Substring(0, _readBuffer.IndexOf(NewLine) + 1);   // Only return '\r'
+        //    if (_readBuffer.Length > readLength)
+        //    {
+        //        _readBuffer = _readBuffer.Substring(readLength);
+        //    }
+        //    else
+        //    {
+        //        _readBuffer = "";
+        //    }
+
+        //    return line;
+        //}
+
+        //private string ReadToTimeout(string readTo)
+        //{
+        //    var tokenSource = new CancellationTokenSource(_serialPort.ReadTimeout);
+        //    var token = tokenSource.Token;
+        //    Task task = Task.Run(() =>
+        //    {
+        //       while (!_readBuffer.Contains(readTo) && !token.IsCancellationRequested && _serialPort.IsOpen)
+        //       {
+        //           string newText = "";
+        //           //if (_serialPort.IsOpen)
+        //           //{
+        //               newText = _serialPort.ReadExisting();
+        //           //}
+        //           //else
+        //           //{
+        //           //    tokenSource.Cancel();
+        //           //    newText = "";
+        //           //    break;
+        //           //}
+        //           if (newText.Length > 0)
+        //           {
+        //                _readBuffer += newText;
+        //                AddTextToStatusWindowAsync(newText);
+        //           }
+        //           if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+        //           {
+        //               break;
+        //           }
+        //           Thread.Sleep(10);
+        //       }
+        //    }, token);
+        //    try
+        //    {
+        //        task.Wait();
+        //        if (token.IsCancellationRequested || !_serialPort.IsOpen)
+        //        {
+        //            throw(new Exception("Serial port timeout in ReadTo"));
+        //        }
+        //    }
+        //    catch (AggregateException e)
+        //    {
+        //        _logHelper.Log(LogLevel.Error, $"Serialport timeout, {e.InnerExceptions.GetType().Name}");
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        tokenSource.Dispose();
+        //    }
+        //    string readText = "";
+        //    if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+        //    {
+        //        readText = _readBuffer;
+        //        _readBuffer = "";
+        //        return readText;
+        //    }
+
+        //    int readLength = _readBuffer.IndexOf(readTo) + readTo.Length;
+        //    readText = _readBuffer.Substring(0, readLength);
+        //    if (_readBuffer.Length > readLength)
+        //    {
+        //        _readBuffer = _readBuffer.Substring(readLength);
+        //    }
+        //    else
+        //    {
+        //        _readBuffer = "";
+        //    }
+
+        //    return readText;
+        //}
+
+        // Returns the string including readTo, as opposed to SerialPort.ReadTo(). Supports timeout.
         private string ReadTo(string readTo)
         {
-            string readText = "";
-            while (!_readBuffer.Contains(readTo))
+            Task task = Task.Run(() =>
             {
-                string newText = _serialPort.ReadExisting();
-                _readBuffer += newText;
-                if (newText.Length > 0)
+                while (!_readBuffer.Contains(readTo) && _serialPort.IsOpen)
                 {
-                    AddTextToStatusWindowAsync(newText);
+                    string newText = _serialPort.ReadExisting();
+                    if (newText.Length > 0)
+                    {
+                        _readBuffer += newText;
+                        AddTextToStatusWindowAsync(newText);
+
+                        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+                        {
+                            break;
+                        }
+                    }
+                    Thread.Sleep(10);
                 }
-                Thread.Sleep(10);
-                if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+            });
+            try
+            {
+                if (!task.Wait(_serialPort.ReadTimeout) || !_serialPort.IsOpen)
                 {
-                    readText = _readBuffer;
                     _readBuffer = "";
-                    return readText;
+                    _logHelper.Log(LogLevel.Error, $"Serial port timeout in ReadTo. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}");
+                    throw (new Exception("Serial port timeout in ReadTo"));
                 }
             }
+            catch (AggregateException e)
+            {
+                _logHelper.Log(LogLevel.Error, $"Serialport timeout in ReadTo, {e.InnerExceptions.GetType().Name}");
+                throw;
+            }
+            string readText = "";
+            if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+            {
+                readText = _readBuffer;
+                _readBuffer = "";
+                return readText;
+            }
+
             int readLength = _readBuffer.IndexOf(readTo) + readTo.Length;
             readText = _readBuffer.Substring(0, readLength);
             if (_readBuffer.Length > readLength)
@@ -374,6 +582,40 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             return readText;
         }
+
+        // Returns the string including readTo, as opposed to SerialPort.ReadTo()
+        //private string ReadTo(string readTo)
+        //{
+        //    string readText = "";
+        //    while (!_readBuffer.Contains(readTo))
+        //    {
+        //        string newText = _serialPort.ReadExisting();
+        //        _readBuffer += newText;
+        //        if (newText.Length > 0)
+        //        {
+        //            AddTextToStatusWindowAsync(newText);
+        //        }
+        //        Thread.Sleep(10);
+        //        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+        //        {
+        //            readText = _readBuffer;
+        //            _readBuffer = "";
+        //            return readText;
+        //        }
+        //    }
+        //    int readLength = _readBuffer.IndexOf(readTo) + readTo.Length;
+        //    readText = _readBuffer.Substring(0, readLength);
+        //    if (_readBuffer.Length > readLength)
+        //    {
+        //        _readBuffer = _readBuffer.Substring(readLength);
+        //    }
+        //    else
+        //    {
+        //        _readBuffer = "";
+        //    }
+
+        //    return readText;
+        //}
 
         private void SendMessage(ref PacketMessage packetMessage)
         {
@@ -730,7 +972,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 // Send Precommands
                 string preCommands = _TncDevice.InitCommands.Precommands;
                 string[] preCommandLines = preCommands.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                _connectState = ConnectState.Prepare;
+                _connectState = ConnectState.PreCommand;
                 foreach (string commandLine in preCommandLines)
                 {
                     _serialPort.Write(commandLine + "\r");
@@ -754,7 +996,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     goto AbortWithoutConnect;
                 }
 
-                //goto AbortWithoutConnect;    //Test
+                goto AbortWithoutConnect;    //Test
 
                 _connectState = ConnectState.BBSTryConnect;
                 _serialPort.Write($"connect {_bbsConnectName}\r");
@@ -858,7 +1100,7 @@ AbortWithoutConnect:
                 // Send PostCommands
                 string postCommands = _TncDevice.InitCommands.Postcommands;
                 string[] postCommandLines = postCommands.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                _connectState = ConnectState.Post;
+                _connectState = ConnectState.PostCommand;
                 foreach (string commandLine in postCommandLines)
                 {
                     _serialPort.Write(commandLine + "\r");
@@ -891,7 +1133,7 @@ AbortWithoutConnect:
             catch (Exception e)
             {
                 //Console.WriteLine($"Serial port exception: {e.GetType().ToString()}");
-                _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())} {e.Message}");
+                _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}. {e.Message}");
                 if (_connectState == ConnectState.BBSConnected)
                 {
                     // Try to disconnect
