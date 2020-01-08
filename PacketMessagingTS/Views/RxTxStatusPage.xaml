@@ -21,7 +21,8 @@
                  AcceptsReturn="True"
                  VerticalContentAlignment="Bottom"
                  IsReadOnly="False"
-                 Text="{x:Bind RxTxStatusViewmodel.AddRxTxStatus, Mode=TwoWay}"/>
+                 Text="{x:Bind RxTxStatusViewmodel.AddRxTxStatus, Mode=TwoWay}" />
+        
         <!--TextChanged="TextBoxStatus_TextChanged"-->
         <Button x:Name="abortButton" Margin="8"
                 RelativePanel.AlignBottomWithPanel="True"

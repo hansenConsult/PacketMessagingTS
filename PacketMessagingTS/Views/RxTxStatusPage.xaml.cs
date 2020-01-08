@@ -86,19 +86,14 @@ namespace PacketMessagingTS.Views
 
         private void TextButton_Click(object sender, RoutedEventArgs e)
         {
-            //ScrollText();
-            //TestAddRxTxStatus();
-            //for (int j = 0; j < 100; j++)
-            //{
             i++;
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
-
+            
             RxTxStatusViewmodel.AddRxTxStatus = $"\nTest text{i}";
             //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";
 
             ScrollText();
-                //}
         }
 
         //ScrollViewer scrollViewer = null;

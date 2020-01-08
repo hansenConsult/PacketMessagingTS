@@ -232,6 +232,10 @@
                 </StackPanel>
                 <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="24"/>
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -242,11 +246,7 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="24"/>
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -276,7 +276,7 @@
                               ItemsSource="{x:Bind CommandCenterStatus, Mode=OneWay}"
                               SelectionChanged="ComboBox_SelectionChanged"
                               Loaded="ComboBox_Loaded"
-                              Tag="22.,required" Margin="3,2,0,0" VerticalAlignment="Top"/>
+                              Tag="22.,required" />
                     <Border Grid.Row="3" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,1,0" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Bed Availability" Style="{StaticResource ShelterStatusHeaderText}"/>
                     <Border Grid.Row="3" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />
@@ -286,6 +286,7 @@
                     <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                     <TextBox Grid.Row="4" Grid.Column="1" Name="adultICU" 
                              Style="{StaticResource HAvBedNumberTextBox}"
+                             TextAlignment="Right"
                              TextChanged="TextBox_IntegerChanged"
                              Tag="41.,required"/>
                     <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
@@ -354,7 +355,7 @@
                              Style="{StaticResource HAvBedNumberTextBox}"
                              TextChanged="TextBox_IntegerChanged"
                              Tag="50.,required"/>
-                    <Border Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                    <Border Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,1" />
                     <TextBlock Grid.Row="14" Grid.Column="0" Text="Comment:" Style="{StaticResource ShelterStatusHeaderText}"/>
                     <TextBox Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" Name="comment" 
                              AcceptsReturn="True" Height=" 96" Margin="2"

@@ -323,7 +323,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         _readBuffer += newText;
                         AddTextToStatusWindowAsync(newText);
 
-                        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+                        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected) && _readBuffer.Contains(_TncDevice.Prompts.Timeout))
                         {
                             break;
                         }
@@ -346,7 +346,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 throw;
             }
 
-            if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+            if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected) && _readBuffer.Contains(_TncDevice.Prompts.Timeout))
             {
                 string readText = _readBuffer;
                 _readBuffer = "";
@@ -366,7 +366,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             return line;
         }
-
+        /*
         // Returns next line read, returns line read plua \r
         //private string ReadLineTimeout()
         //{
@@ -525,7 +525,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         //    return readText;
         //}
-
+        */
         // Returns the string including readTo, as opposed to SerialPort.ReadTo(). Supports timeout.
         private string ReadTo(string readTo)
         {
@@ -539,7 +539,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         _readBuffer += newText;
                         AddTextToStatusWindowAsync(newText);
 
-                        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+                        if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected) && _readBuffer.Contains(_TncDevice.Prompts.Timeout))
                         {
                             break;
                         }
@@ -562,7 +562,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 throw;
             }
             string readText = "";
-            if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected))
+            if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected) && _readBuffer.Contains(_TncDevice.Prompts.Timeout))
             {
                 readText = _readBuffer;
                 _readBuffer = "";

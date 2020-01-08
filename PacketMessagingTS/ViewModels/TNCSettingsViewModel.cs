@@ -696,7 +696,11 @@ namespace PacketMessagingTS.ViewModels
             DeviceListBoxVisibility = Visibility.Visible;
             NewTNCDeviceNameVisibility = Visibility.Collapsed;
 
-            //_PacketSettingsViewmodel.TNCDeviceListSource
+            // Make sure Packet settings have the latest TNC devices, also restore currently selected TNC
+            PacketSettingsViewModel packetSettingsViewmodel = Singleton<PacketSettingsViewModel>.Instance;
+            string selectedTNC = packetSettingsViewmodel.TNC;
+            packetSettingsViewmodel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+            packetSettingsViewmodel.TNC = selectedTNC;
 
             // Disable Save button
             ResetChangedProperty();

@@ -26,7 +26,7 @@ namespace HavBedReportFormControl
         {
             new ComboBoxPackItItem(null, ""),
             new ComboBoxPackItItem("Available", LightGreenBrush),
-            new ComboBoxPackItItem("Drill or Exercise", LightGreenBrush),
+            new ComboBoxPackItItem("Drill or Exercise", LightGrayBrush),
             new ComboBoxPackItItem("Full Activation", PinkBrush),
             new ComboBoxPackItItem("Monitoring", OrangeBrush),
             new ComboBoxPackItItem("Not Activated", LightGreenBrush),
@@ -37,7 +37,7 @@ namespace HavBedReportFormControl
         readonly List<ComboBoxPackItItem> Decon = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Exceeded", BlackBrush),
+            new ComboBoxPackItItem("Exceeded", BlackBrush, WhiteBrush),
             new ComboBoxPackItItem("Full", PinkBrush),
             new ComboBoxPackItItem("Interactive", YellowBrush),
             new ComboBoxPackItItem("Open", LightGreenBrush),
@@ -83,5 +83,6 @@ namespace HavBedReportFormControl
 
             return CreateOutpostMessageBody(outpostData);
         }
+
     }
 }
