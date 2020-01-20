@@ -37,7 +37,7 @@ namespace PacketMessagingTS.ViewModels
                 //StatusPage.AddTextToStatusWindow.Text = status;
                 Set(ref rxTxStatus, status);
 
-                RxTxStatusPage.rxtxStatusPage.ScrollText();
+                //RxTxStatusPage.rxtxStatusPage.ScrollText();
             }
         }
 
@@ -57,18 +57,20 @@ namespace PacketMessagingTS.ViewModels
 
         private ICommand _abortCommand;
 
-        public ICommand AbortCommand => _abortCommand ?? (_abortCommand = new RelayCommand(AbortConnectionAsync));
+        public ICommand AbortCommand => _abortCommand ?? (_abortCommand = new RelayCommand(AbortConnection));
 
-        public async void AbortConnectionAsync()
+        public void AbortConnection()
         {
-            //_viewLifetimeControl.StartViewInUse();
-            Rect rect = _viewLifetimeControl.GetBounds();
-            ViewControlHeight = rect.Height;
+            ////_viewLifetimeControl.StartViewInUse();
+            //Rect rect = _viewLifetimeControl.GetBounds();
+            //ViewControlHeight = rect.Height;
 
-            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-                ApplicationView.GetForCurrentView().Id,
-                ApplicationViewSwitchingOptions.ConsolidateViews);
-            //_viewLifetimeControl.StopViewInUse();
+            //await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+            //    ApplicationView.GetForCurrentView().Id,
+            //    ApplicationViewSwitchingOptions.ConsolidateViews);
+            ////_viewLifetimeControl.StopViewInUse();
+
+            CommunicationsService.CreateInstance().AbortConnection();
         }
 
         private ViewLifetimeControl _viewLifetimeControl;

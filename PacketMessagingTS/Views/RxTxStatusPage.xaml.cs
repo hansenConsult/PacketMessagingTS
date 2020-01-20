@@ -7,7 +7,9 @@ using PacketMessagingTS.Services;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+using Windows.Foundation;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -25,7 +27,7 @@ namespace PacketMessagingTS.Views
         ViewLifetimeControl _viewLifetimeControl;
 
         public static RxTxStatusPage rxtxStatusPage;
-        //private ScrollViewer _scrollViewer;
+        private ScrollViewer _scrollViewer;
 
         public RxTxStatusPage()
         {
@@ -33,7 +35,6 @@ namespace PacketMessagingTS.Views
 
             rxtxStatusPage = this;
             //RxTxStatusViewModel.StatusPage = this;
-            //_scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -50,6 +51,18 @@ namespace PacketMessagingTS.Views
 
             _viewLifetimeControl.Height = RxTxStatusViewmodel.ViewControlHeight;
             _viewLifetimeControl.Width = RxTxStatusViewmodel.ViewControlWidth;
+        }
+
+        public async void CloseStatusWindowAsync()
+        {
+            //_viewLifetimeControl.StartViewInUse();
+            Rect rect = _viewLifetimeControl.GetBounds();
+            RxTxStatusViewmodel.ViewControlHeight = rect.Height;
+
+            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+                ApplicationView.GetForCurrentView().Id,
+                ApplicationViewSwitchingOptions.ConsolidateViews);
+            //_viewLifetimeControl.StopViewInUse();
         }
 
         private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
@@ -90,19 +103,25 @@ namespace PacketMessagingTS.Views
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
             
-            RxTxStatusViewmodel.AddRxTxStatus = $"\nTest text{i}";
-            //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";
+            RxTxStatusViewmodel.AddRxTxStatus = $"Test text{i}\r";
+            //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";            
 
-            ScrollText();
+            //ScrollText();
         }
 
         //ScrollViewer scrollViewer = null;
         public async void ScrollText()
+        //public void ScrollText()
         {
+            if (_scrollViewer is null)
+            {
+                _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+            }
+
             await rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                ScrollViewer _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
-                bool? _viewChanged = _scrollViewer?.ChangeView(null, _scrollViewer.ExtentHeight, 1.0f, true);
+                //ScrollViewer _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+                bool? _viewChanged = _scrollViewer?.ChangeView(null, _scrollViewer.ExtentHeight, null, true);
             });
 
  //           ScrollViewer scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
@@ -126,24 +145,18 @@ namespace PacketMessagingTS.Views
             //}
         }
 
-        private void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
+        private async void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //return;
-            ScrollViewer sv = FindVisualChild<ScrollViewer>(textBoxStatus);
-            if (sv.Visibility == Visibility.Visible)
+            if (_scrollViewer is null)
             {
-                bool? viewChanged = sv?.ChangeView(null, sv.ExtentHeight, 1.0f, true);
-
-                //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {sv.ExtentHeight}");
+                _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
             }
-            //DependencyObject grid = (Grid)VisualTreeHelper.GetChild(textBoxStatus, 0);
-            //for (int i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
-            //{
-            //    DependencyObject obj = VisualTreeHelper.GetChild(grid, i);
-            //    if (!(obj is ScrollViewer)) continue;
-            //    ((ScrollViewer)obj).ChangeView(0.0f, ((ScrollViewer)obj).ExtentHeight, 1.0f, true);
-            //    break;
-            //}
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                bool? viewChanged = _scrollViewer.ChangeView(null, _scrollViewer.ExtentHeight, 1.0f, true);
+
+                //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {_scrollViewer.ExtentHeight}");
+            });
         }
 
         private void TextBoxStatus_SizeChanged(object sender, SizeChangedEventArgs e)

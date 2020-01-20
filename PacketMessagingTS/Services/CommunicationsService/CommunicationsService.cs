@@ -220,13 +220,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 string[] searchStrings = new string[] { "Subject: ", "was delivered on ", "Recipient's Local Message ID: " };
                 DateTime receiveTime = DateTime.Now;
-                string receiversMessageId = "", sendersMessageId = "";
+                string receiversMessageId = "", sendersMessageId = "", senderSubject = "";
                 var messageLines = formField.ControlContent.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string line in messageLines)
                 {
                     if (line.Contains(searchStrings[0]))
                     {
+                        senderSubject = line.Substring(searchStrings[0].Length);
                         int indexOfUnderscore = line.IndexOf('_');
                         int indexOfDelivered = line.IndexOf(searchStrings[0]);
                         if (indexOfUnderscore >= 0)
@@ -273,7 +274,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         }
                         else
                         {
-                            if (packetMessage.MessageNumber == sendersMessageId)
+                            if (packetMessage.MessageNumber == sendersMessageId && packetMessage.Subject == senderSubject)
                             {
                                 formField = packetMessage.FormFieldArray.FirstOrDefault(x => x.ControlName == "receiverMsgNo");
                                 if (formField != null)
@@ -801,8 +802,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //       Singleton<RxTxStatViewModel>.Instance.AbortConnectionAsync();
                 await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
-                    //RxTxStatusPage.rxtxStatusPage.ScrollText();
+                    //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
+                    RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
                 });
 
                 Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;

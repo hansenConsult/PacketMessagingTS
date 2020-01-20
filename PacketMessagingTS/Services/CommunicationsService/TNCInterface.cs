@@ -41,8 +41,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             ConverseMode
         }
         ConnectState _connectState;
-
-        List<PacketMessage> _packetMessagesSent = new List<PacketMessage>();
+        private List<PacketMessage> _packetMessagesSent = new List<PacketMessage>();
         List<PacketMessage> _packetMessagesToSend;
 
         string _bbsConnectName = "";
@@ -310,7 +309,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //Debug.Write(text);
         }
 
-        // Returns next line read, returns line read plua \r. Supports timeout.
+        // Returns next line read, returns line read plus a \r. Supports timeout.
         private string ReadLine()
         {
             Task task = Task.Run(() =>
@@ -355,6 +354,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             int readLength = _readBuffer.IndexOf(NewLine) + NewLine.Length;
             string line = _readBuffer.Substring(0, _readBuffer.IndexOf(NewLine) + 1);   // Only return '\r'
+            //string line = _readBuffer.Substring(0, readLength);   // return '\r\n'
             if (_readBuffer.Length > readLength)
             {
                 _readBuffer = _readBuffer.Substring(readLength);
@@ -968,6 +968,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 else
                 {
                     await Utilities.ShowSingleButtonContentDialogAsync("Unsupported TNC device");
+                    _serialPort.Close();
+                    return;
                 }
                 // Send Precommands
                 string preCommands = _TncDevice.InitCommands.Precommands;
@@ -975,6 +977,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _connectState = ConnectState.PreCommand;
                 foreach (string commandLine in preCommandLines)
                 {
+                    if (_error)
+                        break;
+
                     _serialPort.Write(commandLine + "\r");
 
                     readText = ReadLine();       // Read command
@@ -996,7 +1001,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     goto AbortWithoutConnect;
                 }
 
-                goto AbortWithoutConnect;    //Test
+                //goto AbortWithoutConnect;    //Test
 
                 _connectState = ConnectState.BBSTryConnect;
                 _serialPort.Write($"connect {_bbsConnectName}\r");
@@ -1010,8 +1015,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 {
                     _logHelper.Log(LogLevel.Error, $"Timeout while connecting to { _bbsConnectName}");
                     await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
-                    //_serialPort.Write("\r");
-                    //readCmdText = ReadTo(_TNCPrompt);
                     goto AbortWithoutConnect;
                 }
 

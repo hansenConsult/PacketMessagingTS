@@ -124,7 +124,6 @@ namespace PacketMessagingTS.Helpers
             ContentDialog contentDialog = new ContentDialog()
             {
                 Title = title,
-                //Content = dialogMessage,
                 Content = content,
                 CloseButtonText = closeButtonText,
                 PrimaryButtonText = primaryButtonText,
