@@ -20,8 +20,8 @@
                  ScrollViewer.ZoomMode="Disabled"
                  AcceptsReturn="True"
                  VerticalContentAlignment="Bottom"
-                 IsReadOnly="False"
-                 Text="{x:Bind RxTxStatusViewmodel.AddRxTxStatus, Mode=TwoWay}"
+                 IsReadOnly="True"
+                 Text="{x:Bind RxTxStatusViewmodel.RxTxStatus, Mode=OneWay}"
                  TextChanged="TextBoxStatus_TextChanged"/>
 
         <!--TextChanged="TextBoxStatus_TextChanged"-->

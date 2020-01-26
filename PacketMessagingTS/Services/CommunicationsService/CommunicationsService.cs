@@ -91,7 +91,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
             await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AddRxTxStatus = text;
+                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
+                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus(text);
                 //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
             });
         }
@@ -799,10 +800,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 await _tncInterface.BBSConnectThreadProcAsync();
 
                 // Close status window
-                //       Singleton<RxTxStatViewModel>.Instance.AbortConnectionAsync();
-                await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AbortConnectionAsync();
                     RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
                 });
 

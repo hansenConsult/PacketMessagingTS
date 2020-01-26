@@ -89,21 +89,22 @@ namespace PacketMessagingTS.Views
 
         int i = 0;
         //string textBoxText = "";
-        public void TestAddRxTxStatus()
-        {
-            i++;
-            RxTxStatusViewmodel.AddRxTxStatus = $"Test text{i}\n";
+        //public void TestAddRxTxStatus()
+        //{
+        //    i++;
+        //    RxTxStatusViewmodel.AppendRxTxStatus = $"Test text{i}\n";
 
-            //ScrollText();
-        }
+        //    //ScrollText();
+        //}
 
         private void TextButton_Click(object sender, RoutedEventArgs e)
         {
             i++;
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
-            
-            RxTxStatusViewmodel.AddRxTxStatus = $"Test text{i}\r";
+
+            //RxTxStatusViewmodel.AppendRxTxStatus = $"Test text{i}\r";
+            RxTxStatusViewmodel.AppendRxTxStatus($"Test text{i}\r");
             //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";            
 
             //ScrollText();
@@ -118,35 +119,16 @@ namespace PacketMessagingTS.Views
                 _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
             }
 
-            await rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => 
+            await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                //ScrollViewer _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
                 bool? _viewChanged = _scrollViewer?.ChangeView(null, _scrollViewer.ExtentHeight, null, true);
             });
-
- //           ScrollViewer scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
-
-            //double textBoxHeight = textBoxStatus.ActualHeight;
-            ////while (scrollViewer.ExtentHeight > textBoxHeight)
-            //{
-            //    int index = RxTxStatusViewmodel.RxTxStatus.IndexOfAny(new char[] { '\n', '\r' });
-            //    if (index >= 0)
-            //    {
-            //        RxTxStatusViewmodel.RxTxStatus = RxTxStatusViewmodel.RxTxStatus.Substring(index + 1);
-            //    }
-            //}
-            //_logHelper.Log(LogLevel.Trace, $"TextBox Hight: {textBoxHeight}, ExtendHeight: {scrollViewer.ExtentHeight}");
-
-            //}
-            //if (scrollViewer.Visibility == Visibility.Visible)
-            //{
- //           bool? viewChanged = scrollViewer?.ChangeView(null, scrollViewer.ExtentHeight, 1.0f, true);
-            //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {scrollViewer.ExtentHeight}");
-            //}
         }
 
         private async void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //_viewLifetimeControl.StartViewInUse();
             if (_scrollViewer is null)
             {
                 _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
@@ -157,6 +139,7 @@ namespace PacketMessagingTS.Views
 
                 //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {_scrollViewer.ExtentHeight}");
             });
+            //_viewLifetimeControl.StopViewInUse();
         }
 
         private void TextBoxStatus_SizeChanged(object sender, SizeChangedEventArgs e)

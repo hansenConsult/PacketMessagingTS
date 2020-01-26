@@ -25,20 +25,12 @@ namespace PacketMessagingTS.ViewModels
         {
             get => rxTxStatus;
             set => Set(ref rxTxStatus, value);
-            //set => rxTxStatus = value;
         }
 
-        public string AddRxTxStatus
+        public void AppendRxTxStatus(string appendedStatus)
         {
-            get => rxTxStatus;
-            set
-            {
-                string status = rxTxStatus + value;
-                //StatusPage.AddTextToStatusWindow.Text = status;
-                Set(ref rxTxStatus, status);
-
-                //RxTxStatusPage.rxtxStatusPage.ScrollText();
-            }
+            string status = RxTxStatus + appendedStatus;
+            RxTxStatus = status;
         }
 
         private double _viewControlHeight = 600;
@@ -61,24 +53,15 @@ namespace PacketMessagingTS.ViewModels
 
         public void AbortConnection()
         {
-            ////_viewLifetimeControl.StartViewInUse();
-            //Rect rect = _viewLifetimeControl.GetBounds();
-            //ViewControlHeight = rect.Height;
-
-            //await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-            //    ApplicationView.GetForCurrentView().Id,
-            //    ApplicationViewSwitchingOptions.ConsolidateViews);
-            ////_viewLifetimeControl.StopViewInUse();
-
             CommunicationsService.CreateInstance().AbortConnection();
         }
 
-        private ViewLifetimeControl _viewLifetimeControl;
+        public ViewLifetimeControl ViewLifetimeControl { get; private set; }
 
         public void Initialize(ViewLifetimeControl viewLifetimeControl)
         {
-            _viewLifetimeControl = viewLifetimeControl;
-            _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
+            ViewLifetimeControl = viewLifetimeControl;
+            ViewLifetimeControl.Released += OnViewLifetimeControlReleased;
         }
 
         //public void Initialize(ViewLifetimeControl viewLifetimeControl, CoreDispatcher dispatcher)
@@ -97,10 +80,10 @@ namespace PacketMessagingTS.ViewModels
 
         private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
         {
-            _viewLifetimeControl.Released -= OnViewLifetimeControlReleased;            
+            ViewLifetimeControl.Released -= OnViewLifetimeControlReleased;            
             await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                WindowManagerService.Current.SecondaryViews.Remove(_viewLifetimeControl);
+                WindowManagerService.Current.SecondaryViews.Remove(ViewLifetimeControl);
             });
         }
 

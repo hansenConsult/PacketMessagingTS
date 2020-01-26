@@ -50,8 +50,7 @@
 	           RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
                SelectedIndex="{x:Bind MainViewModel.MainPagePivotSelectedIndex, Mode=TwoWay}"
-               SelectionChanged="MainPagePivot_SelectionChanged"
-               >
+               SelectionChanged="MainPagePivot_SelectionChanged">
 
             <!--  Inbox  -->
             <PivotItem x:Uid="Main_Inbox"  x:Name="pivotItemInBox"  >
@@ -65,7 +64,7 @@
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
                                    Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"
+                                   SelectionChanged="DataGrid_SelectionChanged"                                   
                                    LoadingRow="DataGrid_LoadingRow"
                                    UnloadingRow="DataGrid_UnloadingRow"
                                    DoubleTapped="DataGrid_DoubleTapped"
@@ -84,9 +83,9 @@
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
-                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -123,9 +122,9 @@
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
-                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -159,9 +158,9 @@
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
-                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -220,9 +219,9 @@
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
-                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -257,9 +256,9 @@
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
-                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
+                            <!--<MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveCommand}"/>-->
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -293,9 +292,9 @@
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Open" Click="AppBarMainPage_OpenMessageFromContectMenu"/>
-                            <MenuFlyoutItem Text="Delete" Click="AppBarMainPage_DeleteItemFromContectMenuAsync"/>
-                            <MenuFlyoutItem Text="Move To Archive" Click="AppBarMainPage_MoveToArchiveAsync"/>
+                            <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
+                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -310,15 +309,15 @@
 				    RelativePanel.AlignRightWithPanel="True"
 				    RelativePanel.AlignLeftWithPanel="True" >
             <AppBarButton Label="TestStatus" Icon="Print" Click="AppBarMainPage_TestStatusPage" HorizontalAlignment="Right" />
-            
-            <AppBarButton Label="Open" Icon="OpenFile" Click="AppBarMainPage_OpenMessage" />
+            <AppBarButton Label="Move to Archive" Icon="MoveToFolder" Command="{x:Bind MainViewModel.MoveToArchiveCommand}" />
+            <AppBarButton Label="Open" Icon="OpenFile" Command="{x:Bind MainViewModel.OpenMessageCommand}" />
             <!--<AppBarButton x:Name="appBarPrint" Label="Print Message" HorizontalAlignment="Right" Click="AppBarPrint_Click">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
                 </AppBarButton.Icon>
             </AppBarButton>-->
-            <AppBarButton Label="Send/Receive" Icon="Send" Click="AppBarMainPage_SendReceiveAsync" />
-            <AppBarButton Label="Delete" Icon="Delete" Click="AppBarMainPage_DeleteItemAsync" HorizontalAlignment="Right" />
+            <AppBarButton Label="Send/Receive" Icon="Send" Command="{x:Bind MainViewModel.SendReceiveCommand}"/>
+            <AppBarButton Label="Delete" Icon="Delete" Command="{x:Bind MainViewModel.DeleteMessagesCommand}" HorizontalAlignment="Right" />
         </CommandBar>
     </RelativePanel>
 </Page>

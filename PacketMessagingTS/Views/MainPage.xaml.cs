@@ -41,15 +41,8 @@ namespace PacketMessagingTS.Views
 
         public static MainPage Current;
         //private readonly object _lock = new object();
-        //PivotItem _currentPivotItem;
 
         //List<string> _bulletinList;
-        List<PacketMessage> _messagesInFolder;
-        List<PacketMessage> _selectedMessages = new List<PacketMessage>();
-        PacketMessage _packetMessageRightClicked;
-
-        //private AppWindow appWindow = null;
-        //private Frame appWindowFrame = new Frame();
 
 
         public MainPage()
@@ -99,71 +92,41 @@ namespace PacketMessagingTS.Views
 
         }
 
-        public DataGrid FindDataGrid(DependencyObject panelName)
-        {
-            DataGrid dataGrid = null;
+        //public DataGrid FindDataGrid(DependencyObject panelName)
+        //{
+        //    DataGrid dataGrid = null;
 
-            var count = VisualTreeHelper.GetChildrenCount(panelName);
-            DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
+        //    var count = VisualTreeHelper.GetChildrenCount(panelName);
+        //    DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
 
-            count = VisualTreeHelper.GetChildrenCount(control);
-            control = VisualTreeHelper.GetChild(control, 0);
+        //    count = VisualTreeHelper.GetChildrenCount(control);
+        //    control = VisualTreeHelper.GetChild(control, 0);
 
-            count = VisualTreeHelper.GetChildrenCount(control);
-            control = VisualTreeHelper.GetChild(control, 0);
+        //    count = VisualTreeHelper.GetChildrenCount(control);
+        //    control = VisualTreeHelper.GetChild(control, 0);
 
-            if (control is DataGrid)
-            {
-                dataGrid = control as DataGrid;
-            }
-            return dataGrid;
-        }
+        //    if (control is DataGrid)
+        //    {
+        //        dataGrid = control as DataGrid;
+        //    }
+        //    return dataGrid;
+        //}
 
         private async Task RefreshDataGridAsync()
         {
             try
             {
-                _messagesInFolder = await PacketMessage.GetPacketMessages(MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
-                //_messagesInFolder = await PacketMessage.GetPacketMessages((MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder).Path);
+                MainViewModel._messagesInFolder = await PacketMessage.GetPacketMessages(MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
 
-                MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
+                MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(MainViewModel._messagesInFolder);
 
-                //string header = _currentPivotItem.Header as string;
-                //int index = header.IndexOf(" (");
-                //header = (_currentPivotItem.Header as string).Substring(0, index < 0 ? header.Length : index);
-                //_currentPivotItem.Header = $"{header} ({_messagesInFolder.Count})";
-
-                DataGridColumn sortColumn = null;
-                //switch (_currentPivotItem.Name)
-                //{
-                //    case "pivotItemInBox":
-                //        sortColumn = dataGridInbox.Tag as DataGridColumn;
-                //        break;
-                //    case "pivotItemSent":
-                //        sortColumn = dataGridSent.Tag as DataGridColumn;
-                //        break;
-                //    case "pivotItemOutBox":
-                //        sortColumn = dataGridOutbox.Tag as DataGridColumn;
-                //        break;
-                //    case "pivotItemDrafts":
-                //        sortColumn = dataGridDrafts.Tag as DataGridColumn;
-                //        break;
-                //    case "pivotItemArchive":
-                //        break;
-                //    case "pivotItemDeleted":
-                //        break;
-                //}
-                //if (sortColumn != null)
-                //{
-                //    SortColumn(sortColumn);
-                //}
-                DataGrid dataGrid = FindDataGrid(MainViewModel.MainPagePivotSelectedItem);
+                DataGrid dataGrid = MainViewModel.FindDataGrid(MainViewModel.MainPagePivotSelectedItem);
                 int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
                 if (sortColumnNumber == null || sortColumnNumber < 0)
                     return;
 
-                sortColumn = dataGrid.Columns[(int)sortColumnNumber];
-                SortColumn(sortColumn);
+                DataGridColumn sortColumn = dataGrid.Columns[(int)sortColumnNumber];
+                MainViewModel.SortColumn(sortColumn);
             }
             catch (Exception e)
             {
@@ -173,15 +136,9 @@ namespace PacketMessagingTS.Views
 
         private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedMessages.Clear();
+            MainViewModel.SelectedMessages.Clear();
 
-            //_currentPivotItem = (PivotItem)e.AddedItems[0];
             MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
-
-            //if (!(appWindow is null))
-            //{
-            //    await appWindow.CloseAsync();      // TODO remove testing only
-            //}
 
             await RefreshDataGridAsync();
         }
@@ -220,138 +177,98 @@ namespace PacketMessagingTS.Views
         //     NavigationService.Navigate(type, packetMessagePath);
         // }
 
-        private async Task DeleteMessageAsync(PacketMessage packetMessage)
-        {
-            if (packetMessage is null)
-                return;
+        //private async Task DeleteMessageAsync(PacketMessage packetMessage)
+        //{
+        //    if (packetMessage is null)
+        //        return;
 
-            StorageFolder folder = MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder;
-            bool permanentlyDelete = false;
-            if (folder == SharedData.DeletedMessagesFolder)
-            {
-                permanentlyDelete = true;
-            }
+        //    StorageFolder folder = MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder;
+        //    bool permanentlyDelete = false;
+        //    if (folder == SharedData.DeletedMessagesFolder)
+        //    {
+        //        permanentlyDelete = true;
+        //    }
 
-            try
-            {
-                var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
-                if (permanentlyDelete)
-                {
-                    await file?.DeleteAsync();
-                }
-                else
-                {
-                    await file?.MoveAsync(SharedData.DeletedMessagesFolder);
-                }
-            }
-            catch (Exception ex)
-            {
-                var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
-                await file?.DeleteAsync();
+        //    try
+        //    {
+        //        var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
+        //        if (permanentlyDelete)
+        //        {
+        //            await file?.DeleteAsync();
+        //        }
+        //        else
+        //        {
+        //            await file?.MoveAsync(SharedData.DeletedMessagesFolder);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
+        //        await file?.DeleteAsync();
 
-                string s = ex.ToString();
-            }
-        }
+        //        string s = ex.ToString();
+        //    }
+        //}
 
-        private async void AppBarMainPage_DeleteItemAsync(object sender, RoutedEventArgs e)
-        {
-            foreach (PacketMessage packetMessage in _selectedMessages)
-            {
-                await DeleteMessageAsync(packetMessage);
-            }
-            await RefreshDataGridAsync();
-        }
+        //private async void AppBarMainPage_DeleteItemAsync(object sender, RoutedEventArgs e)
+        //{
+        //    foreach (PacketMessage packetMessage in _selectedMessages)
+        //    {
+        //        await DeleteMessageAsync(packetMessage);
+        //    }
+        //    await RefreshDataGridAsync();
+        //}
 
-        private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
-        {
-            //if (appWindow == null)
-            //{
-            //    // Create a new window
-            //    appWindow = await AppWindow.TryCreateAsync();
-            //    // Make sure we release the reference to this window, and release XAML resources, when it's closed
-            //    appWindow.Closed += delegate { appWindow = null; appWindowFrame.Content = null; };
-            //    // Navigate the frame to the page we want to show in the new window
-            //    appWindowFrame.Navigate(typeof(RxTxStatusPage), appWindow);
-            //}
-            //// Request the size of our window
-            //appWindow.RequestSize(new Size(500, 320));
-            //// Attach the XAML content to our window
-            //ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowFrame);
+        //private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
+        //{
+        //    //// Using ViewLifetimeControl
+        //    //await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
-            //AppWindowPlacement placement = appWindow.GetPlacement();
-            //double width = placement.Size.Width;
-            //Point offset = new Point(-width, 50);
-            //appWindow.RequestMoveRelativeToCurrentViewContent(offset);
+        //    CommunicationsService.CreateInstance().BBSConnectAsync2();
+        //    //communicationsService.BBSConnectAsync2(Dispatcher);
 
-            //// Now show the window
-            //await appWindow.TryShowAsync();
-            //AppWindowPlacement placement = appWindow.GetPlacement();
-            //double width = placement.Size.Width;
-            //Point offset = new Point(-width, 50);
-            //appWindow.RequestMoveRelativeToCurrentViewContent(offset);
+        //    await RefreshDataGridAsync();
+        //}
 
+        //private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
+        //{
+        //     if (_selectedMessages != null && _selectedMessages.Count == 1)
+        //    {
+        //        MainViewModel.OpenMessage(_selectedMessages[0]);
+        //    }
+        //}
 
-            //// Using ViewLifetimeControl
-            //await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+        //private async void AppBarMainPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
+        //{
+        //    StorageFolder folder = MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder;
 
-            CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+        //    foreach (PacketMessage packetMessage in MainViewModel.SelectedMessages)
+        //    {
+        //        var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
+        //        await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+        //    }
 
-            communicationsService.BBSConnectAsync2();
-            //communicationsService.BBSConnectAsync2(Dispatcher);
+        //     await RefreshDataGridAsync();
+        //}
 
-            await RefreshDataGridAsync();
-        }
+        //private void AppBarMainPage_OpenMessageFromContectMenu(object sender, RoutedEventArgs e)
+        //{
+        //    MainViewModel.OpenMessage(MainViewModel.PacketMessageRightClicked);
+        //}
 
-        private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
-        {
-             if (_selectedMessages != null && _selectedMessages.Count == 1)
-            {
-                MainViewModel.OpenMessage(_selectedMessages[0]);
-            }
-        }
+        //private async void AppBarMainPage_DeleteItemFromContectMenuAsync(object sender, RoutedEventArgs e)
+        //{
+        //    await MainViewModel.DeleteMessageAsync(MainViewModel.PacketMessageRightClicked);
 
-        private async void AppBarMainPage_MoveToArchiveAsync(object sender, RoutedEventArgs e)
-        {
-            StorageFolder folder = MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder;
-
-            //if (_mainViewModel.SelectedItems.Count > 1)
-            //{
-                foreach (PacketMessage packetMessage in MainViewModel.SelectedItems)
-                {
-                    var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
-                    await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
-                }
-            //}
-            //else
-            //{
-            //    var file = await folder.CreateFileAsync(_packetMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
-            //    await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
-            //}
-
-             await RefreshDataGridAsync();
-        }
-
-        private void AppBarMainPage_OpenMessageFromContectMenu(object sender, RoutedEventArgs e)
-        {
-            if (_packetMessageRightClicked == null)
-                return;
-
-            MainViewModel.OpenMessage(_packetMessageRightClicked);
-        }
-
-        private async void AppBarMainPage_DeleteItemFromContectMenuAsync(object sender, RoutedEventArgs e)
-        {
-            await DeleteMessageAsync(_packetMessageRightClicked);
-
-            await RefreshDataGridAsync();
-        }
+        //    await RefreshDataGridAsync();
+        //}
 
         private void AppBarMainPage_OpenInWebView(object sender, RoutedEventArgs e)
         {
             try
             {
                 string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
-                string packetMessagePath = Path.Combine(folder, _packetMessageRightClicked.FileName);
+                string packetMessagePath = Path.Combine(folder, MainViewModel.PacketMessageRightClicked.FileName);
 
                 NavigationService.Navigate(typeof(WebViewPage), packetMessagePath);
             }
@@ -375,28 +292,28 @@ namespace PacketMessagingTS.Views
             //communicationsService.AddRxTxStatusAsync($"\nTest text{i}");
         }
 
-        public object GetDynamicSortProperty(object item, string propName)
-        {
-            //Use reflection to get order type
-            return item.GetType().GetProperty(propName).GetValue(item);
-        }
+        //public object GetDynamicSortProperty(object item, string propName)
+        //{
+        //    //Use reflection to get order type
+        //    return item.GetType().GetProperty(propName).GetValue(item);
+        //}
 
-        private void SortColumn(DataGridColumn column)
-        {
-            if (column.SortDirection is null)
-                return;
+        //private void SortColumn(DataGridColumn column)
+        //{
+        //    if (column.SortDirection is null)
+        //        return;
 
-            IOrderedEnumerable<PacketMessage> sortedItems = null;
-            if (column.SortDirection == DataGridSortDirection.Ascending)
-            {
-                sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, column.Tag.ToString()) ascending select item;
-            }
-            else
-            {
-                sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, column.Tag.ToString()) descending select item;
-            }
-            MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(sortedItems);
-        }
+        //    IOrderedEnumerable<PacketMessage> sortedItems = null;
+        //    if (column.SortDirection == DataGridSortDirection.Ascending)
+        //    {
+        //        sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, column.Tag.ToString()) ascending select item;
+        //    }
+        //    else
+        //    {
+        //        sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, column.Tag.ToString()) descending select item;
+        //    }
+        //    MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(sortedItems);
+        //}
 
         private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
         {
@@ -419,7 +336,7 @@ namespace PacketMessagingTS.Views
                 e.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortDirection;
             }
 
-            SortColumn(e.Column);
+            MainViewModel.SortColumn(e.Column);
 
             // If sort column has changed remove the sort icon from the previous column
             if ((sender as DataGrid).Columns[sortColumnNumber].Header != e.Column.Header)
@@ -434,13 +351,12 @@ namespace PacketMessagingTS.Views
         {
             foreach (PacketMessage packetMessage in e.AddedItems)
             {
-                _selectedMessages.Add(packetMessage);
+                MainViewModel.SelectedMessages.Add(packetMessage);
             }
             foreach (PacketMessage packetMessage in e.RemovedItems)
             {
-                _selectedMessages.Remove(packetMessage);
+                MainViewModel.SelectedMessages.Remove(packetMessage);
             }
-            MainViewModel.SelectedItems = _selectedMessages;
         }
 
         private void DataGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -466,7 +382,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void DataGrid_UnloadingRow(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridRowEventArgs e)
+        private void DataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
         {
             e.Row.Background = new SolidColorBrush(Colors.White);
         }
@@ -475,7 +391,7 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                _packetMessageRightClicked = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
+                MainViewModel.PacketMessageRightClicked = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
             }
             catch
             {
