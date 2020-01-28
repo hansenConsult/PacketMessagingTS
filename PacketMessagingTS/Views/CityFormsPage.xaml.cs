@@ -34,12 +34,12 @@ namespace PacketMessagingTS.Views
 
         protected override int GetFormsPagePivotSelectedIndex()
         {
-            return _cityFormsViewModel.FormsPagePivotSelectedIndex;
+            return _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
         }
 
         protected override void SetFormsPagePivotSelectedIndex(int index)
         {
-            _cityFormsViewModel.FormsPagePivotSelectedIndex = index;
+            _cityFormsViewModel.CityFormsPagePivotSelectedIndex = index;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)

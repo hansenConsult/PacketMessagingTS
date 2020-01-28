@@ -273,7 +273,7 @@
                                                  TextChanged="TextBox_TextChanged"/>
                                     </StackPanel>
                                 </Border>
-                                <TextBox x:Name="textBox" Height="1" Text="" BorderThickness="0" Margin="0,1" Width="10"/>
+                                <TextBox x:Name="textBox" Text="" Visibility="Collapsed" />
                             </StackPanel>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel>

@@ -15,5 +15,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class HospitalFormsViewModel : FormsBaseViewModel
     {
+        protected int hospitalFormsPagePivotSelectedIndex;
+        public int HospitalFormsPagePivotSelectedIndex
+        {
+            get => GetProperty(ref hospitalFormsPagePivotSelectedIndex);
+            set => SetProperty(ref hospitalFormsPagePivotSelectedIndex, value, true);
+        }
     }
 }
