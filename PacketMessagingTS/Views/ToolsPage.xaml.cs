@@ -453,6 +453,7 @@ namespace PacketMessagingTS.Views
     public sealed partial class ToolsPage : Page
     {
         public ToolsViewModel _toolsViewModel { get; } = new ToolsViewModel();
+        public ICS309ViewModel _ICS309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
 
         StorageFile _selectedFile;
         private int _selectedFileIndex;
@@ -643,7 +644,7 @@ namespace PacketMessagingTS.Views
 
         private string FormatDateTime(DateTime dateTime)
         {
-            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}{dateTime.Minute:d2}";
+            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
         }
 
         private async void ToolsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
@@ -662,107 +663,105 @@ namespace PacketMessagingTS.Views
             }
             else if (_currentPivotItem.Name == "ics309")
             {
-                incidentName.Text = _toolsViewModel.IncidentName;
-                operationalPeriod.Text = FormatDateTime(_toolsViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_toolsViewModel.OperationalPeriodEnd);
-                radioNetName.Text = _toolsViewModel.RadioNetName;
-                radioOperator.Text = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
-                _toolsViewModel.DateTimePrepared = DateTime.Now;
-                dateTimePrepared.Text = FormatDateTime(_toolsViewModel.DateTimePrepared);
-                preparedByNameCallsign.Text = radioOperator.Text;
-                _toolsViewModel.TotalPages = 1;
-                _toolsViewModel.PageNo = 1;
-                pageNoOf.Text = _toolsViewModel.PageNoAsString;
+                _ICS309ViewModel.Initialize();
+                //incidentName.Text = _ICS309ViewModel.IncidentName;
+                //operationalPeriod.Text = FormatDateTime(_ICS309ViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_ICS309ViewModel.OperationalPeriodEnd);
+                //radioNetName.Text = _ICS309ViewModel.RadioNetName;
+                //radioOperator.Text = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
+                //_toolsViewModel.DateTimePrepared = DateTime.Now;
+                _ICS309ViewModel.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
+                //preparedByNameCallsign.Text = radioOperator.Text;
+                //_toolsViewModel.TotalPages = 1;
+                //_toolsViewModel.PageNo = 1;
+                //pageNoOf.Text = _toolsViewModel.PageNoAsString;
 
-                if (_toolsViewModel.OperationalPeriodStart != null && _toolsViewModel.OperationalPeriodEnd != null)
-                {
-                    await BuildLogDataSetAsync(_toolsViewModel.OperationalPeriodStart, _toolsViewModel.OperationalPeriodEnd);
-                }
+                //if (_ICS309ViewModel.OperationalPeriodStart != null && _ICS309ViewModel.OperationalPeriodEnd != null)
+                //{
+                //    await BuildLogDataSetAsync(_ICS309ViewModel.OperationalPeriodStart, _ICS309ViewModel.OperationalPeriodEnd);
+                //}
             }
         }
 
-        private async Task BuildLogDataSetAsync(DateTime startTime, DateTime endTime)
-        {
-//            _toolsViewModel.ToolsPageCommLogPartViewModel viewModel = ToolsPageViewModel.toolsPageCommLogPartViewModel;
-            CommLog.Instance.CommLogEntryList.Clear();
-            // Get messages in the InBox and the Sent Messages folder
-            List<PacketMessage> messagesInFolder = await PacketMessage.GetPacketMessages(SharedData.ReceivedMessagesFolder.Path);
-            foreach (PacketMessage packetMessage in messagesInFolder)
-            {
-                CommLog.Instance.AddCommLogEntry(packetMessage, startTime, endTime);
-            }
-            List<PacketMessage> messagesSentInFolder = await PacketMessage.GetPacketMessages(SharedData.SentMessagesFolder.Path);
-            //List<PacketMessage> messages = (List<PacketMessage>)messagesInFolder.Concat(messagesSentInFolder);
-            //messagesInFolder.Concat(messagesSentInFolder);
-            foreach (PacketMessage packetMessage in messagesSentInFolder)
-            {
-                CommLog.Instance.AddCommLogEntry(packetMessage, startTime, endTime);
-            }
-            List<CommLogEntry> sortedList = Sort_List(CommLog.Instance.CommLogEntryList);
+//        private async Task BuildLogDataSetAsync(DateTime startTime, DateTime endTime)
+//        {
+////            _toolsViewModel.ToolsPageCommLogPartViewModel viewModel = ToolsPageViewModel.toolsPageCommLogPartViewModel;
+//            _CommLog.CommLogEntryList.Clear();
+//            // Get messages in the InBox and the Sent Messages folder
+//            List<PacketMessage> messagesInReceivedFolder = await PacketMessage.GetPacketMessages(SharedData.ReceivedMessagesFolder.Path);
+//            foreach (PacketMessage packetMessage in messagesInReceivedFolder)
+//            {
+//                CommLog.Instance.AddCommLogEntry(packetMessage, startTime, endTime);
+//            }
+//            List<PacketMessage> messagesInSentFolder = await PacketMessage.GetPacketMessages(SharedData.SentMessagesFolder.Path);
+//            foreach (PacketMessage packetMessage in messagesInSentFolder)
+//            {
+//                CommLog.Instance.AddCommLogEntry(packetMessage, startTime, endTime);
+//            }
+//            List<CommLogEntry> sortedList = Sort_List(CommLog.Instance.CommLogEntryList);
 
-            //CommLogMessagesCollection.Source = new ObservableCollection<CommLogEntry>(sortedList);
-            _toolsViewModel.CommLogEntryCollection  = new ObservableCollection<CommLogEntry>(sortedList);
+//            _ICS309ViewModel.CommLogEntryCollection  = new ObservableCollection<CommLogEntry>(sortedList);
 
-        }
+//        }
 
-        private async void OperationalPeriod_TextChangedAsync(object sender, TextChangedEventArgs e)
-        {
-            string opPeriod = operationalPeriod.Text;
-            var startStop = opPeriod.Split(new string[] { "to", " " }, StringSplitOptions.RemoveEmptyEntries);
-            if (startStop != null && (startStop.Count() != 3 && startStop.Count() != 4))
-                return;
+        //private async void OperationalPeriod_TextChangedAsync(object sender, TextChangedEventArgs e)
+        //{
+        //    string opPeriod = operationalPeriod.Text;
+        //    var startStop = opPeriod.Split(new string[] { "to", " " }, StringSplitOptions.RemoveEmptyEntries);
+        //    if (startStop != null && (startStop.Count() != 3 && startStop.Count() != 4))
+        //        return;
 
-            int endTimeIndex = 3;
-            if (startStop.Count() == 3)
-            {
-                endTimeIndex = 2;
-            }
+        //    int endTimeIndex = 3;
+        //    if (startStop.Count() == 3)
+        //    {
+        //        endTimeIndex = 2;
+        //    }
 
-            if (startStop[1].Length != 4)
-                return;
+        //    if (startStop[1].Length != 4)
+        //        return;
 
-            if (startStop[endTimeIndex].Length != 4)
-                return;
+        //    if (startStop[endTimeIndex].Length != 4)
+        //        return;
 
-            string dateTime = startStop[0] + " " + startStop[1].Insert(2, ":");
+        //    string dateTime = startStop[0] + " " + startStop[1].Insert(2, ":");
 
-            DateTime operationalPeriodStart;
-            if (!DateTime.TryParse(dateTime, out operationalPeriodStart))
-                return;
+        //    DateTime operationalPeriodStart;
+        //    if (!DateTime.TryParse(dateTime, out operationalPeriodStart))
+        //        return;
 
-            if (startStop.Count() == 3)
-            {
-                dateTime = startStop[0] + " " + startStop[endTimeIndex].Insert(2, ":");
-            }
-            else
-            {
-                dateTime = startStop[2] + " " + startStop[endTimeIndex].Insert(2, ":");
-            }
+        //    if (startStop.Count() == 3)
+        //    {
+        //        dateTime = startStop[0] + " " + startStop[endTimeIndex].Insert(2, ":");
+        //    }
+        //    else
+        //    {
+        //        dateTime = startStop[2] + " " + startStop[endTimeIndex].Insert(2, ":");
+        //    }
 
-            DateTime operationalPeriodEnd;
-            if (!DateTime.TryParse(dateTime, out operationalPeriodEnd))
-                return;
+        //    DateTime operationalPeriodEnd;
+        //    if (!DateTime.TryParse(dateTime, out operationalPeriodEnd))
+        //        return;
 
-            if (operationalPeriodEnd < operationalPeriodStart)
-                return;
+        //    if (operationalPeriodEnd < operationalPeriodStart)
+        //        return;
 
-            _toolsViewModel.OperationalPeriodStart = operationalPeriodStart;
-            _toolsViewModel.OperationalPeriodEnd = operationalPeriodEnd;
+        //    _ICS309ViewModel.OperationalPeriodStart = operationalPeriodStart;
+        //    _ICS309ViewModel.OperationalPeriodEnd = operationalPeriodEnd;
 
-            if (operationalPeriodEnd - operationalPeriodStart > new TimeSpan(0, 0, 0))
-            {
-                await BuildLogDataSetAsync(operationalPeriodStart, operationalPeriodEnd);
-            }
-        }
+        //    if (operationalPeriodEnd - operationalPeriodStart > new TimeSpan(0, 0, 0))
+        //    {
+        //        await BuildLogDataSetAsync(operationalPeriodStart, operationalPeriodEnd);
+        //    }
+        //}
 
-        private void IncidentName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _toolsViewModel.IncidentName = incidentName.Text;
-        }
+        //private void IncidentName_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    _ICS309ViewModel.IncidentName = incidentName.Text;
+        //}
 
-        private void RadioNetName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _toolsViewModel.RadioNetName = radioNetName.Text;
-        }
+        //private void RadioNetName_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    _ICS309ViewModel.RadioNetName = radioNetName.Text;
+        //}
 #region ICS309
 
         private async void AppBarPrintICS309_ClickAsync(object sender, RoutedEventArgs e)

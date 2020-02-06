@@ -19,7 +19,7 @@ namespace ICS213RRPackItFormControl
     [FormControl(
     FormControlName = "form-scco-eoc-213rr",
     FormControlMenuName = "EOC Resource Request",
-    FormControlType = FormControlAttribute.FormType.TestForm)
+    FormControlType = FormControlAttribute.FormType.CountyForm)
 ]
 
     public sealed partial class ICS213RRPackItControl : FormControlBase

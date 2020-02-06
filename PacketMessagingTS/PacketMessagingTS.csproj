@@ -126,6 +126,9 @@
     <Compile Include="BackgroundTasks\BackgroundTask1.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderBehavior.cs" />
     <Compile Include="Behaviors\NavigationViewHeaderMode.cs" />
+    <Compile Include="Controls\ContentDialog309FileFormat.xaml.cs">
+      <DependentUpon>ContentDialog309FileFormat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ContentDialogAddressBookEntry.xaml.cs">
       <DependentUpon>ContentDialogAddressBookEntry.xaml</DependentUpon>
     </Compile>
@@ -145,7 +148,6 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\BaseViewModel.cs" />
-    <Compile Include="Helpers\PacketMessageHelper.cs" />
     <Compile Include="Helpers\PrintHelper.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SerialDeviceConfig.cs" />
@@ -188,6 +190,7 @@
     <Compile Include="ViewModels\FormsBaseViewModel.cs" />
     <Compile Include="ViewModels\FormsPageViewModel.cs" />
     <Compile Include="ViewModels\HospitalFormsViewModel.cs" />
+    <Compile Include="ViewModels\ICS309ViewModel.cs" />
     <Compile Include="ViewModels\IdentityViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PacketSettingsViewModel.cs" />
@@ -239,6 +242,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ContentDialog309FileFormat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SendFormDataControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

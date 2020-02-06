@@ -594,12 +594,12 @@ namespace PacketMessagingTS.Helpers
 
     //            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-                {
-                    _packetForm.Severity = "other";
+                {                    
                     _packetForm.HandlingOrder = "routine";
                     switch (_packetForm.PacFormType)
                     {
                         case "ICS213":
+                            _packetForm.Severity = "other";
                             _packetForm.Subject = practiceSubject;
                             break;
                         case "XSC_EOC_213RR":

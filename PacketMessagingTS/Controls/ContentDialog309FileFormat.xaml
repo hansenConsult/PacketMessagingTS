@@ -1,0 +1,21 @@
+﻿<ContentDialog
+    x:Class="PacketMessagingTS.Controls.ContentDialog309FileFormat"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PacketMessagingTS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Select ICS309 file save format(s)"
+    PrimaryButtonText="Select"
+    CloseButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    CloseButtonClick="ContentDialog_CloseButtonClick">
+
+    <StackPanel>
+        <TextBlock TextWrapping="WrapWholeWords" Margin="0,0,0,10" Text="Always leave the .xml file format checked. This will allow the operator to bring back the original 309 by clicking on the Open button."/>
+        <CheckBox x:Name="xmlFormat" Content="Save as .xml file" IsChecked="{x:Bind XmlFormat, Mode=TwoWay}" />
+        <CheckBox x:Name="txtFormat" Content="Save as .txt file" IsChecked="{x:Bind TxtFormat, Mode=TwoWay}" />
+        <CheckBox x:Name="csvFormat" Content="Save as .csv file" IsChecked="{x:Bind CsvFormat, Mode=TwoWay}" />
+    </StackPanel>
+</ContentDialog>

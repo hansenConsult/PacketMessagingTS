@@ -337,7 +337,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             catch (AggregateException e)
             {
                 _logHelper.Log(LogLevel.Error, $"Serial port timeout in ReadLine. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}");
-                throw;
+                _error = true;
+                //throw;
             }
 
             if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected) && _readBuffer.Contains(_TncDevice.Prompts.Timeout))
@@ -554,7 +555,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             catch (AggregateException e)
             {
                 _logHelper.Log(LogLevel.Error, $"Serialport timeout in ReadTo, {e.InnerExceptions.GetType().Name}");
-                throw;
+                _error = true;
+                //throw;
             }
             string readText = "";
             if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected) && _readBuffer.Contains(_TncDevice.Prompts.Timeout))
@@ -619,10 +621,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
             try
             {
                 _serialPort.Write("SP " + packetMessage.MessageTo + "\r");
+                string readText = ReadLine();
+                _logHelper.Log(LogLevel.Info, readText);
                 _serialPort.Write(packetMessage.Subject + "\r");
+                readText = ReadLine();
+                _logHelper.Log(LogLevel.Info, readText);
                 _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
-                string readText = ReadTo(_BBSPromptRN);      // read response
+                readText = ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
 
                 packetMessage.SentTime = DateTime.Now;
@@ -987,8 +993,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 }
                 // Connect to JNOS
                 int readTimeout = _serialPort.ReadTimeout;
-                //_serialPort.ReadTimeout = 5000;
-                _serialPort.ReadTimeout = 120000;
+                _serialPort.ReadTimeout = 5000;
+                //_serialPort.ReadTimeout = 120000;
                 BBSConnectTime = DateTime.Now;
 
                 if (_error)
@@ -1037,10 +1043,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     {
                         // Use SendMessage(ref packetMessage) here
                         _serialPort.ReadTimeout = 240000;
+                        //_serialPort.ReadTimeout = 5000;
                         try
                         {
                             _serialPort.Write("SP " + packetMessage.MessageTo + "\r");
+                            readText = ReadLine();
+                            _logHelper.Log(LogLevel.Info, readText);
                             _serialPort.Write(packetMessage.Subject + "\r");
+                            readText = ReadLine();
+                            _logHelper.Log(LogLevel.Info, readText);
                             _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
 
                             readText = ReadTo(_BBSPromptRN);      // read response
@@ -1134,15 +1145,22 @@ AbortWithoutConnect:
                 _logHelper.Log(LogLevel.Error, $"Serial port exception. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}. {e.Message}");
                 if (_connectState == ConnectState.BBSConnected)
                 {
-                    // Try to disconnect
-                    _serialPort.Write("B\r");                   // Disconnect from BBS (JNOS)
+                    try
+                    {
+                        // Try to disconnect
+                        _serialPort.Write("B\r");                   // Disconnect from BBS (JNOS)
 
-                    readText = ReadLine();           // Read command
-                    _logHelper.Log(LogLevel.Info, readText);
+                        readText = ReadLine();           // Read command
+                        _logHelper.Log(LogLevel.Info, readText);
 
-                    readText = ReadLine();           // Read disconnect response
-                    readText = readText.Replace('\0', ' ');
-                    _logHelper.Log(LogLevel.Info, readText);     // Log disconnect response
+                        readText = ReadLine();           // Read disconnect response
+                        readText = readText.Replace('\0', ' ');
+                        _logHelper.Log(LogLevel.Info, readText);     // Log disconnect response
+                    }
+                    catch
+                    {
+                        _logHelper.Log(LogLevel.Error, $"Timeout attempting to disconnect after serial port exception.");
+                    }
 
                     await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                 }
@@ -1166,10 +1184,17 @@ AbortWithoutConnect:
 
                 if (_connectState == ConnectState.BBSConnected)
                 {
-                    _serialPort.Write("B\r\n");
-                    string disconnectString = _serialPort.ReadLine();
-                    _logHelper.Log(LogLevel.Trace, disconnectString);
-                    BBSDisconnectTime = DateTime.Now;
+                    try
+                    {
+                        _serialPort.Write("B\r");
+                        string disconnectString = ReadLine();
+                        _logHelper.Log(LogLevel.Trace, disconnectString);
+                        BBSDisconnectTime = DateTime.Now;
+                    }
+                    catch
+                    {
+                        _logHelper.Log(LogLevel.Error, $"Timeout after attempting to disconnect.");
+                    }
                 }
             }
             finally

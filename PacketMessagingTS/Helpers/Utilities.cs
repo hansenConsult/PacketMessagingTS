@@ -27,7 +27,7 @@ namespace PacketMessagingTS.Helpers
         {
             string messageNumberString;
 
-            int messageNumber = Convert.ToInt32(GetProperty("MessageNumber"));
+            int messageNumber = GetProperty("MessageNumber");
             if (messageNumber == default(int))
             {
                 messageNumber = 100;
@@ -46,6 +46,7 @@ namespace PacketMessagingTS.Helpers
                 messageNumber++;
                 //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
                 App.Properties["MessageNumber"] = messageNumber;
+                
             }
             //_logHelper.Log(LogLevel.Info, $"GetMessageNumber Used:{reserveMessageNumber}, {messageNumberString}");
             return messageNumberString;
@@ -160,7 +161,7 @@ namespace PacketMessagingTS.Helpers
                 return Convert.ToInt32(o);
             }
             else
-                return 0;
+                return default;
         }
 
 

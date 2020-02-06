@@ -17,7 +17,7 @@ namespace OAShelterStatusFormControl
     [FormControl(
         FormControlName = "form-oa-shelter-status",
         FormControlMenuName = "OA Shelter Status",
-        FormControlType = FormControlAttribute.FormType.TestForm)
+        FormControlType = FormControlAttribute.FormType.CountyForm)
     ]
 
     public sealed partial class OAShelterStatusControl : FormControlBase

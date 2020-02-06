@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 
+using FormControlBaseClass;
+
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -18,57 +20,63 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace ICS309UserControl
-{ 
-    public sealed partial class ICS309Control : UserControl
+namespace ICS309FormControl
 {
+    [FormControl(
+    FormControlName = "form-ics309",
+    FormControlMenuName = "ICS-409",
+    FormControlType = FormControlAttribute.FormType.TestForm)
+]
+
+    public sealed partial class ICS309Control : FormControlBase
+    {
 
 
-        List<PacketMessage> _messageList;
-        CommLog _commLog;
+        //List<PacketMessage> _messageList;
+        //CommLog _commLog;
 
-        public DateTime OperationalPeriodStart
-        { get; set; }
+        //public DateTime OperationalPeriodStart
+        //{ get; set; }
 
-        public DateTime OperationalPeriodEnd
-        { get; set; }
+        //public DateTime OperationalPeriodEnd
+        //{ get; set; }
 
-        public string IncidentName
-        {
-            get => incidentName.Text;
-            set => incidentName.Text = value;
-        }
+        //public string IncidentName
+        //{
+        //    get => incidentName.Text;
+        //    set => incidentName.Text = value;
+        //}
 
-        public string RadioNetName 
-        {
-            get => radioNetName.Text;
-            set => radioNetName.Text = value;
-        }
+        //public string RadioNetName 
+        //{
+        //    get => radioNetName.Text;
+        //    set => radioNetName.Text = value;
+        //}
 
-        public int TotalPages
-        { get; set; }
+        //public int TotalPages
+        //{ get; set; }
 
-        public int PageNo
-        { get; set; }
+        //public int PageNo
+        //{ get; set; }
 
-        public string PageNoOf
-        {
-            set
-            {
-                pageNoOf.Text = $"Page {value} of {TotalPages.ToString()}"; ;
-            }
-        }
+        //public string PageNoOf
+        //{
+        //    set
+        //    {
+        //        pageNoOf.Text = $"Page {value} of {TotalPages.ToString()}"; ;
+        //    }
+        //}
 
 
         public ICS309Control()
         {
             this.InitializeComponent();
 
-            _messageList = new List<PacketMessage>();
-            _commLog = new CommLog();
+            //_commLog = new CommLog();
 
             //operationalPeriod.Text = FormatDateTime(_toolsViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_toolsViewModel.OperationalPeriodEnd);
             //radioOperator.Text = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
@@ -81,30 +89,30 @@ namespace ICS309UserControl
         }
 
 
-        //public override FormProviders FormProvider => FormProviders.PacForm;
+        public override FormProviders FormProvider => FormProviders.PacForm;
 
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
-        //public override string PacFormName => "form-ics213";	// Used in CreateFileName() 
+        public override string PacFormName => "form-ics213";	// Used in CreateFileName() 
 
-        //public override string PacFormType => "ICS213";
+        public override string PacFormType => "ICS213";
 
-        //public override void AppendDrillTraffic()
-        //{            
-        //}
+        public override void AppendDrillTraffic()
+        {            
+        }
 
-        //public override string CreateSubject()
-        //{
-        //    return ($"");
-        //}
+        public override string CreateSubject()
+        {
+            return ($"");
+        }
 
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    return null;
-        //}
+        public override string CreateOutpostData(ref PacketMessage packetMessage)
+        {
+            return null;
+        }
 
 
-        private void OperationalPeriod_TextChanged(object sender, TextChangedEventArgs e)
+        private async void OperationalPeriod_TextChangedAsync(object sender, TextChangedEventArgs e)
         {
             string opPeriod = operationalPeriod.Text;
             var startStop = opPeriod.Split(new string[] { "to", " " }, StringSplitOptions.RemoveEmptyEntries);
@@ -145,11 +153,14 @@ namespace ICS309UserControl
             if (operationalPeriodEnd < operationalPeriodStart)
                 return;
 
-            OperationalPeriodStart = operationalPeriodStart;
-            OperationalPeriodEnd = operationalPeriodEnd;
+            _toolsViewModel.OperationalPeriodStart = operationalPeriodStart;
+            _toolsViewModel.OperationalPeriodEnd = operationalPeriodEnd;
 
-            BuildLogDataSet(operationalPeriodStart, operationalPeriodEnd);
+            if (operationalPeriodEnd - operationalPeriodStart > new TimeSpan(0, 0, 0))
+            {
+                await BuildLogDataSetAsync(operationalPeriodStart, operationalPeriodEnd);
             }
+        }
 
         private void IncidentName_TextChanged(object sender, TextChangedEventArgs e)
         {

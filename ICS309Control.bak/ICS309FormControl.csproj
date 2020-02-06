@@ -133,6 +133,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
+      <Project>{54CD4D6D-9D4F-4270-907A-D6B5EBA3518F}</Project>
+      <Name>FormControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PacketMessagingTS.Core\PacketMessagingTS.Core.csproj">
+      <Project>{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}</Project>
+      <Name>PacketMessagingTS.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
       <Name>SharedCode</Name>

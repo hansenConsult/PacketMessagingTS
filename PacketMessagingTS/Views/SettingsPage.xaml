@@ -123,7 +123,6 @@
                     </StackPanel>
 
                     <StackPanel Margin="0, 0, 0, 0">
-
                         <TextBlock x:Name="bbsStatus" Margin="0,30,0,10" Style="{StaticResource TitleTextBlockStyle}"
                                    RelativePanel.Below="dataPathPanel"
                                    Text="BBS status:" />
@@ -158,6 +157,8 @@
                                       />
 
                     </StackPanel>
+                    <TextBox Text="{x:Bind _settingsViewModel.DataPath, Mode=OneWay}" IsReadOnly="True" Margin="0,30"
+                             Header="Data files path:"/>
                 </StackPanel>
             </PivotItem>
 
