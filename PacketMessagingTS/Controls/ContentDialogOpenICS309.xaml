@@ -1,0 +1,50 @@
+﻿<ContentDialog
+    x:Class="PacketMessagingTS.Controls.ContentDialogOpenICS309"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PacketMessagingTS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:storage="using:Windows.Storage"
+    mc:Ignorable="d"
+    Title="Select ICS309 file to open or delete:"
+    PrimaryButtonText="Open"
+    IsPrimaryButtonEnabled="False"
+    SecondaryButtonText="Delete"
+    IsSecondaryButtonEnabled="False"
+    CloseButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <ContentDialog.Resources>
+        <DataTemplate x:Name="ICS309Template" x:DataType="storage:StorageFile">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{x:Bind Name}" 
+                           x:Phase="1"  
+                           Style="{ThemeResource BaseTextBlockStyle}"
+                           Margin="12,0,0,0"/>
+                <TextBlock Grid.Column="1" Text="{x:Bind DateCreated}" 
+                            x:Phase="2"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Margin="12,0,0,0"/>
+            </Grid>
+        </DataTemplate>
+
+    </ContentDialog.Resources>
+    <StackPanel>
+        <ListBox SelectionMode="Single" Height="160" Margin="0,0,0,8"
+                 ItemsSource="{x:Bind ShowICS309Files, Mode=TwoWay}"
+                 ItemTemplate="{StaticResource ICS309Template}"
+                 SelectedIndex="{x:Bind FilesSelectedIndex, Mode=TwoWay}" />
+        <!--<StackPanel Orientation="Horizontal">
+            <RadioButton x:Name="xmlFile" Content="xml Format" Checked="FileType_Checked"/>
+            <RadioButton x:Name="txtFile" Content="txt Format" Checked="FileType_Checked"/>
+            <RadioButton x:Name="csvFile" Content="csv Format" Checked="FileType_Checked"/>
+        </StackPanel>-->
+
+    </StackPanel>
+</ContentDialog>

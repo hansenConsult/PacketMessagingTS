@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using SharedCode;
 using Windows.Storage;
-using Windows.Storage.Pickers;
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -33,12 +34,6 @@ namespace PacketMessagingTS.ViewModels
             TotalPages = 1;
             PageNo = 1;
             //PageNoOf = PageNoAsString;
-
-            //if (OperationalPeriodStart != null && OperationalPeriodEnd != null)
-            //{
-            //    await BuildLogDataSetAsync(OperationalPeriodStart, OperationalPeriodEnd);
-            //}
-
         }
 
         private string incidentNameActivationNumber;
@@ -53,12 +48,29 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private string incidentName;
+        public string IncidentName
+        {
+            get => incidentName;
+            //set => SetProperty(ref incidentName, value);
+            set
+            {
+                //CommLog.Instance.IncidentNameActivationNumber = value;
+                SetProperty(ref incidentName, value);
+            }
+        }
+
+        private string activationNumber;
+        public string ActivationNumber
+        {
+            get => activationNumber;
+            set => SetProperty(ref activationNumber, value);
+        }
+
         private DateTime operationalPeriodStart;
         public DateTime OperationalPeriodStart
         {
-            //get => GetProperty(ref operationalPeriodStart);
             get => operationalPeriodStart;
-            //set => SetProperty(ref operationalPeriodStart, value, true);
             set => operationalPeriodStart = value;
         }
 
@@ -72,9 +84,7 @@ namespace PacketMessagingTS.ViewModels
         private DateTime operationalPeriodEnd;
         public DateTime OperationalPeriodEnd
         {
-            //get => GetProperty(ref operationalPeriodEnd);
             get => operationalPeriodEnd;
-            //set => SetProperty(ref operationalPeriodEnd, value, true);
             set => operationalPeriodEnd = value;
         }
 
@@ -131,14 +141,13 @@ namespace PacketMessagingTS.ViewModels
         private string operationalPeriod;
         public string OperationalPeriod
         {
-            get => operationalPeriod;// = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
+            get => operationalPeriod;
             set
             {
                 if (!_fromOpenFile)
                 {
                     OperationalPeriod_TextChangedAsync(value);
                 }
-                //operationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
                 SetProperty(ref operationalPeriod, $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}");
             }
         }
@@ -188,10 +197,10 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private ObservableCollection<CommLogEntry> commLogEntryCollection = new ObservableCollection<CommLogEntry>();
+        private ObservableCollection<CommLogEntry> commLogEntryCollection;
         public ObservableCollection<CommLogEntry> CommLogEntryCollection
         {
-            get => commLogEntryCollection;
+            get => commLogEntryCollection ?? (commLogEntryCollection = new ObservableCollection<CommLogEntry>());
             set => SetProperty(ref commLogEntryCollection, value);
         }
 
@@ -213,7 +222,6 @@ namespace PacketMessagingTS.ViewModels
 
         private async Task BuildLogDataSetAsync(DateTime startTime, DateTime endTime)
         {
-            //            _toolsViewModel.ToolsPageCommLogPartViewModel viewModel = ToolsPageViewModel.toolsPageCommLogPartViewModel;
             _CommLog.CommLogEntryList.Clear();
             // Get messages in the InBox and the Sent Messages folder
             List<PacketMessage> messagesInReceivedFolder = await PacketMessage.GetPacketMessages(SharedData.ReceivedMessagesFolder.Path);
@@ -234,8 +242,12 @@ namespace PacketMessagingTS.ViewModels
 
         private void FillFormFromCommLog()
         {
+            if (_CommLog is null)
+                return;
+
             _fromOpenFile = true;
-            IncidentNameActivationNumber = _CommLog.IncidentNameActivationNumber;
+            IncidentName = _CommLog.IncidentName;
+            ActivationNumber = _CommLog.ActivationNumber;
             OperationalPeriodStart = _CommLog.OperationalPeriodFrom;
             OperationalPeriodEnd = _CommLog.OperationalPeriodTo;
             OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
@@ -250,28 +262,41 @@ namespace PacketMessagingTS.ViewModels
 
         public async void OpenICS309()
         {
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.ViewMode = PickerViewMode.List;
-            openPicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-            openPicker.FileTypeFilter.Add(".xml");
-
-            StorageFile file = await openPicker.PickSingleFileAsync();
+            StorageFile file;
+            ContentDialogOpenICS309 selectFile = new ContentDialogOpenICS309();
+            selectFile.ICS309Files = await selectFile.GetFilesAsync(".xml");
+            ContentDialogResult result = await selectFile.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                file = selectFile.ICS309Files[selectFile.FilesSelectedIndex];
+            }
+            else
+            {
+                return;
+            }
 
             if (file is null)
                 return;
 
-            _CommLog = CommLog.Open(file);
-            FillFormFromCommLog();
+            switch (file.FileType)
+            {
+                case ".xml":
+                    _CommLog = CommLog.Open(file);
+                    FillFormFromCommLog();
+                    break;
+                case ".txt":
+                    break;
+                case ".csv":
+                    break;
+            }
         }
 
         private void FillCommLogFromForm()
         {
-            _CommLog.IncidentNameActivationNumber = IncidentNameActivationNumber;
+            _CommLog.IncidentName = IncidentName;
+            _CommLog.ActivationNumber = ActivationNumber;
             _CommLog.OperationalPeriodFrom = OperationalPeriodStart;
             _CommLog.OperationalPeriodTo = OperationalPeriodEnd;
-            //_CommLog.CommLogEntryList = CommLogEntryCollection = new ObservableCollection<CommLogEntry>();
             _CommLog.RadioNetName = RadioNetName;
             _CommLog.OperatorNameCallsign = OperatorNameCallsign;
             _CommLog.DateTimePrepared = DateTimePrepared;

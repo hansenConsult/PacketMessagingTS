@@ -132,6 +132,9 @@
     <Compile Include="Controls\ContentDialogAddressBookEntry.xaml.cs">
       <DependentUpon>ContentDialogAddressBookEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ContentDialogOpenICS309.xaml.cs">
+      <DependentUpon>ContentDialogOpenICS309.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SendFormDataControl.xaml.cs">
       <DependentUpon>SendFormDataControl.xaml</DependentUpon>
     </Compile>
@@ -243,6 +246,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\ContentDialog309FileFormat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ContentDialogOpenICS309.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

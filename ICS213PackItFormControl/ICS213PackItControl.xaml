@@ -121,7 +121,7 @@
                                                  Margin="2" Tag="1b.,required,Enter message creation time"/>
                                     </StackPanel>
                                 </Border>
-                                <TextBox x:Name="textBox" Height="1" Text="" BorderThickness="0" Margin="0,1" Width="10"/>
+                                <TextBox x:Name="textBox" Visibility="Collapsed" Text="" BorderThickness="0" />
                             </StackPanel>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel>

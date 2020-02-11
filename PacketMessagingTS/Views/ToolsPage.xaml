@@ -233,13 +233,14 @@
                                       
                                     >
                                 <StackPanel x:Name="ICS309MainForm"
-                                        BorderBrush="Black" BorderThickness="2" Height="825" Width="736">
+                                        BorderBrush="Black" BorderThickness="2"  >
 
-                                    <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                    <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="160"/>
                                             <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="140"/>
+                                            <ColumnDefinition Width="1.5*"/>
                                         </Grid.ColumnDefinitions>
                                         <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
                                             <TextBlock  Margin="10,4,10,-4.4" HorizontalAlignment="Center" 
@@ -251,15 +252,19 @@
                                             <Run Text="  ARES/RACES"/>
                                             </TextBlock>
                                         </Border>
-                                        <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                            <TextBox x:Name="incidentName"  BorderBrush="White"
-                                                     Text="{x:Bind _ICS309ViewModel.IncidentNameActivationNumber, Mode=TwoWay}"
-                                                     Header="1. Incident name and Activation Number" 
+                                        <Border Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,1,1"/>
+                                        <TextBox Grid.Column="1"  x:Name="incidentName"  BorderBrush="White" Margin="2"
+                                                     Text="{x:Bind _ICS309ViewModel.IncidentName, Mode=TwoWay}"
+                                                     Header="1. Incident name " 
                                                      HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                            <!--TextChanged="IncidentName_TextChanged"/>-->
-                                        </Border>
-                                        <Border Grid.Column="2" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                            <TextBox x:Name="operationalPeriod"  BorderBrush="White"
+                                        <!--TextChanged="IncidentName_TextChanged"/>-->
+                                        <TextBox Grid.Column="2" x:Name="activationNumber"  BorderBrush="White" Margin="2"
+                                                     Text="{x:Bind _ICS309ViewModel.ActivationNumber, Mode=TwoWay}"
+                                                     Header="and Activation Number" 
+                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+
+                                        <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                            <TextBox x:Name="operationalPeriod"  BorderBrush="White" Margin="2"
                                                      Text="{x:Bind _ICS309ViewModel.OperationalPeriod, Mode=TwoWay}"
                                                      Header="2. Operational Period (Date/Time)" 
                                                      HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
@@ -289,8 +294,14 @@
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="50*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="5." Style="{StaticResource MediumText}" Margin="4,0,0,0"/>
-                                        <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center" Style="{StaticResource MediumText}"/>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Column="0" Text="5." Style="{StaticResource MediumText}"
+                                                   Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center"
+                                                   Style="{StaticResource MediumText}" 
+                                                   VerticalAlignment="Center"/>
                                     </Grid>
                                     <!--<Grid >
                                     <Grid.ColumnDefinitions>
@@ -336,16 +347,16 @@
                                           ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
                                           ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
                                           />-->
-                                    <controls:DataGrid x:Name="ics309DataGrid" Height="668"
-                                                   ItemsSource="{x:Bind _ICS309ViewModel.CommLogEntryCollection, Mode=OneWay}"
-                                                   HorizontalScrollBarVisibility="Auto"
-                                                   VerticalScrollBarVisibility="Auto"
-                                                   CanUserResizeColumns="True"
-                                                   IsReadOnly="True"
-                                                   SelectionMode="Single"
-                                                   AutoGenerateColumns="False"                                  
-                                                   CanUserSortColumns="False" 
-                                                   >
+                                    <controls:DataGrid x:Name="ics309DataGrid" Height="664"
+                                                       ItemsSource="{x:Bind _ICS309ViewModel.CommLogEntryCollection, Mode=OneWay}"
+                                                       HorizontalScrollBarVisibility="Auto"
+                                                       VerticalScrollBarVisibility="Auto"
+                                                       GridLinesVisibility="Vertical"
+                                                       CanUserResizeColumns="True"
+                                                       IsReadOnly="True"
+                                                       SelectionMode="Single"
+                                                       AutoGenerateColumns="False"                                  
+                                                       CanUserSortColumns="False" >
                                         <controls:DataGrid.Columns>
                                             <controls:DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource datetimeConverter}}" IsReadOnly="True"/>
                                             <controls:DataGridTextColumn Header="From" Binding="{Binding FromCallsign}" />

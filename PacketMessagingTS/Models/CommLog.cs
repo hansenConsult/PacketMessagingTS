@@ -24,6 +24,7 @@ using SharedCode;
 
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
 using Windows.UI.Xaml.Controls;
 
 // 
@@ -46,8 +47,6 @@ namespace PacketMessagingTS.Models
 
 
         private const string commLogFileName = "ICS309";
-		//private static volatile CommLog _instance;
-		private static object _syncRoot = new Object();
 
 		private CommLogEntry[] logentryField;
 
@@ -57,7 +56,7 @@ namespace PacketMessagingTS.Models
 
         private string activationNumberField = "";
 
-        private string incidentNameActivationNumberField = "";
+        //private string incidentNameActivationNumberField = "";
 
 		private DateTime operationalPeriodFromField;
 
@@ -90,7 +89,6 @@ namespace PacketMessagingTS.Models
 			set
 			{
 				commLogEntryListField = value;
-				CommLogEntries = commLogEntryListField.ToArray();
 			}
 		}
 
@@ -116,22 +114,22 @@ namespace PacketMessagingTS.Models
             set => activationNumberField = value;
         }
 
+        ///// <remarks/>
+        //[System.Xml.Serialization.XmlAttributeAttribute()]
+        //public string IncidentNameActivationNumber
+        //{
+        //    get
+        //    {
+        //        return this.incidentNameActivationNumberField;
+        //    }
+        //    set
+        //    {
+        //        this.incidentNameActivationNumberField = value;
+        //    }
+        //}
+
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-		public string IncidentNameActivationNumber
-		{
-			get
-			{
-				return this.incidentNameActivationNumberField;
-			}
-			set
-			{
-				this.incidentNameActivationNumberField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
 		public DateTime OperationalPeriodFrom
 		{
 			get
@@ -226,13 +224,15 @@ namespace PacketMessagingTS.Models
 
 		public static CommLog Open(StorageFile file)
 		{
+            if (file.FileType != ".xml")
+                return null;
+
             CommLog commLog;
 			try
 			{
 				using (FileStream reader = new FileStream(file.Path, FileMode.Open))
 				{
 					XmlSerializer serializer = new XmlSerializer(typeof(CommLog));
-                    //_instance = (CommLog)serializer.Deserialize(reader);
                     commLog = (CommLog)serializer.Deserialize(reader);
                 }
 			}
@@ -247,7 +247,7 @@ namespace PacketMessagingTS.Models
                 _logHelper.Log(LogLevel.Error, $"Error opening file {file?.Path + commLogFileName}, {e}");
 				return null;
 			}
-            commLog.CommLogEntryList = commLog.CommLogEntries.ToList();
+            commLog.CommLogEntryList = commLog.CommLogEntries?.ToList();
             return commLog;
         }
 
@@ -260,7 +260,8 @@ namespace PacketMessagingTS.Models
             }
             else if (text.Length > length)
             {
-                fieldText = fieldText.Substring(0, length);
+                fieldText = fieldText.Substring(0, length - 1);
+                fieldText += '~';
             }
             else if (text.Length < length)
             {
@@ -293,11 +294,11 @@ namespace PacketMessagingTS.Models
             string fileName = "";
             try
 			{
-                CommLogEntries = commLogEntryListField.ToArray();
+                CommLogEntries = CommLogEntryList.ToArray();
 
                 if (xmlFormat)
                 {
-                    fileName = $"{commLogFileName}_{OperationalPeriodFrom.ToString("MMddyyyyTHHmm")}_{OperationalPeriodTo.ToString("MMddyyyyTHHmm")}.xml";
+                    fileName = $"{commLogFileName}_{OperationalPeriodFrom.ToString("MMddyyyy")}_{OperationalPeriodTo.ToString("MMddyyyy")}.xml";
                     StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
                     using (StreamWriter writer = new StreamWriter(new FileStream(file.Path, FileMode.OpenOrCreate)))
                     {
@@ -305,11 +306,8 @@ namespace PacketMessagingTS.Models
                         serializer.Serialize(writer, this);
                     }
                 }
-                else if (txtFormat)
+                if (txtFormat)
                 {
-                    fileName = $"{commLogFileName}_{OperationalPeriodFrom.ToString("MMddyyyyTHHmm")}_{OperationalPeriodTo.ToString("MMddyyyyTHHmm")}.txt";
-                    StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-
                     StringBuilder sb = new StringBuilder("ICS 309 COMMUNICATIONS LOG\r");
                     sb.AppendLine();
                     sb.AppendLine($"Task #               {ActivationNumber}");
@@ -334,12 +332,79 @@ namespace PacketMessagingTS.Models
                     }
                     string ics309 = sb.ToString();
 
-                    System.IO.File.WriteAllText(file.Path, ics309);
+                    FileSavePicker savePicker = new FileSavePicker();
+                    savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                    // Dropdown of file types the user can save the file as
+                    savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
+                    // Default file name if the user does not type one in or select a file to replace
+                    fileName = $"{commLogFileName}_{OperationalPeriodFrom.ToString("MMddyyyy")}_{OperationalPeriodTo.ToString("MMddyyyy")}.txt";
+                    savePicker.SuggestedFileName = fileName;
+                    StorageFile txtfile = await savePicker.PickSaveFileAsync();
+                    if (txtfile != null)
+                    {
+                        // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                        CachedFileManager.DeferUpdates(txtfile);
+                        // write to file
+                        await FileIO.WriteTextAsync(txtfile, ics309);
+                        // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                        // Completing updates may require Windows to ask for user input.
+                        FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(txtfile);
+                        if (status == FileUpdateStatus.Complete)
+                        {
+                            _logHelper.Log(LogLevel.Info, $"File {txtfile.Name} was saved.");
+                        }
+                        else
+                        {
+                            _logHelper.Log(LogLevel.Error, $"File {txtfile.Name} couldn't be saved.");
+                        }
+                    }
+
+                    //System.IO.File.WriteAllText(file.Path, ics309);
                 }
-                else if (csvFormat)
+                if (csvFormat)
                 {
-                    fileName = $"{commLogFileName}_{OperationalPeriodFrom.ToString("MMddyyyyTHHmm")}_{OperationalPeriodTo.ToString("MMddyyyyTHHmm")}.csv";
-                    StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                    StringBuilder sb = new StringBuilder("ICS 309 COMMUNICATIONS LOG");
+                    sb.AppendLine();
+                    sb.AppendLine($"Task #,{ActivationNumber}");
+                    sb.AppendLine($"Prepared Date:,{DateTimePrepared}");
+                    sb.AppendLine($"Operational Period:{$"{DateTimeStrings.DateTimeString(OperationalPeriodFrom)} to {DateTimeStrings.DateTimeString(OperationalPeriodTo)}"}");
+                    sb.AppendLine($"Task Name:,{IncidentName}");
+                    sb.AppendLine($"Radio Operator Name:,{Singleton<IdentityViewModel>.Instance.UserName}");
+                    sb.AppendLine($"Station ID:,{Singleton<IdentityViewModel>.Instance.UserCallsign}");
+                    sb.AppendLine();
+                    sb.AppendLine("Date/Time,From,From Msg#,To,To Msg#,Subject");
+                    foreach (CommLogEntry entry in CommLogEntryList)
+                    {
+                        sb.AppendLine($"{DateTimeStrings.DateTimeStringShortYear(entry.Time)},{entry.FromCallsign},{entry.FromMessageNumber},{entry.ToCallsign},{entry.ToMessageNumber},\"{entry.Message}\"");
+                    }
+                    string ics309 = sb.ToString();
+
+                    FileSavePicker savePicker = new FileSavePicker();
+                    savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                    // Dropdown of file types the user can save the file as
+                    savePicker.FileTypeChoices.Add("Comma delimited", new List<string>() { ".csv" });
+                    // Default file name if the user does not type one in or select a file to replace
+                    fileName = $"{commLogFileName}_{OperationalPeriodFrom.ToString("MMddyyyy")}_{OperationalPeriodTo.ToString("MMddyyyy")}.csv";
+                    savePicker.SuggestedFileName = fileName;
+                    StorageFile csvfile = await savePicker.PickSaveFileAsync();
+                    if (csvfile != null)
+                    {
+                        // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                        CachedFileManager.DeferUpdates(csvfile);
+                        // write to file
+                        await FileIO.WriteTextAsync(csvfile, ics309);
+                        // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                        // Completing updates may require Windows to ask for user input.
+                        FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(csvfile);
+                        if (status == FileUpdateStatus.Complete)
+                        {
+                            _logHelper.Log(LogLevel.Info, $"File {csvfile.Name} was saved.");
+                        }
+                        else
+                        {
+                            _logHelper.Log(LogLevel.Error, $"File {csvfile.Name} couldn't be saved.");
+                        }
+                    }
                 }
             }
 			catch (Exception e)

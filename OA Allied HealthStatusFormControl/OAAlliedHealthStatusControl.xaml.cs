@@ -37,7 +37,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
         public override string PacFormName => "form-allied-health-facility-status";
 
