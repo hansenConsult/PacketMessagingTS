@@ -40,6 +40,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -87,7 +88,7 @@ namespace PacketMessagingTS.Helpers
 
         protected List<FormControlAttributes> _formControlAttributeList;
 
-        protected PrintHelper printHelper;
+        protected PrintHelper _printHelper;
 
         FormControlBase _packetForm;
         public FormControlBase PacketForm
@@ -379,8 +380,8 @@ namespace PacketMessagingTS.Helpers
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Initialize common helper class and register for printing
-            printHelper = new PrintHelper(this);
-            printHelper.RegisterForPrinting();
+            //printHelper = new PrintHelper(this);
+            //printHelper.RegisterForPrinting();
 
             if (e.Parameter is null)
             {
@@ -435,10 +436,10 @@ namespace PacketMessagingTS.Helpers
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (printHelper != null)
-            {
-                printHelper.UnregisterForPrinting();
-            }
+            //if (printHelper != null)
+            //{
+            //    printHelper.UnregisterForPrinting();
+            //}
             //_formsViewModel.FormsPagePivotSelectedIndex = _formsPagePivot.SelectedIndex;
             SetFormsPagePivotSelectedIndex(_formsPagePivot.SelectedIndex);
 
@@ -632,7 +633,7 @@ namespace PacketMessagingTS.Helpers
             //if (_packetForm.GetType() == typeof(ICS213Control))
             {
                 //ContinuationPage continuationPage = new ContinuationPage(this);
-                printHelper?.PreparePrintContent(this);
+                //printHelper?.PreparePrintContent(this);
             }
             SetFormsPagePivotSelectedIndex(((Pivot)sender).SelectedIndex);
         }
@@ -744,7 +745,7 @@ namespace PacketMessagingTS.Helpers
 
         public async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
         {
-            await printHelper.ShowPrintUIAsync();
+            //await printHelper.ShowPrintUIAsync();
         }
 
     }

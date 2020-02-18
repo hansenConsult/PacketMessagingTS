@@ -10,7 +10,7 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
 
       mc:Ignorable="d"
-      d:DesignWidth="760"
+      d:DesignWidth="720"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
@@ -216,7 +216,7 @@
 
             <!--ICS 309-->
             <PivotItem x:Name="ics309" Header="ICS 309">
-                <RelativePanel x:Name="PrintableArea" Margin="0,12,0,0"
+                <RelativePanel x:Name="RelPanel" Margin="0,12,0,0"
                                >
                     <!--
                     The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
@@ -224,16 +224,22 @@
                     -->
                     <RelativePanel x:Name="aroundScrollviewer"
                                    RelativePanel.AlignTopWithPanel="True">
-                        <ScrollViewer x:Name="ICS309ScrollViewer" 
-                                  
-                                  RelativePanel.AlignTopWithPanel="True"
-                                  VerticalScrollBarVisibility="Auto" Height="869" >
-                            <RelativePanel x:Name="ICS309StackPanel"
-                                    VerticalAlignment="Stretch"
+                        <!--Print container-->
+                        <Grid x:Name="Container"
+                              Opacity="0" />
+                        <Grid x:Name="DirectPrintContainer">
+                            <Grid x:Name="PrintableContent">
+                                <!--<Grid x:Name="XamlRoot" />-->
+                        <!--</Grid>-->
+                        <ScrollViewer x:Name="ICS309ScrollViewer"                                   
+                                      RelativePanel.AlignTopWithPanel="True"
+                                      VerticalScrollBarVisibility="Auto"  >
+                            <RelativePanel x:Name="PrintableArea"
+                                           VerticalAlignment="Stretch"
                                       
                                     >
                                 <StackPanel x:Name="ICS309MainForm"
-                                        BorderBrush="Black" BorderThickness="2"  >
+                                            BorderBrush="Black" BorderThickness="2"  >
 
                                     <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <Grid.ColumnDefinitions>
@@ -289,7 +295,7 @@
                                                      HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
                                         </Border>
                                     </Grid>
-                                    <Grid Background="LightGray" Margin="0" >
+                                    <Grid Background="LightGray" Margin="0" BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="50*"/>
@@ -398,6 +404,9 @@
                                        FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
                             </RelativePanel>
                         </ScrollViewer>
+                        </Grid>
+                        </Grid>
+
                     </RelativePanel>
                     <CommandBar x:Name="ButtomCommandBarICS309" Margin="-12,0,-12,0"
                    				    RelativePanel.AlignBottomWithPanel="True"
@@ -407,10 +416,10 @@
                         <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
                         <AppBarButton x:Name="appBarOpenICS309" Label="Open" Icon="OpenFile" Command="{x:Bind _ICS309ViewModel.OpenICS309Command}"/>
                         <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" Command="{x:Bind _ICS309ViewModel.SaveICS309Command}" />
-                        <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print"
+                        <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" Click="AppBarPrintICS309_ClickAsync"
                                       Visibility="{Binding ICS309PrintButtonVisible, Mode=TwoWay}"
-                                      HorizontalAlignment="Right" Click="AppBarPrintICS309_ClickAsync"/>
-                        <AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />
+                                      HorizontalAlignment="Right" />
+                        <!--<AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />-->
                     </CommandBar>
                 </RelativePanel>
             </PivotItem>

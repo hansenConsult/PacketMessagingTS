@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using MetroLog;
-
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
 using PacketMessagingTS.Core.Helpers;
@@ -34,6 +34,7 @@ using Windows.UI.Xaml.Printing;
 
 namespace PacketMessagingTS.Views
 {
+    /*
     /// <summary>
     /// Photo size options
     /// </summary>
@@ -445,7 +446,7 @@ namespace PacketMessagingTS.Views
 
 
     }
-
+    */
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -459,8 +460,8 @@ namespace PacketMessagingTS.Views
         private int _selectedFileIndex;
         PivotItem _currentPivotItem;
 
-        private ICS309PrintHelper printHelper;
-
+        private PrintHelper _printHelper;
+        
 
         public ToolsPage()
         {
@@ -476,27 +477,28 @@ namespace PacketMessagingTS.Views
         {
             if (PrintManager.IsSupported())
             {
-                _toolsViewModel.ICS309PrintButtonVisible = true;      }
+                _ICS309ViewModel.ICS309PrintButtonVisible = true;
+            }
             else
             {
                 // Remove the print button
-                _toolsViewModel.ICS309PrintButtonVisible = false;
+                _ICS309ViewModel.ICS309PrintButtonVisible = false;
             }
 
             // Printing-related event handlers will never be called if printing
             // is not supported, but it's okay to register for them anyway.
 
             // Initialize common helper class and register for printing
-            printHelper = new ICS309PrintHelper(this);
-            printHelper.RegisterForPrinting();
+            //printHelper = new ICS309PrintHelper(this);
+            //printHelper.RegisterForPrinting();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (printHelper != null)
-            {
-                printHelper.UnregisterForPrinting();
-            }
+            //if (printHelper != null)
+            //{
+            //    printHelper.UnregisterForPrinting();
+            //}
 
             base.OnNavigatedFrom(e);
         }
@@ -664,113 +666,64 @@ namespace PacketMessagingTS.Views
             else if (_currentPivotItem.Name == "ics309")
             {
                 _ICS309ViewModel.Initialize();
-                //incidentName.Text = _ICS309ViewModel.IncidentName;
-                //operationalPeriod.Text = FormatDateTime(_ICS309ViewModel.OperationalPeriodStart) + " to " + FormatDateTime(_ICS309ViewModel.OperationalPeriodEnd);
-                //radioNetName.Text = _ICS309ViewModel.RadioNetName;
-                //radioOperator.Text = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
-                //_toolsViewModel.DateTimePrepared = DateTime.Now;
                 _ICS309ViewModel.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
-                //preparedByNameCallsign.Text = radioOperator.Text;
-                //_toolsViewModel.TotalPages = 1;
-                //_toolsViewModel.PageNo = 1;
-                //pageNoOf.Text = _toolsViewModel.PageNoAsString;
-
-                //if (_ICS309ViewModel.OperationalPeriodStart != null && _ICS309ViewModel.OperationalPeriodEnd != null)
-                //{
-                //    await BuildLogDataSetAsync(_ICS309ViewModel.OperationalPeriodStart, _ICS309ViewModel.OperationalPeriodEnd);
-                //}
             }
         }
 
-//        private async Task BuildLogDataSetAsync(DateTime startTime, DateTime endTime)
-//        {
-////            _toolsViewModel.ToolsPageCommLogPartViewModel viewModel = ToolsPageViewModel.toolsPageCommLogPartViewModel;
-//            _CommLog.CommLogEntryList.Clear();
-//            // Get messages in the InBox and the Sent Messages folder
-//            List<PacketMessage> messagesInReceivedFolder = await PacketMessage.GetPacketMessages(SharedData.ReceivedMessagesFolder.Path);
-//            foreach (PacketMessage packetMessage in messagesInReceivedFolder)
-//            {
-//                CommLog.Instance.AddCommLogEntry(packetMessage, startTime, endTime);
-//            }
-//            List<PacketMessage> messagesInSentFolder = await PacketMessage.GetPacketMessages(SharedData.SentMessagesFolder.Path);
-//            foreach (PacketMessage packetMessage in messagesInSentFolder)
-//            {
-//                CommLog.Instance.AddCommLogEntry(packetMessage, startTime, endTime);
-//            }
-//            List<CommLogEntry> sortedList = Sort_List(CommLog.Instance.CommLogEntryList);
-
-//            _ICS309ViewModel.CommLogEntryCollection  = new ObservableCollection<CommLogEntry>(sortedList);
-
-//        }
-
-        //private async void OperationalPeriod_TextChangedAsync(object sender, TextChangedEventArgs e)
-        //{
-        //    string opPeriod = operationalPeriod.Text;
-        //    var startStop = opPeriod.Split(new string[] { "to", " " }, StringSplitOptions.RemoveEmptyEntries);
-        //    if (startStop != null && (startStop.Count() != 3 && startStop.Count() != 4))
-        //        return;
-
-        //    int endTimeIndex = 3;
-        //    if (startStop.Count() == 3)
-        //    {
-        //        endTimeIndex = 2;
-        //    }
-
-        //    if (startStop[1].Length != 4)
-        //        return;
-
-        //    if (startStop[endTimeIndex].Length != 4)
-        //        return;
-
-        //    string dateTime = startStop[0] + " " + startStop[1].Insert(2, ":");
-
-        //    DateTime operationalPeriodStart;
-        //    if (!DateTime.TryParse(dateTime, out operationalPeriodStart))
-        //        return;
-
-        //    if (startStop.Count() == 3)
-        //    {
-        //        dateTime = startStop[0] + " " + startStop[endTimeIndex].Insert(2, ":");
-        //    }
-        //    else
-        //    {
-        //        dateTime = startStop[2] + " " + startStop[endTimeIndex].Insert(2, ":");
-        //    }
-
-        //    DateTime operationalPeriodEnd;
-        //    if (!DateTime.TryParse(dateTime, out operationalPeriodEnd))
-        //        return;
-
-        //    if (operationalPeriodEnd < operationalPeriodStart)
-        //        return;
-
-        //    _ICS309ViewModel.OperationalPeriodStart = operationalPeriodStart;
-        //    _ICS309ViewModel.OperationalPeriodEnd = operationalPeriodEnd;
-
-        //    if (operationalPeriodEnd - operationalPeriodStart > new TimeSpan(0, 0, 0))
-        //    {
-        //        await BuildLogDataSetAsync(operationalPeriodStart, operationalPeriodEnd);
-        //    }
-        //}
-
-        //private void IncidentName_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    _ICS309ViewModel.IncidentName = incidentName.Text;
-        //}
-
-        //private void RadioNetName_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    _ICS309ViewModel.RadioNetName = radioNetName.Text;
-        //}
 #region ICS309
 
         private async void AppBarPrintICS309_ClickAsync(object sender, RoutedEventArgs e)
         {
-            //printHelper?.PreparePrintContent(this);
-            await printHelper.ShowPrintUIAsync();
+            DirectPrintContainer.Children.Remove(PrintableContent);
+
+            _printHelper = new PrintHelper(Container);
+            _printHelper.AddFrameworkElementToPrint(PrintableContent);
+
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            // Create a new PrintHelperOptions instance
+
+            await _printHelper.ShowPrintUIAsync("ICS 309");
         }
+
+        private void ReleasePrintHelper()
+        {
+            _printHelper.Dispose();
+
+            if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            {
+                DirectPrintContainer.Children.Add(PrintableContent);
+            }
+
+            //SampleController.Current.DisplayWaitRing = false;
+        }
+
+        private async void PrintHelper_OnPrintSucceeded()
+        {
+            ReleasePrintHelper();
+            //var dialog = new MessageDialog("Printing done.");
+            //await dialog.ShowAsync();
+        }
+
+        private async void PrintHelper_OnPrintFailed()
+        {
+            ReleasePrintHelper();
+
+            //var dialog = new MessageDialog("Printing failed.");
+            //await dialog.ShowAsync();
+        }
+
+        private void PrintHelper_OnPrintCanceled()
+        {
+            ReleasePrintHelper();
+        }
+
+
 #endregion ICS309
 
+#region TestScenarios
 #if DEBUG
         /// <summary>
         /// 
@@ -1077,7 +1030,7 @@ namespace PacketMessagingTS.Views
             }
 #endif
         }
-
+#endregion
         private async void AppBarButtonTest_OpenFileAsync(object sender, RoutedEventArgs e)
         {
 #if DEBUG

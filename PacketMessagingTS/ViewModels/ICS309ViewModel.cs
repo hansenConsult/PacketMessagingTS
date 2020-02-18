@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.Helpers;
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using SharedCode;
+using Windows.Graphics.Printing;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -197,6 +199,13 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private bool ics309PrintButtonVisible;
+        public bool ICS309PrintButtonVisible
+        {
+            get => ics309PrintButtonVisible;
+            set => SetProperty(ref ics309PrintButtonVisible, value);
+        }
+
         private ObservableCollection<CommLogEntry> commLogEntryCollection;
         public ObservableCollection<CommLogEntry> CommLogEntryCollection
         {
@@ -278,17 +287,8 @@ namespace PacketMessagingTS.ViewModels
             if (file is null)
                 return;
 
-            switch (file.FileType)
-            {
-                case ".xml":
-                    _CommLog = CommLog.Open(file);
-                    FillFormFromCommLog();
-                    break;
-                case ".txt":
-                    break;
-                case ".csv":
-                    break;
-            }
+            _CommLog = CommLog.Open(file);
+            FillFormFromCommLog();
         }
 
         private void FillCommLogFromForm()
@@ -311,5 +311,14 @@ namespace PacketMessagingTS.ViewModels
             await _CommLog.SaveAsync();
         }
 
+        //private ICommand _PrintICS309Command;
+        //public ICommand PrintICS309Command => _PrintICS309Command ?? (_PrintICS309Command = new RelayCommand(PrintICS309));
+
+        //public async void PrintICS309()
+        //{
+        //    await printHelper.ShowPrintUIAsync("ICS 309", true);
+        //    //await PrintManager.ShowPrintUIAsync();
+        //}
+
     }
-}
+} 

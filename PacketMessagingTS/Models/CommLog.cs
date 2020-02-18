@@ -198,29 +198,9 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        //private CommLog()
         public CommLog()
         {
-			//logentryField = new CommLogEntry[0];
-			//_distributionListArrayField = new DistributionList[0];
-			//_distributionListsDict = new Dictionary<string, string>();
 		}
-
-		//public static CommLog Instance
-		//{
-		//	get
-		//	{
-		//		if (_instance is null)
-		//		{
-		//			lock (_syncRoot)
-		//			{
-		//				if (_instance is null)
-		//					_instance = new CommLog();
-		//			}
-		//		}
-		//		return _instance;
-		//	}
-		//}
 
 		public static CommLog Open(StorageFile file)
 		{
@@ -358,8 +338,6 @@ namespace PacketMessagingTS.Models
                             _logHelper.Log(LogLevel.Error, $"File {txtfile.Name} couldn't be saved.");
                         }
                     }
-
-                    //System.IO.File.WriteAllText(file.Path, ics309);
                 }
                 if (csvFormat)
                 {
