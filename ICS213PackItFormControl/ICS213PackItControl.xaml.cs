@@ -9,6 +9,7 @@ using SharedCode.Helpers;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -163,6 +164,32 @@ namespace ICS213PackItFormControl
         //    }
         //    ComboBoxRequired_SelectionChanged(sender, e);
         //}
+
+        public override async void PrintForm()
+        {
+            DirectPrintContainer.Children.Remove(PrintableContent);
+
+            _printHelper = new PrintHelper(Container);
+            _printHelper.AddFrameworkElementToPrint(PrintableContent);
+
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            // Create a new PrintHelperOptions instance
+
+            await _printHelper.ShowPrintUIAsync("ICS-213 Message");
+        }
+
+        protected override void ReleasePrintHelper()
+        {
+            _printHelper.Dispose();
+
+            if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            {
+                DirectPrintContainer.Children.Add(PrintableContent);
+            }
+        }
 
     }
 }

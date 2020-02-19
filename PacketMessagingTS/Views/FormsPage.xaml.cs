@@ -20,7 +20,7 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
+        //public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
 
 
         public FormsPage()

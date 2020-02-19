@@ -27,6 +27,11 @@
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
         <Border x:Name="Form213RR" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel >
+                <Grid x:Name="Container" Opacity="0" />
+                <Grid x:Name="DirectPrintContainer">
+                    <Grid x:Name="PrintableContent"></Grid>
+                </Grid>
+
                 <Border BorderBrush="Black" BorderThickness="0,1,1,0">
                     <Grid >
                         <Grid.ColumnDefinitions>

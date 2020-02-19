@@ -14,6 +14,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace FormControlBaseClass
 {
@@ -104,6 +105,9 @@ namespace FormControlBaseClass
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
         public static string DrillTraffic = "\r\nDrill Traffic";
+
+        protected PrintHelper _printHelper;
+
 
         protected FormControlBase()
         {
@@ -418,8 +422,7 @@ namespace FormControlBaseClass
         { get; set; }
 
         public virtual string ReportType
-        { get; 
-            set; }
+        { get; set; }
 
         // Implemented this way to facilitate synchronizing two name fields and required for setting Practice 
         private string _shelterName;
@@ -1399,6 +1402,65 @@ namespace FormControlBaseClass
         //    }
         //    return null;
         //}
+
+        #region Print
+        public virtual async void PrintForm()
+        {
+            //DirectPrintContainer.Children.Remove(PrintableContent);
+
+            //_printHelper = new PrintHelper(Container);
+            //_printHelper.AddFrameworkElementToPrint(PrintableContent);
+
+            //_printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            //_printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            //_printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            //// Create a new PrintHelperOptions instance
+
+            //await _printHelper.ShowPrintUIAsync("ICS 309");
+        }
+
+        //public virtual void PrepareForPrinting()
+        //{
+
+        //}
+
+        //public virtual void RestoreFromPrinting()
+        //{
+        //    //if (!DirectPrintContainer.Children.Contains(PrintableContent))
+        //    //{
+        //    //    DirectPrintContainer.Children.Add(PrintableContent);
+        //    //}
+        //}
+
+        protected virtual void ReleasePrintHelper()
+        {
+            //_printHelper.Dispose();
+
+            //if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            //{
+            //    DirectPrintContainer.Children.Add(PrintableContent);
+            //}
+        }
+
+        protected virtual void PrintHelper_OnPrintSucceeded()
+        {
+            ReleasePrintHelper();
+        }
+
+        protected virtual void PrintHelper_OnPrintFailed()
+        {
+            ReleasePrintHelper();
+
+            //_logHelper.Log(LogLevel.Error, $"Print failed. {_ICS309ViewModel.OperationalPeriod}");
+        }
+
+        protected virtual void PrintHelper_OnPrintCanceled()
+        {
+            ReleasePrintHelper();
+        }
+
+        #endregion Print
 
     }
 }

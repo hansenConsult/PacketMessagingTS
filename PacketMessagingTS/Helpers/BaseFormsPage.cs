@@ -72,6 +72,8 @@ namespace PacketMessagingTS.Helpers
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
+
         protected MessageOrigin _messageOrigin = MessageOrigin.New;
 
         protected Pivot _formsPagePivot;
@@ -87,8 +89,6 @@ namespace PacketMessagingTS.Helpers
         protected List<FormControlAttributes> _attributeListTypeTestForms = new List<FormControlAttributes>();
 
         protected List<FormControlAttributes> _formControlAttributeList;
-
-        protected PrintHelper _printHelper;
 
         FormControlBase _packetForm;
         public FormControlBase PacketForm
@@ -459,6 +459,7 @@ namespace PacketMessagingTS.Helpers
 
                 return;
             }
+            _formsViewModel.PacketForm = _packetForm;
 
             _packetForm.UpdateFormFieldsRequiredColors(true);
             //_packetMessage = new PacketMessage()
@@ -530,6 +531,7 @@ namespace PacketMessagingTS.Helpers
                 await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
+            _formsViewModel.PacketForm = _packetForm;
 
             _packetForm.FormPacketMessage = _packetMessage;
             _packetForm.UpdateFormFieldsRequiredColors(!_loadMessage);
@@ -743,10 +745,12 @@ namespace PacketMessagingTS.Helpers
             await InitializeFormControlAsync();
         }
 
-        public async void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            //await printHelper.ShowPrintUIAsync();
-        }
+        #region Print
 
+        public  void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            _packetForm.PrintForm();
+        }
+        #endregion Print
     }
 }

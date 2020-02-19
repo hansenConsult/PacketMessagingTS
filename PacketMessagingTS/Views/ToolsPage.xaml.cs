@@ -453,6 +453,10 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class ToolsPage : Page
     {
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
+
         public ToolsViewModel _toolsViewModel { get; } = new ToolsViewModel();
         public ICS309ViewModel _ICS309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
 
@@ -696,23 +700,18 @@ namespace PacketMessagingTS.Views
             {
                 DirectPrintContainer.Children.Add(PrintableContent);
             }
-
-            //SampleController.Current.DisplayWaitRing = false;
         }
 
-        private async void PrintHelper_OnPrintSucceeded()
+        private void PrintHelper_OnPrintSucceeded()
         {
-            ReleasePrintHelper();
-            //var dialog = new MessageDialog("Printing done.");
-            //await dialog.ShowAsync();
+            ReleasePrintHelper();            
         }
 
-        private async void PrintHelper_OnPrintFailed()
+        private void PrintHelper_OnPrintFailed()
         {
             ReleasePrintHelper();
 
-            //var dialog = new MessageDialog("Printing failed.");
-            //await dialog.ShowAsync();
+            _logHelper.Log(LogLevel.Error, $"Print failed. {_ICS309ViewModel.OperationalPeriod}");
         }
 
         private void PrintHelper_OnPrintCanceled()
