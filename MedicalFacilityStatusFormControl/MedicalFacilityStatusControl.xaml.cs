@@ -132,6 +132,12 @@ namespace MedicalFacilityStatusFormControl
             //specialInstructions.Text += DrillTraffic;
         }
 
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
+
         public override string CreateSubject()
         {
             return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedItem as ComboBoxPackItItem)?.Item}";

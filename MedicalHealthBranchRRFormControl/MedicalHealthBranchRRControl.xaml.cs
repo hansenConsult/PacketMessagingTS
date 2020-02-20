@@ -5,6 +5,7 @@ using FormControlBaseClass;
 using SharedCode;
 using SharedCode.Helpers;
 using ToggleButtonGroupControl;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -75,6 +76,12 @@ namespace MedicalHealthBranchRRFormControl
         {
             //specialInstructions.Text += DrillTraffic;
         }
+
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
 
         public override string CreateSubject()
         {

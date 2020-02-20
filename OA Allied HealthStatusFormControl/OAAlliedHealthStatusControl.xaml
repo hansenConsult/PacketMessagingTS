@@ -402,8 +402,13 @@
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="OAAlliedHealthStatusControl" >
         <Border x:Name="FormOAAlliedHealthStatus" BorderBrush="Black" BorderThickness="1" Padding="15">
             <StackPanel >
-                <Border BorderBrush="Black" BorderThickness="1,1,1,0">
-                    <Grid >
+                <Grid x:Name="container" Opacity="0" />
+                <Grid x:Name="directPrintContainer">
+                    <StackPanel x:Name="printableContent">
+                
+
+                <!--<Border BorderBrush="Black" BorderThickness="1,1,1,0">-->
+                    <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition />
@@ -442,8 +447,9 @@
                                      Header="Destination:"/>
 
                     </Grid>
-                </Border>
+                <!--</Border>-->
                 <StackPanel >
+                    
                     <Grid BorderBrush="Black" BorderThickness="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -1639,6 +1645,8 @@ to Public Health/Medical Health Branch"
                     </Grid>
 
                 </StackPanel>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </Border>
     </StackPanel>

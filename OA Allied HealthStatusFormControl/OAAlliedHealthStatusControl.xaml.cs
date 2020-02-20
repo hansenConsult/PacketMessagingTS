@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.System;
 using ToggleButtonGroupControl;
+using Windows.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -74,6 +75,12 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override void AppendDrillTraffic()
         { }
+
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
 
         public string FacilityStatus
         { get; set; }

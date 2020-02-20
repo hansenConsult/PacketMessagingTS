@@ -16,6 +16,11 @@
     </MyBaseNamespace:FormControlBase.Resources>
 
     <StackPanel x:Name="PrintableArea" Height="auto" RequestedTheme="Light" >
+        <Grid x:Name="Container" Opacity="0" />
+        <Grid x:Name="DirectPrintContainer">
+            <StackPanel x:Name="PrintableContent"></StackPanel>
+        </Grid>
+
         <Grid x:Name="inBoxHeader" Visibility="{x:Bind InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="88" />

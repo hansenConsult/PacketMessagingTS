@@ -1404,43 +1404,39 @@ namespace FormControlBaseClass
         //}
 
         #region Print
+        public virtual Panel CanvasContainer
+        { get;  }
+
+        public virtual Panel DirectPrintContainer
+        { get;  }
+
+        public virtual FrameworkElement PrintableContent
+        { get;  }
+
         public virtual async void PrintForm()
         {
-            //DirectPrintContainer.Children.Remove(PrintableContent);
+            DirectPrintContainer.Children.Remove(PrintableContent);
 
-            //_printHelper = new PrintHelper(Container);
-            //_printHelper.AddFrameworkElementToPrint(PrintableContent);
+            _printHelper = new PrintHelper(CanvasContainer);
+            _printHelper.AddFrameworkElementToPrint(PrintableContent);
 
-            //_printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
-            //_printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
-            //_printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
             //// Create a new PrintHelperOptions instance
 
-            //await _printHelper.ShowPrintUIAsync("ICS 309");
+            await _printHelper.ShowPrintUIAsync("  ");
         }
-
-        //public virtual void PrepareForPrinting()
-        //{
-
-        //}
-
-        //public virtual void RestoreFromPrinting()
-        //{
-        //    //if (!DirectPrintContainer.Children.Contains(PrintableContent))
-        //    //{
-        //    //    DirectPrintContainer.Children.Add(PrintableContent);
-        //    //}
-        //}
 
         protected virtual void ReleasePrintHelper()
         {
-            //_printHelper.Dispose();
+            _printHelper.Dispose();
 
-            //if (!DirectPrintContainer.Children.Contains(PrintableContent))
-            //{
-            //    DirectPrintContainer.Children.Add(PrintableContent);
-            //}
+            if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            {
+                DirectPrintContainer.Children.Add(PrintableContent);
+            }
         }
 
         protected virtual void PrintHelper_OnPrintSucceeded()

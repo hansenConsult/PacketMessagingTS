@@ -27,13 +27,13 @@
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
         <Border x:Name="Form213RR" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel >
-                <Grid x:Name="Container" Opacity="0" />
-                <Grid x:Name="DirectPrintContainer">
-                    <Grid x:Name="PrintableContent"></Grid>
-                </Grid>
+                <Grid x:Name="container" Opacity="0" />
+                <Grid x:Name="directPrintContainer">
+                    <StackPanel x:Name="printableContent">
+                <!--</Grid>-->
 
-                <Border BorderBrush="Black" BorderThickness="0,1,1,0">
-                    <Grid >
+                <!--<Border BorderBrush="Black" BorderThickness="0,1,1,0">-->
+                    <Grid BorderBrush="Black" BorderThickness="0,1,1,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition />
@@ -68,7 +68,7 @@
                                      Header="Destination:"/>
 
                     </Grid>
-                </Border>
+                <!--</Border>-->
                 <StackPanel>
                     <Grid BorderBrush="Black" BorderThickness="1">
                         <Grid.ColumnDefinitions>
@@ -435,7 +435,7 @@
                                     <Run Text="13. Delivery to"/>
                                     <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                 </TextBlock>
-                                <TextBox Name="deliveryTo" MinHeight="48" Margin="5" AcceptsReturn="True" 
+                                <TextBox Name="deliveryTo" MinHeight="44" Margin="5" AcceptsReturn="True" 
                                          TextChanged="TextBox_TextChanged"
                                          Tag="33.,required,Enter 13. Delivery to."/>
                             </StackPanel>
@@ -444,7 +444,7 @@
                                     <Run Text="14. Location"/>
                                     <Run Text=" (address or Lat/long., site type)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                 </TextBlock>
-                                <TextBox Name="deliveryLocation" MinHeight="48" Margin="5" AcceptsReturn="True" 
+                                <TextBox Name="deliveryLocation" MinHeight="44" Margin="5" AcceptsReturn="True" 
                                          TextChanged="TextBox_TextChanged"
                                          Tag="34.,required,Enter 14. Location."/>
                             </StackPanel>
@@ -454,7 +454,7 @@
                                     <Run Text="15. Suitable Substitutes / Suggested Sources"/>
                                     <Run Text=" (name, source, website)" FontSize="11" FontStyle="Italic" FontWeight="Normal" />
                             </TextBlock>
-                            <TextBox Name="substitutes" MinHeight="48" Margin="5" 
+                            <TextBox Name="substitutes" MinHeight="44" Margin="5" 
                                      AcceptsReturn="True" Tag="35."/>
                         </StackPanel>
                         <Grid Grid.Column="1" Grid.Row="3">
@@ -522,18 +522,18 @@
                             <StackPanel Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>
                                 <TextBox Name="specialInstructions"  Margin="5,5,5,5" 
-                                         AcceptsReturn="True" Height="136"
+                                         AcceptsReturn="True" Height="116"
                                          TextChanged="TextBox_TextChanged"
                                          Tag="37.,conditionallyrequired"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
-                    <Border BorderBrush="Black" BorderThickness="1,0,1,1" Background="LightGray" >
+                    <Border BorderBrush="Black" BorderThickness="1,0,1,1" Background="LightGray" Height="28">
                         <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
-                                   Height="26" Margin="8,12,0,0"/>
+                                   Margin="8,0,0,0"/>
                     </Border>
-                    <Border BorderBrush="Black" BorderThickness="1,0,1,1">
-                    <Grid>
+                    <!--<Border BorderBrush="Black" BorderThickness="1,0,1,1">-->
+                        <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
@@ -541,17 +541,17 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray"></Border>
+                        <Border  BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray"></Border>
                         <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" VerticalAlignment="Center" Margin="5,0,5,0"/>
                         <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" VerticalAlignment="Center" Margin="8,0,0,0"/>
                         <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
-                                     Margin="8,4,4,4" Tag="OpRelayRcvd"/>
+                                     Margin="8,1,1,1" Tag="OpRelayRcvd" Height="28"/>
                         <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                         <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
-                                     Margin="8,4,4,4" Tag="OpRelaySent" />
+                                     Margin="8,1,1,1" Tag="OpRelaySent" Height="28" />
                     </Grid>
-                    </Border>
+                    <!--</Border>-->
                     <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -585,7 +585,8 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 </StackPanel>
-
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </Border>
     </StackPanel>

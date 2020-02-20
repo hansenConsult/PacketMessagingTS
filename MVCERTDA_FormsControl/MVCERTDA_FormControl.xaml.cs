@@ -139,6 +139,12 @@ namespace MVCERTDA_FormsControl
             }
         }
 
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
+
         public override string CreateSubject()
         {
             return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);

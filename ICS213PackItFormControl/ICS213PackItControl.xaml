@@ -41,9 +41,9 @@
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
         <Border x:Name="Form213" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel >
-                <Grid x:Name="Container" Opacity="0"/>
-                <Grid x:Name="DirectPrintContainer" >
-                    <StackPanel x:Name="PrintableContent" >
+                <Grid x:Name="container" Opacity="0"/>
+                <Grid x:Name="directPrintContainer" >
+                    <StackPanel x:Name="printableContent" >
                         <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>

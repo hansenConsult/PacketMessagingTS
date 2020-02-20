@@ -2,6 +2,8 @@
 
 using FormControlBaseClass;
 
+using Microsoft.Toolkit.Uwp.Helpers;
+
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -74,6 +76,12 @@ namespace ICS213RRPackItFormControl
         {
             specialInstructions.Text += DrillTraffic;
         }
+
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
 
         public override string CreateSubject()
         {
@@ -205,6 +213,32 @@ namespace ICS213RRPackItFormControl
             }
             UpdateFormFieldsRequiredColors();
         }
+
+        //public override async void PrintForm()
+        //{
+        //    DirectPrintContainer.Children.Remove(PrintableContent);
+
+        //    _printHelper = new PrintHelper(Container);
+        //    _printHelper.AddFrameworkElementToPrint(PrintableContent);
+
+        //    _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+        //    _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+        //    _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+        //    // Create a new PrintHelperOptions instance
+
+        //    await _printHelper.ShowPrintUIAsync("ICS-213 Message");
+        //}
+
+        //protected override void ReleasePrintHelper()
+        //{
+        //    _printHelper.Dispose();
+
+        //    if (!DirectPrintContainer.Children.Contains(PrintableContent))
+        //    {
+        //        DirectPrintContainer.Children.Add(PrintableContent);
+        //    }
+        //}
 
     }
 }

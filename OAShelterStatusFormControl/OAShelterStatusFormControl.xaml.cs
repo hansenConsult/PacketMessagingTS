@@ -9,6 +9,7 @@ using SharedCode.Helpers;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -94,6 +95,12 @@ namespace OAShelterStatusFormControl
 
         public override void AppendDrillTraffic()
         { }
+
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {

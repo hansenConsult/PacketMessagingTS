@@ -25,6 +25,10 @@
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
         <Border x:Name="FormHAvBedReport" BorderBrush="Black" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
             <StackPanel>
+                <Grid x:Name="container" Opacity="0" />
+                <Grid x:Name="directPrintContainer">
+                    <StackPanel x:Name="printableContent">
+                
                 <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -525,6 +529,8 @@ Resource Request Form #9A"
                                  Margin="2" BorderBrush="White" Tag="OpTime" />
                     </Grid>
                 </StackPanel>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </Border>
     </StackPanel>

@@ -10,6 +10,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.UI.Xaml;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -60,6 +61,12 @@ namespace ICS213PackItFormControl
         {
             message.Text = message.Text + DrillTraffic;
         }
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override Panel CanvasContainer => container;
+
+        public override FrameworkElement PrintableContent =>  printableContent;
 
         public override string CreateSubject()
 		{
@@ -165,31 +172,31 @@ namespace ICS213PackItFormControl
         //    ComboBoxRequired_SelectionChanged(sender, e);
         //}
 
-        public override async void PrintForm()
-        {
-            DirectPrintContainer.Children.Remove(PrintableContent);
+        //public override async void PrintForm()
+        //{
+        //    DirectPrintContainer.Children.Remove(printableContent);
 
-            _printHelper = new PrintHelper(Container);
-            _printHelper.AddFrameworkElementToPrint(PrintableContent);
+        //    _printHelper = new PrintHelper(CanvasContainer);
+        //    _printHelper.AddFrameworkElementToPrint(PrintableContent);
 
-            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
-            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
-            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+        //    _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+        //    _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+        //    _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
-            // Create a new PrintHelperOptions instance
+        //    // Create a new PrintHelperOptions instance
 
-            await _printHelper.ShowPrintUIAsync("ICS-213 Message");
-        }
+        //    await _printHelper.ShowPrintUIAsync("ICS-213 Message");
+        //}
 
-        protected override void ReleasePrintHelper()
-        {
-            _printHelper.Dispose();
+        //protected override void ReleasePrintHelper()
+        //{
+        //    _printHelper.Dispose();
 
-            if (!DirectPrintContainer.Children.Contains(PrintableContent))
-            {
-                DirectPrintContainer.Children.Add(PrintableContent);
-            }
-        }
+        //    if (!DirectPrintContainer.Children.Contains(PrintableContent))
+        //    {
+        //        DirectPrintContainer.Children.Add(PrintableContent);
+        //    }
+        //}
 
     }
 }

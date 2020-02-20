@@ -4,7 +4,8 @@ using FormControlBaseClass;
 
 using SharedCode;
 using SharedCode.Helpers;
-
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -65,6 +66,12 @@ namespace HavBedReportFormControl
         {
             //specialInstructions.Text += DrillTraffic;
         }
+
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
 
         public override string CreateSubject()
         {

@@ -25,6 +25,11 @@
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="OAMunicipalStatusControl">
         <Border x:Name="FormOAMuniStatus" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel>
+                <Grid x:Name="container" Opacity="0" />
+                <Grid x:Name="directPrintContainer">
+                    <StackPanel x:Name="printableContent">
+                
+
                 <Border BorderBrush="Black" BorderThickness="1,1,1,0">
                     <Grid >
                         <Grid.ColumnDefinitions>
@@ -835,6 +840,8 @@
                     <TextBox Grid.Column="7" Name="operatorTime" 
                                  IsReadOnly="True"
                                  Margin="0" BorderBrush="White" Tag="OpTime" />
+                </Grid>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </Border>

@@ -201,8 +201,13 @@
     <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
         <Border x:Name="Form213" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel >
-                <Border BorderBrush="Black" BorderThickness="1,1,1,0">
-                    <Grid >
+                <Grid x:Name="container" Opacity="0" />
+                <Grid x:Name="directPrintContainer">
+                    <StackPanel x:Name="printableContent">
+                
+
+                <!--<Border BorderBrush="Black" BorderThickness="1,1,1,0">-->
+                    <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition />
@@ -237,7 +242,7 @@
                             </StackPanel>
                         </Border>
                     </Grid>
-                </Border>
+                <!--</Border>-->
                 <Border BorderBrush="Black" BorderThickness="3">
                     <StackPanel>
                         <Grid>
@@ -819,10 +824,12 @@
                         </Border>
                     </StackPanel>
                 </Grid>
-                <TextBlock FontSize="11" FontWeight="Bold" FontFamily="Helvetica"
+                    <TextBlock FontSize="11" FontWeight="Bold" FontFamily="Helvetica"
                            Margin="0,12,4,0" HorizontalAlignment="Right" >
                     <Underline>FORM 213 MTV CERT Summary (Ver. MV/PR-4.7-3.4)</Underline>, 11/05/19
-                </TextBlock>
+                    </TextBlock>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </Border>
     </StackPanel>

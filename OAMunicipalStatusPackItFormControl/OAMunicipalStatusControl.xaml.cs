@@ -113,6 +113,12 @@ namespace OAMunicipalStatusPackItFormControl
         public override void AppendDrillTraffic()
         { }
 
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override FrameworkElement PrintableContent => printableContent;
+
         public override string CreateSubject()
         {
             return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_MuniStat_{jurisdictionName.SelectedValue as string}";

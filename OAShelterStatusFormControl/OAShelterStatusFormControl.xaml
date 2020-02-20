@@ -24,8 +24,13 @@
         <!--<Border x:Name="FormOAMuniStatus" BorderBrush="Black" BorderThickness="1" Padding="15" >-->
         <Border x:Name="FormOAShelterStatus" BorderBrush="Black" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
             <StackPanel>
-                <Border BorderBrush="Black" BorderThickness="1,1,1,0">
-                    <Grid >
+                <Grid x:Name="container" Opacity="0" />
+                <Grid x:Name="directPrintContainer">
+                    <StackPanel x:Name="printableContent">
+                
+
+                <!--<Border BorderBrush="Black" BorderThickness="1,1,1,0">-->
+                    <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="300"/>
                             <ColumnDefinition />
@@ -61,7 +66,7 @@
                                      Header="Destination:"/>
 
                     </Grid>
-                </Border>
+                <!--</Border>-->
                 <StackPanel>
                     <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                         <Grid.ColumnDefinitions>
@@ -660,6 +665,8 @@
                     </Grid>
 
                 </StackPanel>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </Border>
         <!--<Border x:Name="FormOAMuniStatus" BorderBrush="Black" BorderThickness="1" Padding="15" >-->
