@@ -9,8 +9,8 @@
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
 
     mc:Ignorable="d"
-    d:DesignHeight="1200"
-    d:DesignWidth="900">
+    d:DesignHeight="1100"
+    d:DesignWidth="800">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary >
@@ -248,8 +248,8 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="7*"/>
-                                <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="9*"/>
+                                <ColumnDefinition Width="9*"/>
                                 <ColumnDefinition Width="11*"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
@@ -282,41 +282,41 @@
                             </StackPanel>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel>
-                                    <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4.) Situation Severity" Margin="10"/>
+                                    <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4.) Situation Severity" Margin="8"/>
                                     <MyNamespace:ToggleButtonGroup x:Name="severity" 
                                                                    CheckedControlName="{x:Bind Severity, Mode=TwoWay}" 
                                                                    Tag=""/>
                                     <RadioButton x:Name="emergency" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
-                                                 Margin="10, 8" Padding="4" Content="EMERGENCY" Tag="6," Checked="Subject_Changed" 
+                                                 Margin="10, 4" Padding="4" Content="EMERGENCY" Tag="6," Checked="Subject_Changed" 
 										         ToolTipService.ToolTip="Life threat" FontFamily="Times New Roman"/>
                                     <RadioButton x:Name="urgent" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
-                                                 Margin="10, 8" Padding="4" Content="URGENT" Tag="7" Checked="Subject_Changed"
+                                                 Margin="10, 4" Padding="4" Content="URGENT" Tag="7" Checked="Subject_Changed"
 										         ToolTipService.ToolTip="Property threat"/>
                                     <RadioButton x:Name="other" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
-                                                 Margin="10, 8" Padding="4" Content="OTHER" Tag="8" Checked="Subject_Changed"
+                                                 Margin="10, 4" Padding="4" Content="OTHER" Tag="8" Checked="Subject_Changed"
 										         ToolTipService.ToolTip="All other"/>
                                 </StackPanel>
                             </Border>
                             <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel>
-                                    <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="5.) Msg. Handling Order" Margin=" 10"/>
+                                    <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="5.) Msg. Handling Order" Margin="8"/>
                                     <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                    CheckedControlName="{x:Bind HandlingOrder, Mode=TwoWay}"
                                                                    Tag="required,Indicate Msg. Handling Order."/>
                                     <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
-                                                 Margin="10, 8" Padding="4" Content="IMMEDIATE" Tag="9" Checked="Subject_Changed"
+                                                 Margin="10, 4" Padding="4" Content="IMMEDIATE" Tag="9" Checked="Subject_Changed"
                                                  ToolTipService.ToolTip="As soon as possible"/>
                                     <RadioButton x:Name="priority" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
-                                                 Margin="10, 8" Padding="4" Content="PRIORITY" Tag="10" Checked="Subject_Changed"
+                                                 Margin="10, 4" Padding="4" Content="PRIORITY" Tag="10" Checked="Subject_Changed"
                                                  ToolTipService.ToolTip="Less than one hour"/>
                                     <RadioButton x:Name="routine" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
-                                                 Margin="10, 8" Padding="4" Content="ROUTINE" Tag="11" Checked="Subject_Changed"
+                                                 Margin="10, 4" Padding="4" Content="ROUTINE" Tag="11" Checked="Subject_Changed"
                                                  ToolTipService.ToolTip="More than one hour"/>
                                 </StackPanel>
                             </Border>
                             <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel x:Name="msgRequest" Grid.Column="3">
-                                    <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="6.) Message requests" Margin="10"/>
+                                    <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="6.) Message requests" Margin="8"/>
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Action" Margin="10,0,0,0"/>
                                     <MyNamespace:ToggleButtonGroup x:Name="action"/>
                                     <StackPanel Orientation="Horizontal">
@@ -325,11 +325,11 @@
                                         <RadioButton x:Name="actionNo" GroupName="action" Style="{StaticResource RadioButtonTNR12B}" 
                                                      Content="No" Tag="13" Margin="-60,0,0,0"  Padding="4"/>
                                     </StackPanel>
-                                    <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,0,0,0" />
+                                    <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,4,0,0" />
                                     <StackPanel Orientation="Horizontal">
                                         <MyNamespace:ToggleButtonGroup x:Name="reply"/>
                                         <RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Margin="10,0,0,0" Content="Yes, by" Tag="14" Width="65" Padding="4" MinWidth="50"/>
+                                                     Margin="10,0,0,0" Content="Yes, by" Tag="14" Padding="4" MinWidth="50"/>
                                         <TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hhmm" 
                                                  UseLayoutRounding="False" 
                                                  d:LayoutRounding="Auto" VerticalAlignment="Center" Tag="15"/>
@@ -339,7 +339,7 @@
                                                      Content="No" Tag="16" Width="50" Margin="10,0,0,0" Padding="4" MinWidth="50"/>
                                     </StackPanel>
                                     <CheckBox x:Name="forInfo" Style="{StaticResource CheckBoxTNR12B}" 
-                                              Margin="10,5,4,5" Content="FOR INFO" Tag="17" Padding="4"/>
+                                              Margin="10,4,4,4" Content="FOR INFO" Tag="17" Padding="4"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -686,11 +686,12 @@
                     <TextBlock Style="{StaticResource LabelFontTNR14B}" Text="13.) ACTION TAKEN:" Margin="10"/>
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="1">
-                    <StackPanel>
-                        <TextBox x:Name="ActionTaken1" Style="{StaticResource TypedText}" BorderBrush="Black" BorderThickness="0,0,0,1" Tag="34"/>
-                        <TextBox x:Name="ActionTaken2" Style="{StaticResource TypedText}" BorderBrush="Black" BorderThickness="0,0,0,1" />
-                        <TextBox x:Name="ActionTaken3" Style="{StaticResource TypedText}" BorderBrush="Black" BorderThickness="0"/>
-                    </StackPanel>
+                    <!--<StackPanel>-->
+                        <TextBox x:Name="ActionTaken1" Height="64" Style="{StaticResource TypedText}" 
+                                 Margin="5,2,5,2" Tag="34"/>
+                        <!--<TextBox x:Name="ActionTaken2" Style="{StaticResource TypedText}" BorderBrush="Black" BorderThickness="0,0,0,1" />
+                        <TextBox x:Name="ActionTaken3" Style="{StaticResource TypedText}" BorderBrush="Black" BorderThickness="0"/>-->
+                    <!--</StackPanel>-->
                 </Border>
                 <Border BorderBrush="Black" BorderThickness="1,0,1,1">
                     <StackPanel Orientation="Horizontal" >

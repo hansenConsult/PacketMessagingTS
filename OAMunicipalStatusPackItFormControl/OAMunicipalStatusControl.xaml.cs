@@ -117,7 +117,12 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        public override FrameworkElement PrintableContent => printableContent;
+        //public override FrameworkElement PrintableContent => printableContent;
+
+        public override FrameworkElement PrintPage1 => printPage1;
+
+        public override FrameworkElement PrintPage2 => printPage2;
+
 
         public override string CreateSubject()
         {

@@ -172,31 +172,5 @@ namespace ICS213PackItFormControl
         //    ComboBoxRequired_SelectionChanged(sender, e);
         //}
 
-        //public override async void PrintForm()
-        //{
-        //    DirectPrintContainer.Children.Remove(printableContent);
-
-        //    _printHelper = new PrintHelper(CanvasContainer);
-        //    _printHelper.AddFrameworkElementToPrint(PrintableContent);
-
-        //    _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
-        //    _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
-        //    _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
-
-        //    // Create a new PrintHelperOptions instance
-
-        //    await _printHelper.ShowPrintUIAsync("ICS-213 Message");
-        //}
-
-        //protected override void ReleasePrintHelper()
-        //{
-        //    _printHelper.Dispose();
-
-        //    if (!DirectPrintContainer.Children.Contains(PrintableContent))
-        //    {
-        //        DirectPrintContainer.Children.Add(PrintableContent);
-        //    }
-        //}
-
     }
 }

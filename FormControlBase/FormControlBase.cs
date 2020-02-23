@@ -1413,12 +1413,33 @@ namespace FormControlBaseClass
         public virtual FrameworkElement PrintableContent
         { get;  }
 
+        public virtual FrameworkElement PrintPage1
+        { get; }
+
+        public virtual FrameworkElement PrintPage2        
+        { get; }
+
         public virtual async void PrintForm()
         {
-            DirectPrintContainer.Children.Remove(PrintableContent);
+            //DirectPrintContainer.Children.Remove(PrintableContent);
+            //DirectPrintContainer.Children.Remove(PrintPage1);
 
             _printHelper = new PrintHelper(CanvasContainer);
-            _printHelper.AddFrameworkElementToPrint(PrintableContent);
+            if (PrintPage1 is null)
+            {
+                DirectPrintContainer.Children.Remove(PrintableContent);
+                _printHelper.AddFrameworkElementToPrint(PrintableContent);
+            }
+            else
+            {
+                DirectPrintContainer.Children.Remove(PrintPage1);
+                _printHelper.AddFrameworkElementToPrint(PrintPage1);
+            }
+            if (!(PrintPage2 is null))
+            {
+                DirectPrintContainer.Children.Remove(PrintPage2);
+                _printHelper.AddFrameworkElementToPrint(PrintPage2);
+            }
 
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
@@ -1433,9 +1454,17 @@ namespace FormControlBaseClass
         {
             _printHelper.Dispose();
 
-            if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            if (PrintPage1 is null)
             {
                 DirectPrintContainer.Children.Add(PrintableContent);
+            }
+            else if (PrintPage1 != null && !DirectPrintContainer.Children.Contains(PrintPage1))
+            {
+                DirectPrintContainer.Children.Add(PrintPage1);
+            }
+            if (PrintPage2 != null && !DirectPrintContainer.Children.Contains(PrintPage2))
+            {
+                DirectPrintContainer.Children.Add(PrintPage2);
             }
         }
 
