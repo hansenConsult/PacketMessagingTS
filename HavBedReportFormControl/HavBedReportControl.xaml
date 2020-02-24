@@ -24,10 +24,8 @@
         <Border x:Name="FormHAvBedReport" BorderBrush="Black" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
             <StackPanel>
                 <Grid x:Name="container" Opacity="0" />
-                <Grid x:Name="directPrintContainer">
-                    <StackPanel x:Name="printableContent">
-
-                <!--<Border BorderBrush="Black" BorderThickness="1,1,1,0">-->
+                <StackPanel x:Name="directPrintContainer">
+                    <StackPanel x:Name="printPage1">
                         <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -68,7 +66,6 @@
                                      Header="Destination:"/>
 
                         </Grid>
-                        <!--</Border>-->
                         <StackPanel>
                             <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                                 <Grid.ColumnDefinitions>
@@ -369,7 +366,6 @@
                             <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                    Height="26" Margin="8,12,0,0"/>
                         </Border>
-                        <!--<Border BorderBrush="Black" BorderThickness="1,0,1,1">-->
                         <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -390,7 +386,6 @@
                             <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
                                      Margin="8,4,4,4" Tag="OpRelaySent" />
                         </Grid>
-                        <!--</Border>-->
                         <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -421,7 +416,7 @@
                                  Margin="0" BorderBrush="White" Tag="OpTime" />
                         </Grid>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
 
             </StackPanel>
             

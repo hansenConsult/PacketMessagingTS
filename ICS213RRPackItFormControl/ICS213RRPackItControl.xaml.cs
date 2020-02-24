@@ -81,7 +81,7 @@ namespace ICS213RRPackItFormControl
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        public override FrameworkElement PrintableContent => printableContent;
+        public override FrameworkElement PrintPage1 => printPage1;
 
         public override string CreateSubject()
         {

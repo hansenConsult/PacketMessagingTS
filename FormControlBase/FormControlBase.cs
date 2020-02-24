@@ -1410,8 +1410,8 @@ namespace FormControlBaseClass
         public virtual Panel DirectPrintContainer
         { get;  }
 
-        public virtual FrameworkElement PrintableContent
-        { get;  }
+        //public virtual FrameworkElement PrintableContent
+        //{ get;  }
 
         public virtual FrameworkElement PrintPage1
         { get; }
@@ -1421,14 +1421,10 @@ namespace FormControlBaseClass
 
         public virtual async void PrintForm()
         {
-            //DirectPrintContainer.Children.Remove(PrintableContent);
-            //DirectPrintContainer.Children.Remove(PrintPage1);
-
             _printHelper = new PrintHelper(CanvasContainer);
             if (PrintPage1 is null)
             {
-                DirectPrintContainer.Children.Remove(PrintableContent);
-                _printHelper.AddFrameworkElementToPrint(PrintableContent);
+                // Add messageBox            
             }
             else
             {
@@ -1454,11 +1450,7 @@ namespace FormControlBaseClass
         {
             _printHelper.Dispose();
 
-            if (PrintPage1 is null)
-            {
-                DirectPrintContainer.Children.Add(PrintableContent);
-            }
-            else if (PrintPage1 != null && !DirectPrintContainer.Children.Contains(PrintPage1))
+            if (PrintPage1 != null && !DirectPrintContainer.Children.Contains(PrintPage1))
             {
                 DirectPrintContainer.Children.Add(PrintPage1);
             }
@@ -1477,6 +1469,7 @@ namespace FormControlBaseClass
         {
             ReleasePrintHelper();
 
+            // Add messageBox
             //_logHelper.Log(LogLevel.Error, $"Print failed. {_ICS309ViewModel.OperationalPeriod}");
         }
 

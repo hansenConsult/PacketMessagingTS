@@ -28,8 +28,8 @@
         <Border x:Name="Form213RR" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel >
                 <Grid x:Name="container" Opacity="0" />
-                <Grid x:Name="directPrintContainer">
-                    <StackPanel x:Name="printableContent">
+                <StackPanel x:Name="directPrintContainer">
+                    <StackPanel x:Name="printPage1">
                         <Grid BorderBrush="Black" BorderThickness="0,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -545,7 +545,7 @@
                             <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="16*"/>
-                                    <RowDefinition Height="17*"/>
+                                    <!--<RowDefinition Height="17*"/>-->
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -569,16 +569,15 @@
                                 <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="6,8,7,0" VerticalAlignment="Top" Grid.RowSpan="2" />
                                 <TextBox Grid.Column="5" Name="operatorDate" 
                                          IsReadOnly="True"
-                                         Margin="1,0,49,1" BorderBrush="White" Tag="OpDate" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                                         Margin="1,0,49,0" BorderBrush="White" Tag="OpDate" />
                                 <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="6,8,7,0" VerticalAlignment="Top" Grid.RowSpan="2" />
                                 <TextBox Grid.Column="7" Name="operatorTime" 
                                          IsReadOnly="True"
-                                         Margin="1,0,-1,1" BorderBrush="White" Tag="OpTime" Grid.RowSpan="2" />
+                                         Margin="1,0,1,0" BorderBrush="White" Tag="OpTime"  />
                             </Grid>
                         </StackPanel>
-                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"></StackPanel>-->
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </StackPanel>
         </Border>
     </StackPanel>

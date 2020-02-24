@@ -66,7 +66,7 @@ namespace ICS213PackItFormControl
 
         public override Panel CanvasContainer => container;
 
-        public override FrameworkElement PrintableContent =>  printableContent;
+        public override FrameworkElement PrintPage1 =>  printPage1;
 
         public override string CreateSubject()
 		{
