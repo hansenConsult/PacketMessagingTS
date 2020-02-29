@@ -455,7 +455,7 @@ namespace PacketMessagingTS.Helpers
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
-                await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+                await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
 
                 return;
             }
@@ -528,7 +528,7 @@ namespace PacketMessagingTS.Helpers
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
-                await Utilities.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+                await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
             _formsViewModel.PacketForm = _packetForm;
@@ -662,7 +662,7 @@ namespace PacketMessagingTS.Helpers
             packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
             packetMessage.MessageBody = _packetForm.CreateOutpostData(ref packetMessage);
 
-            bool copy = await Utilities.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
+            bool copy = await ContentDialogs.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
             if (copy)
             {
                 DataPackage dataPackage = new DataPackage
@@ -707,7 +707,7 @@ namespace PacketMessagingTS.Helpers
             if (!string.IsNullOrEmpty(validationResult))
             {
                 validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
-                await Utilities.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
+                await ContentDialogs.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
                 return;
             }
 

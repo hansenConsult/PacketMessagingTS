@@ -27,6 +27,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SharedCode.Helpers;
 
 namespace PacketMessagingTS.Views
 {
@@ -201,7 +202,7 @@ namespace PacketMessagingTS.Views
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                        await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
+                        await ContentDialogs.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                         return;
                     }
                     break;

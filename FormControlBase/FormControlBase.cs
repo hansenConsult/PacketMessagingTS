@@ -1035,16 +1035,6 @@ namespace FormControlBaseClass
                         else
                         {
                             formField.ControlContent = comboBox.SelectedItem?.ToString();
-                            //if (string.IsNullOrEmpty(comboBox.SelectedItem?.ToString()))
-                            //{
-                            //    formField.ControlContent = null;
-                            //}
-                            //else
-                            //{
-                            //    formField.ControlContent = comboBox.SelectedItem?.ToString();
-                            //    //string[] item = (comboBox.SelectedItem.ToString()).Split(new char[] { ' ' });
-                            //    //formField.ControlContent = $"{item[0]}";
-                            //}
                         }
                     }
 				}
@@ -1093,6 +1083,8 @@ namespace FormControlBaseClass
                 if (formField.ControlComboxContent != null)
                 {
                     comboBox.SelectedIndex = formField.ControlComboxContent.SelectedIndex;
+                    //comboBox.SelectedValue = formField.ControlContent;
+
                 }
                 else
                 {
@@ -1359,6 +1351,14 @@ namespace FormControlBaseClass
             //ValidateForm();
         }
 
+        //protected int GetSelectedIndexFromControlContent(ComboBox comboBox, )
+        //{
+        //    int selectedIndex = -1;
+
+
+        //    return selectedIndex;
+        //}
+
         protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -1368,10 +1368,10 @@ namespace FormControlBaseClass
                 {
                     if (formField.ControlName == comboBox.Name)
                     {
+                        //comboBox.SelectedValue = formField.ControlContent;
                         int index = 0;
                         foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
                         {
-                            //if (packItItem.Item == formField.ControlContent)
                             if (packItItem.Data == formField.ControlContent)
                             {
                                 packItItem.SelectedIndex = index;
@@ -1465,11 +1465,12 @@ namespace FormControlBaseClass
             ReleasePrintHelper();
         }
 
-        protected virtual void PrintHelper_OnPrintFailed()
+        protected virtual async void PrintHelper_OnPrintFailed()
         {
             ReleasePrintHelper();
 
             // Add messageBox
+            await ContentDialogs.ShowSingleButtonContentDialogAsync("Print failed");
             //_logHelper.Log(LogLevel.Error, $"Print failed. {_ICS309ViewModel.OperationalPeriod}");
         }
 

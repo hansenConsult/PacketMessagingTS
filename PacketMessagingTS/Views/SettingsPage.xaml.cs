@@ -13,6 +13,7 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.Devices.SerialCommunication;
@@ -102,7 +103,7 @@ namespace PacketMessagingTS.Views
             //}
             if (_PacketSettingsViewmodel.IsAppBarSaveEnabled)
             {
-                bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
+                bool save = await ContentDialogs.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
                 if (save)
                 {
                     PacketSettingsSave_ClickAsync(this, null);
@@ -193,7 +194,7 @@ namespace PacketMessagingTS.Views
                     _identityViewModel.UserCity = "";
                     _identityViewModel.UserMsgPrefix = "";
 
-                    bool retval = await Utilities.ShowDualButtonMessageDialogAsync("The Call-Sign is not in the Address Book. \nPlease select 'Add to Address Book'.", "Add to Address Book");
+                    bool retval = await ContentDialogs.ShowDualButtonMessageDialogAsync("The Call-Sign is not in the Address Book. \nPlease select 'Add to Address Book'.", "Add to Address Book");
                     if (retval)
                     {
                         //AddressBook addressBook = AddressBook.Instance;
@@ -224,12 +225,12 @@ namespace PacketMessagingTS.Views
                             bool success = UserAddressArray.Instance.AddAddressAsync(emptyEntry);
                             if (!success)
                             {
-                                await Utilities.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
+                                await ContentDialogs.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
                             }
                             else
                             {
                                 await UserAddressArray.Instance.SaveAsync();
-                                await Utilities.ShowSingleButtonContentDialogAsync("Call Sign successfully added. Now try to add a user Call Sign again.");
+                                await ContentDialogs.ShowSingleButtonContentDialogAsync("Call Sign successfully added. Now try to add a user Call Sign again.");
                             }
                         }
                     }
@@ -927,7 +928,7 @@ namespace PacketMessagingTS.Views
                 bool success = UserAddressArray.Instance.AddAddressAsync(emptyEntry);
                 if (!success)
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("Error adding a new address book entry.");
                 }
                 ContactsCVS.Source = addressBook.GetContactsGrouped();
                 addressBookSave.IsEnabled = true;
@@ -1094,7 +1095,7 @@ namespace PacketMessagingTS.Views
                 // Must not exist
                 if (DistributionListArray.Instance.DistributionListsDict.TryGetValue(distributionListName.Text, out string items))
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync("The Distribution List already exists.", "Close", "DistributionList List Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("The Distribution List already exists.", "Close", "DistributionList List Error");
                     return;
                 }
                 DistributionList list = new DistributionList()
@@ -1109,7 +1110,7 @@ namespace PacketMessagingTS.Views
                 // Must exist
                 if (!DistributionListArray.Instance.DistributionListsDict.TryGetValue(distributionListName.Text, out string items))
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync("The Distribution List does not exist.", "DistributionList List Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("The Distribution List does not exist.", "DistributionList List Error");
                     return;
                 }
                 DistributionList list = new DistributionList()

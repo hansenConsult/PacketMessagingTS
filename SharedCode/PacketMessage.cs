@@ -705,8 +705,8 @@ namespace SharedCode
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public sealed partial class ComboBoxPackItItem
     {
-        //static Brush _backgroundBrush = new SolidColorBrush(Colors.White);
-        //static Brush _foregroundBrush = new SolidColorBrush(Colors.Black);
+        static Brush _backgroundBrush = new SolidColorBrush(Colors.White);
+        static Brush _foregroundBrush = new SolidColorBrush(Colors.Black);
 
         private string itemField;
 
@@ -716,9 +716,9 @@ namespace SharedCode
 
         private string backgroundColorField;
 
-        private Brush backgroundBrushField;
+        private Brush backgroundBrushField = _backgroundBrush;
 
-        private Brush foregroundBrushField;
+        private Brush foregroundBrushField = _foregroundBrush;
 
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Item

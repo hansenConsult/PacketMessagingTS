@@ -21,6 +21,7 @@ using PacketMessagingTS.ViewModels;
 using SharedCode;
 
 using Windows.UI.Core;
+using SharedCode.Helpers;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
@@ -194,69 +195,74 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             //readPrompt = ReadTo(_TNCPrompt);
 
-            _serialPort.Write("D\r");
+            TNCCommand("D");
+            //_serialPort.Write("D\r");
 
-            readText = ReadLine();
+            //readText = ReadLine();
 
-            _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
+            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
 
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
+            //readText = ReadLine();
+            //_logHelper.Log(LogLevel.Info, readText);
 
-            readPrompt = ReadTo(_TNCPrompt);
+            //readPrompt = ReadTo(_TNCPrompt);
 
-            _serialPort.Write("b\r");
+            TNCCommand("b");
+            //_serialPort.Write("b\r");
+            //readText = ReadLine();
+            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
 
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
+            //readText = ReadLine();
+            //_logHelper.Log(LogLevel.Info, readText);
 
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
+            //readPrompt = ReadTo(_TNCPrompt);
 
-            readPrompt = ReadTo(_TNCPrompt);
+            TNCCommand("Echo on");
+            //_serialPort.Write("Echo on\r");
 
-            _serialPort.Write("Echo on\r");
+            //readText = ReadLine();
+            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
 
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
+            //readText = ReadLine();
+            //_logHelper.Log(LogLevel.Info, readText);
 
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
-
-            readPrompt = ReadTo(_TNCPrompt);
+            //readPrompt = ReadTo(_TNCPrompt);
 
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {
-                _serialPort.Write("my " + Singleton<IdentityViewModel>.Instance.TacticalCallsign + "\r");
+                //_serialPort.Write("my " + Singleton<IdentityViewModel>.Instance.TacticalCallsign + "\r");
+                TNCCommand("my " + Singleton<IdentityViewModel>.Instance.TacticalCallsign);
             }
             else
             {
-                _serialPort.Write("my " + Singleton<IdentityViewModel>.Instance.UserCallsign + "\r");
+                //_serialPort.Write("my " + Singleton<IdentityViewModel>.Instance.UserCallsign + "\r");
+                TNCCommand("my " + Singleton<IdentityViewModel>.Instance.UserCallsign);
             }
-            readText = ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
+            //readText = ReadLine();       // Read command
+            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
 
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
+            //readText = ReadLine();
+            //_logHelper.Log(LogLevel.Info, readText);
 
-            readPrompt = ReadTo(_TNCPrompt);
+            //readPrompt = ReadTo(_TNCPrompt);
 
-            _serialPort.Write("Mon off\r");
+            TNCCommand("Mon off");
+            //_serialPort.Write("Mon off\r");
 
-            readText = ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
+            //readText = ReadLine();       // Read command
+            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
 
-            readText = ReadLine();       // Result for Mon off
-            _logHelper.Log(LogLevel.Info, readText);
+            //readText = ReadLine();       // Result for Mon off
+            //_logHelper.Log(LogLevel.Info, readText);
 
-            readPrompt = ReadTo(_TNCPrompt);
+            //readPrompt = ReadTo(_TNCPrompt);
 
             DateTime dateTime = DateTime.Now;
             string dayTime = $"{dateTime.Year - 2000:d2}{dateTime.Month:d2}{dateTime.Day:d2}{dateTime.Hour:d2}{dateTime.Minute:d2}{dateTime.Second:d2}";
             _serialPort.Write("daytime " + dayTime + "\r");
 
             readText = ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
+            _logHelper.Log(LogLevel.Info, _TNCPrompt + " " + readText);
 
             readPrompt = ReadTo(_TNCPrompt);   // Ready for pre commands
 
@@ -580,6 +586,32 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return readText;
         }
 
+        private void WriteToBBS(string text)
+        {
+            _serialPort.Write(text);
+            string readText = ReadTo(_BBSPromptRN);      // read response eg R 1 plus message
+            _logHelper.Log(LogLevel.Info, readText);
+        }
+
+        private void WriteToTNC(string text)
+        {
+            _serialPort.Write(text + "\r");
+            string readText = ReadLine();
+            _logHelper.Log(LogLevel.Info, readText);
+        }
+
+        private void TNCCommand(string text)
+        {
+            _serialPort.Write(text + "\r");
+            string readText = ReadLine();
+            _logHelper.Log(LogLevel.Info, _TNCPrompt + " " + readText);
+
+            readText = ReadLine();
+            _logHelper.Log(LogLevel.Info, readText);
+
+            ReadTo(_TNCPrompt);
+        }
+
         // Returns the string including readTo, as opposed to SerialPort.ReadTo()
         //private string ReadTo(string readTo)
         //{
@@ -614,7 +646,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //    return readText;
         //}
 
-        private void SendMessage(ref PacketMessage packetMessage)
+        private void SendMessage(PacketMessage packetMessage)
         {
             int readTimeout = _serialPort.ReadTimeout;
             _serialPort.ReadTimeout = 240000;
@@ -702,6 +734,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 if (msgLines[i].Length > 10)
                                 {
                                     pktMsg.Subject = msgLines[i].Substring(9);
+                                    if (pktMsg.Subject.Contains("DELIVERED:"))
+                                        break;
                                 }
                             }
                         }
@@ -747,7 +781,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         receiptMessage.UpdateMessageSize();
                         //_logHelper.Log(LogLevel.Info, $"Message To: {receiptMessage.MessageTo}");       // Disable if not testing
                         //_logHelper.Log(LogLevel.Info, $"Message Body: { receiptMessage.MessageBody}");  // Disable if not testing
-                        SendMessage(ref receiptMessage);            // Disabled for testing
+                        SendMessage(receiptMessage);            // Disabled for testing
                     }
                     catch (Exception e)
                     {
@@ -782,7 +816,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 foreach (string subject in BulletinHelpers.BulletinDictionary[area])
                 {
                     //_logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
-                    if (subject.Trim() == bulletinSubject.Trim())
+                    if (subject.Trim().Contains(bulletinSubject.Trim()))
                     {
                         return true;
                     }
@@ -795,16 +829,18 @@ namespace PacketMessagingTS.Services.CommunicationsService
         {
             string readText;
             _serialPort.ReadTimeout = 240000;
-            //_serialPort.ReadTimeout = 10000;
             try
             {
                 if (area.Length != 0)
                 {
                     //_serialPort.Write($"A {area}\r\x05");        // A XSCPERM
                     _serialPort.Write($"A {area}\r");        // A XSCPERM
-                    readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
-                    _logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
-                    AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
+                    //readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
+                    //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+                    //AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
+                    readText = ReadTo(_BBSPromptRN);        // read response
+                    _logHelper.Log(LogLevel.Info, readText);
+
 
                     if (!_forceReadBulletins && readText.Contains("0 messages"))
                     {
@@ -864,7 +900,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             int msgIndex = Convert.ToInt32(lineSections[1]);
 
                             _serialPort.Write("R " + msgIndex + "\r");
-                            readText = ReadTo(_BBSPromptRN);      // read response eg R1 plus message
+                            readText = ReadTo(_BBSPromptRN);      // read response eg R 1 plus message
                             _logHelper.Log(LogLevel.Info, readText);
 
                             packetMessage.MessageBody = readText.Substring(0, readText.Length - 3); // Remove beginning of prompt
@@ -891,7 +927,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
             finally
             {
-                _serialPort.ReadTimeout = 5000;
+                _serialPort.ReadTimeout = 240000;
             }
         }
 
@@ -965,10 +1001,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 else if (_TncDevice.Name == "XSC_Kenwood_TM-D710A" || _TncDevice.Name == "XSC_Kenwood_TH-D72A")
                 {
                     readCmdText = Kenwood();
+                    // The TNC prompt has been read at this point
                 }
                 else
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync("Unsupported TNC device");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("Unsupported TNC device");
                     _serialPort.Close();
                     return;
                 }
@@ -981,20 +1018,22 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     if (_error)
                         break;
 
-                    _serialPort.Write(commandLine + "\r");
+                    TNCCommand(commandLine);
 
-                    readText = ReadLine();       // Read command
-                    _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
+                    //_serialPort.Write(commandLine + "\r");
 
-                    readText = ReadLine();       // Result for command
-                    _logHelper.Log(LogLevel.Info, readText);
+                    //readText = ReadLine();       // Read command
+                    //_logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
 
-                    readCmdText = ReadTo(_TNCPrompt);	// Next command
+                    //readText = ReadLine();       // Result for command
+                    //_logHelper.Log(LogLevel.Info, readText);
+
+                    //readCmdText = ReadTo(_TNCPrompt);	// Next command
                 }
                 // Connect to JNOS
                 int readTimeout = _serialPort.ReadTimeout;
-                _serialPort.ReadTimeout = 5000;
-                //_serialPort.ReadTimeout = 120000;
+                //_serialPort.ReadTimeout = 5000;
+                _serialPort.ReadTimeout = 240000;
                 BBSConnectTime = DateTime.Now;
 
                 if (_error)
@@ -1015,7 +1054,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (readConnectText.Contains(_TncDevice.Prompts.Timeout))
                 {
                     _logHelper.Log(LogLevel.Error, $"Timeout while connecting to { _bbsConnectName}");
-                    await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                     goto AbortWithoutConnect;
                 }
 
@@ -1030,6 +1069,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Info, readCmdText);
 
                 _logHelper.Log(LogLevel.Info, $"Messages to send: {_packetMessagesToSend.Count}");
+                _serialPort.ReadTimeout = 240000;
                 // Send messages
                 foreach (PacketMessage packetMessage in _packetMessagesToSend)
                 {
@@ -1042,8 +1082,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     if (_bbsConnectName.Contains(packetMessage.BBSName))
                     {
                         // Use SendMessage(ref packetMessage) here
-                        _serialPort.ReadTimeout = 240000;
-                        //_serialPort.ReadTimeout = 5000;
+                        //SendMessage(packetMessage);
                         try
                         {
                             _serialPort.Write("SP " + packetMessage.MessageTo + "\r");
@@ -1068,7 +1107,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             _error = true;
                             //throw;
                         }
-                        _serialPort.ReadTimeout = 5000;
                     }
                 }
 
@@ -1112,15 +1150,16 @@ AbortWithoutConnect:
                 _connectState = ConnectState.PostCommand;
                 foreach (string commandLine in postCommandLines)
                 {
-                    _serialPort.Write(commandLine + "\r");
+                    TNCCommand(commandLine);
+                    //_serialPort.Write(commandLine + "\r");
 
-                    readText = ReadLine();				// Read command
-                    _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
+                    //readText = ReadLine();				// Read command
+                    //_logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
 
-                    readText = ReadLine();              // Command result
-                    _logHelper.Log(LogLevel.Info, readText);
+                    //readText = ReadLine();              // Command result
+                    //_logHelper.Log(LogLevel.Info, readText);
 
-                    readCmdText = ReadTo(_TNCPrompt);	// Next command
+                    //readCmdText = ReadTo(_TNCPrompt);	// Next command
                 }
                 if (!exitedBeforeConnect)
                 {
@@ -1162,40 +1201,40 @@ AbortWithoutConnect:
                         _logHelper.Log(LogLevel.Error, $"Timeout attempting to disconnect after serial port exception.");
                     }
 
-                    await Utilities.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("It appears that the radio is tuned to the wrong frequency,\nor the BBS was out of reach", "Close", "BBS Connect Error");
                 }
                 else if (_connectState == ConnectState.PrepareTNCType)
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("Unable to connect to the TNC.\nIs the TNC on?\nFor Kenwood; is the radio in \"packet12\" mode?", "Close", "BBS Connect Error");
                 }
                 else if (_connectState == ConnectState.ConverseMode)
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
                 }
                 //else if (e.Message.Contains("not exist"))
                 else if (e.GetType() == typeof(IOException))
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync("Looks like the USB or serial cable to the TNC is disconnected", "Close", "TNC Connect Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync("Looks like the USB or serial cable to the TNC is disconnected", "Close", "TNC Connect Error");
                 }
                 else if (e.GetType() == typeof(UnauthorizedAccessException))
                 {
-                    await Utilities.ShowSingleButtonContentDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync($"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application. ", "Close", "TNC Connect Error");
                 }
 
-                if (_connectState == ConnectState.BBSConnected)
-                {
-                    try
-                    {
-                        _serialPort.Write("B\r");
-                        string disconnectString = ReadLine();
-                        _logHelper.Log(LogLevel.Trace, disconnectString);
-                        BBSDisconnectTime = DateTime.Now;
-                    }
-                    catch
-                    {
-                        _logHelper.Log(LogLevel.Error, $"Timeout after attempting to disconnect.");
-                    }
-                }
+                //if (_connectState == ConnectState.BBSConnected)
+                //{
+                //    try
+                //    {
+                //        _serialPort.Write("B\r");
+                //        string disconnectString = ReadLine();
+                //        _logHelper.Log(LogLevel.Trace, disconnectString);
+                //        BBSDisconnectTime = DateTime.Now;
+                //    }
+                //    catch
+                //    {
+                //        _logHelper.Log(LogLevel.Error, $"Timeout after attempting to disconnect.");
+                //    }
+                //}
             }
             finally
             {

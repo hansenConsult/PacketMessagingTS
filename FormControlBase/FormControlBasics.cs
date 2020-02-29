@@ -407,6 +407,7 @@ namespace FormControlBaseClass
                     if (e.AddedItems[0] is ComboBoxPackItItem comboBoxPackItItem)
                     {
                         selection = comboBoxPackItItem.Item;
+                        comboBoxPackItItem.SelectedIndex = comboBox.SelectedIndex;
                         comboBox.Background = comboBoxPackItItem.BackgroundBrush;
                         comboBox.Foreground = comboBoxPackItItem.ForegroundBrush;
                     }

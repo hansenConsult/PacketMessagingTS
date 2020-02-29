@@ -11,7 +11,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.UI.Xaml;
 
 
@@ -647,7 +647,7 @@ namespace PacketMessagingTS.ViewModels
                 TNCState savedState = State;
                 TNCState savedState2;
                 //int savedIndex = TNCDeviceSelectedIndex;
-                bool save = await Utilities.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
+                bool save = await ContentDialogs.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
                     if (save)
                     {
                         savedState2 = State;

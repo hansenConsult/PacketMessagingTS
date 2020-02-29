@@ -101,40 +101,40 @@ namespace PacketMessagingTS.Helpers
             });
         }
 
-        public static async Task ShowSingleButtonContentDialogAsync(string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
-        {
-            ContentDialog contentDialog = new ContentDialog()
-            {
-                Title = title,
-                Content = dialogMessage,
-                CloseButtonText = closeButtonText,
-            };
-            await contentDialog.ShowAsync();
-        }
+        //public static async Task ShowSingleButtonContentDialogAsync(string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
+        //{
+        //    ContentDialog contentDialog = new ContentDialog()
+        //    {
+        //        Title = title,
+        //        Content = dialogMessage,
+        //        CloseButtonText = closeButtonText,
+        //    };
+        //    await contentDialog.ShowAsync();
+        //}
 
-        public static async Task<bool> ShowDualButtonMessageDialogAsync(string dialogMessage, string primaryButtonText = "OK", string closeButtonText = "Cancel", string title = "Packet Messaging")
-        {
-            ContentControl content = new ContentControl();
-            content.Content = new TextBox();
-            ((TextBox)content.Content).AcceptsReturn = true;
-            ((TextBox)content.Content).TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
-            ((TextBox)content.Content).IsReadOnly = true;
-            //ScrollViewer.SetVerticalScrollBarVisibility(content, ScrollBarVisibility.Auto);
-            ((TextBox)content.Content).Text = dialogMessage;
+        //public static async Task<bool> ShowDualButtonMessageDialogAsync(string dialogMessage, string primaryButtonText = "OK", string closeButtonText = "Cancel", string title = "Packet Messaging")
+        //{
+        //    ContentControl content = new ContentControl();
+        //    content.Content = new TextBox();
+        //    ((TextBox)content.Content).AcceptsReturn = true;
+        //    ((TextBox)content.Content).TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
+        //    ((TextBox)content.Content).IsReadOnly = true;
+        //    //ScrollViewer.SetVerticalScrollBarVisibility(content, ScrollBarVisibility.Auto);
+        //    ((TextBox)content.Content).Text = dialogMessage;
 
-            ContentDialog contentDialog = new ContentDialog()
-            {
-                Title = title,
-                Content = content,
-                CloseButtonText = closeButtonText,
-                PrimaryButtonText = primaryButtonText,
-            };
-            ContentDialogResult result = await contentDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-                return true;
-            else
-                return false;
-        }
+        //    ContentDialog contentDialog = new ContentDialog()
+        //    {
+        //        Title = title,
+        //        Content = content,
+        //        CloseButtonText = closeButtonText,
+        //        PrimaryButtonText = primaryButtonText,
+        //    };
+        //    ContentDialogResult result = await contentDialog.ShowAsync();
+        //    if (result == ContentDialogResult.Primary)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         //public static async Task<bool> ShowYesNoMessageDialogAsync(string dialogMessage, string title = "Packet Messaging")
         //{

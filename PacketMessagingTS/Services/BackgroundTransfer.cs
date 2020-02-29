@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using MetroLog;
 
 using PacketMessagingTS.Helpers;
-
+using SharedCode.Helpers;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Web;
@@ -135,7 +135,7 @@ namespace PacketMessagingTS.Models
 
             if (string.IsNullOrWhiteSpace(destination))
             {
-                await Utilities.ShowSingleButtonContentDialogAsync("A local file name is required.");
+                await ContentDialogs.ShowSingleButtonContentDialogAsync("A local file name is required.");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace PacketMessagingTS.Models
             }
             catch (FileNotFoundException ex)
             {
-                await Utilities.ShowSingleButtonContentDialogAsync("Error while creating file: " + ex.Message);
+                await ContentDialogs.ShowSingleButtonContentDialogAsync("Error while creating file: " + ex.Message);
                 return;
             }
 

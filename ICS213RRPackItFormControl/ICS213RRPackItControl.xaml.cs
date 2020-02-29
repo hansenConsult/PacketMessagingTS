@@ -26,6 +26,14 @@ namespace ICS213RRPackItFormControl
 
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {
+        //List<ComboBoxPackItItem> ResourceInfoPriority = new List<ComboBoxPackItItem>
+        //{
+        //        new ComboBoxPackItItem("Now"),
+        //        new ComboBoxPackItItem("High(0-4 hrs.)", "High"),
+        //        new ComboBoxPackItItem("Medium(5-12 hrs.)", "Medium"),
+        //        new ComboBoxPackItItem("Low(12+ hrs.)", "Low"),
+        //};
+
         public ICS213RRPackItControl()
         {
             InitializeComponent();
@@ -213,6 +221,38 @@ namespace ICS213RRPackItFormControl
             }
             UpdateFormFieldsRequiredColors();
         }
+
+        //private void resourceInfoPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (e is null)
+        //        return;
+
+        //    if (e.AddedItems.Count == 0)
+        //        return;
+
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
+        //        {
+        //            if (e.AddedItems[0] is ComboBoxPackItItem comboBoxPackItItem)
+        //            {
+        //                comboBox.Background = comboBoxPackItItem.BackgroundBrush;
+        //                comboBox.Foreground = comboBoxPackItItem.ForegroundBrush;
+
+        //                if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)
+        //                {
+        //                    comboBox.BorderBrush = formControl.RequiredBorderBrush;
+        //                    comboBox.BorderThickness = new Thickness(2);
+        //                }
+        //                else
+        //                {
+        //                    comboBox.BorderBrush = formControl.BaseBorderColor;
+        //                    comboBox.BorderThickness = new Thickness(1);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         //public override async void PrintForm()
         //{

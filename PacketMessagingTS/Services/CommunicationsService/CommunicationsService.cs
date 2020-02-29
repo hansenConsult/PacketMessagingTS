@@ -19,7 +19,7 @@ using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -154,7 +154,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                        await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
+                        await ContentDialogs.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                         return;
                     }
                     break;
@@ -442,7 +442,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                                await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
+                                await ContentDialogs.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                                 return;
                             }
                             pktMsg.SenderMessageNumber = FormControlBase.GetOutpostValue(msgLines[i + 1]);
@@ -460,7 +460,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
-                                await Utilities.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
+                                await ContentDialogs.ShowSingleButtonContentDialogAsync($"Form {pktMsg.PacFormName} not found");
                                 return;
                             }
                             pktMsg.SenderMessageNumber = FormControlBase.GetOutpostValue(msgLines[i + 2]);
@@ -693,7 +693,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (formControl is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");
-                    await Utilities.ShowSingleButtonContentDialogAsync($"Form {packetMessage.PacFormName} not found");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync($"Form {packetMessage.PacFormName} not found");
                     continue;
                 }
                 packetMessage.MessageBody = formControl.CreateOutpostData(ref packetMessage);

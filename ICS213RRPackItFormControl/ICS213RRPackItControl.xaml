@@ -9,8 +9,7 @@
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
 
     mc:Ignorable="d"
-    d:DesignHeight="1100"
-    d:DesignWidth="800">
+    d:DesignWidth="800" Height="1025">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -405,14 +404,15 @@
                                      TextChanged="TextBox_TextChanged"
                                      Tag="30.,required,Enter 10. Arrival Date/Time."/>
                                     <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
-                                    <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" Margin="4" Tag="31.,required"
-                                      SelectionChanged="ComboBox_SelectionChanged" 
-                                      HorizontalAlignment="Stretch" >
-                                        <x:String>Now</x:String>
-                                        <x:String>High (0-4 hrs.)</x:String>
-                                        <x:String>Medium (5-12 hrs.)</x:String>
-                                        <x:String>Low (12+ hrs.)</x:String>
-                                    </ComboBox>
+                                    <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" Margin="4,4,4,0" 
+                                              Tag="31.,required" MinWidth="124"
+                                              Style="{StaticResource MuniStatusComboBox}"
+                                              DisplayMemberPath="Item"
+                                              SelectedValuePath="Data"
+                                              ItemsSource="{x:Bind Priority, Mode=OneWay}" 
+                                              Loaded="ComboBox_Loaded"                                              
+                                              SelectionChanged="ComboBox_SelectionChanged"
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
                                     <TextBox Grid.Column="4" Grid.Row="2" Name="resourceInfoCost1"  
                                      InputScope="CurrencyAmount" 
                                      AcceptsReturn="True" Margin="4" MinWidth="0" Tag="32."/>
