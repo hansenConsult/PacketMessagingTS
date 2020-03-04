@@ -81,7 +81,8 @@ namespace MedicalHealthBranchRRFormControl
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        public override FrameworkElement PrintPage1 => printPage1;
+        //public override Panel PrintPage1 => printPage1;
+        public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
         public override string CreateSubject()
         {

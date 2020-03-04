@@ -196,66 +196,21 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //readPrompt = ReadTo(_TNCPrompt);
 
             TNCCommand("D");
-            //_serialPort.Write("D\r");
-
-            //readText = ReadLine();
-
-            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-
-            //readText = ReadLine();
-            //_logHelper.Log(LogLevel.Info, readText);
-
-            //readPrompt = ReadTo(_TNCPrompt);
 
             TNCCommand("b");
-            //_serialPort.Write("b\r");
-            //readText = ReadLine();
-            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-
-            //readText = ReadLine();
-            //_logHelper.Log(LogLevel.Info, readText);
-
-            //readPrompt = ReadTo(_TNCPrompt);
 
             TNCCommand("Echo on");
-            //_serialPort.Write("Echo on\r");
-
-            //readText = ReadLine();
-            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-
-            //readText = ReadLine();
-            //_logHelper.Log(LogLevel.Info, readText);
-
-            //readPrompt = ReadTo(_TNCPrompt);
 
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {
-                //_serialPort.Write("my " + Singleton<IdentityViewModel>.Instance.TacticalCallsign + "\r");
                 TNCCommand("my " + Singleton<IdentityViewModel>.Instance.TacticalCallsign);
             }
             else
             {
-                //_serialPort.Write("my " + Singleton<IdentityViewModel>.Instance.UserCallsign + "\r");
                 TNCCommand("my " + Singleton<IdentityViewModel>.Instance.UserCallsign);
             }
-            //readText = ReadLine();       // Read command
-            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-
-            //readText = ReadLine();
-            //_logHelper.Log(LogLevel.Info, readText);
-
-            //readPrompt = ReadTo(_TNCPrompt);
 
             TNCCommand("Mon off");
-            //_serialPort.Write("Mon off\r");
-
-            //readText = ReadLine();       // Read command
-            //_logHelper.Log(LogLevel.Info, readPrompt + " " + readText);
-
-            //readText = ReadLine();       // Result for Mon off
-            //_logHelper.Log(LogLevel.Info, readText);
-
-            //readPrompt = ReadTo(_TNCPrompt);
 
             DateTime dateTime = DateTime.Now;
             string dayTime = $"{dateTime.Year - 2000:d2}{dateTime.Month:d2}{dateTime.Day:d2}{dateTime.Hour:d2}{dateTime.Minute:d2}{dateTime.Second:d2}";
@@ -1019,16 +974,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         break;
 
                     TNCCommand(commandLine);
-
-                    //_serialPort.Write(commandLine + "\r");
-
-                    //readText = ReadLine();       // Read command
-                    //_logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-
-                    //readText = ReadLine();       // Result for command
-                    //_logHelper.Log(LogLevel.Info, readText);
-
-                    //readCmdText = ReadTo(_TNCPrompt);	// Next command
                 }
                 // Connect to JNOS
                 int readTimeout = _serialPort.ReadTimeout;
@@ -1151,15 +1096,6 @@ AbortWithoutConnect:
                 foreach (string commandLine in postCommandLines)
                 {
                     TNCCommand(commandLine);
-                    //_serialPort.Write(commandLine + "\r");
-
-                    //readText = ReadLine();				// Read command
-                    //_logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
-
-                    //readText = ReadLine();              // Command result
-                    //_logHelper.Log(LogLevel.Info, readText);
-
-                    //readCmdText = ReadTo(_TNCPrompt);	// Next command
                 }
                 if (!exitedBeforeConnect)
                 {

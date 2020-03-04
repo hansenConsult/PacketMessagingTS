@@ -7,6 +7,8 @@ using FormControlBaseClass;
 using SharedCode;
 using SharedCode.Helpers;
 
+using Windows.UI.Xaml.Controls;
+
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 namespace MessageFormControl
@@ -90,6 +92,12 @@ namespace MessageFormControl
         {
             messageBody.Text += DrillTraffic;
         }
+
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
         protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {

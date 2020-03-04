@@ -1351,14 +1351,6 @@ namespace FormControlBaseClass
             //ValidateForm();
         }
 
-        //protected int GetSelectedIndexFromControlContent(ComboBox comboBox, )
-        //{
-        //    int selectedIndex = -1;
-
-
-        //    return selectedIndex;
-        //}
-
         protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -1404,44 +1396,67 @@ namespace FormControlBaseClass
         //}
 
         #region Print
-        public virtual Panel CanvasContainer
+        public abstract Panel CanvasContainer
         { get;  }
 
-        public virtual Panel DirectPrintContainer
+        public abstract Panel DirectPrintContainer
         { get;  }
 
-        //public virtual FrameworkElement PrintableContent
-        //{ get;  }
-
-        public virtual FrameworkElement PrintPage1
+        public abstract List<Panel> PrintPanels
         { get; }
 
-        public virtual FrameworkElement PrintPage2        
-        { get; }
+        private void PrintPages(List<Panel> printPanels)
+        {
+            for (int i = 0; i < printPanels.Count; i++)
+            {
+                bool footerFound = false;
+                foreach (FrameworkElement child in printPanels[i].Children)
+                {
+                    if (child is TextBlock textBlock && textBlock.Text.Contains($"page {i + 1} of"))
+                    {
+                        footerFound = true;
+                        break;
+                    }
+                }
+
+                if (!footerFound)
+                {
+                    string footerText = $"page {i + 1} of {printPanels.Count}, Message Number: {MessageNo}";
+                    TextBlock footer = new TextBlock
+                    {
+                        Text = footerText,
+                        Margin = new Thickness(0, 20, 0, 0),
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    };
+                    printPanels[i].Children.Add(footer);
+                }
+            }
+        }
 
         public virtual async void PrintForm()
         {
+            if (CanvasContainer is null || PrintPanels is null || DirectPrintContainer is null)
+                return;
+
             _printHelper = new PrintHelper(CanvasContainer);
-            if (PrintPage1 is null)
+
+            List<Panel> printPanels = PrintPanels;
+
+            for (int i = 0; i < printPanels.Count; i++)
             {
-                // Add messageBox            
+                DirectPrintContainer.Children.Remove(printPanels[i]);
             }
-            else
+
+            PrintPages(printPanels);
+
+            for (int i = 0; i < PrintPanels.Count; i++)
             {
-                DirectPrintContainer.Children.Remove(PrintPage1);
-                _printHelper.AddFrameworkElementToPrint(PrintPage1);
-            }
-            if (!(PrintPage2 is null))
-            {
-                DirectPrintContainer.Children.Remove(PrintPage2);
-                _printHelper.AddFrameworkElementToPrint(PrintPage2);
+                _printHelper.AddFrameworkElementToPrint(printPanels[i]);
             }
 
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
-
-            //// Create a new PrintHelperOptions instance
 
             await _printHelper.ShowPrintUIAsync("  ");
         }
@@ -1450,13 +1465,18 @@ namespace FormControlBaseClass
         {
             _printHelper.Dispose();
 
-            if (PrintPage1 != null && !DirectPrintContainer.Children.Contains(PrintPage1))
+            for (int i = 0; i < PrintPanels.Count; i++)
             {
-                DirectPrintContainer.Children.Add(PrintPage1);
-            }
-            if (PrintPage2 != null && !DirectPrintContainer.Children.Contains(PrintPage2))
-            {
-                DirectPrintContainer.Children.Add(PrintPage2);
+                if (PrintPanels[i] != null && !DirectPrintContainer.Children.Contains(PrintPanels[i]))
+                {
+                    foreach (FrameworkElement child in PrintPanels[i].Children)
+                    {
+                        if (child is TextBlock textBlock && textBlock.Text.Contains($"page {i} of"))
+                            PrintPanels[i].Children.Remove(child);
+                    }
+
+                    DirectPrintContainer.Children.Add(PrintPanels[i]);
+                }
             }
         }
 
@@ -1469,9 +1489,8 @@ namespace FormControlBaseClass
         {
             ReleasePrintHelper();
 
-            // Add messageBox
             await ContentDialogs.ShowSingleButtonContentDialogAsync("Print failed");
-            //_logHelper.Log(LogLevel.Error, $"Print failed. {_ICS309ViewModel.OperationalPeriod}");
+            //logHelper.Log(LogLevel.Error, $"Print failed. {_ICS309ViewModel.OperationalPeriod}");
         }
 
         protected virtual void PrintHelper_OnPrintCanceled()

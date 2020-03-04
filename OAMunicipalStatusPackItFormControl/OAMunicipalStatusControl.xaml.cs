@@ -96,12 +96,6 @@ namespace OAMunicipalStatusPackItFormControl
             InitializeToggleButtonGroups();
         }
 
-        //public string JurisdictionName
-        //{
-        //    get => jurisdictionName.SelectedValue as string;
-        //    set => jurisdictionName.SelectedValue = value;
-        //}
-
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
@@ -117,12 +111,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        //public override FrameworkElement PrintableContent => printableContent;
-
-        public override FrameworkElement PrintPage1 => printPage1;
-
-        public override FrameworkElement PrintPage2 => printPage2;
-
+        public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
 
         public override string CreateSubject()
         {

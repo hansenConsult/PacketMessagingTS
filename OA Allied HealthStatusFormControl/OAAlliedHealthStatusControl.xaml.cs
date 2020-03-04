@@ -82,9 +82,11 @@ namespace OAAlliedHealthStatus201802FormControl
 
         //public override FrameworkElement PrintableContent => printableContent;
 
-        public override FrameworkElement PrintPage1 => printPage1;
+        //public override Panel PrintPage1 => printPage1;
 
-        public override FrameworkElement PrintPage2 => printPage2;
+        //public override Panel PrintPage2 => printPage2;
+
+        public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
 
         public string FacilityStatus
         { get; set; }
