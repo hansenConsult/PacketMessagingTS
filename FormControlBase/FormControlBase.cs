@@ -65,6 +65,8 @@ namespace FormControlBaseClass
         protected List<string> outpostData;
         protected List<string> _ICSPositionFiltered = new List<string>();
 
+        protected List<Panel> _printPanels;
+
         protected string[] ICSPosition = new string[] {
                 "Incident Commander",
                 "Operations",
@@ -1405,12 +1407,12 @@ namespace FormControlBaseClass
         public abstract List<Panel> PrintPanels
         { get; }
 
-        private void PrintPages(List<Panel> printPanels)
+        protected void AddFooter()
         {
-            for (int i = 0; i < printPanels.Count; i++)
+            for (int i = 0; i < _printPanels.Count; i++)
             {
                 bool footerFound = false;
-                foreach (FrameworkElement child in printPanels[i].Children)
+                foreach (FrameworkElement child in _printPanels[i].Children)
                 {
                     if (child is TextBlock textBlock && textBlock.Text.Contains($"page {i + 1} of"))
                     {
@@ -1421,37 +1423,50 @@ namespace FormControlBaseClass
 
                 if (!footerFound)
                 {
-                    string footerText = $"page {i + 1} of {printPanels.Count}, Message Number: {MessageNo}";
+                    string footerText = $"page {i + 1} of {_printPanels.Count}, Message Number: {MessageNo}";
                     TextBlock footer = new TextBlock
                     {
                         Text = footerText,
                         Margin = new Thickness(0, 20, 0, 0),
                         HorizontalAlignment = HorizontalAlignment.Center
                     };
-                    printPanels[i].Children.Add(footer);
+                    if (_printPanels[i].GetType() == typeof(Grid))
+                    {
+                        Grid grid = _printPanels[i] as Grid;
+                        grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                        Grid.SetRow(footer, grid.RowDefinitions.Count - 1);
+                        grid.Children.Add(footer);
+
+                    }
+                    else
+                    {
+                        _printPanels[i].Children.Add(footer);
+                    }
                 }
             }
         }
 
         public virtual async void PrintForm()
         {
-            if (CanvasContainer is null || PrintPanels is null || DirectPrintContainer is null)
+            if (CanvasContainer is null || DirectPrintContainer is null)
                 return;
 
             _printHelper = new PrintHelper(CanvasContainer);
 
-            List<Panel> printPanels = PrintPanels;
+            _printPanels = PrintPanels;
+            if (_printPanels is null || _printPanels.Count == 0)
+                return;
 
-            for (int i = 0; i < printPanels.Count; i++)
+            for (int i = 0; i < _printPanels.Count; i++)
             {
-                DirectPrintContainer.Children.Remove(printPanels[i]);
+                DirectPrintContainer.Children.Remove(_printPanels[i]);
             }
 
-            PrintPages(printPanels);
+            AddFooter();
 
-            for (int i = 0; i < PrintPanels.Count; i++)
+            for (int i = 0; i < _printPanels.Count; i++)
             {
-                _printHelper.AddFrameworkElementToPrint(printPanels[i]);
+                _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
             }
 
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
@@ -1465,17 +1480,17 @@ namespace FormControlBaseClass
         {
             _printHelper.Dispose();
 
-            for (int i = 0; i < PrintPanels.Count; i++)
+            for (int i = 0; i < _printPanels.Count; i++)
             {
-                if (PrintPanels[i] != null && !DirectPrintContainer.Children.Contains(PrintPanels[i]))
+                if (_printPanels[i] != null && !DirectPrintContainer.Children.Contains(_printPanels[i]))
                 {
-                    foreach (FrameworkElement child in PrintPanels[i].Children)
+                    foreach (FrameworkElement child in _printPanels[i].Children)
                     {
                         if (child is TextBlock textBlock && textBlock.Text.Contains($"page {i} of"))
-                            PrintPanels[i].Children.Remove(child);
+                            _printPanels[i].Children.Remove(child);
                     }
 
-                    DirectPrintContainer.Children.Add(PrintPanels[i]);
+                    DirectPrintContainer.Children.Add(_printPanels[i]);
                 }
             }
         }

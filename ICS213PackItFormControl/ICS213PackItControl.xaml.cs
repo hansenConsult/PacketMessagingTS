@@ -11,6 +11,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -24,6 +25,9 @@ namespace ICS213PackItFormControl
 
 	public partial class ICS213PackItControl : FormControlBase
 	{
+        ScrollViewer _scrollViewer;
+        double _messageBoxHeight;
+
         public ICS213PackItControl()
         {
             InitializeComponent();
@@ -37,6 +41,9 @@ namespace ICS213PackItFormControl
             otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
+
+            
+            _messageBoxHeight = message.Height;
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -66,8 +73,102 @@ namespace ICS213PackItFormControl
 
         public override Panel CanvasContainer => container;
 
-        //public override Panel PrintPage1 =>  printPage1;
-        public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
+        public override List<Panel> PrintPanels
+        {
+            get
+            {
+                _scrollViewer = FindVisualChild<ScrollViewer>(message);
+                if (!(_scrollViewer is null))
+                {
+                    double schollViewerHeight = _scrollViewer.ExtentHeight;
+                    if (_messageBoxHeight < _scrollViewer.ExtentHeight)
+                    {
+                        List<Panel> printPages = new List<Panel>();
+                        string originalMessage = message.Text;
+                        int pageCount = Math.Min((int)(schollViewerHeight / _messageBoxHeight) + 1, 2);
+                        for (int i = 0; i < pageCount; i++)
+                        {
+                            if (i == 0)
+                            {
+                                _scrollViewer.ChangeView(null, 0, null, true);
+                                printPages.Add(printPage1);
+                            }
+                            else
+                            {
+                                var grid = new Grid();
+                                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                                grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                                //grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+
+                                // Header
+                                TextBlock header = new TextBlock { Text = $"ICS 213 Message, message number: {MessageNo}", Margin = new Thickness(0, 0, 0, 20) };
+                                Grid.SetRow(header, 0);
+                                grid.Children.Add(header);
+
+                                // Main content
+                                TextBox messageBox = new TextBox() 
+                                {
+                                    BorderThickness = new Thickness(0,0,0,0),
+                                    AcceptsReturn = true,
+                                    TextWrapping = TextWrapping.Wrap,
+                                    Text = message.Text,
+                                };
+                                Grid.SetRow(messageBox, 1);
+                                grid.Children.Add(messageBox);
+
+                                printPages.Add(grid);
+                            }
+                        }
+                        return printPages;
+                    }
+                }
+                return new List<Panel> { printPage1 };
+            }
+        }
+
+        public override async void PrintForm()
+        {
+            if (CanvasContainer is null || DirectPrintContainer is null)
+                return;
+
+            _printPanels = PrintPanels;
+            if (_printPanels is null || _printPanels.Count == 0)
+                return;
+
+            _printHelper = new PrintHelper(CanvasContainer);
+
+            DirectPrintContainer.Children.Remove(_printPanels[0]);
+
+            AddFooter();
+
+            for (int i = 0; i < _printPanels.Count; i++)
+            {
+                _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
+            }
+
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            await _printHelper.ShowPrintUIAsync("  ");
+        }
+
+        protected override void ReleasePrintHelper()
+        {
+            _printHelper.Dispose();
+
+            if (_printPanels[0] != null && !DirectPrintContainer.Children.Contains(_printPanels[0]))
+            {
+                foreach (FrameworkElement child in _printPanels[0].Children)
+                {
+                    if (child is TextBlock textBlock && textBlock.Text.Contains($"page 1 of"))
+                        _printPanels[0].Children.Remove(child);
+                }
+
+                DirectPrintContainer.Children.Add(_printPanels[0]);
+            }
+        }
 
         public override string CreateSubject()
 		{
@@ -130,6 +231,23 @@ namespace ICS213PackItFormControl
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
+        }
+
+        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                    return (T)child;
+                else
+                {
+                    T childOfChild = FindVisualChild<T>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
         }
 
         //private void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)

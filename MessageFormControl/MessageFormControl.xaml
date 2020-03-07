@@ -20,7 +20,7 @@
         <Grid x:Name="container" Opacity="0" />
         <StackPanel x:Name="directPrintContainer">
             <StackPanel x:Name="printPage1" >
-                <Grid x:Name="inBoxHeader" Visibility="{x:Bind InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="12">
+                <Grid x:Name="inBoxHeader" Visibility="{x:Bind InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="88" />
                         <ColumnDefinition Width="*" />
@@ -68,7 +68,7 @@
                 <TextBox x:Name="messageBody" AcceptsReturn="True" IsTapEnabled="True" TextWrapping="Wrap" 
 				         PlaceholderText="Write message here" 
 				         Tag="0,required,Please write a message"/>
-                <!--<RichTextBox x:Name="messageBody" FontFamily="Courier New" FontSize="12" Height="100" AcceptsReturn="True" AcceptsTab="True" Margin="5" Tag="required">
+                <!--<RichTextBox x:Name="messageBody" FontFamily="Courier New" FontSize="12" Height="100" AcceptsReturn="True" AcceptsTab="True" Margin="5" Tag="0,required">
 			<FlowDocument>
 				<Paragraph>
 					<Run Text="RichTextBox"/>

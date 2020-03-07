@@ -747,10 +747,10 @@ namespace PacketMessagingTS.Helpers
 
         #region Print
 
-        public  void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            _packetForm.PrintForm();
-        }
+        //public  void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
+        //{
+        //    _packetForm.PrintForm();
+        //}
         #endregion Print
     }
 }
