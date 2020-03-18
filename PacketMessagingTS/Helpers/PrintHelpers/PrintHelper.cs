@@ -421,7 +421,8 @@ namespace PacketMessagingTS.Helpers.PrintHelpers
             // Report the number of preview pages created
             _printCanvas.UpdateLayout();
             printDoc.SetPreviewPageCount(_printPreviewPages.Count, PreviewPageCountType.Intermediate);
-            printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[_printPreviewPages.Count - 1]);
+            //printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[_printPreviewPages.Count - 1]);
+            printDoc.SetPreviewPage(1, _printPreviewPages[0]);
         }
 
         /// <summary>

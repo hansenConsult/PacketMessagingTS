@@ -8,8 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using MetroLog;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+//using Microsoft.Toolkit.Uwp.Helpers;
+//using Microsoft.Toolkit.Uwp.UI.Controls;
 
 using PacketMessagingTS.Core.Helpers;
 
@@ -21,6 +21,8 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Helpers.PrintHelpers;
+
 using Windows.Graphics.Printing;
 using Windows.Graphics.Printing.OptionDetails;
 using Windows.Storage;

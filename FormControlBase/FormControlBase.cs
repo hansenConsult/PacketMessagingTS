@@ -5,6 +5,7 @@ using System.Text;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Helpers.PrintHelpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -14,7 +15,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Microsoft.Toolkit.Uwp.Helpers;
+//using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml.Documents;
 
 namespace FormControlBaseClass

@@ -114,7 +114,6 @@
     <Compile Include="MessageFormControl.xaml.cs">
       <DependentUpon>MessageFormControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PrintHelperOptions.cs" />
     <Compile Include="PrintHelperStateBag.cs" />
     <Compile Include="PrintHelperToolkit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

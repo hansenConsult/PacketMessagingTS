@@ -8,14 +8,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Toolkit.Uwp.Helpers;
-//using SharedCode.Helpers.PrintHelpers;
+
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
 
-namespace MessageFormControl
+namespace SharedCode.Helpers.PrintHelpers
 {
     /// <summary>
     /// Helper class used to simplify document printing.
@@ -75,12 +75,6 @@ namespace MessageFormControl
         private List<FrameworkElement> _printPreviewPages;
 
         /// <summary>
-        /// First page in the printing-content series
-        /// From this "virtual sized" paged content is split(text is flowing) to "printing pages"
-        /// </summary>
-        private Page _firstPage;
-
-        /// <summary>
         /// A hidden canvas used to hold pages we wish to print.
         /// </summary>
         private Canvas _printCanvas;
@@ -112,12 +106,17 @@ namespace MessageFormControl
         /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
         public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
         {
-            _canvasContainer = canvasContainer ?? throw new ArgumentNullException();
-            _canvasContainer.RequestedTheme = ElementTheme.Light;
+            if (canvasContainer == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             _printPreviewPages = new List<FrameworkElement>();
             _printCanvas = new Canvas();
             _printCanvas.Opacity = 0;
+
+            _canvasContainer = canvasContainer;
+            _canvasContainer.RequestedTheme = ElementTheme.Light;
 
             _elementsToPrint = new List<FrameworkElement>();
 
@@ -166,13 +165,7 @@ namespace MessageFormControl
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ShowPrintUIAsync(string printTaskName, bool directPrint = false)
         {
-            if (_firstPage == null)
-            {
-                _firstPage = new Page();
-                _firstPage.Content = _elementsToPrint[0];
-            }
-
-            _directPrint = directPrint;
+            this._directPrint = directPrint;
 
             PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested += PrintTaskRequested;
@@ -227,28 +220,6 @@ namespace MessageFormControl
             _printDocument.GetPreviewPage += GetPrintPreviewPage;
             _printDocument.AddPages += AddPrintPages;
         }
-
-        ///// <summary>
-        ///// Method that will generate print content for the scenario
-        ///// For scenarios 1-4: it will create the first page from which content will flow
-        ///// Scenario 5 uses a different approach
-        ///// </summary>
-        ///// <param name="page">The page to print</param>
-        //public void PreparePrintContent(Page page)
-        //{
-        //    if (_firstPage == null)
-        //    {
-        //        _firstPage = page;
-        //        //StackPanel header = (StackPanel)firstPage.FindName("Header");
-        //        //header.Visibility = Windows.UI.Xaml.Visibility.Visible;
-        //    }
-
-        //    // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
-        //    // through layout so that the linked containers correctly distribute the content inside them.
-        //    _printCanvas.Children.Add(_firstPage);
-        //    _printCanvas.InvalidateMeasure();
-        //    _printCanvas.UpdateLayout();
-        //}
 
         private async Task DetachCanvas()
         {
@@ -436,28 +407,13 @@ namespace MessageFormControl
                 // Clear the print canvas of preview pages
                 _printCanvas.Children.Clear();
 
-                //var printPageTasks = new List<Task>();
-                //foreach (var element in _elementsToPrint)
-                //{
-                //    printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
-                //}
-
-                //await Task.WhenAll(printPageTasks);
-
-                // This variable keeps track of the last RichTextBlockOverflow element that was added to a page which will be printed
-                RichTextBlockOverflow lastRTBOOnPage;
-
-                // We know there is at least one page to be printed. passing null as the first parameter to
-                // AddOnePrintPreviewPage tells the function to add the first page.
-                lastRTBOOnPage = AddOnePrintPreviewPage(null, pageDescription);
-
-                // We know there are more pages to be added as long as the last RichTextBoxOverflow added to a print preview
-                // page has extra content
-                while (lastRTBOOnPage.HasOverflowContent && lastRTBOOnPage.Visibility == Windows.UI.Xaml.Visibility.Visible)
+                var printPageTasks = new List<Task>();
+                foreach (var element in _elementsToPrint)
                 {
-                    lastRTBOOnPage = AddOnePrintPreviewPage(lastRTBOOnPage, pageDescription);
+                    printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
                 }
 
+                await Task.WhenAll(printPageTasks);
             }
 
             OnPreviewPagesCreated?.Invoke(_printPreviewPages);
@@ -515,50 +471,17 @@ namespace MessageFormControl
         /// <param name="element">FrameworkElement used to represent the "printing page"</param>
         /// <param name="printPageDescription">Printer's page description</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private RichTextBlockOverflow AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
+        private Task AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
         {
             var page = new Page();
-            Grid printableArea = null;
 
-            // Check if this is the first page ( no previous RichTextBlockOverflow)
-            if (element == null)
+            // Save state
+            if (!_stateBags.ContainsKey(element))
             {
-                // If this is the first page add the specific scenario content
-                page = _firstPage;
-
-                printableArea = page.FindName("printableArea") as Grid;
-                FrameworkElement fre = page.Content as FrameworkElement;
-                string name = fre.Name;
-                printableArea = fre.FindName("printableArea") as Grid;
-                //if (_elementsToPrint[0].GetType() == typeof(Grid))
-                //{
-                    printableArea = _elementsToPrint[0] as Grid;
-                //}
-
-                //Save state
-                if (!_stateBags.ContainsKey(printableArea))
-                {
-                    var stateBag = new PrintHelperStateBag();
-                    stateBag.Capture(printableArea);
-                    _stateBags.Add(printableArea, stateBag);
-                }
+                var stateBag = new PrintHelperStateBag();
+                stateBag.Capture(element);
+                _stateBags.Add(element, stateBag);
             }
-            else
-            {
-                // Save state
-                if (!_stateBags.ContainsKey(element))
-                {
-                    var stateBag = new PrintHelperStateBag();
-                    stateBag.Capture(element);
-                    _stateBags.Add(element, stateBag);
-                }
-
-                // Flow content (text) from previous pages
-                page = new ContinuationPage(element as RichTextBlockOverflow);
-
-                printableArea = page.FindName("printableArea") as Grid;
-            }
-
 
             // Set "paper" width
             page.Width = printPageDescription.PageSize.Width;
@@ -568,68 +491,40 @@ namespace MessageFormControl
             double marginWidth = Math.Max(printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Width, printPageDescription.PageSize.Width * ApplicationContentMarginLeft * 2);
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
-            //printableArea = page.FindName("printableArea") as Grid;
+            // Set up the "printable area" on the "paper"
+            element.VerticalAlignment = VerticalAlignment.Top;
+            element.HorizontalAlignment = HorizontalAlignment.Left;
 
-            if (printableArea != null)
+            if (element.Width > element.Height)
             {
-                // Set up the "printable area" on the "paper"
-                printableArea.Width = _firstPage.Width - marginWidth;
-                printableArea.Height = _firstPage.Height - marginHeight;
+                var newWidth = page.Width - marginWidth;
+
+                element.Height = element.Height * (newWidth / element.Width);
+                element.Width = newWidth;
+            }
+            else
+            {
+                var newHeight = page.Height - marginHeight;
+
+                element.Width = element.Width * (newHeight / element.Height);
+                element.Height = newHeight;
             }
 
-            //element.VerticalAlignment = VerticalAlignment.Top;
-            //element.HorizontalAlignment = HorizontalAlignment.Left;
+            element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
+            page.Content = element;
 
-            //if (element.Width > element.Height)
-            //{
-            //    var newWidth = page.Width - marginWidth;
+            return DispatcherHelper.ExecuteOnUIThreadAsync(
+                () =>
+                {
+                    // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
+                    // through layout so that the linked containers correctly distribute the content inside them.
+                    _printCanvas.Children.Add(page);
+                    _printCanvas.UpdateLayout();
+                    _printCanvas.InvalidateMeasure();
 
-            //    element.Height = element.Height * (newWidth / element.Width);
-            //    element.Width = newWidth;
-            //}
-            //else
-            //{
-            //    var newHeight = page.Height - marginHeight;
-
-            //    element.Width = element.Width * (newHeight / element.Height);
-            //    element.Height = newHeight;
-            //}
-
-            //element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
-            //page.Content = element;
-
-            // Add the (newley created) page to the print canvas which is part of the visual tree and force it to go
-            // through layout so that the linked containers correctly distribute the content inside them.
-            _printCanvas.Children.Add(page);
-            _printCanvas.InvalidateMeasure();
-            _printCanvas.UpdateLayout();
-
-            // Find the last text container and see if the content is overflowing
-            RichTextBlockOverflow textLink = (RichTextBlockOverflow)page.FindName("ContinuationPageLinkedContainer");
-
-            // Check if this is the last page
-            if (!textLink.HasOverflowContent && textLink.Visibility == Visibility.Visible)
-            {
-                _printCanvas.UpdateLayout();
-            }
-
-            // Add the page to the page preview collection
-            _printPreviewPages.Add(page);
-
-            return textLink;
-
-            //return DispatcherHelper.ExecuteOnUIThreadAsync(
-            //    () =>
-            //    {
-            //        // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
-            //        // through layout so that the linked containers correctly distribute the content inside them.
-            //        _printCanvas.Children.Add(page);
-            //        _printCanvas.UpdateLayout();
-            //        _printCanvas.InvalidateMeasure();
-
-            //        // Add the page to the page preview collection
-            //        _printPreviewPages.Add(page);
-            //    }, Windows.UI.Core.CoreDispatcherPriority.High);
+                    // Add the page to the page preview collection
+                    _printPreviewPages.Add(page);
+                }, Windows.UI.Core.CoreDispatcherPriority.High);
         }
 
         private Task ClearPageCache()

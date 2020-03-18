@@ -40,7 +40,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.Helpers;
+//using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace PacketMessagingTS.Helpers
 {
