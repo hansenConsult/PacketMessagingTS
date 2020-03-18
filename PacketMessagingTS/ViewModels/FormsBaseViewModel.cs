@@ -10,12 +10,12 @@ namespace PacketMessagingTS.ViewModels
 {
     public class FormsBaseViewModel : BaseViewModel
     {
-        private int formsPagePivotSelectedIndex;
-        public int FormsPagePivotSelectedIndex
-        {
-            get => GetProperty(ref formsPagePivotSelectedIndex);
-            set => SetProperty(ref formsPagePivotSelectedIndex, value, true);
-        }
+        //private int formsPagePivotSelectedIndex;
+        //public int FormsPagePivotSelectedIndex
+        //{
+        //    get => GetProperty(ref formsPagePivotSelectedIndex);
+        //    set => SetProperty(ref formsPagePivotSelectedIndex, value, true);
+        //}
 
     }
 }

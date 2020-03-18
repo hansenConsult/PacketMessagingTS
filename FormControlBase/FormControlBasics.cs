@@ -71,20 +71,21 @@ namespace FormControlBaseClass
                 {
                     ScanControls(control);
                 }
-                else if (control is TextBox || control is ComboBox || control is CheckBox || control is ToggleButtonGroup)
+                else if (control is TextBox || control is ComboBox || control is CheckBox
+                        || control is ToggleButtonGroup || control is RichTextBlock)
                 {
-                    FormControl formControl = new FormControl((Control)control);
+                    FormControl formControl = new FormControl((FrameworkElement)control);
                     _formControlsList.Add(formControl);
                 }
                 else if (control is AutoSuggestBox)
                 {
-                    FormControl formControl = new FormControl((Control)control);
+                    FormControl formControl = new FormControl((FrameworkElement)control);
                     formControl.BaseBorderColor = TextBoxBorderBrush;
                     _formControlsList.Add(formControl);
                 }
                 else if (control is RadioButton)
                 {
-                    FormControl formControl = new FormControl((Control)control);
+                    FormControl formControl = new FormControl((FrameworkElement)control);
                     _formControlsList.Add(formControl);
 
                     _radioButtonsList.Add((RadioButton)control);
@@ -123,7 +124,8 @@ namespace FormControlBaseClass
             _validationResultMessage = errorText;
             foreach (FormControl formControl in _formControlsList)
             {
-                Control control = formControl.InputControl;
+                // Validation is only done on Control's not RichText
+                Control control = formControl.InputControl as Control;
                 string tag = control.Tag as string;
                 if (!string.IsNullOrEmpty(tag) && control.IsEnabled && tag.Contains("conditionallyrequired"))
                 {
@@ -137,43 +139,43 @@ namespace FormControlBaseClass
                     {
                         if (textBox.Text.Length == 0)
                         {
-                            AddToErrorString(GetTagErrorMessage(control));
-                            control.BorderBrush = formControl.RequiredBorderBrush;
+                            AddToErrorString(GetTagErrorMessage(textBox));
+                            textBox.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         else
                         {
-                            control.BorderBrush = formControl.BaseBorderColor;
+                            textBox.BorderBrush = formControl.BaseBorderColor;
                         }
                     }
 					else if (control is AutoSuggestBox autoSuggestBox)
 					{
 						if (autoSuggestBox.Text.Length == 0)
 						{
-							AddToErrorString(GetTagErrorMessage(control));
-							control.BorderBrush = formControl.RequiredBorderBrush;
+							AddToErrorString(GetTagErrorMessage(autoSuggestBox));
+                            autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
 						}
 						else
 						{
-							control.BorderBrush = formControl.BaseBorderColor;
+                            autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
 						}
 					}
 					else if (control is ComboBox comboBox)
                     {
                         if (string.IsNullOrEmpty(comboBox.SelectionBoxItem?.ToString()))
                         {
-                            AddToErrorString(GetTagErrorMessage(control));
-                            control.BorderBrush = formControl.RequiredBorderBrush;
+                            AddToErrorString(GetTagErrorMessage(comboBox));
+                            comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         else
                         {
-                            control.BorderBrush = formControl.BaseBorderColor;
+                            comboBox.BorderBrush = formControl.BaseBorderColor;
                         }
                     }
                     else if (control is ToggleButtonGroup toggleButtonGroup)
                     {
                         if (!toggleButtonGroup.Validate())
                         {
-                            AddToErrorString(GetTagErrorMessage(control));
+                            AddToErrorString(GetTagErrorMessage(toggleButtonGroup));
                         }
                     }
                 }
@@ -214,7 +216,7 @@ namespace FormControlBaseClass
             }
         }
 
-        public bool IsFieldRequired(Control control)
+        public bool IsFieldRequired(FrameworkElement control)
         {
             string tag = (control.Tag as string)?.ToLower();
             if (!string.IsNullOrEmpty(tag) && tag.Contains("conditionallyrequired"))

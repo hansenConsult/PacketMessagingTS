@@ -183,7 +183,7 @@ namespace OAAlliedHealthStatus201802FormControl
             bool rowEmpty = true;
             foreach (FormControl formControl in _formControlsList)
             {
-                Control control = formControl.InputControl;
+                Control control = formControl.InputControl as Control;
                 if (control is TextBox textBox)
                 {
                     string tag = control.Tag?.ToString();
@@ -257,7 +257,7 @@ namespace OAAlliedHealthStatus201802FormControl
                     formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
                 }
 
-                Control control = formControl?.InputControl;
+                FrameworkElement control = formControl?.InputControl;
 
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;

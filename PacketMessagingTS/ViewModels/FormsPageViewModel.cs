@@ -17,6 +17,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class FormsViewModel : FormsBaseViewModel
     {
+        // Remove FormsBaseViewModel
+
         protected int formsPagePivotSelectedIndex;
         public int FormsPagePivotSelectedIndex
         {

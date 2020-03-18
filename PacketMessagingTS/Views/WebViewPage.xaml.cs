@@ -28,6 +28,7 @@ using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SharedCode.Helpers;
+using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.Views
 {
@@ -135,7 +136,7 @@ namespace PacketMessagingTS.Views
             string value = "";
             foreach (FormField formField in formFields)
             {
-                (string id, Control control) = formControl.GetTagIndex(formField);
+                (string id, FrameworkElement control) = formControl.GetTagIndex(formField);
                 value = FormControlBase.GetOutpostValue(id, ref msgLines);
                 if (!string.IsNullOrEmpty(value))
                 {

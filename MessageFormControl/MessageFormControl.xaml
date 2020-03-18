@@ -10,73 +10,168 @@
              xmlns:MyBaseNamespace="using:FormControlBaseClass"
              mc:Ignorable="d" 
              d:DesignWidth="800"  
-             d:DesignHeight="320">
+             d:DesignHeight="1060">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <shared:DateTimeConverter x:Key="datetimeConverter"/>
+        <DataTemplate x:Name="CustomPrintTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding SourceUrl}"
+                     FontSize="14"
+                     Margin="0"
+                     Grid.Column="0" />
+                <TextBlock Text="{Binding Description}"
+                     FontSize="14"
+                     Margin="0"
+                     TextWrapping="Wrap"
+                     Grid.Column="1" />
+            </Grid>
+        </DataTemplate>
     </MyBaseNamespace:FormControlBase.Resources>
 
     <StackPanel x:Name="PrintableArea" Height="auto" RequestedTheme="Light" >
+        <Grid x:Name="inBoxHeader" Visibility="{x:Bind InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="88" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="88" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="104" />
+                <ColumnDefinition Width="0.8*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Rcvd Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{x:Bind MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="2" Text="Sent Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="3" Text="{x:Bind MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid x:Name="sentHeader" Visibility="{x:Bind SentHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="52" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="88" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="0.8*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="2" Text="Sent Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="3" Text="{x:Bind MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
+        </Grid>
+        <Grid x:Name="newHeader" Visibility="{x:Bind NewHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="108" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="0.8*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Created Time:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{x:Bind MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
+        </Grid>
+
         <Grid x:Name="container" Opacity="0" />
         <StackPanel x:Name="directPrintContainer">
-            <StackPanel x:Name="printPage1" >
-                <Grid x:Name="inBoxHeader" Visibility="{x:Bind InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
+            <Grid x:Name="printableArea">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Visibility="{x:Bind PrintHeaderVisibility, Mode=OneWay}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <!--<RowDefinition Height="*"/>-->
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="88" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="88" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="104" />
-                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Rcvd Time:" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="1" Text="{x:Bind MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="Sent Time:" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="3" Text="{x:Bind MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="From:" />
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind FormPacketMessage.MessageFrom, Mode=OneWay}" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="To:" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind FormPacketMessage.MessageTo, Mode=OneWay}" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Sent:" />
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Bind MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" />
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Received:" />
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{x:Bind MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" />
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Subject:" />
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{x:Bind FormPacketMessage.Subject, Mode=OneWay}" />
+                    <TextBlock Grid.Column="0" Grid.Row="5" Text="Local Msg ID:" />
+                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{x:Bind MessageNo, Mode=OneWay}" />
+                    <!--<TextBox Grid.Column="1" Grid.Row="6" x:Name="messageBody" 
+                             AcceptsReturn="True" IsTapEnabled="True" TextWrapping="Wrap" 
+                             Margin="0,20,0,0"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto" 
+				             PlaceholderText="Write message here" 
+                             TextChanged="TextBox_TextChanged"
+				             Tag="0,required,Please write a message"/>-->
                 </Grid>
-                <Grid x:Name="sentHeader" Visibility="{x:Bind SentHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="88" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="0.8*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="2" Text="Sent Time:" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="3" Text="{x:Bind MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
-                </Grid>
-                <Grid x:Name="newHeader" Visibility="{x:Bind NewHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,0,1,1" Padding="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="108" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="48" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="0.8*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Created Time:" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="1" Text="{x:Bind MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
-                </Grid>
-
-                <TextBox x:Name="messageBody" AcceptsReturn="True" IsTapEnabled="True" TextWrapping="Wrap" 
-				         PlaceholderText="Write message here" 
+                <TextBox Grid.Row="1" x:Name="messageBody" AcceptsReturn="True" IsTapEnabled="True" TextWrapping="Wrap" 
+                         Visibility="{x:Bind newHeaderVisibility, Mode=OneWay}"
+                         BorderThickness="0" Margin="0,20,0,0"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" 
+				         PlaceholderText="Write message here"
+                         TextChanged="TextBox_TextChanged"
 				         Tag="0,required,Please write a message"/>
-                <!--<RichTextBox x:Name="messageBody" FontFamily="Courier New" FontSize="12" Height="100" AcceptsReturn="True" AcceptsTab="True" Margin="5" Tag="0,required">
-			<FlowDocument>
-				<Paragraph>
-					<Run Text="RichTextBox"/>
-				</Paragraph>
-			</FlowDocument>
-		</RichTextBox>-->
+                <RichTextBlock Grid.Row="1" x:Name="richTextMessageBody" 
+                               OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}"
+                               Visibility="{x:Bind FixedContentVisibility, Mode=OneWay}"
+                               IsTextSelectionEnabled="True" TextWrapping="Wrap" 
+                               Margin="0,20,0,0"
+                               Tag="0" >
+                    
+                    <!--OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}"-->
 
-            </StackPanel>
+                </RichTextBlock>
+                <TextBlock Grid.Row="3" x:Name="footer" Margin="0,20,0,0"
+                           Text="Page " 
+                           Visibility="{x:Bind PrintHeaderVisibility, Mode=OneWay}"/>
+                <RichTextBlockOverflow x:Name="ContinuationPageLinkedContainer" Grid.Row="2" />
+            </Grid>
+            <!--<TextBox x:Name="messageBody2" 
+                             AcceptsReturn="True" IsTapEnabled="True" TextWrapping="Wrap" 
+                             Margin="0,20,0,0"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto" 
+				             PlaceholderText="Write message here" 
+                             TextChanged="TextBox_TextChanged"
+				             Tag="0,required,Please write a message"/>-->
+            <!--<Grid x:Name="printPage2"
+                  Visibility="{x:Bind PrintHeaderVisibility, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <RichTextBlockOverflow Grid.Row="0" x:Name="overflowContentTarget1"
+                                       OverflowContentTarget="{x:Bind overflowContentTarget2}"
+                                       />
+                <TextBlock Grid.Row="1" Margin="0,20,0,0"
+                           Text="Page " />
+            </Grid>-->
+            <!--<Grid x:Name="printPage3">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <RichTextBlockOverflow Grid.Row="0" x:Name="overflowContentTarget2"/>
+                <TextBlock Grid.Row="1" Text="Page 3 of 3" Margin="0,20,0,0"
+                           Visibility="{x:Bind PrintHeaderVisibility, Mode=OneWay}"/>
+            </Grid>-->
         </StackPanel>
     </StackPanel>
 </MyBaseNamespace:FormControlBase>

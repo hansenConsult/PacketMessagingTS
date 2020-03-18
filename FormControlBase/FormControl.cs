@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -17,7 +18,7 @@ namespace FormControlBaseClass
 
         public Brush RequiredBorderBrush { get; } = new SolidColorBrush(Colors.Red);
 
-        public Control InputControl
+        public FrameworkElement InputControl
 		{ get; private set; }
 
 		public FormControl()
@@ -25,10 +26,13 @@ namespace FormControlBaseClass
 			
 		}
 
-		public FormControl(Control control)
+		public FormControl(FrameworkElement control)
 		{
 			InputControl = control;
-			BaseBorderColor = control.BorderBrush;
+			if (control.GetType() == typeof(Control))
+			{
+				BaseBorderColor = (control as Control).BorderBrush;
+			}
 		}
 	}
 }

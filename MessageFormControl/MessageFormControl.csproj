@@ -108,13 +108,23 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ContinuationPage.xaml.cs">
+      <DependentUpon>ContinuationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessageFormControl.xaml.cs">
       <DependentUpon>MessageFormControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PrintHelperOptions.cs" />
+    <Compile Include="PrintHelperStateBag.cs" />
+    <Compile Include="PrintHelperToolkit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\MessageFormControl.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ContinuationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MessageFormControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

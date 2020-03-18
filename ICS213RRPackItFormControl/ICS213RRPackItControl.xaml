@@ -436,7 +436,7 @@
                                     <Run Text="14. Location"/>
                                     <Run Text=" (address or Lat/long., site type)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                         </TextBlock>
-                                        <TextBox Name="deliveryLocation" MinHeight="44" Margin="2" AcceptsReturn="True" 
+                                        <TextBox Name="deliveryLocation" Height="44" Margin="2" AcceptsReturn="True" 
                                          TextChanged="TextBox_TextChanged"
                                          Tag="34.,required,Enter 14. Location."/>
                                     </StackPanel>

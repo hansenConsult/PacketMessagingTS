@@ -167,7 +167,7 @@ namespace ICS213RRPackItFormControl
                     formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
                 }
 
-                Control control = formControl?.InputControl;
+                Control control = formControl?.InputControl as Control;
 
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;

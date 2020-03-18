@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.UI.Xaml.Documents;
 
 namespace FormControlBaseClass
 {
@@ -65,6 +66,7 @@ namespace FormControlBaseClass
         protected List<string> outpostData;
         protected List<string> _ICSPositionFiltered = new List<string>();
 
+        protected ScrollViewer _scrollViewer;
         protected List<Panel> _printPanels;
 
         protected string[] ICSPosition = new string[] {
@@ -239,45 +241,45 @@ namespace FormControlBaseClass
         {
             foreach (FormControl formControl in _formControlsList)
             {
-                Control control = formControl.InputControl;
+                FrameworkElement control = formControl.InputControl;
 
                 if (control is TextBox textBox)
                 {
                     if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(control) && newForm)
                     {
-                        control.BorderBrush = formControl.RequiredBorderBrush;
-                        control.BorderThickness = new Thickness(2);
+                        textBox.BorderBrush = formControl.RequiredBorderBrush;
+                        textBox.BorderThickness = new Thickness(2);
                     }
                     else
                     {
-                        control.BorderBrush = formControl.BaseBorderColor;
-                        control.BorderThickness = new Thickness(1);
+                        textBox.BorderBrush = formControl.BaseBorderColor;
+                        textBox.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
                     if (string.IsNullOrEmpty(autoSuggestBox.Text) && IsFieldRequired(control) && newForm)
                     {
-                        control.BorderBrush = formControl.RequiredBorderBrush;
-                        control.BorderThickness = new Thickness(2);
+                        autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
+                        autoSuggestBox.BorderThickness = new Thickness(2);
                     }
                     else
                     {
-                        control.BorderBrush = formControl.BaseBorderColor;
-                        control.BorderThickness = new Thickness(1);
+                        autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
+                        autoSuggestBox.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is ComboBox comboBox)
                 {
                     if (comboBox.SelectedIndex < 0 && IsFieldRequired(control) && newForm)
                     {
-                        control.BorderBrush = formControl.RequiredBorderBrush;
-                        control.BorderThickness = new Thickness(2);
+                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
+                        comboBox.BorderThickness = new Thickness(2);
                     }
                     else
                     {
-                        control.BorderBrush = formControl.BaseBorderColor;
-                        control.BorderThickness = new Thickness(1);
+                        comboBox.BorderBrush = formControl.BaseBorderColor;
+                        comboBox.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
@@ -500,11 +502,11 @@ namespace FormControlBaseClass
             }
         }
 
-        protected Control GetControlFromTagIndex(string id)
+        protected FrameworkElement GetControlFromTagIndex(string id)
         {
             foreach (FormControl  formControl in _formControlsList)
             {
-                Control control = formControl.InputControl;
+                FrameworkElement control = formControl.InputControl;
                 string tagIndex = GetTagIndex(control);
                 if (id == tagIndex)
                 {
@@ -536,7 +538,7 @@ namespace FormControlBaseClass
 
             foreach (FormField formField in formFields)
             {
-                (string id, Control control) = GetTagIndex(formField);
+                (string id, FrameworkElement control) = GetTagIndex(formField);
                 formField.FormIndex = id;
 
                 if (control is ToggleButtonGroup)
@@ -608,7 +610,7 @@ namespace FormControlBaseClass
                 //}
                 foreach (FormField formField in formFields)
                 {
-                    (string id, Control control) = GetTagIndex(formField);
+                    (string id, FrameworkElement control) = GetTagIndex(formField);
                     formField.FormIndex = id;    
                     if (control is ToggleButtonGroup)
                     {
@@ -659,12 +661,12 @@ namespace FormControlBaseClass
             return formFields;
         }
 
-        public (string id, Control control) GetTagIndex(FormField formField)
+        public (string id, FrameworkElement control) GetTagIndex(FormField formField)
         {
             if (formField is null)
                 return ("", null);
 
-            Control control = null;
+            FrameworkElement control = null;
             try
             {
                 // The control may not have a name, but the tag index is defined
@@ -707,7 +709,7 @@ namespace FormControlBaseClass
             return ("", control);
         }
 
-        public static string GetTagIndex(Control control)
+        public static string GetTagIndex(FrameworkElement control)
         {
             try
             {
@@ -790,7 +792,7 @@ namespace FormControlBaseClass
             //Control control = formField.InputControl;
             string name = _formControlsList[1].InputControl.Name;
             FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-            Control control = formControl.InputControl;
+            FrameworkElement control = formControl.InputControl;
             string tag = control.Tag as string;
             if (string.IsNullOrEmpty(tag))
                 return "";
@@ -849,7 +851,7 @@ namespace FormControlBaseClass
 
         public string CreateOutpostDataString(FormField formField, FormProviders formProvider)
         {
-            (string id, Control control) = GetTagIndex(formField);
+            (string id, FrameworkElement control) = GetTagIndex(formField);
             if (string.IsNullOrEmpty(id))
                 return "";
 
@@ -1109,7 +1111,7 @@ namespace FormControlBaseClass
                     formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);                    
                 }
 
-                Control control = formControl?.InputControl;
+                FrameworkElement control = formControl?.InputControl;
 
 				if (control is null || string.IsNullOrEmpty(formField.ControlContent))
 					continue;
@@ -1142,7 +1144,16 @@ namespace FormControlBaseClass
                             continue;
                     }
                 }
-				else if (control is AutoSuggestBox autoSuggsetBox)
+                else if (control is RichTextBlock richTextBlock)
+                {
+                    Paragraph paragraph = new Paragraph();
+                    Run run = new Run();
+                    run.Text = formField.ControlContent;
+                    // Add the Run to the Paragraph, the Paragraph to the RichTextBlock.
+                    paragraph.Inlines.Add(run);
+                    richTextBlock.Blocks.Add(paragraph);
+                }
+                else if (control is AutoSuggestBox autoSuggsetBox)
 				{
 					autoSuggsetBox.Text = formField.ControlContent;
 				}
@@ -1380,22 +1391,23 @@ namespace FormControlBaseClass
             }
         }
 
-        //protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
-        //{
-        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-        //    {
-        //        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-        //        if (child != null && child is T)
-        //            return (T)child;
-        //        else
-        //        {
-        //            T childOfChild = FindVisualChild<T>(child);
-        //            if (childOfChild != null)
-        //                return childOfChild;
-        //        }
-        //    }
-        //    return null;
-        //}
+
+        protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                    return (T)child;
+                else
+                {
+                    T childOfChild = FindVisualChild<T>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
 
         #region Print
         public abstract Panel CanvasContainer
@@ -1407,8 +1419,24 @@ namespace FormControlBaseClass
         public abstract List<Panel> PrintPanels
         { get; }
 
+        protected bool printFooterVisibility = false;
+        public virtual bool PrintFooterVisibility
+        {
+            get => printFooterVisibility;
+            set => Set(ref printFooterVisibility, value);
+        }
+
         protected void AddFooter()
         {
+            //PrintFooterVisibility = true;
+
+            //for (int i = 0; i < _printPanels.Count; i++)
+            //{
+            //    TextBlock footer = _printPanels[i].FindName("footer") as TextBlock;
+            //    if (footer != null)
+            //        return;
+            //}
+
             for (int i = 0; i < _printPanels.Count; i++)
             {
                 bool footerFound = false;
@@ -1423,9 +1451,10 @@ namespace FormControlBaseClass
 
                 if (!footerFound)
                 {
-                    string footerText = $"page {i + 1} of {_printPanels.Count}, Message Number: {MessageNo}";
+                    string footerText = $"Page {i + 1} of {_printPanels.Count}, Message Number: {MessageNo}";
                     TextBlock footer = new TextBlock
                     {
+                        //Name = "footer", Only one name "footer"
                         Text = footerText,
                         Margin = new Thickness(0, 20, 0, 0),
                         HorizontalAlignment = HorizontalAlignment.Center
@@ -1473,7 +1502,7 @@ namespace FormControlBaseClass
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
-            await _printHelper.ShowPrintUIAsync("  ");
+            await _printHelper.ShowPrintUIAsync(" ");
         }
 
         protected virtual void ReleasePrintHelper()
@@ -1486,13 +1515,27 @@ namespace FormControlBaseClass
                 {
                     foreach (FrameworkElement child in _printPanels[i].Children)
                     {
-                        if (child is TextBlock textBlock && textBlock.Text.Contains($"page {i} of"))
+                        if (child is TextBlock textBlock && textBlock.Text.Contains($"Page {i + 1} of"))
                             _printPanels[i].Children.Remove(child);
                     }
 
                     DirectPrintContainer.Children.Add(_printPanels[i]);
                 }
             }
+
+            //for (int i = 0; i < _printPanels.Count; i++)
+            //{
+            //    if (_printPanels[i] != null && !DirectPrintContainer.Children.Contains(_printPanels[i]))
+            //    {
+            //        TextBlock footer = _printPanels[i].FindName("footer") as TextBlock;
+            //        if (footer != null)
+            //        {
+            //            _printPanels[i].Children.Remove(footer);
+            //        }
+
+            //        DirectPrintContainer.Children.Add(_printPanels[i]);
+            //    }
+            //}
         }
 
         protected virtual void PrintHelper_OnPrintSucceeded()
@@ -1511,6 +1554,11 @@ namespace FormControlBaseClass
         protected virtual void PrintHelper_OnPrintCanceled()
         {
             ReleasePrintHelper();
+        }
+
+        protected virtual void PrintHelper_OnPreviewPagesCreated(List<FrameworkElement> FrameworkElementList)
+        {
+
         }
 
         #endregion Print

@@ -523,6 +523,9 @@
                                     Tag="99.,conditionallyrequired,Enter how the Proclammation is being sent or None."
                                     TextChanged="TextBox_TextChanged"/>
                         </Grid>
+                        <!--<TextBlock  x:Name="footer" Margin="0,20,0,0"
+                           Text="Page " 
+                           Visibility="{x:Bind PrintFooterVisibility, Mode=OneWay}"/>-->
                     </StackPanel>
                     <StackPanel x:Name="printPage2" >
                         <Grid BorderBrush="Black" BorderThickness="0">

@@ -25,7 +25,6 @@ namespace ICS213PackItFormControl
 
 	public partial class ICS213PackItControl : FormControlBase
 	{
-        ScrollViewer _scrollViewer;
         double _messageBoxHeight;
 
         public ICS213PackItControl()

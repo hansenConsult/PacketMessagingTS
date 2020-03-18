@@ -402,7 +402,7 @@ namespace MVCERTDA_FormsControl
 
             foreach (FormControl formControl in _formControlsList)
             {
-                Control control = formControl.InputControl;
+                Control control = formControl.InputControl as Control;
 
                 if (control.Name == sender.Name)
                 {

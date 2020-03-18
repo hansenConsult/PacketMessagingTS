@@ -3,27 +3,43 @@ using System.Collections.Generic;
 using System.Text;
 
 using FormControlBaseClass;
-
+//using Microsoft.Toolkit.Uwp.Helpers;
 using SharedCode;
 using SharedCode.Helpers;
-
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-
+using Windows.UI.Xaml.Documents;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 namespace MessageFormControl
 {
-	/// <summary>
-	/// Interaction logic for UserControl1.xaml
-	/// </summary>
-	[FormControl(
-		FormControlName = "SimpleMessage",
-		FormControlMenuName = "Simple Message",
-		FormControlType = FormControlAttribute.FormType.None)
-	]
+    /// <summary>
+    /// Interaction logic for UserControl1.xaml
+    /// </summary>
+    [FormControl(
+        FormControlName = "SimpleMessage",
+        FormControlMenuName = "Simple Message",
+        FormControlType = FormControlAttribute.FormType.None)
+    ]
 
-	public partial class MessageControl : FormControlBase
+    public partial class MessageControl : FormControlBase
     {
+        enum HeaderVisibility
+        {
+            None,
+            InboxHeader,
+            SentHeader,
+            NewHeader,
+            PrintHeader,
+            FixedContent,
+        }
+
+        private HeaderVisibility _visibleHeader = HeaderVisibility.None;
+        private HeaderVisibility _previousVisibleHeader = HeaderVisibility.None;
+
+        private new PrintHelper _printHelper;
+
+
         public MessageControl()
         {
             InitializeComponent();
@@ -31,7 +47,7 @@ namespace MessageFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-		}
+        }
 
 
         private bool inBoxHeaderVisibility;
@@ -43,8 +59,11 @@ namespace MessageFormControl
                 Set(ref inBoxHeaderVisibility, value);
                 if (value)
                 {
+                    _visibleHeader = HeaderVisibility.InboxHeader;
+                    FixedContentVisibility = true;
                     SentHeaderVisibility = false;
                     NewHeaderVisibility = false;
+                    PrintHeaderVisibility = false;
                 }
             }
         }
@@ -58,8 +77,11 @@ namespace MessageFormControl
                 Set(ref sentHeaderVisibility, value);
                 if (value)
                 {
+                    _visibleHeader = HeaderVisibility.SentHeader;
+                    FixedContentVisibility = true;
                     InBoxHeaderVisibility = false;
                     NewHeaderVisibility = false;
+                    PrintHeaderVisibility = false;
                 }
             }
         }
@@ -73,12 +95,66 @@ namespace MessageFormControl
                 Set(ref newHeaderVisibility, value);
                 if (value)
                 {
+                    _visibleHeader = HeaderVisibility.NewHeader;
+                    FixedContentVisibility = false;
+                    InBoxHeaderVisibility = false;
+                    SentHeaderVisibility = false;
+                    PrintHeaderVisibility = false;
+                }
+            }
+        }
+
+        private bool printHeaderVisibility;
+        public bool PrintHeaderVisibility
+        {
+            get => printHeaderVisibility;
+            set
+            {
+                Set(ref printHeaderVisibility, value);
+                if (value)
+                {
+                    _visibleHeader = HeaderVisibility.PrintHeader;
+                    FixedContentVisibility = true;
+                    NewHeaderVisibility = false;
                     InBoxHeaderVisibility = false;
                     SentHeaderVisibility = false;
                 }
             }
         }
 
+        private bool fixedContentVisibility;
+        public bool FixedContentVisibility
+        {
+            get => fixedContentVisibility;
+            set 
+            {
+                Set(ref fixedContentVisibility, value);
+            }
+        }
+
+        private void SetHeaderVisibility()
+        {
+            switch (_visibleHeader)
+            {
+                case HeaderVisibility.None:
+                    break;
+                case HeaderVisibility.InboxHeader:
+                    InBoxHeaderVisibility = true;
+                    break;
+                case HeaderVisibility.SentHeader:
+                    SentHeaderVisibility = true;
+                    break;
+                case HeaderVisibility.NewHeader:
+                    NewHeaderVisibility = true;
+                    break;
+                case HeaderVisibility.PrintHeader:
+                    PrintHeaderVisibility = true;
+                    break;
+                //case HeaderVisibility.FixedContent:
+                //    FixedContentVisibility = true;
+                //    break;
+            }
+        }
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
 
@@ -97,7 +173,92 @@ namespace MessageFormControl
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
+        public override List<Panel> PrintPanels
+        {
+            get
+            {
+                _previousVisibleHeader = _visibleHeader;
+                _visibleHeader = HeaderVisibility.PrintHeader;
+                SetHeaderVisibility();
+
+                List<Panel> printPages = new List<Panel>();
+
+                Panel printPage1 = DirectPrintContainer.FindName("printableArea") as Panel;
+                //printPages.Add(printableArea);
+                printPages.Add(printPage1);
+
+                return printPages;
+            }
+        }
+
+        public override async void PrintForm()
+        {
+            if (CanvasContainer is null || DirectPrintContainer is null)
+                return;
+
+            _printPanels = PrintPanels;
+            if (_printPanels is null || _printPanels.Count == 0)
+                return;
+
+            _printHelper = new PrintHelper(CanvasContainer);
+
+            //Page page = new Page();
+            //page.Content = printableArea;
+            //_printHelper.PreparePrintContent(page);
+
+            for (int i = 0; i < _printPanels.Count; i++)
+            {
+                DirectPrintContainer.Children.Remove(_printPanels[i]);
+            }
+
+            for (int i = 0; i < _printPanels.Count; i++)
+            {
+                _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
+            }
+
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+
+            _printHelper.OnPreviewPagesCreated += PrintHelper_OnPreviewPagesCreated;
+
+            await _printHelper.ShowPrintUIAsync(" ");
+        }
+
+        protected override void PrintHelper_OnPreviewPagesCreated(List<FrameworkElement> FrameworkElementList)
+        {
+            for (int i = 0; i < FrameworkElementList.Count; i++)
+            {
+                TextBlock footer = FrameworkElementList[i].FindName("footer") as TextBlock;
+                if (footer != null)
+                {
+                    footer.Text = $"Page {i + 1} of {FrameworkElementList.Count}";
+                }
+            }       
+        }
+
+        protected override void ReleasePrintHelper()
+        {
+            // Must use local _printHelper
+            _printHelper.Dispose();
+
+            for (int i = 0; i < _printPanels.Count; i++)
+            {
+                if (_printPanels[i] != null && !DirectPrintContainer.Children.Contains(_printPanels[i]))
+                {
+                    TextBlock footer = _printPanels[i].FindName("footer") as TextBlock;
+                    if (footer != null)
+                    {
+                        _printPanels[i].Children.Remove(footer);
+                    }
+
+                    DirectPrintContainer.Children.Add(_printPanels[i]);
+                }
+            }
+
+            _visibleHeader = _previousVisibleHeader;
+            SetHeaderVisibility();
+        }
 
         protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
@@ -146,16 +307,27 @@ namespace MessageFormControl
 				//sb.AppendLine(msgLines[i]);
 				sb.AppendLine(convertedLine);
 			}
-            string messageBody = sb.ToString();
+            // Use RichTextBlock
+            Paragraph paragraph = new Paragraph();
+            Run run = new Run();
+            run.Text = sb.ToString();
 
-			FormField[] formFields = CreateEmptyFormFieldsArray();
+            // Add the Run to the Paragraph, the Paragraph to the RichTextBlock.
+            paragraph.Inlines.Add(run);
+            richTextMessageBody.Blocks.Add(paragraph);
+            //string messageBody = sb.ToString();
+
+            FormField[] formFields = CreateEmptyFormFieldsArray();
             foreach (FormField formField in formFields)
             {
                 switch (formField.ControlName)
                 {
-                    case "messageBody":
-                        formField.ControlContent = messageBody;
+                    case "richTextMessageBody":
+                        formField.ControlContent = run.Text;
                         break;
+                        //case "messageBody":
+                        //    formField.ControlContent = messageBody;
+                        //    break;
                 }
             }
             return formFields;
@@ -163,5 +335,6 @@ namespace MessageFormControl
 
 		//public override string CreateSubject() => MessageNo + "_R_";
 		public override string CreateSubject() => null;
-	}
+
+    }
 }
