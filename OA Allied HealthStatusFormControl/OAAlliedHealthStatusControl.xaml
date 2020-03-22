@@ -10,7 +10,7 @@
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
 
     mc:Ignorable="d"
-    d:DesignWidth="900" Height="1800">
+    d:DesignWidth="816" Height="1657">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -404,19 +404,25 @@
             <StackPanel >
                 <Grid x:Name="container" Opacity="0" />
                 <StackPanel x:Name="directPrintContainer">
-                    <StackPanel x:Name="printPage1">
-
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
+                    <Grid x:Name="printPage1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="152"/>
+                                <ColumnDefinition Width="152"/>
                             </Grid.ColumnDefinitions>
                             <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>-->
                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                 <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" 
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" >
+                                   VerticalAlignment="Center" Margin="8,0" >
                                 <Run>Allied Health Status Report Short Form</Run>
                                 <Run FontSize="10">(DEOC-9)</Run>
                                 </TextBlock>
@@ -443,479 +449,448 @@
                                      Text="{x:Bind Path=DestinationMsgNo}"
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Destination:"/>
-
                         </Grid>
-                        <StackPanel >
-
-                            <Grid BorderBrush="Black" BorderThickness="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
-                                <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                <TextBox Grid.Column="1" x:Name="msgDate"
+                            <TextBox Grid.Column="1" x:Name="msgDate"
                                  Style="{StaticResource MuniStatusDateTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
                                  Tag="1a.,required"
                                  TextChanged="TextBox_DateChanged"/>
-                                <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
+                            <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                <TextBox Grid.Column="3" x:Name="msgTime" 
+                            <TextBox Grid.Column="3" x:Name="msgTime" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"                                 
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  TextChanged="TextBox_TimeChanged"
                                  Tag="1b.,required"/>
-                                <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
-                                           Text="Handling:" VerticalAlignment="Center" Margin=" 5"/>
-
-                                <Border Grid.Column="5" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
+                            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                            <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
+                                           Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                                CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                                Tag="5.,required,Indicate Msg. Handling Order."/>
-                                        <RadioButton x:Name="immediate" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0" 
+                            <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0" 
                                              Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
-                                        <RadioButton x:Name="priority" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0"  
+                            <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
                                              Content="PRIORITY (&lt; 1 hr)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
-                                        <RadioButton x:Name="routine" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="10,0"  
+                            <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
+                                             Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
                                              Content="ROUTINE (&lt; 2 hrs)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE">
-                                        </RadioButton>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
-                                <TextBlock x:Name="labelTo" Grid.Column="0"  Style="{StaticResource LabelFontTNR14B}" Text=" To:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <StackPanel Grid.Column="1" >
-                                    <Border BorderBrush="Black" BorderThickness="0,1">
-                                        <StackPanel x:Name="toICSPositionPanel">
-                                            <TextBlock Padding="10,0,0,2" 
-                                               Text="7.) ICS Position:" FontSize="12" FontFamily="Times New Roman" 
-                                               FontWeight="Bold" Foreground="Black" />
-                                            <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"     
+                                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
+                        </Grid>
+                        <Grid Grid.Row="2" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
+                            <TextBlock x:Name="labelTo" Grid.Column="0"  Style="{StaticResource LabelFontTNR14B}" Text=" To:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel Grid.Column="1" >
+                                <Grid BorderBrush="Black" BorderThickness="0,1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="ICS Position:"  />
+                                    <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="10,2,10,2"     
                                                     PlaceholderText="Select ICS Position"
                                                     Style="{StaticResource AutoSuggestICSPosition}"                                                    
                                                     BorderBrush="Gray"
-                                                    BorderThickness="2"
-                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    BorderThickness="1"
+                                                    TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                     SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
-                                                    Tag="7a.,required,Enter a To Position." VerticalAlignment="Top"/>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />-->
-                                            <TextBox x:Name="toLocation" Margin="10,0,10,2" 
+                                                    Tag="7a.,required,Enter a To Position." />
+                                </Grid>
+                                <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:" />
+                                    <TextBox Grid.Column="1" x:Name="toLocation" Margin="10,2,10,2" 
                                              Style="{StaticResource MuniStatusTextBox}"
                                              TextChanged="TextBox_TextChanged"
-                                             Tag="7b.,required,Enter a To Location."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Location:"/>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
-                                            <TextBox x:Name="toName" Margin="10,0,10,2" Tag="7c."
-                                             Style="{StaticResource MuniStatusTextBox}"
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"/>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">
-                                        <StackPanel >
-                                            <TextBox x:Name="toContactInfo" 
-                                             Style="{StaticResource MuniStatusTextBox}"
-                                             Margin="10,0,10,2" Tag="7d."
-                                             TextChanged="PhoneNumber_TextChanged"
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Contact Info:"/>
-
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                                <Border Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
-                                <TextBlock x:Name="labelFrom" Grid.Column="2" Style="{StaticResource LabelFontTNR14B}" Text=" From:" VerticalAlignment="Center" />
-                                <StackPanel Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0">
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <StackPanel>
-                                            <TextBlock Padding="10,2,0,2"
-                                               Style="{StaticResource LabelFontTNR14B}"
-                                               FontSize="12" FontFamily="Times New Roman" 
-                                               FontWeight="Bold" Foreground="Black"
-                                               Text="8.) ICS Position:" />
-                                            <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
+                                             Tag="7b.,required,Enter a To Location."/>
+                                </Grid>
+                                <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
+                                    <TextBox Grid.Column="1" x:Name="toName" Margin="10,2,10,2"  Tag="7c."/>
+                                </Grid>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
+                                    <TextBox Grid.Column="1" x:Name="toContactInfo" 
+                                             Margin="10,2,10,2" Tag="7d." 
+                                             TextChanged="TextBox_PhoneChanged"/>
+                                </Grid>
+                            </StackPanel>
+                            <Border Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
+                            <TextBlock x:Name="labelFrom" Grid.Column="2" Style="{StaticResource LabelFontTNR14B}" Text=" From:" VerticalAlignment="Center" />
+                            <StackPanel Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  
+                                               Text="ICS Position:"  />
+                                    <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxFromICSPosition" Margin="10,2,10,2"
                                                     PlaceholderText="Select ICS Position"
                                                     Style="{StaticResource AutoSuggestICSPosition}"
                                                     BorderBrush="Gray"
-                                                    BorderThickness="2"
-                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    BorderThickness="1"
+                                                    TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                     SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                     Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
-                                            <!--<TextBox  x:Name="textBoxFromICSPosition" Visibility="Collapsed" Tag="23" />-->
-                                        </StackPanel>
-                                        <!--<StackPanel >
-										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
-										<RelativePanel x:Name="fromICSPos" >
-											<Button x:Name="buttonSelectFromICSPosInput" RelativePanel.AlignVerticalCenterWithPanel="True" Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2" />
-											<TextBox x:Name="textBoxFromICSPosition" Style="{StaticResource TypedText}" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True"	 
-												BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
-                                                Tag="required,Enter a From position."/>
-											-->
-                                        <!--<ComboBox x:Name="comboBoxFromICSPosition" Margin="9.667,0,10,2" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Stretch"
-												BorderBrush="White" BorderThickness="2" Tag="required,Enter a From position." PlaceholderText="Select ICS Position" >
-											</ComboBox>-->
-                                        <!--
-										</RelativePanel>
-									</StackPanel>-->
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />-->
-                                            <TextBox x:Name="fromLocation" Margin="10,0,10,2" 
+                                </Grid>
+                                <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  Text="Location:" />
+                                    <TextBox Grid.Column="1" x:Name="fromLocation" Margin="10,2,10,2" 
                                              TextChanged="TextBox_TextChanged"
-                                             Tag="8b.,required,Enter a From Location."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Location:"/>
-
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
-                                            <TextBox x:Name="fromName"  BorderThickness="1" Margin="10,0,10,2" Tag="8c."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"/>
-
-                                        </StackPanel>
-                                    </Border>
-                                    <!--</Border>-->
-                                    <!--<Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">-->
-                                    <StackPanel >
-                                        <TextBox x:Name="fromContactInfo" 
-                                             Margin="10,0,10,2" Tag="8d." BorderThickness="1" 
-                                             TextChanged="PhoneNumber_TextChanged"
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Contact Info:"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                            <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                                <MyNamespace:ToggleButtonGroup x:Name="reportType" 
+                                             Tag="8b.,required,Enter a From Location."/>
+                                </Grid>
+                                <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
+                                    <TextBox Grid.Column="1" x:Name="fromName" Margin="10,2,10,2"  Tag="7c."/>
+                                </Grid>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
+                                    <TextBox Grid.Column="1" x:Name="fromContactInfo" 
+                                             Margin="10,2,10,2" Tag="8d." 
+                                             TextChanged="TextBox_PhoneChanged"/>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                            <MyNamespace:ToggleButtonGroup x:Name="reportType" 
                                                                CheckedControlName ="{x:Bind ReportType, Mode=TwoWay}" 
                                                                Tag="19.,required,Select Report Type"/>
-                                <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"
+                            <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"
                                      Checked="ReportType_Checked" Tag="Update"/>
-                                <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
+                            <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
                                      Checked="ReportType_Checked" Tag="Complete"/>
-                            </Grid>
-
-                            <Grid BorderBrush="Black" BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2.5*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="24"/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition />
-                                    <!--Row 10-->
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition Height="auto"/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition Height="24"/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--Row 20-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition />-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition/>-->
-                                    <!--<RowDefinition/>-->
-                                </Grid.RowDefinitions>
-                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1"/>
-                                <TextBox Grid.Column="0" Grid.Row="0" x:Name="facilityName" 
+                        </Grid>
+                        <Grid Grid.Row="4" BorderBrush="Black" BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.5*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition />
+                                <!--Row 10-->
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition Height="auto"/>-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition Height="24"/>-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition/>-->
+                                <!--Row 20-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition />-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition/>-->
+                                <!--<RowDefinition/>-->
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                            <TextBox Grid.Column="0" Grid.Row="0" x:Name="facilityName" 
                                  Style="{StaticResource MuniStatusTextBox}"
                                  Header="Facility Name:" 
                                  HeaderTemplate="{StaticResource alliedHeaderTemplate}"  
                                  Text="{x:Bind FacilityName, Mode=TwoWay}"
                                  Tag="13,required,Enter the Facility Name." 
                                  TextChanged="Subject_Changed" />
-                                <Grid Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="facilityType" 
+                            <Grid Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="facilityType" 
                                      
                                      Margin="2" TextChanged="TextBox_TextChanged"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"
                                      Header="Facility Type:" 
                                      Tag="21.,conditionallyrequired" />
-                                    <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
-                                    <TextBox Grid.Column="1" x:Name="facilityDate"
+                                <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
+                                <TextBox Grid.Column="1" x:Name="facilityDate"
                                      Style="{StaticResource MuniStatusDateTextBox}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22d.,required"
                                      Header="Date:"
                                      TextChanged="TextBox_TextChanged"/>
-                                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                                    <TextBox Grid.Column="2" x:Name="facilityTime" Header="Time:"  
+                                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                                <TextBox Grid.Column="2" x:Name="facilityTime" Header="Time:"  
                                      Style="{StaticResource MuniStatusTimeTextBox}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16,required" 
                                      PlaceholderText="hh:mm" TextChanged="TextBox_TextChanged"/>
-                                </Grid>
-                                <Border Grid.Column="0" Grid.Row="1" BorderBrush="black" BorderThickness="0,0,0,1"/>
-                                <TextBox Grid.Column="0" Grid.Row="1" x:Name="facilityContactName" 
+                            </Grid>
+                            <Border Grid.Column="0" Grid.Row="1" BorderBrush="black" BorderThickness="0,0,0,1"/>
+                            <TextBox Grid.Column="0" Grid.Row="1" x:Name="facilityContactName" 
                                  Style="{StaticResource MuniStatusTextBox}"
                                  Header="Facility Contact Name:" 
                                  HeaderTemplate="{StaticResource alliedHeaderTemplate}"
                                  Tag="17,conditionallyrequired" TextChanged="Subject_Changed"/>
-                                <Grid Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="177"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="facilityPhone" Header="Phone #:"
+                            <Grid Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="177"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="facilityPhone" Header="Phone #:"
                                      Style="{StaticResource MuniStatusPhoneTextBox}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="23p.,conditionallyrequired"/>
-                                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                                    <TextBox Grid.Column="1" x:Name="facilityFax" 
+                                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                                <TextBox Grid.Column="1" x:Name="facilityFax" 
                                      Style="{StaticResource MuniStatusPhoneTextBox}"
                                      Header="Fax #:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="23f."/>
-                                </Grid>
-                                <Border Grid.Column="0" Grid.Row="2" BorderBrush="black" BorderThickness="0,0,1,1"/>
-                                <TextBox Grid.Column="0" Grid.Row="2" x:Name="facilityOther" 
+                            </Grid>
+                            <Border Grid.Column="0" Grid.Row="2" BorderBrush="black" BorderThickness="0,0,1,1"/>
+                            <TextBox Grid.Column="0" Grid.Row="2" x:Name="facilityOther" 
                                  Style="{StaticResource MuniStatusTextBox}"
                                  Header="Other Phone, Fax, Cell Phone, Radio:" 
                                  HeaderTemplate="{StaticResource alliedHeaderTemplate}" 
                                  Tag="24."/>
-                                <Grid Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="incidentName"
+                            <Grid Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" x:Name="incidentName"
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Header="Incident Name and Date:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" 
                                      TextChanged="TextBox_TextChanged" Tag="25.,conditionallyrequired"/>
-                                    <TextBox Grid.Column="1" x:Name="incidentDate"
+                                <TextBox Grid.Column="1" x:Name="incidentDate"
                                      Style="{StaticResource MuniStatusDateTextBox}"
                                      Header=" "
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"
                                      TextChanged="TextBox_TextChanged"
                                      Tag="25d.,conditionallyrequired"/>
-                                </Grid>
-                                <Border Grid.Column="0" Grid.Row="3"  Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Facility Status" 
+                            </Grid>
+                            <Border Grid.Column="0" Grid.Row="3"  Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,1"/>
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Facility Status" 
                                        Style="{StaticResource AlliedHeaderTextBold}"/>
-                                <MyNamespace:ToggleButtonGroup x:Name="facilityStatus" 
+                            <MyNamespace:ToggleButtonGroup x:Name="facilityStatus" 
                                                        CheckedControlName ="{x:Bind FacilityStatus, Mode=TwoWay}" 
                                                        Tag="35.,conditionallyrequired,Select Facility Status"/>
-                                <Border Grid.Column="0" Grid.Row="4" BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,2,0,2"/>
-                                <RadioButton Grid.Column="0"  Grid.Row="4" x:Name="facilityStatusGreen" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
+                            <Border Grid.Column="0" Grid.Row="4" BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,2,0,2"/>
+                            <RadioButton Grid.Column="0"  Grid.Row="4" x:Name="facilityStatusGreen" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
                                      Content="Green - Fully Functional" Tag="Fully Functional" />
-                                <Border Grid.Column="0" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                                <RadioButton Grid.Column="0"  Grid.Row="5" x:Name="facilityStatusRed" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
+                            <Border Grid.Column="0" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <RadioButton Grid.Column="0"  Grid.Row="5" x:Name="facilityStatusRed" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
                                      Content="Red - Limited Services" Tag="Limited Services" />
-                                <Border Grid.Column="0" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                                <RadioButton Grid.Column="0"  Grid.Row="6" x:Name="facilityStatusBlack" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
+                            <Border Grid.Column="0" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <RadioButton Grid.Column="0"  Grid.Row="6" x:Name="facilityStatusBlack" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
                                      Content="Black - Impaired/Closed" Tag="Impaired/Closed" />
 
-                                <Grid Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                    <TextBlock Grid.Column="0" Text="NHICS/ICS Status Report Form - Standard" 
+                            <Grid Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Text="NHICS/ICS Status Report Form - Standard" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <MyNamespace:ToggleButtonGroup x:Name="repFormStd" 
+                                <MyNamespace:ToggleButtonGroup x:Name="repFormStd" 
                                                            CheckedControlName ="{x:Bind RepFormStd, Mode=TwoWay}" 
                                                            Tag="26c."/>
-                                    <RadioButton Grid.Column="1" x:Name="statusRepFormYes" Content="Yes" GroupName="repFormStd"
+                                <RadioButton Grid.Column="1" x:Name="statusRepFormYes" Content="Yes" GroupName="repFormStd"
                                          HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="Yes"/>
-                                    <RadioButton Grid.Column="1" x:Name="statusRepFormNo" Content="No" GroupName="repFormStd"
+                                <RadioButton Grid.Column="1" x:Name="statusRepFormNo" Content="No" GroupName="repFormStd"
                                          HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="No"/>
-                                </Grid>
-                                <Border Grid.Row="7" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,1,1"/>
-                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Facility Contact Information" 
+                            </Grid>
+                            <Border Grid.Row="7" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                            <TextBlock Grid.Row="7" Grid.Column="0" Text="Facility Contact Information" 
                                    Style="{StaticResource AlliedHeaderTextBold}" />
-                                <Grid Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="NHICS/ICS Incident Action Plan" 
+                            <Grid Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="NHICS/ICS Incident Action Plan" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <MyNamespace:ToggleButtonGroup x:Name="incidentActPlan" 
+                                <MyNamespace:ToggleButtonGroup x:Name="incidentActPlan" 
                                                            CheckedControlName ="{x:Bind IncidentActPlan, Mode=TwoWay}" 
                                                            Tag="26d."/>
-                                    <RadioButton Grid.Column="1" x:Name="actionPlanYes" Content="Yes" GroupName="incidentActPlan"
+                                <RadioButton Grid.Column="1" x:Name="actionPlanYes" Content="Yes" GroupName="incidentActPlan"
                                          HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="Yes"/>
-                                    <RadioButton Grid.Column="1" x:Name="actionPlanNo" Content="No" GroupName="incidentActPlan"
+                                <RadioButton Grid.Column="1" x:Name="actionPlanNo" Content="No" GroupName="incidentActPlan"
                                          HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="No"/>
-                                </Grid>
-                                <Border Grid.Row="3" Grid.Column="1" Background="LightGray" BorderThickness="0,0,0,0"/>
-                                <TextBlock Grid.Column="1" Grid.Row="3" Text="Additional Attachments Provided" 
+                            </Grid>
+                            <Border Grid.Row="3" Grid.Column="1" Background="LightGray" BorderThickness="0,0,0,0"/>
+                            <TextBlock Grid.Column="1" Grid.Row="3" Text="Additional Attachments Provided" 
                                    Style="{StaticResource AlliedHeaderTextBold}" />
-                                <Grid Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                    <TextBlock Grid.Column="0" Text="NHICS/ICS Organization Chart" 
+                            <Grid Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,1" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Text="NHICS/ICS Organization Chart" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <MyNamespace:ToggleButtonGroup x:Name="nhicsChart" 
+                                <MyNamespace:ToggleButtonGroup x:Name="nhicsChart" 
                                                                CheckedControlName ="{x:Bind NhicsChart, Mode=TwoWay}" 
                                                                Tag="26a."/>
-                                    <RadioButton Grid.Column="1" x:Name="nhicsChartYes" Content="Yes"
+                                <RadioButton Grid.Column="1" x:Name="nhicsChartYes" Content="Yes"
                                          GroupName="nhicsChart"
                                          HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="Yes"/>
-                                    <RadioButton Grid.Column="1" x:Name="nhicsChartNo" Content="No" 
+                                <RadioButton Grid.Column="1" x:Name="nhicsChartNo" Content="No" 
                                          GroupName="nhicsChart"
                                          HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="No"/>
-                                </Grid>
-                                <Grid Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="DEOC-9A Resource Request Forms" 
+                            </Grid>
+                            <Grid Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="DEOC-9A Resource Request Forms" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <MyNamespace:ToggleButtonGroup x:Name="resReqForms" 
+                                <MyNamespace:ToggleButtonGroup x:Name="resReqForms" 
                                                            CheckedControlName ="{x:Bind ResReqForms, Mode=TwoWay}" 
                                                            Tag="26b.,conditionallyrequired,Select yes or no"/>
-                                    <RadioButton Grid.Column="1" x:Name="resourceReqFormsYes" Content="Yes" GroupName="resReqForms"
+                                <RadioButton Grid.Column="1" x:Name="resourceReqFormsYes" Content="Yes" GroupName="resReqForms"
                                          HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="Yes"/>
-                                    <RadioButton Grid.Column="1" x:Name="resourceReqFormsNo" Content="No" GroupName="resReqForms"
+                                <RadioButton Grid.Column="1" x:Name="resourceReqFormsNo" Content="No" GroupName="resReqForms"
                                          HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" Width="30"
                                          Tag="No"/>
-                                </Grid>
+                            </Grid>
 
-                                <Grid Grid.Column="0" Grid.Row="8" BorderBrush="Black" BorderThickness="0,0,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                    <TextBlock Grid.Column="0" Text="Facility EOC Main Contact Number" 
+                            <Grid Grid.Column="0" Grid.Row="8" BorderBrush="Black" BorderThickness="0,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Text="Facility EOC Main Contact Number" 
                                        Style="{StaticResource AlliedHeaderText}" Grid.ColumnSpan="2" Margin="2,0,2,0" />
-                                    <TextBox Grid.Column="2" x:Name="facilityEOCContactNumber"
+                                <TextBox Grid.Column="2" x:Name="facilityEOCContactNumber"
                                      Style="{StaticResource MuniStatusPhoneTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="27p.,conditionallyrequired" />
-                                </Grid>
-                                <Grid Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Phone/Communications Directory" 
+                            </Grid>
+                            <Grid Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Phone/Communications Directory" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <MyNamespace:ToggleButtonGroup x:Name="comsDirectory" 
+                                <MyNamespace:ToggleButtonGroup x:Name="comsDirectory" 
                                                            CheckedControlName ="{x:Bind ComsDirectory, Mode=TwoWay}" 
                                                            Tag="26e."/>
-                                    <RadioButton Grid.Column="1" x:Name="comDirectoryYes" Content="Yes" GroupName="comsDirectory"
+                                <RadioButton Grid.Column="1" x:Name="comDirectoryYes" Content="Yes" GroupName="comsDirectory"
                                          HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
                                          Width="30" Tag="Yes"/>
-                                    <RadioButton Grid.Column="1" x:Name="comDirectoryNo" Content="No" GroupName="comsDirectory"
+                                <RadioButton Grid.Column="1" x:Name="comDirectoryNo" Content="No" GroupName="comsDirectory"
                                          HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
                                          Width="30"  Tag="No" RenderTransformOrigin="0.5,0.5">
-                                        <RadioButton.RenderTransform>
-                                            <CompositeTransform Rotation="1.13"/>
-                                        </RadioButton.RenderTransform>
-                                    </RadioButton>
-                                </Grid>
+                                    <RadioButton.RenderTransform>
+                                        <CompositeTransform Rotation="1.13"/>
+                                    </RadioButton.RenderTransform>
+                                </RadioButton>
+                            </Grid>
 
-                                <Grid Grid.Column="0" Grid.Row="9" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="257*"/>
-                                        <ColumnDefinition Width="63*"/>
-                                        <ColumnDefinition Width="160*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,1,1,0" Grid.ColumnSpan="2" Margin="0,0,0,1"/>
-                                    <TextBlock Grid.Column="0" Text="Facility EOC Main Contact Fax" 
+                            <Grid Grid.Column="0" Grid.Row="9" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="257*"/>
+                                    <ColumnDefinition Width="63*"/>
+                                    <ColumnDefinition Width="160*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,1,1,0" Grid.ColumnSpan="2" Margin="0,0,0,1"/>
+                                <TextBlock Grid.Column="0" Text="Facility EOC Main Contact Fax" 
                                        Style="{StaticResource AlliedHeaderText}" Grid.ColumnSpan="2" Margin="2,0,2,0" />
-                                    <TextBox Grid.Column="2" x:Name="facilityEOCContactFax"
+                                <TextBox Grid.Column="2" x:Name="facilityEOCContactFax"
                                      Style="{StaticResource MuniStatusPhoneTextBox}" Tag="27f." />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="10" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Liaison Officer Name: Liaison
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="10" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Liaison Officer Name: Liaison
 to Public Health/Medical Health Branch" 
                                        Style="{StaticResource AlliedHeaderText}" 
                                        TextWrapping="WrapWholeWords" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-                                    <TextBox x:Name="liasonToPublicHealth" Grid.Column="1" Grid.Row="0" 
+                                <TextBox x:Name="liasonToPublicHealth" Grid.Column="1" Grid.Row="0" 
                                      Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="28.,conditionallyrequired,Enter Liason Officer information" />
-                                </Grid>
+                            </Grid>
 
-                                <Border Grid.Row="9" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
-                                <TextBlock Grid.Row="9" Grid.Column="1" Text="General Summary of Situation/Conditions" 
+                            <Border Grid.Row="9" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="9" Grid.Column="1" Text="General Summary of Situation/Conditions" 
                                    Style="{StaticResource AlliedHeaderTextBold}" HorizontalAlignment="Center"/>
-                                <!--<Grid Grid.Column="0" Grid.Row="10" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="10" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -929,57 +904,57 @@ to Public Health/Medical Health Branch"
                                      Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="28.,conditionallyrequired,Enter Liason Officer information" />
                                 </Grid>-->
-                                <Border Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                    <TextBox Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" x:Name="summary"  
+                            <Border Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,1">
+                                <TextBox Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" x:Name="summary"  
                                      Style="{StaticResource MuniStatusTextBox}"
                                      AcceptsReturn="True"
                                      VerticalAlignment="Stretch" />
-                                </Border>
-                                <Grid Grid.Column="0" Grid.Row="11" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Liaison Contact Number" 
+                            </Border>
+                            <Grid Grid.Column="0" Grid.Row="11" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Liaison Contact Number" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox x:Name="liasonContactNumber" Grid.Column="1" Grid.Row="0"  
+                                <TextBox x:Name="liasonContactNumber" Grid.Column="1" Grid.Row="0"  
                                      Style="{StaticResource MuniStatusPhoneTextBox}" Tag="28p." />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="12" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Information Officer Name" 
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="12" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Information Officer Name" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox x:Name="infoOfficerName" Grid.Column="1" Grid.Row="0" 
+                                <TextBox x:Name="infoOfficerName" Grid.Column="1" Grid.Row="0" 
                                      Style="{StaticResource MuniStatusTextBox}" BorderThickness="1" Tag="29.,conditionallyrequired,Enter Information Officer Name" HorizontalAlignment="Stretch" />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="13" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Text="Facility Information Officer Contact Number" 
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="13" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Text="Facility Information Officer Contact Number" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Column="1" x:Name="infoOfficerNumber" 
+                                <TextBox Grid.Column="1" x:Name="infoOfficerNumber" 
                                      Style="{StaticResource MuniStatusPhoneTextBox}" BorderThickness="1" Tag="29p." />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="14" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Text="Facility Information Officer Contact Email" 
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="14" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Text="Facility Information Officer Contact Email" 
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Column="1" x:Name="infoOfficerEmail" 
+                                <TextBox Grid.Column="1" x:Name="infoOfficerEmail" 
                                      Style="{StaticResource MuniStatusTextBox}" BorderThickness="1" Tag="29c." />
-                                </Grid>
-                                <!--<Grid Grid.Column="0" Grid.Row="15" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            </Grid>
+                            <!--<Grid Grid.Column="0" Grid.Row="15" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -992,7 +967,7 @@ to Public Health/Medical Health Branch"
                                      Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="30.,conditionallyrequired,Enter alternate contact" />
                                 </Grid>-->
-                                <!--<Grid Grid.Row="15" Grid.Column="1" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="1,0,0,1">
+                            <!--<Grid Grid.Row="15" Grid.Column="1" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="1,0,0,1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
@@ -1281,7 +1256,7 @@ to Public Health/Medical Health Branch"
                                     HorizontalAlignment="Left"/>
                                     </Grid>
                                 </Grid>-->
-                                <!--<Grid Grid.Column="0" Grid.Row="16" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="16" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -1293,7 +1268,7 @@ to Public Health/Medical Health Branch"
                                      Style="{StaticResource MuniStatusPhoneTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="30p.,conditionallyrequired" />
                                 </Grid>-->
-                                <!--<Grid Grid.Column="0" Grid.Row="17" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="17" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*"/>
                                         <ColumnDefinition Width="4*"/>
@@ -1305,7 +1280,7 @@ to Public Health/Medical Health Branch"
                                      Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="30e.,conditionallyrequired" />
                                 </Grid>-->
-                                <!--<Grid Grid.Column="0" Grid.Row="18" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="18" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -1319,7 +1294,7 @@ to Public Health/Medical Health Branch"
                                     <TextBlock Grid.Column="1" Text="Total" HorizontalAlignment="Left"
                                        Style="{StaticResource AlliedHeaderTextBold}" Margin="10,0,8,0"/>
                                 </Grid>-->
-                                <!--<Grid Grid.Column="0" Grid.Row="19" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="19" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -1331,7 +1306,7 @@ to Public Health/Medical Health Branch"
                                      Style="{StaticResource TextBoxFlowInformation}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="31a." />
                                 </Grid>-->
-                                <!--<Grid Grid.Column="0" Grid.Row="20" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="20" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -1342,7 +1317,7 @@ to Public Health/Medical Health Branch"
                                     <TextBox Grid.Column="1" x:Name="patientsInjured"
                                        Style="{StaticResource TextBoxFlowInformation}" Tag="31b." />
                                 </Grid>-->
-                                <!--<Grid Grid.Column="0" Grid.Row="21" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="21" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -1354,7 +1329,7 @@ to Public Health/Medical Health Branch"
                                     <TextBox Grid.Column="1" x:Name="patientsTransferred"
                                      Style="{StaticResource TextBoxFlowInformation}" Tag="31c." />
                                 </Grid>-->
-                                <!--<Grid Grid.Column="0" Grid.Row="22" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <!--<Grid Grid.Column="0" Grid.Row="22" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition />
@@ -1366,12 +1341,12 @@ to Public Health/Medical Health Branch"
                                     <TextBox Grid.Row="1" x:Name="patientInfoOther"
                                      Style="{StaticResource TextBoxOAAlliedHealth}" Tag="33." />
                                 </Grid>-->
-                                <!--<Border Grid.Row="23" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1" />-->
-                                <!--<TextBlock  Grid.Row="23" Grid.Column="0" Text="DEOC/EOC/DUTY Chief Use" 
+                            <!--<Border Grid.Row="23" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1" />-->
+                            <!--<TextBlock  Grid.Row="23" Grid.Column="0" Text="DEOC/EOC/DUTY Chief Use" 
                                     Style="{StaticResource AlliedHeaderTextBold}" 
                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
-                                <!--<TextBox Grid.Row="24" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse"  BorderBrush="White" />-->
-                                <!--<Grid Grid.Row="23" Grid.RowSpan="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
+                            <!--<TextBox Grid.Row="24" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse"  BorderBrush="White" />-->
+                            <!--<Grid Grid.Row="23" Grid.RowSpan="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
@@ -1588,15 +1563,51 @@ to Public Health/Medical Health Branch"
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="54e.,conditionallyrequired"/>
                                 </Grid>-->
-                            </Grid>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel x:Name="printPage2">
-                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        </Grid>
+                    </Grid>
+                    <Grid x:Name="printPage2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.5*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2.5*"/>
+                                    <ColumnDefinition Width="4*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords"
+                                       Text="If Facility EOC is Not Activated, Who Should be Contacted for Questions/Requests" 
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <TextBox Grid.Column="1" x:Name="altContact"  
+                                     Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
+                                     Tag="30.,conditionallyrequired,Enter alternate contact" />
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="1,0,0,1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition/>
@@ -1606,706 +1617,675 @@ to Public Health/Medical Health Branch"
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Bed Resource Availability" 
+                                       Style="{StaticResource AlliedHeaderTextBold}" 
+                                       TextWrapping="WrapWholeWords" Margin="8,0,0,0"/>
+                                <Border Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Staffed Bed-M" Margin="2"
+                                       FontFamily="Times New Roman" FontSize="11"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       TextWrapping="WrapWholeWords" />
+                                <Border Grid.Row="0" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Staffed Bed-F" Margin="2"
+                                       FontFamily="Times New Roman" FontSize="11"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       TextWrapping="WrapWholeWords" />
+                                <Border Grid.Row="0" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="3" Text="Vacant Beds-M" 
+                                       FontFamily="Times New Roman" FontSize="11"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       TextWrapping="WrapWholeWords" />
+                                <Border Grid.Row="0" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="4" Text="Vacant Beds-F" 
+                                       FontFamily="Times New Roman" FontSize="11"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       TextWrapping="WrapWholeWords" />
+                                <Border Grid.Row="0" Grid.Column="5" Background="LightYellow"/>
+                                <TextBlock Grid.Row="0" Grid.Column="5" Text="*Surge #" 
+                                       FontFamily="Times New Roman" FontSize="11"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       TextWrapping="WrapWholeWords"  />
+                                <Border Grid.Row="1" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Skilled Nursing"
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <Border Grid.Row="1" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="40a.,conditionallyrequired"/>
+                                <Border Grid.Row="1" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="40b.,conditionallyrequired"/>
+                                <Border Grid.Row="1" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="40c.,conditionallyrequired"/>
+                                <Border Grid.Row="1" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="1" Grid.Column="4" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="40d.,conditionallyrequired"/>
+                                <Border Grid.Row="1" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                <TextBox Grid.Row="1" Grid.Column="5" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="40e.,conditionallyrequired"/>
+                                <Border Grid.Row="2" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Assisted Living"
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <Border Grid.Row="2" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="41a.,conditionallyrequired"/>
+                                <Border Grid.Row="2" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="41b.,conditionallyrequired"/>
+                                <Border Grid.Row="2" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="2" Grid.Column="3" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="41c.,conditionallyrequired,conditionallyrequired"/>
+                                <Border Grid.Row="2" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="2" Grid.Column="4" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="41d.,conditionallyrequired"/>
+                                <Border Grid.Row="2" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                <TextBox Grid.Row="2" Grid.Column="5" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="41e.,conditionallyrequired"/>
+                                <Border Grid.Row="3" Grid.Column="0" Background="LightYellow"
+                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Sub-Acute"
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <Border Grid.Row="3" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="42a.,conditionallyrequired"/>
+                                <Border Grid.Row="3" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="3" Grid.Column="2" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="42b.,conditionallyrequired"/>
+                                <Border Grid.Row="3" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="3" Grid.Column="3" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="42c.,conditionallyrequired"/>
+                                <Border Grid.Row="3" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="3" Grid.Column="4" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="42d.,conditionallyrequired"/>
+                                <Border Grid.Row="3" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                <TextBox Grid.Row="3" Grid.Column="5" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="42e.,conditionallyrequired"/>
+                                <Border Grid.Row="4" Grid.Column="0" Background="LightYellow"
+                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Alzeimers/Dementia"
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <Border Grid.Row="4" Grid.Column="1" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="43a.,conditionallyrequired"/>
+                                <Border Grid.Row="4" Grid.Column="2" Background="LightYellow"
+                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="4" Grid.Column="2" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="43b.,conditionallyrequired"/>
+                                <Border Grid.Row="4" Grid.Column="3" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="4" Grid.Column="3" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="43c.,conditionallyrequired,conditionallyrequired"/>
+                                <Border Grid.Row="4" Grid.Column="4" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="4" Grid.Column="4" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="43d.,conditionallyrequired"/>
+                                <Border Grid.Row="4" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                <TextBox Grid.Row="4" Grid.Column="5" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="43e.,conditionallyrequired"/>
+                                <Border Grid.Row="5" Grid.Column="0" Background="LightYellow"
+                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Pediatric-Sub Acute"
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <Border Grid.Row="5" Grid.Column="1" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="5" Grid.Column="1" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="44a.,conditionallyrequired"/>
+                                <Border Grid.Row="5" Grid.Column="2" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="5" Grid.Column="2" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="44b.,conditionallyrequired"/>
+                                <Border Grid.Row="5" Grid.Column="3" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="5" Grid.Column="3" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="44c.,conditionallyrequired"/>
+                                <Border Grid.Row="5" Grid.Column="4" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="5" Grid.Column="4" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="44d.,conditionallyrequired"/>
+                                <Border Grid.Row="5" Grid.Column="5" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                <TextBox Grid.Row="5" Grid.Column="5" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="44e.,conditionallyrequired"/>
+                                <Border Grid.Row="6" Grid.Column="0" Background="LightYellow"
+                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Psychiatric"
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <Border Grid.Row="6" Grid.Column="1" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="6" Grid.Column="1" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="45a.,conditionallyrequired"/>
+                                <Border Grid.Row="6" Grid.Column="2" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="6" Grid.Column="2" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="45b.,conditionallyrequired"/>
+                                <Border Grid.Row="6" Grid.Column="3" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="6" Grid.Column="3" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="45c.,conditionallyrequired"/>
+                                <Border Grid.Row="6" Grid.Column="4" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBox Grid.Row="6" Grid.Column="4" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="45d.,conditionallyrequired"/>
+                                <Border Grid.Row="6" Grid.Column="5" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                <TextBox Grid.Row="6" Grid.Column="5" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="45e.,conditionallyrequired"/>
+                                <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1.2*"/>
+                                        <ColumnDefinition Width="1.2*"/>
+                                        <ColumnDefinition Width="1.2*"/>
+                                        <ColumnDefinition Width="1.2*"/>
+                                        <ColumnDefinition Width="1.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Row="0" Grid.Column="0" Background="LightYellow"
+                                        BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                    <TextBox Grid.Row="0"  Grid.Column="0" 
+                                         Style="{StaticResource TextBoxOAAlliedHealth}" Tag="46." />
+                                    <Border Grid.Row="0" Grid.Column="1" 
+                                        Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1" 
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         TextChanged="TextBoxResource_TextChanged" Tag="46a.,conditionallyrequired"/>
+                                    <Border Grid.Row="0" Grid.Column="2" 
+                                        Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                    <TextBox Grid.Row="0" Grid.Column="2" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="46b.,conditionallyrequired"/>
+                                    <Border Grid.Row="0" Grid.Column="3" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                    <TextBox Grid.Row="0" Grid.Column="3" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="46c.,conditionallyrequired"/>
+                                    <Border Grid.Row="0" Grid.Column="4" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                    <TextBox Grid.Row="0" Grid.Column="4" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="46d.,conditionallyrequired"/>
+                                    <Border Grid.Row="0" Grid.Column="5" 
+                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                    <TextBox Grid.Row="0" Grid.Column="5" 
+                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                     TextChanged="TextBoxResource_TextChanged" Tag="46e.,conditionallyrequired"/>
+                                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                    <TextBlock  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="8,0,0,2"
+                                    Text="*surge number: # of beds in addition to vacant available beds" 
+                                    Style="{StaticResource AlliedHeaderText}" FontSize="11" 
+                                    HorizontalAlignment="Left"/>
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Text="Facility Contact Number" 
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <TextBox Grid.Column="1" x:Name="altContactNumber"  
+                                     Style="{StaticResource MuniStatusPhoneTextBox}" TextChanged="TextBox_TextChanged"
+                                     Tag="30p.,conditionallyrequired" />
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Text="Facility Contact Email"
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <TextBox Grid.Column="1" x:Name="altContactEmail" 
+                                     Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
+                                     Tag="30e.,conditionallyrequired" />
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="4" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" 
+                                    Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Text="Facility Patient Flow Information" 
+                                       Style="{StaticResource AlliedHeaderTextBold}" />
+                                <Border Grid.Row="0" Grid.Column="1" 
+                                    Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0"/>
+                                <TextBlock Grid.Column="1" Text="Total" HorizontalAlignment="Left"
+                                       Style="{StaticResource AlliedHeaderTextBold}" Margin="10,0,8,0"/>
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="5" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"  Margin="0,0,0,2" />
+                                <TextBlock Grid.Column="0" Text="Facility Patients to Evacuate" 
+                                       Style="{StaticResource AlliedHeaderText}" Margin="2,0,2,0" />
+                                <TextBox Grid.Column="1" x:Name="patientsToEvacuate"
+                                     Style="{StaticResource TextBoxFlowInformation}" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="31a." />
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="6" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" Text="Facility Patients Injured - Minor" 
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <TextBox Grid.Column="1" x:Name="patientsInjured"
+                                       Style="{StaticResource TextBoxFlowInformation}" Tag="31b." />
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="7" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Column="0" 
+                                       Text="Facility Patients Transfered Out of County" 
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <TextBox Grid.Column="1" x:Name="patientsTransferred"
+                                     Style="{StaticResource TextBoxFlowInformation}" Tag="31c." />
+                            </Grid>
+                            <Grid Grid.Column="0" Grid.Row="8" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
+                                <TextBlock Grid.Row="0" 
+                                       Text="Other Facility Patient Care Information" 
+                                       Style="{StaticResource AlliedHeaderText}" />
+                                <TextBox Grid.Row="1" x:Name="patientInfoOther"
+                                     Style="{StaticResource TextBoxOAAlliedHealth}" Tag="33." />
+                            </Grid>
+
+
+
+
+
+
+
+
+
+
+
+                            <Border Grid.Row="9" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1" />
+                            <TextBlock  Grid.Row="9" Grid.Column="0" Text="DEOC/EOC/DUTY Chief Use" 
+                                            Style="{StaticResource AlliedHeaderTextBold}" 
+                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="10" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse1"  BorderBrush="White" />
+                            <Grid Grid.Row="9" Grid.RowSpan="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <Grid Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords"
-                                       Text="If Facility EOC is Not Activated, Who Should be Contacted for Questions/Requests" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Column="1" x:Name="altContact"  
-                                     Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
-                                     Tag="30.,conditionallyrequired,Enter alternate contact" />
-                                </Grid>
-                                <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Bed Resource Availability" 
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Available Resources by Facility Type" 
                                        Style="{StaticResource AlliedHeaderTextBold}" 
                                        TextWrapping="WrapWholeWords" Margin="8,0,0,0"/>
-                                    <Border Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Staffed Bed-M" Margin="2"
-                                       FontFamily="Times New Roman" FontSize="11"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       TextWrapping="WrapWholeWords" />
-                                    <Border Grid.Row="0" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Staffed Bed-F" Margin="2"
-                                       FontFamily="Times New Roman" FontSize="11"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       TextWrapping="WrapWholeWords" />
-                                    <Border Grid.Row="0" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="3" Text="Vacant Beds-M" 
-                                       FontFamily="Times New Roman" FontSize="11"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       TextWrapping="WrapWholeWords" />
-                                    <Border Grid.Row="0" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Vacant Beds-F" 
-                                       FontFamily="Times New Roman" FontSize="11"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       TextWrapping="WrapWholeWords" />
-                                    <Border Grid.Row="0" Grid.Column="5" Background="LightYellow"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="5" Text="*Surge #" 
-                                       FontFamily="Times New Roman" FontSize="11"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       TextWrapping="WrapWholeWords"  />
-                                    <Border Grid.Row="1" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Skilled Nursing"
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="1" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40a.,conditionallyrequired"/>
-                                    <Border Grid.Row="1" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40b.,conditionallyrequired"/>
-                                    <Border Grid.Row="1" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40c.,conditionallyrequired"/>
-                                    <Border Grid.Row="1" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40d.,conditionallyrequired"/>
-                                    <Border Grid.Row="1" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40e.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Assisted Living"
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="2" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41a.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41b.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41c.,conditionallyrequired,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41d.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41e.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="0" Background="LightYellow"
-                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Sub-Acute"
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="3" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42a.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42b.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42c.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42d.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42e.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="0" Background="LightYellow"
-                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Alzeimers/Dementia"
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="4" Grid.Column="1" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43a.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="2" Background="LightYellow"
-                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43b.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="3" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43c.,conditionallyrequired,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="4" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43d.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43e.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="0" Background="LightYellow"
-                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Pediatric-Sub Acute"
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="5" Grid.Column="1" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44a.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="2" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44b.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="3" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44c.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="4" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44d.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="5" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44e.,conditionallyrequired"/>
-                                    <Border Grid.Row="6" Grid.Column="0" Background="LightYellow"
-                                    BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Psychiatric"
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="6" Grid.Column="1" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="6" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45a.,conditionallyrequired"/>
-                                    <Border Grid.Row="6" Grid.Column="2" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="6" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45b.,conditionallyrequired"/>
-                                    <Border Grid.Row="6" Grid.Column="3" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="6" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45c.,conditionallyrequired"/>
-                                    <Border Grid.Row="6" Grid.Column="4" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="6" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45d.,conditionallyrequired"/>
-                                    <Border Grid.Row="6" Grid.Column="5" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="6" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45e.,conditionallyrequired"/>
-                                    <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1.2*"/>
-                                            <ColumnDefinition Width="1.2*"/>
-                                            <ColumnDefinition Width="1.2*"/>
-                                            <ColumnDefinition Width="1.2*"/>
-                                            <ColumnDefinition Width="1.2*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Row="0" Grid.Column="0" Background="LightYellow"
-                                        BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                        <TextBox Grid.Row="0"  Grid.Column="0" 
-                                         Style="{StaticResource TextBoxOAAlliedHealth}" Tag="46." />
-                                        <Border Grid.Row="0" Grid.Column="1" 
-                                        Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                        <TextBox Grid.Row="0" Grid.Column="1" 
-                                         Style="{StaticResource TextBoxResourceAvail}" 
-                                         PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                         TextChanged="TextBoxResource_TextChanged" Tag="46a.,conditionallyrequired"/>
-                                        <Border Grid.Row="0" Grid.Column="2" 
-                                        Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                        <TextBox Grid.Row="0" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="46b.,conditionallyrequired"/>
-                                        <Border Grid.Row="0" Grid.Column="3" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                        <TextBox Grid.Row="0" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="46c.,conditionallyrequired"/>
-                                        <Border Grid.Row="0" Grid.Column="4" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                        <TextBox Grid.Row="0" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="46d.,conditionallyrequired"/>
-                                        <Border Grid.Row="0" Grid.Column="5" 
-                                    Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                        <TextBox Grid.Row="0" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
-                                     TextChanged="TextBoxResource_TextChanged" Tag="46e.,conditionallyrequired"/>
-                                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                        <TextBlock  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="8,0,0,2"
-                                    Text="*surge number: # of beds in addition to vacant available beds" 
-                                    Style="{StaticResource AlliedHeaderText}" FontSize="11" 
-                                    HorizontalAlignment="Left"/>
-                                    </Grid>
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Text="Facility Contact Number" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Column="1" x:Name="altContactNumber"  
-                                     Style="{StaticResource MuniStatusPhoneTextBox}" TextChanged="TextBox_TextChanged"
-                                     Tag="30p.,conditionallyrequired" />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="4*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Text="Facility Contact Email"
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Column="1" x:Name="altContactEmail" 
-                                     Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
-                                     Tag="30e.,conditionallyrequired" />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="4" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" 
-                                    Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Text="Facility Patient Flow Information" 
-                                       Style="{StaticResource AlliedHeaderTextBold}" />
-                                    <Border Grid.Row="0" Grid.Column="1" 
-                                    Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0"/>
-                                    <TextBlock Grid.Column="1" Text="Total" HorizontalAlignment="Left"
-                                       Style="{StaticResource AlliedHeaderTextBold}" Margin="10,0,8,0"/>
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="5" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"  Margin="0,0,0,2" />
-                                    <TextBlock Grid.Column="0" Text="Facility Patients to Evacuate" 
-                                       Style="{StaticResource AlliedHeaderText}" Margin="2,0,2,0" />
-                                    <TextBox Grid.Column="1" x:Name="patientsToEvacuate"
-                                     Style="{StaticResource TextBoxFlowInformation}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="31a." />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="6" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" Text="Facility Patients Injured - Minor" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Column="1" x:Name="patientsInjured"
-                                       Style="{StaticResource TextBoxFlowInformation}" Tag="31b." />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="7" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Column="0" 
-                                       Text="Facility Patients Transfered Out of County" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Column="1" x:Name="patientsTransferred"
-                                     Style="{StaticResource TextBoxFlowInformation}" Tag="31c." />
-                                </Grid>
-                                <Grid Grid.Column="0" Grid.Row="8" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
-                                    <TextBlock Grid.Row="0" 
-                                       Text="Other Facility Patient Care Information" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                    <TextBox Grid.Row="1" x:Name="patientInfoOther"
-                                     Style="{StaticResource TextBoxOAAlliedHealth}" Tag="33." />
-                                </Grid>
-
-
-
-
-
-
-
-
-
-
-
-                                <Border Grid.Row="9" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1" />
-                                <TextBlock  Grid.Row="9" Grid.Column="0" Text="DEOC/EOC/DUTY Chief Use" 
-                                            Style="{StaticResource AlliedHeaderTextBold}" 
-                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <TextBox Grid.Row="10" Grid.RowSpan="6" Grid.Column="0" x:Name="chiefUse1"  BorderBrush="White" />
-                                <Grid Grid.Row="9" Grid.RowSpan="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Available Resources by Facility Type" 
-                                       Style="{StaticResource AlliedHeaderTextBold}" 
-                                       TextWrapping="WrapWholeWords" Margin="8,0,0,0"/>
-                                    <Border Grid.Row="0" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Chairs/Rooms" 
+                                <Border Grid.Row="0" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Chairs/Rooms" 
                                        FontFamily="Times New Roman" FontSize="11" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                        TextWrapping="WrapWholeWords"/>
-                                    <Border Grid.Row="0" Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Vacant Chairs/Room"  
+                                <Border Grid.Row="0" Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Vacant Chairs/Room"  
                                        FontFamily="Times New Roman" FontSize="11" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        TextWrapping="WrapWholeWords" />
-                                    <Border Grid.Row="0" Grid.Column="3" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="3" Text="Front Desk Staff" 
+                                <Border Grid.Row="0" Grid.Column="3" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="3" Text="Front Desk Staff" 
                                        FontFamily="Times New Roman" FontSize="11" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        TextWrapping="WrapWholeWords" />
-                                    <Border Grid.Row="0" Grid.Column="4" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Medical Support Staff" 
+                                <Border Grid.Row="0" Grid.Column="4" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="4" Text="Medical Support Staff" 
                                        FontFamily="Times New Roman" FontSize="11" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        TextWrapping="WrapWholeWords" />
-                                    <Border Grid.Row="0" Grid.Column="5" Background="LightGray" />
-                                    <TextBlock Grid.Row="0" Grid.Column="5" Text="Provider Staff" 
+                                <Border Grid.Row="0" Grid.Column="5" Background="LightGray" />
+                                <TextBlock Grid.Row="0" Grid.Column="5" Text="Provider Staff" 
                                        FontFamily="Times New Roman" FontSize="11"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        TextWrapping="WrapWholeWords"  />
-                                    <Border Grid.Row="1" Grid.Column="0" Background="LightYellow"
+                                <Border Grid.Row="1" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Dialysis"
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Dialysis"
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="1" Grid.Column="1" 
+                                <Border Grid.Row="1" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="1" 
+                                <TextBox Grid.Row="1" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="50a.,conditionallyrequired" />
-                                    <Border Grid.Row="1" Grid.Column="2" 
+                                <Border Grid.Row="1" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="2" 
+                                <TextBox Grid.Row="1" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="50b.,conditionallyrequired"/>
-                                    <Border Grid.Row="1" Grid.Column="3" 
+                                <Border Grid.Row="1" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="3" 
+                                <TextBox Grid.Row="1" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="50c.,conditionallyrequired"/>
-                                    <Border Grid.Row="1" Grid.Column="4" 
+                                <Border Grid.Row="1" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="4" 
+                                <TextBox Grid.Row="1" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="50d.,conditionallyrequired"/>
-                                    <Border Grid.Row="1" Grid.Column="5" 
+                                <Border Grid.Row="1" Grid.Column="5" 
                                     Background="LightYellow" 
                                     BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="1" Grid.Column="5" 
+                                <TextBox Grid.Row="1" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="50e.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Surgical"
+                                <Border Grid.Row="2" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Surgical"
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="2" Grid.Column="1" 
+                                <Border Grid.Row="2" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="1" 
+                                <TextBox Grid.Row="2" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="51a.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="2" 
+                                <Border Grid.Row="2" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="2" 
+                                <TextBox Grid.Row="2" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="51b.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="3" 
+                                <Border Grid.Row="2" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="3" 
+                                <TextBox Grid.Row="2" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="51c.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="4" 
+                                <Border Grid.Row="2" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="4" 
+                                <TextBox Grid.Row="2" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="51d.,conditionallyrequired"/>
-                                    <Border Grid.Row="2" Grid.Column="5" 
+                                <Border Grid.Row="2" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="2" Grid.Column="5" 
+                                <TextBox Grid.Row="2" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="51e.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="0" 
+                                <Border Grid.Row="3" Grid.Column="0" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Clinic"
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Clinic"
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="3" Grid.Column="1" 
+                                <Border Grid.Row="3" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="1" 
+                                <TextBox Grid.Row="3" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="52a.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="2" 
+                                <Border Grid.Row="3" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="2" 
+                                <TextBox Grid.Row="3" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="52b.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="3" 
+                                <Border Grid.Row="3" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="3" 
+                                <TextBox Grid.Row="3" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="52c.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="4" 
+                                <Border Grid.Row="3" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="4" 
+                                <TextBox Grid.Row="3" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="52d.,conditionallyrequired"/>
-                                    <Border Grid.Row="3" Grid.Column="5" 
+                                <Border Grid.Row="3" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="3" Grid.Column="5" 
+                                <TextBox Grid.Row="3" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="52e.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="0" 
+                                <Border Grid.Row="4" Grid.Column="0" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Homehealth"
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Homehealth"
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="4" Grid.Column="1" 
+                                <Border Grid.Row="4" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="1" 
+                                <TextBox Grid.Row="4" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="53a.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="2" 
+                                <Border Grid.Row="4" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="2" 
+                                <TextBox Grid.Row="4" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="53b.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="3" 
+                                <Border Grid.Row="4" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="3" 
+                                <TextBox Grid.Row="4" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="53c.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="4" 
+                                <Border Grid.Row="4" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="4" 
+                                <TextBox Grid.Row="4" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="53d.,conditionallyrequired"/>
-                                    <Border Grid.Row="4" Grid.Column="5" 
+                                <Border Grid.Row="4" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="4" Grid.Column="5" 
+                                <TextBox Grid.Row="4" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="53e.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="0" 
+                                <Border Grid.Row="5" Grid.Column="0" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Adult Day Center"
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Adult Day Center"
                                        Style="{StaticResource AlliedHeaderText}" />
-                                    <Border Grid.Row="5" Grid.Column="1" 
+                                <Border Grid.Row="5" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="1" 
+                                <TextBox Grid.Row="5" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="54a.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="2" 
+                                <Border Grid.Row="5" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="2" 
+                                <TextBox Grid.Row="5" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="54b.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="3" 
+                                <Border Grid.Row="5" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="3" 
+                                <TextBox Grid.Row="5" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="54c.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="4" 
+                                <Border Grid.Row="5" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="4" 
+                                <TextBox Grid.Row="5" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="54d.,conditionallyrequired"/>
-                                    <Border Grid.Row="5" Grid.Column="5" 
+                                <Border Grid.Row="5" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Row="5" Grid.Column="5" 
+                                <TextBox Grid.Row="5" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
                                      PreviewKeyDown="TextBoxResource_PreviewKeyDown"
                                      TextChanged="TextBoxResource_TextChanged" Tag="54e.,conditionallyrequired"/>
-                                </Grid>
-
                             </Grid>
-                            <Border Background="CornflowerBlue"/>
-                            <Border BorderBrush="Black" BorderThickness="1,1,1,0" Background="LightGray" Margin="0,10,0,0">
-                                <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
+
+                        </Grid>
+                        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0" Background="LightGray" Margin="0,10,0,0">
+                            <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                    Height="26" Margin="8,12,0,0"/>
-                            </Border>
-                            <Border BorderBrush="Black" BorderThickness="1,0,1,0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border BorderBrush="Black" BorderThickness="0,1,1,0" Background="LightGray"/>
-                                    <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
+                        </Border>
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="Black" BorderThickness="0,1,1,1" Background="LightGray"/>
+                            <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,8,0"/>
-                                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
+                            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
+                            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                            <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
                                      Margin="8,4,4,4" Tag="OpRelayRcvd"/>
-                                    <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
+                            <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
+                            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
                                      Margin="8,4,4,4" Tag="OpRelaySent" />
-                                </Grid>
-                            </Border>
-                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="0.4*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="0.4*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="0.4*"/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
-                               Margin="8,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                <TextBox Grid.Column="1" x:Name="operatorName" 
+                        </Grid>
+                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="56"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="0.4*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="0.4*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="0.4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="0" Grid.ColumnSpan="9" BorderBrush="Black" BorderThickness="1,0,1,1"/>
+                            <TextBlock Grid.Column="1" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
+                               Margin="5,0,8,0" />
+                            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                            <TextBox Grid.Column="2" x:Name="operatorName" 
                                  Text="{x:Bind Path=OperatorName}"
-                                 Margin="2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
-                                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                <TextBox Grid.Column="3" x:Name="operatorCallsign" 
+                                 Margin="2,2,2,2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
+                            <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <TextBlock Grid.Column="3" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" />
+                            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                            <TextBox Grid.Column="4" x:Name="operatorCallsign" 
                                  Text="{x:Bind Mode=TwoWay, Path=OperatorCallsign}"
-                                 Margin="2"  BorderBrush="White" Tag="OpCall"/>
-                                <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="5" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                <TextBox Grid.Column="5" x:Name="operatorDate" 
+                                 Margin="2,2,2,2"  BorderBrush="White" Tag="OpCall"/>
+                            <Border Grid.Column="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <TextBlock Grid.Column="5" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" />
+                            <Border Grid.Column="6" BorderBrush="Black" BorderThickness="0,1,1,0"/>
+                            <TextBox Grid.Column="6" x:Name="operatorDate" 
                                  IsReadOnly="True"
-                                 Margin="2" BorderBrush="White" Tag="OpDate"/>
-                                <Border Grid.Column="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBox Grid.Column="7" x:Name="operatorTime" 
+                                 Margin="2,2,2,2" BorderBrush="White" Tag="OpDate"/>
+                            <Border Grid.Column="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <TextBlock Grid.Column="7" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" />
+                            <Border Grid.Column="7" BorderBrush="Black" BorderThickness="0,1,0,0" Grid.ColumnSpan="2" Margin="49,0,0,0"/>
+                            <TextBox Grid.Column="8" x:Name="operatorTime" 
                                  IsReadOnly="True"
-                                 Margin="2" BorderBrush="White" Tag="OpTime" />
-                            </Grid>
-
-                        </StackPanel>
+                                 Margin="2,2,2,2" BorderBrush="White" Tag="OpTime" />
+                        </Grid>
+                    </Grid>
                 </StackPanel>
             </StackPanel>
         </Border>

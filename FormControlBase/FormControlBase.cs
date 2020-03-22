@@ -1324,7 +1324,7 @@ namespace FormControlBaseClass
             sender.Text = args.SelectedItem as string;
         }
 
-        protected virtual void TextBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        protected virtual void AutoSuggestBoxICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Only get results when it was a user typing, 
             // otherwise assume the value got filled in by TextMemberPath 

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Toolkit.Uwp.Helpers;
-//using SharedCode.Helpers.PrintHelpers;
+
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
 using Windows.UI.Xaml;

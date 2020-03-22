@@ -495,19 +495,29 @@ namespace SharedCode.Helpers.PrintHelpers
             element.VerticalAlignment = VerticalAlignment.Top;
             element.HorizontalAlignment = HorizontalAlignment.Left;
 
-            if (element.Width > element.Height)
-            {
-                var newWidth = page.Width - marginWidth;
-
-                element.Height = element.Height * (newWidth / element.Width);
-                element.Width = newWidth;
-            }
-            else
+            if (double.IsNaN(element.Width))// || double.isNaN(element.Height))
             {
                 var newHeight = page.Height - marginHeight;
 
-                element.Width = element.Width * (newHeight / element.Height);
+                element.Width = page.Width - marginWidth;// * (newHeight / element.Height);
                 element.Height = newHeight;
+            }
+            else
+            {
+                if (element.Width > element.Height)
+                {
+                    var newWidth = page.Width - marginWidth;
+
+                    element.Height = element.Height * (newWidth / element.Width);
+                    element.Width = newWidth;
+                }
+                else
+                {
+                    var newHeight = page.Height - marginHeight;
+
+                    element.Width = element.Width * (newHeight / element.Height);
+                    element.Height = newHeight;
+                }
             }
 
             element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);

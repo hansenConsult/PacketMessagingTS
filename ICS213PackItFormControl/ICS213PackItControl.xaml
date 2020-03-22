@@ -9,7 +9,7 @@
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
 
     mc:Ignorable="d"
-    d:DesignWidth="800" Height="1060">
+    d:DesignWidth="800" Height="1056">
 
     <MyBaseNamespace:FormControlBase.Resources>
 
@@ -213,7 +213,7 @@
                                                         PlaceholderText="Select ICS Position"
                                                         Style="{StaticResource AutoSuggestICSPosition}"
                                                         TextBoxStyle="{StaticResource AutoSuggestTextBoxStyle}"
-                                                        TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                        TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                         Tag="7.,required,Enter a To Position." VerticalAlignment="Top"/>
                                             </StackPanel>
@@ -259,7 +259,7 @@
                                                 <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
                                                         PlaceholderText="Select ICS Position"
                                                         Style="{StaticResource AutoSuggestICSPosition}"
-                                                        TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                        TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                         Tag="8.,required,Enter a From position." FontFamily="Times New Roman"/>
                                             </StackPanel>
@@ -331,7 +331,7 @@
                             </TextBlock>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="1">
-                            <TextBlock x:Name="ActionTaken" Height="72" />
+                            <TextBlock x:Name="ActionTaken" Height="56" />
                                 <!--BorderBrush="Black" BorderThickness="0,0,0,1" />-->
                                 <!--<TextBox x:Name="ActionTaken2" Style="{StaticResource TypedText}" BorderBrush="Black" BorderThickness="0,0,0,1" />-->
                                 <!--<TextBox x:Name="ActionTaken3" Style="{StaticResource TypedText}" BorderBrush="Black" BorderThickness="0"/>-->
@@ -399,8 +399,8 @@
                                 <ColumnDefinition Width="218*"/>
                                 <ColumnDefinition Width="359*" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Grid.ColumnSpan="4" >
-                                <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" >
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="0,0,1,0" BorderBrush="Black">
+                                <!--<Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" >-->
                                     <StackPanel Orientation="Horizontal" Height="34">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="How received" VerticalAlignment="Center" Margin="5,0,5,0" />
                                         <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
@@ -412,7 +412,7 @@
                                              FontFamily="Times New Roman" Tag="sender"/>
                                         <TextBlock Text="    " Width="120" Margin="-94,0,0,0" Height="32" FontFamily="Times New Roman" Canvas.ZIndex="1"/>
                                     </StackPanel>
-                                </Border>
+                                <!--</Border>-->
                                 <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" 
                                                        CheckedControlName="{x:Bind HowReceivedSent}"
                                                        Tag="Method"/>
@@ -427,14 +427,14 @@
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3" Height="34"/>
+                                    <!--<Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3" Height="34"/>-->
                                     <RadioButton Grid.Row="0" GroupName="howRecevedSent" Grid.Column="0" x:Name="telephone" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Telephone" 
                                          Margin="5,0,0,0" Padding="4" Tag="Telephone"/>
                                     <RadioButton Grid.Row="0" Grid.Column="1" x:Name="dispatchCenter" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Dispatch Center" 
                                          Grid.ColumnSpan="2" Padding="4" Width="100" Tag="Dispatch Center"/>
-                                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3"/>
+                                    <!--<Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3"/>-->
                                     <RadioButton Grid.Row="1" Grid.Column="0" x:Name="eOCRadio" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="EOC Radio" 
                                          Margin="5,0,0,0" Padding="4" Tag="EOC Radio"/>
@@ -459,7 +459,7 @@
                                 </Grid>
                             </StackPanel>
                             <StackPanel Grid.Column="4">
-                                <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <!--<Border BorderBrush="Black" BorderThickness="0,0,0,1">-->
                                     <StackPanel Orientation="Horizontal" Height="34">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Call Sign:" VerticalAlignment="Center" Margin="5"/>
                                         <TextBox x:Name="operatorCallsign"  
@@ -467,18 +467,18 @@
                                          BorderBrush="White" HorizontalAlignment="Left" 
                                          Margin="5,2,0,2" Width="auto" Tag="OpCall" />
                                     </StackPanel>
-                                </Border>
-                                <Border BorderBrush="Black" BorderThickness="0,0,0,1" Height="34">
+                                <!--</Border>-->
+                                <!--<Border BorderBrush="Black" BorderThickness="0,0,0,1" >-->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Name:"  VerticalAlignment="Center" Margin="5"/>
                                         <TextBox x:Name="operatorName"  
                                          Text="{x:Bind OperatorName}"
                                          BorderBrush="White" Margin="5,2,0,2" Width="auto" Tag="OpName"/>
                                     </StackPanel>
-                                </Border>
+                                <!--</Border>-->
                                 <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="" Height="33" />
                                 <!--<Border BorderBrush="Black" BorderThickness="0,1,0,0">-->
-                                    <Grid Height="34" BorderBrush="Black" BorderThickness="0,1,0,0">
+                                    <Grid Height="34" >
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                         </Grid.RowDefinitions>

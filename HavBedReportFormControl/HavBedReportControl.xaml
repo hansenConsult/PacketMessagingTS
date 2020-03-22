@@ -25,8 +25,15 @@
             <StackPanel>
                 <Grid x:Name="container" Opacity="0" />
                 <StackPanel x:Name="directPrintContainer">
-                    <StackPanel x:Name="printPage1">
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
+                    <Grid x:Name="printPage1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />
@@ -66,53 +73,52 @@
                                      Header="Destination:"/>
 
                         </Grid>
-                        <StackPanel>
-                            <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                <TextBox Grid.Column="1" x:Name="msgDate" 
+                            <TextBox Grid.Column="1" x:Name="msgDate" 
                                  Style="{StaticResource MuniStatusDateTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
                                  Tag="1a.,required"
                                  TextChanged="TextBox_DateChanged"/>
-                                <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
+                            <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0" />
-                                <TextBox Grid.Column="3" x:Name="msgTime" Margin="0,0,8,0" 
+                            <TextBox Grid.Column="3" x:Name="msgTime" Margin="0,0,8,0" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
                                  Tag="1b.,required"
                                  TextChanged="TextBox_TextChanged"/>
-                                <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                                <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
+                            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                            <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                        Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" Visibility="Collapsed"
+                            <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" Visibility="Collapsed"
                                                        CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                        Tag="5.,required,Indicate Msg. Handling Order."/>
-                                <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
+                            <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" 
                                              Margin="8,0" Tag="IMMEDIATE"
                                              Content="Immediate (ASAP)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="As soon as possible" />
-                                <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
+                            <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" 
                                              Margin="8,0" Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
-                                <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
+                            <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                              Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
-                            </Grid>
-                            <Grid >
+                        </Grid>
+                        <Grid Grid.Row="2" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50"/>
                                     <ColumnDefinition Width="1*"/>
@@ -122,116 +128,101 @@
                                 <Border Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
                                 <TextBlock x:Name="labelTo" Grid.Column="0"  Style="{StaticResource LabelFontTNR14B}" Text=" To:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <StackPanel Grid.Column="1" >
-                                    <Border BorderBrush="Black" BorderThickness="0,1">
-                                        <StackPanel x:Name="toICSPositionPanel">
-                                            <TextBlock Padding="10,2,0,2" 
-                                               Text="ICS Position:" FontSize="12" FontFamily="Times New Roman" 
-                                               FontWeight="Bold" Foreground="Black" />
-                                            <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="10,0,10,2"     
-                                                    PlaceholderText="Select ICS Position"
-                                                    Style="{StaticResource AutoSuggestICSPosition}"                                                    
-                                                    BorderBrush="Gray"
-                                                    BorderThickness="2"
-                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
-                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
-                                                    Tag="7a.,required,Enter a To Position." VerticalAlignment="Top"/>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />-->
-                                            <TextBox x:Name="toLocation" Margin="10,0,10,2" 
-                                             TextChanged="TextBox_TextChanged"
-                                             Tag="7b.,required,Enter a To Location."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Location:"/>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
-                                            <TextBox x:Name="toName" BorderThickness="1" Margin="10,0,10,2" Tag="7c."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"/>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">
-                                        <StackPanel >
-                                            <TextBox x:Name="toContactInfo" 
-                                             BorderThickness="1" Margin="10,0,10,2" Tag="7d."
-                                             TextChanged="PhoneNumber_TextChanged"
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Contact Info:"/>
-
-                                        </StackPanel>
-                                    </Border>
+                                    <Grid BorderBrush="Black" BorderThickness="0,1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  
+                                               Text="ICS Position:"  />
+                                        <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="10,2,10,2"                                                        
+                                                        PlaceholderText="Select ICS Position"
+                                                        Style="{StaticResource AutoSuggestICSPosition}"
+                                                        BorderBrush="Gray"
+                                                        BorderThickness="1"
+                                                        TextChanged="AutoSuggestBoxICSPosition_TextChanged"
+                                                        SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                        Tag="7a.,required,Enter a To Position." VerticalAlignment="Top"/>
+                                    </Grid>
+                                    <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  Text="Location:" />
+                                        <TextBox Grid.Column="1" x:Name="toLocation" Margin="10,2,10,2" 
+                                                TextChanged="TextBox_TextChanged"
+                                                Tag="7b.,required,Enter a To Location."/>
+                                    </Grid>
+                                    <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
+                                        <TextBox Grid.Column="1" x:Name="toName" BorderThickness="1" Margin="10,2,10,2" Tag="7c."/>
+                                    </Grid>
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
+                                        <TextBox Grid.Column="1" x:Name="toContactInfo" 
+                                             Margin="10,2,10,2" Tag="7d."
+                                             TextChanged="PhoneNumber_TextChanged"/>
+                                    </Grid>
                                 </StackPanel>
                                 <Border Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0"/>
                                 <TextBlock x:Name="labelFrom" Grid.Column="2" Style="{StaticResource LabelFontTNR14B}" Text=" From:" VerticalAlignment="Center" />
                                 <StackPanel Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0">
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <StackPanel>
-                                            <TextBlock Padding="10,2,0,2"
-                                               Style="{StaticResource LabelFontTNR14B}"
-                                               FontSize="12" FontFamily="Times New Roman" 
-                                               FontWeight="Bold" Foreground="Black"
-                                               Text="8.) ICS Position:" />
-                                            <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="10,0,10,2"
+                                    <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  
+                                               Text="ICS Position:"  />
+                                        <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxFromICSPosition" Margin="10,2,10,2"
                                                     PlaceholderText="Select ICS Position"
                                                     Style="{StaticResource AutoSuggestICSPosition}"
                                                     BorderBrush="Gray"
-                                                    BorderThickness="2"
-                                                    TextChanged="TextBoxFromICSPosition_TextChanged"
+                                                    BorderThickness="1"
+                                                    TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                     SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                     Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
-                                            <!--<TextBox  x:Name="textBoxFromICSPosition" Visibility="Collapsed" Tag="23" />-->
-                                        </StackPanel>
-                                        <!--<StackPanel >
-										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
-										<RelativePanel x:Name="fromICSPos" >
-											<Button x:Name="buttonSelectFromICSPosInput" RelativePanel.AlignVerticalCenterWithPanel="True" Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2" />
-											<TextBox x:Name="textBoxFromICSPosition" Style="{StaticResource TypedText}" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True"	 
-												BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
-                                                Tag="required,Enter a From position."/>
-										</RelativePanel>
-									</StackPanel>-->
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />-->
-                                            <TextBox x:Name="fromLocation" Margin="10,0,10,2" 
+                                    </Grid>
+                                    <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  Text="Location:" />
+                                        <TextBox Grid.Column="1" x:Name="fromLocation" Margin="10,2,10,2" 
                                              TextChanged="TextBox_TextChanged"
-                                             Tag="8b.,required,Enter a From Location."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Location:"/>
-
-                                        </StackPanel>
-                                    </Border>
-                                    <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
-                                            <TextBox x:Name="fromName"  BorderThickness="1" Margin="10,0,10,2" Tag="8c."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"/>
-
-                                        </StackPanel>
-                                    </Border>
-                                    <!--</Border>-->
-                                    <!--<Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">-->
-                                    <StackPanel >
-                                        <TextBox x:Name="fromContactInfo" 
-                                             Margin="10,0,10,2" Tag="8d." BorderThickness="1" 
-                                             TextChanged="PhoneNumber_TextChanged"
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Contact Info:"/>
-                                    </StackPanel>
+                                             Tag="8b.,required,Enter a From Location."/>
+                                    </Grid>
+                                    <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
+                                        <TextBox Grid.Column="1" x:Name="fromName" Margin="10,2,10,2" Tag="8c."/>
+                                    </Grid>
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
+                                        <TextBox Grid.Column="1" x:Name="fromContactInfo" 
+                                             Margin="10,2,10,2" Tag="8d." 
+                                             TextChanged="PhoneNumber_TextChanged"/>
+                                    </Grid>
                                 </StackPanel>
                             </Grid>
-
-                        </StackPanel>
-                        <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="24"/>
                                 <RowDefinition/>
@@ -262,22 +253,22 @@
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Hospital Name:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Row="1" Grid.Column="1" x:Name="hospitalName" Width="300"
-                              DisplayMemberPath="Item"
-                              Style="{StaticResource MuniStatusComboBox}"  
-                              ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
-                              SelectionChanged="Subject_Changed" 
-                              Loaded="ComboBox_Loaded"
-                              Tag="20.,required" />
+                                      DisplayMemberPath="Item"
+                                      Style="{StaticResource MuniStatusComboBox}"  
+                                      ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
+                                      SelectionChanged="Subject_Changed" 
+                                      Loaded="ComboBox_Loaded"
+                                      Tag="20.,required" />
                             <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Command Center Status:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Row="2" Grid.Column="1" x:Name="commandCenterStatus" Width="200"
-                              DisplayMemberPath="Item"
-                              Style="{StaticResource MuniStatusComboBox}"                              
-                              ItemsSource="{x:Bind CommandCenterStatus, Mode=OneWay}"
-                              SelectionChanged="ComboBox_SelectionChanged"
-                              Loaded="ComboBox_Loaded"
-                              Tag="22.,required" />
+                                      DisplayMemberPath="Item"
+                                      Style="{StaticResource MuniStatusComboBox}"                              
+                                      ItemsSource="{x:Bind CommandCenterStatus, Mode=OneWay}"
+                                      SelectionChanged="ComboBox_SelectionChanged"
+                                      Loaded="ComboBox_Loaded"
+                                      Tag="22.,required" />
                             <Border Grid.Row="3" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Bed Availability" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="3" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />
@@ -286,140 +277,140 @@
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Adult ICU:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="4" Grid.Column="1" Name="adultICU" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextAlignment="Right"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="41.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextAlignment="Right"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="41.,required"/>
                             <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="5" Grid.Column="0" Text="Burn:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="5" Grid.Column="1" Name="burn" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="42.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="42.,required"/>
                             <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="6" Grid.Column="0" Text="Medical/Surgical:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="6" Grid.Column="1" Name="medicalSurgical" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="43.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="43.,required"/>
                             <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="7" Grid.Column="0" Text="Neg Flow Isolation:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="7" Grid.Column="1" Name="negFlowIsolation" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="44.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="44.,required"/>
                             <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="8" Grid.Column="0" Text="Operating Room:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="8" Grid.Column="1" Name="operatingRoom" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="45.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="45.,required"/>
                             <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="9" Grid.Column="0" Text="Pediatric ICU:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="9" Grid.Column="1" Name="pediatricICU" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="46.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="46.,required"/>
                             <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="10" Grid.Column="0" Text="Pediatrics:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="10" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="10" Grid.Column="1" Name="pediatrics" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="47.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="47.,required"/>
                             <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="11" Grid.Column="0" Text="Psychiatric:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="11" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="11" Grid.Column="1" Name="psychiatric" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="48.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="48.,required"/>
                             <Border Grid.Row="12" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="12" Grid.Column="0" Text="Decon:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="12" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Row="12" Grid.Column="1" x:Name="decon" Width="100"
-                              DisplayMemberPath="Item"
-                              ItemsSource="{x:Bind Decon}"
-                              Style="{StaticResource MuniStatusComboBox}"                              
-                              SelectionChanged="ComboBox_SelectionChanged"
-                              Loaded="ComboBox_Loaded"
-                              Tag="49.,required"/>
+                                      DisplayMemberPath="Item"
+                                      ItemsSource="{x:Bind Decon}"
+                                      Style="{StaticResource MuniStatusComboBox}"                              
+                                      SelectionChanged="ComboBox_SelectionChanged"
+                                      Loaded="ComboBox_Loaded"
+                                      Tag="49.,required"/>
                             <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="13" Grid.Column="0" Text="Vents:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="13" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="13" Grid.Column="1" Name="vents" 
-                             Style="{StaticResource HAvBedNumberTextBox}"
-                             TextChanged="TextBox_IntegerChanged"
-                             Tag="50.,required"/>
+                                     Style="{StaticResource HAvBedNumberTextBox}"
+                                     TextChanged="TextBox_IntegerChanged"
+                                     Tag="50.,required"/>
                             <Border Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,1" />
                             <TextBlock Grid.Row="14" Grid.Column="0" Text="Comment:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" Name="comment" 
-                             AcceptsReturn="True" Height=" 96" Margin="2"
-                             Tag="51."/>
+                                     AcceptsReturn="True" Height=" 96" Margin="2"
+                                     Tag="51."/>
                         </Grid>
-                        <Border BorderBrush="Black" BorderThickness="1,1,1,1" Background="LightGray" Margin="0,12,0,0">
-                            <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
-                                   Height="26" Margin="8,12,0,0"/>
-                        </Border>
-                        <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray"></Border>
-                            <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
-                                   VerticalAlignment="Center" Margin="8,0,8,0"/>
-                            <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
-                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
-                                     Margin="8,4,4,4" Tag="OpRelayRcvd"/>
-                            <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
-                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
-                                     Margin="8,4,4,4" Tag="OpRelaySent" />
-                        </Grid>
-                        <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
-                               Margin="8,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Name="operatorName" 
-                                 Text="{x:Bind OperatorName, Mode=TwoWay}"
-                                 Margin="2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
-                            <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="3" Name="operatorCallsign" 
-                                 Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
-                                 Margin="0"  BorderBrush="White" Tag="OpCall"/>
-                            <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="5" Name="operatorDate" 
-                                 IsReadOnly="True"
-                                 Margin="0" BorderBrush="White" Tag="OpDate"/>
-                            <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="7" Name="operatorTime" 
-                                 IsReadOnly="True"
-                                 Margin="0" BorderBrush="White" Tag="OpTime" />
-                        </Grid>
-                    </StackPanel>
+                        <StackPanel Grid.Row="4" x:Name="radioOperatorOnly">
+                            <Border BorderBrush="Black" BorderThickness="1,1,1,1" Background="LightGray" Margin="0,12,0,0">
+                                <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
+                                           Height="26" Margin="8,12,0,0"/>
+                            </Border>
+                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray"></Border>
+                                <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
+                                           VerticalAlignment="Center" Margin="8,0,8,0"/>
+                                <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
+                                           VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
+                                         Margin="8,4,4,4" Tag="OpRelayRcvd"/>
+                                <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
+                                           VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
+                                         Margin="8,4,4,4" Tag="OpRelaySent" />
+                            </Grid>
+                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
+                                           Margin="8,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="1" Name="operatorName" 
+                                         Text="{x:Bind OperatorName, Mode=TwoWay}"
+                                         Margin="2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
+                                <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="3" Name="operatorCallsign" 
+                                         Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
+                                         Margin="0"  BorderBrush="White" Tag="OpCall"/>
+                                <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="5" Name="operatorDate" 
+                                         IsReadOnly="True"
+                                         Margin="0" BorderBrush="White" Tag="OpDate"/>
+                                <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="7" Name="operatorTime" 
+                                         IsReadOnly="True"
+                                         Margin="0" BorderBrush="White" Tag="OpTime" />
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
-
             </StackPanel>
-            
         </Border>
     </StackPanel>
 </MyBaseNamespace:FormControlBase>
