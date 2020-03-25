@@ -197,13 +197,45 @@ namespace PacketMessagingTS.ViewModels
             DataGridSource = new ObservableCollection<PacketMessage>(sortedItems);
         }
 
-        private async void RefreshDataGridAsync()
+        public static void UpdateHeaderMessageCount(PivotItem pivotItem, int messageCount)
+        {
+            //messages = await PacketMessage.GetPacketMessages(pivotItem.Tag as StorageFolder);
+
+            if ((pivotItem.Header as string).IndexOf('(') != -1)
+            {
+                int startIndex = (pivotItem.Header as string).IndexOf('(');
+                int stopIndex = (pivotItem.Header as string).IndexOf(')');
+                int oldCount = Convert.ToInt32((pivotItem.Header as string).Substring(startIndex + 1, stopIndex - startIndex - 1));
+                if (messageCount != 0)
+                {
+                    if (oldCount != messageCount)
+                    {
+                        pivotItem.Header = (pivotItem.Header as string).Replace($"({oldCount})", $"({messageCount})");
+                    }
+                }
+                else
+                {
+                    pivotItem.Header = (pivotItem.Header as string).Replace($" ({oldCount})", "");
+                }
+            }
+            else
+            {
+                if (messageCount != 0)
+                {
+                    pivotItem.Header = $"{pivotItem.Header} ({messageCount})";
+                }
+            }
+        }
+
+        public async void RefreshDataGridAsync()
         {
             try
             {
                 _messagesInFolder = await PacketMessage.GetPacketMessages(MainPagePivotSelectedItem.Tag as StorageFolder);
 
                 DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
+
+                UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
 
                 DataGrid dataGrid = FindDataGrid(MainPagePivotSelectedItem);
                 int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber;

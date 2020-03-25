@@ -731,6 +731,14 @@ namespace PacketMessagingTS.Helpers
 
             Utilities.MarkMessageNumberAsUsed();
             _packetMessage.MessageOrigin = MessageOrigin.Sent;
+            if (_packetMessage.PacFormName == "SimpleMessage")
+            {
+                // Copy messageBody to facilitate printing for long messages
+                FormField formField = new FormField();
+                formField.ControlName = "richTextMessageBody";
+                formField.ControlContent = _packetMessage.FormFieldArray[0].ControlContent;
+                _packetMessage.FormFieldArray[1] = formField;
+            }
 
             //string subject = CreateSubject();
             //_packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);

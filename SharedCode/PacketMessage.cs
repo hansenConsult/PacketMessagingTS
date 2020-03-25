@@ -718,7 +718,7 @@ namespace SharedCode
 
         private Brush backgroundBrushField;
 
-        private Brush foregroundBrushField;
+        private Brush foregroundBrushField = _foregroundBrush;
 
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Item
@@ -783,6 +783,7 @@ namespace SharedCode
             Item = item;
             Data = item;
             BackgroundBrush = brush;
+            ForegroundBrush = _foregroundBrush;
         }
 
         public ComboBoxPackItItem(string item, Brush brush, Brush foregroundBrush)

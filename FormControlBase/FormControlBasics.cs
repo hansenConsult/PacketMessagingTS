@@ -124,9 +124,9 @@ namespace FormControlBaseClass
             _validationResultMessage = errorText;
             foreach (FormControl formControl in _formControlsList)
             {
-                // Validation is only done on Control's not RichText
+                // Validation is only done on Control's that are not RichTextBlock
                 Control control = formControl.InputControl as Control;
-                string tag = control.Tag as string;
+                string tag = control?.Tag as string;
                 if (!string.IsNullOrEmpty(tag) && control.IsEnabled && tag.Contains("conditionallyrequired"))
                 {
                     control.BorderBrush = formControl.BaseBorderColor;

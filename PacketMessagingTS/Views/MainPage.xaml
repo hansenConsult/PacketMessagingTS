@@ -43,7 +43,7 @@
         <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                 Place your content here.-->
 
-        <Pivot x:Name="MainPagePivot" 
+        <Pivot x:Name="mainPagePivot" 
                RelativePanel.AlignTopWithPanel="True"
                RelativePanel.AlignLeftWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"

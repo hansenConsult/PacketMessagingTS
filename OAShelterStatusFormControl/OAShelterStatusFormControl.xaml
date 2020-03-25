@@ -9,7 +9,7 @@
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     mc:Ignorable="d"
-    d:DesignWidth="800" Height="1825">
+    d:DesignWidth="816" Height="1825">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -48,9 +48,7 @@
                                     <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>
                                 </Grid>
                             </StackPanel>
-
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-
                             <TextBox Grid.Column="1" x:Name="messageNo"  
                                      Text="{x:Bind Mode=TwoWay, Path=OriginMsgNo}"
 							    	 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
@@ -79,40 +77,39 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                             <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
-                                VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                       VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <TextBox Grid.Column="1" x:Name="msgDate" 
-                                Style="{StaticResource MuniStatusDateTextBox}"
-                                Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
-                                Tag="1a.,required"
-                                TextChanged="TextBox_DateChanged"/>
+                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
+                                     Tag="1a.,required"
+                                     TextChanged="TextBox_DateChanged"/>
                             <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
-                                VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                       VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <TextBox Grid.Column="3" x:Name="msgTime" 
-                                Style="{StaticResource MuniStatusTimeTextBox}"
-                                Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
-                                Tag="1b.,required"
-                                TextChanged="TextBox_TextChanged"/>
+                                     Style="{StaticResource MuniStatusTimeTextBox}"
+                                     Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
+                                     Tag="1b.,required"
+                                     TextChanged="TextBox_TextChanged"/>
                             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0" Grid.ColumnSpan="2" Height="36" Margin="1,0,147,0" VerticalAlignment="Bottom"/>
                             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
-                                    Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                       Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
                                                             CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                                             Tag="5.,required,Indicate Msg. Handling Order."/>
                             <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
-                                            Style="{StaticResource RadioButtonTNR12B}" 
-                                            Margin="8,0" 
-                                            Content="Immediate (ASAP)" Checked="Subject_Changed"
-                                            ToolTipService.ToolTip="As soon as possible" />
+                                         Style="{StaticResource RadioButtonTNR12B}" 
+                                         Margin="8,0" 
+                                         Content="Immediate (ASAP)" Checked="Subject_Changed"
+                                         ToolTipService.ToolTip="As soon as possible" />
                             <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
-                                            Style="{StaticResource RadioButtonTNR12B}" 
-                                            Margin="8,0" Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
-                                            ToolTipService.ToolTip="Less than one hour" />
+                                         Style="{StaticResource RadioButtonTNR12B}" 
+                                         Margin="8,0" Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
+                                         ToolTipService.ToolTip="Less than one hour" />
                             <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
-                                            Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
-                                            Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
-                                            ToolTipService.ToolTip="Less than two hours" />
+                                         Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
+                                         Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
+                                         ToolTipService.ToolTip="Less than two hours" />
                         </Grid>
                         <Grid Grid.Row="2" >
                             <Grid.ColumnDefinitions>
@@ -188,19 +185,6 @@
                                                     SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                     Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
                                     </Grid>
-                                    <!--<StackPanel >
-										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
-										<RelativePanel x:Name="fromICSPos" >
-											<Button x:Name="buttonSelectFromICSPosInput" RelativePanel.AlignVerticalCenterWithPanel="True" Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2" />
-											<TextBox x:Name="textBoxFromICSPosition" Style="{StaticResource TypedText}" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True"	 
-												BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
-                                                Tag="required,Enter a From position."/>
-											-->
-                                    <!--
-										</RelativePanel>
-									</StackPanel>-->
                                     <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -242,17 +226,17 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
                             <MyNamespace:ToggleButtonGroup x:Name="reportType" Visibility="Collapsed"
-                                                       CheckedControlName ="{x:Bind Mode=TwoWay, Path=ReportType}" 
-                                                       Tag="19.,required,Select Report Type"/>
+                                                           CheckedControlName ="{x:Bind Mode=TwoWay, Path=ReportType}" 
+                                                           Tag="19.,required,Select Report Type"/>
                             <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"
-                                                 Checked="ReportType_Checked" Tag="Update"/>
+                                         Checked="ReportType_Checked" Tag="Update"/>
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
-                                                 Checked="ReportType_Checked" Tag="Complete"/>
+                                         Checked="ReportType_Checked" Tag="Complete"/>
                             <TextBlock Grid.Column="3" Text="Shelter Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
                             <TextBox Grid.Column="4" Margin="0,2,10,2" x:Name="shelterName"
-                                 Text="{x:Bind ShelterName, Mode=TwoWay}"
-                                 TextChanged="Subject_Changed"
-                                 Tag="32.,required,Enter Shelter Name"/>
+                                     Text="{x:Bind ShelterName, Mode=TwoWay}"
+                                     TextChanged="Subject_Changed"
+                                     Tag="32.,required,Enter Shelter Name"/>
                         </Grid>
                         <Grid Grid.Row="4" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
@@ -272,11 +256,11 @@
                             </Grid.RowDefinitions>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0" Background="LightGray" >
                                 <TextBlock Text="Shelter" Style="{StaticResource EOC213RRFieldLabelLarge}" 
-                                   Margin="8,2,0,2" VerticalAlignment="Center"/>
+                                           Margin="8,2,0,2" VerticalAlignment="Center"/>
                             </Border>
                             <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Shelter Type:"                                        
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterType" 
                                       Style="{StaticResource MuniStatusComboBox}"
@@ -286,7 +270,7 @@
                                       Loaded="ComboBox_Loaded"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Status:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
@@ -295,18 +279,18 @@
                                       Loaded="ComboBox_Loaded"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Name:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="3" 
                                      Text="{x:Bind ShelterName, Mode=TwoWay}"
                                      IsReadOnly="True" Style="{StaticResource MuniStatusTextBox}" Tag=""/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Address:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="4" x:Name="shelterAddress"
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33a.,conditionallyrequired,Enter shelter address"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="City:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="5" x:Name="shelterCity" 
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item" Width="180"
@@ -315,18 +299,18 @@
                                       Loaded="ComboBox_Loaded"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="State:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="6" 
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33c.,conditionallyrequired"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Zip:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="7" Width="100"
                                      HorizontalAlignment="Left"
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33d."/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="Latitude:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <StackPanel Grid.Column="1" Grid.Row="8"  Orientation="Horizontal" >
                                 <TextBox PlaceholderText="d.ddd" Width="150" 
                                          Style="{StaticResource MuniStatusTextBox}" Tag="37a."/>
@@ -359,14 +343,14 @@
                                        Margin="8,2,0,2"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Capacity:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="1" Margin="2"
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="40a.,conditionallyrequired"
                                      TextChanged="capacity_TextChanged" VerticalAlignment="Center"/>
                             <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Occupancy:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" BorderBrush="Black" BorderThickness="0,1,0,0">
                                 <TextBox x:Name="occupancy" Width="73" HorizontalAlignment="Left" 
                                          Style="{StaticResource MuniStatusTextBox}" Tag="40b.,conditionallyrequired"
@@ -377,21 +361,21 @@
                             </StackPanel>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Meals Served (last 24 hours):" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="4" 
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="41." 
                                      Margin="2" VerticalAlignment="Center"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="NSS Number:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="5" 
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="42." 
                                      Margin="2" VerticalAlignment="Center"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Pet Friendly:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="6" 
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
@@ -399,7 +383,7 @@
                                       Loaded="ComboBox_Loaded"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Basic Safety Inspection:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="7" 
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
@@ -415,14 +399,14 @@
                                       Loaded="ComboBox_Loaded"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="Available Services:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="9" Height="30"
                                      AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
                                      HorizontalAlignment="Stretch" Margin="2"
                                      Style="{StaticResource MuniStatusTextBox}" Tag="44."/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="MOU:" 
-                                   Style="{StaticResource ShelterStatusHeaderText}"/>
+                                       Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="10" x:Name="mouTextBox" 
                                      Style="{StaticResource MuniStatusTextBox}"
                                      PlaceholderText="where/how sent"
@@ -438,8 +422,6 @@
                     </Grid>
                     <Grid x:Name="printPage2" >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -591,63 +573,64 @@
                             <TextBlock Text="Remove from List:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <CheckBox Content="" Tag="71." Width="161" />
                         </StackPanel>
-                        <Border Grid.Row="4" BorderBrush="Black" BorderThickness="1,1,1,1" Background="LightGray" Margin="0,10,0,0">
-                            <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
+                        <StackPanel Grid.Row="4" x:Name="radioOperatorOnly">
+                            <Border BorderBrush="Black" BorderThickness="1,1,1,1" Background="LightGray" Margin="0,10,0,0">
+                                <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                        Height="26" Margin="8,12,0,0"/>
-                        </Border>
-                        <Grid Grid.Row="5" BorderBrush="Black" BorderThickness="1,0,1,1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray"/>
-                            <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
+                            </Border>
+                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray"/>
+                                <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,8,0"/>
-                            <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
+                                <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
+                                <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
                                      Margin="8,4,4,4" Tag="OpRelayRcvd"/>
-                            <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
+                                <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
+                                <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
                                      Margin="8,4,4,4" Tag="OpRelaySent" />
-                        </Grid>
-                        <Grid Grid.Row="6" BorderBrush="Black" BorderThickness="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" BorderBrush="Black" BorderThickness="1,0,1,1"/>
-                            <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
-                               Margin="8,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" x:Name="operatorName" 
-                                 Text="{x:Bind Path=OperatorName}"
-                                 Margin="2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
-                            <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="3" x:Name="operatorCallsign" 
-                                 Text="{x:Bind Mode=TwoWay, Path=OperatorCallsign}"
-                                 Margin="2"  BorderBrush="White" Tag="OpCall"/>
-                            <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="5" x:Name="operatorDate" 
-                                 IsReadOnly="True"
-                                 Margin="0" BorderBrush="White" Tag="OpDate"/>
-                            <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="7" x:Name="operatorTime" 
-                                 IsReadOnly="True"
-                                 Margin="0" BorderBrush="White" Tag="OpTime" />
-                        </Grid>
+                            </Grid>
+                            <Grid BorderBrush="Black" BorderThickness="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" BorderBrush="Black" BorderThickness="1,0,1,1"/>
+                                <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
+                                           Margin="8,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="1" x:Name="operatorName" 
+                                         Text="{x:Bind Path=OperatorName}"
+                                         Margin="2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
+                                <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="3" x:Name="operatorCallsign" 
+                                         Text="{x:Bind Mode=TwoWay, Path=OperatorCallsign}"
+                                         Margin="2"  BorderBrush="White" Tag="OpCall"/>
+                                <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="5" x:Name="operatorDate" 
+                                         IsReadOnly="True"
+                                         Margin="1" BorderBrush="White" Tag="OpDate"/>
+                                <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="7" x:Name="operatorTime" IsReadOnly="True"
+                                         Margin="1" BorderBrush="White" Tag="OpTime" />
+                            </Grid>
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
             </StackPanel>

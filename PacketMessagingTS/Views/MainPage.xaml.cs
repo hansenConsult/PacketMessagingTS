@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 namespace PacketMessagingTS.Views
 {
@@ -49,9 +50,9 @@ namespace PacketMessagingTS.Views
             InitializeComponent();
 
             Current = this;
-            MainViewModel.MainPagePivot = MainPagePivot;
+            MainViewModel.MainPagePivot = mainPagePivot;
 
-            foreach (PivotItem item in MainPagePivot.Items)
+            foreach (PivotItem item in mainPagePivot.Items)
             {
                 int sortColumn = -1;
                 DataGridSortDirection? sortDirection = DataGridSortDirection.Descending;
@@ -91,6 +92,41 @@ namespace PacketMessagingTS.Views
 
         }
 
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            foreach (PivotItem item in mainPagePivot.Items)
+            {
+                switch (item.Name)
+                {
+                    case "pivotItemInBox":
+                        List<PacketMessage> messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        break;
+                    case "pivotItemSent":
+                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        break;
+                    case "pivotItemOutBox":
+                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        break;
+                    case "pivotItemDrafts":
+                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        break;
+                    case "pivotItemArchive":
+                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        break;
+                    case "pivotItemDeleted":
+                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        break;
+                }
+            }
+            base.OnNavigatedTo(e);
+        }
+
         //public DataGrid FindDataGrid(DependencyObject panelName)
         //{
         //    DataGrid dataGrid = null;
@@ -111,35 +147,35 @@ namespace PacketMessagingTS.Views
         //    return dataGrid;
         //}
 
-        private async Task RefreshDataGridAsync()
-        {
-            try
-            {
-                MainViewModel._messagesInFolder = await PacketMessage.GetPacketMessages(MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
+        //private async Task RefreshDataGridAsync()
+        //{
+        //    try
+        //    {
+        //        MainViewModel._messagesInFolder = await PacketMessage.GetPacketMessages(MainViewModel.MainPagePivotSelectedItem.Tag as StorageFolder);
 
-                MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(MainViewModel._messagesInFolder);
+        //        MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(MainViewModel._messagesInFolder);
 
-                DataGrid dataGrid = MainViewModel.FindDataGrid(MainViewModel.MainPagePivotSelectedItem);
-                int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
-                if (sortColumnNumber == null || sortColumnNumber < 0)
-                    return;
+        //        DataGrid dataGrid = MainViewModel.FindDataGrid(MainViewModel.MainPagePivotSelectedItem);
+        //        int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
+        //        if (sortColumnNumber == null || sortColumnNumber < 0)
+        //            return;
 
-                DataGridColumn sortColumn = dataGrid.Columns[(int)sortColumnNumber];
-                MainViewModel.SortColumn(sortColumn);
-            }
-            catch (Exception e)
-            {
-                _logHelper.Log(LogLevel.Error, $"{e.Message}");
-            }
-        }
+        //        DataGridColumn sortColumn = dataGrid.Columns[(int)sortColumnNumber];
+        //        MainViewModel.SortColumn(sortColumn);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _logHelper.Log(LogLevel.Error, $"{e.Message}");
+        //    }
+        //}
 
-        private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainViewModel.SelectedMessages.Clear();
 
             MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
 
-            await RefreshDataGridAsync();
+            MainViewModel.RefreshDataGridAsync();
         }
 
         //public void AddTextToStatusWindow(string text)
@@ -266,7 +302,7 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                string folder = ((StorageFolder)((PivotItem)MainPagePivot.SelectedItem).Tag).Path;
+                string folder = ((StorageFolder)((PivotItem)mainPagePivot.SelectedItem).Tag).Path;
                 string packetMessagePath = Path.Combine(folder, MainViewModel.PacketMessageRightClicked.FileName);
 
                 NavigationService.Navigate(typeof(WebViewPage), packetMessagePath);

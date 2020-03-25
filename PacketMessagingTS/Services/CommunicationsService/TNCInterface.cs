@@ -701,6 +701,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         {
                             PacFormName = "SimpleMessage",
                             PacFormType = "SimpleMessage",
+                            CreateTime = DateTime.Now,
+                            MessageOrigin = MessageOriginHelper.MessageOrigin.Sent,
                             MessageNumber = Utilities.GetMessageNumberPacket(true),
                             BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
                             TNCName = _TncDevice.Name,
@@ -724,6 +726,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         controlContent.AppendLine($"Recipient's Local Message ID: {pktMsg.MessageNumber}");
                         formField.ControlContent = controlContent.ToString();
                         formFields[0] = formField;
+                        formField = new FormField();
+                        formField.ControlName = "richTextMessageBody";
+                        formFields[1] = formField;
 
                         receiptMessage.FormFieldArray = formFields;
                         MessageControl packetForm = new MessageControl();
