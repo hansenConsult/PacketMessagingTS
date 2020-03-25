@@ -379,10 +379,6 @@ namespace PacketMessagingTS.Helpers
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Initialize common helper class and register for printing
-            //printHelper = new PrintHelper(this);
-            //printHelper.RegisterForPrinting();
-
             if (e.Parameter is null)
             {
                 // Open last used empty form

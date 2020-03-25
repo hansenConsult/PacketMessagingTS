@@ -15,9 +15,9 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class FormsViewModel : FormsBaseViewModel
+    public class FormsViewModel : BaseViewModel
     {
-        // Remove FormsBaseViewModel
+        // Remove FormsBaseViewModel. Done
 
         protected int formsPagePivotSelectedIndex;
         public int FormsPagePivotSelectedIndex

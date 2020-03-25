@@ -1,6 +1,8 @@
-﻿namespace PacketMessagingTS.ViewModels
+﻿using PacketMessagingTS.Helpers;
+
+namespace PacketMessagingTS.ViewModels
 {
-    public class CityFormsViewModel : FormsBaseViewModel
+    public class CityFormsViewModel : BaseViewModel
     {
         protected int cityFormsPagePivotSelectedIndex;
         public int CityFormsPagePivotSelectedIndex

@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class ICS309ViewModel : FormsBaseViewModel
+    public class ICS309ViewModel : BaseViewModel
     {
         private CommLog _CommLog;
         private bool _fromOpenFile;

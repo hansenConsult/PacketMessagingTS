@@ -94,34 +94,36 @@ namespace PacketMessagingTS.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            List<PacketMessage> messages;
+
             foreach (PivotItem item in mainPagePivot.Items)
             {
                 switch (item.Name)
                 {
-                    case "pivotItemInBox":
-                        List<PacketMessage> messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                        break;
-                    case "pivotItemSent":
-                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                        break;
+                    //case "pivotItemInBox":
+                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                    //    break;
+                    //case "pivotItemSent":
+                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                    //    break;
                     case "pivotItemOutBox":
                         messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
                         MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
                         break;
-                    case "pivotItemDrafts":
-                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                        break;
-                    case "pivotItemArchive":
-                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                        break;
-                    case "pivotItemDeleted":
-                        messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                        MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                        break;
+                    //case "pivotItemDrafts":
+                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                    //    break;
+                    //case "pivotItemArchive":
+                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                    //    break;
+                    //case "pivotItemDeleted":
+                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                    //    break;
                 }
             }
             base.OnNavigatedTo(e);
