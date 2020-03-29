@@ -23,7 +23,7 @@
                  RelativePanel.AlignVerticalCenterWith="labelBBS" 
                  RelativePanel.RightOf="labelBBS" VerticalContentAlignment="Center"
                  Text="{x:Bind MessageBBS, Mode=TwoWay}"
-                 Tag="conditionallyrequired,Please select a BBS" BorderThickness="2" Width="100"  />
+                 Tag="conditionallyrequired,Please select a BBS" BorderThickness="1" Width="100"  />
         <TextBlock x:Name="labelTNC" 
                    RelativePanel.AlignVerticalCenterWith="labelBBS" 
                    RelativePanel.RightOf="textBoxMessageBBS"  Text="TNC:" Margin="30,0,0,0" />
@@ -50,7 +50,7 @@
                  RelativePanel.Below="textBoxMessageBBS" 
                  RelativePanel.AlignLeftWith="textBoxMessageBBS" VerticalContentAlignment="Center"
                  Text="{x:Bind MessageFrom, Mode=TwoWay}"
-                 Tag="required,Please fill the From field"  BorderThickness="2" Margin="0,2,0,0"  Width="100" />
+                 Tag="required,Please fill the From field"  BorderThickness="1" Margin="0,2,0,0"  Width="100" />
         <TextBlock x:Name="labelTo" 
                    RelativePanel.AlignVerticalCenterWith="labelFrom" 
                    RelativePanel.AlignLeftWith="labelTNC" Text="To:" Margin="30,0.6,-0.4,-0.2" 
@@ -65,13 +65,13 @@
                         TextChanged="MessageTo_TextChanged"
                         SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center"
                         Text="{x:Bind MessageTo, Mode=TwoWay}"/>
-        <ToggleSwitch x:Name="toSelection" Margin="12,-3,0,2" 
+        <ToggleSwitch x:Name="toSelection" Margin="12,4,0,2" 
                       RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.AlignVerticalCenterWith="labelFrom"
-                      Header=""
-                      OffContent="Distribution List" OnContent="Individuals" Height="32" 
-                      HorizontalAlignment="Right" Padding="0,-3,0,0"
-                      IsOn="{x:Bind IsToIndividuals, Mode=TwoWay}"/>
+                      RelativePanel.AlignVerticalCenterWith="textBoxMessageFrom"
+                      Header="" 
+                      OffContent="Distribution List" OnContent="Individuals" 
+                      HorizontalAlignment="Right" 
+                      IsOn="{x:Bind IsToIndividuals, Mode=TwoWay}" VerticalAlignment="Center"/>
         <TextBlock x:Name="labelSubject"
                    RelativePanel.AlignVerticalCenterWith="textBoxMessageSubject" Text="Subject:"/>
         <TextBox x:Name="textBoxMessageSubject" 

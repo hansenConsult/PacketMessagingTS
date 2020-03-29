@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using FormUserControl;
+
 using SharedCode;
 
 using ToggleButtonGroupControl;
@@ -16,7 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace FormControlBaseClass
+namespace FormUserControl
 {
     public partial class FormControlBasics : UserControl, INotifyPropertyChanged
     {
@@ -96,11 +96,7 @@ namespace FormControlBaseClass
 
                     _radioButtonsList.Add((RadioButton)control);
                 }
-                else if (control is RadioOperatorUserControl)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control);
-                    _formControlsList.Add(formControl);
-                }
+                //else if (control is RadioOperatorUserControl)
             }
         }
 

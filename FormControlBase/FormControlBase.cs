@@ -163,70 +163,6 @@ namespace FormControlBaseClass
             return true;
         }
 
-        //protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        //event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-        //{
-        //    add
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-
-        //    remove
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-
-
-        //private void NotifyPropertyChanged( String propertyName = "")
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
-
-        //public void InitializeControls()
-        //{
-        //    foreach (FormControl formControl in _formControlsList)
-        //    {
-        //        Control control = formControl.InputControl;
-
-        //        if (control is TextBox)
-        //        {
-        //            //if (IsFieldRequired(control))
-        //            //{
-        //            //    control.BorderBrush = formControl.RequiredBorderBrush;
-        //            //}
-        //            //else
-        //            //{
-        //            //    control.BorderBrush = formControl.BaseBorderColor;
-        //            //}
-        //        }
-        //        //else if (control is AutoSuggestBox)
-        //        //{
-        //        //    control.BorderBrush = formControl.BaseBorderColor;
-        //        //}
-        //        //else if (control is ComboBox)
-        //        //{
-        //        //    if (IsFieldRequired(control))
-        //        //    {
-        //        //        control.BorderBrush = formControl.RequiredBorderBrush;
-        //        //    }
-        //        //    else
-        //        //    {
-        //        //        control.BorderBrush = formControl.BaseBorderColor;
-        //        //    }
-        //        //}
-        //        else if (control is ToggleButtonGroup toggleButtonGroup)
-        //        {
-        //            toggleButtonGroup.Initialize(_radioButtonsList, control.Name);
-        //        }
-        //        //else if (control is CheckBox checkBox)
-        //        //{
-        //        //    checkBox.IsChecked = false;
-        //        //}
-        //    }
-        //}
-
         public void InitializeToggleButtonGroups()
         {
             foreach (FormControl formControl in _formControlsList)
@@ -308,8 +244,11 @@ namespace FormControlBaseClass
         public virtual string TacticalCallsign
         { get; set; }
 
-        public virtual string OperatorCallsign
-        { get; set; }
+        //public virtual string OperatorName
+        //{ get; set; }
+
+        //public virtual string OperatorCallsign
+        //{ get; set; }
 
         //public List<FormControl> FormControlsList
         //{ get => _formControlsList; }
@@ -399,9 +338,6 @@ namespace FormControlBaseClass
         { get; set; }
 
         public virtual string Reply
-        { get; set; }
-
-        public virtual string OperatorName
         { get; set; }
 
         public virtual string Severity

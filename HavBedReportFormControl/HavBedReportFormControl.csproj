@@ -128,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.9</Version>
+      <Version>6.2.10</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +141,10 @@
     <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
       <Project>{54CD4D6D-9D4F-4270-907A-D6B5EBA3518F}</Project>
       <Name>FormControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FormUserControl\FormUserControl.csproj">
+      <Project>{f5782342-b4cd-4f24-b2bb-fafe68e62426}</Project>
+      <Name>FormUserControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\PacketMessagingTS.Core\PacketMessagingTS.Core.csproj">
       <Project>{5B519096-6713-4D1E-A67C-FC5F22DF5E3D}</Project>

@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+
+namespace FormUserControl
+{
+	public class FormControl
+	{
+        public Brush BaseBorderColor
+		{ get; set; }
+
+        public Brush RequiredBorderBrush { get; } = new SolidColorBrush(Colors.Red);
+
+        public FrameworkElement InputControl
+		{ get; private set; }
+
+		public FormControl()
+		{
+			
+		}
+
+		public FormControl(FrameworkElement control)
+		{
+			InputControl = control;
+			if (control.GetType() == typeof(Control))
+			{
+				BaseBorderColor = (control as Control).BorderBrush;
+			}
+		}
+	}
+}

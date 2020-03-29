@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using FormControlBaseClass;
+using FormUserControl;
 
 using SharedCode;
 using SharedCode.Helpers;
@@ -52,7 +53,18 @@ namespace HavBedReportFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
+
+            //radioOperatorControl.FormControlsList;
         }
+
+        //void AddCostumControls(DependencyObject control)
+        //{
+        //    foreach (FormControl formControl in radioOperatorControl.FormControlsList)
+        //    {
+        //        FormControl FmControl = new FormControl((FrameworkElement)radioOperatorControl.formControl);
+        //        _formControlsList.Add(FmControl);
+        //    }
+        //}
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

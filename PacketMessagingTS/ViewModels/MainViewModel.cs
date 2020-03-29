@@ -199,7 +199,8 @@ namespace PacketMessagingTS.ViewModels
 
         public static void UpdateHeaderMessageCount(PivotItem pivotItem, int messageCount)
         {
-            //messages = await PacketMessage.GetPacketMessages(pivotItem.Tag as StorageFolder);
+            if (!(pivotItem.Name as string).Contains("pivotItemOutBox"))
+                return;
 
             if ((pivotItem.Header as string).IndexOf('(') != -1)
             {

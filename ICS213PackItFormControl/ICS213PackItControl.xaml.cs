@@ -233,22 +233,22 @@ namespace ICS213PackItFormControl
             return CreateOutpostMessageBody(outpostData);
         }
 
-        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is T)
-                    return (T)child;
-                else
-                {
-                    T childOfChild = FindVisualChild<T>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
-        }
+        //private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        //{
+        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        //    {
+        //        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+        //        if (child != null && child is T)
+        //            return (T)child;
+        //        else
+        //        {
+        //            T childOfChild = FindVisualChild<T>(child);
+        //            if (childOfChild != null)
+        //                return childOfChild;
+        //        }
+        //    }
+        //    return null;
+        //}
 
         //private void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         //{

@@ -138,22 +138,6 @@ namespace PacketMessagingTS.Controls
             set => Set(ref isToIndividuals, value);
         }
 
-        //private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-        //{
-        //    if (Equals(storage, value))
-        //    {
-        //        return;
-        //    }
-
-        //    storage = value;
-        //    OnPropertyChanged(propertyName);
-        //}
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //public void OnPropertyChanged(string propertyName) =>
-        //          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
         private void MessageTo_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             if (!toSelection.IsOn)
