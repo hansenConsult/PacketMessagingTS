@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-//using FormControlBaseClass;
+//using FormControlBasicsNamespace;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,6 +28,8 @@ namespace FormUserControl
         }
 
         public List<FormControl> FormControlsList => _formControlsList;
+
+        public DependencyObject Panel => radioOperatorOnly;
 
 
     }

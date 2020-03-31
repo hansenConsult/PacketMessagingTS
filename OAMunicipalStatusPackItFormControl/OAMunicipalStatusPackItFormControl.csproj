@@ -142,6 +142,10 @@
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FormUserControl\FormUserControl.csproj">
+      <Project>{f5782342-b4cd-4f24-b2bb-fafe68e62426}</Project>
+      <Name>FormUserControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PacketMessagingTS.Core\PacketMessagingTS.Core.csproj">
       <Project>{5b519096-6713-4d1e-a67c-fc5f22df5e3d}</Project>
       <Name>PacketMessagingTS.Core</Name>

@@ -40,6 +40,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using HavBedReportFormControl;
 //using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace PacketMessagingTS.Helpers
@@ -432,11 +433,6 @@ namespace PacketMessagingTS.Helpers
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //if (printHelper != null)
-            //{
-            //    printHelper.UnregisterForPrinting();
-            //}
-            //_formsViewModel.FormsPagePivotSelectedIndex = _formsPagePivot.SelectedIndex;
             SetFormsPagePivotSelectedIndex(_formsPagePivot.SelectedIndex);
 
             base.OnNavigatedFrom(e);
@@ -585,6 +581,13 @@ namespace PacketMessagingTS.Helpers
                 _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                 //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+
+                if (_packetForm.RadioOperatorControl != null)
+                {
+                    _packetForm.RadioOperatorControl.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+                    _packetForm.RadioOperatorControl.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+                }
+
                 _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
                 if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
                 {

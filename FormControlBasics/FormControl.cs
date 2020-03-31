@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace FormUserControl
+namespace FormControlBasicsNamespace
 {
 	public class FormControl
 	{
@@ -29,6 +29,15 @@ namespace FormUserControl
 			
 		}
 
+		public FormControl(FrameworkElement control)
+		{
+			InputControl = control;
+			if (control.GetType() == typeof(Control))
+			{
+				BaseBorderColor = (control as Control).BorderBrush;
+			}
+		}
+
 		public FormControl(FrameworkElement control, FrameworkElement userControl = null)
 		{
 			UserControl = userControl;
@@ -39,6 +48,5 @@ namespace FormUserControl
 				BaseBorderColor = (control as Control).BorderBrush;
 			}
 		}
-
 	}
 }

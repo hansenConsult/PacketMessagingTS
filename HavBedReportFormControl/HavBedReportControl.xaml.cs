@@ -54,17 +54,10 @@ namespace HavBedReportFormControl
 
             InitializeToggleButtonGroups();
 
-            //radioOperatorControl.FormControlsList;
-        }
+            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
 
-        //void AddCostumControls(DependencyObject control)
-        //{
-        //    foreach (FormControl formControl in radioOperatorControl.FormControlsList)
-        //    {
-        //        FormControl FmControl = new FormControl((FrameworkElement)radioOperatorControl.formControl);
-        //        _formControlsList.Add(FmControl);
-        //    }
-        //}
+            ScanUserControl(panelName, radioOperatorControl);
+        }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
@@ -83,8 +76,9 @@ namespace HavBedReportFormControl
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        //public override Panel PrintPage1 => printPage1;
         public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
+
+        public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
+//using FormUserControl;
 using SharedCode;
 
 using ToggleButtonGroupControl;
@@ -13,7 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace FormUserControl
+namespace FormControlBasicsNamespace
 {
     public partial class FormControlBasics : UserControl, INotifyPropertyChanged
     {
@@ -62,40 +65,6 @@ namespace FormUserControl
         protected void OnPropertyChanged(string propertyName) =>
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        protected void ScanControls(DependencyObject panelName, FrameworkElement radioOperatorControl = null)
-        {
-            int count = VisualTreeHelper.GetChildrenCount(panelName);
-
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
-
-                if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
-                {
-                    ScanControls(control, radioOperatorControl);
-                }
-                else if (control is TextBox || control is ComboBox || control is CheckBox
-                        || control is ToggleButtonGroup || control is RichTextBlock)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
-                    _formControlsList.Add(formControl);
-                }
-                else if (control is AutoSuggestBox)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
-                    formControl.BaseBorderColor = TextBoxBorderBrush;
-                    _formControlsList.Add(formControl);
-                }
-                else if (control is RadioButton)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
-                    _formControlsList.Add(formControl);
-
-                    _radioButtonsList.Add((RadioButton)control);
-                }
-            }
-        }
-
         //public void ScanControls(DependencyObject panelName)
         //{
         //    int count = VisualTreeHelper.GetChildrenCount(panelName);
@@ -129,6 +98,40 @@ namespace FormUserControl
         //        }
         //    }
         //}
+
+        protected void ScanControls(DependencyObject panelName, FrameworkElement radioOperatorControl = null)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(panelName);
+
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
+
+                if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
+                {
+                    ScanControls(control, radioOperatorControl);
+                }
+                else if (control is TextBox || control is ComboBox || control is CheckBox
+                        || control is ToggleButtonGroup || control is RichTextBlock)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is AutoSuggestBox)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    formControl.BaseBorderColor = TextBoxBorderBrush;
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is RadioButton)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    _formControlsList.Add(formControl);
+
+                    _radioButtonsList.Add((RadioButton)control);
+                }
+            }
+        }
 
         protected void AddToErrorString(string errorText)
         {

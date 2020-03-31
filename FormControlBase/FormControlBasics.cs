@@ -45,9 +45,6 @@ namespace FormControlBaseClass
         ////protected string[] _formProviders = new string[] { "PacForm", "PacItForm" };
         //protected int _providerIndix = 0;
 
-        public virtual string OperatorName
-        { get; set; }
-
         public virtual string OperatorCallsign
         { get; set; }
 
@@ -96,10 +93,39 @@ namespace FormControlBaseClass
 
                     _radioButtonsList.Add((RadioButton)control);
                 }
-                else if (control is RadioOperatorUserControl)
+            }
+        }
+
+        protected void ScanUserControl(DependencyObject panelName, FrameworkElement radioOperatorControl = null)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(panelName);
+
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
+
+                if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control);
+                    ScanUserControl(control, radioOperatorControl);
+                }
+                else if (control is TextBox || control is ComboBox || control is CheckBox
+                        || control is ToggleButtonGroup || control is RichTextBlock)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
                     _formControlsList.Add(formControl);
+                }
+                else if (control is AutoSuggestBox)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    formControl.BaseBorderColor = TextBoxBorderBrush;
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is RadioButton)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    _formControlsList.Add(formControl);
+
+                    _radioButtonsList.Add((RadioButton)control);
                 }
             }
         }

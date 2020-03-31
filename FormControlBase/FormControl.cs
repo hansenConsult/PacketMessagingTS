@@ -21,6 +21,9 @@ namespace FormControlBaseClass
         public FrameworkElement InputControl
 		{ get; private set; }
 
+		public FrameworkElement UserControl
+		{ get; private set; }
+
 		public FormControl()
 		{
 			
@@ -28,6 +31,17 @@ namespace FormControlBaseClass
 
 		public FormControl(FrameworkElement control)
 		{
+			InputControl = control;
+			if (control.GetType() == typeof(Control))
+			{
+				BaseBorderColor = (control as Control).BorderBrush;
+			}
+		}
+
+		public FormControl(FrameworkElement control, FrameworkElement userControl = null)
+		{
+			UserControl = userControl;
+
 			InputControl = control;
 			if (control.GetType() == typeof(Control))
 			{

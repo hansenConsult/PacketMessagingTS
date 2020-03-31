@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 //using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml.Documents;
+using FormUserControl;
 
 namespace FormControlBaseClass
 {
@@ -270,6 +271,12 @@ namespace FormControlBaseClass
         {
             get => $"PIF: {PIF}";
         }
+
+        public virtual RadioOperatorUserControl RadioOperatorControl
+        { get; set; }
+
+        public virtual string OperatorName
+        { get; set; }
 
         public virtual string SenderMsgNo
         { get; set; }
@@ -535,6 +542,7 @@ namespace FormControlBaseClass
             }
             else
             {
+                // PACForm
                 string senderMsgNo = "";
                     
                 //if (!string.IsNullOrEmpty(GetOutpostValue("1", ref msgLines)))
@@ -930,28 +938,45 @@ namespace FormControlBaseClass
 
                 if (_formControlsList[i].InputControl is TextBox textBox)
                 {
-					formField.ControlContent = textBox.Text;
-					//if (((TextBox)formFieldsList[i]).IsSpellCheckEnabled)
-					//{
-					//	for (int j = 0; j < ((TextBox)formFieldsList[i]).Text.Length; j++)
-					//	{
-					//		int spellingErrorIndex = ((TextBox)formFieldsList[i]).GetSpellingErrorStart(j);
-					//		if (spellingErrorIndex < 0)
-					//		{
-					//			continue;
-					//		}
-					//		else
-					//		{
-					//			int spellingErrorLength = ((TextBox)formFieldsList[i]).GetSpellingErrorLength(spellingErrorIndex);
-					//			string misSpelledWord = ((TextBox)formFieldsList[i]).Text.Substring(spellingErrorIndex, spellingErrorLength);
-					//			j += spellingErrorLength;
-					//			if (formField.MisSpells is null || formField.MisSpells.Length == 0)
-					//				formField.MisSpells = misSpelledWord;
-					//			else
-					//				formField.MisSpells += (", " + misSpelledWord);
-					//		}
-					//	}
-					//}
+                    if (_formControlsList[i].UserControl == null)
+                    {
+                        formField.ControlContent = textBox.Text;
+                        //if (((TextBox)formFieldsList[i]).IsSpellCheckEnabled)
+                        //{
+                        //	for (int j = 0; j < ((TextBox)formFieldsList[i]).Text.Length; j++)
+                        //	{
+                        //		int spellingErrorIndex = ((TextBox)formFieldsList[i]).GetSpellingErrorStart(j);
+                        //		if (spellingErrorIndex < 0)
+                        //		{
+                        //			continue;
+                        //		}
+                        //		else
+                        //		{
+                        //			int spellingErrorLength = ((TextBox)formFieldsList[i]).GetSpellingErrorLength(spellingErrorIndex);
+                        //			string misSpelledWord = ((TextBox)formFieldsList[i]).Text.Substring(spellingErrorIndex, spellingErrorLength);
+                        //			j += spellingErrorLength;
+                        //			if (formField.MisSpells is null || formField.MisSpells.Length == 0)
+                        //				formField.MisSpells = misSpelledWord;
+                        //			else
+                        //				formField.MisSpells += (", " + misSpelledWord);
+                        //		}
+                        //	}
+                        //}
+                    }
+                    else if (_formControlsList[i].UserControl.GetType() == typeof(RadioOperatorUserControl))
+                    {
+                        RadioOperatorUserControl radioOperatorControl = _formControlsList[i].UserControl as RadioOperatorUserControl;
+
+                        var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(_formControlsList[i].InputControl));
+                        formField.ControlContent = (formCtrl.InputControl as TextBox).Text;
+                        //for (int j = 0; j < radioOperatorControl.FormControlsList.Count; j++)
+                        //{
+                        //    if (GetTagIndex(_formControlsList[i].InputControl) == GetTagIndex(radioOperatorControl.FormControlsList[j].InputControl))
+                        //    {
+                        //        formField.ControlContent = (radioOperatorControl.FormControlsList[j].InputControl as TextBox).Text;
+                        //    }
+                        //}
+                    }
 				}
 				else if (_formControlsList[i].InputControl is AutoSuggestBox autoSuggestBox)
 				{
@@ -1056,29 +1081,56 @@ namespace FormControlBaseClass
 				if (control is TextBox textBox)
 				{
                     textBox.Text = formField.ControlContent;
-                    // Fields that use Binding requires special handling
-                    switch (control.Name)
+                    if (formControl.UserControl == null)
                     {
-                        case "msgDate":
-                            MsgDate = textBox.Text;
-                            break;
-                        case "msgTime":
-                            MsgTime = textBox.Text;
-                            break;
-                        case "incidentName":
-                            IncidentName = textBox.Text;
-                            break;
-                        case "subject":
-                            Subject = textBox.Text;
-                            break;
-                        case "operatorCallsign":
-                            OperatorCallsign = textBox.Text;
-                            break;
-                        case "operatorName":
-                            OperatorName = textBox.Text;
-                            break;
-                        case null:
-                            continue;
+                        //textBox.Text = formField.ControlContent;
+                        // Fields that use Binding requires special handling
+                        switch (control.Name)
+                        {
+                            case "msgDate":
+                                MsgDate = textBox.Text;
+                                break;
+                            case "msgTime":
+                                MsgTime = textBox.Text;
+                                break;
+                            case "incidentName":
+                                IncidentName = textBox.Text;
+                                break;
+                            case "subject":
+                                Subject = textBox.Text;
+                                break;
+                            case "operatorCallsign":
+                                OperatorCallsign = textBox.Text;
+                                break;
+                            case "operatorName":
+                                OperatorName = textBox.Text;
+                                break;
+                            case null:
+                                continue;
+                        }
+                    }
+                    else
+                    {
+                        if (formControl.UserControl.GetType() == typeof(RadioOperatorUserControl))
+                        {
+                            RadioOperatorUserControl radioOperatorControl = formControl.UserControl as RadioOperatorUserControl;
+
+                            var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
+                            (formCtrl.InputControl as TextBox).Text = textBox.Text;
+
+                            switch (control.Name)
+                            {
+                                case "operatorCallsign":
+                                    radioOperatorControl.OperatorCallsign = textBox.Text;
+                                    break;
+                                case "operatorName":
+                                    radioOperatorControl.OperatorName = textBox.Text;
+                                    break;
+                                case null:
+                                    continue;
+                            }
+                        }
+
                     }
                 }
                 else if (control is RichTextBlock richTextBlock)
@@ -1106,7 +1158,12 @@ namespace FormControlBaseClass
 				{
                     checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
 				}
-			}
+                //else if (control is RadioOperatorUserControl radioOperatorControl)
+                //{
+
+                //}
+
+            }
             UpdateFormFieldsRequiredColors();
         }
 
