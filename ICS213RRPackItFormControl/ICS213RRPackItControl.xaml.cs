@@ -2,6 +2,8 @@
 
 using FormControlBaseClass;
 
+using FormUserControl;
+
 //using Microsoft.Toolkit.Uwp.Helpers;
 
 using SharedCode;
@@ -41,6 +43,9 @@ namespace ICS213RRPackItFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
+
+            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            ScanUserControl(panelName, radioOperatorControl);
         }
 
 
@@ -90,6 +95,8 @@ namespace ICS213RRPackItFormControl
         public override Panel DirectPrintContainer => directPrintContainer;
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
+
+        public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {
@@ -156,7 +163,7 @@ namespace ICS213RRPackItFormControl
         {
             foreach (FormField formField in formFields)
             {
-                FormControl formControl;
+                FormControlBaseClass.FormControl formControl;
                 if (string.IsNullOrEmpty(formField.ControlName))
                 {
                     formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
@@ -174,32 +181,59 @@ namespace ICS213RRPackItFormControl
                 if (control is TextBox textBox)
                 {
                     textBox.Text = formField.ControlContent;
-                    // Fields that use Binding requires special handling
-                    switch (control.Name)
+                    if (formControl.UserControl == null)
                     {
-                        case "msgDate":
-                            MsgDate = textBox.Text;
-                            break;
-                        case "msgTime":
-                            MsgTime = textBox.Text;
-                            break;
-                        case "initiatedDate":
-                            InitiatedDate = textBox.Text;
-                            break;
-                        case "incidentName":
-                            IncidentName = textBox.Text;
-                            break;
-                        case "subject":
-                            Subject = textBox.Text;
-                            break;
-                        case "operatorCallsign":
-                            OperatorCallsign = textBox.Text;
-                            break;
-                        case "operatorName":
-                            OperatorName = textBox.Text;
-                            break;
-                        case null:
-                            continue;
+
+                        //textBox.Text = formField.ControlContent;
+                        // Fields that use Binding requires special handling
+                        switch (control.Name)
+                        {
+                            case "msgDate":
+                                MsgDate = textBox.Text;
+                                break;
+                            case "msgTime":
+                                MsgTime = textBox.Text;
+                                break;
+                            case "initiatedDate":
+                                InitiatedDate = textBox.Text;
+                                break;
+                            case "incidentName":
+                                IncidentName = textBox.Text;
+                                break;
+                            case "subject":
+                                Subject = textBox.Text;
+                                break;
+                            //case "operatorCallsign":
+                            //    OperatorCallsign = textBox.Text;
+                            //    break;
+                            //case "operatorName":
+                            //    OperatorName = textBox.Text;
+                            //    break;
+                            case null:
+                                continue;
+                        }
+                    }
+                    else
+                    {
+                        if (formControl.UserControl.GetType() == typeof(RadioOperatorUserControl))
+                        {
+                            RadioOperatorUserControl radioOperatorControl = formControl.UserControl as RadioOperatorUserControl;
+
+                            var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
+                            (formCtrl.InputControl as TextBox).Text = textBox.Text;
+
+                            switch (control.Name)
+                            {
+                                case "operatorCallsign":
+                                    radioOperatorControl.OperatorCallsign = textBox.Text;
+                                    break;
+                                case "operatorName":
+                                    radioOperatorControl.OperatorName = textBox.Text;
+                                    break;
+                                case null:
+                                    continue;
+                            }
+                        }
                     }
                 }
                 else if (control is AutoSuggestBox autoSuggsetBox)

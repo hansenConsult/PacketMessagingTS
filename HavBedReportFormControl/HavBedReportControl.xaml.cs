@@ -55,7 +55,6 @@ namespace HavBedReportFormControl
             InitializeToggleButtonGroups();
 
             DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-
             ScanUserControl(panelName, radioOperatorControl);
         }
 

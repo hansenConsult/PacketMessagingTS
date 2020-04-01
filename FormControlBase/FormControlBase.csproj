@@ -130,7 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FormUserControl\FormUserControl.csproj">
-      <Project>{F5782342-B4CD-4F24-B2BB-FAFE68E62426}</Project>
+      <Project>{f5782342-b4cd-4f24-b2bb-fafe68e62426}</Project>
       <Name>FormUserControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\PacketMessagingTS.Core\PacketMessagingTS.Core.csproj">

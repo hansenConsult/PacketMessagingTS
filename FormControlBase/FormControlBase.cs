@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
+using FormUserControl;
+
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Helpers.PrintHelpers;
@@ -17,7 +19,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 //using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml.Documents;
-using FormUserControl;
 
 namespace FormControlBaseClass
 {
@@ -273,9 +274,6 @@ namespace FormControlBaseClass
         }
 
         public virtual RadioOperatorUserControl RadioOperatorControl
-        { get; set; }
-
-        public virtual string OperatorName
         { get; set; }
 
         public virtual string SenderMsgNo

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using FormUserControl;
+
 using SharedCode;
 
 using ToggleButtonGroupControl;
@@ -46,6 +43,9 @@ namespace FormControlBaseClass
         //protected int _providerIndix = 0;
 
         public virtual string OperatorCallsign
+        { get; set; }
+
+        public virtual string OperatorName
         { get; set; }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)

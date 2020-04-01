@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
 
     mc:Ignorable="d"
     d:DesignWidth="800" Height="1056">
@@ -556,7 +557,7 @@
                                     </StackPanel>
                                 </Grid>
                             </Grid>
-                            <StackPanel x:Name="radioOperatorOnly" >
+                            <!--<StackPanel x:Name="radioOperatorOnly" >
                                 <Border BorderBrush="Black" BorderThickness="1,0,1,1" Background="LightGray" Height="32">
                                     <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                                Margin="8,0,0,0"/>
@@ -582,9 +583,9 @@
                                              Margin="0,1,0,1" Tag="OpRelaySent"  />
                                 </Grid>
                                 <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
-                                    <!--<Grid.RowDefinitions>
+                                    --><!--<Grid.RowDefinitions>
                                         <RowDefinition Height="16*"/>
-                                    </Grid.RowDefinitions>-->
+                                    </Grid.RowDefinitions>--><!--
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition />
@@ -613,7 +614,8 @@
                                              IsReadOnly="True"
                                              Margin="0,1,0,1" BorderBrush="White" Tag="OpTime"  />
                                 </Grid>
-                            </StackPanel>
+                            </StackPanel>-->
+                            <src:RadioOperatorUserControl  x:Name="radioOperatorControl"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

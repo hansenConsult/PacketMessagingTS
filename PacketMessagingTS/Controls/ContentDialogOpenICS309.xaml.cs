@@ -129,7 +129,7 @@ namespace PacketMessagingTS.Controls
             }
         }
 
-        private async void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        private  void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
             //ICS309Files = await GetFilesAsync(".xml");
         }
