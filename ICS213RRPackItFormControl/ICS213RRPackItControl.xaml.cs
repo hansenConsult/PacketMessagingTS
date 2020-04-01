@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using FormControlBaseClass;
+using FormControlBasicsNamespace;
 
 using FormUserControl;
 
@@ -45,7 +46,7 @@ namespace ICS213RRPackItFormControl
             InitializeToggleButtonGroups();
 
             DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-            ScanUserControl(panelName, radioOperatorControl);
+            ScanControls(panelName, radioOperatorControl);
         }
 
 
@@ -163,7 +164,7 @@ namespace ICS213RRPackItFormControl
         {
             foreach (FormField formField in formFields)
             {
-                FormControlBaseClass.FormControl formControl;
+                FormControl formControl;
                 if (string.IsNullOrEmpty(formField.ControlName))
                 {
                     formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);

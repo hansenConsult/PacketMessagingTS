@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using FormControlBaseClass;
+using FormControlBasicsNamespace;
 using FormUserControl;
 
 using SharedCode;
@@ -55,7 +56,7 @@ namespace HavBedReportFormControl
             InitializeToggleButtonGroups();
 
             DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-            ScanUserControl(panelName, radioOperatorControl);
+            ScanControls(panelName, radioOperatorControl);
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;

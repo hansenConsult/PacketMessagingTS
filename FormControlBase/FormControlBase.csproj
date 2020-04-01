@@ -108,9 +108,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FormControl.cs" />
     <Compile Include="FormControlBase.cs" />
-    <Compile Include="FormControlBasics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\FormControlBase.rd.xml" />
   </ItemGroup>
@@ -129,6 +127,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormControlBasics\FormControlBasics.csproj">
+      <Project>{aa1e4573-9165-4f4e-973f-54a8df18f1a8}</Project>
+      <Name>FormControlBasics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FormUserControl\FormUserControl.csproj">
       <Project>{f5782342-b4cd-4f24-b2bb-fafe68e62426}</Project>
       <Name>FormUserControl</Name>

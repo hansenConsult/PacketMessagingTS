@@ -120,8 +120,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FormControl.cs" />
-    <Compile Include="FormControlBasics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioOperatorUserControl.xaml.cs">
       <DependentUpon>RadioOperatorUserControl.xaml</DependentUpon>
@@ -140,6 +138,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormControlBasics\FormControlBasics.csproj">
+      <Project>{aa1e4573-9165-4f4e-973f-54a8df18f1a8}</Project>
+      <Name>FormControlBasics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
       <Name>SharedCode</Name>
