@@ -8,9 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
 
     mc:Ignorable="d"
-    d:DesignWidth="816" Height="1657">
+    d:DesignWidth="816" d:DesignHeight="1576">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -2216,11 +2217,11 @@ to Public Health/Medical Health Branch"
                             </Grid>
 
                         </Grid>
-                        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0" Background="LightGray" Margin="0,10,0,0">
+                        <!--<Border Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0" Background="LightGray" Margin="0,10,0,0">
                             <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                    Height="26" Margin="8,12,0,0"/>
-                        </Border>
-                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        </Border>-->
+                        <!--<Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -2243,8 +2244,8 @@ to Public Health/Medical Health Branch"
                             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
                                      Margin="8,4,4,4" Tag="OpRelaySent" />
-                        </Grid>
-                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="0">
+                        </Grid>-->
+                        <!--<Grid Grid.Row="3" BorderBrush="Black" BorderThickness="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3"/>
                                 <ColumnDefinition Width="56"/>
@@ -2284,7 +2285,8 @@ to Public Health/Medical Health Branch"
                             <TextBox Grid.Column="8" x:Name="operatorTime" 
                                  IsReadOnly="True"
                                  Margin="2,2,2,2" BorderBrush="White" Tag="OpTime" />
-                        </Grid>
+                        </Grid>-->
+                        <src:RadioOperatorUserControl Grid.Row="1" x:Name="radioOperatorControl" Margin="0,8,0,0"/>
                     </Grid>
                 </StackPanel>
             </StackPanel>

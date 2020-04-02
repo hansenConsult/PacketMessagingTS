@@ -3,6 +3,8 @@
 using FormControlBaseClass;
 using FormControlBasicsNamespace;
 
+using FormUserControl;
+
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -112,6 +114,9 @@ namespace MedicalFacilityStatusFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
+
+            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            ScanControls(panelName, radioOperatorControl);
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -137,14 +142,9 @@ namespace MedicalFacilityStatusFormControl
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        //public override Panel OriginalPrintPage1 => printPage1;
-
-        //public override Panel PrintPage1 => printPage1;
-
-        //public override Panel OriginalPrintPage2 => printPage2;
-
-        //public override Panel PrintPage2 => printPage2;
         public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
+
+        public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {

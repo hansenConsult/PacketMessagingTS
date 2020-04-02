@@ -8,8 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
     mc:Ignorable="d"
-    d:DesignWidth="816" Height="1825">
+    d:DesignWidth="816" d:DesignHeight="1756">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -426,6 +427,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,1,0">
@@ -434,7 +436,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition />
+                                <RowDefinition Height="auto"/>
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
@@ -571,9 +573,9 @@
                         </Grid>
                         <StackPanel Grid.Row="3" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <TextBlock Text="Remove from List:" Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <CheckBox Content="" Tag="71." Width="161" />
+                            <CheckBox Content="" Tag="71."  />
                         </StackPanel>
-                        <StackPanel Grid.Row="4" x:Name="radioOperatorOnly">
+                        <!--<StackPanel Grid.Row="4" x:Name="radioOperatorOnly">
                             <Border BorderBrush="Black" BorderThickness="1,1,1,1" Background="LightGray" Margin="0,10,0,0">
                                 <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                        Height="26" Margin="8,12,0,0"/>
@@ -630,7 +632,8 @@
                                 <TextBox Grid.Column="7" x:Name="operatorTime" IsReadOnly="True"
                                          Margin="1" BorderBrush="White" Tag="OpTime" />
                             </Grid>
-                        </StackPanel>
+                        </StackPanel>-->
+                        <src:RadioOperatorUserControl Grid.Row="4" x:Name="radioOperatorControl" Margin="0,8,0,0"/>
                     </Grid>
                 </StackPanel>
             </StackPanel>

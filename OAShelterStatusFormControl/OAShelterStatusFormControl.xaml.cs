@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using FormControlBaseClass;
+using FormUserControl;
 
 using SharedCode;
 using SharedCode.Helpers;
@@ -83,6 +84,9 @@ namespace OAShelterStatusFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
+
+            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            ScanControls(panelName, radioOperatorControl);
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -101,6 +105,8 @@ namespace OAShelterStatusFormControl
         public override Panel DirectPrintContainer => directPrintContainer;
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
+
+        public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {

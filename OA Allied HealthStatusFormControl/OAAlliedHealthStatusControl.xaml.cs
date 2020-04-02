@@ -2,6 +2,7 @@
 
 using FormControlBaseClass;
 using FormControlBasicsNamespace;
+using FormUserControl;
 
 using SharedCode;
 using SharedCode.Helpers;
@@ -34,6 +35,9 @@ namespace OAAlliedHealthStatus201802FormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
+
+            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            ScanControls(panelName, radioOperatorControl);
         }
 
 
@@ -121,6 +125,8 @@ namespace OAAlliedHealthStatus201802FormControl
         //    get => GetProperty(ref facilityType);
         //    set => SetProperty(ref facilityType, value, true);
         //}
+
+        public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         //6DM-783P_R_AHFacStat_dfg
         public override string CreateSubject()

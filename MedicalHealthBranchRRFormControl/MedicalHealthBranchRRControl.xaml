@@ -7,12 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
 
     mc:Ignorable="d"
-    d:DesignHeight="1200"
-    d:DesignWidth="800"
+    d:DesignWidth="816" d:DesignHeight="1056"
     
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -22,49 +22,60 @@
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
-    <StackPanel x:Name="PrintableArea" RequestedTheme="Light" Margin="0,0,0,40" >
-        <Border x:Name="FormHAvBedReport" BorderBrush="Black" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
+    <StackPanel x:Name="PrintableArea" RequestedTheme="Light" >
+        <Border x:Name="FormHAvBedReport" BorderBrush="Black" BorderThickness="1" Padding="15" >
             <StackPanel>
                 <Grid x:Name="container" Opacity="0" />
                 <StackPanel x:Name="directPrintContainer">
-                    <StackPanel x:Name="printPage1">
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="152"/>
-                        <ColumnDefinition Width="152"/>
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
-                    <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                               Foreground="Black" Text="SCCo Medical Health Branch&#10;
-Resource Request Form #9A" 
-                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
-                    <Grid Grid.Column="1" Margin="20,0,5,0" >
+                    <Grid x:Name="printPage1">
                         <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Version: September 2009" HorizontalAlignment="right" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Row="1" Text="{x:Bind PIFString}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                    </Grid>
-                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                    <TextBox Grid.Column="2" x:Name="messageNo"  
-                             Text="{x:Bind OriginMsgNo, Mode=TwoWay}"
+                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="152"/>
+                                <ColumnDefinition Width="152"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
+                            <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                               Foreground="Black" Text="SCCo Medical Health Branch&#xA; Resource Request Form #9A" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
+                            <Grid Grid.Column="1" Margin="20,0,5,0" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="Version: September 2009" HorizontalAlignment="right" VerticalAlignment="Bottom"/>
+                                <TextBlock Grid.Row="1" Text="{x:Bind Path=PIFString}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                            </Grid>
+                            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                            <TextBox Grid.Column="2" x:Name="messageNo"  
+                             Text="{x:Bind Mode=TwoWay, Path=OriginMsgNo}"
     				    	 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                              Header="Origin:"
                              Tag="MsgNo,required,Enter a Message Number." 
                              TextChanged="Subject_Changed"/>
-                    <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                    <TextBox Grid.Column="3" x:Name="destinationMsgNo" 
+                            <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                            <TextBox Grid.Column="3" x:Name="destinationMsgNo" 
                              TextAlignment="Center" BorderBrush="White" 
                              Margin="10,0,10,2" Tag="2"
                              Text="{x:Bind Path=DestinationMsgNo}"
                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                              Header="Destination:"/>
-                </Grid>
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
+                        </Grid>
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -109,7 +120,7 @@ Resource Request Form #9A"
                                                  Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
                                                  ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
                         </Grid>
-                        <Grid >
+                        <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="1*"/>
@@ -213,7 +224,7 @@ Resource Request Form #9A"
                                 </Grid>
                             </StackPanel>
                         </Grid>
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,1">
+                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -226,7 +237,7 @@ Resource Request Form #9A"
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBox Grid.Column="1"  x:Name="requestDate"
                                      Style="{StaticResource MuniStatusDateTextBox}"
-                                     Text="{x:Bind RequestMsgDate, Mode=TwoWay}"
+                                     Text="{x:Bind Mode=TwoWay, Path=RequestMsgDate}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="20a.,required"/>
                             <TextBlock Grid.Column="2" Text="Time of Request:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
@@ -240,34 +251,32 @@ Resource Request Form #9A"
                                      TextChanged="Subject_Changed"
                                      Tag="21.,required" />
                         </Grid>
-                        <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                        <Grid Grid.Row="4" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="15"/>
-                                <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="30*"/>
-                                <ColumnDefinition Width="323*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Contact:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0" Grid.ColumnSpan="2"/>
-                            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="3" Margin="2,0,53,2"/>
-                            <TextBox Grid.Column="2" Grid.ColumnSpan="2" x:Name="contact" Margin="4,2,6,4" 
+                            <TextBlock Grid.Column="0" Text="Contact:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0" />
+                            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" Margin="2,0,0,2"/>
+                            <TextBox Grid.Column="1" x:Name="contact" Margin="4,2,6,4" 
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}" 
                                      TextChanged="TextBox_TextChanged"
                                      Tag="22.,required"/>
-                            <TextBlock Grid.Column="4" Text="Phone:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="12,0,0,0"/>
-                            <Border Grid.Column="5" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="2" Margin="2,0,33,2"/>
-                            <TextBox Grid.Column="5" x:Name="contactPhone" Style="{StaticResource MuniStatusPhoneTextBox}" 
+                            <TextBlock Grid.Column="2" Text="Phone:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="12,0,0,0"/>
+                            <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,0" Margin="2,0,0,2"/>
+                            <TextBox Grid.Column="3" x:Name="contactPhone" Style="{StaticResource MuniStatusPhoneTextBox}" 
                                      TextChanged="TextBox_PhoneChanged"
                                      Tag="22p.,required" Margin="4,0,6,0"/>
-                            <TextBlock Grid.Column="6" Text="Fax:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0"/>
-                            <TextBox Grid.Column="7" x:Name="contactFax" Style="{StaticResource MuniStatusPhoneTextBox}" 
+                            <TextBlock Grid.Column="4" Text="Fax:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0"/>
+                            <TextBox Grid.Column="5" x:Name="contactFax" Style="{StaticResource MuniStatusPhoneTextBox}" 
                                      TextChanged="TextBox_PhoneChanged"
                                      Tag="22f." Margin="4,0,6,0"/>
                         </Grid>
-                        <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                        <Grid Grid.Row="5" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -283,10 +292,10 @@ Resource Request Form #9A"
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="NATURE" 
+                                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="NATURE" 
                                                HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
                                 <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <MyNamespace:ToggleButtonGroup x:Name="nature" Visibility="Collapsed"
@@ -318,17 +327,17 @@ Resource Request Form #9A"
                             <Grid Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="24"/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
+                                <!--<Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>-->
                                 <Border Grid.Row="0" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="FACILITY TYPE" HorizontalAlignment="Center" 
                                            FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -409,24 +418,24 @@ Resource Request Form #9A"
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <StackPanel Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <StackPanel Grid.Row="6" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <TextBlock Text="Priority:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <ComboBox x:Name="priority" Width="150"
                                       DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind Priority, Mode=OneWay}"
+                                      ItemsSource="{x:Bind Mode=OneWay, Path=Priority}"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="26.,required"/>
                         </StackPanel>
-                        <StackPanel BorderBrush="Black" BorderThickness="1,0,1,1">
+                        <StackPanel Grid.Row="7" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Border Height="24"  Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1">
                                 <TextBlock Text="DESCRIBE THE RESOURCE REQUESTED" HorizontalAlignment="Center" 
                                        FontWeight="SemiBold" VerticalAlignment="Center"/>
                             </Border>
                             <TextBlock FontStyle="Italic" TextWrapping="WrapWholeWords" Margin="8,0,0,0"
                                        Text="Directions: Include quantity, need by, deliver location, duration, specifications, etc. Use one form per request."/>
-                            <TextBox x:Name="resourceDescription" Height="100" Margin="2"
+                            <TextBox x:Name="resourceDescription" Height="92" Margin="2"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
                                      TextChanged="TextBox_TextChanged"
                                      Tag="27.,required"/>
@@ -438,12 +447,12 @@ Resource Request Form #9A"
                                        Text="I certify that that the resources requested are currently not available and that our organization has exhausted all appropriate means to procure such resources. I understand that my organization is responsible for all costs related to filling this request."/>
                             <Grid Margin="0,0,0,2">
                                 <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBox Grid.Column="1" x:Name="requestorName" 
@@ -458,76 +467,8 @@ Resource Request Form #9A"
                                              Tag="30d.,required"/>
                             </Grid>
                         </StackPanel>
-                        <StackPanel x:Name="radioOperatorOnly">
-                            <Border BorderBrush="Black" BorderThickness="1,1,1,0" Background="LightGray" Margin="0,20,0,0">
-                                <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
-                                           Height="24" Margin="8,12,0,0"/>
-                            </Border>
-                            <Border >
-                                <Grid BorderBrush="Black" BorderThickness="1,0,1,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border BorderBrush="Black" BorderThickness="0,1,1,0" Background="LightGray"/>
-                                    <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
-                                               VerticalAlignment="Center" Margin="8,0,8,0"/>
-                                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
-                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                    <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
-                                             Margin="8,3,3,3" Tag="OpRelayRcvd"/>
-                                    <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
-                                               VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                    <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                    <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
-                                             Margin="8,2,2,2" Tag="OpRelaySent" />
-                                </Grid>
-                            </Border>
-                        <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="0.4*"/>
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
-                                       Margin="8,0,8,0" VerticalAlignment="Center" />
-                            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <TextBox Grid.Column="1" x:Name="operatorName" 
-                                     Text="{x:Bind Path=OperatorName}"
-                                     Margin="1" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
-                            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <TextBox Grid.Column="3" x:Name="operatorCallsign" 
-                                     Text="{x:Bind Mode=TwoWay, Path=OperatorCallsign}"
-                                     Margin="1"  BorderBrush="White" Tag="OpCall"/>
-                            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <Border Grid.Column="5" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <TextBox Grid.Column="5" x:Name="operatorDate" 
-                                     IsReadOnly="True"
-                                     Margin="1" BorderBrush="White" Tag="OpDate"/>
-                            <Border Grid.Column="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                            <Border Grid.Column="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBox Grid.Column="7" x:Name="operatorTime" 
-                                     IsReadOnly="True"
-                                     Margin="1" BorderBrush="White" Tag="OpTime" />
-                        </Grid>
-                        </StackPanel>
-                    </StackPanel>
+                        <src:RadioOperatorUserControl Grid.Row="8" x:Name="radioOperatorControl" Margin="0,0,0,0" />
+                    </Grid>
                 </StackPanel>
             </StackPanel>
         </Border>

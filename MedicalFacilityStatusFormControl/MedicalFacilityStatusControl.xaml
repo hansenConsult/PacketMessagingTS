@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
     mc:Ignorable="d"
     d:DesignHeight="2000"
     d:DesignWidth="800"
@@ -500,8 +501,9 @@
                     </StackPanel>
                     <Grid x:Name="printPage2">
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,1,0">
@@ -558,20 +560,20 @@
                         </Grid>
                         <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -838,73 +840,7 @@
                                              Tag="N" />
                             </StackPanel>
                         </Grid>
-                        <StackPanel Grid.Row="2" x:Name="radioOperatorOnly" >
-                            <Border BorderBrush="Black" BorderThickness="1,1,1,0" Background="LightGray" Margin="0,10,0,0">
-                                <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
-                                   Height="26" Margin="8,12,0,0"/>
-                            </Border>
-                            <Grid BorderBrush="Black" BorderThickness="1,0,1,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Border BorderBrush="Black" BorderThickness="0,1,1,0" Background="LightGray"/>
-                                <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" 
-                                   VerticalAlignment="Center" Margin="8,0,8,0"/>
-                                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" 
-                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
-                                     Margin="8,4,4,4" Tag="OpRelayRcvd"/>
-                                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
-                                   VerticalAlignment="Center" Margin="8,0,0,0"/>
-                                <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
-                                     Margin="8,4,4,4" Tag="OpRelaySent" />
-                            </Grid>
-                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="0.4*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="0.4*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="0.4*"/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
-                               Margin="8,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                <TextBox Grid.Column="1" x:Name="operatorName" 
-                                 Text="{x:Bind Path=OperatorName}"
-                                 Margin="2" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName"/>
-                                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                <TextBox Grid.Column="3" x:Name="operatorCallsign" 
-                                 Text="{x:Bind Mode=TwoWay, Path=OperatorCallsign}"
-                                 Margin="2"  BorderBrush="White" Tag="OpCall"/>
-                                <Border Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="5" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                                <TextBox Grid.Column="5" x:Name="operatorDate" 
-                                 IsReadOnly="True"
-                                 Margin="2" BorderBrush="White" Tag="OpDate"/>
-                                <Border Grid.Column="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,8,0" VerticalAlignment="Center" />
-                                <Border Grid.Column="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBox Grid.Column="7" x:Name="operatorTime" 
-                                 IsReadOnly="True"
-                                 Margin="2" BorderBrush="White" Tag="OpTime" />
-                            </Grid>
-                        </StackPanel>
+                        <src:RadioOperatorUserControl Grid.Row="2" x:Name="radioOperatorControl" Margin="0,8,0,0"/>
                     </Grid>
                 </StackPanel>
             </StackPanel>
