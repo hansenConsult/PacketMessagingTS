@@ -18,8 +18,28 @@ using Windows.UI.Xaml.Media;
 
 namespace FormControlBasicsNamespace
 {
+    public sealed class FormEventArgs : EventArgs
+    {
+        //public FormEventArgs() { }
+
+        //public FormEventArgs(string tacticalCallsign)
+        //{
+        //	TacticalCallsign = tacticalCallsign;
+        //}
+
+        //public string TacticalCallsign
+        //{ get; set; }
+
+        public string SubjectLine
+        { get; set; }
+    }
+
+
     public partial class FormControlBasics : UserControl, INotifyPropertyChanged
     {
+        public event EventHandler<FormEventArgs> EventSubjectChanged;
+        public event EventHandler<FormEventArgs> EventMsgTimeChanged;
+
         public static SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
         public static SolidColorBrush BlackBrush = new SolidColorBrush(Colors.Black);
@@ -31,9 +51,21 @@ namespace FormControlBasicsNamespace
         public static SolidColorBrush YellowBrush = new SolidColorBrush(Colors.Yellow);
         public static SolidColorBrush OrangeBrush = new SolidColorBrush(Colors.Orange);
 
+        protected string[] ICSPosition = new string[] {
+                "Incident Commander",
+                "Operations",
+                "Planning",
+                "Logistics",
+                "Finance",
+                "Public Info. Officer",
+                "Liaison Officer",
+                "Safety Officer"
+        };
 
         protected List<FormControl> _formControlsList = new List<FormControl>();
         protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
+
+        protected List<string> _ICSPositionFiltered = new List<string>();
 
         protected string _validationResultMessage;
 
@@ -45,11 +77,43 @@ namespace FormControlBasicsNamespace
         ////protected string[] _formProviders = new string[] { "PacForm", "PacItForm" };
         //protected int _providerIndix = 0;
 
+        public virtual string MessageNo
+        { get; set; }
+
+        public virtual string DestinationMsgNo
+        { get; set; }
+
+        public virtual string OriginMsgNo
+        { get; set; }
+
+        protected string _msgDate;
+        public virtual string MsgDate
+        { get; set; }
+
+        protected string _msgTime;
+        public virtual string MsgTime
+        { get; set; }
+
+        public virtual string HandlingOrder
+        { get; set; }
+
         public virtual string OperatorName
         { get; set; }
 
         public virtual string OperatorCallsign
         { get; set; }
+
+        private string _pif = "2.1";
+        public virtual string PIF
+        {
+            get => _pif;
+            set => _pif = value;
+        }
+
+        public virtual string PIFString
+        {
+            get => $"PIF: {PIF}";
+        }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
@@ -138,6 +202,26 @@ namespace FormControlBasicsNamespace
             _validationResultMessage += ($"\n{errorText}");
         }
 
+        public static string GetTagIndex(FrameworkElement control)
+        {
+            try
+            {
+                string tag = (string)control.Tag;
+                if (!string.IsNullOrEmpty(tag))
+                {
+                    string[] tags = tag.Split(new char[] { ',' });
+                    if (!tags[0].Contains("required"))
+                    {
+                        return tags[0];
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return "";
+        }
+
         public static string GetTagErrorMessage(Control control)
         {
             string tag = control.Tag as string;
@@ -156,6 +240,17 @@ namespace FormControlBasicsNamespace
             else
             {
                 return "";
+            }
+        }
+
+        public void InitializeToggleButtonGroups()
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
+                {
+                    toggleButtonGroup.Initialize(_radioButtonsList, formControl.InputControl.Name);
+                }
             }
         }
 
@@ -290,25 +385,41 @@ namespace FormControlBasicsNamespace
 
         protected virtual void TextBox_IntegerChanged(object sender, TextChangedEventArgs e)
         {
-            foreach (FormControl formControl in _formControlsList)
+            if (sender is TextBox textBox)
             {
-                if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+                FormControl formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
+                string pattern = @"\b[0-9]+\b";
+                bool match = Regex.IsMatch(textBox.Text, pattern);
+                if (IsFieldRequired(sender as TextBox) && !match)
                 {
-                    string pattern = @"\b[0-9]+\b";
-                    bool match = Regex.IsMatch(textBox.Text, pattern);
-                    if (IsFieldRequired(sender as TextBox) && !match)
-                    {
-                        textBox.BorderThickness = new Thickness(2);
-                        textBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        textBox.BorderThickness = new Thickness(1);
-                        textBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
+                    textBox.BorderThickness = new Thickness(2);
+                    textBox.BorderBrush = formControl.RequiredBorderBrush;
+                }
+                else
+                {
+                    textBox.BorderThickness = new Thickness(1);
+                    textBox.BorderBrush = formControl.BaseBorderColor;
                 }
             }
+            //foreach (FormControl formControl in _formControlsList)
+            //{
+            //    if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+            //    {
+            //        string pattern = @"\b[0-9]+\b";
+            //        bool match = Regex.IsMatch(textBox.Text, pattern);
+            //        if (IsFieldRequired(sender as TextBox) && !match)
+            //        {
+            //            textBox.BorderThickness = new Thickness(2);
+            //            textBox.BorderBrush = formControl.RequiredBorderBrush;
+            //        }
+            //        else
+            //        {
+            //            textBox.BorderThickness = new Thickness(1);
+            //            textBox.BorderBrush = formControl.BaseBorderColor;
+            //        }
+            //        break;
+            //    }
+            //}
         }
 
         protected virtual void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -393,6 +504,52 @@ namespace FormControlBasicsNamespace
                         break;
                     }
                 }
+            }
+        }
+
+        private bool CheckTimeFormat(FormControl formControl)
+        {
+            TextBox textBox = formControl.InputControl as TextBox;
+            string time = textBox.Text;
+            bool match = false;
+            if (!string.IsNullOrEmpty(time))
+            {
+                string timePattern = @"^((0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9])|24:?00$";
+                match = Regex.IsMatch(time, timePattern);
+            }
+
+            if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
+            {
+                textBox.BorderThickness = new Thickness(1);
+                textBox.BorderBrush = formControl.BaseBorderColor;
+                if (!string.IsNullOrEmpty(time) && time.Length == 4 && time[2] != ':')
+                {
+                    textBox.Text = time.Insert(2, ":");
+                }
+                return true;
+            }
+            else
+            {
+                textBox.BorderThickness = new Thickness(2);
+                textBox.BorderBrush = formControl.RequiredBorderBrush;
+                return false;
+            }
+        }
+
+        protected virtual void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                FormControl formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+
+                if (!CheckTimeFormat(formControl))
+                {
+                    return;
+                }
+                // Create event time changed
+                EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
+                FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
+                OnMsgTimeChange?.Invoke(this, formEventArgs);
             }
         }
 
@@ -496,6 +653,97 @@ namespace FormControlBasicsNamespace
                     }
                 }
             }
+        }
+
+        protected void Subject_Changed(object sender, RoutedEventArgs e)
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (sender is RadioButton radioButton)
+                {
+                    //if (radioButton.Name == "emergency") No longer allowed
+                    //{
+                    //    HandlingOrder = "immediate";
+                    //}
+                    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
+                    {
+                        toggleButtonGroup.CheckedControlName = radioButton.Name;
+                        if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+                        {
+                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+                        }
+                        else
+                        {
+                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                        }
+                        break;
+                    }
+                }
+                else if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+                {
+                    if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
+                    {
+                        textBox.BorderThickness = new Thickness(2);
+                        textBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        textBox.BorderThickness = new Thickness(1);
+                        textBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+                else if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
+                {
+                    if (comboBox.SelectedIndex < 0)
+                    {
+                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
+                    }
+                    else
+                    {
+                        comboBox.BorderBrush = formControl.BaseBorderColor;
+                    }
+                    break;
+                }
+            }
+            EventHandler<FormEventArgs> OnSubjectChange = EventSubjectChanged;
+            FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = MessageNo };
+            OnSubjectChange?.Invoke(this, formEventArgs);
+        }
+
+        protected virtual void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            // Set sender.Text. You can use args.SelectedItem to build your text string.
+            sender.Text = args.SelectedItem as string;
+        }
+
+        protected virtual void TextBoxICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            // Set sender.Text. You can use args.SelectedItem to build your text string.
+            sender.Text = args.SelectedItem as string;
+        }
+
+        protected virtual void AutoSuggestBoxICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                //sender.ItemsSource = null;
+                _ICSPositionFiltered = new List<string>();
+                foreach (string s in ICSPosition)
+                {
+                    string lowerS = s.ToLower();
+                    if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
+                    {
+                        _ICSPositionFiltered.Add(s);
+                    }
+                }
+                sender.ItemsSource = _ICSPositionFiltered;
+            }
+            AutoSuggestBox_TextChanged(sender, null);
         }
 
     }

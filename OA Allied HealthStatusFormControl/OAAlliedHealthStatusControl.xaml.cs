@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.System;
 using ToggleButtonGroupControl;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Documents;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -32,12 +33,20 @@ namespace OAAlliedHealthStatus201802FormControl
         {
             InitializeComponent();
 
+            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            ScanControls(panelName, formHeaderControl);
+
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
+
+            FormHeaderControl.HeaderString1 = "Allied Health Status Report Short Form";
+            FormHeaderControl.HeaderString2 = "(DEOC-9)";
+            FormHeaderControl.HeaderSubstring = "Version: February 2018";
+            FormHeaderControl.PIF = "2.1";
         }
 
 
@@ -49,13 +58,14 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override string PacFormType => "Allied_Health_Status";
 
+
         public override string MsgDate
         {
             get => _msgDate;
             set
             {
-                FacilityDate = value;
                 Set(ref _msgDate, value);
+                FacilityDate = value;
             }
         }
 
@@ -84,12 +94,6 @@ namespace OAAlliedHealthStatus201802FormControl
         public override Panel CanvasContainer => container;
 
         public override Panel DirectPrintContainer => directPrintContainer;
-
-        //public override FrameworkElement PrintableContent => printableContent;
-
-        //public override Panel PrintPage1 => printPage1;
-
-        //public override Panel PrintPage2 => printPage2;
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
 
@@ -126,12 +130,13 @@ namespace OAAlliedHealthStatus201802FormControl
         //    set => SetProperty(ref facilityType, value, true);
         //}
 
+        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
-        //6DM-783P_R_AHFacStat_dfg
         public override string CreateSubject()
         {
-            return $"{MessageNo}_{HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
+            return $"{formHeaderControl.MessageNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -252,66 +257,44 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
+            bool found1 = false, found2 = false;
             foreach (FormField formField in formFields)
             {
-                FormControl formControl;
-                if (string.IsNullOrEmpty(formField.ControlName))
-                {
-                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
-                }
-                else
-                {
-                    formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                }
-
+                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
                 FrameworkElement control = formControl?.InputControl;
-
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
                 if (control is TextBox textBox)
                 {
-                    textBox.Text = formField.ControlContent;
-                    // Fields that use Binding requires special handling
                     switch (control.Name)
                     {
-                        case "msgDate":
-                            MsgDate = textBox.Text;
+                        case "facilityName":        // Needed for Practice subject
+                            FacilityName = formField.ControlContent;
+                            found1 = true;
                             break;
-                        case "msgTime":
-                            MsgTime = textBox.Text;
-                            break;
-                        case "facilityName":
-                            FacilityName = textBox.Text;
-                            break;
-                        case "operatorCallsign":
-                            OperatorCallsign = textBox.Text;
-                            break;
-                        case "operatorName":
-                            OperatorName = textBox.Text;
+                        case "facilityDate":
+                            FacilityDate = formField.ControlContent;
+                            found2 = true;
                             break;
                         case null:
                             continue;
                     }
                 }
-                else if (control is AutoSuggestBox autoSuggsetBox)
-                {
-                    autoSuggsetBox.Text = formField.ControlContent;
-                }
-                else if (control is ComboBox comboBox)
-                {
-                    FillComboBoxFromFormFields(formField, comboBox);
-                }
-                else if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
-                }
-                else if (control is CheckBox checkBox)
-                {
-                    checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
-                }
+                if (found1 && found2)
+                    break;
             }
+            base.FillFormFromFormFields(formFields);
+
             UpdateFormFieldsRequiredColors();
+        }
+
+        public override void MsgTimeChanged(string msgTime)
+        {
+            if (string.IsNullOrEmpty(facilityTime.Text))
+            {
+                facilityTime.Text = msgTime;
+            }
         }
 
     }

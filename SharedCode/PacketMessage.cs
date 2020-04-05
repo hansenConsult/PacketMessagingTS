@@ -613,7 +613,7 @@ namespace SharedCode
 
         private string misSpelsField;
 
-        private string formIndexField;
+        private string controlIndexField;
 
         ///// <remarks/>
         //[System.Xml.Serialization.XmlAttributeAttribute()]
@@ -689,10 +689,10 @@ namespace SharedCode
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string FormIndex
+        public string ControlIndex
         {
-            get => this.formIndexField;
-            set => this.formIndexField = value;
+            get => this.controlIndexField;
+            set => this.controlIndexField = value;
         }
         
     }

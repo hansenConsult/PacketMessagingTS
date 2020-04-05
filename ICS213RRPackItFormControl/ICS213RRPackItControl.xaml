@@ -32,9 +32,13 @@
                     <Grid x:Name="printPage1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="0,1,1,0">
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
+                        <!--<Grid Grid.Row="0" BorderBrush="Black" BorderThickness="0,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="152"/>
@@ -65,9 +69,8 @@
                                      Text="{x:Bind DestinationMsgNo}"
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Destination:"/>
-                        </Grid>
-                        <StackPanel Grid.Row="1">
-                            <Grid BorderBrush="Black" BorderThickness="1">
+                        </Grid>-->
+                            <!--<Grid BorderBrush="Black" BorderThickness="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
@@ -75,7 +78,6 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                                 <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                            Margin="8,0,0,0"/>
                                 <TextBox Grid.Column="1" Name="msgDate" 
@@ -113,8 +115,8 @@
                                                      ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
                                     </StackPanel>
                                 </Border>
-                            </Grid>
-                            <Grid >
+                            </Grid>-->
+                            <!--<Grid >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50"/>
                                     <ColumnDefinition Width="1*"/>
@@ -156,24 +158,8 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
-                                        <!--<TextBox x:Name="toName" Margin="10,0,10,2" Tag="7c."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"/>-->
                                         <TextBox Grid.Column="1" x:Name="toName" Margin="10,2,10,2"  Tag="7c."/>
-                                        <!--HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"/>-->
                                     </Grid>
-                                    <!--</Border>-->
-                                    <!--<Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0, 0">
-                                        <StackPanel >
-                                            <TextBox x:Name="toContactInfo" 
-                                             Margin="10,0,10,2" Tag="7d."
-                                             TextChanged="TextBox_PhoneChanged"
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Contact Info:"/>
-
-                                        </StackPanel>
-                                    </Border>-->
                                     <Grid >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -204,36 +190,7 @@
                                                         TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                         Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
-                                        <!--<TextBox  x:Name="textBoxFromICSPosition" Visibility="Collapsed" Tag="23" />-->
-                                        <!--<ComboBox x:Name="comboBoxFromICSPosition" Margin="10,0,10,2" 	
-                                                  ItemsSource="{x:Bind ICSPosition}"
-                                                  HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                  Header="8.) ICS Position:"
-                                                  PlaceholderText="Choose one or type a position"
-												  IsEditable="True"
-                                                  Tag="24,required,Enter a From position."  
-                                                  SelectionChanged="ICSPosition_SelectionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                                  />-->
                                     </Grid>
-                                    <!--<StackPanel >
-										<TextBlock Style="{StaticResource LabelFontTNR14B}" Text="ICS Position:" Foreground="LightSalmon" Padding="5,0,5,5" />
-										<RelativePanel x:Name="fromICSPos" >
-											<Button x:Name="buttonSelectFromICSPosInput" RelativePanel.AlignVerticalCenterWithPanel="True" Content="Manual Input" Click="buttonSelectICSPosInput_Click" Margin="5,0,0,2" />
-											<TextBox x:Name="textBoxFromICSPosition" Style="{StaticResource TypedText}" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True"	 
-												BorderBrush="White" Margin="10,0,10,2" Visibility="Collapsed"
-                                                Tag="required,Enter a From position."/>
-											-->
-                                    <!--<ComboBox x:Name="comboBoxFromICSPosition" Margin="9.667,0,10,2" 
-												RelativePanel.RightOf="buttonSelectFromICSPosInput"
-												RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Stretch"
-												BorderBrush="White" BorderThickness="2" Tag="required,Enter a From position." PlaceholderText="Select ICS Position" >
-											</ComboBox>-->
-                                    <!--
-										</RelativePanel>
-									</StackPanel>-->
-                                    <!--</Border>-->
                                     <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -244,19 +201,6 @@
                                              TextChanged="TextBox_TextChanged"
                                              Tag="8b.,required,Enter a From Location."/>
                                     </Grid>
-
-                                    <!--<Border BorderBrush="Black" BorderThickness="0,0,0,1" >
-                                        <StackPanel >
-                                            <TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />
-                                            <TextBox x:Name="fromLocation" Margin="10,0,10,2" 
-                                             TextChanged="TextBox_TextChanged"
-                                             Tag="8b.,required,Enter a From Location."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Location:"/>
-
-                                        </StackPanel>
-                                    </Border>-->
-
                                     <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -265,12 +209,6 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
                                         <TextBox Grid.Column="1" x:Name="fromName" Margin="10,2,10,2"  Tag="7c."/>
                                     </Grid>
-
-                                    <!--<StackPanel >
-                                            <TextBox x:Name="fromName" Margin="10,0,10,2" Tag="8c."
-                                             HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"/>
-                                        </StackPanel>-->
                                     <Grid >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
@@ -282,283 +220,282 @@
                                              TextChanged="TextBox_PhoneChanged"/>
                                     </Grid>
                                 </StackPanel>
+                            </Grid>-->
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="7*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,1">
+                                <!--<TextBlock Text="1. Incident Name" Style="{StaticResource EOC213RRFieldHeader}" Margin="5,2,0,0"/>-->
+                                <TextBox Name="incidentName" Margin="5,2" AcceptsReturn="True" 
+                                    Text="{x:Bind IncidentName, Mode=TwoWay}"
+                                    TextChanged="Subject_Changed" 
+									Tag="21.,required,Enter the Incident Name."
+                                    HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                    Header="1. Incident Name:"/>
+                                <!--Text="{x:Bind IncidentName, Mode=TwoWay}"-->
+                            </StackPanel>
+                            <Grid Grid.Column="1" Grid.Row="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="1.2*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                    <!--<TextBlock Text="2. Date Initiated" Style="{StaticResource EOC213RRFieldHeader}"/>-->
+                                    <TextBox Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
+                                        Text="{x:Bind InitiatedDate, Mode=TwoWay}"
+                                        Style="{StaticResource MuniStatusDateTextBox}"                                             
+                                        TextChanged="TextBox_DateChanged"
+                                        Tag="22.,required,Enter the Date Initialized."
+                                        HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                        Header="2. Date Initiated:"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                    <!--<TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                            <Run Text="3. Time Initiated"/>
+                            </TextBlock>-->
+                                    <TextBox Name="initiatedTime" PlaceholderText="hh:mm" 
+                                        Style="{StaticResource MuniStatusTimeTextBox}"                                         
+                                        TextChanged="TextBox_TimeChanged"
+                                        Tag="23.,required,Enter the message time."
+                                        HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                        Header="3. Time Initiated:"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                    <TextBlock Text="4. Tracking Number" Style="{StaticResource EOC213RRFieldHeader}"/>
+                                    <TextBlock Text=" (Completed by OA EOC)" Style="{StaticResource EOC213RRHeaderItalic}"/>
+                                </StackPanel>
                             </Grid>
-                            <Grid BorderBrush="Black" BorderThickness="1,1,1,1">
+                            <!--<Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,0">-->
+                            <StackPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
+                                <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                <Run Text="5. Requested by" />
+                                <Run Text=" (Name, agency, email, phone)" FontSize="11" FontStyle="Italic" 
+                                        FontWeight="Normal" Foreground="Black"/>
+                                </TextBlock>
+                                <TextBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Name="requestedBy" FontFamily="Helvetica" FontSize="14"  
+                                        AcceptsReturn="True" Margin="4,2" Height="126"
+                                        TextChanged="TextBox_TextChanged"
+                                        Tag="25.,required,Enter 5. Requested By." />
+                            </StackPanel>
+                            <!--</Border>-->
+                            <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0">
+                                <StackPanel >
+                                    <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                <Run Text="6. Prepared by"/>
+                                <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
+                                    </TextBlock>
+                                    <TextBox Name="preparedBy" FontFamily="Helvetica" FontSize="14"  
+                                        MinHeight="52" AcceptsReturn="True" Margin="4,2" Tag="26."/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,0,0">
+                                <StackPanel >
+                                    <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                <Run Text="7. Approved by"/>
+                                <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
+                                    </TextBlock>
+                                    <TextBox Name="approvedBy" FontFamily="Helvetica" FontSize="14" MinHeight="52"  
+                                        AcceptsReturn="True" Margin="4,2" Tag="27."/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,1,0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,0" />
+                            <Border Grid.Column="0" Grid.RowSpan="5" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0" />
+                            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="5" Text="Requesting Agency/EOC Section" Width="auto"
+                                Style="{StaticResource EOC213RRFieldLabel}" 
+                                HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
+                                <TextBlock.RenderTransform>
+                                    <CompositeTransform Rotation="-90" TranslateX="-70" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <Grid Grid.Column="1" Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="2.7*"/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                    <ColumnDefinition Width="1.6*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition MinHeight="64"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.ColumnSpan="5" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                                <TextBlock Grid.ColumnSpan="5" Grid.Row="0" Text="REQUESTED RESOURCE DETAILS" HorizontalAlignment="Center" 
+                                    Style="{StaticResource EOC213RRFieldLabel}" Margin="5"/>
+                                <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1"/>
+                                <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                <Border Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                <Border Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,0,1"/>
+                                <Border Grid.ColumnSpan="5" Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,0,0"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="8. Qty/Unit" VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldHeader}" Height="16" />
+                                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" 
+                                    Style="{StaticResource EOC213RRFieldLabel}" Margin="10,0,0,0">
+                                <Run Text="9. Resource Description"/>
+                                <Run Text=" (Kind/Type if applicable)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
+                                </TextBlock>
+                                <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" 
+                                    Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0">
+                                <Run Text="10, Arrival"/>
+                                <Run Text=" (date/time)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
+                                </TextBlock>
+                                <TextBlock Grid.Column="3" Grid.Row="1" Text="11. Priority" HorizontalAlignment="Left" 
+                                    Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
+                                <TextBlock Grid.Column="4" Grid.Row="1" Text="12. Est'd Cost" HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
+                                <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" Margin="4,4,4,4" 
+                                    AcceptsReturn="True" 
+                                    TextChanged="TextBox_TextChanged"
+                                    Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0"/>
+                                <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" Margin="4" 
+                                    AcceptsReturn="True" 
+                                    TextChanged="TextBox_TextChanged"
+                                    Tag="29.,required,Enter 9. Resource Description."/>
+                                <TextBox Grid.Column="2" Grid.Row="2" Name="resourceInfoArrival" AcceptsReturn="True" 
+                                    PlaceholderText="mm/dd/yy hhmm" 
+                                    Margin="4" 
+                                    TextChanged="TextBox_TextChanged"
+                                    Tag="30.,required,Enter 10. Arrival Date/Time."/>
+                                <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
+                                <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" Margin="4,4,4,0" 
+                                            Tag="31.,required" MinWidth="124"
+                                            Style="{StaticResource MuniStatusComboBox}"
+                                            DisplayMemberPath="Item"
+                                            SelectedValuePath="Data"
+                                            ItemsSource="{x:Bind Priority, Mode=OneWay}" 
+                                            Loaded="ComboBox_Loaded"                                              
+                                            SelectionChanged="ComboBox_SelectionChanged"
+                                            HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                                <TextBox Grid.Column="4" Grid.Row="2" Name="resourceInfoCost1"  
+                                    InputScope="CurrencyAmount" 
+                                    AcceptsReturn="True" Margin="4" MinWidth="0" Tag="32."/>
+                            </Grid>
+                            <Grid Grid.Column="1" Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="7*"/>
+                                    <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,1">
-                                    <!--<TextBlock Text="1. Incident Name" Style="{StaticResource EOC213RRFieldHeader}" Margin="5,2,0,0"/>-->
-                                    <TextBox Name="incidentName" Margin="5,2" AcceptsReturn="True" 
-                                     Text="{x:Bind IncidentName, Mode=TwoWay}"
-                                     TextChanged="Subject_Changed" 
-									 Tag="21.,required,Enter the Incident Name."
-                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                     Header="1. Incident Name:"/>
-                                    <!--Text="{x:Bind IncidentName, Mode=TwoWay}"-->
-                                </StackPanel>
-                                <Grid Grid.Column="1" Grid.Row="0" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="1.2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0,1">
-                                        <!--<TextBlock Text="2. Date Initiated" Style="{StaticResource EOC213RRFieldHeader}"/>-->
-                                        <TextBox Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
-                                         Text="{x:Bind InitiatedDate, Mode=TwoWay}"
-                                         Style="{StaticResource MuniStatusDateTextBox}"                                             
-                                         TextChanged="TextBox_DateChanged"
-                                         Tag="22.,required,Enter the Date Initialized."
-                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                         Header="2. Date Initiated:"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,1">
-                                        <!--<TextBlock Style="{StaticResource EOC213RRFieldHeader}">
-                                <Run Text="3. Time Initiated"/>
-                                </TextBlock>-->
-                                        <TextBox Name="initiatedTime" PlaceholderText="hh:mm" 
-                                         Style="{StaticResource MuniStatusTimeTextBox}"                                         
-                                         TextChanged="TextBox_TimeChanged"
-                                         Tag="23.,required,Enter the message time."
-                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                         Header="3. Time Initiated:"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="2" BorderBrush="Black" BorderThickness="1,1,0,1">
-                                        <TextBlock Text="4. Tracking Number" Style="{StaticResource EOC213RRFieldHeader}"/>
-                                        <TextBlock Text=" (Completed by OA EOC)" Style="{StaticResource EOC213RRHeaderItalic}"/>
-                                    </StackPanel>
-                                </Grid>
-                                <!--<Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,0">-->
-                                <StackPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
+                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,1">
                                     <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
-                                    <Run Text="5. Requested by" />
-                                    <Run Text=" (Name, agency, email, phone)" FontSize="11" FontStyle="Italic" 
-                                         FontWeight="Normal" Foreground="Black"/>
+                                <Run Text="13. Delivery to"/>
+                                <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                     </TextBlock>
-                                    <TextBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Name="requestedBy" FontFamily="Helvetica" FontSize="14"  
-                                         AcceptsReturn="True" Margin="4,2" Height="126"
-                                         TextChanged="TextBox_TextChanged"
-                                         Tag="25.,required,Enter 5. Requested By." />
+                                    <TextBox Name="deliveryTo" MinHeight="56" Margin="2" AcceptsReturn="True" 
+                                        TextChanged="TextBox_TextChanged"
+                                        Tag="33.,required,Enter 13. Delivery to."/>
                                 </StackPanel>
-                                <!--</Border>-->
-                                <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                    <StackPanel >
-                                        <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
-                                    <Run Text="6. Prepared by"/>
-                                    <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
-                                        </TextBlock>
-                                        <TextBox Name="preparedBy" FontFamily="Helvetica" FontSize="14"  
-                                         MinHeight="52" AcceptsReturn="True" Margin="4,2" Tag="26."/>
-                                    </StackPanel>
-                                </Border>
-                                <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,0,0">
-                                    <StackPanel >
-                                        <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
-                                    <Run Text="7. Approved by"/>
-                                    <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
-                                        </TextBlock>
-                                        <TextBox Name="approvedBy" FontFamily="Helvetica" FontSize="14" MinHeight="52"  
-                                         AcceptsReturn="True" Margin="4,2" Tag="27."/>
-                                    </StackPanel>
-                                </Border>
+                                <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
+                                    <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                <Run Text="14. Location"/>
+                                <Run Text=" (address or Lat/long., site type)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
+                                    </TextBlock>
+                                    <TextBox Name="deliveryLocation" Height="56" Margin="2" AcceptsReturn="True" 
+                                        TextChanged="TextBox_TextChanged"
+                                        Tag="34.,required,Enter 14. Location."/>
+                                </StackPanel>
                             </Grid>
-                            <Grid BorderBrush="Black" BorderThickness="1,1,1,0" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Border Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,0" />
-                                <Border Grid.Column="0" Grid.RowSpan="5" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0" />
-                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="5" Text="Requesting Agency/EOC Section" Width="auto"
-                                   Style="{StaticResource EOC213RRFieldLabel}" 
-                                   HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
-                                    <TextBlock.RenderTransform>
-                                        <CompositeTransform Rotation="-90" TranslateX="-70" />
-                                    </TextBlock.RenderTransform>
+                            <StackPanel Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                <Run Text="15. Suitable Substitutes / Suggested Sources"/>
+                                <Run Text=" (name, source, website)" FontSize="11" FontStyle="Italic" FontWeight="Normal" />
                                 </TextBlock>
-                                <Grid Grid.Column="1" Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1.5*"/>
-                                        <ColumnDefinition Width="5*"/>
-                                        <ColumnDefinition Width="2.7*"/>
-                                        <ColumnDefinition Width="2.5*"/>
-                                        <ColumnDefinition Width="1.6*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition MinHeight="64"/>
-                                    </Grid.RowDefinitions>
-                                    <Border Grid.ColumnSpan="5" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                                    <TextBlock Grid.ColumnSpan="5" Grid.Row="0" Text="REQUESTED RESOURCE DETAILS" HorizontalAlignment="Center" 
-                                       Style="{StaticResource EOC213RRFieldLabel}" Margin="5"/>
-                                    <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1"/>
-                                    <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
-                                    <Border Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
-                                    <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
-                                    <Border Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,0,1"/>
-                                    <Border Grid.ColumnSpan="5" Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,0,0"/>
-                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="8. Qty/Unit" VerticalAlignment="Center" 
-                                       HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldHeader}" Height="16" />
-                                    <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" 
-                                       Style="{StaticResource EOC213RRFieldLabel}" Margin="10,0,0,0">
-                                    <Run Text="9. Resource Description"/>
-                                    <Run Text=" (Kind/Type if applicable)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" 
-                                       Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0">
-                                    <Run Text="10, Arrival"/>
-                                    <Run Text=" (date/time)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="3" Grid.Row="1" Text="11. Priority" HorizontalAlignment="Left" 
-                                       Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
-                                    <TextBlock Grid.Column="4" Grid.Row="1" Text="12. Est'd Cost" HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
-                                    <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" Margin="4,4,4,4" 
-                                     AcceptsReturn="True" 
-                                     TextChanged="TextBox_TextChanged"
-                                     Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0"/>
-                                    <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" Margin="4" 
-                                     AcceptsReturn="True" 
-                                     TextChanged="TextBox_TextChanged"
-                                     Tag="29.,required,Enter 9. Resource Description."/>
-                                    <TextBox Grid.Column="2" Grid.Row="2" Name="resourceInfoArrival" AcceptsReturn="True" 
-                                     PlaceholderText="mm/dd/yy hhmm" 
-                                     Margin="4" 
-                                     TextChanged="TextBox_TextChanged"
-                                     Tag="30.,required,Enter 10. Arrival Date/Time."/>
-                                    <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
-                                    <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" Margin="4,4,4,0" 
-                                              Tag="31.,required" MinWidth="124"
-                                              Style="{StaticResource MuniStatusComboBox}"
-                                              DisplayMemberPath="Item"
-                                              SelectedValuePath="Data"
-                                              ItemsSource="{x:Bind Priority, Mode=OneWay}" 
-                                              Loaded="ComboBox_Loaded"                                              
-                                              SelectionChanged="ComboBox_SelectionChanged"
-                                              HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
-                                    <TextBox Grid.Column="4" Grid.Row="2" Name="resourceInfoCost1"  
-                                     InputScope="CurrencyAmount" 
-                                     AcceptsReturn="True" Margin="4" MinWidth="0" Tag="32."/>
-                                </Grid>
-                                <Grid Grid.Column="1" Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                        <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
-                                    <Run Text="13. Delivery to"/>
-                                    <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
+                                <TextBox Name="substitutes" MinHeight="46" Margin="2" 
+                                    AcceptsReturn="True" Tag="35."/>
+                            </StackPanel>
+                            <Grid Grid.Column="1" Grid.Row="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource EOC213RRFieldHeader}">
+                                    <Run Text="16. Supplement Requirements"/>
+                                    <Run Text=" (Include details in #17)" FontSize="11" FontStyle="Italic" FontWeight="Normal" />
                                         </TextBlock>
-                                        <TextBox Name="deliveryTo" MinHeight="56" Margin="2" AcceptsReturn="True" 
-                                         TextChanged="TextBox_TextChanged"
-                                         Tag="33.,required,Enter 13. Delivery to."/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
-                                        <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
-                                    <Run Text="14. Location"/>
-                                    <Run Text=" (address or Lat/long., site type)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
-                                        </TextBlock>
-                                        <TextBox Name="deliveryLocation" Height="56" Margin="2" AcceptsReturn="True" 
-                                         TextChanged="TextBox_TextChanged"
-                                         Tag="34.,required,Enter 14. Location."/>
-                                    </StackPanel>
-                                </Grid>
-                                <StackPanel Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                    <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
-                                    <Run Text="15. Suitable Substitutes / Suggested Sources"/>
-                                    <Run Text=" (name, source, website)" FontSize="11" FontStyle="Italic" FontWeight="Normal" />
-                                    </TextBlock>
-                                    <TextBox Name="substitutes" MinHeight="46" Margin="2" 
-                                     AcceptsReturn="True" Tag="35."/>
+                                        <CheckBox Grid.Column="0" Grid.Row="1" Name="suppReqEquipmentOperator" 
+                                            Content="Equipment Operator" Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36a." Height="30"/>
+                                        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+                                            <CheckBox  Name="suppReqFuel" Content="Fuel type" 
+                                                Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                VerticalContentAlignment="Center" Margin="10,0,0,0" 
+                                                MinHeight="10" MinWidth="100" Tag="36c."
+                                                Checked="SuppReqFuel_Checked"
+                                                Unchecked="SuppReqFuel_Checked"/>
+                                            <TextBox Name="suppReqFuelType" Width="83" Tag="36d.,conditionallyrequired"
+                                                TextChanged="TextBox_TextChanged"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}"
+                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36f."/>
+                                        <CheckBox Grid.Column="0" Grid.Row="4" Name="suppReqWater" Content="Water" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36h."/>
+                                        <CheckBox Grid.Column="1" Grid.Row="1" Name="suppReqLodinng" Content="Lodging" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}" VerticalContentAlignment="Center" 
+                                            Margin="10,0,0,0" Tag="36b." Height="30"/>
+                                        <CheckBox Grid.Column="1" Grid.Row="2" Name="suppReqPower" Content="Power" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36e."/>
+                                        <CheckBox Grid.Column="1" Grid.Row="3" Name="suppReqMaintenance" 
+                                            Content="Maintenance" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36g."/>
+                                        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+                                            <CheckBox Name="suppReqOther" Content="Other " 
+                                                Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                VerticalContentAlignment="Center" Margin="10,0,0,0" 
+                                                Width="65" MinWidth="50" 
+                                                Unchecked="SuppReqOther_Checked"
+                                                Checked="SuppReqOther_Checked" Tag="36i."/>
+                                            <TextBlock Text="(see #17)" Style="{StaticResource EOC213RRHeaderItalic}" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
                                 </StackPanel>
-                                <Grid Grid.Column="1" Grid.Row="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="1.2*"/>
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource EOC213RRFieldHeader}">
-                                        <Run Text="16. Supplement Requirements"/>
-                                        <Run Text=" (Include details in #17)" FontSize="11" FontStyle="Italic" FontWeight="Normal" />
-                                            </TextBlock>
-                                            <CheckBox Grid.Column="0" Grid.Row="1" Name="suppReqEquipmentOperator" 
-                                              Content="Equipment Operator" Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36a." Height="30"/>
-                                            <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
-                                                <CheckBox  Name="suppReqFuel" Content="Fuel type" 
-                                                   Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" 
-                                                   MinHeight="10" MinWidth="100" Tag="36c."
-                                                   Checked="SuppReqFuel_Checked"
-                                                   Unchecked="SuppReqFuel_Checked"/>
-                                                <TextBox Name="suppReqFuelType" Width="83" Tag="36d.,conditionallyrequired"
-                                                 TextChanged="TextBox_TextChanged"/>
-                                            </StackPanel>
-                                            <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
-                                              Style="{StaticResource EOC213RRFieldHeaderCB}"
-                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36f."/>
-                                            <CheckBox Grid.Column="0" Grid.Row="4" Name="suppReqWater" Content="Water" 
-                                              Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36h."/>
-                                            <CheckBox Grid.Column="1" Grid.Row="1" Name="suppReqLodinng" Content="Lodging" 
-                                              Style="{StaticResource EOC213RRFieldHeaderCB}" VerticalContentAlignment="Center" 
-                                              Margin="10,0,0,0" Tag="36b." Height="30"/>
-                                            <CheckBox Grid.Column="1" Grid.Row="2" Name="suppReqPower" Content="Power" 
-                                              Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36e."/>
-                                            <CheckBox Grid.Column="1" Grid.Row="3" Name="suppReqMaintenance" 
-                                              Content="Maintenance" 
-                                              Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                              VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36g."/>
-                                            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
-                                                <CheckBox Name="suppReqOther" Content="Other " 
-                                                  Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                                  VerticalContentAlignment="Center" Margin="10,0,0,0" 
-                                                  Width="65" MinWidth="50" 
-                                                  Unchecked="SuppReqOther_Checked"
-                                                  Checked="SuppReqOther_Checked" Tag="36i."/>
-                                                <TextBlock Text="(see #17)" Style="{StaticResource EOC213RRHeaderItalic}" VerticalAlignment="Center" Margin="0,5,0,0"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                        <TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>
-                                        <TextBox Name="specialInstructions"  Margin="2" 
-                                         AcceptsReturn="True" Height="120"
-                                         TextChanged="TextBox_TextChanged"
-                                         Tag="37.,conditionallyrequired"/>
-                                    </StackPanel>
-                                </Grid>
+                                <StackPanel Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0">
+                                    <TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>
+                                    <TextBox Name="specialInstructions"  Margin="2" 
+                                        AcceptsReturn="True" Height="120"
+                                        TextChanged="TextBox_TextChanged"
+                                        Tag="37.,conditionallyrequired"/>
+                                </StackPanel>
                             </Grid>
-                            <src:RadioOperatorUserControl  x:Name="radioOperatorControl"/>
-                        </StackPanel>
+                        </Grid>
+                        <src:RadioOperatorUserControl Grid.Row="3" x:Name="radioOperatorControl"/>
                     </Grid>
                 </StackPanel>
             </StackPanel>

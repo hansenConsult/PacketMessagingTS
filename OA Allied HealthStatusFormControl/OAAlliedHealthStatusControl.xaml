@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
-    xmlns:src="using:FormUserControl"
+    xmlns:src="using:FormUserControl"   
 
     mc:Ignorable="d"
     d:DesignWidth="816" d:DesignHeight="1576">
@@ -413,13 +413,13 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
+                        <!--<Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="152"/>
                                 <ColumnDefinition Width="152"/>
                             </Grid.ColumnDefinitions>
-                            <!--<Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>-->
                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                 <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" 
@@ -450,8 +450,8 @@
                                      Text="{x:Bind Path=DestinationMsgNo}"
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Destination:"/>
-                        </Grid>
-                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                        </Grid>-->
+                        <!--<Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -473,7 +473,7 @@
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <TextBox Grid.Column="3" x:Name="msgTime" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"                                 
-                                 Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
+                                 
                                  TextChanged="TextBox_TimeChanged"
                                  Tag="1b.,required"/>
                             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
@@ -494,8 +494,8 @@
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
                                              Content="ROUTINE (&lt; 2 hrs)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
-                        </Grid>
-                        <Grid Grid.Row="2" >
+                        </Grid>-->
+                        <!--<Grid Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="1*"/>
@@ -598,8 +598,8 @@
                                              TextChanged="TextBox_PhoneChanged"/>
                                 </Grid>
                             </StackPanel>
-                        </Grid>
-                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        </Grid>-->
+                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -676,10 +676,11 @@
                                      Tag="21.,conditionallyrequired" />
                                 <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="1" x:Name="facilityDate"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
-                                     HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22d.,required"
-                                     Header="Date:"
-                                     TextChanged="TextBox_TextChanged"/>
+                                         Style="{StaticResource MuniStatusDateTextBox}"
+                                         Text="{x:Bind FacilityDate, Mode=OneWay}"
+                                         HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22d.,required"
+                                         Header="Date:"
+                                         TextChanged="TextBox_TextChanged"/>
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="2" x:Name="facilityTime" Header="Time:"  
                                      Style="{StaticResource MuniStatusTimeTextBox}"
@@ -907,9 +908,10 @@ to Public Health/Medical Health Branch"
                                 </Grid>-->
                             <Border Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1,0,0,1">
                                 <TextBox Grid.Row="10" Grid.Column="1" Grid.RowSpan="5" x:Name="summary"  
-                                     Style="{StaticResource MuniStatusTextBox}"
-                                     AcceptsReturn="True"
-                                     VerticalAlignment="Stretch" />
+                                         Style="{StaticResource MuniStatusTextBox}"
+                                         AcceptsReturn="True"
+                                         VerticalAlignment="Stretch" 
+                                         Tag="34."/>
                             </Border>
                             <Grid Grid.Column="0" Grid.Row="11" BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <Grid.ColumnDefinitions>
@@ -918,9 +920,9 @@ to Public Health/Medical Health Branch"
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Liaison Contact Number" 
-                                       Style="{StaticResource AlliedHeaderText}" />
+                                           Style="{StaticResource AlliedHeaderText}" />
                                 <TextBox x:Name="liasonContactNumber" Grid.Column="1" Grid.Row="0"  
-                                     Style="{StaticResource MuniStatusPhoneTextBox}" Tag="28p." />
+                                         Style="{StaticResource MuniStatusPhoneTextBox}" Tag="28p." />
                             </Grid>
                             <Grid Grid.Column="0" Grid.Row="12" BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <Grid.ColumnDefinitions>

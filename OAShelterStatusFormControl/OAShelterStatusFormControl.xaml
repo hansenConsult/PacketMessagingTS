@@ -30,11 +30,10 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
+                        <!--<Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="152"/>
@@ -66,8 +65,8 @@
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Destination:"/>
 
-                        </Grid>
-                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        </Grid>-->
+                        <!--<Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -111,8 +110,8 @@
                                          Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                          Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
                                          ToolTipService.ToolTip="Less than two hours" />
-                        </Grid>
-                        <Grid Grid.Row="2" >
+                        </Grid>-->
+                        <!--<Grid Grid.Row="2" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="1*"/>
@@ -216,8 +215,8 @@
                                              TextChanged="PhoneNumber_TextChanged"/>
                                 </Grid>
                             </StackPanel>
-                        </Grid>
-                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        </Grid>-->
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -239,7 +238,7 @@
                                      TextChanged="Subject_Changed"
                                      Tag="32.,required,Enter Shelter Name"/>
                         </Grid>
-                        <Grid Grid.Row="4" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />
@@ -320,7 +319,7 @@
                                          Style="{StaticResource MuniStatusTextBox}" Tag="37b."/>
                             </StackPanel>
                         </Grid>
-                        <Grid Grid.Row="5" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />

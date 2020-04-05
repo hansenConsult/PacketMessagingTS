@@ -120,6 +120,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FormHeaderUserControl.xaml.cs">
+      <DependentUpon>FormHeaderUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioOperatorUserControl.xaml.cs">
       <DependentUpon>RadioOperatorUserControl.xaml</DependentUpon>
@@ -132,6 +135,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="FormHeaderUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RadioOperatorUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

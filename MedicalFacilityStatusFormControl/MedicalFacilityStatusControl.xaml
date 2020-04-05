@@ -27,7 +27,8 @@
                 <Grid x:Name="container" Opacity="0" />
                 <StackPanel x:Name="directPrintContainer">
                     <StackPanel x:Name="printPage1">
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <src:FormHeaderUserControl  x:Name="formHeaderControl" />
+                        <!--<Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />
@@ -35,7 +36,6 @@
                                 <ColumnDefinition Width="152"/>
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
-                            <!--<StackPanel Grid.Column="0" VerticalAlignment="Center">-->
                             <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" Text="Medical facility Status" 
                                    VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0" />
@@ -64,8 +64,8 @@
                                      Text="{x:Bind Path=DestinationMsgNo}"
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Destination:"/>
-                        </Grid>
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
+                        </Grid>-->
+                        <!--<Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -109,8 +109,8 @@
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                              Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
-                        </Grid>
-                        <Grid >
+                        </Grid>-->
+                        <!--<Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="1*"/>
@@ -213,7 +213,7 @@
                                              TextChanged="PhoneNumber_TextChanged"/>
                                 </Grid>
                             </StackPanel>
-                        </Grid>
+                        </Grid>-->
                         <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>

@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using FormControlBaseClass;
+using FormControlBasicsNamespace;
 
 using MessageFormControl;
 
@@ -97,6 +98,107 @@ namespace PacketMessagingTS.Helpers
             get => _packetForm;
         }
 
+        public string MessageNo
+        {
+            get
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    return _packetForm.FormHeaderControl.MessageNo;
+                else
+                    return _packetForm.MessageNo;
+            }
+            set
+            {
+                if (_packetForm.FormHeaderControl != null)
+                {
+                    _packetForm.FormHeaderControl.MessageNo = value;
+                    _packetForm.MessageNo = value;
+                }
+                else
+                    _packetForm.MessageNo = value;
+            }
+        }
+
+        public string DestinationMsgNo
+        {
+            get
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    return _packetForm.FormHeaderControl.DestinationMsgNo;
+                else
+                    return _packetForm.DestinationMsgNo;
+            }
+            set
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    _packetForm.FormHeaderControl.DestinationMsgNo = value;
+                else
+                    _packetForm.DestinationMsgNo = value;
+            }
+        }
+
+        public string OriginMsgNo
+        {
+            get
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    return _packetForm.FormHeaderControl.OriginMsgNo;
+                else
+                    return _packetForm.OriginMsgNo;
+            }
+            set
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    _packetForm.FormHeaderControl.OriginMsgNo = value;
+                else
+                    _packetForm.OriginMsgNo = value;
+            }
+        }
+
+        public  string MsgDate
+        {
+            get
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    return _packetForm.FormHeaderControl.MsgDate;
+                else
+                    return _packetForm.MsgDate;
+            }
+            set
+            {
+                if (_packetForm.FormHeaderControl != null)
+                {
+                    _packetForm.FormHeaderControl.MsgDate = value;
+                    _packetForm.MsgDate = value;
+                }
+                else
+                    _packetForm.MsgDate = value;
+            }
+        }
+
+        public string OperatorName
+        {
+            get => Singleton<IdentityViewModel>.Instance.UserName;
+            set
+            {
+                if (_packetForm.RadioOperatorControl != null)
+                    _packetForm.RadioOperatorControl.OperatorName = value;
+                else
+                    _packetForm.OperatorName = value;
+            }
+        }
+
+        public string OperatorCallsign
+        {
+            get => Singleton<IdentityViewModel>.Instance.UserCallsign;
+            set
+            {
+                if (_packetForm.RadioOperatorControl != null)
+                    _packetForm.RadioOperatorControl.OperatorCallsign = value;
+                else
+                    _packetForm.OperatorCallsign = value;
+            }
+        }
 
         public BaseFormsPage()
         {
@@ -262,11 +364,17 @@ namespace PacketMessagingTS.Helpers
                 PacFormType = _packetForm.PacFormType,
                 MessageFrom = _packetAddressForm.MessageFrom,
                 MessageTo = _packetAddressForm.MessageTo,
-                MessageNumber = _packetForm.OriginMsgNo,
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
             };
-            
+
+            //if (_packetForm.FormHeaderControl != null)
+            //    _packetMessage.MessageNumber = _packetForm.FormHeaderControl.OriginMsgNo;
+            _packetMessage.MessageNumber = OriginMsgNo;
+            //else
+            //    _packetMessage.MessageNumber = _packetForm.OriginMsgNo;
+
+
             UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
             string subject = CreateSubject();
@@ -290,7 +398,8 @@ namespace PacketMessagingTS.Helpers
 
             //string opcall = _packetForm.OperatorCallsign;//test
             // Special handling for SimpleMessage
-            _packetForm.MessageNo = _packetMessage.MessageNumber;
+            //_packetForm.MessageNo = _packetMessage.MessageNumber;
+            MessageNo = _packetMessage.MessageNumber;
             _packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
             if (_packetMessage.MessageOrigin == MessageOrigin.Received)
             {
@@ -298,20 +407,25 @@ namespace PacketMessagingTS.Helpers
                 _packetForm.ReceivedOrSent = "Receiver";
                 if (_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                 {
-                    _packetForm.MessageNo = _packetMessage.MessageNumber;
+                    //_packetForm.MessageNo = _packetMessage.MessageNumber;
+                    MessageNo = _packetMessage.MessageNumber;
                     _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
                 }
                 else
                 {
-                    _packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
-                    _packetForm.OriginMsgNo = _packetMessage.SenderMessageNumber;
+                    //_packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
+                    DestinationMsgNo = _packetMessage.MessageNumber;
+                    //_packetForm.OriginMsgNo = _packetMessage.SenderMessageNumber;
+                    OriginMsgNo = _packetMessage.SenderMessageNumber;
                 }
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
             {
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
-                _packetForm.DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
-                _packetForm.OriginMsgNo = _packetMessage.MessageNumber;
+                //_packetForm.DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
+                DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
+                //_packetForm.OriginMsgNo = _packetMessage.MessageNumber;
+                OriginMsgNo = _packetMessage.MessageNumber;
                 _packetForm.ReceivedOrSent = "Sender";
 
             }
@@ -319,7 +433,8 @@ namespace PacketMessagingTS.Helpers
             {
                 _packetForm.MessageSentTime = null;
                 _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
-                _packetForm.OriginMsgNo = _packetMessage.MessageNumber;
+                //_packetForm.OriginMsgNo = _packetMessage.MessageNumber;
+                OriginMsgNo = _packetMessage.MessageNumber;
             }
         }
 
@@ -460,14 +575,19 @@ namespace PacketMessagingTS.Helpers
             //    FormControlType = _packetForm.FormControlType,
             //};
 
-            _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
-            _packetForm.OriginMsgNo = _packetForm.MessageNo;
+            //_packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            MessageNo = Utilities.GetMessageNumberPacket();
+            //_packetForm.OriginMsgNo = _packetForm.MessageNo;
+            OriginMsgNo = _packetForm.MessageNo;
 
             DateTime now = DateTime.Now;
-            _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+            //_packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+            MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
             //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-            _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-            _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+            //_packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+            OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+            //_packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+            OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {
                 _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
@@ -482,7 +602,8 @@ namespace PacketMessagingTS.Helpers
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_<subject>";
+                //_packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_<subject>";
+                _packetAddressForm.MessageSubject = $"{MessageNo}_R_<subject>";
 
                 (_packetForm as MessageControl).NewHeaderVisibility = true;
                 _packetForm.MessageReceivedTime = DateTime.Now;
@@ -496,14 +617,19 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
+        void FormControl_MsgTimeChanged(object sender, FormEventArgs e)
+        {
+            _packetForm.MsgTimeChanged(e.SubjectLine);
+        }
+
         void FormControl_SubjectChange(object sender, FormEventArgs e)
         {
-            if (e?.SubjectLine?.Length > 0)
+            if (e?.SubjectLine?.Length > 0) // Why this test?
             {
                 _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
                 if (_packetMessage != null)
                 {
-                    _packetMessage.Subject = _packetForm.CreateSubject();
+                    _packetMessage.Subject = _packetAddressForm.MessageSubject;
                 }
             }
         }
@@ -527,8 +653,19 @@ namespace PacketMessagingTS.Helpers
 
             _packetForm.FormPacketMessage = _packetMessage;
             _packetForm.UpdateFormFieldsRequiredColors(!_loadMessage);
-            _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
-            _packetForm.OriginMsgNo = _packetForm.MessageNo;
+            //if (_packetForm.FormHeaderControl != null)
+            //{
+            //    _packetForm.FormHeaderControl.MessageNo = Utilities.GetMessageNumberPacket();
+            //    _packetForm.FormHeaderControl.OriginMsgNo = _packetForm.FormHeaderControl.MessageNo;
+            //}
+            //else
+            //{
+            //    _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+            //    _packetForm.OriginMsgNo = _packetForm.MessageNo;
+            //}
+            MessageNo = Utilities.GetMessageNumberPacket();
+            OriginMsgNo = MessageNo;
+
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -539,7 +676,8 @@ namespace PacketMessagingTS.Helpers
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                _packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_";
+                //_packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_";
+                _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     _packetAddressForm.MessageSubject += practiceSubject;
@@ -576,19 +714,22 @@ namespace PacketMessagingTS.Helpers
     //            };
 
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
-
-                DateTime now = DateTime.Now;
-                _packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-                //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-                _packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-
-                if (_packetForm.RadioOperatorControl != null)
+                if (_packetForm.FormHeaderControl != null)
                 {
-                    _packetForm.RadioOperatorControl.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-                    _packetForm.RadioOperatorControl.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+                    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
+                    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
                 }
 
-                _packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+                DateTime now = DateTime.Now;
+                //if (_packetForm.FormHeaderControl != null)
+                //{
+                //    _packetForm.FormHeaderControl.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+                //}
+                //_packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+                MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+                //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+                OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+                OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
                 if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
                 {
                     _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
@@ -630,12 +771,6 @@ namespace PacketMessagingTS.Helpers
 
             //_formsViewModel.FormsPagePivotSelectedIndex = formsPagePivot.SelectedIndex;
 
-            // Initialize print content for this scenario
-            //if (_packetForm.GetType() == typeof(ICS213Control))
-            {
-                //ContinuationPage continuationPage = new ContinuationPage(this);
-                //printHelper?.PreparePrintContent(this);
-            }
             SetFormsPagePivotSelectedIndex(((Pivot)sender).SelectedIndex);
         }
 
@@ -653,7 +788,8 @@ namespace PacketMessagingTS.Helpers
                 FormProvider = _packetForm.FormProvider,
                 PacFormName = _packetForm.PacFormName,
                 PacFormType = _packetForm.PacFormType,
-                MessageNumber = _packetForm.MessageNo,
+                //MessageNumber = _packetForm.MessageNo,
+                MessageNumber = MessageNo,
                 CreateTime = DateTime.Now,
             };
             string subject = CreateSubject();
@@ -681,8 +817,10 @@ namespace PacketMessagingTS.Helpers
                 // We must assign a new message number
                 if (_packetMessage.MessageState == MessageState.Locked)
                 {
-                    _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
-                    _packetMessage.MessageNumber = _packetForm.MessageNo;
+                    //_packetForm.MessageNo = Utilities.GetMessageNumberPacket();
+                    MessageNo = Utilities.GetMessageNumberPacket();
+                    //_packetMessage.MessageNumber = _packetForm.MessageNo;
+                    _packetMessage.MessageNumber = MessageNo;
                 }
             }
             else

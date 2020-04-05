@@ -93,12 +93,18 @@ namespace OAMunicipalStatusPackItFormControl
         {
             InitializeComponent();
 
+            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            ScanControls(panelName, formHeaderControl);
+
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
+
+            FormHeaderControl.HeaderString1 = "Santa Clara OA Jurisdiction Status";
+            FormHeaderControl.HeaderSubstring = "WebEOC: 20190327";
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -118,11 +124,13 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
 
+        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {
-            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_MuniStat_{jurisdictionName.SelectedValue as string}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MuniStat_{jurisdictionName.SelectedValue as string}";
         }
 
         /// <summary>

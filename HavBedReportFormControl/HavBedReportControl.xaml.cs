@@ -51,12 +51,18 @@ namespace HavBedReportFormControl
         {
             this.InitializeComponent();
 
+            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            ScanControls(panelName, formHeaderControl);
+
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
+
+            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
+            FormHeaderControl.HeaderSubstring = "EMResource: c190320";
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -78,11 +84,13 @@ namespace HavBedReportFormControl
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
+        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {
-            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_HAvBed_{(hospitalName.SelectedItem as ComboBoxPackItItem)?.Item}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_HAvBed_{(hospitalName.SelectedItem as ComboBoxPackItItem)?.Item}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

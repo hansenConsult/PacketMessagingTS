@@ -47,43 +47,32 @@ namespace FormControlBaseClass
     //	public string FormControlMenuName { get; set; }    // 
     //}
 
-    public sealed class FormEventArgs : EventArgs
-	{
-		//public FormEventArgs() { }
+ //   public sealed class FormEventArgs : EventArgs
+	//{
+	//	//public FormEventArgs() { }
 
-		//public FormEventArgs(string tacticalCallsign)
-		//{
-		//	TacticalCallsign = tacticalCallsign;
-		//}
+	//	//public FormEventArgs(string tacticalCallsign)
+	//	//{
+	//	//	TacticalCallsign = tacticalCallsign;
+	//	//}
 
-		//public string TacticalCallsign
-		//{ get; set; }
+	//	//public string TacticalCallsign
+	//	//{ get; set; }
 
-		public string SubjectLine
-		{ get; set; }
-	}
+	//	public string SubjectLine
+	//	{ get; set; }
+	//}
 
     public abstract partial class FormControlBase : FormControlBasics
     {
-        public event EventHandler<FormEventArgs> EventSubjectChanged;
+        //public event EventHandler<FormEventArgs> EventSubjectChanged;
         //public event PropertyChangedEventHandler PropertyChanged;
 
         protected List<string> outpostData;
-        protected List<string> _ICSPositionFiltered = new List<string>();
+        //protected List<string> _ICSPositionFiltered = new List<string>();
 
         protected ScrollViewer _scrollViewer;
         protected List<Panel> _printPanels;
-
-        protected string[] ICSPosition = new string[] {
-                "Incident Commander",
-                "Operations",
-                "Planning",
-                "Logistics",
-                "Finance",
-                "Public Info. Officer",
-                "Liaison Officer",
-                "Safety Officer"
-        };
 
         readonly protected List<ComboBoxPackItItem> Hospitals = new List<ComboBoxPackItItem>
         {
@@ -167,16 +156,16 @@ namespace FormControlBaseClass
             return true;
         }
 
-        public void InitializeToggleButtonGroups()
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
-                {
-                    toggleButtonGroup.Initialize(_radioButtonsList, formControl.InputControl.Name);
-                }
-            }
-        }
+        //public void InitializeToggleButtonGroups()
+        //{
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
+        //        {
+        //            toggleButtonGroup.Initialize(_radioButtonsList, formControl.InputControl.Name);
+        //        }
+        //    }
+        //}
 
         public virtual void UpdateFormFieldsRequiredColors(bool newForm = true)
         {
@@ -248,7 +237,7 @@ namespace FormControlBaseClass
         public virtual string TacticalCallsign
         { get; set; }
 
-        //public virtual string OperatorName
+        //public override string OperatorName
         //{ get; set; }
 
         //public virtual string OperatorCallsign
@@ -263,17 +252,20 @@ namespace FormControlBaseClass
         //    set => _validationResultMessage = value;
         //}
 
-        private string _pif = "2.1";
-        public virtual string PIF
-        {
-            get => _pif;
-            set => _pif = value;
-        }
+        //private string _pif = "2.1";
+        //public virtual string PIF
+        //{
+        //    get => _pif;
+        //    set => _pif = value;
+        //}
 
-        public virtual string PIFString
-        {
-            get => $"PIF: {PIF}";
-        }
+        //public virtual string PIFString
+        //{
+        //    get => $"PIF: {PIF}";
+        //}
+
+        public virtual FormHeaderUserControl FormHeaderControl
+        { get; set; }
 
         public virtual RadioOperatorUserControl RadioOperatorControl
         { get; set; }
@@ -281,24 +273,24 @@ namespace FormControlBaseClass
         public virtual string SenderMsgNo
         { get; set; }
 
-        public virtual string MessageNo
-        { get; set; }
+        //public virtual string MessageNo
+        //{ get; set; }
 
         public virtual string ReceiverMsgNo
         { get; set; }
 
-        public virtual string DestinationMsgNo
-        { get; set; }
+        //public virtual string DestinationMsgNo
+        //{ get; set; }
 
-        public virtual string OriginMsgNo
-        { get; set; }
+        //public virtual string OriginMsgNo
+        //{ get; set; }
 
         //public static string DefaultMessageTo
         //{ get; set; }
 
-        protected string _msgDate;
-        public virtual string MsgDate
-        { get; set; }
+        //protected string _msgDate;
+        //public virtual string MsgDate
+        //{ get; set; }
 
         protected static string TimeCheck(string time)
         {
@@ -330,16 +322,7 @@ namespace FormControlBaseClass
             }
         }
 
-        protected string _msgTime; 
-        public virtual string MsgTime
-        {
-            get => _msgTime;
-            set
-            {
-                string time = TimeCheck(value);
-                Set(ref _msgTime, time);
-            }
-        }
+ 
 
         public virtual string Action
         { get; set; }
@@ -350,8 +333,8 @@ namespace FormControlBaseClass
         public virtual string Severity
         { get; set; }
 
-        public virtual string HandlingOrder
-		{ get; set; }
+        //public virtual string HandlingOrder
+		//{ get; set; }
 
         public virtual string ReceivedOrSent
         { get; set; }
@@ -448,16 +431,19 @@ namespace FormControlBaseClass
 
         protected FrameworkElement GetControlFromTagIndex(string id)
         {
-            foreach (FormControl  formControl in _formControlsList)
-            {
-                FrameworkElement control = formControl.InputControl;
-                string tagIndex = GetTagIndex(control);
-                if (id == tagIndex)
-                {
-                    return control;
-                }
-            }
-            return null;
+            var control = _formControlsList.Find(x => id == GetTagIndex(x.InputControl)).InputControl;
+
+            return control;
+            //foreach (FormControl formControl in _formControlsList)
+            //{
+            //    FrameworkElement control = formControl.InputControl;
+            //    string tagIndex = GetTagIndex(control);
+            //    if (id == tagIndex)
+            //    {
+            //        return control;
+            //    }
+            //}
+            //return null;
         }
 
         protected virtual string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
@@ -483,7 +469,7 @@ namespace FormControlBaseClass
             foreach (FormField formField in formFields)
             {
                 (string id, FrameworkElement control) = GetTagIndex(formField);
-                formField.FormIndex = id;
+                formField.ControlIndex = id;
 
                 if (control is ToggleButtonGroup)
                 {
@@ -556,7 +542,7 @@ namespace FormControlBaseClass
                 foreach (FormField formField in formFields)
                 {
                     (string id, FrameworkElement control) = GetTagIndex(formField);
-                    formField.FormIndex = id;    
+                    formField.ControlIndex = id;    
                     if (control is ToggleButtonGroup)
                     {
                         foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
@@ -606,6 +592,24 @@ namespace FormControlBaseClass
             return formFields;
         }
 
+        public FrameworkElement GetFrameworkElement(FormField formField)
+        {
+            if (formField is null)
+                return (null);
+
+            FormControl formControl;
+            if (string.IsNullOrEmpty(formField.ControlIndex))
+            {
+                formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+            }
+            else
+            {
+                formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);                
+            }
+
+            return formControl?.InputControl;
+        }
+
         public (string id, FrameworkElement control) GetTagIndex(FormField formField)
         {
             if (formField is null)
@@ -615,7 +619,7 @@ namespace FormControlBaseClass
             try
             {
                 // The control may not have a name, but the tag index is defined
-                if (!string.IsNullOrEmpty(formField.FormIndex))
+                if (!string.IsNullOrEmpty(formField.ControlIndex))
                 {
                     // Index is known, no name
                     foreach (FormControl frmControl in _formControlsList)
@@ -624,7 +628,7 @@ namespace FormControlBaseClass
                         if (!string.IsNullOrEmpty(tag))
                         {
                             string[] tags = tag.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (tags[0] == formField.FormIndex)
+                            if (tags[0] == formField.ControlIndex)
                             {
                                 return (tags[0], frmControl.InputControl);
                             }
@@ -654,25 +658,25 @@ namespace FormControlBaseClass
             return ("", control);
         }
 
-        public static string GetTagIndex(FrameworkElement control)
-        {
-            try
-            {
-                string tag = (string)control.Tag;
-                if (!string.IsNullOrEmpty(tag))
-                {
-                    string[] tags = tag.Split(new char[] { ',' });
-                    if (!tags[0].Contains("required"))
-                    {
-                        return tags[0];
-                    }
-                }
-            }
-            catch
-            {
-            }
-            return "";
-        }
+        //public static string GetTagIndex(FrameworkElement control)
+        //{
+        //    try
+        //    {
+        //        string tag = (string)control.Tag;
+        //        if (!string.IsNullOrEmpty(tag))
+        //        {
+        //            string[] tags = tag.Split(new char[] { ',' });
+        //            if (!tags[0].Contains("required"))
+        //            {
+        //                return tags[0];
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //    }
+        //    return "";
+        //}
 
         //public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)
         //{
@@ -796,7 +800,9 @@ namespace FormControlBaseClass
 
         public string CreateOutpostDataString(FormField formField, FormProviders formProvider)
         {
-            (string id, FrameworkElement control) = GetTagIndex(formField);
+            //(string id, FrameworkElement control) = GetTagIndex(formField);
+            FrameworkElement control = GetFrameworkElement(formField);
+            string id = formField.ControlIndex;
             if (string.IsNullOrEmpty(id))
                 return "";
 
@@ -908,14 +914,11 @@ namespace FormControlBaseClass
 
             for (int i = 0; i < _formControlsList.Count; i++)
             {
-                //int tagIndex;
-                string tagIndexString = GetTagIndex(_formControlsList[i].InputControl);
                 FormField formField = new FormField()
                 {
-                    //InputControl = _formControlsList[i].InputControl;
                     ControlName = _formControlsList[i].InputControl.Name,
                     ControlContent = "",
-                    FormIndex = tagIndexString,  //tagIndex,
+                    ControlIndex = GetTagIndex(_formControlsList[i].InputControl),
                 };
                 formFields.SetValue(formField, i);
 
@@ -931,15 +934,14 @@ namespace FormControlBaseClass
 			{
                 FormField formField = new FormField()
                 {
-                    //InputControl = _formControlsList[i].InputControl,
                     ControlName = _formControlsList[i].InputControl.Name,
-                    FormIndex = GetTagIndex(_formControlsList[i].InputControl),
+                    ControlIndex = GetTagIndex(_formControlsList[i].InputControl),
                 };
 
                 if (_formControlsList[i].InputControl is TextBox textBox)
                 {
-                    if (_formControlsList[i].UserControl == null)
-                    {
+                    //if (_formControlsList[i].UserControl == null)
+                    //{
                         formField.ControlContent = textBox.Text;
                         //if (((TextBox)formFieldsList[i]).IsSpellCheckEnabled)
                         //{
@@ -962,23 +964,29 @@ namespace FormControlBaseClass
                         //		}
                         //	}
                         //}
-                    }
-                    else if (_formControlsList[i].UserControl.GetType() == typeof(RadioOperatorUserControl))
-                    {
-                        RadioOperatorUserControl radioOperatorControl = _formControlsList[i].UserControl as RadioOperatorUserControl;
+                    //}
+                    //else if (_formControlsList[i].UserControl.GetType() == typeof(RadioOperatorUserControl))
+                    //{
+                    //    RadioOperatorUserControl radioOperatorControl = _formControlsList[i].UserControl as RadioOperatorUserControl;
 
-                        var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(_formControlsList[i].InputControl));
-                        formField.ControlContent = (formCtrl.InputControl as TextBox).Text;
-                        //for (int j = 0; j < radioOperatorControl.FormControlsList.Count; j++)
-                        //{
-                        //    if (GetTagIndex(_formControlsList[i].InputControl) == GetTagIndex(radioOperatorControl.FormControlsList[j].InputControl))
-                        //    {
-                        //        formField.ControlContent = (radioOperatorControl.FormControlsList[j].InputControl as TextBox).Text;
-                        //    }
-                        //}
-                    }
-				}
-				else if (_formControlsList[i].InputControl is AutoSuggestBox autoSuggestBox)
+                    //    var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(_formControlsList[i].InputControl));
+                    //    if (formCtrl != null)
+                    //    {
+                    //        formField.ControlContent = (formCtrl.InputControl as TextBox).Text;
+                    //    }
+                    //}
+                    //else if (_formControlsList[i].UserControl.GetType() == typeof(FormHeaderUserControl))
+                    //{
+                    //    FormHeaderUserControl formHeaderControl = _formControlsList[i].UserControl as FormHeaderUserControl;
+
+                    //    var formCtrl = formHeaderControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(_formControlsList[i].InputControl));
+                    //    if (formCtrl != null)
+                    //    {
+                    //        formField.ControlContent = (formCtrl.InputControl as TextBox).Text;
+                    //    }
+                    //}
+                }
+                else if (_formControlsList[i].InputControl is AutoSuggestBox autoSuggestBox)
 				{
 					formField.ControlContent = autoSuggestBox.Text;
 				}
@@ -1064,13 +1072,13 @@ namespace FormControlBaseClass
 			foreach (FormField formField in formFields)
 			{
                 FormControl formControl;
-                if (string.IsNullOrEmpty(formField.ControlName))
+                if (string.IsNullOrEmpty(formField.ControlIndex))
                 {
-                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
+                    formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
                 }
                 else
                 {
-                    formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);                    
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);
                 }
 
                 FrameworkElement control = formControl?.InputControl;
@@ -1087,6 +1095,12 @@ namespace FormControlBaseClass
                         // Fields that use Binding requires special handling
                         switch (control.Name)
                         {
+                            case "messageNo":
+                                OriginMsgNo = textBox.Text;
+                                break;
+                            case "destinationMsgNo":
+                                DestinationMsgNo = textBox.Text;
+                                break;
                             case "msgDate":
                                 MsgDate = textBox.Text;
                                 break;
@@ -1115,8 +1129,8 @@ namespace FormControlBaseClass
                         {
                             RadioOperatorUserControl radioOperatorControl = formControl.UserControl as RadioOperatorUserControl;
 
-                            var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
-                            (formCtrl.InputControl as TextBox).Text = textBox.Text;
+                            //var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);
+                            //(formCtrl.InputControl as TextBox).Text = textBox.Text;
 
                             switch (control.Name)
                             {
@@ -1130,7 +1144,31 @@ namespace FormControlBaseClass
                                     continue;
                             }
                         }
+                        else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
+                        {
+                            FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
 
+                            //var formCtrl = formHeaderControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);
+                            //(formCtrl.InputControl as TextBox).Text = textBox.Text;
+
+                            switch (control.Name)
+                            {
+                                case "messageNo":                                    
+                                    formHeaderControl.OriginMsgNo = textBox.Text;
+                                    break;
+                                case "destinationMsgNo":
+                                    formHeaderControl.DestinationMsgNo = textBox.Text;
+                                    break;
+                                case "msgDate":
+                                    formHeaderControl.MsgDate = textBox.Text;
+                                    break;
+                                case "msgTime":
+                                    formHeaderControl.MsgTime = textBox.Text;
+                                    break;
+                                case null:
+                                    continue;
+                            }
+                        }
                     }
                 }
                 else if (control is RichTextBlock richTextBlock)
@@ -1158,11 +1196,6 @@ namespace FormControlBaseClass
 				{
                     checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
 				}
-                //else if (control is RadioOperatorUserControl radioOperatorControl)
-                //{
-
-                //}
-
             }
             UpdateFormFieldsRequiredColors();
         }
@@ -1215,61 +1248,61 @@ namespace FormControlBaseClass
 			return null;
 		}
 
-		protected void Subject_Changed(object sender, RoutedEventArgs e)
-		{
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (sender is RadioButton radioButton)
-                {
-                    //if (radioButton.Name == "emergency") No longer allowed
-                    //{
-                    //    HandlingOrder = "immediate";
-                    //}
-                    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
-                    {
-                        toggleButtonGroup.CheckedControlName = radioButton.Name;
-                        if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                        }
-                        break;
-                    }
-                }
-                else if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-                {
-                    if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
-                    {
-                        textBox.BorderThickness = new Thickness(2);
-                        textBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        textBox.BorderThickness = new Thickness(1);
-                        textBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
-                }
-                else if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
-                {
-                    if (comboBox.SelectedIndex < 0)
-                    {
-                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        comboBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
-                }
-            }
-            EventHandler<FormEventArgs> OnSubjectChange = EventSubjectChanged;
-            FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = MessageNo };
-			OnSubjectChange?.Invoke(this, formEventArgs);
-		}
+		//protected void Subject_Changed(object sender, RoutedEventArgs e)
+		//{
+  //          foreach (FormControl formControl in _formControlsList)
+  //          {
+  //              if (sender is RadioButton radioButton)
+  //              {
+  //                  //if (radioButton.Name == "emergency") No longer allowed
+  //                  //{
+  //                  //    HandlingOrder = "immediate";
+  //                  //}
+  //                  if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
+  //                  {
+  //                      toggleButtonGroup.CheckedControlName = radioButton.Name;
+  //                      if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+  //                      {
+  //                          toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+  //                      }
+  //                      else
+  //                      {
+  //                          toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+  //                      }
+  //                      break;
+  //                  }
+  //              }
+  //              else if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
+  //              {
+  //                  if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
+  //                  {
+  //                      textBox.BorderThickness = new Thickness(2);
+  //                      textBox.BorderBrush = formControl.RequiredBorderBrush;
+  //                  }
+  //                  else
+  //                  {
+  //                      textBox.BorderThickness = new Thickness(1);
+  //                      textBox.BorderBrush = formControl.BaseBorderColor;
+  //                  }
+  //                  break;
+  //              }
+  //              else if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
+  //              {
+  //                  if (comboBox.SelectedIndex < 0)
+  //                  {
+  //                      comboBox.BorderBrush = formControl.RequiredBorderBrush;
+  //                  }
+  //                  else
+  //                  {
+  //                      comboBox.BorderBrush = formControl.BaseBorderColor;
+  //                  }
+  //                  break;
+  //              }
+  //          }
+  //          EventHandler<FormEventArgs> OnSubjectChange = EventSubjectChanged;
+  //          FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = MessageNo };
+		//	OnSubjectChange?.Invoke(this, formEventArgs);
+		//}
 
         protected string ConvertTabsToSpaces(string text, int tabWidth)
 		{
@@ -1311,34 +1344,34 @@ namespace FormControlBaseClass
 			return convertedLine;
 		}
 
-        protected virtual void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            // Set sender.Text. You can use args.SelectedItem to build your text string.
-            sender.Text = args.SelectedItem as string;
-        }
+        //protected virtual void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        //{
+        //    // Set sender.Text. You can use args.SelectedItem to build your text string.
+        //    sender.Text = args.SelectedItem as string;
+        //}
 
-        protected virtual void AutoSuggestBoxICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            // Only get results when it was a user typing, 
-            // otherwise assume the value got filled in by TextMemberPath 
-            // or the handler for SuggestionChosen.
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                //Set the ItemsSource to be your filtered dataset
-                //sender.ItemsSource = null;
-                _ICSPositionFiltered = new List<string>();
-                foreach (string s in ICSPosition)
-                {
-                    string lowerS = s.ToLower();
-                    if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
-                    {
-                        _ICSPositionFiltered.Add(s);
-                    }
-                }
-                sender.ItemsSource = _ICSPositionFiltered;
-            }
-            AutoSuggestBox_TextChanged(sender, null);
-        }
+        //protected virtual void AutoSuggestBoxICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        //{
+        //    // Only get results when it was a user typing, 
+        //    // otherwise assume the value got filled in by TextMemberPath 
+        //    // or the handler for SuggestionChosen.
+        //    if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        //    {
+        //        //Set the ItemsSource to be your filtered dataset
+        //        //sender.ItemsSource = null;
+        //        _ICSPositionFiltered = new List<string>();
+        //        foreach (string s in ICSPosition)
+        //        {
+        //            string lowerS = s.ToLower();
+        //            if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
+        //            {
+        //                _ICSPositionFiltered.Add(s);
+        //            }
+        //        }
+        //        sender.ItemsSource = _ICSPositionFiltered;
+        //    }
+        //    AutoSuggestBox_TextChanged(sender, null);
+        //}
 
         protected virtual void UpdateRequiredFields(bool required)
         {
@@ -1350,6 +1383,9 @@ namespace FormControlBaseClass
             }
             UpdateFormFieldsRequiredColors();
         }
+
+        public virtual void MsgTimeChanged(string msgTime)
+        { }
 
         protected virtual void ReportType_Checked(object sender, RoutedEventArgs e)
         {
@@ -1448,9 +1484,9 @@ namespace FormControlBaseClass
                     string footerText = $"Page {i + 1} of {_printPanels.Count}, Message Number: {MessageNo}";
                     TextBlock footer = new TextBlock
                     {
-                        //Name = "footer", Only one name "footer"
+                        //Name = "footer", Only one name "footer" allowed
                         Text = footerText,
-                        Margin = new Thickness(0, 20, 0, 0),
+                        Margin = new Thickness(0, 16, 0, 0),
                         HorizontalAlignment = HorizontalAlignment.Center
                     };
                     if (_printPanels[i].GetType() == typeof(Grid))

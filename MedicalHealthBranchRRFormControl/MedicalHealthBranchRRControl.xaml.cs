@@ -30,12 +30,18 @@ namespace MedicalHealthBranchRRFormControl
         {
             this.InitializeComponent();
 
+            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            ScanControls(panelName, formHeaderControl);
+
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
+
+            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch&#xA; Resource Request Form #9A";
+            FormHeaderControl.HeaderSubstring = "Version: September 2009";
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -66,16 +72,16 @@ namespace MedicalHealthBranchRRFormControl
             set => Set(ref requestMsgDate, value);
         }
 
-        public override string MsgTime
-        {
-            get => _msgTime;
-            set
-            {
-                string time = TimeCheck(value);
-                Set(ref _msgTime, time);
-                requestTime.Text = time;
-            }
-        }
+        //public override string MsgTime
+        //{
+        //    get => _msgTime;
+        //    set
+        //    {
+        //        string time = TimeCheck(value);
+        //        Set(ref _msgTime, time);
+        //        requestTime.Text = time;
+        //    }
+        //}
 
         public override void AppendDrillTraffic()
         {
@@ -89,11 +95,13 @@ namespace MedicalHealthBranchRRFormControl
         //public override Panel PrintPage1 => printPage1;
         public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
+        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {
-            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -116,7 +124,7 @@ namespace MedicalHealthBranchRRFormControl
                 FormControl formControl;
                 if (string.IsNullOrEmpty(formField.ControlName))
                 {
-                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);
                 }
                 else
                 {

@@ -116,7 +116,7 @@
                                                 <TextBox x:Name="msgTime" PlaceholderText="hh:mm"
                                                  HeaderTemplate="{StaticResource HeaderTemplate}"
                                                  Header="1b. Time:"                                                                                                  
-                                                 Text="{x:Bind MsgTime, Mode=TwoWay}"
+                                                 
                                                  TextAlignment="Center" BorderBrush="White" 
                                                  TextChanged="TextBox_TextChanged"
                                                  Margin="2" Tag="1b.,required,Enter message creation time"/>

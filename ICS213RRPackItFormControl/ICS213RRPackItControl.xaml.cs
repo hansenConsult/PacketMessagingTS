@@ -29,24 +29,23 @@ namespace ICS213RRPackItFormControl
 
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {
-        //List<ComboBoxPackItItem> ResourceInfoPriority = new List<ComboBoxPackItItem>
-        //{
-        //        new ComboBoxPackItItem("Now"),
-        //        new ComboBoxPackItItem("High(0-4 hrs.)", "High"),
-        //        new ComboBoxPackItItem("Medium(5-12 hrs.)", "Medium"),
-        //        new ComboBoxPackItItem("Low(12+ hrs.)", "Low"),
-        //};
-
         public ICS213RRPackItControl()
         {
             InitializeComponent();
+
+            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
+
+            FormHeaderControl.HeaderString1 = "SCCo EOC RESOURCE REQUEST FORM 213RR";
+            FormHeaderControl.HeaderSubstring = "Version 8/17";
+            FormHeaderControl.PIF = "2.3";
         }
 
 
@@ -75,16 +74,16 @@ namespace ICS213RRPackItFormControl
             set => Set(ref _initiatedDate, value);
         }
 
-        public override string MsgTime
-        {
-            get => _msgTime;
-            set
-            {
-                string time = TimeCheck(value);
-                Set(ref _msgTime, time);
-                initiatedTime.Text = time;
-            }
-        }
+        //public  string MsgTime
+        //{
+        //    get => _msgTime;
+        //    set
+        //    {
+        //        string time = TimeCheck(value);
+        //        Set(ref _msgTime, time);
+        //        initiatedTime.Text = time;
+        //    }
+        //}
 
         public override void AppendDrillTraffic()
         {
@@ -97,11 +96,13 @@ namespace ICS213RRPackItFormControl
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
+        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {
-            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -162,101 +163,40 @@ namespace ICS213RRPackItFormControl
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
+            bool found1 = false, found2 = false;
             foreach (FormField formField in formFields)
             {
-                FormControl formControl;
-                if (string.IsNullOrEmpty(formField.ControlName))
-                {
-                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
-                }
-                else
-                {
-                    formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                }
-
-                Control control = formControl?.InputControl as Control;
-
+                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+                FrameworkElement control = formControl?.InputControl;
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
                 if (control is TextBox textBox)
                 {
-                    textBox.Text = formField.ControlContent;
-                    if (formControl.UserControl == null)
+                    switch (control.Name)
                     {
-
-                        //textBox.Text = formField.ControlContent;
-                        // Fields that use Binding requires special handling
-                        switch (control.Name)
-                        {
-                            case "msgDate":
-                                MsgDate = textBox.Text;
-                                break;
-                            case "msgTime":
-                                MsgTime = textBox.Text;
-                                break;
-                            case "initiatedDate":
-                                InitiatedDate = textBox.Text;
-                                break;
-                            case "incidentName":
-                                IncidentName = textBox.Text;
-                                break;
-                            case "subject":
-                                Subject = textBox.Text;
-                                break;
-                            //case "operatorCallsign":
-                            //    OperatorCallsign = textBox.Text;
-                            //    break;
-                            //case "operatorName":
-                            //    OperatorName = textBox.Text;
-                            //    break;
-                            case null:
-                                continue;
-                        }
-                    }
-                    else
-                    {
-                        if (formControl.UserControl.GetType() == typeof(RadioOperatorUserControl))
-                        {
-                            RadioOperatorUserControl radioOperatorControl = formControl.UserControl as RadioOperatorUserControl;
-
-                            var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.FormIndex);
-                            (formCtrl.InputControl as TextBox).Text = textBox.Text;
-
-                            switch (control.Name)
-                            {
-                                case "operatorCallsign":
-                                    radioOperatorControl.OperatorCallsign = textBox.Text;
-                                    break;
-                                case "operatorName":
-                                    radioOperatorControl.OperatorName = textBox.Text;
-                                    break;
-                                case null:
-                                    continue;
-                            }
-                        }
+                        case "initiatedDate":
+                            InitiatedDate = formField.ControlContent;
+                            found1 = true;
+                            break;
+                        case "incidentName":
+                            IncidentName = formField.ControlContent;
+                            found2 = true;
+                            break;
+                        //case "subject":
+                        //    Subject = textBox.Text;
+                        //    break;
+                        case null:
+                            continue;
                     }
                 }
-                else if (control is AutoSuggestBox autoSuggsetBox)
-                {
-                    autoSuggsetBox.Text = formField.ControlContent;
-                }
-                else if (control is ComboBox comboBox)
-                {
-                    FillComboBoxFromFormFields(formField, comboBox);
-                }
-                else if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
-                }
-                else if (control is CheckBox checkBox)
-                {
-                    checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
-                }
+                if (found1 && found2)
+                    break;
             }
+            base.FillFormFromFormFields(formFields);
+
             UpdateFormFieldsRequiredColors();
         }
-
 
         //private void resourceInfoPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
@@ -289,32 +229,14 @@ namespace ICS213RRPackItFormControl
         //        }
         //    }
         //}
-
-        //public override async void PrintForm()
-        //{
-        //    DirectPrintContainer.Children.Remove(PrintableContent);
-
-        //    _printHelper = new PrintHelper(Container);
-        //    _printHelper.AddFrameworkElementToPrint(PrintableContent);
-
-        //    _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
-        //    _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
-        //    _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
-
-        //    // Create a new PrintHelperOptions instance
-
-        //    await _printHelper.ShowPrintUIAsync("ICS-213 Message");
-        //}
-
-        //protected override void ReleasePrintHelper()
-        //{
-        //    _printHelper.Dispose();
-
-        //    if (!DirectPrintContainer.Children.Contains(PrintableContent))
-        //    {
-        //        DirectPrintContainer.Children.Add(PrintableContent);
-        //    }
-        //}
+       
+        public override void MsgTimeChanged(string msgTime)
+        {
+            if (string.IsNullOrEmpty(initiatedTime.Text))
+            {
+                initiatedTime.Text = msgTime;
+            }
+        }
 
     }
 }

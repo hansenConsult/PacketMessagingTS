@@ -81,12 +81,18 @@ namespace OAShelterStatusFormControl
         {
             this.InitializeComponent();
 
+            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            ScanControls(panelName, formHeaderControl);
+
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
+
+            FormHeaderControl.HeaderString1 = "Santa Clara OA Shelter Status";
+            FormHeaderControl.HeaderSubstring = "WebEOC: 20130814";
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -106,7 +112,15 @@ namespace OAShelterStatusFormControl
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
 
+        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
+
+
+        public override string CreateSubject()
+        {
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
+        }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
@@ -119,11 +133,6 @@ namespace OAShelterStatusFormControl
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
-        }
-
-        public override string CreateSubject()
-        {
-            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
         }
 
         private void capacity_TextChanged(object sender, TextChangedEventArgs e)

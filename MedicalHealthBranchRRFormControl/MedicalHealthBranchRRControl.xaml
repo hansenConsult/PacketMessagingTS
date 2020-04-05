@@ -36,11 +36,10 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
+                        <!--<Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />
@@ -74,8 +73,8 @@
                              Text="{x:Bind Path=DestinationMsgNo}"
                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                              Header="Destination:"/>
-                        </Grid>
-                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        </Grid>-->
+                        <!--<Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -119,8 +118,8 @@
                                                  Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                                  Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
                                                  ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
-                        </Grid>
-                        <Grid Grid.Row="2">
+                        </Grid>-->
+                        <!--<Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="1*"/>
@@ -223,8 +222,8 @@
                                              TextChanged="PhoneNumber_TextChanged"/>
                                 </Grid>
                             </StackPanel>
-                        </Grid>
-                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,1">
+                        </Grid>-->
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -251,7 +250,7 @@
                                      TextChanged="Subject_Changed"
                                      Tag="21.,required" />
                         </Grid>
-                        <Grid Grid.Row="4" BorderBrush="Black" BorderThickness="1,0,1,1">
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -276,7 +275,7 @@
                                      TextChanged="TextBox_PhoneChanged"
                                      Tag="22f." Margin="4,0,6,0"/>
                         </Grid>
-                        <Grid Grid.Row="5" BorderBrush="Black" BorderThickness="1,0,1,1">
+                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -418,7 +417,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <StackPanel Grid.Row="6" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <StackPanel Grid.Row="4" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <TextBlock Text="Priority:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <ComboBox x:Name="priority" Width="150"
                                       DisplayMemberPath="Item"
@@ -428,7 +427,7 @@
                                       Loaded="ComboBox_Loaded"
                                       Tag="26.,required"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="7" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <StackPanel Grid.Row="5" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Border Height="24"  Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1">
                                 <TextBlock Text="DESCRIBE THE RESOURCE REQUESTED" HorizontalAlignment="Center" 
                                        FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -467,7 +466,7 @@
                                              Tag="30d.,required"/>
                             </Grid>
                         </StackPanel>
-                        <src:RadioOperatorUserControl Grid.Row="8" x:Name="radioOperatorControl" Margin="0,0,0,0" />
+                        <src:RadioOperatorUserControl Grid.Row="6" x:Name="radioOperatorControl" Margin="0,0,0,0" />
                     </Grid>
                 </StackPanel>
             </StackPanel>

@@ -31,10 +31,10 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
+                        <!--<Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="152"/>
@@ -43,7 +43,7 @@
                             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0"/>
                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                 <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                                   Foreground="Black" Text="SCCo Medical Health Branch -- HAvBed Report" 
+                                   Foreground="Black" Text="SCCo Medical Health Branch  HAvBed Report" 
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0" />
                                 <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
                                     <Grid.ColumnDefinitions>
@@ -73,8 +73,8 @@
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Destination:"/>
 
-                        </Grid>
-                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        </Grid>-->
+                        <!--<Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -96,7 +96,7 @@
                                    VerticalAlignment="Center" Margin="8,0,0,0" />
                             <TextBox Grid.Column="3" x:Name="msgTime" Margin="0,0,8,0" 
                                  Style="{StaticResource MuniStatusTimeTextBox}"
-                                 Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
+                                 
                                  Tag="1b.,required"
                                  TextChanged="TextBox_TextChanged"/>
                             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
@@ -118,8 +118,8 @@
                                              Style="{StaticResource RadioButtonTNR12B}" Margin="0,0" 
                                              Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
-                        </Grid>
-                        <Grid Grid.Row="2" >
+                        </Grid>-->
+                        <!--<Grid Grid.Row="2" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="50"/>
                                 <ColumnDefinition Width="1*"/>
@@ -222,8 +222,8 @@
                                              TextChanged="PhoneNumber_TextChanged"/>
                                 </Grid>
                             </StackPanel>
-                        </Grid>
-                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        </Grid>-->
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="24"/>
                                 <RowDefinition/>
@@ -354,7 +354,7 @@
                                      AcceptsReturn="True" Height="84" Margin="2"
                                      Tag="51."/>
                         </Grid>
-                        <src:RadioOperatorUserControl Grid.Row="4" x:Name="radioOperatorControl"/>
+                        <src:RadioOperatorUserControl Grid.Row="2" x:Name="radioOperatorControl"/>
 
 
                     </Grid>
