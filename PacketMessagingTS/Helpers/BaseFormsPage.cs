@@ -154,8 +154,26 @@ namespace PacketMessagingTS.Helpers
                     _packetForm.OriginMsgNo = value;
             }
         }
+        
+        public string HandlingOrder
+        {
+            get
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    return _packetForm.FormHeaderControl.HandlingOrder;
+                else
+                    return _packetForm.HandlingOrder;
+            }
+            set
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    _packetForm.FormHeaderControl.HandlingOrder = value;
+                else
+                    _packetForm.HandlingOrder = value;
+            }
+        }
 
-        public  string MsgDate
+        public string MsgDate
         {
             get
             {
@@ -602,7 +620,6 @@ namespace PacketMessagingTS.Helpers
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                //_packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_<subject>";
                 _packetAddressForm.MessageSubject = $"{MessageNo}_R_<subject>";
 
                 (_packetForm as MessageControl).NewHeaderVisibility = true;
@@ -652,17 +669,7 @@ namespace PacketMessagingTS.Helpers
             _formsViewModel.PacketForm = _packetForm;
 
             _packetForm.FormPacketMessage = _packetMessage;
-            _packetForm.UpdateFormFieldsRequiredColors(!_loadMessage);
-            //if (_packetForm.FormHeaderControl != null)
-            //{
-            //    _packetForm.FormHeaderControl.MessageNo = Utilities.GetMessageNumberPacket();
-            //    _packetForm.FormHeaderControl.OriginMsgNo = _packetForm.FormHeaderControl.MessageNo;
-            //}
-            //else
-            //{
-            //    _packetForm.MessageNo = Utilities.GetMessageNumberPacket();
-            //    _packetForm.OriginMsgNo = _packetForm.MessageNo;
-            //}
+//            _packetForm.UpdateFormFieldsRequiredColors(!_loadMessage);
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
 
@@ -721,11 +728,6 @@ namespace PacketMessagingTS.Helpers
                 }
 
                 DateTime now = DateTime.Now;
-                //if (_packetForm.FormHeaderControl != null)
-                //{
-                //    _packetForm.FormHeaderControl.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-                //}
-                //_packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                 MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                 //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
@@ -738,7 +740,7 @@ namespace PacketMessagingTS.Helpers
     //            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {                    
-                    _packetForm.HandlingOrder = "routine";
+                    HandlingOrder = "routine";
                     switch (_packetForm.PacFormType)
                     {
                         case "ICS213":

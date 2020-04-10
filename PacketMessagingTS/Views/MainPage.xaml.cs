@@ -400,8 +400,11 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                PacketMessage pktmsg = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
-                MainViewModel.OpenMessage(pktmsg);
+                PacketMessage pktmsg = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
+                if (pktmsg != null)
+                {
+                    MainViewModel.OpenMessage(pktmsg);
+                }
             }
             catch
             {

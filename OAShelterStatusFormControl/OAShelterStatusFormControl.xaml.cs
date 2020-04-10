@@ -93,6 +93,8 @@ namespace OAShelterStatusFormControl
 
             FormHeaderControl.HeaderString1 = "Santa Clara OA Shelter Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20130814";
+
+            UpdateFormFieldsRequiredColors(false);
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -128,7 +130,7 @@ namespace OAShelterStatusFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-oa-shelter-status.html",
-                $"#V: 2.17-{PIF}",
+                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

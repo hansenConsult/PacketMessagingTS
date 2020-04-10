@@ -217,6 +217,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private async Task ProcessMessagesMarkedDeliveredAsync(PacketMessage pktMsg)
         {
             var formField = pktMsg.FormFieldArray.FirstOrDefault(x => x.ControlName == "messageBody");
+            if (string.IsNullOrEmpty(formField.ControlContent))
+            {
+                formField = pktMsg.FormFieldArray.FirstOrDefault(x => x.ControlName == "richTextMessageBody");
+            }
             if (formField.ControlContent.Contains("!LMI!"))
             {
                 string[] searchStrings = new string[] { "Subject: ", "was delivered on ", "Recipient's Local Message ID: " };
@@ -480,6 +484,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 					}
 					if (!pktMsg.CreateFileName())
                     {
+                        _logHelper.Log(LogLevel.Error, $"Error in Create FileName(), {pktMsg.MessageNumber}, {pktMsg.PacFormType}");
                         throw new Exception();
                     }
 

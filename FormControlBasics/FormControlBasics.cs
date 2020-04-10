@@ -38,7 +38,7 @@ namespace FormControlBasicsNamespace
     public partial class FormControlBasics : UserControl, INotifyPropertyChanged
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
-        public event EventHandler<FormEventArgs> EventMsgTimeChanged;
+        //public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
         public static SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
@@ -90,9 +90,9 @@ namespace FormControlBasicsNamespace
         public virtual string MsgDate
         { get; set; }
 
-        protected string _msgTime;
-        public virtual string MsgTime
-        { get; set; }
+        //protected string _msgTime;
+        //public virtual string MsgTime
+        //{ get; set; }
 
         public virtual string HandlingOrder
         { get; set; }
@@ -129,41 +129,7 @@ namespace FormControlBasicsNamespace
         protected void OnPropertyChanged(string propertyName) =>
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        //public void ScanControls(DependencyObject panelName)
-        //{
-        //    int count = VisualTreeHelper.GetChildrenCount(panelName);
-
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
-
-        //        if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
-        //        {
-        //            ScanControls(control);
-        //        }
-        //        else if (control is TextBox || control is ComboBox || control is CheckBox
-        //                || control is ToggleButtonGroup || control is RichTextBlock)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control);
-        //            _formControlsList.Add(formControl);
-        //        }
-        //        else if (control is AutoSuggestBox)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control);
-        //            formControl.BaseBorderColor = TextBoxBorderBrush;
-        //            _formControlsList.Add(formControl);
-        //        }
-        //        else if (control is RadioButton)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control);
-        //            _formControlsList.Add(formControl);
-
-        //            _radioButtonsList.Add((RadioButton)control);
-        //        }
-        //    }
-        //}
-
-        protected void ScanControls(DependencyObject panelName, FrameworkElement radioOperatorControl = null)
+        protected void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
             int count = VisualTreeHelper.GetChildrenCount(panelName);
 
@@ -173,23 +139,36 @@ namespace FormControlBasicsNamespace
 
                 if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
                 {
-                    ScanControls(control, radioOperatorControl);
+                    ScanControls(control, formUserControl);
                 }
-                else if (control is TextBox || control is ComboBox || control is CheckBox
+                else if (control is TextBox textBox)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    if (textBox.IsReadOnly || control is ComboBox)
+                    {
+                        formControl.BaseBorderColor = WhiteBrush;
+                    }
+                    else
+                    {
+                        formControl.BaseBorderColor = textBox.BorderBrush;
+                    }
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is CheckBox
                         || control is ToggleButtonGroup || control is RichTextBlock)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     _formControlsList.Add(formControl);
                 }
                 else if (control is AutoSuggestBox)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     formControl.BaseBorderColor = TextBoxBorderBrush;
                     _formControlsList.Add(formControl);
                 }
                 else if (control is RadioButton)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control, radioOperatorControl);
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     _formControlsList.Add(formControl);
 
                     _radioButtonsList.Add((RadioButton)control);
@@ -387,7 +366,12 @@ namespace FormControlBasicsNamespace
         {
             if (sender is TextBox textBox)
             {
-                FormControl formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
+                FormControl formControl;
+                if (!string.IsNullOrEmpty(textBox.Name))
+                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+                else
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
+
                 string pattern = @"\b[0-9]+\b";
                 bool match = Regex.IsMatch(textBox.Text, pattern);
                 if (IsFieldRequired(sender as TextBox) && !match)
@@ -401,25 +385,6 @@ namespace FormControlBasicsNamespace
                     textBox.BorderBrush = formControl.BaseBorderColor;
                 }
             }
-            //foreach (FormControl formControl in _formControlsList)
-            //{
-            //    if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-            //    {
-            //        string pattern = @"\b[0-9]+\b";
-            //        bool match = Regex.IsMatch(textBox.Text, pattern);
-            //        if (IsFieldRequired(sender as TextBox) && !match)
-            //        {
-            //            textBox.BorderThickness = new Thickness(2);
-            //            textBox.BorderBrush = formControl.RequiredBorderBrush;
-            //        }
-            //        else
-            //        {
-            //            textBox.BorderThickness = new Thickness(1);
-            //            textBox.BorderBrush = formControl.BaseBorderColor;
-            //        }
-            //        break;
-            //    }
-            //}
         }
 
         protected virtual void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -480,34 +445,40 @@ namespace FormControlBasicsNamespace
         {
             if (sender is TextBox textBox)
             {
-                foreach (FormControl formControl in _formControlsList)
+                FormControl formControl;
+                if (!string.IsNullOrEmpty(textBox.Name))
+                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+                else
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
+
+                string date = textBox.Text.Trim();
+                bool match = false;
+                if (!string.IsNullOrEmpty(date))
                 {
-                    if (textBox.Name == formControl.InputControl.Name)
+                    string datePattern;
+                    if (date.Length == 8)
                     {
-                        string date = textBox.Text;
-                        bool match = false;
-                        if (!string.IsNullOrEmpty(date))
-                        {
-                            string datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";//(0[1-9]|1[012])/(0[1-9]|1[0-9]|2[0-9]|3[01])/[1-2][0-9][0-9][0-9]
-                            match = Regex.IsMatch(date, datePattern);
-                        }
-                        if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
-                        {
-                            textBox.BorderThickness = new Thickness(1);
-                            textBox.BorderBrush = formControl.BaseBorderColor;
-                        }
-                        else
-                        {
-                            textBox.BorderThickness = new Thickness(2);
-                            textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        break;
+                        date = date.Insert(2, "/");
+                        date = date.Insert(5, "/");
                     }
+                    datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";//(0[1-9]|1[012])/(0[1-9]|1[0-9]|2[0-9]|3[01])/[1-2][0-9][0-9][0-9]
+                    match = Regex.IsMatch(date, datePattern);
+                }
+                if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
+                {
+                    textBox.Text = date;
+                    textBox.BorderThickness = new Thickness(1);
+                    textBox.BorderBrush = formControl.BaseBorderColor;
+                }
+                else
+                {
+                    textBox.BorderThickness = new Thickness(2);
+                    textBox.BorderBrush = formControl.RequiredBorderBrush;
                 }
             }
         }
 
-        private bool CheckTimeFormat(FormControl formControl)
+        public bool CheckTimeFormat(FormControl formControl)
         {
             TextBox textBox = formControl.InputControl as TextBox;
             string time = textBox.Text;
@@ -536,56 +507,38 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        protected virtual void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
-        {
-            if (sender is TextBox textBox)
-            {
-                FormControl formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+        //protected virtual void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (sender is TextBox textBox)
+        //    {
+        //        FormControl formControl;
+        //        if (!string.IsNullOrEmpty(textBox.Name))
+        //            formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+        //        else
+        //            formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
 
-                if (!CheckTimeFormat(formControl))
-                {
-                    return;
-                }
-                // Create event time changed
-                EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
-                FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
-                OnMsgTimeChange?.Invoke(this, formEventArgs);
-            }
-        }
+        //        if (!CheckTimeFormat(formControl))
+        //        {
+        //            return;
+        //        }
+        //        // Create event time changed
+        //        EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
+        //        FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
+        //        OnMsgTimeChange?.Invoke(this, formEventArgs);
+        //    }
+        //}
 
         protected virtual void TextBox_TimeChanged(object sender, TextChangedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                foreach (FormControl formControl in _formControlsList)
-                {
-                    if (textBox.Name == formControl.InputControl.Name)
-                    {
-                        string time = textBox.Text;
-                        bool match = false;
-                        if (!string.IsNullOrEmpty(time))
-                        {
-                            string timePattern = @"^((0[0-9]|1[0-9]|2[0-3]):?[0-5][0-9])|24:?00$";
-                            match = Regex.IsMatch(time, timePattern);
-                        }
+                FormControl formControl;
+                if (!string.IsNullOrEmpty(textBox.Name))
+                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+                else
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
 
-                        if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
-                        {
-                            textBox.BorderThickness = new Thickness(1);
-                            textBox.BorderBrush = formControl.BaseBorderColor;
-                            if (!string.IsNullOrEmpty(time) && time.Length == 4 && time[2] != ':')
-                            {
-                                textBox.Text = time.Insert(2, ":");
-                            }
-                        }
-                        else
-                        {
-                            textBox.BorderThickness = new Thickness(2);
-                            textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        break;
-                    }
-                }
+                CheckTimeFormat(formControl);
             }
         }
 

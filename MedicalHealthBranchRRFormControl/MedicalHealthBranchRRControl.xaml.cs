@@ -30,18 +30,14 @@ namespace MedicalHealthBranchRRFormControl
         {
             this.InitializeComponent();
 
-            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
-            ScanControls(panelName, formHeaderControl);
-
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
 
-            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch&#xA; Resource Request Form #9A";
-            FormHeaderControl.HeaderSubstring = "Version: September 2009";
+            UpdateFormFieldsRequiredColors();
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -51,8 +47,6 @@ namespace MedicalHealthBranchRRFormControl
         public override string PacFormName => "form-medical-resource-request";
 
         public override string PacFormType => "XSC_MedicalResourceRequest";
-
-        public override string PIFString => "PIF: 3.1";
 
         public override string MsgDate
         {
@@ -95,13 +89,13 @@ namespace MedicalHealthBranchRRFormControl
         //public override Panel PrintPage1 => printPage1;
         public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
-        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+        //public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
+            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -110,7 +104,7 @@ namespace MedicalHealthBranchRRFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-medical-resource-request.html",
-                $"#V: 2.18c-{PIFString}",
+                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -121,67 +115,57 @@ namespace MedicalHealthBranchRRFormControl
         {
             foreach (FormField formField in formFields)
             {
-                FormControl formControl;
-                if (string.IsNullOrEmpty(formField.ControlName))
-                {
-                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);
-                }
-                else
-                {
-                    formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                }
-
-                Control control = formControl?.InputControl as Control;
+                FrameworkElement control = GetFrameworkElement(formField);
 
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
+                bool found1 = false, found2 = false;
                 if (control is TextBox textBox)
                 {
-                    textBox.Text = formField.ControlContent;
-                    // Fields that use Binding requires special handling
                     switch (control.Name)
                     {
                         case "msgDate":
-                            MsgDate = textBox.Text;
-                            break;
-                        case "msgTime":
-                            MsgTime = textBox.Text;
+                            found1 = true;
+                            MsgDate = formField.ControlContent;
                             break;
                         case "requestDate":
-                            RequestMsgDate = textBox.Text;
+                            found2 = true;
+                            RequestMsgDate = formField.ControlContent;
                             break;
-                        case "subject":
-                            Subject = textBox.Text;
-                            break;
-                        case "operatorCallsign":
-                            OperatorCallsign = textBox.Text;
-                            break;
-                        case "operatorName":
-                            OperatorName = textBox.Text;
-                            break;
+                        //case "subject":
+                        //    Subject = textBox.Text;
+                        //    break;
                         case null:
                             continue;
                     }
                 }
-                else if (control is AutoSuggestBox autoSuggsetBox)
+                if (found1 && found2)
+                    break;
+            }
+            base.FillFormFromFormFields(formFields);
+
+            UpdateFormFieldsRequiredColors();
+        }
+
+        public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                FormControl formControl = null;
+                if (!string.IsNullOrEmpty(textBox.Name))
+                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+
+                if (formControl == null || !CheckTimeFormat(formControl))
                 {
-                    autoSuggsetBox.Text = formField.ControlContent;
+                    return;
                 }
-                else if (control is ComboBox comboBox)
+
+                if (string.IsNullOrEmpty(requestTime.Text))
                 {
-                    FillComboBoxFromFormFields(formField, comboBox);
-                }
-                else if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
-                }
-                else if (control is CheckBox checkBox)
-                {
-                    checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
+                    requestTime.Text = msgTime.Text;
                 }
             }
-            UpdateFormFieldsRequiredColors();
         }
 
     }

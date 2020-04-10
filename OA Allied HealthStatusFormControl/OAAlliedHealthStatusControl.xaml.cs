@@ -46,7 +46,9 @@ namespace OAAlliedHealthStatus201802FormControl
             FormHeaderControl.HeaderString1 = "Allied Health Status Report Short Form";
             FormHeaderControl.HeaderString2 = "(DEOC-9)";
             FormHeaderControl.HeaderSubstring = "Version: February 2018";
-            FormHeaderControl.PIF = "2.1";
+            FormHeaderControl.PIF = "2.2";
+
+            UpdateFormFieldsRequiredColors(false);
         }
 
 
@@ -65,28 +67,9 @@ namespace OAAlliedHealthStatus201802FormControl
             set
             {
                 Set(ref _msgDate, value);
-                FacilityDate = value;
+                facilityDate.Text = value;
             }
         }
-
-        private string _facilityDate;
-        public string FacilityDate
-        {
-            get => _facilityDate;
-            set => Set(ref _facilityDate, value);
-        }
-
-        public override string MsgTime
-        {
-            get => _msgTime;
-            set
-            {
-                string time = TimeCheck(value);
-                Set(ref _msgTime, time);
-                facilityTime.Text = time;
-            }
-        }
-
 
         public override void AppendDrillTraffic()
         { }
@@ -145,7 +128,7 @@ namespace OAAlliedHealthStatus201802FormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-allied-health-facility-status.html",
-                $"#V: 2.17-{PIF}",
+                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -273,15 +256,11 @@ namespace OAAlliedHealthStatus201802FormControl
                             FacilityName = formField.ControlContent;
                             found1 = true;
                             break;
-                        case "facilityDate":
-                            FacilityDate = formField.ControlContent;
-                            found2 = true;
-                            break;
                         case null:
                             continue;
                     }
                 }
-                if (found1 && found2)
+                if (found1)
                     break;
             }
             base.FillFormFromFormFields(formFields);

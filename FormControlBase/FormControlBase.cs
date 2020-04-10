@@ -156,17 +156,6 @@ namespace FormControlBaseClass
             return true;
         }
 
-        //public void InitializeToggleButtonGroups()
-        //{
-        //    foreach (FormControl formControl in _formControlsList)
-        //    {
-        //        if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
-        //        {
-        //            toggleButtonGroup.Initialize(_radioButtonsList, formControl.InputControl.Name);
-        //        }
-        //    }
-        //}
-
         public virtual void UpdateFormFieldsRequiredColors(bool newForm = true)
         {
             foreach (FormControl formControl in _formControlsList)
@@ -175,7 +164,7 @@ namespace FormControlBaseClass
 
                 if (control is TextBox textBox)
                 {
-                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(control) && newForm)
+                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(textBox) && newForm)
                     {
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
                         textBox.BorderThickness = new Thickness(2);
@@ -214,7 +203,8 @@ namespace FormControlBaseClass
                 }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
-                    if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()) && newForm)
+                    if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()) 
+                        && newForm || (toggleButtonGroup.Name == "reportType" && !newForm))
                     {
                         toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
                     }
@@ -237,33 +227,6 @@ namespace FormControlBaseClass
         public virtual string TacticalCallsign
         { get; set; }
 
-        //public override string OperatorName
-        //{ get; set; }
-
-        //public virtual string OperatorCallsign
-        //{ get; set; }
-
-        //public List<FormControl> FormControlsList
-        //{ get => _formControlsList; }
-
-        //public string ValidationResultMessage
-        //{
-        //    get => _validationResultMessage;
-        //    set => _validationResultMessage = value;
-        //}
-
-        //private string _pif = "2.1";
-        //public virtual string PIF
-        //{
-        //    get => _pif;
-        //    set => _pif = value;
-        //}
-
-        //public virtual string PIFString
-        //{
-        //    get => $"PIF: {PIF}";
-        //}
-
         public virtual FormHeaderUserControl FormHeaderControl
         { get; set; }
 
@@ -273,23 +236,10 @@ namespace FormControlBaseClass
         public virtual string SenderMsgNo
         { get; set; }
 
-        //public virtual string MessageNo
-        //{ get; set; }
-
         public virtual string ReceiverMsgNo
         { get; set; }
 
-        //public virtual string DestinationMsgNo
-        //{ get; set; }
-
-        //public virtual string OriginMsgNo
-        //{ get; set; }
-
         //public static string DefaultMessageTo
-        //{ get; set; }
-
-        //protected string _msgDate;
-        //public virtual string MsgDate
         //{ get; set; }
 
         protected static string TimeCheck(string time)
@@ -332,9 +282,6 @@ namespace FormControlBaseClass
 
         public virtual string Severity
         { get; set; }
-
-        //public virtual string HandlingOrder
-		//{ get; set; }
 
         public virtual string ReceivedOrSent
         { get; set; }
@@ -391,10 +338,12 @@ namespace FormControlBaseClass
 
         public abstract string PacFormType
         { get; }
-
+        
         public abstract string CreateSubject();
 
         public abstract void AppendDrillTraffic();
+
+        public virtual string PackItFormVersion => "2.18";
 
         public abstract string CreateOutpostData(ref PacketMessage packetMessage);
 
@@ -429,23 +378,6 @@ namespace FormControlBaseClass
             }
         }
 
-        protected FrameworkElement GetControlFromTagIndex(string id)
-        {
-            var control = _formControlsList.Find(x => id == GetTagIndex(x.InputControl)).InputControl;
-
-            return control;
-            //foreach (FormControl formControl in _formControlsList)
-            //{
-            //    FrameworkElement control = formControl.InputControl;
-            //    string tagIndex = GetTagIndex(control);
-            //    if (id == tagIndex)
-            //    {
-            //        return control;
-            //    }
-            //}
-            //return null;
-        }
-
         protected virtual string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
         {
             string comboBoxData = GetOutpostValue(id, ref msgLines);
@@ -456,16 +388,6 @@ namespace FormControlBaseClass
 
         protected virtual FormField[] ConvertFromOutpostPackItForm(FormField[] formFields, ref string[] msgLines)
         {
-            //string senderMsgNo = "";
-            //if (!string.IsNullOrEmpty(GetOutpostValue("MsgNo", ref msgLines)))
-            //{
-            //    senderMsgNo = GetOutpostValue("1", ref msgLines);
-            //}
-            //else if (!string.IsNullOrEmpty(GetOutpostValue("3", ref msgLines)))
-            //{
-            //    senderMsgNo = GetOutpostValue("3", ref msgLines);
-            //}
-
             foreach (FormField formField in formFields)
             {
                 (string id, FrameworkElement control) = GetTagIndex(formField);
@@ -598,7 +520,7 @@ namespace FormControlBaseClass
                 return (null);
 
             FormControl formControl;
-            if (string.IsNullOrEmpty(formField.ControlIndex))
+            if (!string.IsNullOrEmpty(formField.ControlName))   // Use Name since index can be tha same for RadioButton and TextBox in ICS213
             {
                 formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
             }
@@ -658,83 +580,8 @@ namespace FormControlBaseClass
             return ("", control);
         }
 
-        //public static string GetTagIndex(FrameworkElement control)
-        //{
-        //    try
-        //    {
-        //        string tag = (string)control.Tag;
-        //        if (!string.IsNullOrEmpty(tag))
-        //        {
-        //            string[] tags = tag.Split(new char[] { ',' });
-        //            if (!tags[0].Contains("required"))
-        //            {
-        //                return tags[0];
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-        //    }
-        //    return "";
-        //}
 
-        //public (string id, Control control) GetTagIndex(FormField formField, FormProviders formProvider)
-        //{
-        //    // Should not be used anymore!!
 
-        //    if (formField is null)
-        //        return ("", null);
-
-        //    Control control = null;
-        //    try
-        //    {
-        //        //control = formField.InputControl;
-        //        FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-        //        control = formControl?.InputControl;
-
-        //        string tag = (string)control.Tag;
-        //        if (!string.IsNullOrEmpty(tag))
-        //        {
-        //            string[] tags = tag.Split(new char[] { ',' });
-        //            if (!(tags[0].Contains("required") || tags[0].Contains("conditionallyrequired")))
-        //            {
-        //                return (tags[0], control);
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {                
-        //    }
-        //    return ("", control);
-        //}
-
-        //public static string GetTagIndex(Control control, FormProviders formProvider)
-        //{
-        //    try
-        //    {
-        //        string tag = (string)control.Tag;
-        //        if (!string.IsNullOrEmpty(tag))
-        //        {
-        //            string[] tags = tag.Split(new char[] { ',' });
-        //            if (!tags[0].Contains("required"))
-        //            {
-        //                string[] formProviderTags = tags[0].Split(new char[] { '|' });
-        //                if (formProviderTags.Length > 1)
-        //                {
-        //                    return formProviderTags[(int)formProvider];
-        //                }
-        //                else
-        //                {
-        //                    return tags[0];
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-        //    }
-        //    return "";
-        //}
 
         public string GetTagErrorMessage(FormField formField)
         {
@@ -1072,7 +919,7 @@ namespace FormControlBaseClass
 			foreach (FormField formField in formFields)
 			{
                 FormControl formControl;
-                if (string.IsNullOrEmpty(formField.ControlIndex))
+                if (!string.IsNullOrEmpty(formField.ControlName))
                 {
                     formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
                 }
@@ -1091,34 +938,15 @@ namespace FormControlBaseClass
                     textBox.Text = formField.ControlContent;
                     if (formControl.UserControl == null)
                     {
-                        //textBox.Text = formField.ControlContent;
                         // Fields that use Binding requires special handling
                         switch (control.Name)
                         {
-                            case "messageNo":
-                                OriginMsgNo = textBox.Text;
-                                break;
-                            case "destinationMsgNo":
-                                DestinationMsgNo = textBox.Text;
-                                break;
-                            case "msgDate":
-                                MsgDate = textBox.Text;
-                                break;
-                            case "msgTime":
-                                MsgTime = textBox.Text;
-                                break;
-                            case "incidentName":
-                                IncidentName = textBox.Text;
-                                break;
-                            case "subject":
-                                Subject = textBox.Text;
-                                break;
-                            case "operatorCallsign":
-                                OperatorCallsign = textBox.Text;
-                                break;
-                            case "operatorName":
-                                OperatorName = textBox.Text;
-                                break;
+                            //case "messageNo":
+                            //    OriginMsgNo = textBox.Text;
+                            //    break;
+                            //case "destinationMsgNo":
+                            //    DestinationMsgNo = textBox.Text;
+                            //    break;
                             case null:
                                 continue;
                         }
@@ -1161,9 +989,6 @@ namespace FormControlBaseClass
                                     break;
                                 case "msgDate":
                                     formHeaderControl.MsgDate = textBox.Text;
-                                    break;
-                                case "msgTime":
-                                    formHeaderControl.MsgTime = textBox.Text;
                                     break;
                                 case null:
                                     continue;
@@ -1247,62 +1072,6 @@ namespace FormControlBaseClass
 			}
 			return null;
 		}
-
-		//protected void Subject_Changed(object sender, RoutedEventArgs e)
-		//{
-  //          foreach (FormControl formControl in _formControlsList)
-  //          {
-  //              if (sender is RadioButton radioButton)
-  //              {
-  //                  //if (radioButton.Name == "emergency") No longer allowed
-  //                  //{
-  //                  //    HandlingOrder = "immediate";
-  //                  //}
-  //                  if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
-  //                  {
-  //                      toggleButtonGroup.CheckedControlName = radioButton.Name;
-  //                      if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-  //                      {
-  //                          toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-  //                      }
-  //                      else
-  //                      {
-  //                          toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-  //                      }
-  //                      break;
-  //                  }
-  //              }
-  //              else if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-  //              {
-  //                  if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
-  //                  {
-  //                      textBox.BorderThickness = new Thickness(2);
-  //                      textBox.BorderBrush = formControl.RequiredBorderBrush;
-  //                  }
-  //                  else
-  //                  {
-  //                      textBox.BorderThickness = new Thickness(1);
-  //                      textBox.BorderBrush = formControl.BaseBorderColor;
-  //                  }
-  //                  break;
-  //              }
-  //              else if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
-  //              {
-  //                  if (comboBox.SelectedIndex < 0)
-  //                  {
-  //                      comboBox.BorderBrush = formControl.RequiredBorderBrush;
-  //                  }
-  //                  else
-  //                  {
-  //                      comboBox.BorderBrush = formControl.BaseBorderColor;
-  //                  }
-  //                  break;
-  //              }
-  //          }
-  //          EventHandler<FormEventArgs> OnSubjectChange = EventSubjectChanged;
-  //          FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = MessageNo };
-		//	OnSubjectChange?.Invoke(this, formEventArgs);
-		//}
 
         protected string ConvertTabsToSpaces(string text, int tabWidth)
 		{
@@ -1389,8 +1158,8 @@ namespace FormControlBaseClass
 
         protected virtual void ReportType_Checked(object sender, RoutedEventArgs e)
         {
-            bool required = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
-            UpdateRequiredFields(required);
+            bool complete = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
+            UpdateRequiredFields(complete);
             //ValidateForm();
         }
 

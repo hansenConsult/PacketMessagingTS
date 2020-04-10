@@ -55,6 +55,8 @@ namespace MVCERTDA_FormsControl
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
+
+            UpdateFormFieldsRequiredColors();
         }
 
         private string tacticalCallsign;

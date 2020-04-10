@@ -41,9 +41,10 @@ namespace ICS213PackItFormControl
             otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
-
             
             _messageBoxHeight = message.Height;
+
+            UpdateFormFieldsRequiredColors();
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -226,11 +227,41 @@ namespace ICS213PackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-ics213.html",
-                "#V: 2.17-2.1",
+                $"#V: {PackItFormVersion}-2.1",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
+        }
+
+        public override void FillFormFromFormFields(FormField[] formFields)
+        {
+            bool found1 = false;
+            foreach (FormField formField in formFields)
+            {
+                FrameworkElement control = GetFrameworkElement(formField);
+
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
+
+                if (control is TextBox textBox)
+                {
+                    switch (control.Name)
+                    {
+                        case "subject":
+                            Subject = formField.ControlContent;
+                            found1 = true;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
+                if (found1)
+                    break;
+            }
+            base.FillFormFromFormFields(formFields);
+
+            UpdateFormFieldsRequiredColors();
         }
 
         //private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject

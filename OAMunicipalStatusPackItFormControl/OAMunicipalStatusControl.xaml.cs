@@ -105,6 +105,8 @@ namespace OAMunicipalStatusPackItFormControl
 
             FormHeaderControl.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20190327";
+
+            UpdateFormFieldsRequiredColors(false);
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -256,7 +258,7 @@ namespace OAMunicipalStatusPackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-oa-muni-status.html",
-                $"#V: 2.17-{PIF}",
+                $"#V: {PackItFormVersion}-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

@@ -20,6 +20,8 @@ namespace FormUserControl
 {
     public sealed partial class FormHeaderUserControl : FormControlBasics
     {
+        public event EventHandler<FormEventArgs> EventMsgTimeChanged;
+
         public FormHeaderUserControl()
         {
             this.InitializeComponent();
@@ -28,9 +30,6 @@ namespace FormUserControl
 
             InitializeToggleButtonGroups();
         }
-
-        public UserControl ParentControl
-        { get; set; }
 
         public List<FormControl> FormControlsList => _formControlsList;
 
@@ -57,14 +56,24 @@ namespace FormUserControl
             set => Set(ref headerSubstring, value);
         }
 
-        //public override string MsgDate
-        //{
-        //    get => _msgDate;
-        //    set
-        //    {
-        //        Set(ref _msgDate, value);
-        //    }
-        //}
+        public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                FormControl formControl;
+                formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+
+                if (formControl == null || !CheckTimeFormat(formControl))
+                {
+                    return;
+                }
+
+                // Create event time changed
+                EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
+                FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
+                OnMsgTimeChange?.Invoke(this, formEventArgs);
+            }
+        }
 
     }
 }

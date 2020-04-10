@@ -123,6 +123,9 @@ namespace MedicalFacilityStatusFormControl
 
             FormHeaderControl.HeaderString1 = "Medical facility Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20160101";
+            FormHeaderControl.PIF = "3.2";
+
+            UpdateFormFieldsRequiredColors(false);
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -165,7 +168,7 @@ namespace MedicalFacilityStatusFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-medical-facility-status-v2.html",
-                $"#V: 2.18c-3.1",
+                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

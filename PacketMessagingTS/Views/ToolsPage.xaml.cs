@@ -501,10 +501,6 @@ namespace PacketMessagingTS.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //if (printHelper != null)
-            //{
-            //    printHelper.UnregisterForPrinting();
-            //}
 
             base.OnNavigatedFrom(e);
         }

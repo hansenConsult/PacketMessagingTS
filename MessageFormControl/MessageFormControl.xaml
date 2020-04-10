@@ -128,13 +128,13 @@
                          ScrollViewer.VerticalScrollBarVisibility="Auto" 
 				         PlaceholderText="Write message here"
                          TextChanged="TextBox_TextChanged"
-				         Tag="0,required,Please write a message"/>
+				         Tag=",required,Please write a message"/>
                 <RichTextBlock Grid.Row="1" x:Name="richTextMessageBody" 
                                OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}"
                                Visibility="{x:Bind FixedContentVisibility, Mode=OneWay}"
                                IsTextSelectionEnabled="True" TextWrapping="Wrap" 
                                Margin="0,20,0,0"
-                               Tag="0" >
+                               Tag="" >
                     
                     <!--OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}"-->
 

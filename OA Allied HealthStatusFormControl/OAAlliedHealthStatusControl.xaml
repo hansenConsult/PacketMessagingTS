@@ -677,15 +677,16 @@
                                 <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="1" x:Name="facilityDate"
                                          Style="{StaticResource MuniStatusDateTextBox}"
-                                         Text="{x:Bind FacilityDate, Mode=OneWay}"
+                                         
                                          HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22d.,required"
                                          Header="Date:"
-                                         TextChanged="TextBox_TextChanged"/>
+                                         TextChanged="TextBox_DateChanged"/>
+                                <!--Text="{x:Bind FacilityDate, Mode=OneWay}"-->
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="2" x:Name="facilityTime" Header="Time:"  
                                      Style="{StaticResource MuniStatusTimeTextBox}"
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16,required" 
-                                     PlaceholderText="hh:mm" TextChanged="TextBox_TextChanged"/>
+                                     PlaceholderText="hh:mm" TextChanged="TextBox_TimeChanged"/>
                             </Grid>
                             <Border Grid.Column="0" Grid.Row="1" BorderBrush="black" BorderThickness="0,0,0,1"/>
                             <TextBox Grid.Column="0" Grid.Row="1" x:Name="facilityContactName" 
@@ -727,7 +728,7 @@
                                      Style="{StaticResource MuniStatusDateTextBox}"
                                      Header=" "
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"
-                                     TextChanged="TextBox_TextChanged"
+                                     TextChanged="TextBox_DateChanged"
                                      Tag="25d.,conditionallyrequired"/>
                             </Grid>
                             <Border Grid.Column="0" Grid.Row="3"  Background="LightGray" BorderBrush="Black" BorderThickness="0,0,1,1"/>

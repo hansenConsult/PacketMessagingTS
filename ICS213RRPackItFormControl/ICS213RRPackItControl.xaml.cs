@@ -46,6 +46,8 @@ namespace ICS213RRPackItFormControl
             FormHeaderControl.HeaderString1 = "SCCo EOC RESOURCE REQUEST FORM 213RR";
             FormHeaderControl.HeaderSubstring = "Version 8/17";
             FormHeaderControl.PIF = "2.3";
+
+            UpdateFormFieldsRequiredColors();
         }
 
 
@@ -74,17 +76,6 @@ namespace ICS213RRPackItFormControl
             set => Set(ref _initiatedDate, value);
         }
 
-        //public  string MsgTime
-        //{
-        //    get => _msgTime;
-        //    set
-        //    {
-        //        string time = TimeCheck(value);
-        //        Set(ref _msgTime, time);
-        //        initiatedTime.Text = time;
-        //    }
-        //}
-
         public override void AppendDrillTraffic()
         {
             specialInstructions.Text += DrillTraffic;
@@ -111,7 +102,7 @@ namespace ICS213RRPackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-scco-eoc-213rr.html",
-                $"#V: 2.17-{PIF}",
+                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -166,8 +157,8 @@ namespace ICS213RRPackItFormControl
             bool found1 = false, found2 = false;
             foreach (FormField formField in formFields)
             {
-                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                FrameworkElement control = formControl?.InputControl;
+                FrameworkElement control = GetFrameworkElement(formField);
+
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
@@ -183,9 +174,6 @@ namespace ICS213RRPackItFormControl
                             IncidentName = formField.ControlContent;
                             found2 = true;
                             break;
-                        //case "subject":
-                        //    Subject = textBox.Text;
-                        //    break;
                         case null:
                             continue;
                     }

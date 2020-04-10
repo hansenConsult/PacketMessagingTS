@@ -299,7 +299,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 _logHelper.Log(LogLevel.Error, $"Serial port timeout in ReadLine. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}");
                 _error = true;
-                //throw;
             }
 
             if (_readBuffer.Contains(_TncDevice.Prompts.Disconnected) && _readBuffer.Contains(_TncDevice.Prompts.Timeout))
@@ -670,7 +669,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     {
                         // Find the Subject line
                         string[] msgLines = pktMsg.MessageBody.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                        for (int i = 0; i < Math.Min(msgLines.Length, 10); i++)
+                        for (int i = 0; i < Math.Min(msgLines.Length, 8); i++)
                         {
                             if (msgLines[i].StartsWith("Date:"))
                             {
@@ -713,7 +712,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             Subject = $"DELIVERED: {pktMsg.Subject}",
                         };
 
-                        FormField[] formFields = new FormField[1];
+                        FormField[] formFields = new FormField[2];
 
                         FormField formField = new FormField();
                         formField.ControlName = "messageBody";
@@ -728,6 +727,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         formFields[0] = formField;
                         formField = new FormField();
                         formField.ControlName = "richTextMessageBody";
+                        formField.ControlContent = controlContent.ToString();
                         formFields[1] = formField;
 
                         receiptMessage.FormFieldArray = formFields;
@@ -735,7 +735,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         receiptMessage.MessageBody = packetForm.CreateOutpostData(ref receiptMessage);
                         if(!receiptMessage.CreateFileName())
                         {
-                            throw new Exception();
+                            _logHelper.Log(LogLevel.Info, $"Error Creating file name: {receiptMessage.MessageTo}");
+                            return;
                         }
                         receiptMessage.SentTime = DateTime.Now;
                         receiptMessage.UpdateMessageSize();
@@ -747,7 +748,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     {
                         _logHelper.Log(LogLevel.Error, "Delivered message exception: ", e.Message);
                         _error = true;
-                        throw;
+                        //throw;
                     }
                 }
             }

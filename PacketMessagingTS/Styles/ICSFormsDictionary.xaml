@@ -306,7 +306,7 @@
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="5,2,2,2"/>
+        <Setter Property="Margin" Value="5,2,4,2"/>
     </Style>
     <Style x:Key="MuniStatusFieldTextRight" TargetType="TextBlock" BasedOn="{StaticResource MuniStatusFieldText}">
         <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -320,7 +320,7 @@
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="AcceptsReturn" Value="True"/>
         <Setter Property="Height" Value="40"/>
-        <Setter Property="Margin" Value="10,2,10,2"/>
+        <Setter Property="Margin" Value="5,2,5,2"/>
     </Style>
     <Style x:Key="MuniStatusComboBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="Ariel"/>
@@ -335,7 +335,7 @@
     </Style>
     <Style x:Key="MuniStatusSituationComboBox" TargetType="ComboBox" BasedOn="{StaticResource MuniStatusComboBox}">
         <Setter Property="DisplayMemberPath" Value="Item"/>
-        <Setter Property="Margin" Value="5,2,2,2"/>
+        <Setter Property="Margin" Value="5,2,4,2"/>
     </Style>
 
     <Style x:Key="LabelFontTNR9" TargetType="TextBox">

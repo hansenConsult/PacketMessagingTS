@@ -25,7 +25,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+        <Grid x:Name="formHeaderControlColumn0" Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
@@ -34,31 +34,34 @@
                 <ColumnDefinition Width="152"/>
                 <ColumnDefinition Width="152"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" VerticalAlignment="Center" Width="auto">
+            <StackPanel Grid.Column="0" x:Name="formNamePanel" VerticalAlignment="Center" Width="auto">
                 <!--<TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                    Foreground="Black" 
                                    VerticalAlignment="Center" Margin="8,0" >
                                 <Run>Allied Health Status Report Short Form</Run>
                                 <Run FontSize="10">(DEOC-9)</Run>
                 </TextBlock>-->
-                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0"> 
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" >
                     <TextBlock FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                               Foreground="Black" 
-                               VerticalAlignment="Center" Margin="8,0"
+                               Foreground="Black" Margin="8,0"
+                               VerticalAlignment="Center" 
                                Text="{x:Bind HeaderString1, Mode=OneWay}"/>
                     <TextBlock FontSize="10" FontFamily="Arial Black" FontWeight="Bold" 
                                Foreground="Black" 
-                               VerticalAlignment="Center" Margin="0,0"
+                               VerticalAlignment="Center" 
                                Text="{x:Bind HeaderString2, Mode=OneWay}"/>
                 </StackPanel>
-                <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,2">
-                    <TextBlock Text="{x:Bind HeaderSubstring, Mode=OneWay}" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right" />
+                <Grid Grid.Column="0" Margin="8,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{x:Bind HeaderSubstring, Mode=OneWay}" HorizontalAlignment="Left"/>
+                    <TextBlock Grid.Column="1" Text="{x:Bind PIFString, Mode=OneWay}" HorizontalAlignment="Right" />
                 </Grid>
             </StackPanel>
 
             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-
             <TextBox Grid.Column="1" x:Name="messageNo"  
                      Text="{x:Bind Mode=TwoWay, Path=OriginMsgNo}"
 					 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
@@ -97,9 +100,10 @@
                        VerticalAlignment="Center" Margin="8,0,0,0"/>
             <TextBox Grid.Column="3" x:Name="msgTime" 
                      Style="{StaticResource MuniStatusTimeTextBox}"     
-                     Text="{x:Bind MsgTime, Mode=TwoWay}"
+                     
                      TextChanged="TextBox_MsgTimeChanged"
                      Tag="1b.,required"/>
+            <!--Text="{x:Bind MsgTime, Mode=TwoWay}"-->
             <!--Text="{x:Bind Mode=TwoWay, Path=MsgTime}"-->
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
@@ -225,4 +229,26 @@
             </StackPanel>
         </Grid>
     </Grid>
+
+    <!--<StackPanel  x:Name="formNamePanel" VerticalAlignment="Center" Width="auto">
+        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" >
+            <TextBlock FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                               Foreground="Black" Margin="8,0"
+                               VerticalAlignment="Center" 
+                               Text="{x:Bind HeaderString1, Mode=OneWay}"/>
+            <TextBlock FontSize="10" FontFamily="Arial Black" FontWeight="Bold" 
+                               Foreground="Black" 
+                               VerticalAlignment="Center" 
+                               Text="{x:Bind HeaderString2, Mode=OneWay}"/>
+        </StackPanel>
+        <Grid Grid.Column="0" Margin="8,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{x:Bind HeaderSubstring, Mode=OneWay}" HorizontalAlignment="Left"/>
+            <TextBlock Grid.Column="1" Text="{x:Bind PIFString, Mode=OneWay}" HorizontalAlignment="Right" />
+        </Grid>
+    </StackPanel>-->
+
 </MyBaseNamespace:FormControlBasics>

@@ -255,6 +255,7 @@
                                                 <TextBox x:Name="msgDate" 
                                                          HeaderTemplate="{StaticResource smallHeaderTemplate}"
                                                          Header="1a.) Date:"
+                                                         PlaceholderText="mm/dd/yy"
                                                          Text="{x:Bind MsgDate, Mode=TwoWay}"
                                                          TextAlignment="Center" BorderBrush="White" 
                                                          Margin="2,0,2,2" Tag="5,required"
@@ -266,12 +267,13 @@
                                                 <!--<TextBlock Style="{StaticResource LabelFontTNR12B}" Padding="5,0,5,5" Text="1b.) Time:" />-->
                                                 <TextBox x:Name="msgTime" 
                                                          HeaderTemplate="{StaticResource smallHeaderTemplate}"
-                                                         Header="1a.) Date:"
+                                                         Header="1b.) Time:"
                                                          PlaceholderText="hh:mm"
-                                                         Text="{x:Bind MsgTime, Mode=TwoWay}"
+                                                         
                                                          TextAlignment="Center" BorderBrush="White" 
                                                          Margin="2,0,2,2" Tag="18,required"
-                                                         TextChanged="TextBox_TextChanged"/>
+                                                         TextChanged="TextBox_TimeChanged"/>
+                                                <!--Text="{x:Bind MsgTime, Mode=TwoWay}"-->
                                             </StackPanel>
                                         </Border>
                                         <TextBox x:Name="textBox" Text="" Visibility="Collapsed" />

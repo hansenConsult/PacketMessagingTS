@@ -63,6 +63,8 @@ namespace HavBedReportFormControl
 
             FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
             FormHeaderControl.HeaderSubstring = "EMResource: c190320";
+
+            UpdateFormFieldsRequiredColors();
         }
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
@@ -99,7 +101,7 @@ namespace HavBedReportFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-mhoc-beds-status.html",
-                $"#V: 2.17-{PIF}",
+                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 

@@ -47,6 +47,8 @@ namespace MessageFormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
+
+            UpdateFormFieldsRequiredColors();
         }
 
 
