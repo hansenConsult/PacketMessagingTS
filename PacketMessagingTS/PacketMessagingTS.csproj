@@ -396,6 +396,10 @@
       <Project>{5b519096-6713-4d1e-a67c-fc5f22df5e3d}</Project>
       <Name>PacketMessagingTS.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PublicNoticeFormControl\PublicNoticeFormControl.csproj">
+      <Project>{efbf3aa6-236b-4809-873f-1fd251715e2c}</Project>
+      <Name>PublicNoticeFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
       <Name>SharedCode</Name>

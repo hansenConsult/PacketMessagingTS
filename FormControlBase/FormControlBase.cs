@@ -19,7 +19,6 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-//using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml.Documents;
 
 namespace FormControlBaseClass
@@ -65,14 +64,9 @@ namespace FormControlBaseClass
 
     public abstract partial class FormControlBase : FormControlBasics
     {
-        //public event EventHandler<FormEventArgs> EventSubjectChanged;
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        protected List<string> outpostData;
-        //protected List<string> _ICSPositionFiltered = new List<string>();
+        protected List<string> _outpostData;
 
         protected ScrollViewer _scrollViewer;
-        protected List<Panel> _printPanels;
 
         readonly protected List<ComboBoxPackItItem> Hospitals = new List<ComboBoxPackItItem>
         {
@@ -105,11 +99,8 @@ namespace FormControlBaseClass
         public static string DrillTraffic = "\r\nDrill Traffic";
 
         protected PrintHelper _printHelper;
+        protected List<Panel> _printPanels;
 
-
-        protected FormControlBase()
-        {
-        }
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
         {
@@ -161,6 +152,7 @@ namespace FormControlBaseClass
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
+                string name = control.Name;
 
                 if (control is TextBox textBox)
                 {
@@ -236,43 +228,41 @@ namespace FormControlBaseClass
         public virtual string SenderMsgNo
         { get; set; }
 
-        public virtual string ReceiverMsgNo
-        { get; set; }
+        //public virtual string ReceiverMsgNo
+        //{ get; set; }
 
         //public static string DefaultMessageTo
         //{ get; set; }
 
-        protected static string TimeCheck(string time)
-        {
-            try
-            {
-                var filteredTime = time.Split(new char[] { ':' });
-                if (filteredTime.Length == 1 && time.Length > 2)
-                {
-                    string min = time.Substring(time.Length - 2);
-                    if (min.Length > 2 || Convert.ToInt32(min) > 59)
-                        return "";
-                    string hour = time.Substring(0, time.Length - 2);
-                    if (hour.Length > 2 || Convert.ToInt32(hour) > 23)
-                        return "";
-                    return $"{hour}:{min}";
-                }
-                else if (time.Length > 2 && time.Length < 6)
-                {
-                    return time;
-                }
-                else
-                {
-                    return "";
-                }
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
- 
+        //protected static string TimeCheck(string time)
+        //{
+        //    try
+        //    {
+        //        var filteredTime = time.Split(new char[] { ':' });
+        //        if (filteredTime.Length == 1 && time.Length > 2)
+        //        {
+        //            string min = time.Substring(time.Length - 2);
+        //            if (min.Length > 2 || Convert.ToInt32(min) > 59)
+        //                return "";
+        //            string hour = time.Substring(0, time.Length - 2);
+        //            if (hour.Length > 2 || Convert.ToInt32(hour) > 23)
+        //                return "";
+        //            return $"{hour}:{min}";
+        //        }
+        //        else if (time.Length > 2 && time.Length < 6)
+        //        {
+        //            return time;
+        //        }
+        //        else
+        //        {
+        //            return "";
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        return "";
+        //    }
+        //}
 
         public virtual string Action
         { get; set; }
@@ -299,9 +289,6 @@ namespace FormControlBaseClass
         public virtual string FacilityName      // Required for setting Practice
         { get; set; }
 
-        public virtual string ReportType
-        { get; set; }
-
         // Implemented this way to facilitate synchronizing two name fields and required for setting Practice 
         private string _shelterName;
         public virtual string ShelterName
@@ -311,6 +298,9 @@ namespace FormControlBaseClass
         }
 
         public virtual string Subject       // Required for setting Practice
+        { get; set; }
+
+        public virtual string ReportType
         { get; set; }
 
         private DateTime? messageReceivedTime = null;
@@ -891,7 +881,12 @@ namespace FormControlBaseClass
                 }
                 else
                 {
+                    var items = comboBox.Items;
+                    var selectedItem = comboBox.Items[0];
+                    var itemSource = comboBox.ItemsSource;
+
                     comboBox.SelectedIndex = index;
+                    //comboBox.Text = data[0];
                 }
             }
             else
@@ -900,7 +895,7 @@ namespace FormControlBaseClass
                 var items = comboBox.Items;
                 var selectedItem = comboBox.Items[0];
                 var itemSource = comboBox.ItemsSource;
-                //Type typeofitem = comboBox.Items[0].GetType();
+
                 if (formField.ControlComboxContent != null)
                 {
                     comboBox.SelectedIndex = formField.ControlComboxContent.SelectedIndex;
@@ -941,11 +936,18 @@ namespace FormControlBaseClass
                         // Fields that use Binding requires special handling
                         switch (control.Name)
                         {
+                            case "msgDate":
+                                MsgDate = textBox.Text;
+                                break;
+                            case "operatorCallsign":
+                                OperatorCallsign = textBox.Text;
+                                break;
+                            case "operatorName":
+                                OperatorName = textBox.Text;
+                                break;
+
                             //case "messageNo":
                             //    OriginMsgNo = textBox.Text;
-                            //    break;
-                            //case "destinationMsgNo":
-                            //    DestinationMsgNo = textBox.Text;
                             //    break;
                             case null:
                                 continue;
@@ -975,9 +977,6 @@ namespace FormControlBaseClass
                         else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
                         {
                             FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
-
-                            //var formCtrl = formHeaderControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);
-                            //(formCtrl.InputControl as TextBox).Text = textBox.Text;
 
                             switch (control.Name)
                             {

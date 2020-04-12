@@ -1,0 +1,187 @@
+﻿<MyBaseNamespace:FormControlBase
+    x:Class="PublicNoticeFormControl.PublicNoticeControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PublicNoticeFormControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:MyNamespace="using:ToggleButtonGroupControl"
+    xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
+    
+    mc:Ignorable="d"
+    d:DesignHeight="1056"
+    d:DesignWidth="816">
+
+    <MyBaseNamespace:FormControlBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </MyBaseNamespace:FormControlBase.Resources>
+
+    <StackPanel x:Name="PrintableArea" RequestedTheme="Light">
+        <Border  BorderBrush="Black" BorderThickness="1" Padding="15">
+            <StackPanel>
+                <Grid x:Name="container" Opacity="0" />
+                <StackPanel x:Name="directPrintContainer">
+                    <Grid x:Name="printPage1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="152"/>
+                                <ColumnDefinition Width="152"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" x:Name="formNamePanel" VerticalAlignment="Center" Width="auto">
+                                <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                                           Foreground="Black" Margin="8,0"
+                                           VerticalAlignment="Center" 
+                                           Text="Public Notice Form"/>
+                                <Grid Grid.Column="0" Margin="8,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Version PR-4.7-1.2, 02/27/20" HorizontalAlignment="Left"/>
+                                    <TextBlock Grid.Column="1" Text="PacRELEASE 4.7" HorizontalAlignment="Right" />
+                                </Grid>
+                            </StackPanel>
+                            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                            <TextBox Grid.Column="1" x:Name="messageNo"  
+                                     Text="{x:Bind Mode=TwoWay, Path=OriginMsgNo}"
+					                 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
+                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                     Header="Origin:"
+                                     Tag="0,required,Enter a Message Number." 
+                                     TextChanged="Subject_Changed"/>
+                            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                            <TextBox Grid.Column="2" x:Name="destinationMsgNo" 
+                                     TextAlignment="Center" BorderBrush="White" 
+                                     Margin="10,0,10,2" Tag="1"
+                                     Text="{x:Bind Path=DestinationMsgNo}"
+                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                     Header="Destination:"/>
+                        </Grid>
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
+                                       VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            <TextBox Grid.Column="1" x:Name="msgDate"
+                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
+                                     Tag="2,required"
+                                     TextChanged="TextBox_DateChanged"/>
+                            <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
+                                       VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            <TextBox Grid.Column="3" x:Name="msgTime" 
+                                     Style="{StaticResource MuniStatusTimeTextBox}"                          
+                                     TextChanged="TextBox_TimeChanged"
+                                     Tag="3,required"/>
+                            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
+                            <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
+                                           Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
+                                                           CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                                           Tag=",required,Indicate Msg. Handling Order."/>
+                            <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
+                                         Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0" 
+                                         Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
+                                         ToolTipService.ToolTip="As soon as possible" Tag="4"/>
+                            <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
+                                         Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
+                                         Content="PRIORITY (&lt; 1 hr)" Checked="Subject_Changed"
+                                         ToolTipService.ToolTip="Less than one hour" Tag="5"/>
+                            <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
+                                         Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
+                                         Content="ROUTINE (&lt; 2 hrs)" Checked="Subject_Changed"
+                                         ToolTipService.ToolTip="Less than two hours" Tag="6"/>
+                        </Grid>
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0,12" TextWrapping="WrapWholeWords"
+                                Text="PUBLIC NOTICE GENERATOR" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center">
+>                            <Run >Originator:  press the "Publish" button below. to review what your message will look like.</Run>
+                                <LineBreak/>
+                                <Run>Recipient:    Press the "Publish" button, then Browser Print to print the notice for posting at your site.</Run>
+                                <LineBreak/>
+                                <Run>When you press the "Publish" button, a new window will appear with the formatted Notice that can then be printed.</Run>
+                            </TextBlock>
+                            <Button Grid.Row="2" Content="PUBLISH" HorizontalAlignment="Center" Margin="8"/>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Notice Type:"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" IsEditable="True" PlaceholderText="Choose One">
+                                <ComboBoxItem Content="NOTICE"/>
+                                <ComboBoxItem Content="WARNING"/>
+                                <ComboBoxItem Content="ATTENTION"/>
+                            </ComboBox>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Font Size (pt)"/>
+                            <TextBox Grid.Row="0" Grid.Column="3" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Topic:"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" />
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Font Size (pt)"/>
+                            <TextBox Grid.Row="1" Grid.Column="3" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Issued By:"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" />
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Effective Date:"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" />
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Expires:"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" />
+                        </Grid>
+                        <TextBlock Grid.Row="4" Text="Notice Details  (Note: Use a blank line to separate paragraphs):" 
+                                   Margin="4,15"/>
+                        <TextBox Grid.Row="5" x:Name="notice" TextWrapping="Wrap"  Height="300" Width="400" HorizontalAlignment="Left"/>
+                        <StackPanel Grid.Row="6" Orientation="Horizontal">
+                            <TextBlock Text="Signed:" Width="auto"/>
+                            <TextBox x:Name="signed" />
+                        </StackPanel>
+                        <src:RadioOperatorUserControl Grid.Row="7" x:Name="radioOperatorControl"/>
+
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <TextBlock Text="SCCo Public Notice Generator (PR-4.7-1.2, 02/27/20)" HorizontalAlignment="Center" />
+    </StackPanel>
+</MyBaseNamespace:FormControlBase>

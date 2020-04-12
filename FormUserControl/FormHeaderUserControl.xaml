@@ -35,12 +35,6 @@
                 <ColumnDefinition Width="152"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" x:Name="formNamePanel" VerticalAlignment="Center" Width="auto">
-                <!--<TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                                   Foreground="Black" 
-                                   VerticalAlignment="Center" Margin="8,0" >
-                                <Run>Allied Health Status Report Short Form</Run>
-                                <Run FontSize="10">(DEOC-9)</Run>
-                </TextBlock>-->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" >
                     <TextBlock FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                Foreground="Black" Margin="8,0"
@@ -48,7 +42,7 @@
                                Text="{x:Bind HeaderString1, Mode=OneWay}"/>
                     <TextBlock FontSize="10" FontFamily="Arial Black" FontWeight="Bold" 
                                Foreground="Black" 
-                               VerticalAlignment="Center" 
+                               VerticalAlignment="Center" Margin="0,4,0,0"
                                Text="{x:Bind HeaderString2, Mode=OneWay}"/>
                 </StackPanel>
                 <Grid Grid.Column="0" Margin="8,2">
@@ -57,7 +51,7 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="{x:Bind HeaderSubstring, Mode=OneWay}" HorizontalAlignment="Left"/>
-                    <TextBlock Grid.Column="1" Text="{x:Bind PIFString, Mode=OneWay}" HorizontalAlignment="Right" />
+                    <TextBlock Grid.Column="1" Text="{x:Bind PIF, Mode=OneWay}" HorizontalAlignment="Right" />
                 </Grid>
             </StackPanel>
 
@@ -99,26 +93,23 @@
             <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                        VerticalAlignment="Center" Margin="8,0,0,0"/>
             <TextBox Grid.Column="3" x:Name="msgTime" 
-                     Style="{StaticResource MuniStatusTimeTextBox}"     
-                     
+                     Style="{StaticResource MuniStatusTimeTextBox}"                          
                      TextChanged="TextBox_MsgTimeChanged"
                      Tag="1b.,required"/>
-            <!--Text="{x:Bind MsgTime, Mode=TwoWay}"-->
-            <!--Text="{x:Bind Mode=TwoWay, Path=MsgTime}"-->
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                            Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
             <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
-                                                               CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
-                                                               Tag="5.,required,Indicate Msg. Handling Order."/>
+                                           CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                           Tag="5.,required,Indicate Msg. Handling Order."/>
             <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0" 
-                                             Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
+                         Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0" 
+                         Content="IMMEDIATE (ASAP)" Checked="Subject_Changed"
+                         ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
             <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
-                                             Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
-                                             Content="PRIORITY (&lt; 1 hr)" Checked="Subject_Changed"
-                                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
+                         Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
+                         Content="PRIORITY (&lt; 1 hr)" Checked="Subject_Changed"
+                         ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
             <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
                          Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0"  
                          Content="ROUTINE (&lt; 2 hrs)" Checked="Subject_Changed"
@@ -229,26 +220,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-
-    <!--<StackPanel  x:Name="formNamePanel" VerticalAlignment="Center" Width="auto">
-        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" >
-            <TextBlock FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                               Foreground="Black" Margin="8,0"
-                               VerticalAlignment="Center" 
-                               Text="{x:Bind HeaderString1, Mode=OneWay}"/>
-            <TextBlock FontSize="10" FontFamily="Arial Black" FontWeight="Bold" 
-                               Foreground="Black" 
-                               VerticalAlignment="Center" 
-                               Text="{x:Bind HeaderString2, Mode=OneWay}"/>
-        </StackPanel>
-        <Grid Grid.Column="0" Margin="8,2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{x:Bind HeaderSubstring, Mode=OneWay}" HorizontalAlignment="Left"/>
-            <TextBlock Grid.Column="1" Text="{x:Bind PIFString, Mode=OneWay}" HorizontalAlignment="Right" />
-        </Grid>
-    </StackPanel>-->
-
 </MyBaseNamespace:FormControlBasics>

@@ -410,7 +410,6 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
@@ -599,7 +598,7 @@
                                 </Grid>
                             </StackPanel>
                         </Grid>-->
-                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -615,7 +614,7 @@
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
                                      Checked="ReportType_Checked" Tag="Complete"/>
                         </Grid>
-                        <Grid Grid.Row="4" BorderBrush="Black" BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2.5*"/>
                                 <ColumnDefinition Width="2*"/>

@@ -26,8 +26,7 @@ namespace MVCERTDA_FormsControl
 
     public sealed partial class MVCERTDAControl : FormControlBase
     {
-        //List<string> _ICSPositionFiltered = new List<string>();
-        readonly string subjectText = "Damage Summary for ";
+        readonly string _subjectText = "Damage Summary for ";
 
         private List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
 
@@ -51,7 +50,7 @@ namespace MVCERTDA_FormsControl
             comboBoxToICSPosition.SelectedItem = "Planning";
             comboBoxFromICSPosition.SelectedItem = "Planning";
             ToLocation = "Mountain View EOC";
-            subject.Text = subjectText;
+            //subject.Text = subjectText;
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
@@ -72,9 +71,21 @@ namespace MVCERTDA_FormsControl
             }
             set
             {
-                Set(ref tacticalCallsign, value);
-                string agencyName = GetSelectedMTVTactical()?.AgencyName.Replace(" CERT", "");
-                subject.Text = subjectText + agencyName;
+                string agencyName;
+                if (FormPacketMessage == null)
+                {
+                    // New form
+                    Set(ref tacticalCallsign, value);
+                    agencyName = GetSelectedMTVTactical()?.AgencyName.Replace(" CERT", "");
+                    
+                }
+                else
+                {
+                    // Display filled form
+                    agencyName = GetAgencyNameFromPacketMessage();
+                    tacticalCallsign = GetTacticalcallsignFromAgencyName(agencyName);
+                }
+                Subject = _subjectText + agencyName;
             }
         }
 
@@ -123,7 +134,6 @@ namespace MVCERTDA_FormsControl
             set => Set(ref fromLocation, value);
         }
 
-        //public override FormProviders DefaultFormProvider => FormProviders.PacForm;
         public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CityForm;
@@ -312,8 +322,27 @@ namespace MVCERTDA_FormsControl
             }
         }
 
+        private string GetAgencyNameFromPacketMessage()
+        {
+            FormField agencyNameField = FormPacketMessage.FormFieldArray.Where(formField => formField.ControlName == "textBoxFromLocation").FirstOrDefault();
+            return agencyNameField.ControlContent;
+        }
+
+        private string GetTacticalcallsignFromAgencyName(string agencyName)
+        {
+            //List<TacticalCall> CERTLocationTacticalCalls
+            foreach (TacticalCall tacticalCall in CERTLocationTacticalCalls)
+            {
+                if (tacticalCall.AgencyName == agencyName)
+                {
+                    return tacticalCall.TacticalCallsign;
+                }
+            }
+            return "";
+        }
+
         //private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-         //{
+        //{
         //    // Set sender.Text. You can use args.SelectedItem to build your text string.
         //    sender.Text = args.SelectedItem as string;
         //}
@@ -354,7 +383,7 @@ namespace MVCERTDA_FormsControl
                 return;
             }
 
-            subject.Text = subjectText + e.AddedItems[0].ToString();
+            subject.Text = _subjectText + e.AddedItems[0].ToString();
 
             if ((sender as ComboBox).Name == "comboBoxFromLocation")
             {
@@ -400,7 +429,7 @@ namespace MVCERTDA_FormsControl
 
         private void ComboBoxFromLocation_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
         {
-            subject.Text = subjectText + args.Text;
+            subject.Text = _subjectText + args.Text;
             textBoxFromLocation.Text = args.Text;
 
             foreach (FormControl formControl in _formControlsList)

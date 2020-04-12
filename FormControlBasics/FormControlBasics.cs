@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-//using FormUserControl;
 using SharedCode;
 
 using ToggleButtonGroupControl;
@@ -38,7 +34,6 @@ namespace FormControlBasicsNamespace
     public partial class FormControlBasics : UserControl, INotifyPropertyChanged
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
-        //public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
         public static SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
         public static SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
@@ -90,10 +85,6 @@ namespace FormControlBasicsNamespace
         public virtual string MsgDate
         { get; set; }
 
-        //protected string _msgTime;
-        //public virtual string MsgTime
-        //{ get; set; }
-
         public virtual string HandlingOrder
         { get; set; }
 
@@ -106,13 +97,8 @@ namespace FormControlBasicsNamespace
         private string _pif = "2.1";
         public virtual string PIF
         {
-            get => _pif;
+            get => $"PIF: {_pif}";
             set => _pif = value;
-        }
-
-        public virtual string PIFString
-        {
-            get => $"PIF: {PIF}";
         }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
@@ -142,9 +128,9 @@ namespace FormControlBasicsNamespace
                     ScanControls(control, formUserControl);
                 }
                 else if (control is TextBox textBox)
-                {
+                    {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    if (textBox.IsReadOnly || control is ComboBox)
+                    if (textBox.IsReadOnly)
                     {
                         formControl.BaseBorderColor = WhiteBrush;
                     }
@@ -154,8 +140,13 @@ namespace FormControlBasicsNamespace
                     }
                     _formControlsList.Add(formControl);
                 }
-                else if (control is CheckBox
-                        || control is ToggleButtonGroup || control is RichTextBlock)
+                else if (control is ComboBox comboBox)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    //formControl.BaseBorderColor = WhiteBrush;
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     _formControlsList.Add(formControl);
@@ -507,27 +498,6 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        //protected virtual void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    if (sender is TextBox textBox)
-        //    {
-        //        FormControl formControl;
-        //        if (!string.IsNullOrEmpty(textBox.Name))
-        //            formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
-        //        else
-        //            formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
-
-        //        if (!CheckTimeFormat(formControl))
-        //        {
-        //            return;
-        //        }
-        //        // Create event time changed
-        //        EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
-        //        FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
-        //        OnMsgTimeChange?.Invoke(this, formEventArgs);
-        //    }
-        //}
-
         protected virtual void TextBox_TimeChanged(object sender, TextChangedEventArgs e)
         {
             if (sender is TextBox textBox)
@@ -565,6 +535,7 @@ namespace FormControlBasicsNamespace
                     }
                     else
                     {
+                        //comboBox.SelectedValue = e.AddedItems[0].ToString();
                         selection = e.AddedItems[0].ToString();
                     }
                     if (string.IsNullOrEmpty(selection))

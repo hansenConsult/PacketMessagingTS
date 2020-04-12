@@ -675,7 +675,7 @@
                                 <TextBlock Margin="8" 
                                     Text="12b.) Other Info:   (Top 1 or 2 incidents with locations and situation details.) "/>
                                 <TextBox x:Name="message" ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                         AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="53,required,You must include a Message." 
+                                         AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="53" 
                                          PlaceholderText="Type message here." IsSpellCheckEnabled="True"
                                          TextChanged="TextBox_TextChanged"/>
                             </StackPanel>
@@ -737,7 +737,7 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="How received" VerticalAlignment="Center" Margin="5,0,5,0" />
                                         <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" CheckedControlName="{x:Bind ReceivedOrSent}"/>
                                         <RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=RadioButtonTNR12B}" 
-                                                     Content="or Sent" Padding="5" Tag="40"/>
+                                                     Content="or Sent" Padding="5" Tag="60"/>
                                         <RadioButton x:Name="sent" GroupName="receivedOrSent" Content="" Margin="-30,0,0,0" Tag="61"/>
                                     </StackPanel>
                                 </Border>

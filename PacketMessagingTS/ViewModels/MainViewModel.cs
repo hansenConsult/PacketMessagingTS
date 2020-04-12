@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MetroLog;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using PacketMessagingTS.Core.Helpers;
 
+using MetroLog;
+
+using Microsoft.Toolkit.Uwp.UI.Controls;
+
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;

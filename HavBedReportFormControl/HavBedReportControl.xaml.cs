@@ -97,15 +97,15 @@ namespace HavBedReportFormControl
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
-            outpostData = new List<string>
+            _outpostData = new List<string>
             {
                 "!SCCoPIFO!",
                 "#T: form-mhoc-beds-status.html",
                 $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(outpostData);
+            return CreateOutpostMessageBody(_outpostData);
         }
 
     }

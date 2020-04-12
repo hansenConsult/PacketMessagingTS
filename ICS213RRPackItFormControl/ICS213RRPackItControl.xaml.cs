@@ -98,15 +98,15 @@ namespace ICS213RRPackItFormControl
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
-            outpostData = new List<string>
+            _outpostData = new List<string>
             {
                 "!SCCoPIFO!",
                 "#T: form-scco-eoc-213rr.html",
                 $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(outpostData);
+            return CreateOutpostMessageBody(_outpostData);
         }
 
         private void SuppReqFuel_Checked(object sender, RoutedEventArgs e)

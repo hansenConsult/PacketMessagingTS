@@ -16,27 +16,13 @@ namespace FormControlBasicsNamespace
         public Brush BaseBorderColor
 		{ get; set; }
 
-        public Brush RequiredBorderBrush { get; } = new SolidColorBrush(Colors.Red);
+        public Brush RequiredBorderBrush { get; } = FormControlBasics.RedBrush;
 
         public FrameworkElement InputControl
 		{ get; private set; }
 
 		public FrameworkElement UserControl
 		{ get; private set; }
-
-		public FormControl()
-		{
-			
-		}
-
-		public FormControl(FrameworkElement control)
-		{
-			InputControl = control;
-			if (control.GetType() == typeof(Control))
-			{
-				BaseBorderColor = (control as Control).BorderBrush;
-			}
-		}
 
 		public FormControl(FrameworkElement control, FrameworkElement userControl = null)
 		{

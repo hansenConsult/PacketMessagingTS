@@ -340,6 +340,9 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
+        //protected abstract int FormsPagePivotSelectedIndex
+        //{ get; set; }
+
         protected abstract int GetFormsPagePivotSelectedIndex();
 
         protected abstract void SetFormsPagePivotSelectedIndex(int index);
@@ -587,24 +590,14 @@ namespace PacketMessagingTS.Helpers
             _formsViewModel.PacketForm = _packetForm;
 
             _packetForm.UpdateFormFieldsRequiredColors(true);
-            //_packetMessage = new PacketMessage()
-            //{
-            //    FormProvider = _packetForm.FormProvider,
-            //    FormControlType = _packetForm.FormControlType,
-            //};
 
-            //_packetForm.MessageNo = Utilities.GetMessageNumberPacket();
             MessageNo = Utilities.GetMessageNumberPacket();
-            //_packetForm.OriginMsgNo = _packetForm.MessageNo;
             OriginMsgNo = _packetForm.MessageNo;
 
             DateTime now = DateTime.Now;
-            //_packetForm.MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
             MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
             //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-            //_packetForm.OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
             OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-            //_packetForm.OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
             OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {
@@ -683,7 +676,6 @@ namespace PacketMessagingTS.Helpers
                 stackPanel.Children.Insert(0, _packetAddressForm);
                 stackPanel.Children.Insert(1, _packetForm);
 
-                //_packetAddressForm.MessageSubject = $"{_packetForm.MessageNo}_R_";
                 _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
@@ -713,13 +705,6 @@ namespace PacketMessagingTS.Helpers
 
             if (!_loadMessage)
             {
-    //            _packetMessage = new PacketMessage()
-    //            {
-    //                FormProvider = _packetForm.FormProvider,
-    //                FormControlType = _packetForm.FormControlType,
-    //                MessageState = MessageState.None,
-    //            };
-
                 _packetForm.EventSubjectChanged += FormControl_SubjectChange;
                 if (_packetForm.FormHeaderControl != null)
                 {
@@ -819,19 +804,17 @@ namespace PacketMessagingTS.Helpers
                 // We must assign a new message number
                 if (_packetMessage.MessageState == MessageState.Locked)
                 {
-                    //_packetForm.MessageNo = Utilities.GetMessageNumberPacket();
                     MessageNo = Utilities.GetMessageNumberPacket();
-                    //_packetMessage.MessageNumber = _packetForm.MessageNo;
                     _packetMessage.MessageNumber = MessageNo;
+                    _packetMessage.MessageState = MessageState.Edit;
                 }
             }
             else
             {
                 CreatePacketMessage(MessageState.None);
-                //DateTime dateTime = DateTime.Now;                     // This and following line is in CreatePacketMessage()
-                //_packetMessage.CreateTime = DateTime.Now;
             }
 
+            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
             Utilities.MarkMessageNumberAsUsed();
 

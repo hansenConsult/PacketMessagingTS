@@ -136,8 +136,6 @@ namespace MedicalFacilityStatusFormControl
 
         public override string PacFormType => "XSC_MedicalCacilityStatus";
 
-        public override string PIFString => "PIF: 3.1";
-
         public string CardiologyService
         { get; set; }
 
@@ -164,15 +162,15 @@ namespace MedicalFacilityStatusFormControl
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
-            outpostData = new List<string>
+            _outpostData = new List<string>
             {
                 "!SCCoPIFO!",
                 "#T: form-medical-facility-status-v2.html",
                 $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
             };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
+            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(outpostData);
+            return CreateOutpostMessageBody(_outpostData);
         }
 
         protected override void UpdateRequiredFields(bool required)
