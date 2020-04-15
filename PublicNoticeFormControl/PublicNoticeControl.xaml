@@ -7,8 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
-    xmlns:src="using:FormUserControl"
-    
+        
     mc:Ignorable="d"
     d:DesignHeight="1056"
     d:DesignWidth="816">
@@ -18,6 +17,29 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="LabelFontSUI11B" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="MediumLabel" TargetType="TextBlock" BasedOn="{StaticResource LabelFontSUI11B}">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Margin" Value="0,0,8,0"/>
+            </Style>
+            <Style x:Key="NoticeTextBox" TargetType="TextBox">
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,2,2,2"/>
+                <!--<Setter Property="Padding" Value="0,0,2,0"/>-->
+            </Style>
+
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -25,8 +47,8 @@
         <Border  BorderBrush="Black" BorderThickness="1" Padding="15">
             <StackPanel>
                 <Grid x:Name="container" Opacity="0" />
-                <StackPanel x:Name="directPrintContainer">
-                    <Grid x:Name="printPage1">
+                <StackPanel x:Name="directPrintContainer"  >
+                    <Grid x:Name="printPage1" Visibility="{x:Bind PageVisibility, Mode=OneWay}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -126,17 +148,17 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0,12" TextWrapping="WrapWholeWords"
-                                Text="PUBLIC NOTICE GENERATOR" FontWeight="Bold"/>
-                            <TextBlock Grid.Row="1" HorizontalAlignment="Center">
->                            <Run >Originator:  press the "Publish" button below. to review what your message will look like.</Run>
-                                <LineBreak/>
-                                <Run>Recipient:    Press the "Publish" button, then Browser Print to print the notice for posting at your site.</Run>
-                                <LineBreak/>
-                                <Run>When you press the "Publish" button, a new window will appear with the formatted Notice that can then be printed.</Run>
-                            </TextBlock>
-                            <Button Grid.Row="2" Content="PUBLISH" HorizontalAlignment="Center" Margin="8"/>
+                                       Text="PUBLIC NOTICE GENERATOR" FontWeight="Bold"/>
+                            <RichTextBlock Grid.Row="1" HorizontalAlignment="Center" FontFamily="Courier" xml:space="preserve">
+                                <Paragraph >Originator: Press the "Publish" button below. to review what your message will look like.</Paragraph>
+                                <Paragraph >Recipient:  Press the "Publish" button, then Browser Print to print the notice for posting at your site.</Paragraph>
+                                <Paragraph >When you press the "Publish" button, a new window will appear with the formatted Notice that can then be printed.</Paragraph>
+                            </RichTextBlock>
+                            <Button Grid.Row="2" Content="PUBLISH" HorizontalAlignment="Center" Margin="8" 
+                                    BorderBrush="Black"
+                                    Click="PublishButton_Click"/>
                         </Grid>
-                        <Grid Grid.Row="3">
+                        <Grid Grid.Row="3" Margin="0,12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
@@ -146,42 +168,193 @@
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Notice Type:"/>
-                            <ComboBox Grid.Row="0" Grid.Column="1" IsEditable="True" PlaceholderText="Choose One">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Notice Type:" Style="{StaticResource MediumLabel}"/>
+                            <TextBox Grid.Row="0" Grid.Column="0" x:Name="textBoxNoticeType" Visibility="Collapsed" />
+                            <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxNoticeType" IsEditable="True" 
+                                      PlaceholderText="Choose One" Margin="0,2" 
+                                      SelectionChanged="ComboBoxNoticeType_SelectionChanged"
+                                      Tag="9">
                                 <ComboBoxItem Content="NOTICE"/>
                                 <ComboBoxItem Content="WARNING"/>
                                 <ComboBoxItem Content="ATTENTION"/>
                             </ComboBox>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Font Size (pt)"/>
-                            <TextBox Grid.Row="0" Grid.Column="3" />
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Topic:"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" />
-                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Font Size (pt)"/>
-                            <TextBox Grid.Row="1" Grid.Column="3" />
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Issued By:"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" />
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Effective Date:"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" />
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Expires:"/>
-                            <TextBox Grid.Row="4" Grid.Column="1" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Font Size (pt):" 
+                                       Style="{StaticResource MediumLabel}" Margin="8,0,0,0"/>
+                            <TextBox Grid.Row="0" Grid.Column="3" x:Name="typeFontSize" Width="64" 
+                                     Style="{StaticResource NoticeTextBox}" 
+                                     Text="{x:Bind TypeFontSize, Mode=TwoWay}" HorizontalAlignment="Left" Tag="11"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Topic:" Style="{StaticResource MediumLabel}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="topic" 
+                                     Style="{StaticResource NoticeTextBox}" 
+                                     Text="{x:Bind Topic, Mode=TwoWay}"
+                                     Tag="12"/>
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Font Size (pt):" Margin="8,0,8,0" Style="{StaticResource MediumLabel}"/>
+                            <TextBox Grid.Row="1" Grid.Column="3" x:Name="topicFontSize" Width="64" 
+                                     Text="{x:Bind TopicFontSize, Mode=TwoWay}" 
+                                     Style="{StaticResource NoticeTextBox}" HorizontalAlignment="Left" Tag="13"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Issued By:" Style="{StaticResource MediumLabel}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="issuedBy"
+                                     Style="{StaticResource NoticeTextBox}"
+                                     Text="{x:Bind IssuedBy, Mode=TwoWay}" Tag="14"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Effective Date:" Style="{StaticResource MediumLabel}"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" x:Name="effectiveDate" 
+                                     Style="{StaticResource NoticeTextBox}"
+                                     Text="{x:Bind EffectiveDate, Mode=TwoWay}" Tag="15"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Expires:" Style="{StaticResource MediumLabel}"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" x:Name="expires" 
+                                     Style="{StaticResource NoticeTextBox}"
+                                     Text="{x:Bind Expires, Mode=TwoWay}" Tag="16"/>
                         </Grid>
-                        <TextBlock Grid.Row="4" Text="Notice Details  (Note: Use a blank line to separate paragraphs):" 
-                                   Margin="4,15"/>
-                        <TextBox Grid.Row="5" x:Name="notice" TextWrapping="Wrap"  Height="300" Width="400" HorizontalAlignment="Left"/>
-                        <StackPanel Grid.Row="6" Orientation="Horizontal">
-                            <TextBlock Text="Signed:" Width="auto"/>
-                            <TextBox x:Name="signed" />
+                        <TextBlock Grid.Row="4" Margin="4,12,0,0" FontWeight="Bold" 
+                                   Text="Notice Details  (Note: Use a blank line to separate paragraphs):" 
+                                   />
+                        <TextBox Grid.Row="5" x:Name="notice" TextWrapping="Wrap"  
+                                 AcceptsReturn="True" Height="300" Width="540" 
+                                 HorizontalAlignment="Left" 
+                                 Text="{x:Bind Notice, Mode=TwoWay}" 
+                                 Tag="17">
+                        </TextBox>
+                        <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,12">
+                            <TextBlock Text="Signed:" Width="auto" Style="{StaticResource MediumLabel}"/>
+                            <TextBox x:Name="signed" MinWidth="300" Width="auto" Margin="8,0,0,0" 
+                                     Text="{x:Bind Signed, Mode=TwoWay}" Tag="18"/>
                         </StackPanel>
-                        <src:RadioOperatorUserControl Grid.Row="7" x:Name="radioOperatorControl"/>
+                        <StackPanel Grid.Row="7" x:Name="radioOperatorOnly">
+                            <Border BorderBrush="Black" BorderThickness="1,1,1,1" Background="LightGray" Height="32">
+                                <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
+                       Margin="8,0,0,0" FontWeight="Bold"/>
+                            </Border>
+                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                </Grid.RowDefinitions>
+                                <Border  BorderBrush="Black" BorderThickness="0,0,1,0" Background="LightGray" />
+                                <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" Margin="7,0,3,0" />
+                                <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" Margin="8,0,0,0" />
+                                <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
+                                             Margin="9,1,0,1" Tag="OpRelayRcvd" />
+                                <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" Margin="8,0,0,0"/>
+                                <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
+                                             Margin="9,1,2,1" Tag="OpRelaySent"  />
+                            </Grid>
+                            <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="0.3*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource MediumLabel}" 
+                                               Margin="8,0,7,0"  />
+                                <TextBox Grid.Column="1" Name="operatorName" 
+                                         Text="{x:Bind OperatorName}"
+                                         BorderBrush="White" 
+                                         VerticalContentAlignment="Center" Tag="24"  />
+                                <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource MediumLabel}" Margin="6,8,7,0" VerticalAlignment="Top" />
+                                <TextBox Grid.Column="3" Name="operatorCallsign" 
+                                         Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
+                                         BorderBrush="White" Tag="23" Grid.RowSpan="2"/>
+                                <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="6,0,7,0"  />
+                                <TextBox Grid.Column="5" Name="operatorDate" 
+                                             IsReadOnly="True"
+                                             Margin="1,0,1,0" BorderBrush="White" Tag="25" />
+                                <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" 
+                                           Margin="6,0,7,0"  />
+                                <TextBox Grid.Column="7" Name="operatorTime" 
+                                         IsReadOnly="True"
+                                         Margin="1,0,1,0" BorderBrush="White" Tag="26"  />
+                            </Grid>
+                        </StackPanel>
 
                     </Grid>
+                    <Grid x:Name="noticePage" Visibility="{x:Bind NoticeVisibility, Mode=OneWay}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <RichTextBlock Grid.Row="0" x:Name="TextSelection" 
+                                       HorizontalAlignment="Center"
+                                       FontFamily="Segoe UI" 
+                                       >
+                            <!--OverflowContentTarget="{Binding ElementName=FirstLinkedContainer}"-->
+                            <Paragraph FontSize="{x:Bind TypeFontSize, Mode=OneWay}">
+                                <Run Text="{x:Bind NoticeType, Mode=OneWay}" FontSize="{x:Bind TypeFontSize, Mode=OneWay}" 
+                                     FontWeight="Bold"/>
+                            </Paragraph>
+                        </RichTextBlock>
+                        <RichTextBlock Grid.Row="1" 
+                                       HorizontalAlignment="Center"
+                                       FontFamily="Segoe UI" >
+                        <Paragraph >
+                                <Run Text="{x:Bind Topic, Mode=OneWay}" FontSize="{x:Bind TopicFontSize, Mode=OneWay}" 
+                                     FontWeight="Bold"/>
+                            </Paragraph>
+                        </RichTextBlock>
+                        <RichTextBlock Grid.Row="2" FontFamily="Segoe UI" Margin="0,12">
+                        <Paragraph >
+                                <Run Text="Issued By:" FontSize="20" FontWeight="Bold"/>
+                                <Run Text="{x:Bind IssuedBy, Mode=OneWay}" FontSize="18"
+                                     FontWeight="Normal"/>
+                            </Paragraph>
+                        </RichTextBlock>
+                        <RichTextBlock Grid.Row="3" FontFamily="Segoe UI" Margin="0,12">
+                            <Paragraph>
+                                <Run Text="Effective Date:" FontSize="20" FontWeight="Bold"/>
+                                <Run Text="{x:Bind EffectiveDate, Mode=OneWay}"  FontSize="18" 
+                                     FontWeight="Normal"/>
+                            </Paragraph>
+                        </RichTextBlock>
+
+                        <RichTextBlock Grid.Row="4" FontFamily="Segoe UI" Margin="0,12">
+                            <Paragraph>
+                                <Run Text="Expires:" FontSize="20" FontWeight="Bold"/>
+                                <Run Text="{x:Bind Expires, Mode=OneWay}"  FontSize="18" 
+                                     FontWeight="Normal"/>
+                            </Paragraph>
+                        </RichTextBlock>
+
+                        <RichTextBlock Grid.Row="5" FontFamily="Segoe UI" Margin="0,12">
+                            <Paragraph>
+                                <Run Text="{x:Bind Notice, Mode=OneWay}"  FontSize="18" 
+                                     FontWeight="Normal"/>
+                            </Paragraph>
+                        </RichTextBlock>
+
+                        <RichTextBlock Grid.Row="6" FontFamily="Segoe UI">
+                            <Paragraph>
+                                <Run Text="Signed:" FontSize="20" FontWeight="Bold"/>
+                                <Run Text="{x:Bind Signed, Mode=OneWay}"  FontSize="18"
+                                     FontWeight="Normal"/>
+                            </Paragraph>
+                        </RichTextBlock>
+                    </Grid>
+
                 </StackPanel>
             </StackPanel>
         </Border>
-        <TextBlock Text="SCCo Public Notice Generator (PR-4.7-1.2, 02/27/20)" HorizontalAlignment="Center" />
+        <TextBlock Text="SCCo Public Notice Generator (PR-4.7-1.2, 02/27/20)" HorizontalAlignment="Center" Margin="0,12"
+                   Visibility="{x:Bind PageVisibility, Mode=OneWay}"/>
     </StackPanel>
 </MyBaseNamespace:FormControlBase>

@@ -317,7 +317,7 @@ namespace FormControlBaseClass
             set => Set(ref messageSentTime, value);
         }
 
-        public virtual FormControlAttribute.FormType FormControlType
+        public abstract FormControlAttribute.FormType FormControlType
         { get; }
 
         public abstract FormProviders FormProvider

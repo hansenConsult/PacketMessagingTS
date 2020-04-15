@@ -431,7 +431,7 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                MainViewModel.PacketMessageRightClicked = (e.OriginalSource as TextBlock).DataContext as PacketMessage;
+                MainViewModel.PacketMessageRightClicked = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
             }
             catch
             {

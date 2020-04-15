@@ -580,6 +580,7 @@ namespace PacketMessagingTS.Helpers
             string pivotItemName = pivotItem.Name;
 
             _packetAddressForm = new SendFormDataControl();
+            _formsViewModel.PacketAddressForm = _packetAddressForm;
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
