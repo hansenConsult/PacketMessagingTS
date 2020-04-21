@@ -13,6 +13,13 @@ namespace PacketMessagingTS.ViewModels
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings.md
     public class SettingsViewModel : BaseViewModel
     {
+        private int settingsPivotSelectedIndex;
+        public int SettingsPivotSelectedIndex
+        {
+            get => GetProperty(ref settingsPivotSelectedIndex);
+            set => SetProperty(ref settingsPivotSelectedIndex, value, true);
+        }
+
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
         public ElementTheme ElementTheme
         {
@@ -121,16 +128,119 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private string _selectedPrinter;
+        public string SelectedPrinter
+        {
+            get => GetProperty(ref _selectedPrinter);
+            set => SetProperty(ref _selectedPrinter, value, true);
+        }
+
+        private bool _printReceivedMessages;
+        public bool PrintReceivedMessages
+        {
+            get => GetProperty(ref _printReceivedMessages);
+            set => SetProperty(ref _printReceivedMessages, value, true);
+        }
+
+        private int _receivedCopyCount;
+        public int ReceivedCopyCount
+        {
+            get => GetProperty(ref _receivedCopyCount);
+            set
+            {
+                SetProperty(ref _receivedCopyCount, value, true);
+            }
+        }
+
+        private string _selectedReceiveDest1;
+        public string SelectedReceiveDest1
+        {
+            get => GetProperty(ref _selectedReceiveDest1);
+            set => SetProperty(ref _selectedReceiveDest1, value, true);
+        }
+
+        private string _selectedReceiveDest2;
+        public string SelectedReceiveDest2
+        {
+            get => GetProperty(ref _selectedReceiveDest2);
+            set => SetProperty(ref _selectedReceiveDest2, value, true);
+        }
+
+        private string _selectedReceiveDest3;
+        public string SelectedReceiveDest3
+        {
+            get => GetProperty(ref _selectedReceiveDest3);
+            set => SetProperty(ref _selectedReceiveDest3, value, true);
+        }
+
+        private string _selectedReceiveDest4;
+        public string SelectedReceiveDest4
+        {
+            get => GetProperty(ref _selectedReceiveDest4);
+            set => SetProperty(ref _selectedReceiveDest4, value, true);
+        }
+
+        public string[] ReceivePrintDestinations
+        {
+            get
+            {
+                string[] receivePrintDestinations = new string[]
+                {
+                    SelectedReceiveDest1,
+                    SelectedReceiveDest2,
+                    SelectedReceiveDest3,
+                    SelectedReceiveDest4
+                };
+                return receivePrintDestinations;
+            }
+        }
+
+        private bool _printSentMessages;
+        public bool PrintSentMessages
+        {
+            get => GetProperty(ref _printSentMessages);
+            set => SetProperty(ref _printSentMessages, value, true);
+        }
+
+        private int _sentCopyCount;
+        public int SentCopyCount
+        {
+            get => GetProperty(ref _sentCopyCount);
+            set => SetProperty(ref _sentCopyCount, value, true);
+        }
+
+        private string _selectedSentDest1;
+        public string SelectedSentDest1
+        {
+            get => GetProperty(ref _selectedSentDest1);
+            set => SetProperty(ref _selectedSentDest1, value, true);
+        }
+
+        private string _selectedSentDest2;
+        public string SelectedSentDest2
+        {
+            get => GetProperty(ref _selectedSentDest2);
+            set => SetProperty(ref _selectedSentDest2, value, true);
+        }
+
+        private string _selectedSentDest3;
+        public string SelectedSentDest3
+        {
+            get => GetProperty(ref _selectedSentDest3);
+            set => SetProperty(ref _selectedSentDest3, value, true);
+        }
+
+        private string _selectedSentDest4;
+        public string SelectedSentDest4
+        {
+            get => GetProperty(ref _selectedSentDest4);
+            set => SetProperty(ref _selectedSentDest4, value, true);
+        }
+
         public string DataPath
         {
             get => ApplicationData.Current.LocalFolder.Path.ToString();
         }
 
-        private int settingsPivotSelectedIndex;
-        public int SettingsPivotSelectedIndex
-        {
-            get => GetProperty(ref settingsPivotSelectedIndex);
-            set => SetProperty(ref settingsPivotSelectedIndex, value, true);
-        }
     }
 }

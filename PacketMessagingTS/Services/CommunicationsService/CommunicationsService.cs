@@ -20,6 +20,7 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Helpers.PrintHelpers;
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -478,10 +479,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     pktMsg.PacFormName = formControl.PacFormName;
                     pktMsg.FormControlType = formControl.FormControlType;
                     pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
-					if (pktMsg.ReceivedTime != null)
-					{
-						DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
-					}
+					//if (pktMsg.ReceivedTime != null)
+					//{
+					//	DateTime dateTime = (DateTime)pktMsg.ReceivedTime;
+					//}
 					if (!pktMsg.CreateFileName())
                     {
                         _logHelper.Log(LogLevel.Error, $"Error in Create FileName(), {pktMsg.MessageNumber}, {pktMsg.PacFormType}");
@@ -501,6 +502,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     if (!string.IsNullOrEmpty(pktMsg.Area))
                     {
                         updateBulletinList |= true;
+                    }
+
+                    // Do printing if requested
+                    if (!string.IsNullOrEmpty(pktMsg.Subject) && !pktMsg.Subject.Contains("DELIVERED:")
+                        && string.IsNullOrEmpty(pktMsg.Area) && Singleton<SettingsViewModel>.Instance.PrintReceivedMessages)
+                    {
+                        _logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} to be printed");
+
+                        pktMsg.Save(SharedData.PrintMessagesFolder.Path);
+
+                        SettingsViewModel settingsViewModel = Singleton<SettingsViewModel>.Instance;
+
+                        Singleton<PrintQueue>.Instance.AddToPrintQueue(pktMsg.FileName, settingsViewModel.ReceivePrintDestinations);
                     }
                 }
                 //RefreshDataGrid();      // Display newly added messages
@@ -833,7 +847,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     catch (Exception e)
                     {
                         _logHelper.Log(LogLevel.Error, $"Exception {e.Message}");
+                        continue;
                     }
+                    if (string.IsNullOrEmpty(packetMsg.Area) && Singleton<SettingsViewModel>.Instance.PrintSentMessages)
+                    {
+                        _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} to be printed");
+                    }
+
                 }
                 _packetMessagesReceived = _tncInterface.PacketMessagesReceived;
                 ProcessReceivedMessagesAsync();

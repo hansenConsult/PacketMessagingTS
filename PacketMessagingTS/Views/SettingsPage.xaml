@@ -8,10 +8,11 @@
     xmlns:models="using:PacketMessagingTS.Models"
     xmlns:vm="using:PacketMessagingTS.ViewModels"
     xmlns:helper="using:PacketMessagingTS.Helpers"
+    xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:xaml="using:Windows.UI.Xaml"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
-    d:DesignWidth="700" d:DesignHeight="850">
+    d:DesignWidth="816" d:DesignHeight="1056">
 
     <Page.Resources>
         <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
@@ -77,6 +78,17 @@
                            Margin="20,0,0,0" Toggled="ToggleSwitch_Toggled" />
             </Grid>
         </DataTemplate>
+        <Style x:Key="AlliedNumberTextBox" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="TextBox.FontWeight" Value="Bold"/>
+            <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
+            <!--<Setter Property="Height" Value="24"/>-->
+            <Setter Property="HorizontalTextAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
 
     </Page.Resources>
 
@@ -86,11 +98,11 @@
                SelectionChanged="SettingsPivot_SelectionChanged">
 
             <!--Settings-->
-            <PivotItem Header="Settings" >
+            <PivotItem x:Name="pivotSettings" Header="Settings" >
                 <StackPanel x:Name="ContentArea">
                     <TextBlock x:Uid="Settings_Personalization"
                                Style="{StaticResource SubtitleTextBlockStyle}" />
-                    <StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
+                    <!--<StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
                         <TextBlock x:Uid="Settings_Theme"
                                    Style="{StaticResource BodyTextStyle}" />
 
@@ -120,7 +132,7 @@
                                 </RadioButton.CommandParameter>
                             </RadioButton>
                         </StackPanel>
-                    </StackPanel>
+                    </StackPanel>-->
 
                     <StackPanel Margin="0, 0, 0, 0">
                         <TextBlock x:Name="bbsStatus" Margin="0,30,0,10" Style="{StaticResource TitleTextBlockStyle}"
@@ -157,6 +169,115 @@
                                       />
 
                     </StackPanel>
+
+                    <TextBlock Text="Print Settings" Style="{StaticResource TitleTextBlockStyle}" Margin="0,20,0,0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,12">
+                        <TextBlock Text="Select printer:"/>
+                        <ComboBox x:Name="selectedPrinter" Width="300"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedPrinter, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <TextBlock Text="Print Received Messages" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <Grid Margin="0,12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="68"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Grid.Column="0" x:Name="receivedPrint" Content="Print Received Messages"
+                                  IsChecked="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=TwoWay}"
+                                  Checked="Print_CheckedUnchecked"
+                                  Unchecked="Print_CheckedUnchecked"/>
+                        <TextBlock Grid.Column="1" Text="Number of copies"/>
+                        <TextBox Grid.Column="2" x:Name="receivedCopyCount"
+                                 Style="{StaticResource AlliedNumberTextBox}"
+                                 IsEnabled="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=OneWay}"
+                                 Text="{x:Bind _settingsViewModel.ReceivedCopyCount, Mode=TwoWay}" Margin="2,0,2,0"
+                                 TextChanged="CopyCount_TextChanged"/>
+                        <!--TextChanged="TextBox_IntegerChanged"-->
+                    </Grid>
+                    <Grid x:Name="receivedCopyDestinations">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Copy destination one"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="receivedDest1" IsEditable="True"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest1, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Copy destination two"/>
+                        <ComboBox Grid.Row="0" Grid.Column="3" x:Name="receivedDest2" IsEditable="True"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest2, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Copy three destination"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="receivedDest3" IsEditable="True"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest3, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Copy four destination"/>
+                        <ComboBox Grid.Row="1" Grid.Column="3" x:Name="receivedDest4" IsEditable="True"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest4, Mode=TwoWay}"/>
+                    </Grid>
+
+                    <TextBlock Text="Print Sent Messages" Margin="0,20,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <Grid Margin="0,12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="68"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Grid.Row="0" x:Name="sentPrint" Grid.Column="0" Content="Print Sent Messages"
+                                  IsChecked="{x:Bind _settingsViewModel.PrintSentMessages, Mode=TwoWay}"
+                                  Checked="Print_CheckedUnchecked"
+                                  Unchecked="Print_CheckedUnchecked"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Number of copies"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="sentCopyCount"
+                                 Style="{StaticResource AlliedNumberTextBox}"
+                                 IsEnabled="{x:Bind _settingsViewModel.PrintSentMessages, Mode=OneWay}"
+                                 Text="{x:Bind _settingsViewModel.SentCopyCount, Mode=TwoWay}"/>
+                    </Grid>
+                    <Grid x:Name="sentCopyDestinations">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Copy one destination"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="sentDest1" IsEditable="True"
+                                  IsEnabled="{x:Bind _settingsViewModel.PrintSentMessages, Mode=OneWay}"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest1, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Copy two destination"/>
+                        <ComboBox Grid.Row="0" Grid.Column="3" x:Name="sentDest2" IsEditable="True"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest2, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Copy three destination"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="sentDest3" IsEditable="True"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest3, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Copy four destination"/>
+                        <ComboBox Grid.Row="1" Grid.Column="3" x:Name="sentDest4" IsEditable="True"
+                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
+                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest4, Mode=TwoWay}"/>
+                    </Grid>
                     <TextBox Text="{x:Bind _settingsViewModel.DataPath, Mode=OneWay}" IsReadOnly="True" Margin="0,30"
                              Header="Data files path:"/>
                 </StackPanel>

@@ -33,15 +33,10 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
         }
 
-
-        protected override int GetFormsPagePivotSelectedIndex()
+        protected override int FormsPagePivotSelectedIndex
         {
-            return _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
-        }
-
-        protected override void SetFormsPagePivotSelectedIndex(int index)
-        {
-            _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = index;
+            get => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
+            set => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = value;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)

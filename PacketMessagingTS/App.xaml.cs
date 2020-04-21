@@ -88,6 +88,7 @@ namespace PacketMessagingTS
             SharedData.ReceivedMessagesFolder = await localFolder.CreateFolderAsync("ReceivedMessages", CreationCollisionOption.OpenIfExists);
             SharedData.SentMessagesFolder = await localFolder.CreateFolderAsync("SentMessages", CreationCollisionOption.OpenIfExists);
             SharedData.UnsentMessagesFolder = await localFolder.CreateFolderAsync("UnsentMessages", CreationCollisionOption.OpenIfExists);
+            SharedData.PrintMessagesFolder = await localFolder.CreateFolderAsync("PrintMessages", CreationCollisionOption.OpenIfExists);
 
             foreach (TacticalCallsignData tacticalCallsignType in TacticalCallsigns._TacticalCallsignDataList)
             {

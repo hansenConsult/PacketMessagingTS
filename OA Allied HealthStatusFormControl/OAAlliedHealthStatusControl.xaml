@@ -734,8 +734,9 @@
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Facility Status" 
                                        Style="{StaticResource AlliedHeaderTextBold}"/>
                             <MyNamespace:ToggleButtonGroup x:Name="facilityStatus" 
-                                                       CheckedControlName ="{x:Bind FacilityStatus, Mode=TwoWay}" 
+                                                       
                                                        Tag="35.,conditionallyrequired,Select Facility Status"/>
+                            <!--CheckedControlName ="{x:Bind FacilityStatus, Mode=TwoWay}"-->
                             <Border Grid.Column="0" Grid.Row="4" BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,2,0,2"/>
                             <RadioButton Grid.Column="0"  Grid.Row="4" x:Name="facilityStatusGreen" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
                                      Content="Green - Fully Functional" Tag="Fully Functional" />
@@ -797,8 +798,9 @@
                                 <TextBlock Grid.Column="0" Text="NHICS/ICS Organization Chart" 
                                        Style="{StaticResource AlliedHeaderText}" />
                                 <MyNamespace:ToggleButtonGroup x:Name="nhicsChart" 
-                                                               CheckedControlName ="{x:Bind NhicsChart, Mode=TwoWay}" 
+                                                               
                                                                Tag="26a."/>
+                                <!--CheckedControlName ="{x:Bind NhicsChart, Mode=TwoWay}"-->
                                 <RadioButton Grid.Column="1" x:Name="nhicsChartYes" Content="Yes"
                                          GroupName="nhicsChart"
                                          HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 

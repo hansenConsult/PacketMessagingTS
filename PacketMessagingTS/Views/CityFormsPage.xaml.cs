@@ -32,20 +32,10 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
         }
 
-        //protected override int FormsPagePivotSelectedIndex
-        //{
-        //    get => _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
-        //    set => _cityFormsViewModel.CityFormsPagePivotSelectedIndex = value;
-        //}
-
-        protected override int GetFormsPagePivotSelectedIndex()
+        protected override int FormsPagePivotSelectedIndex
         {
-            return _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
-        }
-
-        protected override void SetFormsPagePivotSelectedIndex(int index)
-        {
-            _cityFormsViewModel.CityFormsPagePivotSelectedIndex = index;
+            get => _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
+            set => _cityFormsViewModel.CityFormsPagePivotSelectedIndex = value;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)

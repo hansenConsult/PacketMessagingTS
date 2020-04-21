@@ -29,6 +29,8 @@ namespace PacketMessagingTS.Helpers
 
         public static StorageFolder MetroLogsFolder;
 
+        public static StorageFolder PrintMessagesFolder;
+
         public static ApplicationDataContainer SettingsContainer;
 
         public static IReadOnlyList<StorageFile> FilesInInstalledLocation;

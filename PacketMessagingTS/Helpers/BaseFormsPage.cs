@@ -340,12 +340,8 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        //protected abstract int FormsPagePivotSelectedIndex
-        //{ get; set; }
-
-        protected abstract int GetFormsPagePivotSelectedIndex();
-
-        protected abstract void SetFormsPagePivotSelectedIndex(int index);
+        protected abstract int FormsPagePivotSelectedIndex
+        { get; set; }
 
         protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
 
@@ -428,7 +424,6 @@ namespace PacketMessagingTS.Helpers
                 _packetForm.ReceivedOrSent = "Receiver";
                 if (_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                 {
-                    //_packetForm.MessageNo = _packetMessage.MessageNumber;
                     MessageNo = _packetMessage.MessageNumber;
                     _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
                 }
@@ -519,7 +514,8 @@ namespace PacketMessagingTS.Helpers
             if (e.Parameter is null)
             {
                 // Open last used empty form
-                _formsPagePivot.SelectedIndex = GetFormsPagePivotSelectedIndex();
+                //_formsPagePivot.SelectedIndex = GetFormsPagePivotSelectedIndex();
+                _formsPagePivot.SelectedIndex = FormsPagePivotSelectedIndex;
                 _packetMessage = null;
                 return;
             }
@@ -569,7 +565,8 @@ namespace PacketMessagingTS.Helpers
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            SetFormsPagePivotSelectedIndex(_formsPagePivot.SelectedIndex);
+            //SetFormsPagePivotSelectedIndex(_formsPagePivot.SelectedIndex);
+            FormsPagePivotSelectedIndex = _formsPagePivot.SelectedIndex;
 
             base.OnNavigatedFrom(e);
         }
@@ -580,7 +577,6 @@ namespace PacketMessagingTS.Helpers
             string pivotItemName = pivotItem.Name;
 
             _packetAddressForm = new SendFormDataControl();
-            _formsViewModel.PacketAddressForm = _packetAddressForm;
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
@@ -663,10 +659,8 @@ namespace PacketMessagingTS.Helpers
             _formsViewModel.PacketForm = _packetForm;
 
             _packetForm.FormPacketMessage = _packetMessage;
-//            _packetForm.UpdateFormFieldsRequiredColors(!_loadMessage);
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
-
 
             StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
@@ -681,6 +675,31 @@ namespace PacketMessagingTS.Helpers
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     _packetAddressForm.MessageSubject += practiceSubject;
+                }
+                else if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.Name == "Check-In"
+                    || Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.Name == "Check-Out")
+                {
+                    string chechInOut;
+                    if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.Name == "Check-In")
+                        chechInOut = "Check-In";
+                    else
+                        chechInOut = "Check-Out";
+                    string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+                    string userName = Singleton<IdentityViewModel>.Instance.UserName;
+                    if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+                    {
+                        string tacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+                        string tacticalAgencyName = Singleton<IdentityViewModel>.Instance.TacticalAgencyName;
+                        string messageSubject = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName}";
+                        _packetAddressForm.MessageSubject += messageSubject;
+                        _packetForm.MessageBody = $"{chechInOut} { tacticalCallsign}, {tacticalAgencyName} \r\nPresent are:\r\n{userCallsign}, {userName}\r\n";
+                    }
+                    else
+                    {
+                        string messageSubject = $"{chechInOut} {userCallsign}, {userName}";
+                        _packetAddressForm.MessageSubject += messageSubject;
+                        _packetForm.MessageBody = $"{chechInOut} {userCallsign}, {userName} \r\n";
+                    }
                 }
                 _packetForm.MessageReceivedTime = DateTime.Now;
                 switch (_messageOrigin)
@@ -757,9 +776,8 @@ namespace PacketMessagingTS.Helpers
                 _loadMessage = false;
             }
 
-            //_formsViewModel.FormsPagePivotSelectedIndex = formsPagePivot.SelectedIndex;
-
-            SetFormsPagePivotSelectedIndex(((Pivot)sender).SelectedIndex);
+            //SetFormsPagePivotSelectedIndex(((Pivot)sender).SelectedIndex);
+            FormsPagePivotSelectedIndex = ((Pivot)sender).SelectedIndex;
         }
 
         public async void AppBarClearForm_ClickAsync(object sender, RoutedEventArgs e)

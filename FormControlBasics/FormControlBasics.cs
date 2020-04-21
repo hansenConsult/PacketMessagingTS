@@ -143,7 +143,7 @@ namespace FormControlBasicsNamespace
                 else if (control is ComboBox comboBox)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    //formControl.BaseBorderColor = WhiteBrush;
+                    formControl.BaseBorderColor = comboBox.BorderBrush;
                     _formControlsList.Add(formControl);
                 }
                 else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
@@ -199,7 +199,7 @@ namespace FormControlBasicsNamespace
                 return "";
 
             string[] tags = tag.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (tags.Length == 2 && tags[0] == "required")
+            if (tags.Length == 2 && (tags[0] == "required" || tags[0] == "conditionallyrequired"))
             {
                 return tags[1];
             }

@@ -80,11 +80,11 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
 
-        public string FacilityStatus
-        { get; set; }
+        //public string FacilityStatus
+        //{ get; set; }
 
-        public string NhicsChart
-        { get; set; }
+        //public string NhicsChart
+        //{ get; set; }
 
         public string ResReqForms
         { get; set; }
@@ -99,7 +99,6 @@ namespace OAAlliedHealthStatus201802FormControl
         { get; set; }
 
 
-        //private string _facilityName;
         //public override string FacilityName
         //{
         //    get => GetProperty(ref _facilityName);
@@ -240,7 +239,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
-            bool found1 = false, found2 = false;
+            bool found1 = false;
             foreach (FormField formField in formFields)
             {
                 FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);

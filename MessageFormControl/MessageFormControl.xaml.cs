@@ -158,6 +158,13 @@ namespace MessageFormControl
             }
         }
 
+        private string _messageBody;
+        public override string MessageBody
+        {
+            get => _messageBody;
+            set => Set(ref _messageBody, value);
+        }
+
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
 
         public override FormProviders FormProvider => FormProviders.PacForm;
@@ -336,6 +343,12 @@ namespace MessageFormControl
         }
 
 		public override string CreateSubject() => null;
+
+        //protected override void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+
+        //    base.TextBox_TextChanged(sender, e);
+        //}
 
     }
 }

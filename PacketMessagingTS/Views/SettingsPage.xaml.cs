@@ -15,10 +15,11 @@ using PacketMessagingTS.ViewModels;
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Models;
-
+using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
 
 namespace PacketMessagingTS.Views
@@ -45,6 +46,14 @@ namespace PacketMessagingTS.Views
         // TNC settings
         //int _deletedIndex;
         //int _modifiedEmailAccountSelectedIndex;
+        string[] CopyDestinations = new string[]
+        {
+            "Radio Room",
+            "Magement",
+            "Operations",
+            "Planning",
+            "Finance",
+        };
 
 
         public SettingsPage()
@@ -81,9 +90,17 @@ namespace PacketMessagingTS.Views
             distributionListItems.IsReadOnly = true;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             _settingsViewModel.Initialize();
+
+            var deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{0ecef634-6ef0-472a-8085-5ad023ecbccd}\"");
+            ObservableCollection<string> printers = new ObservableCollection<string>();
+            foreach (DeviceInformation deviceInformation in deviceCollection)
+            {
+                printers.Add(deviceInformation.Name);
+            }
+            selectedPrinter.ItemsSource = printers;
 
             if (e.Parameter is null)
             {
@@ -115,10 +132,60 @@ namespace PacketMessagingTS.Views
 
             base.OnNavigatingFrom(e);
         }
+
+        private async void GetPrinters()
+        {
+            //private DeviceInformationCollection deviceCollection;
+            //deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{0ecef634-6ef0-472a-8085-5ad023ecbccd}\"");
+            var deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{0ecef634-6ef0-472a-8085-5ad023ecbccd}\"");
+        }
+
+        private void EnableCopyTo(string sentReceived)
+        {
+            CheckBox checkBox = pivotSettings.FindName($"{sentReceived}Print") as CheckBox;
+
+            TextBox receivedSentCount = pivotSettings.FindName($"{sentReceived}CopyCount") as TextBox;
+            int copyCount;
+            if (string.IsNullOrEmpty(receivedSentCount.Text))
+                copyCount = 0;
+            else
+                copyCount = Convert.ToInt32(receivedSentCount.Text);
+
+            string[] copyDestinations = new string[copyCount + 1];
+            Grid grid = pivotSettings.FindName($"{sentReceived}CopyDestinations") as Grid;
+            string baseName = $"{sentReceived}Dest";
+            for (int i = 1; i <= 4; i++)
+            {
+                string comboBoxName = baseName + i.ToString();
+                ComboBox comboBox = grid.FindName(comboBoxName) as ComboBox;
+                if (comboBox == null)
+                    continue;
+
+                if ((bool)checkBox.IsChecked && i <= copyCount)
+                {
+                    comboBox.IsEnabled = true;
+                    copyDestinations[i] = comboBox.SelectedItem as string;
+                }
+                else
+                {
+                    comboBox.IsEnabled = false;
+                }
+            }
+            if (checkBox?.IsChecked == null || !(bool)checkBox.IsChecked)
+            {
+                return;
+            }
+        }
+
+
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch ((SettingsPivot.SelectedItem as PivotItem).Name)
             {
+                case "pivotSettings":
+                    EnableCopyTo("received");
+                    EnableCopyTo("sent");
+                    break;
                 case "pivotTNC":
                     // Select current TNC device
                     _TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
@@ -148,6 +215,32 @@ namespace PacketMessagingTS.Views
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
         }
+        private void CopyCount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string senderName = (sender as TextBox).Name;
+            if (senderName.Contains("received"))
+            {
+                EnableCopyTo("received");
+            }
+            else if (senderName.Contains("sent"))
+            {
+                EnableCopyTo("sent");
+            }
+        }
+
+        private void Print_CheckedUnchecked(object sender, RoutedEventArgs e)
+        {
+            string senderName = (sender as CheckBox).Name;
+            if (senderName.Contains("received"))
+            {
+                EnableCopyTo("received");
+            }
+            else if (senderName.Contains("sent"))
+            {
+                EnableCopyTo("sent");
+            }
+        }
+
         #region General
         //private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
         //{

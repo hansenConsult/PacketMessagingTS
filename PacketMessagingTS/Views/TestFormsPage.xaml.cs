@@ -36,14 +36,10 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
         }
 
-        protected override int GetFormsPagePivotSelectedIndex()
+        protected override int FormsPagePivotSelectedIndex
         {
-            return TestFormsViewModel.TestFormsPagePivotSelectedIndex;
-        }
-
-        protected override void SetFormsPagePivotSelectedIndex(int index)
-        {
-            TestFormsViewModel.TestFormsPagePivotSelectedIndex = index;
+            get => TestFormsViewModel.TestFormsPagePivotSelectedIndex;
+            set => TestFormsViewModel.TestFormsPagePivotSelectedIndex = value;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)
