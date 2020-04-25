@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PrintConfig PrinterName="printerName">
+  <ReceivedSentSettings ReceivedPrint="true" Print="true" copyCount="4" >
+    <CopyDestinations Destination="Destination1"/>
+    <CopyDestinations Destination="Destination2"/>
+    <CopyDestinations Destination="Destination3"/>
+    <CopyDestinations Destination="Destination4"/>
+  </ReceivedSentSettings>
+  <ReceivedSentSettings ReceivedPrint="false" Print="false" copyCount="2" >
+    <CopyDestinations Destination="Destination1"/>
+    <CopyDestinations Destination="Destination2"/>
+  </ReceivedSentSettings>
+</PrintConfig>

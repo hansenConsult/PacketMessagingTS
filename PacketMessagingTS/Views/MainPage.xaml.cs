@@ -86,6 +86,10 @@ namespace PacketMessagingTS.Views
                         item.Tag = SharedData.DeletedMessagesFolder;
                         sortDirection = null;   // No default sorting
                         break;
+                    case "pivotItemPrint":
+                        item.Tag = SharedData.PrintMessagesFolder;
+                        sortDirection = null;   // No default sorting
+                        break;
                 }
                 bool success = DataGridSortData.DataGridSortDataDictionary.TryAdd(item.Name, new DataGridSortData(item.Name, sortColumn, sortDirection));
             }

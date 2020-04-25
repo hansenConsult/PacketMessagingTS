@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -30,10 +28,17 @@ namespace PacketMessagingTS.Services
 
         public CoreDispatcher MainDispatcher { get; private set; }
 
-        public void Initialize()
+        //public void Initialize()
+        public async Task InitializeAsync()
         {
-            MainViewId = ApplicationView.GetForCurrentView().Id;
-            MainDispatcher = Window.Current.Dispatcher;
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                MainViewId = ApplicationView.GetForCurrentView().Id;
+                MainDispatcher = Window.Current.Dispatcher;
+            });
+
+            //MainViewId = ApplicationView.GetForCurrentView().Id;
+            //MainDispatcher = Window.Current.Dispatcher;
         }
 
         // Displays a view as a standalone
@@ -73,20 +78,13 @@ namespace PacketMessagingTS.Services
             {
                 viewControl = ViewLifetimeControl.CreateForCurrentView();
                 viewControl.Title = windowTitle;
-                //viewControl.Height = 600;
-                //viewControl.Width = 500;
                 viewControl.StartViewInUse();
                 var frame = new Frame();
                 frame.RequestedTheme = ThemeSelectorService.Theme;
                 frame.Navigate(pageType, viewControl);
-                //Rect rect = Window.Current.CoreWindow.Bounds
                 Window.Current.Content = frame;
-                //Window.Current.Bounds = new Windows.Foundation.Rect(500,60,400,500);
-                //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
                 Window.Current.Activate();
-                //ApplicationView.GetForCurrentView().Title = "";
                 ApplicationView.GetForCurrentView().Title = viewControl.Title;
-                //bool success = ApplicationView.GetForCurrentView().TryResizeView(viewControlSize);
             });
 
             return viewControl;

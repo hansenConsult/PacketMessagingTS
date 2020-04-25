@@ -20,13 +20,13 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref settingsPivotSelectedIndex, value, true);
         }
 
-        private ElementTheme _elementTheme = ThemeSelectorService.Theme;
-        public ElementTheme ElementTheme
-        {
-            get { return _elementTheme; }
+        //private ElementTheme _elementTheme = ThemeSelectorService.Theme;
+        //public ElementTheme ElementTheme
+        //{
+        //    get { return _elementTheme; }
 
-            set { SetProperty(ref _elementTheme, value); }
-        }
+        //    set { SetProperty(ref _elementTheme, value); }
+        //}
 
         private string _versionDescription;
         public string VersionDescription
@@ -36,43 +36,43 @@ namespace PacketMessagingTS.ViewModels
             set { SetProperty(ref _versionDescription, value); }
         }
 
-        private ICommand _switchThemeCommand;
-        public ICommand SwitchThemeCommand
-        {
-            get
-            {
-                if (_switchThemeCommand is null)
-                {
-                    _switchThemeCommand = new RelayCommand<ElementTheme>(
-                        async (param) =>
-                        {
-                            ElementTheme = param;
-                            await ThemeSelectorService.SetThemeAsync(param);
-                        });
-                }
+        //private ICommand _switchThemeCommand;
+        //public ICommand SwitchThemeCommand
+        //{
+        //    get
+        //    {
+        //        if (_switchThemeCommand is null)
+        //        {
+        //            _switchThemeCommand = new RelayCommand<ElementTheme>(
+        //                async (param) =>
+        //                {
+        //                    ElementTheme = param;
+        //                    await ThemeSelectorService.SetThemeAsync(param);
+        //                });
+        //        }
 
-                return _switchThemeCommand;
-            }
-        }
+        //        return _switchThemeCommand;
+        //    }
+        //}
 
         public SettingsViewModel()
         {
         }
 
-        public void Initialize()
-        {
-            VersionDescription = GetVersionDescription();
-        }
+        //public void Initialize()
+        //{
+        //    VersionDescription = GetVersionDescription();
+        //}
 
-        private string GetVersionDescription()
-        {
-            var appName = "AppDisplayName".GetLocalized();
-            var package = Package.Current;
-            var packageId = package.Id;
-            var version = packageId.Version;
+        //private string GetVersionDescription()
+        //{
+        //    var appName = "AppDisplayName".GetLocalized();
+        //    var package = Package.Current;
+        //    var packageId = package.Id;
+        //    var version = packageId.Version;
 
-            return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-        }
+        //    return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        //}
 
         private bool w1XSCStatusUp = true;
         public bool W1XSCStatusUp
@@ -184,13 +184,19 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                string[] receivePrintDestinations = new string[]
+                string[] receivePrintDestinations = new string[ReceivedCopyCount];
+                for (int i = 0; i < ReceivedCopyCount; i++)
                 {
-                    SelectedReceiveDest1,
-                    SelectedReceiveDest2,
-                    SelectedReceiveDest3,
-                    SelectedReceiveDest4
-                };
+                    if (i == 0)
+                        receivePrintDestinations[i] = SelectedReceiveDest1;
+                    if (i == 1)
+                        receivePrintDestinations[i] = SelectedReceiveDest2;
+                    if (i == 2)
+                        receivePrintDestinations[i] = SelectedReceiveDest3;
+                    if (i == 3)
+                        receivePrintDestinations[i] = SelectedReceiveDest4;
+                }
+
                 return receivePrintDestinations;
             }
         }
@@ -235,6 +241,26 @@ namespace PacketMessagingTS.ViewModels
         {
             get => GetProperty(ref _selectedSentDest4);
             set => SetProperty(ref _selectedSentDest4, value, true);
+        }
+
+        public string[] SentPrintDestinations
+        {
+            get
+            {
+                string[] sentPrintDestinations = new string[SentCopyCount];
+                for (int i = 0; i < SentCopyCount; i++)
+                {
+                    if (i == 0)
+                        sentPrintDestinations[i] = SelectedSentDest1;
+                    if (i == 1)
+                        sentPrintDestinations[i] = SelectedSentDest2;
+                    if (i == 2)
+                        sentPrintDestinations[i] = SelectedSentDest3;
+                    if (i == 3)
+                        sentPrintDestinations[i] = SelectedSentDest4;
+                }
+                return sentPrintDestinations;
+            }
         }
 
         public string DataPath

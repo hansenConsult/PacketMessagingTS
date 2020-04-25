@@ -92,7 +92,7 @@ namespace PacketMessagingTS.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            _settingsViewModel.Initialize();
+            //_settingsViewModel.Initialize();
 
             var deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{0ecef634-6ef0-472a-8085-5ad023ecbccd}\"");
             ObservableCollection<string> printers = new ObservableCollection<string>();
@@ -104,6 +104,7 @@ namespace PacketMessagingTS.Views
 
             if (e.Parameter is null)
             {
+                SettingsPivot.SelectedIndex = _settingsViewModel.SettingsPivotSelectedIndex;
                 return;
             }
             else
@@ -129,6 +130,8 @@ namespace PacketMessagingTS.Views
                 _PacketSettingsViewmodel.IsAppBarSaveEnabled = false;
                 //_PacketSettingsViewmodel.ResetChangedProperty();
             }
+
+            _settingsViewModel.SettingsPivotSelectedIndex = SettingsPivot.SelectedIndex;
 
             base.OnNavigatingFrom(e);
         }

@@ -327,4 +327,7 @@
     <value>City Forms</value>
     <comment>Navigation view item name for City Forms</comment>
   </data>
+  <data name="Main_PrintItems.Header" xml:space="preserve">
+    <value>Print</value>
+  </data>
 </root>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SharedCode.Helpers
+namespace PacketMessagingTS.Core.Helpers
 {
     public static class TaskExtensions
     {

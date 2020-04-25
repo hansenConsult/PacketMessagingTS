@@ -7,7 +7,8 @@ using MetroLog;
 
 using PacketMessagingTS.Activation;
 using PacketMessagingTS.BackgroundTasks;
-using PacketMessagingTS.Helpers;
+
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Services.CommunicationsService;
 
 using SharedCode;
@@ -17,76 +18,77 @@ using Windows.ApplicationModel.Background;
 
 namespace PacketMessagingTS.Services
 {
-    //internal class BackgroundTaskService : ActivationHandler<BackgroundActivatedEventArgs>
-    //{
-    //    protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundTaskService>();
-    //    private static LogHelper _logHelper = new LogHelper(log);
+    internal class BackgroundTaskService : ActivationHandler<BackgroundActivatedEventArgs>
+    {
+        protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundTaskService>();
+        private static LogHelper _logHelper = new LogHelper(log);
 
-    //    //public static IEnumerable<BackgroundTasks.IBackgroundTask> BackgroundTasks => BackgroundTaskInstances.Value;
+        public static IEnumerable<BackgroundTask> BackgroundTasks => BackgroundTaskInstances.Value;
 
-    //    //private static readonly Lazy<IEnumerable<BackgroundTasks.IBackgroundTask>> BackgroundTaskInstances =
-    //    //    new Lazy<IEnumerable<BackgroundTasks.IBackgroundTask>>(() => CreateInstances());
+        private static readonly Lazy<IEnumerable<BackgroundTask>> BackgroundTaskInstances =
+            new Lazy<IEnumerable<BackgroundTask>>(() => CreateInstances());
 
-    //    //public async Task RegisterBackgroundTasksAsync()
-    //    //{
-    //    //    BackgroundExecutionManager.RemoveAccess();
-    //    //    var result = await BackgroundExecutionManager.RequestAccessAsync();
+        public async Task RegisterBackgroundTasksAsync()
+        {
+            BackgroundExecutionManager.RemoveAccess();
+            var result = await BackgroundExecutionManager.RequestAccessAsync();
 
-    //    //    if (result == BackgroundAccessStatus.DeniedBySystemPolicy
-    //    //        || result == BackgroundAccessStatus.DeniedByUser)
-    //    //    {
-    //    //        _logHelper.Log(LogLevel.Error, "Background Access status was denied.");
-    //    //        return;
-    //    //    }
+            if (result == BackgroundAccessStatus.DeniedBySystemPolicy
+                || result == BackgroundAccessStatus.DeniedByUser)
+            {
+                _logHelper.Log(LogLevel.Error, "Background Access status was denied.");
+                return;
+            }
 
-    //    //    foreach (BackgroundTasks.IBackgroundTask task in BackgroundTasks)
-    //    //    {
-    //    //        task.Register();
-    //    //    }
-    //    //}
+            foreach (var task in BackgroundTasks)
+            {
+                task.Register();
+            }
+        }
 
-    //    public static BackgroundTaskRegistration GetBackgroundTasksRegistration<T>()
-    //        where T : BackgroundTasks.IBackgroundTask
-    //    {
-    //        if (!BackgroundTaskRegistration.AllTasks.Any(t => t.Value.Name == typeof(T).Name))
-    //        {
-    //            // This condition should not be met. If it is it means the background task was not registered correctly.
-    //            // Please check CreateInstances to see if the background task was properly added to the BackgroundTasks property.
-    //            _logHelper.Log(LogLevel.Error, "Background task was not added in CreateInstance().");
-    //            return null;
-    //        }
+        public static BackgroundTaskRegistration GetBackgroundTasksRegistration<T>()
+            where T : BackgroundTasks.BackgroundTask
+        {
+            if (!BackgroundTaskRegistration.AllTasks.Any(t => t.Value.Name == typeof(T).Name))
+            {
+                // This condition should not be met. If it is it means the background task was not registered correctly.
+                // Please check CreateInstances to see if the background task was properly added to the BackgroundTasks property.
+                _logHelper.Log(LogLevel.Error, "Background task was not added in CreateInstance().");
+                return null;
+            }
 
-    //        return (BackgroundTaskRegistration)BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == typeof(T).Name).Value;
-    //    }
+            return (BackgroundTaskRegistration)BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == typeof(T).Name).Value;
+        }
 
-    //    //public void Start(IBackgroundTaskInstance taskInstance)
-    //    //{
-    //    //    var task = BackgroundTasks.FirstOrDefault(b => b.Match(taskInstance?.Task?.Name));
+        public void Start(IBackgroundTaskInstance taskInstance)
+        {
+            var task = BackgroundTasks.FirstOrDefault(b => b.Match(taskInstance?.Task?.Name));
 
-    //    //    if (task is null)
-    //    //    {
-    //    //        // This condition should not be met. It is it it means the background task to start was not found in the background tasks managed by this service.
-    //    //        // Please check CreateInstances to see if the background task was properly added to the BackgroundTasks property.
-    //    //        _logHelper.Log(LogLevel.Error, "Background task was not added in CreateInstance().");
-    //    //        return;
-    //    //    }
+            if (task is null)
+            {
+                // This condition should not be met. It is it it means the background task to start was not found in the background tasks managed by this service.
+                // Please check CreateInstances to see if the background task was properly added to the BackgroundTasks property.
+                _logHelper.Log(LogLevel.Error, "Background task was not added in CreateInstance().");
+                return;
+            }
 
-    //    //    task.RunAsync(taskInstance).FireAndForget();
-    //    //}
+            task.RunAsync(taskInstance).FireAndForget();
+        }
 
-    //    //protected override async Task HandleInternalAsync(BackgroundActivatedEventArgs args)
-    //    //{
-    //    //    Start(args.TaskInstance);
+        protected override async Task HandleInternalAsync(BackgroundActivatedEventArgs args)
+        {
+            Start(args.TaskInstance);
 
-    //    //    await Task.CompletedTask;
-    //    //}
+            await Task.CompletedTask;
+        }
 
-    //    //private static IEnumerable<BackgroundTasks.IBackgroundTask> CreateInstances()
-    //    //{
-    //    //    var backgroundTasks = new List<BackgroundTasks.IBackgroundTask>();
+        private static IEnumerable<BackgroundTask> CreateInstances()
+        {
+            var backgroundTasks = new List<BackgroundTask>();
 
-    //    //    backgroundTasks.Add(new RxTxBackgroundTask());
-    //    //    return backgroundTasks;
-    //    //}
-    //}
+            backgroundTasks.Add(new BackgroundPrinting());
+            //backgroundTasks.Add(new BackgroundTask1());
+            return backgroundTasks;
+        }
+    }
 }

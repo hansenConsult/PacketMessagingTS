@@ -369,5 +369,15 @@ namespace PacketMessagingTS.ViewModels
             RefreshDataGridAsync();
         }
 
+        private ICommand _PrintFromContextMenuCommand;
+        public ICommand PrintFromContextMenuCommand => _PrintFromContextMenuCommand ?? (_PrintFromContextMenuCommand = new RelayCommand(PrintFromContextMenu));
+        public async void PrintFromContextMenu()
+        {
+            StorageFolder folder = MainPagePivotSelectedItem.Tag as StorageFolder;
+
+            var file = await folder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+            //await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+        }
+
     }
 }

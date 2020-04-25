@@ -1,26 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-
 using MetroLog;
-
+using Microsoft.Toolkit.Helpers;
+using PacketMessagingTS.Helpers.PrintHelpers;
 using SharedCode;
-
 using Windows.ApplicationModel.Background;
 using Windows.System.Threading;
 
 namespace PacketMessagingTS.BackgroundTasks
 {
-    public sealed class BackgroundTask1 : BackgroundTask
+    public sealed class BackgroundPrinting : BackgroundTask
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundTask1>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundPrinting>();
         private static LogHelper _logHelper = new LogHelper(log);
-
-        public static string Message { get; set; }
 
         private volatile bool _cancelRequested = false;
         private IBackgroundTaskInstance _taskInstance;
         private BackgroundTaskDeferral _deferral;
+
+
+        //private ApplicationTrigger _backgroundPrintingTrigger;
+        //public ApplicationTrigger BackgroundPrintingTrigger
+        //{
+        //    get
+        //    {
+        //        if (_backgroundPrintingTrigger == null)
+        //        {
+        //            _backgroundPrintingTrigger = new ApplicationTrigger();
+        //        }
+        //        return _backgroundPrintingTrigger;
+        //    }
+        //}
 
         public override void Register()
         {
@@ -28,6 +41,7 @@ namespace PacketMessagingTS.BackgroundTasks
             var taskRegistration = BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == taskName).Value;
 
             if (taskRegistration == null)
+            //if (!_isRegistrared)
             {
                 var builder = new BackgroundTaskBuilder()
                 {
@@ -36,10 +50,11 @@ namespace PacketMessagingTS.BackgroundTasks
 
                 // TODO WTS: Define the trigger for your background task and set any (optional) conditions
                 // More details at https://docs.microsoft.com/windows/uwp/launch-resume/create-and-register-an-inproc-background-task
-                builder.SetTrigger(new TimeTrigger(15, false));
+                builder.SetTrigger(Singleton<PrintQueue>.Instance.BackgroundPrintingTrigger);
                 builder.AddCondition(new SystemCondition(SystemConditionType.UserPresent));
 
                 builder.Register();
+                //_isRegistrared = true;
             }
         }
 
@@ -52,7 +67,7 @@ namespace PacketMessagingTS.BackgroundTasks
 
             _deferral = taskInstance.GetDeferral();
 
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
                 //// TODO WTS: Insert the code that should be executed in the background task here.
                 //// This sample initializes a timer that counts to 100 in steps of 10.  It updates Message each time.
@@ -69,7 +84,12 @@ namespace PacketMessagingTS.BackgroundTasks
                 _logHelper.Log(LogLevel.Info, "Entered background task");
 
                 _taskInstance = taskInstance;
-                ThreadPoolTimer.CreatePeriodicTimer(new TimerElapsedHandler(SampleTimerCallback), TimeSpan.FromSeconds(1));
+
+                //Singleton<PrintQueue>.Instance.RestorePrintQueue();
+
+                await Singleton<PrintQueue>.Instance.PrintToDestinationsAsync();
+
+                _deferral?.Complete();
             });
         }
 
@@ -86,7 +106,7 @@ namespace PacketMessagingTS.BackgroundTasks
             if ((_cancelRequested == false) && (_taskInstance.Progress < 100))
             {
                 _taskInstance.Progress += 10;
-                Message = $"Background Task {_taskInstance.Task.Name} running";
+                //Message = $"Background Task {_taskInstance.Task.Name} running";
             }
             else
             {
@@ -94,15 +114,16 @@ namespace PacketMessagingTS.BackgroundTasks
 
                 if (_cancelRequested)
                 {
-                    Message = $"Background Task {_taskInstance.Task.Name} canceled";
+                    //Message = $"Background Task {_taskInstance.Task.Name} canceled";
                 }
                 else
                 {
-                    Message = $"Background Task {_taskInstance.Task.Name} finished";
+                    //Message = $"Background Task {_taskInstance.Task.Name} finished";
                 }
 
                 _deferral?.Complete();
             }
         }
+
     }
 }

@@ -13,6 +13,7 @@ using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Helpers.PrintHelpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.SMTPClient;
 using PacketMessagingTS.ViewModels;
@@ -515,6 +516,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         SettingsViewModel settingsViewModel = Singleton<SettingsViewModel>.Instance;
 
                         Singleton<PrintQueue>.Instance.AddToPrintQueue(pktMsg.FileName, settingsViewModel.ReceivePrintDestinations);
+
+                        // Test
+                        await Singleton<PrintQueue>.Instance.BackgroundPrintingTrigger.RequestAsync();
                     }
                 }
                 //RefreshDataGrid();      // Display newly added messages
@@ -851,7 +855,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     }
                     if (string.IsNullOrEmpty(packetMsg.Area) && Singleton<SettingsViewModel>.Instance.PrintSentMessages)
                     {
+                        // Do printing if requested
                         _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} to be printed");
+
+                        packetMsg.Save(SharedData.PrintMessagesFolder.Path);
+
+                        SettingsViewModel settingsViewModel = Singleton<SettingsViewModel>.Instance;
+                        Singleton<PrintQueue>.Instance.AddToPrintQueue(packetMsg.FileName, settingsViewModel.SentPrintDestinations);
                     }
 
                 }

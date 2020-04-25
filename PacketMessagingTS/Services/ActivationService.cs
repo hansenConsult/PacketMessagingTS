@@ -30,6 +30,8 @@ namespace PacketMessagingTS.Services
         private readonly Lazy<UIElement> _shell;
         private readonly Type _defaultNavItem;
 
+        //private object _lastActivationArgs;
+
         public ActivationService(App app, Type defaultNavItem, Lazy<UIElement> shell = null)
         {
             _app = app;
@@ -43,7 +45,8 @@ namespace PacketMessagingTS.Services
 
             if (IsInteractive(activationArgs))
             {
-                // Initialize things like registering background task before the app is loaded
+                // Initialize services that you need before app activation
+                // take into account that the splash screen is shown while this code runs.
                 await InitializeAsync();
 
                 // Do not repeat app initialization when the Window already has content,
@@ -52,18 +55,13 @@ namespace PacketMessagingTS.Services
                 {
                     // Create a Frame to act as the navigation context and navigate to the first page
                     Window.Current.Content = _shell?.Value ?? new Frame();
-                    // Below is removed for WinUI
-                    //NavigationService.NavigationFailed += (sender, e) =>
-                    //{
-                    //    throw e.Exception;
-                    //};
-                    //NavigationService.Navigated += Frame_Navigated;
-                    //if (SystemNavigationManager.GetForCurrentView() != null)
-                    //{
-                    //    SystemNavigationManager.GetForCurrentView().BackRequested += ActivationService_BackRequested;
-                    //}
                 }
             }
+
+            // Depending on activationArgs one of ActivationHandlers or DefaultActivationHandler
+            // will navigate to the first page
+            //await HandleActivationAsync(activationArgs);
+            //_lastActivationArgs = activationArgs;
 
             var activationHandler = GetActivationHandlers()
                                                 .FirstOrDefault(h => h.CanHandle(activationArgs));
@@ -75,7 +73,8 @@ namespace PacketMessagingTS.Services
 
             if (IsInteractive(activationArgs))
             {
-                var defaultHandler = new DefaultLaunchActivationHandler(_defaultNavItem);
+                //var defaultHandler = new DefaultLaunchActivationHandler(_defaultNavItem);
+                var defaultHandler = new DefaultActivationHandler(_defaultNavItem);
                 if (defaultHandler.CanHandle(activationArgs))
                 {
                     await defaultHandler.HandleAsync(activationArgs);
@@ -91,11 +90,34 @@ namespace PacketMessagingTS.Services
 
         private async Task InitializeAsync()
         {
-            WindowManagerService.Current.Initialize();      // Second window
+            //WindowManagerService.Current.Initialize();      // Second window
+            await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync().ConfigureAwait(false);
             //await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync();
-            await ThemeSelectorService.InitializeAsync();   // WinUI
-            await Task.CompletedTask;
+            await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);   // WinUI
+            //await ThemeSelectorService.InitializeAsync();   // WinUI
+            await WindowManagerService.Current.InitializeAsync();      // Second window
+            //await Task.CompletedTask;
         }
+
+        //private async Task HandleActivationAsync(object activationArgs)
+        //{
+        //    var activationHandler = GetActivationHandlers()
+        //                                        .FirstOrDefault(h => h.CanHandle(activationArgs));
+
+        //    if (activationHandler != null)
+        //    {
+        //        await activationHandler.HandleAsync(activationArgs);
+        //    }
+
+        //    if (IsInteractive(activationArgs))
+        //    {
+        //        var defaultHandler = new DefaultActivationHandler(_defaultNavItem);
+        //        if (defaultHandler.CanHandle(activationArgs))
+        //        {
+        //            await defaultHandler.HandleAsync(activationArgs);
+        //        }
+        //    }
+        //}
 
         private async Task StartupAsync()
         {
@@ -105,7 +127,7 @@ namespace PacketMessagingTS.Services
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
-            //yield return Singleton<BackgroundTaskService>.Instance;
+            yield return Singleton<BackgroundTaskService>.Instance;
             yield return Singleton<SuspendAndResumeService>.Instance;
             //yield return Singleton<SchemeActivationHandler>.Instance; // Only used for external activation (Protocol Activated)
         }

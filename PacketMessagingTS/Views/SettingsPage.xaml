@@ -100,8 +100,8 @@
             <!--Settings-->
             <PivotItem x:Name="pivotSettings" Header="Settings" >
                 <StackPanel x:Name="ContentArea">
-                    <TextBlock x:Uid="Settings_Personalization"
-                               Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <!--<TextBlock x:Uid="Settings_Personalization"
+                               Style="{StaticResource SubtitleTextBlockStyle}" />-->
                     <!--<StackPanel Margin="{StaticResource SettingsSubheaderMargin}">
                         <TextBlock x:Uid="Settings_Theme"
                                    Style="{StaticResource BodyTextStyle}" />
@@ -247,7 +247,8 @@
                         <TextBox Grid.Row="0" Grid.Column="2" x:Name="sentCopyCount"
                                  Style="{StaticResource AlliedNumberTextBox}"
                                  IsEnabled="{x:Bind _settingsViewModel.PrintSentMessages, Mode=OneWay}"
-                                 Text="{x:Bind _settingsViewModel.SentCopyCount, Mode=TwoWay}"/>
+                                 Text="{x:Bind _settingsViewModel.SentCopyCount, Mode=TwoWay}"
+                                 TextChanged="CopyCount_TextChanged"/>
                     </Grid>
                     <Grid x:Name="sentCopyDestinations">
                         <Grid.RowDefinitions>
@@ -262,7 +263,6 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Copy one destination"/>
                         <ComboBox Grid.Row="0" Grid.Column="1" x:Name="sentDest1" IsEditable="True"
-                                  IsEnabled="{x:Bind _settingsViewModel.PrintSentMessages, Mode=OneWay}"
                                   Width="200" ItemsSource="{x:Bind CopyDestinations}"
                                   SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest1, Mode=TwoWay}"/>
                         <TextBlock Grid.Row="0" Grid.Column="2" Text="Copy two destination"/>
@@ -273,7 +273,7 @@
                         <ComboBox Grid.Row="1" Grid.Column="1" x:Name="sentDest3" IsEditable="True"
                                   Width="200" ItemsSource="{x:Bind CopyDestinations}"
                                   SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest3, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Copy four destination"/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Copy destination four"/>
                         <ComboBox Grid.Row="1" Grid.Column="3" x:Name="sentDest4" IsEditable="True"
                                   Width="200" ItemsSource="{x:Bind CopyDestinations}"
                                   SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest4, Mode=TwoWay}"/>
