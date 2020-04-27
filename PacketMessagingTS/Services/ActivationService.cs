@@ -10,13 +10,10 @@ using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Activation;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.ApplicationModel.Activation;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace PacketMessagingTS.Services
 {
@@ -137,6 +134,14 @@ namespace PacketMessagingTS.Services
             return args is IActivatedEventArgs;
         }
 
+        //internal async Task ActivateFromShareTargetAsync(ShareTargetActivatedEventArgs activationArgs)
+        //{
+        //    var shareTargetHandler = GetActivationHandlers().FirstOrDefault(h => h.CanHandle(activationArgs));
+        //    if (shareTargetHandler != null)
+        //    {
+        //        await shareTargetHandler.HandleAsync(activationArgs);
+        //    }
+        //}
         //private void Frame_Navigated(object sender, NavigationEventArgs e)    // WinUI
         //{
         //    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = NavigationService.CanGoBack ?

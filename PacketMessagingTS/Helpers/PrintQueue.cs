@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MetroLog;
+using PacketMessagingTS.Services;
+using PacketMessagingTS.Views;
 using SharedCode;
 using Windows.ApplicationModel.Background;
 using Windows.Data.Html;
@@ -68,10 +71,16 @@ namespace PacketMessagingTS.Helpers.PrintHelpers
         private void PrintCopy(string file, string destination)
         {
             _logHelper.Log(LogLevel.Info, $"print {file}, to {destination}");
+            //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Print Message", typeof(PrintMessagePage));
+            string folder = SharedData.PrintMessagesFolder.Path;
+            string packetMessagePath = Path.Combine(folder, file);
+            NavigationService.Navigate(typeof(PrintMsgTestPage), packetMessagePath);
         }
 
         public async Task PrintToDestinationsAsync()
         {
+            List<string> processedFiles = new List<string>();
+
             RestorePrintQueue();
             foreach (string file in _printQueue.Keys)
             {
@@ -80,10 +89,13 @@ namespace PacketMessagingTS.Helpers.PrintHelpers
                     PrintCopy(file, _printQueue[file][i]);
                 }
 
-                await RemoveFromPrintQueueAsync(file);
-
-                SavePrintQueue();
+                processedFiles.Add(file);
             }
+            foreach (string file in processedFiles)
+            {
+                await RemoveFromPrintQueueAsync(file);
+            }
+            SavePrintQueue();
         }
     }
 }

@@ -48,7 +48,7 @@ namespace PacketMessagingTS.Services
             ViewLifetimeControl viewControl = await CreateViewLifetimeControlAsync(windowTitle, pageType);
             SecondaryViews.Add(viewControl);
             viewControl.StartViewInUse();
-            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewControl.Id, ViewSizePreference.Custom, ApplicationView.GetForCurrentView().Id, ViewSizePreference.Default);
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewControl.Id, ViewSizePreference.Default, ApplicationView.GetForCurrentView().Id, ViewSizePreference.Default);
             viewControl.StopViewInUse();
 
             await viewControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

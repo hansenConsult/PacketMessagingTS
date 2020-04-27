@@ -40,16 +40,6 @@ namespace PacketMessagingTS.Views
             set => _formsViewModel.FormsPagePivotSelectedIndex = value;
         }
 
-        //protected override int GetFormsPagePivotSelectedIndex()
-        //{
-        //    return _formsViewModel.FormsPagePivotSelectedIndex;
-        //}
-
-        //protected override void SetFormsPagePivotSelectedIndex(int index)
-        //{
-        //    _formsViewModel.FormsPagePivotSelectedIndex = index;
-        //}
-
         protected override void SetAppBarSendIsEnabled(bool isEnabled)
         {
             _formsViewModel.IsAppBarSendEnabled = isEnabled;

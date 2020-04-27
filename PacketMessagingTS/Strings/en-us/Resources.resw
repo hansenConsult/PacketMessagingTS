@@ -330,4 +330,12 @@
   <data name="Main_PrintItems.Header" xml:space="preserve">
     <value>Print</value>
   </data>
+  <data name="Shell_PrintMessage.Content" xml:space="preserve">
+    <value>Print Message</value>
+    <comment>Navigation view item name for PrintMessage</comment>
+  </data>
+  <data name="Shell_PrintMsgTest.Content" xml:space="preserve">
+    <value>PrintMsgTest</value>
+    <comment>Navigation view item name for PrintMsgTest</comment>
+  </data>
 </root>

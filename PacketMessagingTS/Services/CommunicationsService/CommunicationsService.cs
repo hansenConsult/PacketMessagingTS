@@ -518,7 +518,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         Singleton<PrintQueue>.Instance.AddToPrintQueue(pktMsg.FileName, settingsViewModel.ReceivePrintDestinations);
 
                         // Test
-                        await Singleton<PrintQueue>.Instance.BackgroundPrintingTrigger.RequestAsync();
+                        await Singleton<PrintQueue>.Instance.PrintToDestinationsAsync();
+                        //await Singleton<PrintQueue>.Instance.BackgroundPrintingTrigger.RequestAsync();
                     }
                 }
                 //RefreshDataGrid();      // Display newly added messages

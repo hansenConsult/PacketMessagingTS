@@ -1,0 +1,12 @@
+﻿<myBase:BasePrintFormsPage
+    x:Class="PacketMessagingTS.Views.PrintMsgTestPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:myBase="using:PacketMessagingTS.Helpers"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <StackPanel x:Name="contentArea" Margin="{StaticResource MediumLeftRightMargin}">
+    </StackPanel>
+</myBase:BasePrintFormsPage>

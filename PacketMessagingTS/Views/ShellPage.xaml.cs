@@ -12,16 +12,15 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-//using SharedCode.Helpers;
 
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Views
 {
@@ -30,8 +29,8 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
-
+        //public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
+        public ShellViewModel ViewModel { get; } = new ShellViewModel();
 
         private SuspendingEventHandler appSuspendEventHandler;
         private EventHandler<Object> appResumeEventHandler;
@@ -44,7 +43,6 @@ namespace PacketMessagingTS.Views
         private static bool _watchersSuspended = false;
         private static bool _watchersStarted = false;
         private bool _isAllDevicesEnumerated = false;
-
         ComportComparer _comportComparer = new ComportComparer();
 
 
@@ -70,6 +68,13 @@ namespace PacketMessagingTS.Views
             InitializeDeviceWatchers();
             StartDeviceWatchers();
             StartHandlingAppEvents();
+        }
+
+        private void OnItemInvoked(WinUI.NavigationView sender, WinUI.NavigationViewItemInvokedEventArgs args)
+        {
+            // Workaround for Issue https://github.com/Microsoft/WindowsTemplateStudio/issues/2774
+            // Using EventTriggerBehavior does not work on WinUI NavigationView ItemInvoked event in Release mode.
+            ViewModel.ItemInvokedCommand.Execute(args);
         }
 
         //private void HideNavViewBackButton()// WinUI
