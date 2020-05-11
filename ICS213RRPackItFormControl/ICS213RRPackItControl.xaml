@@ -15,6 +15,7 @@
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Name="ToFromHeaderTemplate">

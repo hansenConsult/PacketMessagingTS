@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
-
+using System.Threading.Tasks;
 using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
@@ -12,6 +12,8 @@ using PacketMessagingTS.Models;
 
 using SharedCode;
 using SharedCode.Helpers;
+using Windows.Devices.Enumeration;
+using Windows.Devices.SerialCommunication;
 using Windows.UI.Xaml;
 
 
@@ -340,23 +342,23 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        //private List<string> comPortNames;
-        //public List<string> ComPortNames
-        //{
-        //    get
-        //    {
+        public List<string> ListOfSerialPorts = new List<string>();
 
-        //        comPortNames = comportStringArray.ToList();
-        //        comPortNames = comPortNames.OrderBy(s => s, new ComportComparer()).ToList();
-        //        return comPortNames;
-        //    }
-        //}
-
-        //private ObservableCollection<string> collectionOfSerialDevices;
+        private ObservableCollection<string> collectionOfSerialDevices;
         public ObservableCollection<string> CollectionOfSerialDevices
         {
-            get => Singleton<ShellViewModel>.Instance.CollectionOfSerialDevices;
-            //get => new ObservableCollection<string>(SerialPort.GetPortNames());
+            get => collectionOfSerialDevices;
+            //get
+            //{
+            //    //if (collectionOfSerialDevices is null)
+            //    //{
+            //    //    collectionOfSerialDevices = CreateComportObservableCollectionAsync().Result;
+            //    //}
+            //    return collectionOfSerialDevices;
+            //    //_logHelper.Log(LogLevel.Info, $"Serial Port count: {ListOfSerialPorts.Count}");
+            //    //return new ObservableCollection<string>(ListOfSerialPorts);
+            //}
+            set => Set(ref collectionOfSerialDevices, value);
         }
 
         private string tncComPort;
@@ -367,7 +369,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 //_logHelper.Log(LogLevel.Trace, $"Comport: {value}");
 
-                if (value is null || CollectionOfSerialDevices.Count == 0)
+                if (value is null || CollectionOfSerialDevices is null || CollectionOfSerialDevices.Count == 0)
                     return;
 
                 SetProperty(ref tncComPort, value);

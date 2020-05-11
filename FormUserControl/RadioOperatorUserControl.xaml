@@ -60,10 +60,10 @@
             <TextBlock Grid.Column="0" Text="Relay:" Style="{StaticResource LabelFontTNR14B}" Margin="7,0,3,0" />
             <TextBlock Grid.Column="1" Text="Rcvd:" Style="{StaticResource LabelFontTNR14B}" Margin="8,0,0,0" />
             <TextBox Grid.Column="2" x:Name="relayReceived" BorderThickness="1" 
-                                             Margin="9,1,0,1" Tag="OpRelayRcvd" />
+                     Margin="9,1,0,1" Tag="OpRelayRcvd" />
             <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" Margin="8,0,0,0"/>
             <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
-                                             Margin="9,1,2,1" Tag="OpRelaySent"  />
+                     Margin="9,1,2,1" Tag="OpRelaySent"  />
         </Grid>
         <Grid BorderBrush="Black" BorderThickness="1,0,1,1">
             <Grid.ColumnDefinitions>
@@ -77,22 +77,22 @@
                 <ColumnDefinition Width="0.3*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
-                                               Margin="8,0,7,0"  />
+                       Margin="8,0,7,0"  />
             <TextBox Grid.Column="1" Name="operatorName" 
-                                             Text="{x:Bind OperatorName}"
-                                             Margin="1,0,73,1" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName" Grid.ColumnSpan="2" />
-            <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="6,8,7,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+                     Text="{x:Bind OperatorName}"
+                     Margin="1,0,73,1" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName" Grid.ColumnSpan="2" />
+            <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="6,0,7,0" />
             <TextBox Grid.Column="3" Name="operatorCallsign" 
-                                             Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
-                                             Margin="1,0,47,1"  BorderBrush="White" Tag="OpCall" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                     Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
+                     Margin="1,0,47,1"  BorderBrush="White" Tag="OpCall" Grid.ColumnSpan="2" />
             <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="6,0,7,0"  />
             <TextBox Grid.Column="5" Name="operatorDate" 
-                                             IsReadOnly="True"
-                                             Margin="1,0,0,0" BorderBrush="White" Tag="OpDate" />
+                     IsReadOnly="True"
+                     Margin="1,0,0,0" BorderBrush="White" Tag="OpDate" />
             <TextBlock Grid.Column="6" Text="Time:" Style="{StaticResource LabelFontTNR14B}" Margin="6,0,7,0"  />
             <TextBox Grid.Column="7" Name="operatorTime" 
-                                             IsReadOnly="True"
-                                             Margin="1,0,1,0" BorderBrush="White" Tag="OpTime"  />
+                     IsReadOnly="True"
+                     Margin="1,0,1,0" BorderBrush="White" Tag="OpTime"  />
         </Grid>
     </StackPanel>
 </MyBaseNamespace:FormControlBasics>

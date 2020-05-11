@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
@@ -123,13 +121,6 @@ namespace PacketMessagingTS.ViewModels
         {
             var pageType = menuItem.GetValue(NavHelper.NavigateToProperty) as Type;
             return pageType == sourcePageType;
-        }
-
-        private ObservableCollection<string> collectionOfSerialDevices;
-        public ObservableCollection<string> CollectionOfSerialDevices
-        {
-            get => collectionOfSerialDevices;
-            set => collectionOfSerialDevices = value;
         }
 
         private static KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers = null)

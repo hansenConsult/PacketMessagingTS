@@ -812,7 +812,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         return;
                     }
                     _logHelper.Log(LogLevel.Info, $"Force read bulletin {area}: {_forceReadBulletins.ToString()}");
-                    _serialPort.Write("LA\r");
+                    if (area == "ALLXSC")
+                    {
+                        _serialPort.Write("L> MTV\r");
+                    }
+                    else
+                    {
+                        _serialPort.Write("LA\r");
+                    }
                 }
                 else
                 {

@@ -60,7 +60,7 @@
 						RelativePanel.AlignLeftWith="comboBoxMessageTNC" 
                         RelativePanel.LeftOf="toSelection"
                         
-					    Tag="required,Please fill the To field" BorderThickness="5"  
+					    Tag="required,Please fill the To field" 
                         Margin="12.6,1.8,0,-0.2" 
                         TextChanged="MessageTo_TextChanged"
                         SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center"

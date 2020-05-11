@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
     xmlns:models="using:PacketMessagingTS.Models"
     xmlns:vm="using:PacketMessagingTS.ViewModels"
@@ -87,6 +88,13 @@
             <Setter Property="TextBox.VerticalAlignment" Value="Center"/>
             <!--<Setter Property="Height" Value="24"/>-->
             <Setter Property="HorizontalTextAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+        <Style x:Key="AlliedNumberBox" TargetType="muxc:NumberBox">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Margin" Value="2"/>
         </Style>
 
@@ -184,19 +192,23 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="68"/>
+                            <ColumnDefinition Width="120"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <CheckBox Grid.Column="0" x:Name="receivedPrint" Content="Print Received Messages"
                                   IsChecked="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=TwoWay}"
                                   Checked="Print_CheckedUnchecked"
                                   Unchecked="Print_CheckedUnchecked"/>
-                        <TextBlock Grid.Column="1" Text="Number of copies"/>
-                        <TextBox Grid.Column="2" x:Name="receivedCopyCount"
-                                 Style="{StaticResource AlliedNumberTextBox}"
-                                 IsEnabled="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=OneWay}"
-                                 Text="{x:Bind _settingsViewModel.ReceivedCopyCount, Mode=TwoWay}" Margin="2,0,2,0"
-                                 TextChanged="CopyCount_TextChanged"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Text="Number of copies"/>
+                        <muxc:NumberBox Grid.Column="2" x:Name="receivedCopyCount"
+                                        IsEnabled="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=OneWay}"
+                                        Minimum="0" Maximum="6"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Compact"
+                                        Value="{x:Bind Path=_settingsViewModel.ReceivedCopyCount, Mode=TwoWay}" Margin="2,0,2,0"
+                                        ValueChanged="ReceivedCopyCount_ValueChanged"/>
+                        <!--Style="{StaticResource AlliedNumberBox}"-->
+
                         <!--TextChanged="TextBox_IntegerChanged"-->
                     </Grid>
                     <Grid x:Name="receivedCopyDestinations">
@@ -237,18 +249,20 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="68"/>
+                            <ColumnDefinition Width="120"/>
                         </Grid.ColumnDefinitions>
                         <CheckBox Grid.Row="0" x:Name="sentPrint" Grid.Column="0" Content="Print Sent Messages"
                                   IsChecked="{x:Bind _settingsViewModel.PrintSentMessages, Mode=TwoWay}"
                                   Checked="Print_CheckedUnchecked"
                                   Unchecked="Print_CheckedUnchecked"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="Number of copies"/>
-                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="sentCopyCount"
-                                 Style="{StaticResource AlliedNumberTextBox}"
-                                 IsEnabled="{x:Bind _settingsViewModel.PrintSentMessages, Mode=OneWay}"
-                                 Text="{x:Bind _settingsViewModel.SentCopyCount, Mode=TwoWay}"
-                                 TextChanged="CopyCount_TextChanged"/>
+                        <muxc:NumberBox Grid.Row="0" Grid.Column="2" x:Name="sentCopyCount"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
+                                        IsEnabled="{x:Bind _settingsViewModel.PrintSentMessages, Mode=OneWay}"
+                                        Value="{x:Bind _settingsViewModel.SentCopyCount, Mode=TwoWay}"
+                                        ValueChanged="ReceivedCopyCount_ValueChanged"/>
+                        <!--Style="{StaticResource AlliedNumberTextBox}"-->
                     </Grid>
                     <Grid x:Name="sentCopyDestinations">
                         <Grid.RowDefinitions>

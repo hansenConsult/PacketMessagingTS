@@ -26,11 +26,10 @@ namespace PacketMessagingTS.Views
 {
     public sealed partial class ShellPage : Page
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ShellPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        //public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
-        public ShellViewModel ViewModel { get; } = new ShellViewModel();
+        public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
 
         private SuspendingEventHandler appSuspendEventHandler;
         private EventHandler<Object> appResumeEventHandler;
@@ -43,7 +42,7 @@ namespace PacketMessagingTS.Views
         private static bool _watchersSuspended = false;
         private static bool _watchersStarted = false;
         private bool _isAllDevicesEnumerated = false;
-        ComportComparer _comportComparer = new ComportComparer();
+        readonly ComportComparer _comportComparer = new ComportComparer();
 
 
 
@@ -55,7 +54,8 @@ namespace PacketMessagingTS.Views
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
 
             // Serial ports
-            ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();
+            //ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();
+            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices = new ObservableCollection<string>();
             //_listOfBluetoothDevices = new List<DeviceInformation>();
             //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
             //_comportComparer = new ComportComparer();
@@ -96,7 +96,7 @@ namespace PacketMessagingTS.Views
         {
             _listOfDevices.Clear();     // List of all devices
             _listOfSerialPorts.Clear();
-            ViewModel.CollectionOfSerialDevices.Clear();
+            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices.Clear();
             //_listOfBluetoothDevices.Clear();
             //CollectionOfBluetoothDevices.Clear();
         }
@@ -211,7 +211,7 @@ namespace PacketMessagingTS.Views
                 }
             }
             _listOfSerialPorts.Sort(_comportComparer);
-            ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
+            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
         }
 
         /// <summary>
@@ -291,9 +291,11 @@ namespace PacketMessagingTS.Views
                             match.ComPort = serialDevice.PortName;
                             _listOfSerialPorts.Add(serialDevice.PortName);
                             _listOfSerialPorts.Sort(_comportComparer);
-                            ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
+                            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
 
                             serialDevice.Dispose();     // Necessary to avoid crash on removed device
+
+                            //_logHelper.Log(LogLevel.Info, $"devInfo: {deviceInformation.Id}, {serialDevice.PortName}");
                         }
                     }
                 }

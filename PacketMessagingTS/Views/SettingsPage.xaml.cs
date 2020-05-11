@@ -22,13 +22,15 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
 
+using muxc = Microsoft.UI.Xaml.Controls;
+
 namespace PacketMessagingTS.Views
 {
     // TODO WTS: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
     public sealed partial class SettingsPage : Page
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         public SettingsViewModel _settingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
         public IdentityViewModel _identityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
@@ -94,6 +96,27 @@ namespace PacketMessagingTS.Views
         {
             //_settingsViewModel.Initialize();
 
+            //_TNCSettingsViewModel.ListOfSerialPorts.Clear();
+            //List<string> listOfSerialPorts = new List<string>();
+
+            //DeviceInformationCollection deviceCollectionCom = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{86e0d1e0-8089-11d0-9ce4-08003e301f73}\"");
+            //foreach (DeviceInformation deviceInformation in deviceCollectionCom)
+            //{
+            //    SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
+            //    if (serialDevice != null)
+            //    {
+            //        listOfSerialPorts.Add(serialDevice.PortName);
+            //        listOfSerialPorts.Sort(new ComportComparer());
+
+            //        _logHelper.Log(LogLevel.Info, $"devInfo: {serialDevice.PortName}");
+
+            //        serialDevice.Dispose();     // Necessary to avoid crash on removed device
+            //    }
+            //}
+            //_TNCSettingsViewModel.CollectionOfSerialDevices = new ObservableCollection<string>(listOfSerialPorts);
+            //_logHelper.Log(LogLevel.Info, $"List of Serial Ports: {listOfSerialPorts.Count}");
+            //_TNCSettingsViewModel.CollectionOfSerialDevices = await CreateComportObservableCollectionAsync();
+
             var deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{0ecef634-6ef0-472a-8085-5ad023ecbccd}\"");
             ObservableCollection<string> printers = new ObservableCollection<string>();
             foreach (DeviceInformation deviceInformation in deviceCollection)
@@ -136,23 +159,31 @@ namespace PacketMessagingTS.Views
             base.OnNavigatingFrom(e);
         }
 
-        private async void GetPrinters()
-        {
-            //private DeviceInformationCollection deviceCollection;
-            //deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{0ecef634-6ef0-472a-8085-5ad023ecbccd}\"");
-            var deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{0ecef634-6ef0-472a-8085-5ad023ecbccd}\"");
-        }
-
         private void EnableCopyTo(string sentReceived)
         {
             CheckBox checkBox = pivotSettings.FindName($"{sentReceived}Print") as CheckBox;
 
-            TextBox receivedSentCount = pivotSettings.FindName($"{sentReceived}CopyCount") as TextBox;
             int copyCount;
+            //if (sentReceived.Contains("received"))
+            //{
+            muxc.NumberBox receivedSentCount = pivotSettings.FindName($"{sentReceived}CopyCount") as muxc.NumberBox;
             if (string.IsNullOrEmpty(receivedSentCount.Text))
                 copyCount = 0;
             else
-                copyCount = Convert.ToInt32(receivedSentCount.Text);
+                copyCount = (int)receivedSentCount.Value;
+
+            if (copyCount < 0)
+                copyCount = 0;
+            //}
+            //else
+            //{
+            //    TextBox receivedSentCount = pivotSettings.FindName($"{sentReceived}CopyCount") as TextBox;
+            //    //int copyCount;
+            //    if (string.IsNullOrEmpty(receivedSentCount.Text))
+            //        copyCount = 0;
+            //    else
+            //        copyCount = Convert.ToInt32(receivedSentCount.Text);
+            //}
 
             string[] copyDestinations = new string[copyCount + 1];
             Grid grid = pivotSettings.FindName($"{sentReceived}CopyDestinations") as Grid;
@@ -180,6 +211,26 @@ namespace PacketMessagingTS.Views
             }
         }
 
+        //private async Task<ObservableCollection<string>> CreateComportObservableCollectionAsync()
+        //{
+        //    List<string> listOfSerialPorts = new List<string>();
+
+        //    var deviceCollection = await DeviceInformation.FindAllAsync("System.Devices.InterfaceClassGuid:=\"{86e0d1e0-8089-11d0-9ce4-08003e301f73}\"");
+        //    foreach (DeviceInformation deviceInformation in deviceCollection)
+        //    {
+        //        SerialDevice serialDevice = await SerialDevice.FromIdAsync(deviceInformation.Id);
+        //        if (serialDevice != null)
+        //        {
+        //            listOfSerialPorts?.Add(serialDevice.PortName);
+        //            listOfSerialPorts?.Sort(new ComportComparer());
+
+        //            //_logHelper.Log(LogLevel.Info, $"devInfo: {serialDevice.PortName}");
+
+        //            serialDevice.Dispose();     // Necessary to avoid crash on removed device
+        //        }
+        //    }
+        //    return new ObservableCollection<string>(listOfSerialPorts);
+        //}
 
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -190,6 +241,7 @@ namespace PacketMessagingTS.Views
                     EnableCopyTo("sent");
                     break;
                 case "pivotTNC":
+                    //_TNCSettingsViewModel.CollectionOfSerialDevices = await CreateComportObservableCollectionAsync();
                     // Select current TNC device
                     _TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
                     break;
@@ -218,18 +270,31 @@ namespace PacketMessagingTS.Views
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
         }
-        private void CopyCount_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void ReceivedCopyCount_ValueChanged(muxc.NumberBox sender, muxc.NumberBoxValueChangedEventArgs args)
         {
-            string senderName = (sender as TextBox).Name;
-            if (senderName.Contains("received"))
+            if (sender.Name.Contains("received"))
             {
                 EnableCopyTo("received");
             }
-            else if (senderName.Contains("sent"))
+            else if (sender.Name.Contains("sent"))
             {
                 EnableCopyTo("sent");
             }
         }
+
+        //private void CopyCount_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    string senderName = (sender as TextBox).Name;
+        //    if (senderName.Contains("received"))
+        //    {
+        //        EnableCopyTo("received");
+        //    }
+        //    else if (senderName.Contains("sent"))
+        //    {
+        //        EnableCopyTo("sent");
+        //    }
+        //}
 
         private void Print_CheckedUnchecked(object sender, RoutedEventArgs e)
         {

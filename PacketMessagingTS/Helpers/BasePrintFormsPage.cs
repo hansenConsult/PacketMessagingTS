@@ -23,8 +23,8 @@ namespace PacketMessagingTS.Helpers
 {
     public class BasePrintFormsPage : Base0FormsPage
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BasePrintFormsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BasePrintFormsPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
         public virtual StackPanel ContentArea
@@ -44,6 +44,9 @@ namespace PacketMessagingTS.Helpers
 
         public async void PopulateMessagePage(string packetMessagePath)
         {
+            if (string.IsNullOrEmpty(packetMessagePath))
+                return;
+
             _packetMessage = PacketMessage.Open(packetMessagePath);
 
             _packetForm = CreateFormControlInstance(_packetMessage.PacFormName); // Should be PacketFormName, since there may be multiple files with same name
