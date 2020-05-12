@@ -33,11 +33,13 @@
                 <Setter Property="Width" Value="100"/>
                 <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
                 <Setter Property="PlaceholderText" Value="mm/dd/yyyy"/>
+                <Setter Property="Height" Value="32"/>
             </Style>
             <Style x:Key="TimeTextBox" TargetType="TextBox" BasedOn="{StaticResource LocalTextBox}">
                 <Setter Property="Width" Value="70"/>
                 <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
                 <Setter Property="PlaceholderText" Value="hh:mm"/>
+                <Setter Property="Height" Value="32"/>
             </Style>
 
         </ResourceDictionary>
@@ -117,7 +119,7 @@
             <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                        VerticalAlignment="Center" Margin="8,0,0,0"/>
             <TextBox Grid.Column="3" x:Name="msgTime" 
-                     Style="{StaticResource MuniStatusTimeTextBox}"                          
+                     Style="{StaticResource TimeTextBox}"                          
                      TextChanged="TextBox_MsgTimeChanged"
                      Tag="1b.,required"/>
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>

@@ -20,13 +20,13 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref settingsPivotSelectedIndex, value, true);
         }
 
-        //private ElementTheme _elementTheme = ThemeSelectorService.Theme;
-        //public ElementTheme ElementTheme
-        //{
-        //    get { return _elementTheme; }
+        private ElementTheme _elementTheme = ThemeSelectorService.Theme;
+        public ElementTheme ElementTheme
+        {
+            get { return _elementTheme; }
 
-        //    set { SetProperty(ref _elementTheme, value); }
-        //}
+            set { SetProperty(ref _elementTheme, value); }
+        }
 
         private string _versionDescription;
         public string VersionDescription
