@@ -718,7 +718,7 @@ namespace SharedCode
 
         private Brush backgroundBrushField;
 
-        private Brush foregroundBrushField = _foregroundBrush;
+        private Brush foregroundBrushField;
 
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Item

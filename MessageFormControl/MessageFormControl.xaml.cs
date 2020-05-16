@@ -344,11 +344,35 @@ namespace MessageFormControl
 
 		public override string CreateSubject() => null;
 
-        //protected override void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
+        public override void FillFormFromFormFields(FormField[] formFields)
+        {
+            bool found1 = false;
+            foreach (FormField formField in formFields)
+            {
+                FrameworkElement control = GetFrameworkElement(formField);
 
-        //    base.TextBox_TextChanged(sender, e);
-        //}
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
+
+                if (control is TextBox textBox)
+                {
+                    switch (control.Name)
+                    {
+                        case "messageBody":
+                            MessageBody = formField.ControlContent;
+                            found1 = true;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
+                if (found1)
+                    break;
+            }
+            base.FillFormFromFormFields(formFields);
+
+            UpdateFormFieldsRequiredColors();
+        }
 
     }
 }

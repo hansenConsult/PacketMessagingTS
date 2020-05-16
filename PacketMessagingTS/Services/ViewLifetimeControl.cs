@@ -152,6 +152,7 @@ namespace PacketMessagingTS.Services
         private void UnregisterForEvents()
         {
             ApplicationView.GetForCurrentView().Consolidated -= ViewConsolidated;
+            ApplicationView.GetForCurrentView().VisibleBoundsChanged -= BoundsChanged;
         }
 
         private void ViewConsolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs e)
@@ -187,7 +188,7 @@ namespace PacketMessagingTS.Services
                     throw new InvalidOperationException("ExceptionViewLifeTimeControlMissingReleasedSubscription".GetLocalized());
                 }
 
-	                InternalReleased.Invoke(this, null);
+	            InternalReleased.Invoke(this, null);
             }
         }
     }

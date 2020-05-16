@@ -827,13 +827,23 @@ namespace PacketMessagingTS.Helpers
                     _packetMessage.MessageNumber = MessageNo;
                     _packetMessage.MessageState = MessageState.Edit;
                 }
+                _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields
             }
             else
             {
                 CreatePacketMessage(MessageState.None);
             }
 
-            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields
+            //_packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields.  Done above
+            //if (_packetMessage.PacFormName == "SimpleMessage")
+            //{
+            //    FormField mesageBody = _packetMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == "messageBody");
+            //    FormField richTextMessageBody = _packetMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == "richTextMessageBody");
+            //    if (string.IsNullOrEmpty(richTextMessageBody.ControlContent))
+            //    {
+            //        richTextMessageBody.ControlContent = mesageBody.ControlContent;
+            //    }
+            //}
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
             Utilities.MarkMessageNumberAsUsed();
 

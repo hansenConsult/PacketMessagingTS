@@ -25,7 +25,6 @@ namespace PacketMessagingTS.Services
         {
             Theme = theme;
 
-            //SetRequestedTheme();
             await SetRequestedThemeAsync();
             await SaveThemeInSettingsAsync(Theme);
         }
@@ -43,14 +42,6 @@ namespace PacketMessagingTS.Services
                 });
             }
         }
-
-        //public static void SetRequestedTheme()
-        //{
-        //    if (Window.Current.Content is FrameworkElement frameworkElement)
-        //    {
-        //        frameworkElement.RequestedTheme = Theme;
-        //    }
-        //}
 
         private static async Task<ElementTheme> LoadThemeFromSettingsAsync()
         {

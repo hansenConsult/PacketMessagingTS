@@ -462,7 +462,7 @@
 	</Style >
     <Style x:Key="RadioButtonTNR12" TargetType="RadioButton">
         <Setter Property="FontFamily" Value="Sans serif"/>
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontSize" Value="10"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="Normal"/>

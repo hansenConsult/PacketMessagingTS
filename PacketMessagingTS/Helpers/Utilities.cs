@@ -87,19 +87,19 @@ namespace PacketMessagingTS.Helpers
             });
         }
 
-        public static async Task ShowSingleButtonMessageDialogAsync(CoreDispatcher dispatcher, string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
-        {
-            await dispatcher.RunTaskAsync(async () =>
-            {
-                ContentDialog contentDialog = new ContentDialog()
-                {
-                    Title = title,
-                    Content = dialogMessage,
-                    CloseButtonText = "Close"
-                };
-                await contentDialog.ShowAsync();
-            });
-        }
+        //public static async Task ShowSingleButtonMessageDialogAsync(CoreDispatcher dispatcher, string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
+        //{
+        //    await dispatcher.RunTaskAsync(async () =>
+        //    {
+        //        ContentDialog contentDialog = new ContentDialog()
+        //        {
+        //            Title = title,
+        //            Content = dialogMessage,
+        //            CloseButtonText = "Close"
+        //        };
+        //        await contentDialog.ShowAsync();
+        //    });
+        //}
 
         //public static async Task ShowSingleButtonContentDialogAsync(string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
         //{

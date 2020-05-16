@@ -100,7 +100,7 @@
             <DataTemplate x:Name="AlliedFieldHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="7" FontFamily="Arial" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
-            <!--<Style x:Key="TextBoxSmallWidth" TargetType="TextBox">
+            <Style x:Key="TextBoxSmallWidth" TargetType="TextBox">
                 <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
@@ -266,7 +266,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>-->
+            </Style>
             <Style x:Key="TextBoxFlowInformation" TargetType="TextBox" >
                 <Setter Property="TextAlignment" Value="Right"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>

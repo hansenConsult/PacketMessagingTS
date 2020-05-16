@@ -603,7 +603,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private void SendMessage(PacketMessage packetMessage)
         {
             int readTimeout = _serialPort.ReadTimeout;
-            _serialPort.ReadTimeout = 240000;
+            _serialPort.ReadTimeout = 300000;
             try
             {
                 _serialPort.Write("SP " + packetMessage.MessageTo + "\r");
@@ -789,7 +789,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private void ReceiveMessages(string area)
         {
             string readText;
-            _serialPort.ReadTimeout = 240000;
+            _serialPort.ReadTimeout = 300000;
             try
             {
                 if (area.Length != 0)
@@ -895,7 +895,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
             finally
             {
-                _serialPort.ReadTimeout = 240000;
+                _serialPort.ReadTimeout = 300000;
             }
         }
 
@@ -905,7 +905,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             try
             {
                 _error = true;
-                await Utilities.ShowSingleButtonMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "Close", "TNC Connect Error");
+                await SharedCode.Helpers.ContentDialogs.ShowSingleButtonContentDialogAsync($"SerialPort Error: {e.EventType}", "Close", "TNC Connect Error");
+                //await Utilities.ShowSingleButtonMessageDialogAsync(sender as CoreDispatcher, $"SerialPort Error: {e.EventType.ToString()}", "Close", "TNC Connect Error");
                 _serialPort.Close();
             }
             catch
@@ -945,7 +946,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 parity, dataBits, stopBits);
             _serialPort.RtsEnable = _TncDevice.CommPort.Flowcontrol == Handshake.RequestToSend ? true : false;
             _serialPort.Handshake = _TncDevice.CommPort.Flowcontrol;
-            _serialPort.WriteTimeout = 5000;
+            _serialPort.WriteTimeout = 50000;
             _serialPort.ReadTimeout = 5000;
             _serialPort.ReadBufferSize = 8192;
             _serialPort.WriteBufferSize = 4096;
@@ -989,9 +990,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     TNCCommand(commandLine);
                 }
                 // Connect to JNOS
-                int readTimeout = _serialPort.ReadTimeout;
-                //_serialPort.ReadTimeout = 5000;
-                _serialPort.ReadTimeout = 240000;
+                //int readTimeout = _serialPort.ReadTimeout;
+                _serialPort.ReadTimeout = 300000;
                 BBSConnectTime = DateTime.Now;
 
                 if (_error)
@@ -1019,7 +1019,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 exitedBeforeConnect = false;
                 _connectState = ConnectState.BBSConnected;
 
-                _serialPort.ReadTimeout = readTimeout;
+                //_serialPort.ReadTimeout = readTimeout;
 
                 _serialPort.Write("XM 0\r");
 
@@ -1027,7 +1027,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _logHelper.Log(LogLevel.Info, readCmdText);
 
                 _logHelper.Log(LogLevel.Info, $"Messages to send: {_packetMessagesToSend.Count}");
-                _serialPort.ReadTimeout = 240000;
+                _serialPort.ReadTimeout = 300000;
                 // Send messages
                 foreach (PacketMessage packetMessage in _packetMessagesToSend)
                 {
@@ -1037,6 +1037,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         break;
                     }
 
+                    _logHelper.Log(LogLevel.Info, $"BBSConnectName: {_bbsConnectName}, {packetMessage.BBSName}");
                     if (_bbsConnectName.Contains(packetMessage.BBSName))
                     {
                         // Use SendMessage(ref packetMessage) here
@@ -1097,7 +1098,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 //serialPort.Write(cmd, 0, 1);            // Ctrl-C to return to cmd mode. NOT for Kenwood
 
-                _serialPort.ReadTimeout = 5000;
+                _serialPort.ReadTimeout = 300000;
                 readCmdText = ReadTo(_TNCPrompt);      // Next command
 AbortWithoutConnect:
                 BBSDisconnectTime = DateTime.Now;
