@@ -13,7 +13,7 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class HospitalFormsViewModel : BaseViewModel
+    public class HospitalFormsViewModel : FormsViewModel
     {
         protected int hospitalFormsPagePivotSelectedIndex;
         public int HospitalFormsPagePivotSelectedIndex

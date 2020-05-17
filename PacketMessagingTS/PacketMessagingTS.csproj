@@ -196,6 +196,7 @@
     <Compile Include="Services\WindowManagerService.cs" />
     <Compile Include="ViewModels\AddressBookViewModel.cs" />
     <Compile Include="ViewModels\CityFormsViewModel.cs" />
+    <Compile Include="ViewModels\CountyFormsViewModel.cs" />
     <Compile Include="ViewModels\FormsPageViewModel.cs" />
     <Compile Include="ViewModels\HospitalFormsViewModel.cs" />
     <Compile Include="ViewModels\ICS309ViewModel.cs" />
@@ -214,8 +215,8 @@
     <Compile Include="Views\CityFormsPage.xaml.cs">
       <DependentUpon>CityFormsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FormsPage.xaml.cs">
-      <DependentUpon>FormsPage.xaml</DependentUpon>
+    <Compile Include="Views\CountyFormsPage.xaml.cs">
+      <DependentUpon>CountyFormsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HospitalFormsPage.xaml.cs">
       <DependentUpon>HospitalFormsPage.xaml</DependentUpon>
@@ -302,9 +303,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FormsPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\CountyFormsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HospitalFormsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

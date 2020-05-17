@@ -18,23 +18,17 @@ namespace PacketMessagingTS.ViewModels
 {
     public class FormsViewModel : BaseViewModel
     {
-        protected int formsPagePivotSelectedIndex;
-        public int FormsPagePivotSelectedIndex
-        {
-            get => GetProperty(ref formsPagePivotSelectedIndex);
-            set => SetProperty(ref formsPagePivotSelectedIndex, value, true);
-        }
+        //public FormControlBase PacketForm
+        //{ get; set; }
 
-        public FormControlBase PacketForm
-        { get; set; }
 
-        private ICommand _PrintFormCommand;
-        public ICommand PrintFormCommand => _PrintFormCommand ?? (_PrintFormCommand = new RelayCommand(PrintForm));
+        //private ICommand _PrintFormCommand;
+        //public ICommand PrintFormCommand => _PrintFormCommand ?? (_PrintFormCommand = new RelayCommand(PrintForm));
 
-        public void PrintForm()
-        {
-            PacketForm.PrintForm();
-        }
+        //public void PrintForm()
+        //{
+        //    PacketForm.PrintForm();
+        //}
 
     }
 }

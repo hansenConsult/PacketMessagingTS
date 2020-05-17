@@ -2,7 +2,7 @@
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class CityFormsViewModel : BaseViewModel
+    public class CityFormsViewModel : FormsViewModel
     {
         protected int cityFormsPagePivotSelectedIndex;
         public int CityFormsPagePivotSelectedIndex

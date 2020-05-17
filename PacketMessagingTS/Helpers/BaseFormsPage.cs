@@ -74,7 +74,8 @@ namespace PacketMessagingTS.Helpers
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
+        //public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
+        //public FormsViewModel _formsViewModel { get; set; }
 
         protected MessageOrigin _messageOrigin = MessageOrigin.New;
 
@@ -584,7 +585,7 @@ namespace PacketMessagingTS.Helpers
 
                 return;
             }
-            _formsViewModel.PacketForm = _packetForm;
+            //_formsViewModel.PacketForm = _packetForm;
 
             _packetForm.UpdateFormFieldsRequiredColors(true);
 
@@ -656,7 +657,7 @@ namespace PacketMessagingTS.Helpers
                 await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
-            _formsViewModel.PacketForm = _packetForm;
+            //_formsViewModel.PacketForm = _packetForm;
 
             _packetForm.FormPacketMessage = _packetMessage;
             MessageNo = Utilities.GetMessageNumberPacket();
@@ -906,10 +907,10 @@ namespace PacketMessagingTS.Helpers
 
         #region Print
 
-        //public  void AppBarPrint_ClickAsync(object sender, RoutedEventArgs e)
-        //{
-        //    _packetForm.PrintForm();
-        //}
+        public void AppBarPrint_Click(object sender, RoutedEventArgs e)
+        {
+            _packetForm.PrintForm();
+        }
         #endregion Print
     }
 }

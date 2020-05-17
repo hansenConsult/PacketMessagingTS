@@ -338,4 +338,16 @@
     <value>PrintMsgTest</value>
     <comment>Navigation view item name for PrintMsgTest</comment>
   </data>
+  <data name="CountyForms_PivotItem1.Header" xml:space="preserve">
+    <value>Item 1</value>
+    <comment>First Pivot item title for CountyForms</comment>
+  </data>
+  <data name="CountyForms_PivotItem2.Header" xml:space="preserve">
+    <value>Item 2</value>
+    <comment>Second Pivot item title for CountyForms</comment>
+  </data>
+  <data name="Shell_CountyForms.Content" xml:space="preserve">
+    <value>CountyForms</value>
+    <comment>Navigation view item name for CountyForms</comment>
+  </data>
 </root>

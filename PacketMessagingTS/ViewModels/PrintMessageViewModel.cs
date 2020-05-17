@@ -6,7 +6,7 @@ using Windows.UI.Core;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class PrintMessageViewModel : BaseViewModel
+    public class PrintMessageViewModel : FormsViewModel
     {
         private ViewLifetimeControl _viewLifetimeControl;
 

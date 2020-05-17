@@ -36,7 +36,8 @@
             -->
             <!--<winui:NavigationViewItem x:Uid="Shell_Sample" Icon="Document" helpers:NavHelper.NavigateTo="views:SamplePage" />-->
             <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="views:MainPage" />
-            <winui:NavigationViewItem x:Uid="Shell_Forms" Icon="Document" helpers:NavHelper.NavigateTo="views:FormsPage" />
+            <!--<winui:NavigationViewItem x:Uid="Shell_Forms" Icon="Document" helpers:NavHelper.NavigateTo="views:FormsPage" />-->
+            <winui:NavigationViewItem x:Uid="Shell_CountyForms" Icon="Document" helpers:NavHelper.NavigateTo="views:CountyFormsPage" />
             <winui:NavigationViewItem x:Uid="Shell_CityForms" Icon="Document" helpers:NavHelper.NavigateTo="views:CityFormsPage" />
             <winui:NavigationViewItem x:Uid="Shell_HospitalForms" Icon="Document" helpers:NavHelper.NavigateTo="views:HospitalFormsPage" />
             <winui:NavigationViewItem x:Uid="Shell_TestForms" Icon="Document" helpers:NavHelper.NavigateTo="views:TestFormsPage" />

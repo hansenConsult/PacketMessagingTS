@@ -34,11 +34,13 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
         }
 
-        protected override int FormsPagePivotSelectedIndex
-        {
-            get => _formsViewModel.FormsPagePivotSelectedIndex;
-            set => _formsViewModel.FormsPagePivotSelectedIndex = value;
-        }
+        protected override int FormsPagePivotSelectedIndex { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+        //protected override int FormsPagePivotSelectedIndex
+        //{
+        //    get => _formsViewModel.FormsPagePivotSelectedIndex;
+        //    set => _formsViewModel.FormsPagePivotSelectedIndex = value;
+        //}
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)
         {

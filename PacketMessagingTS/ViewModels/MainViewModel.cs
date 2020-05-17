@@ -45,17 +45,17 @@ namespace PacketMessagingTS.ViewModels
 
             string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
             string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
-            Type type = typeof(FormsPage);
+            Type type = typeof(CountyFormsPage);
             switch (packetMessage.FormControlType)
             {
                 case FormControlAttribute.FormType.Undefined:
-                    type = typeof(FormsPage);
+                    type = typeof(CountyFormsPage);
                     break;
                 case FormControlAttribute.FormType.None:
-                    type = typeof(FormsPage);
+                    type = typeof(CountyFormsPage);
                     break;
                 case FormControlAttribute.FormType.CountyForm:
-                    type = typeof(FormsPage);
+                    type = typeof(CountyFormsPage);
                     break;
                 case FormControlAttribute.FormType.CityForm:
                     type = typeof(CityFormsPage);

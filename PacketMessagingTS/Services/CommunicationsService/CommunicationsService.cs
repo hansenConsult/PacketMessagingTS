@@ -152,7 +152,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     formName = formName.Substring(0, formName.Length - html.Length);
                     pktMsg.PacFormName = formName;
 
-                    formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                    formControl = BaseFormsPage.CreateFormControlInstance(pktMsg.PacFormName);
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
@@ -444,7 +444,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             formName = formName.Substring(0, formName.Length - html.Length);
                             pktMsg.PacFormName = formName;
 
-                            formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                            formControl = BaseFormsPage.CreateFormControlInstance(pktMsg.PacFormName);
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");

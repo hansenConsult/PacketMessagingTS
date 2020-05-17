@@ -76,7 +76,7 @@ namespace PacketMessagingTS.Views
                     webViewPivot.SelectedIndex = 2;
                 }
 
-                FormControlBase formControl = FormsPage.CreateFormControlInstance(packetMessage.PacFormName);
+                FormControlBase formControl = BaseFormsPage.CreateFormControlInstance(packetMessage.PacFormName);
 
                 ConvertFromOutpost(ref packetMessage, ref formControl, FormProviders.PacForm);
             }
@@ -199,7 +199,7 @@ namespace PacketMessagingTS.Views
                     formName = formName.Substring(0, formName.Length - html.Length);
                     pktMsg.PacFormName = formName;
 
-                    formControl = FormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                    formControl = BaseFormsPage.CreateFormControlInstance(pktMsg.PacFormName);
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
@@ -264,7 +264,7 @@ namespace PacketMessagingTS.Views
             await CreatePacketMessageFromMessageAsync(packetMessage, folderPath);
 
             string packetMessagePath = Path.Combine(folderPath, packetMessage.FileName);
-            NavigationService.Navigate(typeof(FormsPage), packetMessagePath);
+            NavigationService.Navigate(typeof(CountyFormsPage), packetMessagePath);
         }
     }
 }

@@ -8,7 +8,7 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class TestFormsViewModel : BaseViewModel
+    public class TestFormsViewModel : FormsViewModel
     {
         protected int testFormsPagePivotSelectedIndex;
         public int TestFormsPagePivotSelectedIndex
