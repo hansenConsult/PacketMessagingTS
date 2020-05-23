@@ -1,4 +1,6 @@
-﻿using MetroLog;
+﻿using System.Collections.Generic;
+
+using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
 
@@ -6,6 +8,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -28,7 +31,21 @@ namespace PacketMessagingTS.Views
 
             _formsPagePivot = formsPagePivot;
 
-            _formControlAttributeList.AddRange(_attributeListTypeCity);
+            if (SharedData.FormControlAttributeCityList == null || SharedData.FormControlAttributeCityList.Count == 0)
+            {
+                _formControlAttributeList = new List<FormControlAttributes>();
+                ScanFormAttributes(new FormControlAttribute.FormType[1] { FormControlAttribute.FormType.CityForm });
+
+                _formControlAttributeList.AddRange(_formControlAttributeList0);
+
+                SharedData.FormControlAttributeCityList = _formControlAttributeList;
+            }
+            else
+            {
+                _formControlAttributeList = SharedData.FormControlAttributeCityList;
+            }
+
+            //_formControlAttributeList.AddRange(_attributeListTypeCity);
             PopulateFormsPagePivot();
         }
 

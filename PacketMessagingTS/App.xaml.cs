@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using MetroLog;
@@ -21,6 +22,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.ExtendedExecution;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.UI.Xaml;
 
 
@@ -92,6 +94,10 @@ namespace PacketMessagingTS
 
             foreach (TacticalCallsignData tacticalCallsignType in TacticalCallsigns._TacticalCallsignDataList)
             {
+                //Task<TacticalCallsigns> taskFinished = TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
+
+                // taskFinished = TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
+                //tacticalCallsignType.TacticalCallsigns = taskFinished.Result;
                 tacticalCallsignType.TacticalCallsigns = await TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
             }
             //await UserCallsigns.OpenAsync();
@@ -112,7 +118,7 @@ namespace PacketMessagingTS
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             SharedData.SettingsContainer = localSettings.CreateContainer("SettingsContainer", ApplicationDataCreateDisposition.Always);
 
-            SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
+            //SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
 
             Singleton<SettingsViewModel>.Instance.W1XSCStatusUp = Utilities.GetProperty<bool>("W1XSCStatusUp");
             Singleton<SettingsViewModel>.Instance.W2XSCStatusUp = Utilities.GetProperty<bool>("W2XSCStatusUp");
@@ -137,6 +143,27 @@ namespace PacketMessagingTS
                 NavigationService.Navigate(typeof(SettingsPage), 2);
             }
             Utilities.SetApplicationTitle();
+
+            SharedData.Assemblies = new List<Assembly>();
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            Assembly[] assemblies = currentDomain.GetAssemblies();
+            //System.Reflection.Assembly[] AppDomain.GetAssemblies
+            foreach (Assembly assembly in assemblies)
+            {
+                if (!assembly.FullName.Contains("FormControl"))
+                    continue;
+
+                //_logHelper.Log(LogLevel.Info, $"Assembly: {assembly}");
+                SharedData.Assemblies.Add(assembly);
+            }
+            _logHelper.Log(LogLevel.Info, $"Assembly count: {SharedData.Assemblies.Count}");
+            //foreach (Assembly assembly in SharedData.Assemblies)
+            //{
+            //    _logHelper.Log(LogLevel.Info, $"Assembly: {assembly}");
+            //}
+            //SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
+            //StorageFolder packageEffectiveLocation = Package.Current.EffectiveLocation;
+            //_logHelper.Log(LogLevel.Info, $"{packageEffectiveLocation.Path}");
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

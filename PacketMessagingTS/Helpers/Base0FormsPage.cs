@@ -214,19 +214,20 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        public static FormControlBase CreateFormControlInstance(string controlName)
+        public static FormControlBase CreateFormControlInstance(string formControlName)
         {
             FormControlBase formControl = null;
-            IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
-            if (files is null)
-                return null;
+            //IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
+            //if (files is null)
+            //    return null;
 
             Type foundType = null;
-            foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
+            //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
+            foreach (Assembly assembly in SharedData.Assemblies)
             {
                 try
                 {
-                    Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
+                    //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
                     foreach (Type classType in assembly.GetTypes())
                     {
                         var attrib = classType.GetTypeInfo();
@@ -235,12 +236,24 @@ namespace PacketMessagingTS.Helpers
                             var namedArguments = customAttribute.NamedArguments;
                             if (namedArguments.Count == 3)
                             {
-                                var formControlType = namedArguments[0].TypedValue.Value as string;
-                                if (formControlType == controlName)
+                                foreach (CustomAttributeNamedArgument arg in namedArguments)
                                 {
-                                    foundType = classType;
-                                    break;
+                                    if (arg.MemberName == "FormControlName")
+                                    {
+                                        if (formControlName == arg.TypedValue.Value as string)
+                                        {
+                                            foundType = classType;
+                                            break;
+                                        }
+                                    }
                                 }
+
+                                //var formControlType = namedArguments[0].TypedValue.Value as string;
+                                //if (formControlType == controlName)
+                                //{
+                                //    foundType = classType;
+                                //    break;
+                                //}
                             }
                         }
                         if (foundType != null)

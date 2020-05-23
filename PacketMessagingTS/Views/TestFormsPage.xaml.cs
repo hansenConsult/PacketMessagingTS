@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 using MetroLog;
 
@@ -8,6 +9,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -32,7 +34,21 @@ namespace PacketMessagingTS.Views
 
             _formsPagePivot = formsPagePivot;
 
-            _formControlAttributeList.AddRange(_attributeListTypeTestForms);
+            if (SharedData.FormControlAttributeTestList == null || SharedData.FormControlAttributeTestList.Count == 0)
+            {
+                _formControlAttributeList = new List<FormControlAttributes>();
+                ScanFormAttributes(new FormControlAttribute.FormType[1] { FormControlAttribute.FormType.TestForm });
+
+                _formControlAttributeList.AddRange(_formControlAttributeList0);
+
+                SharedData.FormControlAttributeTestList = _formControlAttributeList;
+            }
+            else
+            {
+                _formControlAttributeList = SharedData.FormControlAttributeTestList;
+            }
+
+            //_formControlAttributeList.AddRange(_attributeListTypeTestForms);
             PopulateFormsPagePivot();
         }
 

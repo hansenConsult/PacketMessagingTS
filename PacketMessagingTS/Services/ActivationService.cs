@@ -87,13 +87,9 @@ namespace PacketMessagingTS.Services
 
         private async Task InitializeAsync()
         {
-            //WindowManagerService.Current.Initialize();      // Second window
             await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync().ConfigureAwait(false);
-            //await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync();
-            await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);   // WinUI
-            //await ThemeSelectorService.InitializeAsync();   // WinUI
-            await WindowManagerService.Current.InitializeAsync();      // Second window
-            //await Task.CompletedTask;
+            await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);
+            await WindowManagerService.Current.InitializeAsync();
         }
 
         //private async Task HandleActivationAsync(object activationArgs)

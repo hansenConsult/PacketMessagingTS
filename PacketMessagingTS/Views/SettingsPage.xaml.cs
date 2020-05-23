@@ -144,7 +144,7 @@ namespace PacketMessagingTS.Views
             //}
             if (_PacketSettingsViewmodel.IsAppBarSaveEnabled)
             {
-                bool save = await ContentDialogs.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
+                bool save = await ContentDialogs.ShowDualButtonMessageDialogAsync("Save changes to Packet Settings?", "Yes", "No");
                 if (save)
                 {
                     PacketSettingsSave_ClickAsync(this, null);
@@ -157,6 +157,8 @@ namespace PacketMessagingTS.Views
             _settingsViewModel.SettingsPivotSelectedIndex = SettingsPivot.SelectedIndex;
 
             base.OnNavigatingFrom(e);
+
+            _logHelper.Log(LogLevel.Trace, "Exiting OnNavigatingFrom in Settings");
         }
 
         private void EnableCopyTo(string sentReceived)
@@ -269,6 +271,7 @@ namespace PacketMessagingTS.Views
             }
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
+            _logHelper.Log(LogLevel.Trace, "Exiting SettingsPivot_SelectionChanged");
         }
 
         private void ReceivedCopyCount_ValueChanged(muxc.NumberBox sender, muxc.NumberBoxValueChangedEventArgs args)

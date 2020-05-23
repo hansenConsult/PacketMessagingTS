@@ -7,6 +7,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Views;
 
+using Windows.ApplicationModel;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -63,7 +64,7 @@ namespace PacketMessagingTS.ViewModels
             _navigationView.BackRequested += OnBackRequested;
         }
 
-        private void OnLoaded()
+        private async void OnLoaded()
         {
             // Keyboard accelerators are added here to avoid showing 'Alt + left' tooltip on the page.
             // More info on tracking issue https://github.com/Microsoft/microsoft-ui-xaml/issues/8

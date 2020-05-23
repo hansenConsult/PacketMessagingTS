@@ -101,29 +101,29 @@ namespace PacketMessagingTS.BackgroundTasks
             // Documentation: https://docs.microsoft.com/windows/uwp/launch-resume/handle-a-cancelled-background-task
         }
 
-        private void SampleTimerCallback(ThreadPoolTimer timer)
-        {
-            if ((_cancelRequested == false) && (_taskInstance.Progress < 100))
-            {
-                _taskInstance.Progress += 10;
-                //Message = $"Background Task {_taskInstance.Task.Name} running";
-            }
-            else
-            {
-                timer.Cancel();
+        //private void SampleTimerCallback(ThreadPoolTimer timer)
+        //{
+        //    if ((_cancelRequested == false) && (_taskInstance.Progress < 100))
+        //    {
+        //        _taskInstance.Progress += 10;
+        //        //Message = $"Background Task {_taskInstance.Task.Name} running";
+        //    }
+        //    else
+        //    {
+        //        timer.Cancel();
 
-                if (_cancelRequested)
-                {
-                    //Message = $"Background Task {_taskInstance.Task.Name} canceled";
-                }
-                else
-                {
-                    //Message = $"Background Task {_taskInstance.Task.Name} finished";
-                }
+        //        if (_cancelRequested)
+        //        {
+        //            //Message = $"Background Task {_taskInstance.Task.Name} canceled";
+        //        }
+        //        else
+        //        {
+        //            //Message = $"Background Task {_taskInstance.Task.Name} finished";
+        //        }
 
-                _deferral?.Complete();
-            }
-        }
+        //        _deferral?.Complete();
+        //    }
+        //}
 
     }
 }

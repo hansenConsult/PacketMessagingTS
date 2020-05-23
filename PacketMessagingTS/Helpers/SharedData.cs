@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +34,17 @@ namespace PacketMessagingTS.Helpers
 
         public static ApplicationDataContainer SettingsContainer;
 
-        public static IReadOnlyList<StorageFile> FilesInInstalledLocation;
+        //public static IReadOnlyList<StorageFile> FilesInInstalledLocation;
+
+        public static List<Assembly> Assemblies;
+
+        public static List<FormControlAttributes> FormControlAttributeCityList;
+
+        public static List<FormControlAttributes> FormControlAttributeCountyList;
+
+        public static List<FormControlAttributes> FormControlAttributeHospitalList;
+
+        public static List<FormControlAttributes> FormControlAttributeTestList;
 
         public static string EMail = "Email";
         public static string EMailPreample = $"Email: ";       
