@@ -5,8 +5,6 @@ using FormControlBasicsNamespace;
 
 using FormUserControl;
 
-//using Microsoft.Toolkit.Uwp.Helpers;
-
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -14,7 +12,6 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using ToggleButtonGroupControl;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -33,14 +30,14 @@ namespace ICS213RRPackItFormControl
         {
             InitializeComponent();
 
-            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            DependencyObject panelName = formHeaderControl.Panel;
             ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = radioOperatorControl.Panel;
             ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "SCCo EOC RESOURCE REQUEST FORM 213RR";

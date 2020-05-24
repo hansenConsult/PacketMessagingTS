@@ -111,7 +111,6 @@
                                 <StackPanel Grid.Column="0">
                                     <Border  Margin="0,0">
                                         <StackPanel BorderBrush="Black" BorderThickness="0,0,0,1">
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR12B}" Padding="5,0,5,5" Text="1a.) Date:" />-->
                                             <TextBox x:Name="msgDate" PlaceholderText="mm/dd/yyyy"
                                                      HeaderTemplate="{StaticResource HeaderTemplate}"
                                                      Header="1a. Date:"                                                                                                                                                   
@@ -122,7 +121,6 @@
                                     </Border>
                                     <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR12B}" Padding="5,0,5,5" Text="1b.) Time:" />-->
                                             <TextBox x:Name="msgTime" PlaceholderText="hh:mm"
                                                      HeaderTemplate="{StaticResource HeaderTemplate}"
                                                      Header="1b. Time:"                                                                                                                                                   
@@ -137,17 +135,17 @@
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4. Situation Severity" Margin="8"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="severity" 
-                                                                   CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4."/>
+                                                                   CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4.,required"/>
                                         <RadioButton x:Name="EMERGENCY" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Margin="10, 4" Padding="4" Content="EMERGENCY"  
+                                                     Margin="10, 4" Padding="4" Content="EMERGENCY" Checked="Required_Checked"
 						    				         ToolTipService.ToolTip="Life threat" Tag="EMERGENCY">
                                         </RadioButton>
                                         <RadioButton x:Name="urgent" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Margin="10, 4" Padding="4" Content="URGENT" 
+                                                     Margin="10, 4" Padding="4" Content="URGENT" Checked="Required_Checked"
 								    		         ToolTipService.ToolTip="Property threat" Tag="URGENT">
                                         </RadioButton>
                                         <RadioButton x:Name="other" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
-                                                     Margin="10, 4" Padding="4" Content="OTHER" 
+                                                     Margin="10, 4" Padding="4" Content="OTHER" Checked="Required_Checked"
 										             ToolTipService.ToolTip="All other" Tag="OTHER">
                                         </RadioButton>
                                     </StackPanel>
@@ -221,15 +219,17 @@
                                             <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="4,0,4,2"  
                                                             PlaceholderText="Select ICS Position"
                                                             Style="{StaticResource AutoSuggestICSPosition}"
-                                                            TextBoxStyle="{StaticResource AutoSuggestTextBoxStyle}"
+                                                            BorderBrush="Gray"
+                                                            BorderThickness="1"
+
                                                             TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                             SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
                                                             Tag="7.,required,Enter a To Position." VerticalAlignment="Top"/>
+                                            <!--TextBoxStyle="{StaticResource AutoSuggestTextBoxStyle}"-->
                                         </StackPanel>
                                     </Border>
                                     <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
                                         <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5"  Text="9a.) Location:" />-->
                                             <TextBox x:Name="toLocation" Margin="4,0,4,2" 
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="9a. Location:"                                                 
@@ -239,7 +239,6 @@
                                     </Border>
                                     <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
                                             <TextBox x:Name="toName"  
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="Name:"                                                                                                  
@@ -248,7 +247,6 @@
                                     </Border>
                                     <Border BorderBrush="Black" BorderThickness="0,0,0,1" Margin="0, 0">
                                         <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Telephone number:" />-->
                                             <TextBox x:Name="toTelephone" PlaceholderText="(123) 456-7890" 
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="Telephone number:"
@@ -275,7 +273,6 @@
                                     </Border>
                                     <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
                                         <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="9b.) Location:" />-->
                                             <TextBox x:Name="fromLocation" BorderThickness="1" Margin="4,0,4,2" 
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="9b. Location:"                                                                                                  
@@ -285,7 +282,6 @@
                                     </Border>
                                     <Border BorderBrush="Black" BorderThickness="0,0,0,1">
                                         <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Name:" />-->
                                             <TextBox x:Name="fromName"  
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="Name:"                                                                                                                                                   
@@ -294,7 +290,6 @@
                                     </Border>
                                     <Border BorderBrush="Black" BorderThickness="0,0,0,1" Margin="0, 0">
                                         <StackPanel >
-                                            <!--<TextBlock Style="{StaticResource LabelFontTNR14B}" Padding="5,0,5,5" Text="Telephone number:" />-->
                                             <TextBox x:Name="fromTelephone" PlaceholderText="(123) 456-7890" 
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="Telephone number:"
@@ -405,7 +400,6 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="0,0,1,0" BorderBrush="Black">
-                                <!--<Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" >-->
                                 <StackPanel Orientation="Horizontal" Height="34">
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="How received" VerticalAlignment="Center" Margin="5,0,5,0" />
                                     <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
@@ -417,7 +411,6 @@
                                                  FontFamily="Times New Roman" Tag="sender"/>
                                     <TextBlock Text="    " Width="120" Margin="-94,0,0,0" Height="32" FontFamily="Times New Roman" Canvas.ZIndex="1"/>
                                 </StackPanel>
-                                <!--</Border>-->
                                 <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" 
                                                                CheckedControlName="{x:Bind HowReceivedSent, Mode=TwoWay}"
                                                                Tag="Method"/>
@@ -438,7 +431,6 @@
                                     <RadioButton Grid.Row="0" Grid.Column="1" x:Name="dispatchCenter" GroupName="howRecevedSent" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Dispatch Center" 
                                                  Grid.ColumnSpan="2" Padding="4" Width="100" Tag="Dispatch Center"/>
-                                    <!--<Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3"/>-->
                                     <RadioButton Grid.Row="1" Grid.Column="0" x:Name="eOCRadio" GroupName="howRecevedSent" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="EOC Radio" 
                                                  Margin="5,0,0,0" Padding="4" Tag="EOC Radio"/>
@@ -463,7 +455,6 @@
                                 </Grid>
                             </StackPanel>
                             <StackPanel Grid.Column="4">
-                                <!--<Border BorderBrush="Black" BorderThickness="0,0,0,1">-->
                                 <StackPanel Orientation="Horizontal" Height="auto">
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Call Sign:" VerticalAlignment="Center" Margin="5"/>
                                     <TextBox x:Name="operatorCallsign"  
@@ -471,17 +462,13 @@
                                              BorderBrush="White" Height="32"
                                              Margin="5,2,0,2" Width="auto" Tag="OpCall" />
                                 </StackPanel>
-                                <!--</Border>-->
-                                <!--<Border BorderBrush="Black" BorderThickness="0,0,0,1" >-->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                     <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Name:"  VerticalAlignment="Center" Margin="5"/>
                                     <TextBox x:Name="operatorName"  Height="32"
                                              Text="{x:Bind OperatorName, Mode=TwoWay}"
                                              BorderBrush="White" Margin="5,2,0,2" Width="auto" Tag="OpName"/>
                                 </StackPanel>
-                                <!--</Border>-->
                                 <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="" Height="auto" />
-                                <!--<Border BorderBrush="Black" BorderThickness="0,1,0,0">-->
                                 <Grid Height="auto" >
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -502,7 +489,6 @@
                                              BorderBrush="White" Tag="OpTime" FontFamily="Times New Roman"
                                              VerticalAlignment="Center" Grid.ColumnSpan="2"/>
                                 </Grid>
-                                <!--</Border>-->
                             </StackPanel>
                         </Grid>
                     </Grid>

@@ -50,9 +50,15 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
         }
 
-        protected override int FormsPagePivotSelectedIndex
+        public override int FormsPagePivotSelectedIndex
         {
-            get => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
+            get
+            {
+                int index = _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
+                if (index >= _formControlAttributeList.Count)
+                    index = 0;
+                return index;
+            }
             set => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = value;
         }
 

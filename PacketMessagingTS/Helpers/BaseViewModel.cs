@@ -64,7 +64,7 @@ namespace PacketMessagingTS.Helpers
         }
 
         protected bool isAppBarSendEnabled = false;
-        public bool IsAppBarSendEnabled
+        public virtual bool IsAppBarSendEnabled
         {
             get => isAppBarSendEnabled;
             set => SetProperty(ref isAppBarSendEnabled, value);

@@ -62,23 +62,13 @@ namespace PacketMessagingTS.Helpers
         protected bool _loadMessage = false;
 
         protected SendFormDataControl _packetAddressForm;
+        protected FormControlBase _packetForm;
 
         protected List<FormControlAttributes> _formControlAttributeList0 = new List<FormControlAttributes>();
         protected List<FormControlAttributes> _formControlAttributeList1 = new List<FormControlAttributes>();
 
-        protected List<FormControlAttributes> _attributeListTypeNone = new List<FormControlAttributes>();
-        protected List<FormControlAttributes> _attributeListTypeCounty = new List<FormControlAttributes>();
-        protected List<FormControlAttributes> _attributeListTypeCity = new List<FormControlAttributes>();
-        protected List<FormControlAttributes> _attributeListTypeHospital = new List<FormControlAttributes>();
-        protected List<FormControlAttributes> _attributeListTypeTestForms = new List<FormControlAttributes>();
-
         protected List<FormControlAttributes> _formControlAttributeList;
 
-        FormControlBase _packetForm;
-        public FormControlBase PacketForm
-        {
-            get => _packetForm;
-        }
 
         public string MessageNo
         {
@@ -202,9 +192,9 @@ namespace PacketMessagingTS.Helpers
 
         public BaseFormsPage()
         {
-            _formControlAttributeList = new List<FormControlAttributes>();
+            //_formControlAttributeList = new List<FormControlAttributes>();
             //ScanFormAttributes(new FormControlAttribute.FormType[0]);
-            _formControlAttributeList.Clear();
+            //_formControlAttributeList.Clear();
         }
 
         private PivotItem CreatePivotItem(FormControlAttributes formControlAttributes)
@@ -290,15 +280,14 @@ namespace PacketMessagingTS.Helpers
                                     formControlMenuName = arg.TypedValue.Value as string;
                                 }
                             }
-                            if (!formControlTypeFound)
-                                continue;
-                            //string formControlMenuName = namedArguments[2].TypedValue.Value as string;
-                            FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, null);
-                            _formControlAttributeList.Add(formControlAttributes);
+                            if (formControlTypeFound)
+                            {
+                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, null);
+                                _formControlAttributeList.Add(formControlAttributes);
+                            }
                         }
                     }
                 }
-                //_logHelper.Log(LogLevel.Info, $"Attributelist Count: {_formControlAttributeList.Count}");
             }
 
             //// Pick latest file version for each type
@@ -320,7 +309,7 @@ namespace PacketMessagingTS.Helpers
             //        }
             //    }
             //}
-            // Sort by menu type
+            // Sort by form type
             foreach (FormControlAttributes formControlAttributes in _formControlAttributeList)
             {
                 if (formControlAttributes.FormControlType == formTypes[0])
@@ -456,7 +445,7 @@ namespace PacketMessagingTS.Helpers
         //    }
         //}
 
-        protected abstract int FormsPagePivotSelectedIndex
+        public abstract int FormsPagePivotSelectedIndex
         { get; set; }
 
         protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
@@ -501,12 +490,7 @@ namespace PacketMessagingTS.Helpers
                 MessageState = messageState,
             };
 
-            //if (_packetForm.FormHeaderControl != null)
-            //    _packetMessage.MessageNumber = _packetForm.FormHeaderControl.OriginMsgNo;
             _packetMessage.MessageNumber = OriginMsgNo;
-            //else
-            //    _packetMessage.MessageNumber = _packetForm.OriginMsgNo;
-
 
             UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
@@ -545,34 +529,28 @@ namespace PacketMessagingTS.Helpers
                 }
                 else
                 {
-                    //_packetForm.DestinationMsgNo = _packetMessage.MessageNumber;
                     DestinationMsgNo = _packetMessage.MessageNumber;
-                    //_packetForm.OriginMsgNo = _packetMessage.SenderMessageNumber;
                     OriginMsgNo = _packetMessage.SenderMessageNumber;
                 }
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
             {
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
-                //_packetForm.DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
                 DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
-                //_packetForm.OriginMsgNo = _packetMessage.MessageNumber;
                 OriginMsgNo = _packetMessage.MessageNumber;
                 _packetForm.ReceivedOrSent = "Sender";
-
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.New)
             {
                 _packetForm.MessageSentTime = null;
                 _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
-                //_packetForm.OriginMsgNo = _packetMessage.MessageNumber;
                 OriginMsgNo = _packetMessage.MessageNumber;
             }
         }
 
         public static FormControlBase CreateFormControlInstance(string formControlName)
         {
-            _logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
+            //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
             FormControlBase formControl = null;
             //IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
             //if (files is null)
@@ -621,7 +599,7 @@ namespace PacketMessagingTS.Helpers
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                    _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
                 }
                 if (foundType != null)
                     break;
@@ -635,7 +613,7 @@ namespace PacketMessagingTS.Helpers
                 }
                 catch (Exception e)
                 {
-                    string message = e.Message;
+                    _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
                 }
             }
             return formControl;
@@ -647,7 +625,6 @@ namespace PacketMessagingTS.Helpers
             if (e.Parameter is null)
             {
                 // Open last used empty form
-                //_formsPagePivot.SelectedIndex = GetFormsPagePivotSelectedIndex();
                 _formsPagePivot.SelectedIndex = FormsPagePivotSelectedIndex;
                 _packetMessage = null;
                 base.OnNavigatedTo(e);
@@ -681,11 +658,11 @@ namespace PacketMessagingTS.Helpers
                 // Show SimpleMessage header formatted by where the message came from
                 if (_packetMessage.PacFormName == "SimpleMessage")
                 {
-                    if (directory.Contains("Received"))
+                    if (_packetMessage.MessageOrigin == MessageOrigin.Received || directory.Contains("Received"))
                     {
                         _messageOrigin = MessageOrigin.Received;
                     }
-                    else if (directory.Contains("Sent"))
+                    else if (_packetMessage.MessageOrigin == MessageOrigin.Sent || directory.Contains("Sent"))
                     {
                         _messageOrigin = MessageOrigin.Sent;
                     }
@@ -701,7 +678,6 @@ namespace PacketMessagingTS.Helpers
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //SetFormsPagePivotSelectedIndex(_formsPagePivot.SelectedIndex);
             FormsPagePivotSelectedIndex = _formsPagePivot.SelectedIndex;
 
             base.OnNavigatedFrom(e);
@@ -780,6 +756,12 @@ namespace PacketMessagingTS.Helpers
         // TODO insert InitializeFormControlAsync, maybe
         public async void FormsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
+            if (e.RemovedItems.Count == 1)
+            {
+                _packetMessage = null;
+                _messageOrigin = MessageOrigin.New;
+            }
+
             _packetAddressForm = new SendFormDataControl(_loadMessage);
 
             string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
@@ -912,7 +894,6 @@ namespace PacketMessagingTS.Helpers
                 _loadMessage = false;
             }
 
-            //SetFormsPagePivotSelectedIndex(((Pivot)sender).SelectedIndex);
             FormsPagePivotSelectedIndex = ((Pivot)sender).SelectedIndex;
         }
 

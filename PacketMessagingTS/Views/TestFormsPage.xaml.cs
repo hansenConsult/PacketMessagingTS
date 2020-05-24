@@ -48,13 +48,18 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList = SharedData.FormControlAttributeTestList;
             }
 
-            //_formControlAttributeList.AddRange(_attributeListTypeTestForms);
             PopulateFormsPagePivot();
         }
 
-        protected override int FormsPagePivotSelectedIndex
+        public override int FormsPagePivotSelectedIndex
         {
-            get => TestFormsViewModel.TestFormsPagePivotSelectedIndex;
+            get
+            {
+                int index = TestFormsViewModel.TestFormsPagePivotSelectedIndex;
+                if (index >= _formControlAttributeList.Count)
+                    index = 0;
+                return index;
+            }
             set => TestFormsViewModel.TestFormsPagePivotSelectedIndex = value;
         }
 

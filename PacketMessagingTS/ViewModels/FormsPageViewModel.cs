@@ -18,6 +18,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class FormsViewModel : BaseViewModel
     {
+        public virtual FormsViewModel FormViewModel
+        {
+            get; set;
+        }
+
         //public FormControlBase PacketForm
         //{ get; set; }
 

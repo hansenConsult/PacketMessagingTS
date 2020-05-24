@@ -41,7 +41,7 @@ namespace ICS213PackItFormControl
             otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
-            
+
             _messageBoxHeight = message.Height;
 
             UpdateFormFieldsRequiredColors();
@@ -67,7 +67,7 @@ namespace ICS213PackItFormControl
 
         public override void AppendDrillTraffic()
         {
-            message.Text = message.Text + DrillTraffic;
+            message.Text += DrillTraffic;
         }
 
         public override Panel DirectPrintContainer => directPrintContainer;
@@ -85,7 +85,6 @@ namespace ICS213PackItFormControl
                     if (_messageBoxHeight < _scrollViewer.ExtentHeight)
                     {
                         List<Panel> printPages = new List<Panel>();
-                        string originalMessage = message.Text;
                         int pageCount = Math.Min((int)(schollViewerHeight / _messageBoxHeight) + 1, 2);
                         for (int i = 0; i < pageCount; i++)
                         {
@@ -108,9 +107,9 @@ namespace ICS213PackItFormControl
                                 grid.Children.Add(header);
 
                                 // Main content
-                                TextBox messageBox = new TextBox() 
+                                TextBox messageBox = new TextBox()
                                 {
-                                    BorderThickness = new Thickness(0,0,0,0),
+                                    BorderThickness = new Thickness(0, 0, 0, 0),
                                     AcceptsReturn = true,
                                     TextWrapping = TextWrapping.Wrap,
                                     Text = message.Text,
@@ -173,8 +172,9 @@ namespace ICS213PackItFormControl
 
         public override string CreateSubject()
 		{
-			return ($"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}");
-		}
+            return $"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}";
+            //return $"_{HandlingOrder?.ToUpper()[0]}_ICS213_";
+        }
 
         protected override string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
         {

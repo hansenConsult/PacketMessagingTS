@@ -45,14 +45,19 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList = SharedData.FormControlAttributeCityList;
             }
 
-            //_formControlAttributeList.AddRange(_attributeListTypeCity);
             PopulateFormsPagePivot();
         }
 
-        protected override int FormsPagePivotSelectedIndex
+        public override int FormsPagePivotSelectedIndex
         {
-            get => _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
-            set => _cityFormsViewModel.CityFormsPagePivotSelectedIndex = value;
+            get
+            {
+                int index = _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
+                if (index >= _formControlAttributeList.Count)
+                    index = 0;
+                return index;
+            }
+                set => _cityFormsViewModel.CityFormsPagePivotSelectedIndex = value;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)

@@ -157,13 +157,6 @@ namespace PacketMessagingTS
                 SharedData.Assemblies.Add(assembly);
             }
             _logHelper.Log(LogLevel.Info, $"Assembly count: {SharedData.Assemblies.Count}");
-            //foreach (Assembly assembly in SharedData.Assemblies)
-            //{
-            //    _logHelper.Log(LogLevel.Info, $"Assembly: {assembly}");
-            //}
-            //SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
-            //StorageFolder packageEffectiveLocation = Package.Current.EffectiveLocation;
-            //_logHelper.Log(LogLevel.Info, $"{packageEffectiveLocation.Path}");
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)

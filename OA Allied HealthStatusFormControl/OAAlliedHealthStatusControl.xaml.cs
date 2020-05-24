@@ -11,10 +11,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.System;
-using ToggleButtonGroupControl;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Documents;
-using Microsoft.Toolkit.Helpers;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -34,14 +31,14 @@ namespace OAAlliedHealthStatus201802FormControl
         {
             InitializeComponent();
 
-            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            DependencyObject panelName = formHeaderControl.Panel;
             ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = radioOperatorControl.Panel;
             ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "Allied Health Status Report Short Form";

@@ -1110,6 +1110,11 @@ namespace FormControlBaseClass
         public virtual void MsgTimeChanged(string msgTime)      // Must be public, not protected
         { }
 
+        protected virtual void Required_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdateFormFieldsRequiredColors();
+        }
+
         protected virtual void ReportType_Checked(object sender, RoutedEventArgs e)
         {
             bool complete = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";

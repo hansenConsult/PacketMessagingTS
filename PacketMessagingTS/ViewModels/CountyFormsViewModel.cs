@@ -6,7 +6,7 @@ namespace PacketMessagingTS.ViewModels
 {
     public class CountyFormsViewModel : FormsViewModel
     {
-        protected int countyFormsPagePivotSelectedIndex;
+        private int countyFormsPagePivotSelectedIndex;
         public int CountyFormsPagePivotSelectedIndex
         {
             get => GetProperty(ref countyFormsPagePivotSelectedIndex);
