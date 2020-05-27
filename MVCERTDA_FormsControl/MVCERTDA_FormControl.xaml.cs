@@ -160,12 +160,13 @@ namespace MVCERTDA_FormsControl
 
         public override string CreateSubject()
         {
-            return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
+            //return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
+            return ("_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_");
         }
 
         public override void AppendDrillTraffic()
         {
-            message.Text = message.Text + DrillTraffic;
+//            message.Text = message.Text + DrillTraffic;
         }
 
         protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
@@ -182,7 +183,7 @@ namespace MVCERTDA_FormsControl
                     if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
                     {
                         int index = Convert.ToInt32(data[1]);
-                        return $"{id}: [{data[0]}}}{(index + 1).ToString()}]";
+                        return $"{id}: [{data[0]}}}{index + 1}]";
                     }
                     else
                     {
@@ -341,40 +342,12 @@ namespace MVCERTDA_FormsControl
             return "";
         }
 
-        //private void textBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        //private void DamageAccessmentRequired_TextChanged(object sender, TextChangedEventArgs e)
         //{
-        //    // Set sender.Text. You can use args.SelectedItem to build your text string.
-        //    sender.Text = args.SelectedItem as string;
+        //    if (string.IsNullOrEmpty(message.Text))
+        //        message.Text = " ";
+        //     //TextBoxRequired_TextChanged(message, null);
         //}
-
-        //private void textBoxFromICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        //{
-        //    // Only get results when it was a user typing, 
-        //    // otherwise assume the value got filled in by TextMemberPath 
-        //    // or the handler for SuggestionChosen.
-        //    if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-        //    {
-        //        //Set the ItemsSource to be your filtered dataset
-        //        //sender.ItemsSource = null;
-        //        _ICSPositionFiltered = new List<string>();
-        //        foreach (string s in ICSPosition)
-        //        {
-        //            string lowerS = s.ToLower();
-        //            if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
-        //            {
-        //                _ICSPositionFiltered.Add(s);
-        //            }
-        //        }
-        //        sender.ItemsSource = _ICSPositionFiltered;
-        //    }
-        //}
-
-        private void DamageAccessmentRequired_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(message.Text))
-                message.Text = " ";
-             //TextBoxRequired_TextChanged(message, null);
-        }
 
         private void ComboBoxFromLocation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -388,7 +361,7 @@ namespace MVCERTDA_FormsControl
             if ((sender as ComboBox).Name == "comboBoxFromLocation")
             {
                 if (comboBoxFromLocation.SelectedIndex < 0 && comboBoxFromLocation.IsEditable)
-                {              
+                {
                     textBoxFromLocation.Text = comboBoxFromLocation.Text;
                     //FromLocation = comboBoxFromLocation.Text;
                 }
@@ -451,7 +424,8 @@ namespace MVCERTDA_FormsControl
                     break;
                 }
             }
-
         }
+
     }
 }
+

@@ -189,8 +189,7 @@
                                                          Style="{StaticResource RadioButtonTNR12B}" 
                                                          Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="50" Tag="Yes"/>
                                             <TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hh:mm" 
-                                                     UseLayoutRounding="False" 
-                                                     d:LayoutRounding="Auto" VerticalAlignment="Center" Tag="6d."
+                                                     VerticalAlignment="Center" Tag="6d."
                                                      TextChanged="TextBox_TimeChanged"/>
                                             <RadioButton x:Name="replyNo" GroupName="reply" 
                                                          Style="{StaticResource RadioButtonTNR12B}" 

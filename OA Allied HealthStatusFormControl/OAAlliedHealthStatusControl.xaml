@@ -6,28 +6,29 @@
     xmlns:local="using:OAAlliedHealthStatus201802FormControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"   
 
     mc:Ignorable="d"
-    d:DesignWidth="816" d:DesignHeight="1576">
+    d:DesignWidth="816" 
+    d:DesignHeight="1576">
+    <!--xmlns:muxc="using:Microsoft.UI.Xaml.Controls"-->
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
+                <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <x:Double x:Key="TextControlThemeMinWidth">48</x:Double>
+            <x:Double x:Key="TextControlThemeMinWidth">44</x:Double>
 
-            <Style x:Key="AlliedNumberBox" TargetType="muxc:NumberBox">
+            <!--<Style x:Key="AlliedNumberBox" TargetType="muxc:NumberBox">
                 <Setter Property="Width" Value="48"/>
                 <Setter Property="Height" Value="24"/>
-                <Setter Property="HorizontalContentAlignment" Value="Right"/>
-            </Style>
+                --><!--<Setter Property="HorizontalContentAlignment" Value="Right"/>--><!--
+            </Style>-->
             
             <Style x:Key="AlliedNumberTextBox" TargetType="TextBox">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -100,7 +101,12 @@
             <DataTemplate x:Name="AlliedFieldHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="7" FontFamily="Arial" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
+
             <Style x:Key="TextBoxSmallWidth" TargetType="TextBox">
+                <Setter Property="Width" Value="48"/>
+                <Setter Property="Margin" Value="2"/>
+            </Style>
+            <!--<Style x:Key="TextBoxSmallWidth" TargetType="TextBox">
                 <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
@@ -266,7 +272,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>
+            </Style>-->
             <Style x:Key="TextBoxFlowInformation" TargetType="TextBox" >
                 <Setter Property="TextAlignment" Value="Right"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -1696,14 +1702,14 @@ to Public Health/Medical Health Branch"
                                 <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,0"  Margin="0,0,0,2" />
                                 <TextBlock Grid.Column="0" Text="Facility Patients to Evacuate" 
                                        Style="{StaticResource AlliedHeaderText}" Margin="2,0,2,0" />
-                                <!--<TextBox Grid.Column="1" x:Name="patientsToEvacuate"
+                                <TextBox Grid.Column="1" x:Name="patientsToEvacuate"
                                      Style="{StaticResource TextBoxFlowInformation}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="31a." />-->
-                                <muxc:NumberBox Grid.Column="1" x:Name="patientsToEvacuate" 
+                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="31a." />
+                                <!--<muxc:NumberBox Grid.Column="1" x:Name="patientsToEvacuate" 
                                                 VerticalAlignment="Center" HorizontalAlignment="Left"
                                                 HorizontalContentAlignment="Right"
                                                 Width="48"
-                                                Margin="2" Tag="31a."/>
+                                                Margin="2" Tag="31a."/>-->
                             </Grid>
                             <Grid Grid.Column="0" Grid.Row="6" BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <Grid.ColumnDefinitions>
