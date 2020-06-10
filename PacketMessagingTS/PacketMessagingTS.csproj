@@ -378,6 +378,10 @@
       <Project>{6b998efe-8a41-47b2-8671-4c9757f150df}</Project>
       <Name>HavBedReportFormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HospitalRollCallFormControl\HospitalRollCallFormControl.csproj">
+      <Project>{92261b70-8a95-47ef-8ee9-7ade0ee3389c}</Project>
+      <Name>HospitalRollCallFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ICS213PackItFormControl\ICS213PackItFormControl.csproj">
       <Project>{64fb6dbf-750a-490d-aaea-f1e41cf750fe}</Project>
       <Name>ICS213PackItFormControl</Name>
@@ -435,6 +439,7 @@
     <Content Include="Assets\BBSData.xml" />
     <Content Include="Assets\CountyTacticalCallsigns.xml" />
     <Content Include="Assets\EmailAccounts.xml" />
+    <Content Include="Assets\HospitalRollCall.xml" />
     <Content Include="Assets\NonCountyTacticalCallsigns.xml" />
     <Content Include="Assets\Tactical_Calls.txt" />
     <Content Include="Assets\TNCData.xml">

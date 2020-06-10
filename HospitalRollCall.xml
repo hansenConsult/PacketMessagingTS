@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HospitalRollCall>
+  <Hospital hospitalName="MHJOC\n(Packet HOSDOC)"
+            callSign="KZ6CM"
+            name="Poul"
+            traffic="true"
+            packet="false"
+            hosEq="true"
+            printer="true"
+            tested="false"/>
+  <Hospital hospitalName="AMER RED CROSS\n(Packet ARCEOC)"
+            callSign="KZ6CM"
+            name="Poul"
+            traffic="true"
+            packet="false"
+            hosEq="true"
+            printer="true"
+            tested="false"/>
+  <Hospital hospitalName="AMER RED CROSS\n(Packet ARCEOC)"
+            callSign="KC6ZSQ"
+            name="Phil"
+            traffic="false"
+            packet="true"
+            hosEq="false"
+            printer="false"
+            tested="true"/>
+</HospitalRollCall>

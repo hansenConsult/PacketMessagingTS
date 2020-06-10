@@ -408,6 +408,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         else if (!toFound && msgLines[i].StartsWith("To:"))
                         {
                             pktMsg.MessageTo = NormalizeEmailField(msgLines[i].Substring(4));
+                            if (pktMsg.MessageTo.ToLower().Contains("xscperm") && string.IsNullOrEmpty(pktMsg.Area))    // For testing
+                            {
+                                pktMsg.Area = "XSCPERM";
+                            }
                             toFound = true;
                         }
                         else if (msgLines[i].StartsWith("Cc:"))
@@ -502,7 +506,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     if (!string.IsNullOrEmpty(pktMsg.Area))
                     {
-                        updateBulletinList |= true;
+                        updateBulletinList |= true;     // Does this work with xscevent
+
+                        if (pktMsg.Area.ToLower() == "xscperm")
+                        {
+                            if (pktMsg.Subject.Contains("SCCo Packet Frequencies"))
+                            {
+                                BBSDefinitions.CreateFromBulletin(pktMsg);
+                            }
+                        }
                     }
 
                     // Do printing if requested

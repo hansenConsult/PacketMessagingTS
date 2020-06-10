@@ -42,7 +42,7 @@ namespace HavBedReportFormControl
             new ComboBoxPackItItem(null, ""),
             new ComboBoxPackItItem("Exceeded", BlackBrush, WhiteBrush),
             new ComboBoxPackItItem("Full", PinkBrush),
-            new ComboBoxPackItItem("Interactive", YellowBrush),
+            new ComboBoxPackItItem("Inactive", YellowBrush),
             new ComboBoxPackItItem("Open", LightGreenBrush),
         };
 

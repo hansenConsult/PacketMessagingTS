@@ -1,0 +1,92 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using FormControlBaseClass;
+using FormUserControl;
+
+using Microsoft.Toolkit.Uwp.UI.Controls;
+
+using PacketMessagingTS.Core.Helpers;
+
+using SharedCode;
+using SharedCode.Helpers;
+using SharedCode.Models;
+
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
+
+// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+
+namespace HospitalRollCallFormControl
+{
+    [FormControl(
+        FormControlName = "hospital_roll_call",
+        FormControlMenuName = "Hospital RollCall",
+        FormControlType = FormControlAttribute.FormType.HospitalForm)
+    ]
+
+    public sealed partial class HospitalRollCallControl : FormControlBase
+    {
+        public HospitalRollCallControl()
+        {
+            this.InitializeComponent();
+
+            ScanControls(PrintableArea);
+
+            InitializeToggleButtonGroups();
+        }
+
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+
+        public override FormProviders FormProvider => FormProviders.PacItForm;
+
+        public override string PacFormName => "hospital_roll_call";
+
+        public override string PacFormType => "ICS-213 Test";
+
+        public override string MessageNo
+        {
+            get => base.MessageNo;
+            set
+            {
+                base.MessageNo = value;
+                OriginMsgNo = value;
+            }
+        }
+
+        public override Panel CanvasContainer => container;
+
+        public override Panel DirectPrintContainer => directPrintContainer;
+
+        public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
+
+        public override void AppendDrillTraffic() {}
+
+        public override string CreateOutpostData(ref PacketMessage packetMessage) => throw new NotImplementedException();
+
+        public override string CreateSubject()
+        {
+            //return $"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}";
+            return $"_{HandlingOrder?.ToUpper()[0]}_ICS213_";
+        }
+
+        //public ObservableCollection<Hospital> DataGridSource => new ObservableCollection<Hospital>(HospitalRollCall.Instance.HospitalList);
+
+    }
+
+    public class HospitalRollCallTemplateSelector : DataTemplateSelector 
+    {
+
+    }
+}

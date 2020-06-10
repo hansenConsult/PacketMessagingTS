@@ -40,7 +40,8 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*" />
+                    <!--<ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="220"/>-->
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Ellipse x:Name="Ellipse"
@@ -77,6 +78,10 @@
                            OnContent="Primary BBS"
 						   Visibility="{x:Bind BBSPrimary, Converter={StaticResource VisibilityConverter}}"
                            Margin="20,0,0,0" Toggled="ToggleSwitch_Toggled" />
+                <TextBox Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" x:Name="lastUsedBBS"
+                         IsReadOnly="true"
+                         Text="{x:Bind LastUsedBBS, Mode=OneWay}"
+                         Header="Last used BBS" VerticalAlignment="Center"/>
             </Grid>
         </DataTemplate>
         <Style x:Key="AlliedNumberTextBox" TargetType="TextBox">
@@ -195,11 +200,12 @@
                             <ColumnDefinition Width="120"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0" x:Name="receivedPrint" Content="Print Received Messages"
+                        <CheckBox Grid.Column="0" x:Name="receivedPrint" Content="Print Received Messages."
                                   IsChecked="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=TwoWay}"
                                   Checked="Print_CheckedUnchecked"
                                   Unchecked="Print_CheckedUnchecked"/>
-                        <TextBlock Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Text="Number of copies"/>
+                        <TextBlock Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}"  Margin="8,0,0,0"                        
+                                   Text="Number of copies" VerticalAlignment="Center"/>
                         <muxc:NumberBox Grid.Column="2" x:Name="receivedCopyCount"
                                         IsEnabled="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=OneWay}"
                                         Minimum="0" Maximum="6"
@@ -222,7 +228,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Copy destination one"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Copy destination one" VerticalAlignment="Center"/>
                         <ComboBox Grid.Row="0" Grid.Column="1" x:Name="receivedDest1" IsEditable="True"
                                   Width="200" ItemsSource="{x:Bind CopyDestinations}"
                                   SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest1, Mode=TwoWay}"/>
@@ -481,7 +487,7 @@
                                   Margin="12,12,0,0" Padding="0,0,20,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width ="auto"/>
-                                    <ColumnDefinition Width="2.4*"/>
+                                    <ColumnDefinition Width="2.8*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="44"/>
@@ -520,9 +526,13 @@
                                 <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Width="85"
 									     HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center"
                                          Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency1, Mode=OneWay}" Height="32"/>
-                                <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="48,0,0,0"
+                                <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="0,0,0,0"
 										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
                                          Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency2, Mode=OneWay}"/>
+                                <TextBox x:Name="textBoxFrequency3"  Grid.Column="1" Grid.Row="3" Width="85" 
+										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
+                                         HorizontalAlignment="Right"
+                                         Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency3, Mode=OneWay}"/>
                                 <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4" Width="270"
 										 Text="{x:Bind _PacketSettingsViewmodel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 

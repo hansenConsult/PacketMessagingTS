@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="HospitalRollCall">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="Hospital">
+          <xs:complexType>
+            <xs:attribute name="hospitalName" type="xs:string" use="required" />
+            <xs:attribute name="callSign" type="xs:string" use="required" />
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="traffic" type="xs:boolean" use="required" />
+            <xs:attribute name="packet" type="xs:boolean" use="required" />
+            <xs:attribute name="hosEq" type="xs:boolean" use="required" />
+            <xs:attribute name="printer" type="xs:boolean" use="required" />
+            <xs:attribute name="tested" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -177,6 +177,34 @@ namespace PacketMessagingTS.Models
 			}
 		}
 
+        public static async void SaveAsync(BBSDefinitions bBSDefinitions)
+        {
+
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+            try
+            {
+                var storageItem = await localFolder.CreateFileAsync(bbsFileName, CreationCollisionOption.ReplaceExisting);
+                if (storageItem != null)
+                {
+                    using (StreamWriter writer = new StreamWriter(new FileStream(storageItem.Path, FileMode.Create)))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(BBSDefinitions));
+                        serializer.Serialize(writer, bBSDefinitions);
+                    }
+                }
+                else
+                {
+                    _logHelper.Log(LogLevel.Error, $"File not found {bbsFileName}");
+
+                }
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"Error saving {bbsFileName} {e}");
+            }
+        }
+
         public BBSData GetBBSFromName(string bbsName)
         {
             BBSData retval = null;
@@ -190,81 +218,91 @@ namespace PacketMessagingTS.Models
             }
             return retval;
         }
-        //public static BBSDefinitions CreateFromBulletin(ref PacketMessage bbsBulletin)
-        //{
-        //	string bulletin = bbsBulletin.MessageBody;
 
-        //	if (bulletin is null)
-        //		return null;
+        public static async void CreateFromBulletin(PacketMessage bbsBulletin)
+        {
+            string[] subjectElements = bbsBulletin.Subject.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string version = subjectElements[3];
+            string bulletin = bbsBulletin?.MessageBody;
 
-        //	int start = 0;
-        //	int start2 = 0;
-        //	bulletin = bulletin.Substring(start);
+            if (bulletin is null)
+                return;
 
-        //	start = bulletin.IndexOf("---------");
-        //	start2 += start;
-        //	string bbsInfo = bulletin.Substring(start);
-        //	start = bbsInfo.IndexOf("\n");
-        //	start2 += start;
-        //	bbsInfo = bbsInfo.Substring(start + 1);
-        //	int end = bbsInfo.IndexOf('*');
-        //	bbsInfo = bbsInfo.Substring(0, end);
+            int start = 0;
+            int start2 = 0;
+            bulletin = bulletin.Substring(start);
 
-        //	BBSData bbsData;
-        //	var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        //	int bbsCount = lines.Length;
-        //	BBSData[] bbsdataArray = new BBSData[lines.Length + 1];
-        //	int i = 0;
-        //	for (; i < lines.Length; i++)
-        //	{
-        //		var callsign = lines[i].Split(new char[] { ',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            start = bulletin.IndexOf("---------");
+            string bbsInfo = bulletin.Substring(start);
+            start = bbsInfo.IndexOf("\r") + 1;
+            start2 += start;
+            bbsInfo = bbsInfo.Substring(start);
+            string bbsDataStart = bbsInfo;
+            start2 += start;
+            //bbsInfo = bbsInfo.Substring(start + 1);
+            int end = bbsInfo.IndexOf('*');
+            bbsInfo = bbsInfo.Substring(0, end);
 
-        //		bbsData = new BBSData();
-        //		bbsData.Name = callsign[0];
-        //		bbsData.ConnectName = callsign[1];
-        //		bbsData.Frequency1 = callsign[2];
-        //		bbsData.Frequency2 = callsign[3];
-        //		bbsData.Selected = false;
+            BBSData bbsData;
+            var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            int bbsCount = lines.Length;
+            BBSData[] bbsdataArray = new BBSData[lines.Length + 1];
+            int i = 0;
+            for (; i < lines.Length; i++)
+            {
+                var bbs = lines[i].Split(new char[] {',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
-        //		bbsdataArray[i] = bbsData;
-        //	}
-        //	// Location
-        //	bbsInfo = bulletin.Substring(start2 + end);
-        //	start = bbsInfo.IndexOf("---------");
-        //	bbsInfo = bbsInfo.Substring(start);
-        //	start = bbsInfo.IndexOf("\n");
-        //	bbsInfo = bbsInfo.Substring(start + 1);
-        //	string description = "Santa Clara County ARES/RACES PacketSystem. ";
-        //	lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        //	for (i = 0; i < bbsCount; i++)
-        //	{
-        //		var callsign = lines[i].Split(new string[] { ",", "      ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
-        //		bbsdataArray[i].Description = description + callsign[1];
-        //	}
-        //	bbsdataArray[0].Selected = true;
+                bbsData = new BBSData();
+                bbsData.Name = bbs[0];
+                bbsData.ConnectName = bbs[1];
+                bbsData.Frequency1 = bbs[2];
+                bbsData.Frequency2 = bbs[3];
+                if (bbs.Length == 5)
+                {
+                    bbsData.Frequency3 = bbs[4];
+                }
 
-        //	// Add training BBS
-        //	bbsData = new BBSData();
-        //	bbsData.Name = "W5XSC";
-        //	bbsData.ConnectName = "W5XSC-1";
-        //	bbsdataArray[i] = bbsData;
+                bbsdataArray[i] = bbsData;
+            }
+            // Location
+            start = bbsDataStart.IndexOf("---------");
+            bbsInfo = bbsDataStart.Substring(start);
+            start = bbsInfo.IndexOf("\r");
+            bbsInfo = bbsInfo.Substring(start + 1);
+            lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (i = 0; i < bbsCount; i++)
+            {
+                var callsign = lines[i].Split(new string[] { ",", "      ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+                bbsdataArray[i].Description = callsign[1];
+            }
 
-        //	BBSDefinitions bbsDefinitions = new BBSDefinitions();
-        //	bbsDefinitions.RevisionTime = bbsBulletin.JNOSDate;
-        //	bbsDefinitions.BBSDataArray = bbsdataArray;
+            // Add training BBS
+            bbsData = new BBSData();
+            bbsData.Name = "W5XSC";
+            bbsData.ConnectName = "W5XSC-1";
+            bbsData.Description = "Used for training and testing";
+            bbsData.Frequency1 = "144.910";
+            bbsData.Frequency3 = "433.450";
+            bbsdataArray[i] = bbsData;
 
-        //	return bbsDefinitions;
-        //}
+            BBSDefinitions bbsDefinitions = new BBSDefinitions();
+            bbsDefinitions.RevisionTime = bbsBulletin.JNOSDate;
+            bbsDefinitions.BBSDataArray = bbsdataArray;
 
-        //ICollectionView CreateView()
-        //{
-        //	throw new NotImplementedException();
-        //	//return new MyListCollectionView(this);
-        //	//BBSDataArray.CreateView();
-        //	//return (BBSData[]) CreateView();
+            BBSDefinitions.SaveAsync(bbsDefinitions);
+
+            //return bbsDefinitions;
+        }
+
+        ICollectionView CreateView()
+        {
+            throw new NotImplementedException();
+            //return new MyListCollectionView(this);
+            //BBSDataArray.CreateView();
+            //return (BBSData[]) CreateView();
 
 
-        //}
+        }
 
         ICollectionView ICollectionViewFactory.CreateView()
 		{
@@ -289,6 +327,8 @@ namespace PacketMessagingTS.Models
         private string frequency1Field;
 
         private string frequency2Field;
+
+        private string frequency3Field;
 
         private string secondaryField;
 
@@ -359,6 +399,20 @@ namespace PacketMessagingTS.Models
             set
             {
                 this.frequency2Field = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Frequency3
+        {
+            get
+            {
+                return this.frequency3Field;
+            }
+            set
+            {
+                this.frequency3Field = value;
             }
         }
 

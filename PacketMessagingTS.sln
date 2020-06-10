@@ -43,6 +43,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicNoticeFormControl", "PublicNoticeFormControl\PublicNoticeFormControl.csproj", "{EFBF3AA6-236B-4809-873F-1FD251715E2C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0F6036EB-20CB-4293-B896-6A5497FCA2EA}"
+	ProjectSection(SolutionItems) = preProject
+		HospitalRollCall.xml = HospitalRollCall.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalRollCallFormControl", "HospitalRollCallFormControl\HospitalRollCallFormControl.csproj", "{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -420,6 +425,26 @@ Global
 		{EFBF3AA6-236B-4809-873F-1FD251715E2C}.Release|x64.Build.0 = Release|x64
 		{EFBF3AA6-236B-4809-873F-1FD251715E2C}.Release|x86.ActiveCfg = Release|x86
 		{EFBF3AA6-236B-4809-873F-1FD251715E2C}.Release|x86.Build.0 = Release|x86
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|ARM.Build.0 = Debug|ARM
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|ARM64.Build.0 = Debug|ARM64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|x64.ActiveCfg = Debug|x64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|x64.Build.0 = Debug|x64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|x86.ActiveCfg = Debug|x86
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Debug|x86.Build.0 = Debug|x86
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|ARM.ActiveCfg = Release|ARM
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|ARM.Build.0 = Release|ARM
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|ARM64.ActiveCfg = Release|ARM64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|ARM64.Build.0 = Release|ARM64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|x64.ActiveCfg = Release|x64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|x64.Build.0 = Release|x64
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|x86.ActiveCfg = Release|x86
+		{92261B70-8A95-47EF-8EE9-7ADE0EE3389C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

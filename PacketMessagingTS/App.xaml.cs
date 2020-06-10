@@ -109,6 +109,7 @@ namespace PacketMessagingTS
             await UserAddressArray.Instance.OpenAsync();
             AddressBook.Instance.CreateAddressBook();
             await DistributionListArray.Instance.OpenAsync();
+            await HospitalRollCall.Instance.OpenAsync();
 
             if (!args.PrelaunchActivated)
             {

@@ -263,6 +263,7 @@ namespace PacketMessagingTS.ViewModels
                 BBSDescription = currentBBS?.Description;
                 BBSFrequency1 = currentBBS?.Frequency1;
                 BBSFrequency2 = currentBBS?.Frequency2;
+                BBSFrequency3 = currentBBS?.Frequency3;
 
                 bool changed = BBSFromSelectedProfile?.Name != currentProfile.BBS;            
                 IsAppBarSaveEnabled = SaveEnabled(changed);
@@ -288,6 +289,13 @@ namespace PacketMessagingTS.ViewModels
         {
             get => bbsFrequency2;
             set => SetProperty(ref bbsFrequency2, value);
+        }
+
+        private string bbsFrequency3;
+        public string BBSFrequency3
+        {
+            get => bbsFrequency3;
+            set => SetProperty(ref bbsFrequency3, value);
         }
 
         private string defaultTo;
