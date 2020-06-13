@@ -783,14 +783,23 @@ namespace PacketMessagingTS.Views
             if (TestWithoutConnecting)
             {
                 DateTime dateTime = DateTime.Now;
+                int toIndex = receivedMessage.Text.IndexOf("To:");
+                int lineEnd = receivedMessage.Text.IndexOf("\r", toIndex);
+                string toLine = receivedMessage.Text.Substring(toIndex, lineEnd - toIndex);
+                string[] toArray = toLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string area = "";
+                if (toArray[1].ToLower().Contains("xscperm"))
+                    area = "xscperm";
+                else if (toArray[1].ToLower().Contains("xscevent"))
+                    area = "xscevent";
                 PacketMessage packetMsg = new PacketMessage()
                 {
                     MessageBody = receivedMessage.Text,
                     ReceivedTime = dateTime,
-                    BBSName = BBSDefinitions.Instance.BBSDataList[2].Name,
+                    BBSName = BBSDefinitions.Instance.BBSDataArray[2].Name,
                     TNCName = TNCDeviceArray.Instance.TNCDeviceList[1].Name,
                     MessageNumber = Helpers.Utilities.GetMessageNumberPacket(true),
-                    Area = "",
+                    Area = area,
                     MessageSize = receivedMessage.Text.Length,
                 };
 
@@ -979,7 +988,7 @@ namespace PacketMessagingTS.Views
             {
                 MessageBody = receivedMessage.Text,
                 ReceivedTime = dateTime,
-                BBSName = BBSDefinitions.Instance.BBSDataList[2].Name,
+                BBSName = BBSDefinitions.Instance.BBSDataArray[2].Name,
                 TNCName = TNCDeviceArray.Instance.TNCDeviceList[1].Name,
                 MessageNumber = Helpers.Utilities.GetMessageNumberPacket(true),
                 Area = "",

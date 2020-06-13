@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -22,6 +23,8 @@ using MetroLog;
 using SharedCode;
 
 using Windows.Storage;
+using Windows.Storage.FileProperties;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace PacketMessagingTS.Models
@@ -74,25 +77,25 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        private List<BBSData> bbsDataList;
+        //private List<BBSData> bbsDataList;
         [System.Xml.Serialization.XmlIgnore]
-        public List<BBSData> BBSDataList
-        {
-            get
-            {
-                bbsDataList = new List<BBSData>();
-                foreach (BBSData bbsData in bBSDataArrayField)
-                {
-                    bbsDataList.Add(bbsData);
-                }
-                return bbsDataList;
-            }
-        }
+        public List<BBSData> BBSDataList => bBSDataArrayField.ToList<BBSData>();
+        //{
+        //    get
+        //    {
+        //        bbsDataList = new List<BBSData>();
+        //        foreach (BBSData bbsData in bBSDataArrayField)
+        //        {
+        //            bbsDataList.Add(bbsData);
+        //        }
+        //        return bbsDataList;
+        //    }
+        //}
 
         private BBSDefinitions()
         {
             bBSDataArrayField = new BBSData[0];
-            bbsDataList = new List<BBSData>();
+            //bbsDataList = new List<BBSData>();
         }
 
         public static BBSDefinitions Instance
@@ -116,21 +119,27 @@ namespace PacketMessagingTS.Models
 			StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 			try
 			{
-				var storageItem = await localFolder.TryGetItemAsync(bbsFileName);
-				if (storageItem is null)
+                StorageFile storageItem = await localFolder.GetFileAsync(bbsFileName);
+                BasicProperties basicProperties = null;
+                StorageFile bbsDataFile;
+                if (storageItem != null)
+                {
+                    basicProperties = await storageItem.GetBasicPropertiesAsync();
+                }
+                if (storageItem is null || (basicProperties != null && basicProperties.Size == 0))
 				{
 					// Copy the file from the install folder to the local folder
-					var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-					var storageFile = await folder.GetFileAsync(bbsFileName);
-					if (storageFile != null)
+					var assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                    bbsDataFile = await assetsFolder.GetFileAsync(bbsFileName);
+					if (bbsDataFile != null)
 					{
-						await storageFile.CopyAsync(localFolder, bbsFileName, Windows.Storage.NameCollisionOption.FailIfExists);
+						await bbsDataFile.CopyAsync(localFolder, bbsFileName, NameCollisionOption.ReplaceExisting);
 					}
 				}
 
-				StorageFile file = await localFolder.GetFileAsync(bbsFileName);
+                bbsDataFile = await localFolder.GetFileAsync(bbsFileName);
 
-				using (FileStream reader = new FileStream(file.Path, FileMode.Open))
+				using (FileStream reader = new FileStream(bbsDataFile.Path, FileMode.Open))
 				{
 					XmlSerializer serializer = new XmlSerializer(typeof(BBSDefinitions));
                     _instance = (BBSDefinitions)serializer.Deserialize(reader);
@@ -138,44 +147,42 @@ namespace PacketMessagingTS.Models
 			}
 			catch (FileNotFoundException e)
 			{
-				Debug.WriteLine($"Open BBSData file failed: {e.Message}");
                 _logHelper.Log(LogLevel.Error, $"Open BBSData file failed: {e.Message}");
 			}
 			catch (Exception e)
 			{
                 _logHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
-                Debug.WriteLine($"Error opening {e.Message} {e}");
 			}
 		}
 
-		public async Task SaveAsync()
-		{
-            this.BBSDataArray = BBSDataList.ToArray();
+		//public async Task SaveAsync()
+		//{
+  //          this.BBSDataArray = BBSDataList.ToArray();
 
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+  //          StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
-            try
-            {
-                var storageItem = await localFolder.CreateFileAsync(bbsFileName);
-                if (storageItem != null)
-                {
-                    using (StreamWriter writer = new StreamWriter(new FileStream(storageItem.Path, FileMode.OpenOrCreate)))
-                    {
-                        XmlSerializer serializer = new XmlSerializer(typeof(BBSDefinitions));
-                        serializer.Serialize(writer, this);
-                    }
-                }
-                else
-                {
-                    _logHelper.Log(LogLevel.Error, $"File not found {bbsFileName}");
+  //          try
+  //          {
+  //              var storageItem = await localFolder.CreateFileAsync(bbsFileName);
+  //              if (storageItem != null)
+  //              {
+  //                  using (StreamWriter writer = new StreamWriter(new FileStream(storageItem.Path, FileMode.OpenOrCreate)))
+  //                  {
+  //                      XmlSerializer serializer = new XmlSerializer(typeof(BBSDefinitions));
+  //                      serializer.Serialize(writer, this);
+  //                  }
+  //              }
+  //              else
+  //              {
+  //                  _logHelper.Log(LogLevel.Error, $"File not found {bbsFileName}");
 
-                }
-            }
-			catch (Exception e)
-			{
-                _logHelper.Log(LogLevel.Error, $"Error saving {bbsFileName} {e}");
-			}
-		}
+  //              }
+  //          }
+		//	catch (Exception e)
+		//	{
+  //              _logHelper.Log(LogLevel.Error, $"Error saving {bbsFileName} {e}");
+		//	}
+		//}
 
         public static async void SaveAsync(BBSDefinitions bBSDefinitions)
         {
@@ -219,7 +226,7 @@ namespace PacketMessagingTS.Models
             return retval;
         }
 
-        public static async void CreateFromBulletin(PacketMessage bbsBulletin)
+        public static async Task CreateFromBulletinAsync(PacketMessage bbsBulletin)
         {
             string[] subjectElements = bbsBulletin.Subject.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             string version = subjectElements[3];
@@ -227,71 +234,74 @@ namespace PacketMessagingTS.Models
 
             if (bulletin is null)
                 return;
-
-            int start = 0;
-            int start2 = 0;
-            bulletin = bulletin.Substring(start);
-
-            start = bulletin.IndexOf("---------");
-            string bbsInfo = bulletin.Substring(start);
-            start = bbsInfo.IndexOf("\r") + 1;
-            start2 += start;
-            bbsInfo = bbsInfo.Substring(start);
-            string bbsDataStart = bbsInfo;
-            start2 += start;
-            //bbsInfo = bbsInfo.Substring(start + 1);
-            int end = bbsInfo.IndexOf('*');
-            bbsInfo = bbsInfo.Substring(0, end);
-
-            BBSData bbsData;
-            var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            int bbsCount = lines.Length;
-            BBSData[] bbsdataArray = new BBSData[lines.Length + 1];
-            int i = 0;
-            for (; i < lines.Length; i++)
+            try
             {
-                var bbs = lines[i].Split(new char[] {',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                int start = bulletin.IndexOf("W1XSC");
+                int stop = bulletin.IndexOf('*', start);
+                string bbsInfo = bulletin.Substring(start, stop - start);
 
-                bbsData = new BBSData();
-                bbsData.Name = bbs[0];
-                bbsData.ConnectName = bbs[1];
-                bbsData.Frequency1 = bbs[2];
-                bbsData.Frequency2 = bbs[3];
-                if (bbs.Length == 5)
+                BBSData bbsData;
+                var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                int bbsCount = lines.Length;
+                BBSData[] bbsdataArray = new BBSData[lines.Length + 1];
+                int i = 0;
+                for (; i < lines.Length; i++)
                 {
-                    bbsData.Frequency3 = bbs[4];
+                    var bbs = lines[i].Split(new char[] { ',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    bbsData = new BBSData();
+                    bbsData.Name = bbs[0];
+                    bbsData.ConnectName = bbs[1];
+                    bbsData.Frequency1 = bbs[2];
+                    bbsData.Frequency2 = bbs[3];
+                    if (bbs.Length == 5)
+                    {
+                        bbsData.Frequency3 = bbs[4];
+                    }
+
+                    bbsdataArray[i] = bbsData;
+                }
+                // Add location
+                start = bulletin.IndexOf("W1XSC", stop);
+                bbsInfo = bulletin.Substring(start);
+
+                lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (i = 0; i < bbsCount; i++)
+                {
+                    var callsign = lines[i].Split(new string[] { ",", "      ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+                    bbsdataArray[i].Description = callsign[1];
                 }
 
+                // Add training BBS
+                bbsData = new BBSData();
+                bbsData.Name = "W5XSC";
+                bbsData.ConnectName = "W5XSC-1";
+                bbsData.Description = "Used for training and testing";
+                bbsData.Frequency1 = "144.910";
+                bbsData.Frequency3 = "433.450";
                 bbsdataArray[i] = bbsData;
+
+                BBSDefinitions bbsDefinitions = new BBSDefinitions();
+                bbsDefinitions.RevisionTime = bbsBulletin.JNOSDate;
+                bbsDefinitions.BBSDataArray = bbsdataArray;
+
+                BBSDefinitions.SaveAsync(bbsDefinitions);
+                // Also save to Assets. Make a copy first
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                StorageFile bbsDataFile = await localFolder.GetFileAsync(bbsFileName);
+                if (bbsDataFile != null)
+                {
+                    StorageFolder assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                    StorageFile storageFile = await assetsFolder.GetFileAsync(bbsFileName);
+                    string bbsCopyFileName = bbsFileName + " - Copy";
+                    await storageFile.CopyAsync(assetsFolder, bbsCopyFileName, NameCollisionOption.ReplaceExisting);
+                    await bbsDataFile.CopyAsync(assetsFolder, bbsFileName, NameCollisionOption.ReplaceExisting);
+                }
             }
-            // Location
-            start = bbsDataStart.IndexOf("---------");
-            bbsInfo = bbsDataStart.Substring(start);
-            start = bbsInfo.IndexOf("\r");
-            bbsInfo = bbsInfo.Substring(start + 1);
-            lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            for (i = 0; i < bbsCount; i++)
+            catch (Exception e)
             {
-                var callsign = lines[i].Split(new string[] { ",", "      ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
-                bbsdataArray[i].Description = callsign[1];
+                _logHelper.Log(LogLevel.Error, $"Error in CreateFromBulletinAsync(): {e.Message}");
             }
-
-            // Add training BBS
-            bbsData = new BBSData();
-            bbsData.Name = "W5XSC";
-            bbsData.ConnectName = "W5XSC-1";
-            bbsData.Description = "Used for training and testing";
-            bbsData.Frequency1 = "144.910";
-            bbsData.Frequency3 = "433.450";
-            bbsdataArray[i] = bbsData;
-
-            BBSDefinitions bbsDefinitions = new BBSDefinitions();
-            bbsDefinitions.RevisionTime = bbsBulletin.JNOSDate;
-            bbsDefinitions.BBSDataArray = bbsdataArray;
-
-            BBSDefinitions.SaveAsync(bbsDefinitions);
-
-            //return bbsDefinitions;
         }
 
         ICollectionView CreateView()

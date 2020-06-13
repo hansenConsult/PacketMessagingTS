@@ -129,7 +129,7 @@ namespace PacketMessagingTS.ViewModels
                 currentProfile = value;
 
                 TNCFromSelectedProfile = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == currentProfile.TNC).FirstOrDefault();
-                BBSFromSelectedProfile = BBSDefinitions.Instance.BBSDataList.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
+                BBSFromSelectedProfile = BBSDefinitions.Instance.BBSDataArray.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
                 //Name = currentProfile.Name;
                 TNC = currentProfile.TNC;
                 BBS = currentProfile.BBS;
@@ -203,6 +203,14 @@ namespace PacketMessagingTS.ViewModels
 
                 SetProperty(ref tnc, value);
 
+                if (tnc.Contains(SharedData.EMail))
+                {
+                    BBS = "";
+                }
+                else
+                {
+                    BBS = CurrentProfile.BBS;
+                }
                 //bool changed = ProfileArray.Instance.ProfileList[ProfileSelectedIndex].TNC != tnc;
                 //IsAppBarSaveEnabled = SaveEnabled(changed);
                 UpdateProfileSaveButton(_SavedProfile.TNC, tnc);
@@ -224,12 +232,20 @@ namespace PacketMessagingTS.ViewModels
             {
                 //Set(ref currentTNC, value);
                 currentTNC = value;
+                if (currentTNC.Name.Contains(SharedData.EMail))
+                {
+                    BBS = "";
+                }
+                else
+                {
+                    BBS = CurrentProfile.BBS;
+                }
             }
         }
 
-        public ObservableCollection<BBSData> BBSDataCollection
-        {
-            get => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
+        public ObservableCollection<BBSData> BBSDataCollection => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataArray);
+        //{
+            //get => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
             //{
             //    ObservableCollection<BBSData> bbsDataCollection = new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataList);
             //    BBSData bbsData = new BBSData();
@@ -237,7 +253,7 @@ namespace PacketMessagingTS.ViewModels
             //    bbsDataCollection.Add(bbsData);
             //    return bbsDataCollection;
             //}
-        }
+        //}
 
         private string bbsSelectedValue;
         public string BBS
@@ -259,7 +275,7 @@ namespace PacketMessagingTS.ViewModels
             get => currentBBS;
             set
             {
-                currentBBS = value;
+                Set(ref currentBBS, value);
                 BBSDescription = currentBBS?.Description;
                 BBSFrequency1 = currentBBS?.Frequency1;
                 BBSFrequency2 = currentBBS?.Frequency2;

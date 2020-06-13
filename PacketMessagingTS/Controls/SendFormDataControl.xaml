@@ -19,37 +19,52 @@
         <TextBlock x:Name="labelBBS" 
                    RelativePanel.AlignLeftWithPanel="True"  
                    Text="BBS:" Width="55" Margin="0,8,8,8"/>
-        <TextBox x:Name="textBoxMessageBBS"
+        <!--<TextBox x:Name="textBoxMessageBBS" Visibility="Collapsed"
                  RelativePanel.AlignVerticalCenterWith="labelBBS" 
                  RelativePanel.RightOf="labelBBS" VerticalContentAlignment="Center"
                  Text="{x:Bind MessageBBS, Mode=TwoWay}"
-                 Tag="conditionallyrequired,Please select a BBS" BorderThickness="1" Width="100"  />
-        <TextBlock x:Name="labelTNC" 
+                 Tag="conditionallyrequired,Please select a BBS" BorderThickness="1" Width="100"  />-->
+        <ComboBox x:Name="comboBoxMessageBBS"
+                  RelativePanel.AlignVerticalCenterWith="labelBBS" 
+                  RelativePanel.RightOf="labelBBS" VerticalContentAlignment="Center"
+                  ItemsSource="{x:Bind BBSArray, Mode=OneWay}"
+                  IsEditable="True"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="Name"
+                  SelectedValue="{x:Bind MessageBBS, Mode=TwoWay}"
+
+                  Tag="conditionallyrequired,Please select a BBS" BorderThickness="1" Width="100"  />
+        <!--SelectedValuePath="Name"
+                  SelectedValue="{x:Bind MessageBBS, Mode=TwoWay}"-->
+            <!--Text="{x:Bind MessageBBS, Mode=TwoWay}"-->
+
+            <TextBlock x:Name="labelTNC" 
                    RelativePanel.AlignVerticalCenterWith="labelBBS" 
-                   RelativePanel.RightOf="textBoxMessageBBS"  Text="TNC:" Margin="30,0,0,0" />
-        <ComboBox x:Name="comboBoxMessageTNC" Visibility="Collapsed"
+                   RelativePanel.RightOf="comboBoxMessageBBS"  Text="TNC:" Margin="30,0,0,0" />
+        <ComboBox x:Name="comboBoxMessageTNC" 
                   RelativePanel.AlignVerticalCenterWith="labelBBS" 
                   RelativePanel.RightOf="labelTNC" 
                   RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
                   DisplayMemberPath="Name"
                   SelectedValuePath="Name"
+                  IsEditable="True"
                   ItemsSource="{x:Bind DeviceList, Mode=OneWay}"
                   SelectedValue="{x:Bind MessageTNC, Mode=TwoWay}"
-                  Tag="required,Please select a TNC"  BorderThickness="2"  
+                  Tag="required,Please select a TNC"  BorderThickness="1"  
                   HorizontalAlignment="Stretch"  Margin="12.333,0,0,0"
                   />
-        <TextBox x:Name="textBoxMessageTNC" Visibility="Visible"
+        <!--<TextBox x:Name="textBoxMessageTNC" Visibility="Visible"
                  RelativePanel.AlignVerticalCenterWith="labelBBS" 
                  RelativePanel.RightOf="labelTNC" 
                  RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
                  Text="{x:Bind MessageTNC, Mode=TwoWay}"
-                 HorizontalAlignment="Stretch"  Margin="12.333,0,0,0"/>
+                 HorizontalAlignment="Stretch"  Margin="12.333,0,0,0"/>-->
         <TextBlock x:Name="labelFrom" 
                    RelativePanel.AlignVerticalCenterWith="textBoxMessageFrom" Text="From:" />
         <TextBox x:Name="textBoxMessageFrom" 
-                 RelativePanel.Below="textBoxMessageBBS" 
-                 RelativePanel.AlignLeftWith="textBoxMessageBBS" VerticalContentAlignment="Center"
-                 Text="{x:Bind MessageFrom, Mode=TwoWay}"
+                 RelativePanel.Below="comboBoxMessageBBS" 
+                 RelativePanel.AlignLeftWith="comboBoxMessageBBS" VerticalContentAlignment="Center"
+                 Text="{x:Bind MessageFrom, Mode=OneWay}" IsReadOnly="True"
                  Tag="required,Please fill the From field"  BorderThickness="1" Margin="0,2,0,0"  Width="100" />
         <TextBlock x:Name="labelTo" 
                    RelativePanel.AlignVerticalCenterWith="labelFrom" 
@@ -76,7 +91,7 @@
                    RelativePanel.AlignVerticalCenterWith="textBoxMessageSubject" Text="Subject:"/>
         <TextBox x:Name="textBoxMessageSubject" 
                  RelativePanel.Below="textBoxMessageFrom" 
-                 RelativePanel.AlignLeftWith="textBoxMessageBBS" 
+                 RelativePanel.AlignLeftWith="comboBoxMessageBBS" 
                  RelativePanel.AlignRightWithPanel="True" VerticalContentAlignment="Center"
                  Text="{x:Bind MessageSubject, Mode=TwoWay}"
                  Tag="required,Please fill out the Subject field" Margin="0,2,0,0"   />

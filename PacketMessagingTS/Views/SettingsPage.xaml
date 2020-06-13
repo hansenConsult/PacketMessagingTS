@@ -492,7 +492,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
-                                    <RowDefinition Height="100"/>
+                                    <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
                                     <RowDefinition Height="44"/>
@@ -511,14 +511,17 @@
                                 <ComboBox x:Name="comboBoxBBS"  Grid.Column="1" Grid.Row="1"
 										  ItemsSource="{x:Bind _PacketSettingsViewmodel.BBSDataCollection, Mode=OneWay}"
 										  DisplayMemberPath="Name"
-										  SelectedValuePath = "Name"
+										  VerticalAlignment="Center" Width="120"
+                                          SelectedValuePath = "Name"
                                           SelectedValue="{x:Bind _PacketSettingsViewmodel.BBS, Mode=TwoWay}"
-                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"
-										  VerticalAlignment="Center" Width="200"   />
+                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"/>
+                                <!--SelectedValuePath = "Name"-->
+                                <!--SelectedValue="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"-->
+                                <!--SelectedItem="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"-->
                                 <!--SelectionChanged="ComboBoxBBS_SelectionChanged"/>-->
-                                <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Description:"  HorizontalAlignment="Left" Margin="0,6,5,0" />
-                                <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" Width="270" Height="88"
-										 IsReadOnly="True" TextWrapping="Wrap" 
+                                <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Location:"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                                <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" 
+										 IsReadOnly="True"
 										 VerticalAlignment="Center"
                                          Text="{x:Bind _PacketSettingsViewmodel.BBSDescription, Mode=TwoWay}"/>
                                 <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:"

@@ -33,16 +33,16 @@ namespace PacketMessagingTS.Controls
         {
             InitializeComponent();
 
-            if (loadMessage)
-            {
-                comboBoxMessageTNC.Visibility = Visibility.Collapsed;
-                textBoxMessageTNC.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                comboBoxMessageTNC.Visibility = Visibility.Visible;
-                textBoxMessageTNC.Visibility = Visibility.Collapsed;
-            }
+            //if (loadMessage)
+            //{
+            //    comboBoxMessageTNC.Visibility = Visibility.Collapsed;
+            //    textBoxMessageTNC.Visibility = Visibility.Visible;
+            //}
+            //else
+            //{
+                //comboBoxMessageTNC.Visibility = Visibility.Visible;
+                //textBoxMessageTNC.Visibility = Visibility.Collapsed;
+            //}
             ScanControls(messageInfo);
 
             (string bbs, string tnc, string from) = Utilities.GetProfileData();
@@ -71,6 +71,8 @@ namespace PacketMessagingTS.Controls
             set { SetValue(MessageSubjectProperty, value ?? ""); }
         }
 
+        public ObservableCollection<BBSData> BBSArray => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataArray);
+
         private string originalBBS;
 
         private string messageBBS;
@@ -84,10 +86,7 @@ namespace PacketMessagingTS.Controls
             }
         }
 
-        public ObservableCollection<TNCDevice> DeviceList
-        {
-            get => new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-        }
+        public ObservableCollection<TNCDevice> DeviceList => new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
 
         private string messageTNC;
         public string MessageTNC
@@ -101,18 +100,19 @@ namespace PacketMessagingTS.Controls
                 Set(ref messageTNC, value);
 
                 if (messageTNC.Contains(SharedData.EMail))
+                //if (messageTNC.Contains("E-Mail"))
                 {
                     if (!string.IsNullOrEmpty(MessageBBS))
                     {
                         originalBBS = MessageBBS;
                     }
-                    MessageBBS = textBoxMessageBBS.Text = "";    // TODO fix this
+                    MessageBBS = comboBoxMessageBBS.Text = "";    // TODO fix this
                 }
                 else
                 {
                     if (!string.IsNullOrEmpty(originalBBS))
                     {
-                        MessageBBS = textBoxMessageBBS.Text = originalBBS;
+                        MessageBBS = comboBoxMessageBBS.Text = originalBBS;
                     }
                 }
             }
