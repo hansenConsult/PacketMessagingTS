@@ -211,8 +211,6 @@ namespace PacketMessagingTS.ViewModels
                 {
                     BBS = CurrentProfile.BBS;
                 }
-                //bool changed = ProfileArray.Instance.ProfileList[ProfileSelectedIndex].TNC != tnc;
-                //IsAppBarSaveEnabled = SaveEnabled(changed);
                 UpdateProfileSaveButton(_SavedProfile.TNC, tnc);
             }
         }
@@ -335,8 +333,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref defaultSubject, value);
 
-                //bool changed = CurrentProfile.Subject != defaultSubject;
-                //IsAppBarSaveEnabled = SaveEnabled(changed);
                 UpdateProfileSaveButton(_SavedProfile.Subject, defaultSubject);
             }
         }

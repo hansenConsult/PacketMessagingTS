@@ -29,20 +29,10 @@ namespace PacketMessagingTS.Controls
                 typeof(SendFormDataControl),
                 null);
 
-        public SendFormDataControl(bool loadMessage = false)
+        public SendFormDataControl()
         {
             InitializeComponent();
 
-            //if (loadMessage)
-            //{
-            //    comboBoxMessageTNC.Visibility = Visibility.Collapsed;
-            //    textBoxMessageTNC.Visibility = Visibility.Visible;
-            //}
-            //else
-            //{
-                //comboBoxMessageTNC.Visibility = Visibility.Visible;
-                //textBoxMessageTNC.Visibility = Visibility.Collapsed;
-            //}
             ScanControls(messageInfo);
 
             (string bbs, string tnc, string from) = Utilities.GetProfileData();
@@ -100,7 +90,6 @@ namespace PacketMessagingTS.Controls
                 Set(ref messageTNC, value);
 
                 if (messageTNC.Contains(SharedData.EMail))
-                //if (messageTNC.Contains("E-Mail"))
                 {
                     if (!string.IsNullOrEmpty(MessageBBS))
                     {

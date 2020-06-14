@@ -131,7 +131,7 @@ namespace PacketMessagingTS.Models
 
 		public async Task SaveAsync()
 		{
-			if (EmailAccounts is null || EmailAccounts.Length == 0)
+			if (EmailAccountList is null || EmailAccountList.Count == 0)
 				return;
 
             EmailAccounts = EmailAccountList.ToArray();
@@ -170,12 +170,12 @@ namespace PacketMessagingTS.Models
 
         public List<string> GetMailServers(string partialName = null)
 		{
-			if (EmailAccounts is null || EmailAccounts.Length == 0)
+			if (EmailAccountList is null || EmailAccountList.Count == 0)
 				return null;
 
 			List<string> matches = new List<string>();
 
-			foreach (EmailAccount item in EmailAccounts)
+			foreach (EmailAccount item in EmailAccountList)
 			{
 				if (string.IsNullOrEmpty(partialName) || item.MailServer.StartsWith(partialName.ToUpper()))
 				{
@@ -187,12 +187,12 @@ namespace PacketMessagingTS.Models
 
 		public List<EmailAccount> GetMailAccounts(string partialServerName = null)
 		{
-			if (EmailAccounts is null || EmailAccounts.Length == 0)
+			if (EmailAccountList is null || EmailAccountList.Count == 0)
 				return null;
 
 			List<EmailAccount> matches = new List<EmailAccount>();
 
-			foreach (EmailAccount item in EmailAccounts)
+			foreach (EmailAccount item in EmailAccountList)
 			{
 				if (string.IsNullOrEmpty(partialServerName) || item.MailServer.StartsWith(partialServerName.ToUpper()))
 				{

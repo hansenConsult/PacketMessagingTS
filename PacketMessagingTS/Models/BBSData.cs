@@ -42,7 +42,7 @@ namespace PacketMessagingTS.Models
     //[System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class BBSDefinitions : ICollectionViewFactory
+    public partial class BBSDefinitions
 	{
 		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BBSDefinitions>();
         private static LogHelper _logHelper = new LogHelper(log);
@@ -77,25 +77,9 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        //private List<BBSData> bbsDataList;
-        [System.Xml.Serialization.XmlIgnore]
-        public List<BBSData> BBSDataList => bBSDataArrayField.ToList<BBSData>();
-        //{
-        //    get
-        //    {
-        //        bbsDataList = new List<BBSData>();
-        //        foreach (BBSData bbsData in bBSDataArrayField)
-        //        {
-        //            bbsDataList.Add(bbsData);
-        //        }
-        //        return bbsDataList;
-        //    }
-        //}
-
         private BBSDefinitions()
         {
             bBSDataArrayField = new BBSData[0];
-            //bbsDataList = new List<BBSData>();
         }
 
         public static BBSDefinitions Instance
@@ -304,20 +288,6 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        ICollectionView CreateView()
-        {
-            throw new NotImplementedException();
-            //return new MyListCollectionView(this);
-            //BBSDataArray.CreateView();
-            //return (BBSData[]) CreateView();
-
-
-        }
-
-        ICollectionView ICollectionViewFactory.CreateView()
-		{
-			throw new NotImplementedException();
-		}
 	}
 
 	/// <remarks/>

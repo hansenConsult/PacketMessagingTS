@@ -496,7 +496,7 @@ namespace PacketMessagingTS.Helpers
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
             string subject = CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
-            _packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
+            _packetMessage.Subject = subject ?? _packetAddressForm.MessageSubject;
             if (!_packetMessage.CreateFileName())
             {
                 throw new Exception();
@@ -762,7 +762,7 @@ namespace PacketMessagingTS.Helpers
                 _messageOrigin = MessageOrigin.New;
             }
 
-            _packetAddressForm = new SendFormDataControl(_loadMessage);
+            _packetAddressForm = new SendFormDataControl();
 
             string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 

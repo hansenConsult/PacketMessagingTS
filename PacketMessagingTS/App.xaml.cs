@@ -67,11 +67,11 @@ namespace PacketMessagingTS
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            _logHelper.Log(LogLevel.Info, "");
+            _logHelper.Log(LogLevel.Info, "--------------------------------------");
             _logHelper.Log(LogLevel.Info, "Packet Messaging Application started");
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            Properties = await localFolder.ReadAsync<Dictionary<string, object>>(PropertiesDictionaryFileName);
+            Properties = await localFolder.ReadAsync<Dictionary<string, object>>(PropertiesDictionaryFileName) ?? new Dictionary<string, object>();
             if (Properties is null)
             {
                 Properties = new Dictionary<string, object>();
@@ -157,7 +157,7 @@ namespace PacketMessagingTS
                 //_logHelper.Log(LogLevel.Info, $"Assembly: {assembly}");
                 SharedData.Assemblies.Add(assembly);
             }
-            _logHelper.Log(LogLevel.Info, $"Assembly count: {SharedData.Assemblies.Count}");
+            //_logHelper.Log(LogLevel.Info, $"Assembly count: {SharedData.Assemblies.Count}");
         }
 
         protected override async void OnActivated(IActivatedEventArgs args)
