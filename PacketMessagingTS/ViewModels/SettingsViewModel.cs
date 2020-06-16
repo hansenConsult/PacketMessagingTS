@@ -128,6 +128,35 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        public bool IsBBSUp(string bbs)
+        {
+            bool statusUp = false;
+            switch (bbs.ToLower())
+            {
+                case "w1xsc":
+                    if (w1XSCStatusUp)
+                        statusUp = true;
+                    break;
+                case "w2xsc":
+                    if (w2XSCStatusUp)
+                        statusUp = true;
+                    break;
+                case "w3xsc":
+                    if (w3XSCStatusUp)
+                        statusUp = true;
+                    break;
+                case "w4xsc":
+                    if (w4XSCStatusUp)
+                        statusUp = true;
+                    break;
+                case "w5xsc":
+                    if (w5XSCStatusUp)
+                        statusUp = true;
+                    break;
+            }
+            return statusUp;
+        }
+
         private string _selectedPrinter;
         public string SelectedPrinter
         {

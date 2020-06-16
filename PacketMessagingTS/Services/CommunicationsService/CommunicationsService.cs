@@ -22,6 +22,8 @@ using PacketMessagingTS.Views;
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Helpers.PrintHelpers;
+using SharedCode.Models;
+
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
 using Windows.Storage.Search;
@@ -509,6 +511,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             if (pktMsg.Subject.ToLower().Contains("scco packet frequencies"))
                             {
                                 await BBSDefinitions.CreateFromBulletinAsync(pktMsg);
+                            }
+                            else if (pktMsg.Subject.ToLower().Contains("scco packet tactical calls"))
+                            {
+                                await TacticalCallsigns.CreatePacketTacticalCallsignsFromBulletinAsync(pktMsg);
                             }
                         }
                     }

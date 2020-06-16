@@ -165,7 +165,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetProperty(ref tacticalCallsignAreaSelectedIndex, value, true);
-                TacticalCallsignsSource = new ObservableCollection<TacticalCall>(TacticalCallsignsAreaSource[value].TacticalCallsigns.TacticalCallsignsArray);
+                TacticalCallsignsSource = new ObservableCollection<TacticalCall>(TacticalCallsignsAreaSource[value].TacticalCallsigns?.TacticalCallsignsArray);
             }
         }
 
@@ -183,7 +183,7 @@ namespace PacketMessagingTS.ViewModels
                         if (TacticalCallsignsAreaSource[i].TacticalCallsigns == null
                                || tacticalSelectedIndexArray[i] >= TacticalCallsignsAreaSource[i].TacticalCallsigns.TacticalCallsignsArray.Length)
                         {
-                            tacticalSelectedIndexArray[i] = 0;
+                            tacticalSelectedIndexArray[i] = -1;
                         }
                     }
                     //return GetProperty(ref tacticalSelectedIndexArray);

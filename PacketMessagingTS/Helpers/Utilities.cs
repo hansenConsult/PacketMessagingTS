@@ -190,6 +190,23 @@ namespace PacketMessagingTS.Helpers
             //}
             return (bbs, tnc, from);
         }
+
+        public static (string bbs, string tnc, string from) GetProfileDataBBSStatusChecked()
+        {
+            IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+            string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+            string bbs = AddressBook.Instance.GetBBS(from);
+
+            string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            bool profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
+            if (profileBBSUp)
+            {
+                bbs = profileBBS;
+            }
+            string tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            return (bbs, tnc, from);
+        }
+
         //public static string GetBBSName(out string from, out string tnc)
         //{
         //    IdentityViewModel instance = PacketMessagingTS.Core.Helpers.Singleton<IdentityViewModel>.Instance;

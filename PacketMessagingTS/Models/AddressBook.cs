@@ -168,11 +168,10 @@ namespace PacketMessagingTS.Models
                     };
                     if (tacticalCall.SecondaryBBS.Length == 0)
                     {
-                        tacticalCall.PrimaryBBSActive = true;
-                        //tacticalCall.SecondaryBBSActive = false;
+                        tacticalCall.IsPrimaryBBSActive = true;
                     }
 
-                    string activeBBS = tacticalCall.PrimaryBBSActive ? tacticalCall.PrimaryBBS : tacticalCall.SecondaryBBS;
+                    string activeBBS = tacticalCall.IsPrimaryBBSActive ? tacticalCall.PrimaryBBS : tacticalCall.SecondaryBBS;
                     bool success = _addressDictionary.TryGetValue(entry.Callsign, out AddressBookEntry newEntry);
                     if (!success)
                     {

@@ -31,7 +31,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace SharedCode.Models
 {
-	public class TacticalCallsignData
+    public class TacticalCallsignData
     {
         private string fileNameField;
 
@@ -123,6 +123,10 @@ namespace SharedCode.Models
         private static LogHelper _logHelper = new LogHelper(log);
 
         private static string TactiCallsMasterFileName = "Tactical_Calls.txt";
+        private static string CountyTacticalCallsignsFileName = "CountyTacticalCallsigns.xml";
+        private static string NonCountyTacticalCallsignsFileName = "NonCountyTacticalCallsigns.xml";
+        private static string MountainViewTacticalCallsignsFileName = "MTVTacticalCallsigns.xml";
+        private static string HospitalsTacticalCallsignsFileName = "HospitalsTacticalCallsigns.xml";
 
         public static Dictionary<string, TacticalCallsignData> TacticalCallsignDataDictionary;
         public static List<TacticalCallsignData> _TacticalCallsignDataList;
@@ -314,23 +318,23 @@ namespace SharedCode.Models
             }
         }
 
-        //public static async void SaveAsync(TacticalCallsigns tacticalCallsigns, string fileName)
-        //{
-        //    StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-        //    try
-        //    {
-        //        StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-        //        using (StreamWriter writer = new StreamWriter(new FileStream(file.Path, FileMode.OpenOrCreate)))
-        //        {
-        //            XmlSerializer serializer = new XmlSerializer(typeof(TacticalCallsigns));
-        //            serializer.Serialize(writer, tacticalCallsigns);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        log.Error($"Failed to save {fileName}", e);
-        //    }
-        //}
+        public static async void SaveAsync(TacticalCallsigns tacticalCallsigns, string fileName)
+        {
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            try
+            {
+                StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                using (StreamWriter writer = new StreamWriter(new FileStream(file.Path, FileMode.OpenOrCreate)))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(TacticalCallsigns));
+                    serializer.Serialize(writer, tacticalCallsigns);
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"Failed to save {fileName}", e);
+            }
+        }
 
         static bool IsAllCaps(string capitalString)
         {
@@ -359,6 +363,126 @@ namespace SharedCode.Models
                 }
             }
             return new string(resultStringArray);
+        }
+
+        private static async Task<int> TacticalCallsignsFromBulletinAsync(string bulletin, int startPos, string fileName, DateTime createTime)
+        {
+            int start = bulletin.IndexOf("#-------", startPos);
+            start = bulletin.IndexOf('\r', start);
+            int stop = bulletin.IndexOf("#\r", start);
+            string bbsInfo = bulletin.Substring(start, stop - start);
+
+            TacticalCall tacticalCall;
+            var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            int tacticalCallCount = lines.Length;
+            TacticalCall[] tacticalArray = new TacticalCall[lines.Length];
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string[] tacticalData = lines[i].Split(new string[] { "&#x9;" }, StringSplitOptions.RemoveEmptyEntries);
+
+                tacticalCall = new TacticalCall();
+                tacticalCall.TacticalCallsign = tacticalData[0];
+                tacticalCall.AgencyName = tacticalData[1];
+                tacticalCall.Prefix = tacticalData[2];
+                tacticalCall.PrimaryBBS = tacticalData[3];
+                if (tacticalData.Length > 4)
+                {
+                    tacticalCall.SecondaryBBS = tacticalData[4];
+                }
+
+                tacticalArray[i] = tacticalCall;
+            }
+
+            TacticalCallsigns tacticalCallsigns = new TacticalCallsigns();
+            tacticalCallsigns.BulletinCreationTime = createTime;
+            tacticalCallsigns.TacticalCallsignsArray = tacticalArray;
+
+            TacticalCallsigns.SaveAsync(tacticalCallsigns, fileName);
+            // Also save to Assets. Make a copy first
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFile bbsDataFile = await localFolder.GetFileAsync(fileName);
+            if (bbsDataFile != null)
+            {
+                StorageFolder assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                StorageFile storageFile = await assetsFolder.GetFileAsync(fileName);
+                string bbsCopyFileName = fileName + " - Copy";
+                await storageFile.CopyAsync(assetsFolder, bbsCopyFileName, NameCollisionOption.ReplaceExisting);
+                await bbsDataFile.CopyAsync(assetsFolder, fileName, NameCollisionOption.ReplaceExisting);
+            }
+            return stop;
+        }
+
+        public static async Task CreatePacketTacticalCallsignsFromBulletinAsync(PacketMessage bbsBulletin)
+        {
+            string[] subjectElements = bbsBulletin.Subject.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string version = subjectElements[4];
+            string bulletin = bbsBulletin?.MessageBody;
+
+            if (bulletin is null)
+                return;
+
+            try
+            {
+                int stopPos = await TacticalCallsignsFromBulletinAsync(bulletin, 0, CountyTacticalCallsignsFileName, (DateTime)bbsBulletin.JNOSDate);
+                await TacticalCallsignsFromBulletinAsync(bulletin, stopPos, NonCountyTacticalCallsignsFileName, (DateTime)bbsBulletin.JNOSDate);
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"Error in CreateCountyTacticalCallsignsFromBulletinAsync(): {e.Message}");
+            }
+
+            return;
+
+            //try
+            //{
+            //    // County Tactical Calls
+            //    int start = bulletin.IndexOf("#-------");
+            //    start = bulletin.IndexOf('\r', start);
+            //    int stop = bulletin.IndexOf("#\r", start);
+            //    string bbsInfo = bulletin.Substring(start, stop - start);
+
+            //    TacticalCall tacticalCall;
+            //    var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            //    int tacticalCallCount = lines.Length;
+            //    TacticalCall[] tacticalArray = new TacticalCall[lines.Length];
+            //    for (int i = 0; i < lines.Length; i++)
+            //    {
+            //        string[] tacticalData = lines[i].Split(new string[] { "&#x9;" }, StringSplitOptions.RemoveEmptyEntries);
+
+            //        tacticalCall = new TacticalCall();
+            //        tacticalCall.TacticalCallsign = tacticalData[0];
+            //        tacticalCall.AgencyName = tacticalData[1];
+            //        tacticalCall.Prefix = tacticalData[2];
+            //        tacticalCall.PrimaryBBS = tacticalData[3];
+            //        if (tacticalData.Length > 4)
+            //        {
+            //            tacticalCall.SecondaryBBS = tacticalData[4];
+            //        }
+
+            //        tacticalArray[i] = tacticalCall;
+            //    }
+
+            //    TacticalCallsigns tacticalCallsigns = new TacticalCallsigns();
+            //    tacticalCallsigns.BulletinCreationTime = (DateTime)bbsBulletin.JNOSDate;
+            //    tacticalCallsigns.TacticalCallsignsArray = tacticalArray;
+
+            //    TacticalCallsigns.SaveAsync(tacticalCallsigns, CountyTacticalCallsignsFileName);
+            //    // Also save to Assets. Make a copy first
+            //    StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            //    StorageFile bbsDataFile = await localFolder.GetFileAsync(CountyTacticalCallsignsFileName);
+            //    if (bbsDataFile != null)
+            //    {
+            //        StorageFolder assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+            //        StorageFile storageFile = await assetsFolder.GetFileAsync(CountyTacticalCallsignsFileName);
+            //        string bbsCopyFileName = CountyTacticalCallsignsFileName + " - Copy";
+            //        await storageFile.CopyAsync(assetsFolder, bbsCopyFileName, NameCollisionOption.ReplaceExisting);
+            //        await bbsDataFile.CopyAsync(assetsFolder, CountyTacticalCallsignsFileName, NameCollisionOption.ReplaceExisting);
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    _logHelper.Log(LogLevel.Error, $"Error in CreateCountyTacticalCallsignsFromBulletinAsync(): {e.Message}");
+            //}
         }
 
         /*"Santa Clara County Hospital Net Script HOSPITAL ROLL CALL Revised April 2015 DATE Hospital MEDICAL HEALTH OPERATIONS CENTER (Packet HOSDOC) STANFORD HOSPITAL (Packet: HOSSUH) PALO ALTO VETERANS HOSPITAL (Packet HOSPAV) EL CAMINO HOSPITAL MOUNTAIN VIEW (Packet HOSECM) KAISER SANTA CLARA (Packet HOSKSC) EL CAMINO HOSPITAL LOS GATOS (Packet HOSECL) GOOD SAMARITAN HOSPITAL (Packet HOSGSH) O'CONNOR HOSPITAL (Packet HOSOCH) REGIONAL SAN JOSE (Packet HOSRSJ) VALLEY MEDICAL CENTER (Packet HOSVMC) KAISER SAN JOSE MEDICAL CENTER (Packet HOSKSJ) Call Sign Name Call Sign Name Traffic Hos Packet Eq (Net Control: SLH is using a cross band repeater. After calling them there will be 4 second delay before they respond.) SAINT LOUISE REGIONAL (Packet HOSSLH) [Go back and call again for any hospital(s) not responding the first time]"*/
@@ -419,7 +543,7 @@ namespace SharedCode.Models
                 tacticalCall.Prefix = resultString.Substring(3, 3);
 
                 tacticalCall.PrimaryBBS = primaryBBS;
-                tacticalCall.PrimaryBBSActive = true;
+                tacticalCall.IsPrimaryBBSActive = true;
                 tacticalCall.SecondaryBBS = secondaryBBS;
                 //tacticalCall.SecondaryBBSActive = false;
                 tacticalList.Add(tacticalCall);
@@ -451,7 +575,7 @@ namespace SharedCode.Models
 					Prefix = line.Substring(3, 3) == "EOC" ? line.Substring(0, 3) : line.Substring(3, 3),
 					AgencyName = line.Substring(8),
 					PrimaryBBS = primaryBBS,
-					PrimaryBBSActive = true,
+					IsPrimaryBBSActive = true,
 					SecondaryBBS = secondaryBBS,
 				};
                 string prefix = FindCountyPrefix(tacticalCall.TacticalCallsign);
@@ -470,7 +594,7 @@ namespace SharedCode.Models
                     Prefix = $"{i:d3}",
                     AgencyName = "Extra",
                     PrimaryBBS = primaryBBS,
-                    PrimaryBBSActive = true,
+                    IsPrimaryBBSActive = true,
                     SecondaryBBS = secondaryBBS,
                 };
                 tacticalList.Add(tacticalCall);
@@ -523,7 +647,7 @@ namespace SharedCode.Models
 						TacticalCallsign = callsign,
 						Prefix = callsign.Substring(3, 3) == "EOC" ? callsign.Substring(0, 3) : callsign.Substring(3, 3),
 						PrimaryBBS = primaryBBS,
-						PrimaryBBSActive = true,
+						IsPrimaryBBSActive = true,
 						SecondaryBBS = secondaryBBS,
 					};
 					tacticalList.Add(tacticalCall);
@@ -880,7 +1004,7 @@ namespace SharedCode.Models
 
         private static string  FindCountyPrefix(string callsign)
         {
-            TacticalCallsignData tacticalCallsignData = TacticalCallsignDataDictionary["CountyTacticalCallsigns.xml"];
+            TacticalCallsignData tacticalCallsignData = TacticalCallsignDataDictionary[CountyTacticalCallsignsFileName];
 
             string prefix = "";
             foreach (var callsignData in tacticalCallsignData.TacticalCallsigns.TacticalCallsignsArray)
@@ -902,7 +1026,7 @@ namespace SharedCode.Models
             TacticalCallsignData tacticalCallsignData = new TacticalCallsignData()
             {
                 AreaName = "County Agencies",
-                FileName = "CountyTacticalCallsigns.xml",
+                FileName = CountyTacticalCallsignsFileName,
                 StartString = "Santa Clara County Cities/Agencies",
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
@@ -912,7 +1036,7 @@ namespace SharedCode.Models
             tacticalCallsignData = new TacticalCallsignData()
             {
                 AreaName = "non County Agencies",
-                FileName = "NonCountyTacticalCallsigns.xml",
+                FileName = NonCountyTacticalCallsignsFileName,
                 StartString = "Other (non-SCCo) Agencies",
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
@@ -922,7 +1046,7 @@ namespace SharedCode.Models
             tacticalCallsignData = new TacticalCallsignData()
             {
                 AreaName = "Local Mountain View",
-                FileName = "MTVTacticalCallsigns.xml",
+                FileName = MountainViewTacticalCallsignsFileName,
                 TacticallWithBBS = "MTVEOC",
                 StartString = "#Mountain View Tactical Call List",
                 StopString = "#MTV001 thru MTV010 also permissible",
@@ -946,7 +1070,7 @@ namespace SharedCode.Models
             tacticalCallsignData = new TacticalCallsignData()
             {
                 AreaName = "County Hospitals",
-                FileName = "HospitalsTacticalCallsigns.xml",
+                FileName = HospitalsTacticalCallsignsFileName,
                 TacticallWithBBS = "HOSDOC",
                 StartString = "# SCCo Hospitals Packet Tactical Call Signs",
                 StopString = "# HOS001 - HOS010",
@@ -1050,7 +1174,7 @@ namespace SharedCode.Models
             AgencyName = tacticalCall.AgencyName;
             Prefix = tacticalCall.Prefix;
             PrimaryBBS = tacticalCall.PrimaryBBS;
-            PrimaryBBSActive = tacticalCall.PrimaryBBSActive;
+            IsPrimaryBBSActive = tacticalCall.IsPrimaryBBSActive;
             SecondaryBBS = tacticalCall.SecondaryBBS;
         }
 
@@ -1112,7 +1236,7 @@ namespace SharedCode.Models
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public bool PrimaryBBSActive
+		public bool IsPrimaryBBSActive
 		{
 			get
 			{
@@ -1176,7 +1300,7 @@ namespace SharedCode.Models
                     && TacticalCallsign == other.TacticalCallsign
                     && Prefix == other.Prefix
                     && PrimaryBBS == other.PrimaryBBS
-                    && PrimaryBBSActive == other.PrimaryBBSActive
+                    && IsPrimaryBBSActive == other.IsPrimaryBBSActive
                     && SecondaryBBS == other.SecondaryBBS;
         }
 

@@ -166,7 +166,7 @@ namespace MVCERTDA_FormsControl
 
         public override void AppendDrillTraffic()
         {
-//            message.Text = message.Text + DrillTraffic;
+            message.Text += DrillTraffic;
         }
 
         protected override string CreateComboBoxOutpostDataString(FormField formField, string id)

@@ -222,6 +222,7 @@ namespace PacketMessagingTS.Models
             {
                 int start = bulletin.IndexOf("W1XSC");
                 int stop = bulletin.IndexOf('*', start);
+                stop = bulletin.IndexOf('\r', stop);
                 string bbsInfo = bulletin.Substring(start, stop - start);
 
                 BBSData bbsData;
@@ -231,14 +232,14 @@ namespace PacketMessagingTS.Models
                 int i = 0;
                 for (; i < lines.Length; i++)
                 {
-                    var bbs = lines[i].Split(new char[] { ',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    var bbs = lines[i].Split(new char[] { ',', ' ', '\t', '*' }, StringSplitOptions.RemoveEmptyEntries);
 
                     bbsData = new BBSData();
                     bbsData.Name = bbs[0];
                     bbsData.ConnectName = bbs[1];
                     bbsData.Frequency1 = bbs[2];
                     bbsData.Frequency2 = bbs[3];
-                    if (bbs.Length == 5)
+                    if (bbs.Length > 4)
                     {
                         bbsData.Frequency3 = bbs[4];
                     }

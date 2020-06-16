@@ -35,7 +35,8 @@ namespace PacketMessagingTS.Controls
 
             ScanControls(messageInfo);
 
-            (string bbs, string tnc, string from) = Utilities.GetProfileData();
+            //(string bbs, string tnc, string from) = Utilities.GetProfileData();
+            (string bbs, string tnc, string from) = Utilities.GetProfileDataBBSStatusChecked();
             MessageBBS = bbs; //Utilities.GetBBSName(out string from, out string tnc);
             //AddressBook.Instance.UserBBS = MessageBBS;
             MessageTNC = tnc;
