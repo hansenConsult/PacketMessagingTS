@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using MetroLog;
+
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Views;
+
 using SharedCode;
+
 using Windows.ApplicationModel.Background;
 using Windows.Data.Html;
 using Windows.Storage;

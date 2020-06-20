@@ -1107,6 +1107,9 @@ namespace FormControlBaseClass
             UpdateFormFieldsRequiredColors();
         }
 
+        public virtual void MessageChanged(string message)      // Must be public, not protected
+        { }
+
         public virtual void MsgTimeChanged(string msgTime)      // Must be public, not protected
         { }
 

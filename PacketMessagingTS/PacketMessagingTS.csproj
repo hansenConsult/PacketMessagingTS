@@ -102,10 +102,10 @@
       <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.4.2</Version>
@@ -142,6 +142,9 @@
     </Compile>
     <Compile Include="Controls\SendFormDataControl.xaml.cs">
       <DependentUpon>SendFormDataControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SimpleMessagePivot.xaml.cs">
+      <DependentUpon>SimpleMessagePivot.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AddressConverter.cs" />
     <Compile Include="Helpers\AreaConverter.cs" />
@@ -269,6 +272,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SendFormDataControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SimpleMessagePivot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

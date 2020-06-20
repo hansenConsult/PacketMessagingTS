@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 
 using Newtonsoft.Json;
 
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Models;
 
 using SharedCode.Models;
@@ -108,8 +109,11 @@ namespace PacketMessagingTS.Helpers
                 {
                     // Retrieve value from dictionary
                     object o = _properties[propertyName];
+                    //T property = JsonConvert.DeserializeObject<T>(o as string);
                     backingStore = (T)o;
+                    //backingStore = property;
                     return (T)o;
+                    //return property;
                 }
                 catch
                 {
@@ -128,7 +132,7 @@ namespace PacketMessagingTS.Helpers
                 {
                     // Retrieve value from dictionary
                     var o = _properties[propertyName];
-                    var intArray = JsonConvert.DeserializeObject<int[]>(o.ToString());
+                    var intArray = JsonConvert.DeserializeObject<int[]>(o as string);
                     backingStore = intArray;
                     return intArray;
                 }
@@ -171,6 +175,38 @@ namespace PacketMessagingTS.Helpers
             {
                 // store value
                 _properties[propertyName] = value;
+                //_properties[propertyName] = JsonConvert.SerializeObject(value);
+            }
+
+            backingStore = value;
+            onChanged?.Invoke();
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        protected bool SetProperty(ref int[] backingStore, int[] value, bool persist = false, bool forceUpdate = false,
+                    [CallerMemberName] string propertyName = "", Action onChanged = null)
+        {
+            bool firstTime;
+            if (_propertyFirstTime.ContainsKey(propertyName))
+            {
+                firstTime = _propertyFirstTime[propertyName];
+            }
+            else
+            {
+                firstTime = true;
+            }
+            // Do not update displayed value if not changed or not first time or not forced
+            if (Equals(backingStore, value) && !firstTime && !forceUpdate)
+            {
+                return false;
+            }
+            _propertyFirstTime[propertyName] = false;
+
+            if (persist)
+            {
+                // store value
+                _properties[propertyName] = JsonConvert.SerializeObject(value); ;
             }
 
             backingStore = value;

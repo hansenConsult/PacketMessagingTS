@@ -137,7 +137,7 @@
 							   >
                     <RelativePanel x:Name="fileSelectPanel">
                         <TextBlock x:Name="logfileListTextBlock"
-							   Text="Select a Log File:" 
+							       Text="Select a Log File:" 
 								   Margin="10"/>
                         <ComboBox x:Name="logFilesComboBox" 
 								  RelativePanel.RightOf="logfileListTextBlock"
@@ -147,14 +147,16 @@
 								  SelectionChanged="logFilesComboBox_SelectionChangedAsync" />
                     </RelativePanel>
                     <TextBox x:Name="logFileTextBox" 
-							     RelativePanel.Below="fileSelectPanel"
-							     RelativePanel.AlignLeftWithPanel="True"
-							     RelativePanel.AlignRightWithPanel="True"
-                                 RelativePanel.Above="ButtomCommandBar"
-							     ScrollViewer.VerticalScrollBarVisibility="Auto"
-							     AcceptsReturn="True"
-							     TextWrapping="Wrap"
-							     Margin="10,10,10,10"
+							 RelativePanel.Below="fileSelectPanel"
+							 RelativePanel.AlignLeftWithPanel="True"
+							 RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.Above="ButtomCommandBar"
+                             FontFamily="Courier New"
+                             FontSize="12"
+							 ScrollViewer.VerticalScrollBarVisibility="Auto"
+							 AcceptsReturn="True"
+							 TextWrapping="Wrap"
+							 Margin="10,10,10,10"
 							 />
                     <CommandBar x:Name="ButtomCommandBar" Margin="-12,0,-12,0"
                    				    RelativePanel.AlignBottomWithPanel="True"

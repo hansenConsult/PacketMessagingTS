@@ -229,8 +229,7 @@ namespace PacketMessagingTS.Models
                 var lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 int bbsCount = lines.Length;
                 BBSData[] bbsdataArray = new BBSData[lines.Length + 1];
-                int i = 0;
-                for (; i < lines.Length; i++)
+                for (int i = 0; i < lines.Length; i++)
                 {
                     var bbs = lines[i].Split(new char[] { ',', ' ', '\t', '*' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -251,7 +250,7 @@ namespace PacketMessagingTS.Models
                 bbsInfo = bulletin.Substring(start);
 
                 lines = bbsInfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                for (i = 0; i < bbsCount; i++)
+                for (int i = 0; i < bbsCount; i++)
                 {
                     var callsign = lines[i].Split(new string[] { ",", "      ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
                     bbsdataArray[i].Description = callsign[1];
@@ -264,7 +263,7 @@ namespace PacketMessagingTS.Models
                 bbsData.Description = "Used for training and testing";
                 bbsData.Frequency1 = "144.910";
                 bbsData.Frequency3 = "433.450";
-                bbsdataArray[i] = bbsData;
+                bbsdataArray[bbsCount] = bbsData;
 
                 BBSDefinitions bbsDefinitions = new BBSDefinitions();
                 bbsDefinitions.RevisionTime = bbsBulletin.JNOSDate;

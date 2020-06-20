@@ -21,5 +21,6 @@ namespace PacketMessagingTS.Core.Helpers
                 return JsonConvert.SerializeObject(value);
             });
         }
+
     }
 }

@@ -25,6 +25,8 @@ using MessageFormControl;
 
 using MetroLog;
 
+using Microsoft.Toolkit;
+
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Models;
@@ -52,9 +54,6 @@ namespace PacketMessagingTS.Helpers
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        //public FormsViewModel _formsViewModel { get; } = Singleton<FormsViewModel>.Instance;
-        //public FormsViewModel _formsViewModel { get; set; }
-
         protected MessageOrigin _messageOrigin = MessageOrigin.New;
 
         protected Pivot _formsPagePivot;
@@ -63,6 +62,7 @@ namespace PacketMessagingTS.Helpers
 
         protected SendFormDataControl _packetAddressForm;
         protected FormControlBase _packetForm;
+        protected SimpleMessagePivot _simpleMessagePivot;
 
         protected List<FormControlAttributes> _formControlAttributeList0 = new List<FormControlAttributes>();
         protected List<FormControlAttributes> _formControlAttributeList1 = new List<FormControlAttributes>();
@@ -192,12 +192,9 @@ namespace PacketMessagingTS.Helpers
 
         public BaseFormsPage()
         {
-            //_formControlAttributeList = new List<FormControlAttributes>();
-            //ScanFormAttributes(new FormControlAttribute.FormType[0]);
-            //_formControlAttributeList.Clear();
         }
 
-        private PivotItem CreatePivotItem(FormControlAttributes formControlAttributes)
+        protected virtual PivotItem CreatePivotItem(FormControlAttributes formControlAttributes)
         {
             PivotItem pivotItem = new PivotItem();
             pivotItem.Name = formControlAttributes.FormControlName;
@@ -688,6 +685,8 @@ namespace PacketMessagingTS.Helpers
             PivotItem pivotItem = _formsPagePivot.SelectedItem as PivotItem;
             string formControlName = pivotItem.Name;
 
+            string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+
             _packetAddressForm = new SendFormDataControl();
             _packetForm = CreateFormControlInstance(formControlName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
@@ -719,10 +718,21 @@ namespace PacketMessagingTS.Helpers
             stackPanel.Children.Clear();
             if (formControlName == "SimpleMessage")
             {
-                stackPanel.Children.Insert(0, _packetAddressForm);
-                stackPanel.Children.Insert(1, _packetForm);
+                // Insert Pivot for message type
+                _simpleMessagePivot = new SimpleMessagePivot();
+
+                stackPanel.Children.Insert(0, _simpleMessagePivot);
+                stackPanel.Children.Insert(1, _packetAddressForm);
+                stackPanel.Children.Insert(2, _packetForm);
+
+                _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
+                _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
 
                 _packetAddressForm.MessageSubject = $"{MessageNo}_R_<subject>";
+                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+                {
+                    _packetAddressForm.MessageSubject += practiceSubject;
+                }
 
                 (_packetForm as MessageControl).NewHeaderVisibility = true;
                 _packetForm.MessageReceivedTime = DateTime.Now;
@@ -736,6 +746,11 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
+        void FormControl_MessageChanged(object sender, FormEventArgs e)
+        {
+            _packetForm.MessageChanged(e.SubjectLine);
+        }
+
         void FormControl_MsgTimeChanged(object sender, FormEventArgs e)
         {
             _packetForm.MsgTimeChanged(e.SubjectLine);
@@ -746,6 +761,18 @@ namespace PacketMessagingTS.Helpers
             if (e?.SubjectLine?.Length > 0) // Why this test?
             {
                 _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+                if (_packetMessage != null)
+                {
+                    _packetMessage.Subject = _packetAddressForm.MessageSubject;
+                }
+            }
+        }
+
+        void SimpleMessage_SubjectChange(object sender, FormEventArgs e)
+        {
+            if (e?.SubjectLine != null) // Why this test?
+            {
+                _packetAddressForm.MessageSubject = $"{MessageNo}_R_{e.SubjectLine}";
                 if (_packetMessage != null)
                 {
                     _packetMessage.Subject = _packetAddressForm.MessageSubject;
@@ -786,38 +813,28 @@ namespace PacketMessagingTS.Helpers
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")
             {
-                stackPanel.Children.Insert(0, _packetAddressForm);
-                stackPanel.Children.Insert(1, _packetForm);
+                if (!_loadMessage)
+                {
+                    // Insert Pivot for message type
+                    _simpleMessagePivot = new SimpleMessagePivot();
+
+                    stackPanel.Children.Insert(0, _simpleMessagePivot);
+                    stackPanel.Children.Insert(1, _packetAddressForm);
+                    stackPanel.Children.Insert(2, _packetForm);
+
+                    _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
+                    _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
+                }
+                else
+                {
+                    stackPanel.Children.Insert(0, _packetAddressForm);
+                    stackPanel.Children.Insert(1, _packetForm);
+                }
 
                 _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     _packetAddressForm.MessageSubject += practiceSubject;
-                }
-                else if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.Name == "Check-In"
-                    || Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.Name == "Check-Out")
-                {
-                    string chechInOut;
-                    if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.Name == "Check-In")
-                        chechInOut = "Check-In";
-                    else
-                        chechInOut = "Check-Out";
-                    string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
-                    string userName = Singleton<IdentityViewModel>.Instance.UserName;
-                    if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
-                    {
-                        string tacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
-                        string tacticalAgencyName = Singleton<IdentityViewModel>.Instance.TacticalAgencyName;
-                        string messageSubject = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName}";
-                        _packetAddressForm.MessageSubject += messageSubject;
-                        _packetForm.MessageBody = $"{chechInOut} { tacticalCallsign}, {tacticalAgencyName} \r\nPresent are:\r\n{userCallsign}, {userName}\r\n";
-                    }
-                    else
-                    {
-                        string messageSubject = $"{chechInOut} {userCallsign}, {userName}";
-                        _packetAddressForm.MessageSubject += messageSubject;
-                        _packetForm.MessageBody = $"{chechInOut} {userCallsign}, {userName} \r\n";
-                    }
                 }
                 _packetForm.MessageReceivedTime = DateTime.Now;
                 switch (_messageOrigin)

@@ -121,11 +121,11 @@ namespace PacketMessagingTS
 
             //SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
 
-            Singleton<SettingsViewModel>.Instance.W1XSCStatusUp = Utilities.GetProperty<bool>("W1XSCStatusUp");
-            Singleton<SettingsViewModel>.Instance.W2XSCStatusUp = Utilities.GetProperty<bool>("W2XSCStatusUp");
-            Singleton<SettingsViewModel>.Instance.W3XSCStatusUp = Utilities.GetProperty<bool>("W3XSCStatusUp");
-            Singleton<SettingsViewModel>.Instance.W4XSCStatusUp = Utilities.GetProperty<bool>("W4XSCStatusUp");
-            Singleton<SettingsViewModel>.Instance.W5XSCStatusUp = Utilities.GetProperty<bool>("W5XSCStatusUp");
+            //Singleton<SettingsViewModel>.Instance.W1XSCStatusUp = Utilities.GetProperty<bool>("W1XSCStatusUp");
+            //Singleton<SettingsViewModel>.Instance.W2XSCStatusUp = Utilities.GetProperty<bool>("W2XSCStatusUp");
+            //Singleton<SettingsViewModel>.Instance.W3XSCStatusUp = Utilities.GetProperty<bool>("W3XSCStatusUp");
+            //Singleton<SettingsViewModel>.Instance.W4XSCStatusUp = Utilities.GetProperty<bool>("W4XSCStatusUp");
+            //Singleton<SettingsViewModel>.Instance.W5XSCStatusUp = Utilities.GetProperty<bool>("W5XSCStatusUp");
 
             //await UpdatePacFormsFiles.SyncPacFormFoldersAsync();
 

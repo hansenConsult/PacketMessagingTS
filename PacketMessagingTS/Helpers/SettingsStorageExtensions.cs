@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
-
+using SharedCode;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -15,7 +15,7 @@ namespace PacketMessagingTS.Helpers
     // More details regarding storing and retrieving app data at https://docs.microsoft.com/windows/uwp/app-settings/store-and-retrieve-app-data
     public static class SettingsStorageExtensions
     {
-        //private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<StorageFile>();
+        //private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsStorageExtensions>();
         //private static readonly LogHelper _logHelper = new LogHelper(log);
 
         private const string FileExtension = ".json";

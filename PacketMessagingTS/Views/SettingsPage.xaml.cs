@@ -245,7 +245,7 @@ namespace PacketMessagingTS.Views
                 case "pivotTNC":
                     //_TNCSettingsViewModel.CollectionOfSerialDevices = await CreateComportObservableCollectionAsync();
                     // Select current TNC device
-                    _TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
+                    //_TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
                     break;
                 case "pivotPacketSettings":
                     comboBoxProfiles.Visibility = Visibility.Visible;
@@ -257,7 +257,7 @@ namespace PacketMessagingTS.Views
                     //_PacketSettingsViewmodel.ProfileSelectedIndex = profileSelectedIndex;
                     break;
                 case "pivotIdentity":
-                    _identityViewModel.UserCallsign = Utilities.GetProperty<string>("UserCallsign");
+                    //_identityViewModel.UserCallsign = Utilities.GetProperty<string>("UserCallsign");
                     break;
                     //    case "pivotItemAddressBook":
                     //        ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();

@@ -16,6 +16,7 @@ using SharedCode.Helpers;
 
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Views
@@ -26,14 +27,12 @@ namespace PacketMessagingTS.Views
         private static LogHelper _logHelper = new LogHelper(log);
 
         public CountyFormsViewModel _CountyFormsViewModel { get; } = Singleton<CountyFormsViewModel>.Instance;
-        //public FormsViewModel FormViewModel { get; } = Singleton<CountyFormsViewModel>.Instance;
 
         public override int FormsPagePivotSelectedIndex
         {
             get
             {
                 int index = _CountyFormsViewModel.CountyFormsPagePivotSelectedIndex;
-                //int index = FormViewModel.CountyFormsPagePivotSelectedIndex;
                 if (index >= _formControlAttributeList.Count)
                     index = 0;
                 return index;
@@ -69,7 +68,6 @@ namespace PacketMessagingTS.Views
         {
             _CountyFormsViewModel.IsAppBarSendEnabled = isEnabled;
         }
-
 
     }
 }

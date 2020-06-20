@@ -374,5 +374,17 @@ namespace MessageFormControl
             UpdateFormFieldsRequiredColors();
         }
 
+        public override void MessageChanged(string message)
+        {
+            MessageBody = message;
+            Paragraph paragraph = new Paragraph();
+            Run run = new Run();
+            run.Text = message;
+
+            // Add the Run to the Paragraph, the Paragraph to the RichTextBlock.
+            paragraph.Inlines.Add(run);
+            richTextMessageBody.Blocks.Add(paragraph);
+        }
+
     }
 }

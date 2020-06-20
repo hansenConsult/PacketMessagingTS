@@ -200,7 +200,7 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (tacticalCallsignSelectedIndex >= 0)
+                if (tacticalCallsignSelectedIndex < 0)
                 {
                     return TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex];
                 }
@@ -223,7 +223,7 @@ namespace PacketMessagingTS.ViewModels
                     TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex] = value;
                     TacticalSelectedIndexArray = TacticalSelectedIndexArray;
                     //SetProperty(ref tacticalCallsignSelectedIndex, value);
-                    Set(ref tacticalCallsignSelectedIndex, value);
+                    SetProperty(ref tacticalCallsignSelectedIndex, value);
                     TacticalCallsign = TacticalCallsignsSource[tacticalCallsignSelectedIndex].TacticalCallsign;
                     //TacticalCallsignOther = TacticalCallsign;
                     TacticalAgencyNameSelectedIndex = tacticalCallsignSelectedIndex;
@@ -236,6 +236,10 @@ namespace PacketMessagingTS.ViewModels
                     {
                         TacticalCallsignsAreaSource[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArraySelectedIndex = -1;
                     }
+                }
+                else
+                {
+
                 }
             }
         }
@@ -333,7 +337,7 @@ namespace PacketMessagingTS.ViewModels
         private string tacticalAgencyName;
         public string TacticalAgencyName
         {
-            get => tacticalAgencyName;
+            get => TacticalCallsignsSource[tacticalCallsignSelectedIndex].AgencyName;
             set
             {
                 SetProperty(ref tacticalAgencyName, value);
