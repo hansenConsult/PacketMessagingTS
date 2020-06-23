@@ -905,7 +905,6 @@ namespace PacketMessagingTS.Helpers
             else
             {
                 FillFormFromPacketMessage();
-                //appBarSend.IsEnabled = !(_packetMessage.MessageState == MessageState.Locked);
                 SetAppBarSendIsEnabled(!(_packetMessage.MessageState == MessageState.Locked));
 
                 _loadMessage = false;

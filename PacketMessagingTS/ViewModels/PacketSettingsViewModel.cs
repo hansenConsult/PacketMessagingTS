@@ -365,23 +365,33 @@ namespace PacketMessagingTS.ViewModels
             set => Set(ref isDrillTraffic, value);
         }
 
-        private int firstMessageNumber;
+        private int firstMessageNumber = 100;
         public int FirstMessageNumber
         {
             get
             {
-                bool found = App.Properties.TryGetValue("MessageNumber", out object first);
-                if (!found)
+                GetProperty(ref firstMessageNumber);
+                if (firstMessageNumber == 100)
                 {
-                    App.Properties["MessageNumber"] = 100;
+                    int messageNo = Utilities.FindHighestUsedMesageNumber();
+                    if (messageNo > 100)
+                    {
+                        FirstMessageNumber = messageNo + 1;
+                    }
                 }
-                firstMessageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
+                //bool found = App.Properties.TryGetValue("MessageNumber", out object first);
+                //if (!found)
+                //{
+                //    //App.Properties["MessageNumber"] = 100;
+                //    FirstMessageNumber = Utilities.FindHighestUsedMesageNumber() + 1;
+                //}
+                //firstMessageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
                 return firstMessageNumber;
             }
             set
             {
-                Utilities.MarkMessageNumberAsUsed(value);
-                SetProperty(ref firstMessageNumber, value);
+                //Utilities.MarkMessageNumberAsUsed(value);
+                SetProperty(ref firstMessageNumber, value, true);
             }
         }
 

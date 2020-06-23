@@ -136,7 +136,7 @@ namespace PacketMessagingTS
             bool displayProfiles = Properties.TryGetValue("DisplayProfileOnStart", out object displayProfileOnStart);
             // Show Identity dialog if Call-sign is empty
             if (displayIdentity && (bool)displayIdentityAtStartup || !callsignExist || string.IsNullOrEmpty((string)userCallsign))
-            { 
+            {
                 NavigationService.Navigate(typeof(SettingsPage), 1);
             }
             else if (displayProfiles && (bool)displayProfileOnStart)
@@ -148,7 +148,6 @@ namespace PacketMessagingTS
             SharedData.Assemblies = new List<Assembly>();
             AppDomain currentDomain = AppDomain.CurrentDomain;
             Assembly[] assemblies = currentDomain.GetAssemblies();
-            //System.Reflection.Assembly[] AppDomain.GetAssemblies
             foreach (Assembly assembly in assemblies)
             {
                 if (!assembly.FullName.Contains("FormControl"))
@@ -177,18 +176,25 @@ namespace PacketMessagingTS
             return new Views.ShellPage();
         }
 
-        private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        private async void App_EnteredBackground(object sender, EnteredBackgroundEventArgs args)
         {
-            Deferral deferral = e.GetDeferral();
+            Deferral deferral = args.GetDeferral();
 
             _logHelper.Log(LogLevel.Trace, "Entered App_EnteredBackground");
+            try
+            {
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
 
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
+                await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
 
-            await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+                await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+            }
+            catch (Exception e)
+            {
+                _logHelper.Log(LogLevel.Error, $"{e.Message}");
+            }
 
-            await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
 
             deferral.Complete();
         }

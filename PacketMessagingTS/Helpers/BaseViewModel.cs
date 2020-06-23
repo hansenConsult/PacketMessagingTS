@@ -93,11 +93,12 @@ namespace PacketMessagingTS.Helpers
             {
                 // Retrieve value from dictionary
                 object o = _properties[propertyName];
-                int temp = Convert.ToInt32(o);
-                backingStore = temp;
-                return temp;
+                backingStore = Convert.ToInt32(o);
+                //int temp = Convert.ToInt32(o);
+                //backingStore = temp;
+                //return temp;
             }
-            else
+            //else
                 return backingStore;
         }
 
@@ -155,7 +156,7 @@ namespace PacketMessagingTS.Helpers
         protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
                     [CallerMemberName]string propertyName = "", Action onChanged = null)
         {
-            bool firstTime;
+            bool firstTime = false;
             if (_propertyFirstTime.ContainsKey(propertyName))
             {
                 firstTime = _propertyFirstTime[propertyName];
@@ -184,34 +185,40 @@ namespace PacketMessagingTS.Helpers
             return true;
         }
 
+        private bool Equals(int[] propA, int[] propB)
+        {
+            if (propA is null && propB is null)
+                return true;
+
+            if (propA.Length != propB.Length)
+                return false;
+
+            for (int i = 0; i < propA.Length; i++)
+            {
+                if (propA[i] != propB[i])
+                    return false;
+            }
+            return true;
+        }
+
         protected bool SetProperty(ref int[] backingStore, int[] value, bool persist = false, bool forceUpdate = false,
                     [CallerMemberName] string propertyName = "", Action onChanged = null)
         {
-            bool firstTime;
-            if (_propertyFirstTime.ContainsKey(propertyName))
-            {
-                firstTime = _propertyFirstTime[propertyName];
-            }
-            else
-            {
-                firstTime = true;
-            }
-            // Do not update displayed value if not changed or not first time or not forced
-            if (Equals(backingStore, value) && !firstTime && !forceUpdate)
+            // Do not update displayed value if not changed or not forced
+            if (Equals(backingStore, value) && !forceUpdate)
             {
                 return false;
             }
-            _propertyFirstTime[propertyName] = false;
-
             if (persist)
             {
                 // store value
                 _properties[propertyName] = JsonConvert.SerializeObject(value); ;
             }
 
-            backingStore = value;
+            value.CopyTo(backingStore, 0);
+            //backingStore = value;
             onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
+            //OnPropertyChanged(propertyName);
             return true;
         }
 

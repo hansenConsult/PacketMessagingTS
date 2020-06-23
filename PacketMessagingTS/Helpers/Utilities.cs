@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using MetroLog;
 
@@ -10,6 +14,8 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
+using Windows.Storage;
+using Windows.Storage.Search;
 //using SharedCode.Helpers;
 
 using Windows.UI.Core;
@@ -32,7 +38,8 @@ namespace PacketMessagingTS.Helpers
             int messageNumber = GetProperty("MessageNumber");
             if (messageNumber == default(int))
             {
-                messageNumber = 100;
+                messageNumber = FindHighestUsedMesageNumber() + 1;
+                //messageNumber = 100;
             }
 
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
@@ -70,6 +77,63 @@ namespace PacketMessagingTS.Helpers
             //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
             App.Properties["MessageNumber"] = messageNumber;
             _logHelper.Log(LogLevel.Info, $"MarkMessageNumberAsUsed {messageNumber}");
+        }
+
+        public static int FindHighestUsedMesageNumberInFolder(string folder, string prefix)
+        {
+            DirectoryInfo DirInfo = new DirectoryInfo(folder);
+            var fileNames = from f in DirInfo.EnumerateFiles()
+                        where f.Name.StartsWith(prefix) && f.Extension == ".xml"
+                        select f.Name;
+
+            List<string> fileList = fileNames.ToList();
+
+            if (fileList is null || fileList.Count == 0)
+                return 0;
+
+            fileList.Sort();
+            string file = fileList.Last();
+            int msgNo = 0;
+            int startIndex = file.IndexOf('-') + 1;
+            int endIndex = file.IndexOf('_');
+            msgNo = int.Parse(file.Substring(startIndex, endIndex - 1 - startIndex));
+            //_logHelper.Log(LogLevel.Info, $"{DirInfo.Name}, msgNumber: {msgNo}");
+            return msgNo;
+        }
+
+        public static int FindHighestUsedMesageNumber()
+        {
+            string msgNoPrefix;
+            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            {
+                msgNoPrefix = Singleton<IdentityViewModel>.Instance.TacticalMsgPrefix;
+            }
+            else
+            {
+                msgNoPrefix = Singleton<IdentityViewModel>.Instance.UserMsgPrefix;
+            }
+
+            List<int> msgNumbers = new List<int>();
+
+            Task<int>[] taskArray = { Task<int>.Factory.StartNew( () => FindHighestUsedMesageNumberInFolder(SharedData.ArchivedMessagesFolder.Path, msgNoPrefix)),
+                Task<int>.Factory.StartNew( () => FindHighestUsedMesageNumberInFolder(SharedData.DeletedMessagesFolder.Path, msgNoPrefix)),
+                Task<int>.Factory.StartNew( () => FindHighestUsedMesageNumberInFolder(SharedData.DraftMessagesFolder.Path, msgNoPrefix)),
+                Task<int>.Factory.StartNew( () => FindHighestUsedMesageNumberInFolder(SharedData.ReceivedMessagesFolder.Path, msgNoPrefix)),
+                Task<int>.Factory.StartNew( () => FindHighestUsedMesageNumberInFolder(SharedData.SentMessagesFolder.Path, msgNoPrefix)),
+                Task<int>.Factory.StartNew( () => FindHighestUsedMesageNumberInFolder(SharedData.UnsentMessagesFolder.Path, msgNoPrefix)),
+            };
+
+            var results = new int[taskArray.Length];
+            for (int i = 0; i < taskArray.Length; i++)
+            {
+                msgNumbers.Add(taskArray[i].Result);
+            }
+
+            msgNumbers.Sort();
+
+            //_logHelper.Log(LogLevel.Info, $"msgNumbers: {msgNumbers.Last()}");
+
+            return msgNumbers.Last();
         }
 
         // This is just to show a use of ContentDialog.

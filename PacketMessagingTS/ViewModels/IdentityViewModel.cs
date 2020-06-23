@@ -169,29 +169,39 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        //private int[] tacticalSelectedIndexArrayBackingStorage;
         private int[] tacticalSelectedIndexArray;
         public int[] TacticalSelectedIndexArray
         {
+            //get => tacticalSelectedIndexArray);
             get
             {
                 if (tacticalSelectedIndexArray is null)
                 {
-                    // Only get saved value on startup. If a tactical call was added at last run adjust last index to less than current length.
-                    GetProperty(ref tacticalSelectedIndexArray);
-                    for (int i = 0; i < tacticalSelectedIndexArray.Length; i++)
-                    {
-                        if (TacticalCallsignsAreaSource[i].TacticalCallsigns == null
-                               || tacticalSelectedIndexArray[i] >= TacticalCallsignsAreaSource[i].TacticalCallsigns.TacticalCallsignsArray.Length)
-                        {
-                            tacticalSelectedIndexArray[i] = -1;
-                        }
-                    }
-                    //return GetProperty(ref tacticalSelectedIndexArray);
-                    return tacticalSelectedIndexArray;
+                    return GetProperty(ref tacticalSelectedIndexArray);
                 }
-                //return GetProperty(ref tacticalSelectedIndexArray);
-                return tacticalSelectedIndexArray;
+                else
+                    return tacticalSelectedIndexArray;
             }
+            //{
+            //    if (tacticalSelectedIndexArray is null)
+            //    {
+            //        // Only get saved value on startup. If a tactical call was added at last run adjust last index to less than current length.
+            //        GetProperty(ref tacticalSelectedIndexArray);
+            //        for (int i = 0; i < tacticalSelectedIndexArray.Length; i++)
+            //        {
+            //            if (TacticalCallsignsAreaSource[i].TacticalCallsigns == null
+            //                   || tacticalSelectedIndexArray[i] >= TacticalCallsignsAreaSource[i].TacticalCallsigns.TacticalCallsignsArray.Length)
+            //            {
+            //                tacticalSelectedIndexArray[i] = -1;
+            //            }
+            //        }
+            //        //return GetProperty(ref tacticalSelectedIndexArray);
+            //        return tacticalSelectedIndexArray;
+            //    }
+            //    return GetProperty(ref tacticalSelectedIndexArray);
+            //    //return tacticalSelectedIndexArray;
+            //}
             set => SetProperty(ref tacticalSelectedIndexArray, value, true);
         }
 
@@ -220,21 +230,28 @@ namespace PacketMessagingTS.ViewModels
                 //}
                 if (value < TacticalCallsignsSource.Count && value >= 0)
                 {
-                    TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex] = value;
-                    TacticalSelectedIndexArray = TacticalSelectedIndexArray;
-                    //SetProperty(ref tacticalCallsignSelectedIndex, value);
-                    SetProperty(ref tacticalCallsignSelectedIndex, value);
-                    TacticalCallsign = TacticalCallsignsSource[tacticalCallsignSelectedIndex].TacticalCallsign;
-                    //TacticalCallsignOther = TacticalCallsign;
-                    TacticalAgencyNameSelectedIndex = tacticalCallsignSelectedIndex;
-                    TacticalMsgPrefix = TacticalCallsignsSource[tacticalCallsignSelectedIndex].Prefix;
-                    if (UseTacticalCallsign)
+                    bool propertyChanged = SetProperty(ref tacticalCallsignSelectedIndex, value);
+                    if (propertyChanged)
                     {
-                        TacticalCallsignsAreaSource[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArraySelectedIndex = tacticalCallsignSelectedIndex;
-                    }
-                    else
-                    {
-                        TacticalCallsignsAreaSource[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArraySelectedIndex = -1;
+                        int[] temp = new int[TacticalSelectedIndexArray.Length];
+                        TacticalSelectedIndexArray.CopyTo(temp, 0);
+                        temp[TacticalCallsignAreaSelectedIndex] = value;
+                        //TacticalSelectedIndexArray[TacticalCallsignAreaSelectedIndex] = value;
+                        //TacticalSelectedIndexArray = TacticalSelectedIndexArray;
+                        TacticalSelectedIndexArray = temp;
+                        //SetProperty(ref tacticalCallsignSelectedIndex, value);
+                        TacticalCallsign = TacticalCallsignsSource[tacticalCallsignSelectedIndex].TacticalCallsign;
+                        //TacticalCallsignOther = TacticalCallsign;
+                        TacticalAgencyNameSelectedIndex = tacticalCallsignSelectedIndex;
+                        TacticalMsgPrefix = TacticalCallsignsSource[tacticalCallsignSelectedIndex].Prefix;
+                        if (UseTacticalCallsign)
+                        {
+                            TacticalCallsignsAreaSource[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArraySelectedIndex = tacticalCallsignSelectedIndex;
+                        }
+                        //else
+                        //{
+                        //    TacticalCallsignsAreaSource[TacticalCallsignAreaSelectedIndex].TacticalCallsigns.TacticalCallsignsArraySelectedIndex = -1;
+                        //}
                     }
                 }
                 else

@@ -35,9 +35,10 @@ namespace PacketMessagingTS.Helpers
                 await FileIO.WriteTextAsync(file, fileContent);
                 //_logHelper.Log(LogLevel.Info, $"Saved file, size {fileContent.Length} bytes, File Name {name}");
             }
-            catch 
+            catch (Exception e)
             {
                 //_logHelper.Log(LogLevel.Error, $"Error saving {name}. {e.Message}");
+                throw (new Exception($"Save {name} error", e));
             }
             finally
             {

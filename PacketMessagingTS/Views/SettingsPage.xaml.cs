@@ -125,15 +125,11 @@ namespace PacketMessagingTS.Views
             }
             selectedPrinter.ItemsSource = printers;
 
-            if (e.Parameter is null)
+            if (!(e.Parameter is null))
             {
-                SettingsPivot.SelectedIndex = _settingsViewModel.SettingsPivotSelectedIndex;
-                return;
+                _settingsViewModel.SettingsPivotSelectedIndex = (int)e.Parameter;
             }
-            else
-            {
-                SettingsPivot.SelectedIndex = (int)e.Parameter;
-            }
+            SettingsPivot.SelectedIndex = _settingsViewModel.SettingsPivotSelectedIndex;
         }
 
         protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -158,7 +154,7 @@ namespace PacketMessagingTS.Views
 
             base.OnNavigatingFrom(e);
 
-            _logHelper.Log(LogLevel.Trace, "Exiting OnNavigatingFrom in Settings");
+            _logHelper.Log(LogLevel.Trace, $"Exiting OnNavigatingFrom() in Settings. {(SettingsPivot.SelectedItem as PivotItem).Name}");
         }
 
         private void EnableCopyTo(string sentReceived)
@@ -236,6 +232,7 @@ namespace PacketMessagingTS.Views
 
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var originalSource = e.OriginalSource;
             switch ((SettingsPivot.SelectedItem as PivotItem).Name)
             {
                 case "pivotSettings":
@@ -271,7 +268,7 @@ namespace PacketMessagingTS.Views
             }
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
-            _logHelper.Log(LogLevel.Trace, "Exiting SettingsPivot_SelectionChanged");
+            _logHelper.Log(LogLevel.Trace, $"Exiting SettingsPivot_SelectionChanged(). {(SettingsPivot.SelectedItem as PivotItem).Name}");
         }
 
         private void ReceivedCopyCount_ValueChanged(muxc.NumberBox sender, muxc.NumberBoxValueChangedEventArgs args)

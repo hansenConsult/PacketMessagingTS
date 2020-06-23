@@ -40,8 +40,8 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <!--<ColumnDefinition Width="140"/>
-                    <ColumnDefinition Width="220"/>-->
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="220"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Ellipse x:Name="Ellipse"
