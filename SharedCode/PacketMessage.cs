@@ -769,6 +769,8 @@ namespace SharedCode
         {
             Item = item;
             Data = item;
+            BackgroundBrush = _backgroundBrush;
+            ForegroundBrush = _foregroundBrush;
         }
 
         //public ComboBoxPackItItem(string item, Color color)

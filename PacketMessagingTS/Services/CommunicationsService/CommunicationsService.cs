@@ -670,9 +670,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //await _appWindow.TryShowAsync();
             */
 
-            //(string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
-            BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.BBSFromSelectedProfile;
-            //BBSData bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == bbsName).FirstOrDefault();
+            (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileDataBBSStatusChecked();
+            //BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.BBSFromSelectedProfile;
+            BBSData bbs = BBSDefinitions.Instance.BBSDataArray.Where(bBS => bBS.Name == bbsName).FirstOrDefault();
             //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
             TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.TNCFromSelectedProfile;
 

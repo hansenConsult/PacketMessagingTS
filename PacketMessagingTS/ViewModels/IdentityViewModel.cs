@@ -332,8 +332,10 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
-                SetProperty(ref tacticalCallsign, value);
-                Utilities.SetApplicationTitle();
+                if (SetProperty(ref tacticalCallsign, value))
+                {
+                    Utilities.SetApplicationTitle();
+                }
             }
         }
 

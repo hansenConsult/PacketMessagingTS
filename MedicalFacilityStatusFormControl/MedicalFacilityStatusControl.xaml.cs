@@ -44,7 +44,7 @@ namespace MedicalFacilityStatusFormControl
         readonly List<ComboBoxPackItItem> DeconStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Unknown", LightGrayBrush),
             new ComboBoxPackItItem("Not Available", OrangeBrush),
             new ComboBoxPackItItem("Active", LightGreenBrush),
             new ComboBoxPackItItem("Available", YellowBrush),
@@ -53,7 +53,7 @@ namespace MedicalFacilityStatusFormControl
         readonly List<ComboBoxPackItItem> CommandCenterStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Unknown", GainsboroBrush),
             new ComboBoxPackItItem("Inactive", LightGreenBrush),
             new ComboBoxPackItItem("Activated", PinkBrush),
         };
@@ -61,7 +61,7 @@ namespace MedicalFacilityStatusFormControl
         readonly List<ComboBoxPackItItem> MorgueStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Unknown", GainsboroBrush),
             new ComboBoxPackItItem("Open", LightGreenBrush),
             new ComboBoxPackItItem("Full", YellowBrush),
         };
@@ -69,7 +69,7 @@ namespace MedicalFacilityStatusFormControl
         readonly List<ComboBoxPackItItem> PowerStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown"),
+            new ComboBoxPackItItem("Unknown", GainsboroBrush),
             new ComboBoxPackItItem("Normal", LightGreenBrush),
             new ComboBoxPackItItem("Generator", YellowBrush),
             new ComboBoxPackItItem("None"),
@@ -78,13 +78,13 @@ namespace MedicalFacilityStatusFormControl
         readonly List<ComboBoxPackItItem> BuildingStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown", LightGrayBrush),
+            new ComboBoxPackItItem("Unknown", GainsboroBrush),
             new ComboBoxPackItItem("Restricted Use"),
             new ComboBoxPackItItem("Unsafe to Occupy"),
-            new ComboBoxPackItItem("Not Inspected", LightGrayBrush),
+            new ComboBoxPackItItem("Not Inspected"),
             new ComboBoxPackItItem("Safe to Occupy", YellowBrush),
             new ComboBoxPackItItem("Normal", LightGreenBrush),
-            new ComboBoxPackItItem("Compromised"),
+            new ComboBoxPackItItem("Compromised", WhiteBrush),
             new ComboBoxPackItItem("Evacuating", PinkBrush),
             new ComboBoxPackItItem("Closed"),
         };
@@ -107,6 +107,8 @@ namespace MedicalFacilityStatusFormControl
             new ComboBoxPackItItem("Insufficient", LightGrayBrush),
         };
 
+        string _pif;
+
         public MedicalFacilityStatusControl()
         {
             this.InitializeComponent();
@@ -123,7 +125,7 @@ namespace MedicalFacilityStatusFormControl
 
             FormHeaderControl.HeaderString1 = "Medical facility Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20160101";
-            FormHeaderControl.PIF = "3.2";
+            FormHeaderControl.HeaderPIF = PIF;
 
             UpdateFormFieldsRequiredColors(false);
         }
@@ -155,6 +157,8 @@ namespace MedicalFacilityStatusFormControl
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
+        public override string PIF => "3.2";
+
         public override string CreateSubject()
         {
             return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedItem as ComboBoxPackItItem)?.Item}";
@@ -166,7 +170,7 @@ namespace MedicalFacilityStatusFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-medical-facility-status-v2.html",
-                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
+                $"#V: {PackItFormVersion}-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 

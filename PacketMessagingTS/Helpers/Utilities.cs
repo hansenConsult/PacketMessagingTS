@@ -210,6 +210,21 @@ namespace PacketMessagingTS.Helpers
             return (bbs, tnc, from);
         }
 
+        public static string GetSenderBBSStatusChecked()
+        {
+            IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+            string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+            string bbs = AddressBook.Instance.GetBBS(from);
+
+            string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            bool profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
+            if (profileBBSUp)
+            {
+                bbs = profileBBS;
+            }
+            return bbs;
+        }
+
         //public static string GetBBSName(out string from, out string tnc)
         //{
         //    IdentityViewModel instance = PacketMessagingTS.Core.Helpers.Singleton<IdentityViewModel>.Instance;
@@ -236,7 +251,7 @@ namespace PacketMessagingTS.Helpers
                 title += " as " + Singleton<IdentityViewModel>.Instance.TacticalCallsign;
             }
 
-            (string bbs, string tnc, string from) = GetProfileData();
+            (string bbs, string tnc, string from) = GetProfileDataBBSStatusChecked();
             if (!string.IsNullOrEmpty(bbs))
                 title += " - " + (string.IsNullOrEmpty(bbsName) ? bbs : bbsName);
             title += " - " + tnc;

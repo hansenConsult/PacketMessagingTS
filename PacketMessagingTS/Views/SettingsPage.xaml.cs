@@ -38,16 +38,6 @@ namespace PacketMessagingTS.Views
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
-        // Identity settings
-        //public static ObservableCollection<TacticalCallsignData> listOfTacticallsignsArea;
-
-        //TacticalCallsignData _tacticalCallsignData;
-
-        // Profiles settings
-
-        // TNC settings
-        //int _deletedIndex;
-        //int _modifiedEmailAccountSelectedIndex;
         string[] CopyDestinations = new string[]
         {
             "Radio Room",
@@ -232,7 +222,6 @@ namespace PacketMessagingTS.Views
 
         private void SettingsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var originalSource = e.OriginalSource;
             switch ((SettingsPivot.SelectedItem as PivotItem).Name)
             {
                 case "pivotSettings":
@@ -309,14 +298,14 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        #region General
+#region General
         //private void BBSPrimaryStatus_Toggled(object sender, RoutedEventArgs e)
         //{
         //    ContactsCVS.Source = AddressBook.Instance.GetContactsGrouped();
         //}
 
         #endregion General
-        #region Identity
+#region Identity
         //private void ComboBoxTacticalCallsignArea_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
         //_identityViewModel._tacticalCallsignData = (TacticalCallsignData)e.AddedItems[0];
@@ -610,7 +599,7 @@ namespace PacketMessagingTS.Views
         }
 
         #endregion
-        #region Interface
+#region Interface
 
         //private void TNCSaveAsCurrent()
         //{
@@ -1029,7 +1018,7 @@ namespace PacketMessagingTS.Views
 
         }
         #endregion Interface
-        #region Address Book
+#region Address Book
         AddressBookEntry _selectedEntry;
         private void AddressBookListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

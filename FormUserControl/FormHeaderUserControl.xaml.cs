@@ -56,6 +56,13 @@ namespace FormUserControl
             set => Set(ref headerSubstring, value);
         }
 
+        //private string headerPIF;
+        //public string HeaderPIF
+        //{
+        //    get => $"PIF: {headerPIF}";
+        //    set => Set(ref headerPIF, value);
+        //}
+
         public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
         {
             if (sender is TextBox textBox)

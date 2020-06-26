@@ -101,7 +101,7 @@ namespace HavBedReportFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-mhoc-beds-status.html",
-                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
+                $"#V: {PackItFormVersion}-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 

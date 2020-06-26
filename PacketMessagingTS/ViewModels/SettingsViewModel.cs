@@ -80,8 +80,11 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w1XSCStatusUp);
             set
             {
-                SetProperty(ref w1XSCStatusUp, value, true);
-                AddressBook.Instance.UpdateForBBSStatusChange("W1XSC", w1XSCStatusUp);
+                if (SetProperty(ref w1XSCStatusUp, value, true))
+                {
+                    AddressBook.Instance.UpdateForBBSStatusChange("W1XSC", w1XSCStatusUp);
+                    Utilities.SetApplicationTitle();
+                }
             }
         }
 
@@ -91,8 +94,11 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w2XSCStatusUp);
             set
             {
-                SetProperty(ref w2XSCStatusUp, value, true);
-                AddressBook.Instance.UpdateForBBSStatusChange("W2XSC", w2XSCStatusUp);
+                if (SetProperty(ref w2XSCStatusUp, value, true))
+                {
+                    AddressBook.Instance.UpdateForBBSStatusChange("W2XSC", w2XSCStatusUp);
+                    Utilities.SetApplicationTitle();
+                }
             }
         }
 
@@ -102,8 +108,11 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w3XSCStatusUp);
             set
             {
-                SetProperty(ref w3XSCStatusUp, value, true);
-                AddressBook.Instance.UpdateForBBSStatusChange("W3XSC", W3XSCStatusUp);
+                if (SetProperty(ref w3XSCStatusUp, value, true))
+                {
+                    AddressBook.Instance.UpdateForBBSStatusChange("W3XSC", W3XSCStatusUp);
+                    Utilities.SetApplicationTitle();
+                }
             }
         }
 
@@ -113,8 +122,11 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w4XSCStatusUp);
             set
             {
-                SetProperty(ref w4XSCStatusUp, value, true);
-                AddressBook.Instance.UpdateForBBSStatusChange("W4XSC", W4XSCStatusUp);
+                if (SetProperty(ref w4XSCStatusUp, value, true))
+                {
+                    AddressBook.Instance.UpdateForBBSStatusChange("W4XSC", W4XSCStatusUp);
+                    Utilities.SetApplicationTitle();
+                }
             }
         }
         public bool w5XSCStatusUp = true;
@@ -123,8 +135,11 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w5XSCStatusUp);
             set
             {
-                SetProperty(ref w5XSCStatusUp, value, true);
-                AddressBook.Instance.UpdateForBBSStatusChange("W5XSC", W5XSCStatusUp);
+                if (SetProperty(ref w5XSCStatusUp, value, true))
+                {
+                    AddressBook.Instance.UpdateForBBSStatusChange("W5XSC", W5XSCStatusUp);
+                    Utilities.SetApplicationTitle();
+                }
             }
         }
 

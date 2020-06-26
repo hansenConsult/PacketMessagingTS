@@ -26,6 +26,7 @@ namespace ICS213RRPackItFormControl
 
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {
+        string _pif = "2.3";
         public ICS213RRPackItControl()
         {
             InitializeComponent();
@@ -42,7 +43,7 @@ namespace ICS213RRPackItFormControl
 
             FormHeaderControl.HeaderString1 = "SCCo EOC RESOURCE REQUEST FORM 213RR";
             FormHeaderControl.HeaderSubstring = "Version 8/17";
-            FormHeaderControl.PIF = "2.3";
+            FormHeaderControl.PIF = _pif;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -88,6 +89,12 @@ namespace ICS213RRPackItFormControl
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
+        public override string PIF
+        {
+            get => "2.3";
+            set => _pif = "2.3"; 
+        }
+
         public override string CreateSubject()
         {
             return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
@@ -99,7 +106,7 @@ namespace ICS213RRPackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-scco-eoc-213rr.html",
-                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
+                $"#V: {PackItFormVersion}-{_pif}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 

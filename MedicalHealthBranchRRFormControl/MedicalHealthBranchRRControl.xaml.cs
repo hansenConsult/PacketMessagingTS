@@ -76,6 +76,7 @@ namespace MedicalHealthBranchRRFormControl
         //        requestTime.Text = time;
         //    }
         //}
+        public string HeaderPIF => $"PIF: {PIF}"; 
 
         public override void AppendDrillTraffic()
         {
@@ -104,7 +105,7 @@ namespace MedicalHealthBranchRRFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-medical-resource-request.html",
-                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
+                $"#V: {PackItFormVersion}-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 

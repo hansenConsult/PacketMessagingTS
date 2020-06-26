@@ -43,6 +43,7 @@ namespace FormControlBasicsNamespace
         public static SolidColorBrush LightGreenBrush = new SolidColorBrush(Colors.LightGreen);
         public static SolidColorBrush PinkBrush = new SolidColorBrush(Colors.Pink);
         public static SolidColorBrush LightGrayBrush = new SolidColorBrush(Colors.LightGray);
+        public static SolidColorBrush GainsboroBrush = new SolidColorBrush(Colors.Gainsboro);
         public static SolidColorBrush YellowBrush = new SolidColorBrush(Colors.Yellow);
         public static SolidColorBrush OrangeBrush = new SolidColorBrush(Colors.Orange);
 
@@ -94,12 +95,20 @@ namespace FormControlBasicsNamespace
         public virtual string OperatorCallsign
         { get; set; }
 
-        private string _pif = "2.1";
+        protected string _pif = "2.1";
         public virtual string PIF
         {
-            get => $"PIF: {_pif}";
-            set => _pif = value;
+            get => _pif;
+            set => Set(ref _pif, value);
         }
+
+        //private string headerPIF;
+        public string HeaderPIF
+        {
+            get => $"PIF: {_pif}";
+            set => Set(ref _pif, value);
+        }
+
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
