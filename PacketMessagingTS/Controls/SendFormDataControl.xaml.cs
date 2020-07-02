@@ -44,23 +44,23 @@ namespace PacketMessagingTS.Controls
             MessageFrom = from;
         }
 
-        //private string messageSubject;
-        //public string MessageSubject
-        //{
-        //    get => messageSubject;
-        //    //set => Set(ref messageSubject, value);
-        //    set
-        //    {
-        //        Set(ref messageSubject, value ?? "");
-        //        //textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
-        //    }
-        //}
-
+        private string messageSubject;
         public string MessageSubject
         {
-            get { return (string)GetValue(MessageSubjectProperty); }
-            set { SetValue(MessageSubjectProperty, value ?? ""); }
+            get => messageSubject;
+            //set => Set(ref messageSubject, value);
+            set
+            {
+                Set(ref messageSubject, value ?? "");
+                //textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
+            }
         }
+
+        //public string MessageSubject
+        //{
+        //    get { return (string)GetValue(MessageSubjectProperty); }
+        //    set { SetValue(MessageSubjectProperty, value ?? ""); }
+        //}
 
         public ObservableCollection<BBSData> BBSArray => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataArray);
 

@@ -10,11 +10,24 @@ namespace PacketMessagingTS.ViewModels
 {
     public class TestFormsViewModel : FormsViewModel
     {
-        protected int testFormsPagePivotSelectedIndex;
+        //public override int FormsPagePivotSelectedIndex
+        //{
+        //    get => TestFormsPagePivotSelectedIndex;
+        //    set => TestFormsPagePivotSelectedIndex = value;
+        //}
+
+        protected int _testFormsPagePivotSelectedIndex;
         public int TestFormsPagePivotSelectedIndex
         {
-            get => GetProperty(ref testFormsPagePivotSelectedIndex);
-            set => SetProperty(ref testFormsPagePivotSelectedIndex, value, true);
+            get
+            {
+                int index = GetProperty(ref _testFormsPagePivotSelectedIndex);
+                if (index >= SharedData.FormControlAttributeTestList.Count)
+                    index = 0;
+                FormsPagePivotSelectionChangedAsync(index);
+                return index;
+            }
+            set => SetProperty(ref _testFormsPagePivotSelectedIndex, value, true);
         }
 
     }

@@ -82,6 +82,7 @@ namespace PacketMessagingTS.Helpers
         public static int FindHighestUsedMesageNumberInFolder(string folder, string prefix)
         {
             DirectoryInfo DirInfo = new DirectoryInfo(folder);
+            var files = DirInfo.EnumerateFiles();
             var fileNames = from f in DirInfo.EnumerateFiles()
                         where f.Name.StartsWith(prefix) && f.Extension == ".xml"
                         select f.Name;
@@ -112,6 +113,9 @@ namespace PacketMessagingTS.Helpers
             {
                 msgNoPrefix = Singleton<IdentityViewModel>.Instance.UserMsgPrefix;
             }
+
+            if (string.IsNullOrEmpty(msgNoPrefix))
+                return 0;
 
             List<int> msgNumbers = new List<int>();
 

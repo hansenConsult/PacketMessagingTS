@@ -17,23 +17,29 @@
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
-               SelectionChanged="FormsPagePivot_SelectionChangedAsync"/>
+               SelectedIndex="{x:Bind _CountyFormsViewModel.CountyFormsPagePivotSelectedIndex, Mode=TwoWay}"/>
+        <!--SelectionChanged="FormsPagePivot_SelectionChangedAsync"-->
+        <!--SelectedIndex="{x:Bind _CountyFormsViewModel.FormsPagePivotSelectedIndex}"-->
 
         <CommandBar x:Name="ButtomCommandBar"
 				RelativePanel.AlignBottomWithPanel="True"
 				RelativePanel.AlignRightWithPanel="True"
 				RelativePanel.AlignLeftWithPanel="True">
             <AppBarButton x:Name="appBarClearForm" Label="Clear Form" Icon="Clear" HorizontalAlignment="Right"
-                          Click="AppBarClearForm_ClickAsync"/>
+                          Command="{x:Bind _CountyFormsViewModel.ClearFormCommand}"/>
+            <!--<AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
+                          Click="AppBarViewOutpostData_ClickAsync"/>-->
             <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
-                          Click="AppBarViewOutpostData_ClickAsync"/>
+                          Command="{x:Bind _CountyFormsViewModel.ViewOutpostDataCommand}"/>
             <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"
-                          Click="AppBarSave_Click"/>
+                          Command="{x:Bind _CountyFormsViewModel.SaveFormCommand}"/>
             <!--IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSaveEnabled}"-->
             <AppBarButton x:Name="appBarPrint" Label="Print Message" Icon="Print" HorizontalAlignment="Right"
-                          Click="AppBarPrint_Click"/>
+                          Command="{x:Bind _CountyFormsViewModel.PrintFormCommand}"/>
+            <!--<AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send"
+                          Click="AppBarSend_ClickAsync"/>-->
             <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send"
-                          Click="AppBarSend_ClickAsync"/>
+                          Command="{x:Bind _CountyFormsViewModel.SendReceiveCommand}"/>
             <!--IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSendEnabled}"-->
         </CommandBar>
     </RelativePanel>

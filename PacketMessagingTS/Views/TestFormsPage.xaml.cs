@@ -26,7 +26,14 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TestFormsPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public TestFormsViewModel TestFormsViewModel { get; } = Singleton<TestFormsViewModel>.Instance;
+        public TestFormsViewModel _TestFormsViewModel { get; } = Singleton<TestFormsViewModel>.Instance;
+
+
+        public override int FormsPagePivotSelectedIndex
+        {
+            get => _TestFormsViewModel.TestFormsPagePivotSelectedIndex;
+            set => _TestFormsViewModel.TestFormsPagePivotSelectedIndex = value;
+        }
 
         public TestFormsPage()
         {
@@ -49,23 +56,13 @@ namespace PacketMessagingTS.Views
             }
 
             PopulateFormsPagePivot();
-        }
 
-        public override int FormsPagePivotSelectedIndex
-        {
-            get
-            {
-                int index = TestFormsViewModel.TestFormsPagePivotSelectedIndex;
-                if (index >= _formControlAttributeList.Count)
-                    index = 0;
-                return index;
-            }
-            set => TestFormsViewModel.TestFormsPagePivotSelectedIndex = value;
+            _TestFormsViewModel.FormsPage = this;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)
         {
-            TestFormsViewModel.IsAppBarSendEnabled = isEnabled;
+            _TestFormsViewModel.IsAppBarSendEnabled = isEnabled;
         }
 
     }

@@ -154,7 +154,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     formName = formName.Substring(0, formName.Length - html.Length);
                     pktMsg.PacFormName = formName;
 
-                    formControl = BaseFormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                    formControl = FormsViewModel.CreateFormControlInstance(pktMsg.PacFormName);
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
@@ -446,7 +446,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             formName = formName.Substring(0, formName.Length - html.Length);
                             pktMsg.PacFormName = formName;
 
-                            formControl = BaseFormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                            formControl = FormsViewModel.CreateFormControlInstance(pktMsg.PacFormName);
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
@@ -464,7 +464,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             formName.Trim();
                             pktMsg.PacFormName = formName;
 
-                            formControl = BaseFormsPage.CreateFormControlInstance(pktMsg.PacFormName);
+                            formControl = FormsViewModel.CreateFormControlInstance(pktMsg.PacFormName);
                             if (formControl is null)
                             {
                                 _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");
@@ -727,7 +727,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //if (operatorTimeField != null)
                 //    operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-                FormControlBase formControl = BaseFormsPage.CreateFormControlInstance(packetMessage.PacFormName);
+                FormControlBase formControl = FormsViewModel.CreateFormControlInstance(packetMessage.PacFormName);
                 if (formControl is null)
                 {
                     _logHelper.Log(LogLevel.Error, $"Could not create an instance of {packetMessage.PacFormName}");

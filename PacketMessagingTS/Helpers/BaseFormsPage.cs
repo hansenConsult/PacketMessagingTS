@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -25,8 +24,6 @@ using MessageFormControl;
 
 using MetroLog;
 
-using Microsoft.Toolkit;
-
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Models;
@@ -39,13 +36,9 @@ using static SharedCode.Helpers.MessageOriginHelper;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using HavBedReportFormControl;
-using Windows.ApplicationModel;
-//using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -58,7 +51,7 @@ namespace PacketMessagingTS.Helpers
 
         protected Pivot _formsPagePivot;
         protected PacketMessage _packetMessage;
-        protected bool _loadMessage = false;
+        public bool _loadMessage = false;
 
         protected SendFormDataControl _packetAddressForm;
         protected FormControlBase _packetForm;
@@ -69,126 +62,131 @@ namespace PacketMessagingTS.Helpers
 
         protected List<FormControlAttributes> _formControlAttributeList;
 
+        public PacketMessage PacketMessage => _packetMessage;
 
-        public string MessageNo
-        {
-            get
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.MessageNo;
-                else
-                    return _packetForm.MessageNo;
-            }
-            set
-            {
-                if (_packetForm.FormHeaderControl != null)
-                {
-                    _packetForm.FormHeaderControl.MessageNo = value;
-                    _packetForm.MessageNo = value;
-                }
-                else
-                    _packetForm.MessageNo = value;
-            }
-        }
+        public bool LoadMessage => _loadMessage;
 
-        public string DestinationMsgNo
-        {
-            get
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.DestinationMsgNo;
-                else
-                    return _packetForm.DestinationMsgNo;
-            }
-            set
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.DestinationMsgNo = value;
-                else
-                    _packetForm.DestinationMsgNo = value;
-            }
-        }
+        public Pivot FormsPagePivot => _formsPagePivot;
 
-        public string OriginMsgNo
-        {
-            get
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.OriginMsgNo;
-                else
-                    return _packetForm.OriginMsgNo;
-            }
-            set
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.OriginMsgNo = value;
-                else
-                    _packetForm.OriginMsgNo = value;
-            }
-        }
+        //public string MessageNo
+        //{
+        //    get
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            return _packetForm.FormHeaderControl.MessageNo;
+        //        else
+        //            return _packetForm.MessageNo;
+        //    }
+        //    set
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //        {
+        //            _packetForm.FormHeaderControl.MessageNo = value;
+        //            _packetForm.MessageNo = value;
+        //        }
+        //        else
+        //            _packetForm.MessageNo = value;
+        //    }
+        //}
+
+        //public string DestinationMsgNo
+        //{
+        //    get
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            return _packetForm.FormHeaderControl.DestinationMsgNo;
+        //        else
+        //            return _packetForm.DestinationMsgNo;
+        //    }
+        //    set
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            _packetForm.FormHeaderControl.DestinationMsgNo = value;
+        //        else
+        //            _packetForm.DestinationMsgNo = value;
+        //    }
+        //}
+
+        //public string OriginMsgNo
+        //{
+        //    get
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            return _packetForm.FormHeaderControl.OriginMsgNo;
+        //        else
+        //            return _packetForm.OriginMsgNo;
+        //    }
+        //    set
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            _packetForm.FormHeaderControl.OriginMsgNo = value;
+        //        else
+        //            _packetForm.OriginMsgNo = value;
+        //    }
+        //}
         
-        public string HandlingOrder
-        {
-            get
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.HandlingOrder;
-                else
-                    return _packetForm.HandlingOrder;
-            }
-            set
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.HandlingOrder = value;
-                else
-                    _packetForm.HandlingOrder = value;
-            }
-        }
+        //public string HandlingOrder
+        //{
+        //    get
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            return _packetForm.FormHeaderControl.HandlingOrder;
+        //        else
+        //            return _packetForm.HandlingOrder;
+        //    }
+        //    set
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            _packetForm.FormHeaderControl.HandlingOrder = value;
+        //        else
+        //            _packetForm.HandlingOrder = value;
+        //    }
+        //}
 
-        public string MsgDate
-        {
-            get
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.MsgDate;
-                else
-                    return _packetForm.MsgDate;
-            }
-            set
-            {
-                if (_packetForm.FormHeaderControl != null)
-                {
-                    _packetForm.FormHeaderControl.MsgDate = value;
-                    _packetForm.MsgDate = value;
-                }
-                else
-                    _packetForm.MsgDate = value;
-            }
-        }
+        //public string MsgDate
+        //{
+        //    get
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            return _packetForm.FormHeaderControl.MsgDate;
+        //        else
+        //            return _packetForm.MsgDate;
+        //    }
+        //    set
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //        {
+        //            _packetForm.FormHeaderControl.MsgDate = value;
+        //            _packetForm.MsgDate = value;
+        //        }
+        //        else
+        //            _packetForm.MsgDate = value;
+        //    }
+        //}
 
-        public string OperatorName
-        {
-            get => Singleton<IdentityViewModel>.Instance.UserName;
-            set
-            {
-                if (_packetForm.RadioOperatorControl != null)
-                    _packetForm.RadioOperatorControl.OperatorName = value;
-                else
-                    _packetForm.OperatorName = value;
-            }
-        }
+        //public string OperatorName
+        //{
+        //    get => Singleton<IdentityViewModel>.Instance.UserName;
+        //    set
+        //    {
+        //        if (_packetForm.RadioOperatorControl != null)
+        //            _packetForm.RadioOperatorControl.OperatorName = value;
+        //        else
+        //            _packetForm.OperatorName = value;
+        //    }
+        //}
 
-        public string OperatorCallsign
-        {
-            get => Singleton<IdentityViewModel>.Instance.UserCallsign;
-            set
-            {
-                if (_packetForm.RadioOperatorControl != null)
-                    _packetForm.RadioOperatorControl.OperatorCallsign = value;
-                else
-                    _packetForm.OperatorCallsign = value;
-            }
-        }
+        //public string OperatorCallsign
+        //{
+        //    get => Singleton<IdentityViewModel>.Instance.UserCallsign;
+        //    set
+        //    {
+        //        if (_packetForm.RadioOperatorControl != null)
+        //            _packetForm.RadioOperatorControl.OperatorCallsign = value;
+        //        else
+        //            _packetForm.OperatorCallsign = value;
+        //    }
+        //}
 
         public BaseFormsPage()
         {
@@ -216,7 +214,7 @@ namespace PacketMessagingTS.Helpers
             return pivotItem;
         }
 
-        protected void PopulateFormsPagePivot()
+        protected virtual void PopulateFormsPagePivot()
         {
             foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
             {
@@ -465,156 +463,156 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        protected string CreateSubject()
-        {
-            return ValidateSubject(_packetForm.CreateSubject());
-        }
+        //protected string CreateSubject()
+        //{
+        //    return ValidateSubject(_packetForm.CreateSubject());
+        //}
 
-        private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProviders formProvider = FormProviders.PacForm)
-        {
-            _packetMessage = new PacketMessage()
-            {
-                FormControlType = _packetForm.FormControlType,
-                BBSName = _packetAddressForm.MessageBBS,
-                TNCName = _packetAddressForm.MessageTNC,
-                FormFieldArray = _packetForm.CreateFormFieldsInXML(),
-                FormProvider = _packetForm.FormProvider,
-                PacFormName = _packetForm.PacFormName,
-                PacFormType = _packetForm.PacFormType,
-                MessageFrom = _packetAddressForm.MessageFrom,
-                MessageTo = _packetAddressForm.MessageTo,
-                CreateTime = DateTime.Now,
-                MessageState = messageState,
-            };
+        //private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProviders formProvider = FormProviders.PacForm)
+        //{
+        //    _packetMessage = new PacketMessage()
+        //    {
+        //        FormControlType = _packetForm.FormControlType,
+        //        BBSName = _packetAddressForm.MessageBBS,
+        //        TNCName = _packetAddressForm.MessageTNC,
+        //        FormFieldArray = _packetForm.CreateFormFieldsInXML(),
+        //        FormProvider = _packetForm.FormProvider,
+        //        PacFormName = _packetForm.PacFormName,
+        //        PacFormType = _packetForm.PacFormType,
+        //        MessageFrom = _packetAddressForm.MessageFrom,
+        //        MessageTo = _packetAddressForm.MessageTo,
+        //        CreateTime = DateTime.Now,
+        //        MessageState = messageState,
+        //    };
 
-            _packetMessage.MessageNumber = OriginMsgNo;
+        //    _packetMessage.MessageNumber = OriginMsgNo;
 
-            UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
-            //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
-            string subject = CreateSubject();
-            // subject is "null" for Simple Message, otherwise use the form generated subject line
-            _packetMessage.Subject = subject ?? _packetAddressForm.MessageSubject;
-            if (!_packetMessage.CreateFileName())
-            {
-                throw new Exception();
-            }
-        }
+        //    UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
+        //    //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
+        //    string subject = CreateSubject();
+        //    // subject is "null" for Simple Message, otherwise use the form generated subject line
+        //    _packetMessage.Subject = subject ?? _packetAddressForm.MessageSubject;
+        //    if (!_packetMessage.CreateFileName())
+        //    {
+        //        throw new Exception();
+        //    }
+        //}
 
-        public void FillFormFromPacketMessage()
-        {
-            //_packetForm.FormProvider = _packetMessage.FormProvider;
-            _packetAddressForm.MessageBBS = _packetMessage.BBSName;
-            _packetAddressForm.MessageTNC = _packetMessage.TNCName;
-            _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
-            _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
-            _packetAddressForm.MessageTo = _packetMessage.MessageTo;
-            _packetAddressForm.MessageSubject = _packetMessage.Subject;
+        //public void FillFormFromPacketMessage()
+        //{
+        //    //_packetForm.FormProvider = _packetMessage.FormProvider;
+        //    _packetAddressForm.MessageBBS = _packetMessage.BBSName;
+        //    _packetAddressForm.MessageTNC = _packetMessage.TNCName;
+        //    _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
+        //    _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
+        //    _packetAddressForm.MessageTo = _packetMessage.MessageTo;
+        //    _packetAddressForm.MessageSubject = _packetMessage.Subject;
 
-            //string opcall = _packetForm.OperatorCallsign;//test
-            // Special handling for SimpleMessage
-            //_packetForm.MessageNo = _packetMessage.MessageNumber;
-            MessageNo = _packetMessage.MessageNumber;
-            _packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
-            if (_packetMessage.MessageOrigin == MessageOrigin.Received)
-            {
-                _packetForm.MessageSentTime = _packetMessage.JNOSDate;
-                _packetForm.ReceivedOrSent = "Receiver";
-                if (_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
-                {
-                    MessageNo = _packetMessage.MessageNumber;
-                    _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
-                }
-                else
-                {
-                    DestinationMsgNo = _packetMessage.MessageNumber;
-                    OriginMsgNo = _packetMessage.SenderMessageNumber;
-                }
-            }
-            else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
-            {
-                _packetForm.MessageSentTime = _packetMessage.SentTime;
-                DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
-                OriginMsgNo = _packetMessage.MessageNumber;
-                _packetForm.ReceivedOrSent = "Sender";
-            }
-            else if (_packetMessage.MessageOrigin == MessageOrigin.New)
-            {
-                _packetForm.MessageSentTime = null;
-                _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
-                OriginMsgNo = _packetMessage.MessageNumber;
-            }
-        }
+        //    //string opcall = _packetForm.OperatorCallsign;//test
+        //    // Special handling for SimpleMessage
+        //    //_packetForm.MessageNo = _packetMessage.MessageNumber;
+        //    MessageNo = _packetMessage.MessageNumber;
+        //    _packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
+        //    if (_packetMessage.MessageOrigin == MessageOrigin.Received)
+        //    {
+        //        _packetForm.MessageSentTime = _packetMessage.JNOSDate;
+        //        _packetForm.ReceivedOrSent = "Receiver";
+        //        if (_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
+        //        {
+        //            MessageNo = _packetMessage.MessageNumber;
+        //            _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
+        //        }
+        //        else
+        //        {
+        //            DestinationMsgNo = _packetMessage.MessageNumber;
+        //            OriginMsgNo = _packetMessage.SenderMessageNumber;
+        //        }
+        //    }
+        //    else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
+        //    {
+        //        _packetForm.MessageSentTime = _packetMessage.SentTime;
+        //        DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
+        //        OriginMsgNo = _packetMessage.MessageNumber;
+        //        _packetForm.ReceivedOrSent = "Sender";
+        //    }
+        //    else if (_packetMessage.MessageOrigin == MessageOrigin.New)
+        //    {
+        //        _packetForm.MessageSentTime = null;
+        //        _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
+        //        OriginMsgNo = _packetMessage.MessageNumber;
+        //    }
+        //}
 
-        public static FormControlBase CreateFormControlInstance(string formControlName)
-        {
-            //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
-            FormControlBase formControl = null;
-            //IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
-            //if (files is null)
-            //    return null;
+        //public static FormControlBase CreateFormControlInstance(string formControlName)
+        //{
+        //    //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
+        //    FormControlBase formControl = null;
+        //    //IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
+        //    //if (files is null)
+        //    //    return null;
 
-            Type foundType = null;
-            //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
-            foreach (Assembly assembly in SharedData.Assemblies)
-            {
-                try
-                {
-                    //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
-                    foreach (Type classType in assembly.GetTypes())
-                    {
-                        var attrib = classType.GetTypeInfo();
-                        //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
-                        foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
-                        {
-                            var namedArguments = customAttribute.NamedArguments;
-                            if (namedArguments.Count == 3)
-                            {
-                                foreach (CustomAttributeNamedArgument arg in namedArguments)
-                                {
-                                    if (arg.MemberName == "FormControlName")
-                                    {
-                                        if (formControlName == arg.TypedValue.Value as string)
-                                        {
-                                            foundType = classType;
-                                            break;
-                                        }
-                                    }
-                                }
+        //    Type foundType = null;
+        //    //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
+        //    foreach (Assembly assembly in SharedData.Assemblies)
+        //    {
+        //        try
+        //        {
+        //            //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
+        //            foreach (Type classType in assembly.GetTypes())
+        //            {
+        //                var attrib = classType.GetTypeInfo();
+        //                //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
+        //                foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+        //                {
+        //                    var namedArguments = customAttribute.NamedArguments;
+        //                    if (namedArguments.Count == 3)
+        //                    {
+        //                        foreach (CustomAttributeNamedArgument arg in namedArguments)
+        //                        {
+        //                            if (arg.MemberName == "FormControlName")
+        //                            {
+        //                                if (formControlName == arg.TypedValue.Value as string)
+        //                                {
+        //                                    foundType = classType;
+        //                                    break;
+        //                                }
+        //                            }
+        //                        }
 
-                                //    var formControlType = namedArguments[0].TypedValue.Value as string;
-                                //    if (formControlType == formControlName)
-                                //    {
-                                //        foundType = classType;
-                                //        break;
-                                //    }
-                                //}
-                            }
-                            if (foundType != null)
-                                break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
-                }
-                if (foundType != null)
-                    break;
-            }
+        //                        //    var formControlType = namedArguments[0].TypedValue.Value as string;
+        //                        //    if (formControlType == formControlName)
+        //                        //    {
+        //                        //        foundType = classType;
+        //                        //        break;
+        //                        //    }
+        //                        //}
+        //                    }
+        //                    if (foundType != null)
+        //                        break;
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
+        //        }
+        //        if (foundType != null)
+        //            break;
+        //    }
 
-            if (foundType != null)
-            {
-                try
-                {
-                    formControl = (FormControlBase)Activator.CreateInstance(foundType);
-                }
-                catch (Exception e)
-                {
-                    _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
-                }
-            }
-            return formControl;
-        }
+        //    if (foundType != null)
+        //    {
+        //        try
+        //        {
+        //            formControl = (FormControlBase)Activator.CreateInstance(foundType);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
+        //        }
+        //    }
+        //    return formControl;
+        //}
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -622,7 +620,7 @@ namespace PacketMessagingTS.Helpers
             if (e.Parameter is null)
             {
                 // Open last used empty form
-                _formsPagePivot.SelectedIndex = FormsPagePivotSelectedIndex;
+ //               _formsPagePivot.SelectedIndex = FormsPagePivotSelectedIndex;
                 _packetMessage = null;
                 base.OnNavigatedTo(e);
                 return;
@@ -647,7 +645,8 @@ namespace PacketMessagingTS.Helpers
                 {
                     if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
                     {
-                        _formsPagePivot.SelectedIndex = index;
+                        //_formsPagePivot.SelectedIndex = index;
+                        FormsPagePivotSelectedIndex = index;
                         break;
                     }
                     index++;
@@ -673,376 +672,381 @@ namespace PacketMessagingTS.Helpers
             base.OnNavigatedTo(e);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            FormsPagePivotSelectedIndex = _formsPagePivot.SelectedIndex;
+        //protected override void OnNavigatedFrom(NavigationEventArgs e)
+        //{
+        //    FormsPagePivotSelectedIndex = _formsPagePivot.SelectedIndex;
 
-            base.OnNavigatedFrom(e);
-        }
+        //    base.OnNavigatedFrom(e);
+        //}
 
-        private async Task InitializeFormControlAsync()
-        {
-            PivotItem pivotItem = _formsPagePivot.SelectedItem as PivotItem;
-            string formControlName = pivotItem.Name;
+        //private async Task InitializeFormControlAsync()
+        //{
+        //    PivotItem pivotItem = _formsPagePivot.SelectedItem as PivotItem;
+        //    string formControlName = pivotItem.Name;
 
-            string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+        //    string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 
-            _packetAddressForm = new SendFormDataControl();
-            _packetForm = CreateFormControlInstance(formControlName); // Should be PacketFormName, since there may be multiple files with same name
-            if (_packetForm is null)
-            {
-                await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+        //    _packetAddressForm = new SendFormDataControl();
+        //    _packetForm = CreateFormControlInstance(formControlName); // Should be PacketFormName, since there may be multiple files with same name
+        //    if (_packetForm is null)
+        //    {
+        //        await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
 
-                return;
-            }
-            //_formsViewModel.PacketForm = _packetForm;
+        //        return;
+        //    }
+        //    //_formsViewModel.PacketForm = _packetForm;
 
-            _packetForm.UpdateFormFieldsRequiredColors(true);
+        //    _packetForm.UpdateFormFieldsRequiredColors(true);
 
-            MessageNo = Utilities.GetMessageNumberPacket();
-            OriginMsgNo = _packetForm.MessageNo;
+        //    MessageNo = Utilities.GetMessageNumberPacket();
+        //    OriginMsgNo = _packetForm.MessageNo;
 
-            DateTime now = DateTime.Now;
-            MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-            //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-            OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-            OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
-            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
-            {
-                _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
-            }
+        //    DateTime now = DateTime.Now;
+        //    MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+        //    //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+        //    OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+        //    OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+        //    if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+        //    {
+        //        _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+        //    }
 
-            StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
-            stackPanel.Margin = new Thickness(0, 0, 12, 0);
+        //    StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
+        //    stackPanel.Margin = new Thickness(0, 0, 12, 0);
 
-            stackPanel.Children.Clear();
-            if (formControlName == "SimpleMessage")
-            {
-                // Insert Pivot for message type
-                _simpleMessagePivot = new SimpleMessagePivot();
+        //    stackPanel.Children.Clear();
+        //    if (formControlName == "SimpleMessage")
+        //    {
+        //        // Insert Pivot for message type
+        //        _simpleMessagePivot = new SimpleMessagePivot();
 
-                stackPanel.Children.Insert(0, _simpleMessagePivot);
-                stackPanel.Children.Insert(1, _packetAddressForm);
-                stackPanel.Children.Insert(2, _packetForm);
+        //        stackPanel.Children.Insert(0, _simpleMessagePivot);
+        //        stackPanel.Children.Insert(1, _packetAddressForm);
+        //        stackPanel.Children.Insert(2, _packetForm);
 
-                _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
-                _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
+        //        _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
+        //        _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
 
-                _packetAddressForm.MessageSubject = $"{MessageNo}_R_<subject>";
-                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-                {
-                    _packetAddressForm.MessageSubject += practiceSubject;
-                }
+        //        _packetAddressForm.MessageSubject = $"{MessageNo}_R_<subject>";
+        //        if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+        //        {
+        //            _packetAddressForm.MessageSubject += practiceSubject;
+        //        }
 
-                (_packetForm as MessageControl).NewHeaderVisibility = true;
-                _packetForm.MessageReceivedTime = DateTime.Now;
-            }
-            else
-            {
-                stackPanel.Children.Insert(0, _packetForm);
-                stackPanel.Children.Insert(1, _packetAddressForm);
+        //        (_packetForm as MessageControl).NewHeaderVisibility = true;
+        //        _packetForm.MessageReceivedTime = DateTime.Now;
+        //    }
+        //    else
+        //    {
+        //        stackPanel.Children.Insert(0, _packetForm);
+        //        stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
-            }
-        }
+        //        _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+        //    }
+        //}
 
-        void FormControl_MessageChanged(object sender, FormEventArgs e)
-        {
-            _packetForm.MessageChanged(e.SubjectLine);
-        }
+        //void FormControl_MessageChanged(object sender, FormEventArgs e)
+        //{
+        //    _packetForm.MessageChanged(e.SubjectLine);
+        //}
 
-        void FormControl_MsgTimeChanged(object sender, FormEventArgs e)
-        {
-            _packetForm.MsgTimeChanged(e.SubjectLine);
-        }
+        //void FormControl_MsgTimeChanged(object sender, FormEventArgs e)
+        //{
+        //    _packetForm.MsgTimeChanged(e.SubjectLine);
+        //}
 
-        void FormControl_SubjectChange(object sender, FormEventArgs e)
-        {
-            if (e?.SubjectLine?.Length > 0) // Why this test?
-            {
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
-                if (_packetMessage != null)
-                {
-                    _packetMessage.Subject = _packetAddressForm.MessageSubject;
-                }
-            }
-        }
+        //void FormControl_SubjectChange(object sender, FormEventArgs e)
+        //{
+        //    if (e?.SubjectLine?.Length > 0) // Why this test?
+        //    {
+        //        _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+        //        if (_packetMessage != null)
+        //        {
+        //            _packetMessage.Subject = _packetAddressForm.MessageSubject;
+        //        }
+        //    }
+        //}
 
-        void SimpleMessage_SubjectChange(object sender, FormEventArgs e)
-        {
-            if (e?.SubjectLine != null) // Why this test?
-            {
-                _packetAddressForm.MessageSubject = $"{MessageNo}_R_{e.SubjectLine}";
-                if (_packetMessage != null)
-                {
-                    _packetMessage.Subject = _packetAddressForm.MessageSubject;
-                }
-            }
-        }
+        //void SimpleMessage_SubjectChange(object sender, FormEventArgs e)
+        //{
+        //    if (e?.SubjectLine != null) // Why this test?
+        //    {
+        //        _packetAddressForm.MessageSubject = $"{MessageNo}_R_{e.SubjectLine}";
+        //        if (_packetMessage != null)
+        //        {
+        //            _packetMessage.Subject = _packetAddressForm.MessageSubject;
+        //        }
+        //    }
+        //}
 
         // TODO insert InitializeFormControlAsync, maybe
-        public async void FormsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.RemovedItems.Count == 1)
-            {
-                _packetMessage = null;
-                _messageOrigin = MessageOrigin.New;
-            }
+        //    public async void FormsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+        //    {
+        //        if (e.RemovedItems.Count == 1)
+        //        {
+        //            _packetMessage = null;
+        //            _messageOrigin = MessageOrigin.New;
+        //        }
 
-            _packetAddressForm = new SendFormDataControl();
+        //        _packetAddressForm = new SendFormDataControl();
 
-            string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+        //        string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 
-            PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
-            string pivotItemName = pivotItem.Name;
-            _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
-            if (_packetForm is null)
-            {
-                await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
-                return;
-            }
-            //_formsViewModel.PacketForm = _packetForm;
+        //        PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
+        //        string pivotItemName = pivotItem.Name;
+        //        _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
+        //        if (_packetForm is null)
+        //        {
+        //            await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+        //            return;
+        //        }
+        //        //_formsViewModel.PacketForm = _packetForm;
 
-            _packetForm.FormPacketMessage = _packetMessage;
-            MessageNo = Utilities.GetMessageNumberPacket();
-            OriginMsgNo = MessageNo;
+        //        _packetForm.FormPacketMessage = _packetMessage;
+        //        MessageNo = Utilities.GetMessageNumberPacket();
+        //        OriginMsgNo = MessageNo;
 
-            StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
-            stackPanel.Margin = new Thickness(0, 0, 12, 0);
+        //        StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
+        //        stackPanel.Margin = new Thickness(0, 0, 12, 0);
 
-            stackPanel.Children.Clear();
-            if (pivotItemName == "SimpleMessage")
-            {
-                if (!_loadMessage)
-                {
-                    // Insert Pivot for message type
-                    _simpleMessagePivot = new SimpleMessagePivot();
+        //        stackPanel.Children.Clear();
+        //        if (pivotItemName == "SimpleMessage")
+        //        {
+        //            if (!_loadMessage)
+        //            {
+        //                // Insert Pivot for message type
+        //                _simpleMessagePivot = new SimpleMessagePivot();
 
-                    stackPanel.Children.Insert(0, _simpleMessagePivot);
-                    stackPanel.Children.Insert(1, _packetAddressForm);
-                    stackPanel.Children.Insert(2, _packetForm);
+        //                stackPanel.Children.Insert(0, _simpleMessagePivot);
+        //                stackPanel.Children.Insert(1, _packetAddressForm);
+        //                stackPanel.Children.Insert(2, _packetForm);
 
-                    _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
-                    _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
-                }
-                else
-                {
-                    stackPanel.Children.Insert(0, _packetAddressForm);
-                    stackPanel.Children.Insert(1, _packetForm);
-                }
+        //                _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
+        //                _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
+        //            }
+        //            else
+        //            {
+        //                stackPanel.Children.Insert(0, _packetAddressForm);
+        //                stackPanel.Children.Insert(1, _packetForm);
+        //            }
 
-                _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
-                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-                {
-                    _packetAddressForm.MessageSubject += practiceSubject;
-                }
-                _packetForm.MessageReceivedTime = DateTime.Now;
-                switch (_messageOrigin)
-                {
-                    case MessageOrigin.Received:
-                        (_packetForm as MessageControl).InBoxHeaderVisibility = true;
-                        break;
-                    case MessageOrigin.Sent:
-                        (_packetForm as MessageControl).SentHeaderVisibility = true;
-                        break;
-                    default:
-                        (_packetForm as MessageControl).NewHeaderVisibility = true;
-                        break;
-                }
-            }
-            else
-            {
-                stackPanel.Children.Insert(0, _packetForm);
-                stackPanel.Children.Insert(1, _packetAddressForm);
+        //            _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
+        //            if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+        //            {
+        //                _packetAddressForm.MessageSubject += practiceSubject;
+        //            }
+        //            _packetForm.MessageReceivedTime = DateTime.Now;
+        //            switch (_messageOrigin)
+        //            {
+        //                case MessageOrigin.Received:
+        //                    (_packetForm as MessageControl).InBoxHeaderVisibility = true;
+        //                    break;
+        //                case MessageOrigin.Sent:
+        //                    (_packetForm as MessageControl).SentHeaderVisibility = true;
+        //                    break;
+        //                default:
+        //                    (_packetForm as MessageControl).NewHeaderVisibility = true;
+        //                    break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            stackPanel.Children.Insert(0, _packetForm);
+        //            stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
-            }
+        //            _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+        //        }
 
-            if (!_loadMessage)
-            {
-                _packetForm.EventSubjectChanged += FormControl_SubjectChange;
-                if (_packetForm.FormHeaderControl != null)
-                {
-                    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
-                    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
-                }
+        //        if (!_loadMessage)
+        //        {
+        //            _packetForm.EventSubjectChanged += FormControl_SubjectChange;
+        //            if (_packetForm.FormHeaderControl != null)
+        //            {
+        //                _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
+        //                _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
+        //            }
 
-                DateTime now = DateTime.Now;
-                MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-                //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-                OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-                OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
-                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
-                {
-                    _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
-                }
+        //            DateTime now = DateTime.Now;
+        //            MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+        //            //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+        //            OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
+        //            OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+        //            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+        //            {
+        //                _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+        //            }
 
-    //            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
-                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-                {                    
-                    HandlingOrder = "routine";
-                    switch (_packetForm.PacFormType)
-                    {
-                        case "ICS213":
-                            _packetForm.Severity = "other";
-                            _packetForm.Subject = practiceSubject;
-                            break;
-                        case "XSC_EOC_213RR":
-                            _packetForm.IncidentName = practiceSubject;
-                            break;
-                        case "OA Municipal Status":
-                            // Use Jurisdiction Name
-                            break;
-                        case "OAShelterStat":
-                            _packetForm.ShelterName = practiceSubject;
-                            break;
-                        case "Allied_Health_Status":
-                            _packetForm.FacilityName = practiceSubject;
-                            break;
-                    }                   
-                }
-            }
-            else
-            {
-                FillFormFromPacketMessage();
-                SetAppBarSendIsEnabled(!(_packetMessage.MessageState == MessageState.Locked));
+        ////            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
+        //            if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+        //            {                    
+        //                HandlingOrder = "routine";
+        //                switch (_packetForm.PacFormType)
+        //                {
+        //                    case "ICS213":
+        //                        _packetForm.Severity = "other";
+        //                        _packetForm.Subject = practiceSubject;
+        //                        break;
+        //                    case "XSC_EOC_213RR":
+        //                        _packetForm.IncidentName = practiceSubject;
+        //                        break;
+        //                    case "OA Municipal Status":
+        //                        // Use Jurisdiction Name
+        //                        break;
+        //                    case "OAShelterStat":
+        //                        _packetForm.ShelterName = practiceSubject;
+        //                        break;
+        //                    case "Allied_Health_Status":
+        //                        _packetForm.FacilityName = practiceSubject;
+        //                        break;
+        //                }                   
+        //            }
+        //        }
+        //        else
+        //        {
+        //            FillFormFromPacketMessage();
+        //            SetAppBarSendIsEnabled(!(_packetMessage.MessageState == MessageState.Locked));
 
-                _loadMessage = false;
-            }
+        //            _loadMessage = false;
+        //        }
 
-            FormsPagePivotSelectedIndex = ((Pivot)sender).SelectedIndex;
-        }
+        //        FormsPagePivotSelectedIndex = ((Pivot)sender).SelectedIndex;
+        //    }
 
-        public async void AppBarClearForm_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            await InitializeFormControlAsync();
-        }
+        //public async void AppBarClearForm_ClickAsync(object sender, RoutedEventArgs e)
+        //{
+        //    await InitializeFormControlAsync();
+        //}
 
-        public async void AppBarViewOutpostData_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            //CreatePacketMessage();
-            PacketMessage packetMessage = new PacketMessage()
-            {
-                FormFieldArray = _packetForm.CreateFormFieldsInXML(),
-                FormProvider = _packetForm.FormProvider,
-                PacFormName = _packetForm.PacFormName,
-                PacFormType = _packetForm.PacFormType,
-                //MessageNumber = _packetForm.MessageNo,
-                MessageNumber = MessageNo,
-                CreateTime = DateTime.Now,
-            };
-            string subject = CreateSubject();
-            // subject is "null" for Simple Message, otherwise use the form generated subject line
-            packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
-            packetMessage.MessageBody = _packetForm.CreateOutpostData(ref packetMessage);
+        //public async void AppBarViewOutpostData_ClickAsync(object sender, RoutedEventArgs e)
+        //{
+        //    PacketMessage packetMessage = new PacketMessage()
+        //    {
+        //        FormFieldArray = _packetForm.CreateFormFieldsInXML(),
+        //        FormProvider = _packetForm.FormProvider,
+        //        PacFormName = _packetForm.PacFormName,
+        //        PacFormType = _packetForm.PacFormType,
+        //        MessageNumber = MessageNo,
+        //        CreateTime = DateTime.Now,
+        //    };
+        //    DateTime now = DateTime.Now;
+        //    var operatorDateField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
+        //    if (operatorDateField != null)
+        //    {
+        //        operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year):d4}";
+        //    }
+        //    var operatorTimeField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
+        //    if (operatorTimeField != null)
+        //        operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-            bool copy = await ContentDialogs.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
-            if (copy)
-            {
-                DataPackage dataPackage = new DataPackage
-                {
-                    RequestedOperation = DataPackageOperation.Copy
-                };
-                dataPackage.SetText(_packetMessage.MessageBody);
-                Clipboard.SetContent(dataPackage);
-            }
-        }
+        //    string subject = CreateSubject();
+        //    // subject is "null" for Simple Message, otherwise use the form generated subject line
+        //    packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
+        //    packetMessage.MessageBody = _packetForm.CreateOutpostData(ref packetMessage);
 
-        public void AppBarSave_Click(object sender, RoutedEventArgs e)
-        {
-            if (_packetMessage != null)     // Not a new message
-            {
-                // if the message state was locked it means it was previously sent or received.
-                // We must assign a new message number
-                if (_packetMessage.MessageState == MessageState.Locked)
-                {
-                    MessageNo = Utilities.GetMessageNumberPacket();
-                    _packetMessage.MessageNumber = MessageNo;
-                    _packetMessage.MessageState = MessageState.Edit;
-                }
-                _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields
-            }
-            else
-            {
-                CreatePacketMessage(MessageState.None);
-            }
+        //    bool copy = await ContentDialogs.ShowDualButtonMessageDialogAsync(packetMessage.MessageBody, "Copy", "Close", "Outpost Message");
+        //    if (copy)
+        //    {
+        //        DataPackage dataPackage = new DataPackage
+        //        {
+        //            RequestedOperation = DataPackageOperation.Copy
+        //        };
+        //        dataPackage.SetText(_packetMessage.MessageBody);
+        //        Clipboard.SetContent(dataPackage);
+        //    }
+        //}
 
-            //_packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields.  Done above
-            //if (_packetMessage.PacFormName == "SimpleMessage")
-            //{
-            //    FormField mesageBody = _packetMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == "messageBody");
-            //    FormField richTextMessageBody = _packetMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == "richTextMessageBody");
-            //    if (string.IsNullOrEmpty(richTextMessageBody.ControlContent))
-            //    {
-            //        richTextMessageBody.ControlContent = mesageBody.ControlContent;
-            //    }
-            //}
-            _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
-            Utilities.MarkMessageNumberAsUsed();
+        //public void AppBarSave_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (_packetMessage != null)     // Not a new message
+        //    {
+        //        // if the message state was locked it means it was previously sent or received.
+        //        // We must assign a new message number
+        //        if (_packetMessage.MessageState == MessageState.Locked)
+        //        {
+        //            MessageNo = Utilities.GetMessageNumberPacket();
+        //            _packetMessage.MessageNumber = MessageNo;
+        //            _packetMessage.MessageState = MessageState.Edit;
+        //        }
+        //        _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields
+        //    }
+        //    else
+        //    {
+        //        CreatePacketMessage(MessageState.None);
+        //    }
 
-            // Initialize to an empty form
-            //await InitializeFormControlAsync();
-        }
+        //    //_packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields.  Done above
+        //    //if (_packetMessage.PacFormName == "SimpleMessage")
+        //    //{
+        //    //    FormField mesageBody = _packetMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == "messageBody");
+        //    //    FormField richTextMessageBody = _packetMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == "richTextMessageBody");
+        //    //    if (string.IsNullOrEmpty(richTextMessageBody.ControlContent))
+        //    //    {
+        //    //        richTextMessageBody.ControlContent = mesageBody.ControlContent;
+        //    //    }
+        //    //}
+        //    _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
+        //    Utilities.MarkMessageNumberAsUsed();
 
-        public async void AppBarSend_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            string validationResult = _packetForm.ValidateForm();
-            validationResult = _packetAddressForm.ValidateForm(validationResult);
-            if (!string.IsNullOrEmpty(validationResult))
-            {
-                validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
-                await ContentDialogs.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
-                return;
-            }
+        //    // Initialize to an empty form
+        //    //await InitializeFormControlAsync();
+        //}
 
-            // append "Drill Traffic" if requested
-            if (Singleton<PacketSettingsViewModel>.Instance.IsDrillTraffic)
-            {
-                _packetForm.AppendDrillTraffic();
-            }
+        //public async void AppBarSend_ClickAsync(object sender, RoutedEventArgs e)
+        //{
+        //    string validationResult = _packetForm.ValidateForm();
+        //    validationResult = _packetAddressForm.ValidateForm(validationResult);
+        //    if (!string.IsNullOrEmpty(validationResult))
+        //    {
+        //        validationResult += "\n\nAdd the missing information and press \"Send\" to continue.";
+        //        await ContentDialogs.ShowSingleButtonContentDialogAsync(validationResult, "Close", "Missing input fields");
+        //        return;
+        //    }
 
-            CreatePacketMessage(MessageState.Edit);
-            DateTime now = DateTime.Now;
+        //    // append "Drill Traffic" if requested
+        //    if (Singleton<PacketSettingsViewModel>.Instance.IsDrillTraffic)
+        //    {
+        //        _packetForm.AppendDrillTraffic();
+        //    }
 
-            var operatorDateField = _packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
-            if (operatorDateField != null)
-            {
-                operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year):d4}";
-            }
-            var operatorTimeField = _packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
-            if (operatorTimeField != null)
-                operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
+        //    CreatePacketMessage(MessageState.Edit);
+        //    DateTime now = DateTime.Now;
 
-            Utilities.MarkMessageNumberAsUsed();
-            _packetMessage.MessageOrigin = MessageOrigin.Sent;
-            if (_packetMessage.PacFormName == "SimpleMessage")
-            {
-                // Copy messageBody to facilitate printing for long messages
-                FormField formField = new FormField();
-                formField.ControlName = "richTextMessageBody";
-                formField.ControlContent = _packetMessage.FormFieldArray[0].ControlContent;
-                _packetMessage.FormFieldArray[1] = formField;
-            }
+        //    var operatorDateField = _packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
+        //    if (operatorDateField != null)
+        //    {
+        //        operatorDateField.ControlContent = $"{now.Month:d2}/{now.Day:d2}/{(now.Year):d4}";
+        //    }
+        //    var operatorTimeField = _packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorTime").FirstOrDefault();
+        //    if (operatorTimeField != null)
+        //        operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-            //string subject = CreateSubject();
-            //_packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
-            //_packetMessage.MessageBody = _packetForm.CreateOutpostData(ref _packetMessage);
+        //    Utilities.MarkMessageNumberAsUsed();
+        //    _packetMessage.MessageOrigin = MessageOrigin.Sent;
+        //    if (_packetMessage.PacFormName == "SimpleMessage")
+        //    {
+        //        // Copy messageBody to facilitate printing for long messages
+        //        FormField formField = new FormField();
+        //        formField.ControlName = "richTextMessageBody";
+        //        formField.ControlContent = _packetMessage.FormFieldArray[0].ControlContent;
+        //        _packetMessage.FormFieldArray[1] = formField;
+        //    }
 
-            _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
+        //    //string subject = CreateSubject();
+        //    //_packetMessage.Subject = (subject ?? _packetAddressForm.MessageSubject);
+        //    //_packetMessage.MessageBody = _packetForm.CreateOutpostData(ref _packetMessage);
 
-            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-            communicationsService.BBSConnectAsync2();
+        //    _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 
-            // Create an empty form
-            await InitializeFormControlAsync();
-        }
+        //    Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
+        //    communicationsService.BBSConnectAsync2();
 
-        #region Print
+        //    // Create an empty form
+        //    await InitializeFormControlAsync();
+        //}
 
-        public void AppBarPrint_Click(object sender, RoutedEventArgs e)
-        {
-            _packetForm.PrintForm();
-        }
-        #endregion Print
+        //public void AppBarPrint_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _packetForm.PrintForm();
+        //}
     }
 }

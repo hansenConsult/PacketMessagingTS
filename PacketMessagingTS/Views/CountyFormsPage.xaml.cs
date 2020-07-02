@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-
-using FormControlBaseClass;
 
 using MetroLog;
 
-using Microsoft.Toolkit.Helpers;
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
 
-using Windows.ApplicationModel;
-using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Views
@@ -30,13 +25,7 @@ namespace PacketMessagingTS.Views
 
         public override int FormsPagePivotSelectedIndex
         {
-            get
-            {
-                int index = _CountyFormsViewModel.CountyFormsPagePivotSelectedIndex;
-                if (index >= _formControlAttributeList.Count)
-                    index = 0;
-                return index;
-            }
+            get => _CountyFormsViewModel.CountyFormsPagePivotSelectedIndex;
             set => _CountyFormsViewModel.CountyFormsPagePivotSelectedIndex = value;
         }
 
@@ -62,12 +51,15 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList = SharedData.FormControlAttributeCountyList;
             }
             PopulateFormsPagePivot();
+
+            _CountyFormsViewModel.FormsPage = this;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)
         {
             _CountyFormsViewModel.IsAppBarSendEnabled = isEnabled;
         }
+
 
     }
 }

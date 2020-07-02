@@ -15,10 +15,23 @@ namespace PacketMessagingTS.ViewModels
 {
     public class HospitalFormsViewModel : FormsViewModel
     {
-        protected int hospitalFormsPagePivotSelectedIndex;
+        //public override int FormsPagePivotSelectedIndex
+        //{
+        //    get => HospitalFormsPagePivotSelectedIndex;
+        //    set => HospitalFormsPagePivotSelectedIndex = value;
+        //}
+
+        private int hospitalFormsPagePivotSelectedIndex;
         public int HospitalFormsPagePivotSelectedIndex
         {
-            get => GetProperty(ref hospitalFormsPagePivotSelectedIndex);
+            get
+            {
+                int index = GetProperty(ref hospitalFormsPagePivotSelectedIndex);
+                if (index >= SharedData.FormControlAttributeHospitalList.Count)
+                    index = 0;
+                FormsPagePivotSelectionChangedAsync(index);
+                return index;
+            }
             set => SetProperty(ref hospitalFormsPagePivotSelectedIndex, value, true);
         }
     }

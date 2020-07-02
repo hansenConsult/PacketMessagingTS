@@ -19,8 +19,8 @@
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Name="ToFromHeaderTemplate">
-                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" 
-                           FontWeight="Bold" Foreground="Black" />
+                <TextBlock Text="{Binding}" FontSize="13" 
+                           FontWeight="SemiBold" Foreground="Black" />
             </DataTemplate>
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
@@ -63,7 +63,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="1.2*"/>
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0,1">
                                     <!--<TextBlock Text="2. Date Initiated" Style="{StaticResource EOC213RRFieldHeader}"/>-->
@@ -84,7 +84,7 @@
                                         TextChanged="TextBox_TimeChanged"
                                         Tag="23.,required,Enter the message time."
                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                        Header="3. Time Initiated:"/>
+                                        Header="3. Time Initiated:" Width="100"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="2" BorderBrush="Black" BorderThickness="1,1,0,1">
                                     <TextBlock Text="4. Tracking Number" Style="{StaticResource EOC213RRFieldHeader}"/>
@@ -93,35 +93,65 @@
                             </Grid>
                             <!--<Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,0">-->
                             <StackPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" >
-                                <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                <!--<TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                                 <Run Text="5. Requested by" />
                                 <Run Text=" (Name, agency, email, phone)" FontSize="11" FontStyle="Italic" 
                                         FontWeight="Normal" Foreground="Black"/>
-                                </TextBlock>
+                                </TextBlock>-->
                                 <TextBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Name="requestedBy" FontFamily="Helvetica" FontSize="14"  
-                                        AcceptsReturn="True" Margin="4,2" Height="126"
-                                        TextChanged="TextBox_TextChanged"
-                                        Tag="25.,required,Enter 5. Requested By." />
+                                         AcceptsReturn="True" Margin="4,2" Height="132"
+                                         TextChanged="TextBox_TextChanged"
+                                         Tag="25.,required,Enter 5. Requested By." >
+                                    <TextBox.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock FontSize="13" FontWeight="SemiBold">
+                                                <Run Text="5. Requested by"/>
+                                                <Run Text=" (Name, agency, email, phone)" FontStyle="Italic" 
+                                                   FontWeight="Normal" Foreground="Black"/>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </TextBox.HeaderTemplate>
+                                </TextBox>
                             </StackPanel>
                             <!--</Border>-->
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel >
-                                    <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                    <!--<TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                                 <Run Text="6. Prepared by"/>
                                 <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
-                                    </TextBlock>
+                                    </TextBlock>-->
                                     <TextBox Name="preparedBy" FontFamily="Helvetica" FontSize="14"  
-                                        MinHeight="52" AcceptsReturn="True" Margin="4,2" Tag="26."/>
+                                        MinHeight="52" AcceptsReturn="True" Margin="4,2" Tag="26.">
+                                        <TextBox.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="13" FontWeight="SemiBold">
+                                                <Run Text="6. Prepared by"/>
+                                                <Run Text=" (Name, position, email, phone)" FontStyle="Italic" 
+                                                   FontWeight="Normal" Foreground="Black"/>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </TextBox.HeaderTemplate>
+                                    </TextBox>
                                 </StackPanel>
                             </Border>
                             <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,0,0">
                                 <StackPanel >
-                                    <TextBlock Style="{StaticResource EOC213RRFieldHeader}">
+                                    <!--<TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                                 <Run Text="7. Approved by"/>
                                 <Run Text=" (Name, position, email, phone)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
-                                    </TextBlock>
+                                    </TextBlock>-->
                                     <TextBox Name="approvedBy" FontFamily="Helvetica" FontSize="14" MinHeight="52"  
-                                        AcceptsReturn="True" Margin="4,2" Tag="27."/>
+                                        AcceptsReturn="True" Margin="4,2" Tag="27.">
+                                        <TextBox.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="13" FontWeight="SemiBold">
+                                                <Run Text="7. Approved by"/>
+                                                <Run Text=" (Name, position, email, phone)" FontStyle="Italic" 
+                                                   FontWeight="Normal" Foreground="Black"/>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </TextBox.HeaderTemplate>
+                                    </TextBox>
                                 </StackPanel>
                             </Border>
                         </Grid>

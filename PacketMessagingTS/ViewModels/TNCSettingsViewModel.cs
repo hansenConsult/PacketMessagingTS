@@ -294,6 +294,9 @@ namespace PacketMessagingTS.ViewModels
 
         private void UpdateTNCStateAndButtons<T>(T savedProperty, T newProperty)
         {
+            if (savedProperty == null || newProperty == null)
+                return;
+
             bool changed = !Equals(savedProperty, newProperty);
             IsAppBarSaveEnabled = SaveEnabled(changed);
             if (State == TNCState.TNC && IsAppBarSaveEnabled)
@@ -459,7 +462,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComBaudRate, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Baudrate, tncComBaudRate);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Baudrate, tncComBaudRate);
             }
         }
 
@@ -476,7 +479,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComDatabits, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Databits, tncComDatabits);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Databits, tncComDatabits);
             }
         }
 
@@ -488,7 +491,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComStopbits, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Stopbits, tncComStopbits);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Stopbits, tncComStopbits);
             }
         }
 
@@ -500,7 +503,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncComParity, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Parity, tncComParity);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Parity, tncComParity);
             }
         }
 
@@ -515,7 +518,7 @@ namespace PacketMessagingTS.ViewModels
                 if (TNCDeviceSelectedIndex < 0)
                     return;
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Flowcontrol, tncComHandshake);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Flowcontrol, tncComHandshake);
 
             }
         }
@@ -528,7 +531,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsMyCall, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.MyCall, tncCommandsMyCall);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.MyCall, tncCommandsMyCall);
             }
         }
 
@@ -540,7 +543,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsConnect, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Connect, tncCommandsConnect);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Connect, tncCommandsConnect);
             }
         }
 
@@ -552,7 +555,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsRetry, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Retry, tncCommandsRetry);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Retry, tncCommandsRetry);
             }
         }
 
@@ -564,7 +567,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsConversMode, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Conversmode, tncCommandsConversMode);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Conversmode, tncCommandsConversMode);
             }
         }
 
@@ -576,7 +579,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncCommandsDateTime, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Commands.Datetime, tncCommandsDateTime);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Datetime, tncCommandsDateTime);
             }
         }
 
@@ -591,7 +594,7 @@ namespace PacketMessagingTS.ViewModels
                 //bool changed = CurrentTNCDevice.Prompts.Command != tncPromptsCommand;
                 //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Command != tncPromptsCommand;
                 //UpdateTNCStateAndButtons(changed);
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Prompts.Command, tncPromptsCommand);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Command, tncPromptsCommand);
             }
         }
 
@@ -606,7 +609,7 @@ namespace PacketMessagingTS.ViewModels
                 //bool changed = CurrentTNCDevice.Prompts.Timeout != tncPromptsTimeout;
                 //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Timeout != tncPromptsTimeout;
                 //UpdateTNCStateAndButtons(changed);
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Prompts.Timeout, tncPromptsTimeout);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Timeout, tncPromptsTimeout);
             }
         }
 
@@ -621,7 +624,7 @@ namespace PacketMessagingTS.ViewModels
                 //bool changed = CurrentTNCDevice.Prompts.Connected != tncPromptsConnected;
                 //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Connected != tncPromptsConnected;
                 //UpdateTNCStateAndButtons(changed);
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Prompts.Connected, tncPromptsConnected);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Connected, tncPromptsConnected);
             }
         }
 
@@ -633,7 +636,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 SetProperty(ref tncPromptsDisconnected, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.Prompts.Disconnected, tncPromptsDisconnected);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Disconnected, tncPromptsDisconnected);
             }
         }
 

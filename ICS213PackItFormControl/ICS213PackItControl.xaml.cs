@@ -173,7 +173,6 @@ namespace ICS213PackItFormControl
         public override string CreateSubject()
 		{
             return $"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}";
-            //return $"_{HandlingOrder?.ToUpper()[0]}_ICS213_";
         }
 
         protected override string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
@@ -227,7 +226,7 @@ namespace ICS213PackItFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-ics213.html",
-                $"#V: {PackItFormVersion}-2.1",
+                $"#V: {PackItFormVersion}-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 

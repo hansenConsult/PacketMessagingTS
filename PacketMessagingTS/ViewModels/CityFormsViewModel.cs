@@ -7,9 +7,22 @@ namespace PacketMessagingTS.ViewModels
         protected int cityFormsPagePivotSelectedIndex;
         public int CityFormsPagePivotSelectedIndex
         {
-            get => GetProperty(ref cityFormsPagePivotSelectedIndex);
+            get
+            {
+                int index = GetProperty(ref cityFormsPagePivotSelectedIndex);
+                if (index >= SharedData.FormControlAttributeCityList.Count)
+                    index = 0;
+                FormsPagePivotSelectionChangedAsync(index);
+                return index;
+            }
             set => SetProperty(ref cityFormsPagePivotSelectedIndex, value, true);
         }
+
+        //public override int FormsPagePivotSelectedIndex
+        //{
+        //    get => CityFormsPagePivotSelectedIndex;
+        //    set => CityFormsPagePivotSelectedIndex = value;
+        //}
 
     }
 }
