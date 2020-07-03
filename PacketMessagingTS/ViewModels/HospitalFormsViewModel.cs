@@ -15,11 +15,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class HospitalFormsViewModel : FormsViewModel
     {
-        //public override int FormsPagePivotSelectedIndex
-        //{
-        //    get => HospitalFormsPagePivotSelectedIndex;
-        //    set => HospitalFormsPagePivotSelectedIndex = value;
-        //}
+        public override int FormsPagePivotSelectedIndex
+        {
+            get => HospitalFormsPagePivotSelectedIndex;
+            set => HospitalFormsPagePivotSelectedIndex = value;
+        }
 
         private int hospitalFormsPagePivotSelectedIndex;
         public int HospitalFormsPagePivotSelectedIndex

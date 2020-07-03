@@ -25,11 +25,11 @@ namespace PacketMessagingTS.Views
 
         public HospitalFormsViewModel _hospitalFormsViewModel { get; } = Singleton<HospitalFormsViewModel>.Instance;
 
-        public override int FormsPagePivotSelectedIndex
-        {
-            get => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
-            set => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = value;
-        }
+        //public override int FormsPagePivotSelectedIndex
+        //{
+        //    get => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex;
+        //    set => _hospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex = value;
+        //}
 
 
         public HospitalFormsPage()
@@ -56,6 +56,7 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
 
             _hospitalFormsViewModel.FormsPage = this;
+            ViewModel = _hospitalFormsViewModel;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)

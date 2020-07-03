@@ -12,33 +12,22 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using FormControlBaseClass;
-using FormControlBasicsNamespace;
-
-using MessageFormControl;
 
 using MetroLog;
 
 using PacketMessagingTS.Controls;
-using PacketMessagingTS.Core.Helpers;
-using PacketMessagingTS.Models;
-using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
 using static SharedCode.Helpers.MessageOriginHelper;
-
-using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
-
-using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using PacketMessagingTS.ViewModels;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -124,7 +113,7 @@ namespace PacketMessagingTS.Helpers
         //            _packetForm.OriginMsgNo = value;
         //    }
         //}
-        
+
         //public string HandlingOrder
         //{
         //    get
@@ -187,6 +176,9 @@ namespace PacketMessagingTS.Helpers
         //            _packetForm.OperatorCallsign = value;
         //    }
         //}
+
+        public FormsViewModel ViewModel
+        { get; set; }
 
         public BaseFormsPage()
         {
@@ -440,30 +432,30 @@ namespace PacketMessagingTS.Helpers
         //    }
         //}
 
-        public abstract int FormsPagePivotSelectedIndex
-        { get; set; }
+        //public abstract int FormsPagePivotSelectedIndex
+        //{ get; set; }
 
         protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
 
-        protected static string ValidateSubject(string subject)
-        {
-            if (string.IsNullOrEmpty(subject))
-                return subject;
+        //protected static string ValidateSubject(string subject)
+        //{
+        //    if (string.IsNullOrEmpty(subject))
+        //        return subject;
 
-            try
-            {
-                return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
-                                     RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
-            }
-            // If we timeout when replacing invalid characters, 
-            // we should return Empty.
-            catch (RegexMatchTimeoutException)
-            {
-                return string.Empty;
-            }
-        }
+        //    try
+        //    {
+        //        return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
+        //                             RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
+        //    }
+        //    // If we timeout when replacing invalid characters, 
+        //    // we should return Empty.
+        //    catch (RegexMatchTimeoutException)
+        //    {
+        //        return string.Empty;
+        //    }
+        //}
 
-        //protected string CreateSubject()
+        //public string CreateValidatedSubject()
         //{
         //    return ValidateSubject(_packetForm.CreateSubject());
         //}
@@ -646,7 +638,8 @@ namespace PacketMessagingTS.Helpers
                     if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
                     {
                         //_formsPagePivot.SelectedIndex = index;
-                        FormsPagePivotSelectedIndex = index;
+                        //FormsPagePivotSelectedIndex = index;
+                        ViewModel.FormsPagePivotSelectedIndex = index;
                         break;
                     }
                     index++;

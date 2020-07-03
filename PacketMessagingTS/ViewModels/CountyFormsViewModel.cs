@@ -6,11 +6,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class CountyFormsViewModel : FormsViewModel
     {
-        //public override int FormsPagePivotSelectedIndex
-        //{
-        //    get => CountyFormsPagePivotSelectedIndex;
-        //    set => CountyFormsPagePivotSelectedIndex = value;
-        //}
+        public override int FormsPagePivotSelectedIndex
+        {
+            get => CountyFormsPagePivotSelectedIndex;
+            set => CountyFormsPagePivotSelectedIndex = value;
+        }
 
         private int countyFormsPagePivotSelectedIndex;
         public int CountyFormsPagePivotSelectedIndex

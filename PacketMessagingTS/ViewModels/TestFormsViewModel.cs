@@ -10,11 +10,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class TestFormsViewModel : FormsViewModel
     {
-        //public override int FormsPagePivotSelectedIndex
-        //{
-        //    get => TestFormsPagePivotSelectedIndex;
-        //    set => TestFormsPagePivotSelectedIndex = value;
-        //}
+        public override int FormsPagePivotSelectedIndex
+        {
+            get => TestFormsPagePivotSelectedIndex;
+            set => TestFormsPagePivotSelectedIndex = value;
+        }
 
         protected int _testFormsPagePivotSelectedIndex;
         public int TestFormsPagePivotSelectedIndex

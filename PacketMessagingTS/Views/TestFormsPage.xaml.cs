@@ -29,11 +29,11 @@ namespace PacketMessagingTS.Views
         public TestFormsViewModel _TestFormsViewModel { get; } = Singleton<TestFormsViewModel>.Instance;
 
 
-        public override int FormsPagePivotSelectedIndex
-        {
-            get => _TestFormsViewModel.TestFormsPagePivotSelectedIndex;
-            set => _TestFormsViewModel.TestFormsPagePivotSelectedIndex = value;
-        }
+        //public override int FormsPagePivotSelectedIndex
+        //{
+        //    get => _TestFormsViewModel.TestFormsPagePivotSelectedIndex;
+        //    set => _TestFormsViewModel.TestFormsPagePivotSelectedIndex = value;
+        //}
 
         public TestFormsPage()
         {
@@ -58,6 +58,7 @@ namespace PacketMessagingTS.Views
             PopulateFormsPagePivot();
 
             _TestFormsViewModel.FormsPage = this;
+            ViewModel = _TestFormsViewModel;
         }
 
         protected override void SetAppBarSendIsEnabled(bool isEnabled)

@@ -12,6 +12,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -177,8 +178,8 @@ namespace PacketMessagingTS.ViewModels
 
         public SendFormDataControl PacketAddressForm => _packetAddressForm;
 
-        //public virtual int FormsPagePivotSelectedIndex
-        //{ get; set; }
+        public virtual int FormsPagePivotSelectedIndex
+        { get; set; }
 
         public static FormControlBase CreateFormControlInstance(string formControlName)
         {
@@ -313,7 +314,7 @@ namespace PacketMessagingTS.ViewModels
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+                _packetAddressForm.MessageSubject = CreateValidatedSubject();
             }
         }
 
@@ -366,7 +367,7 @@ namespace PacketMessagingTS.ViewModels
         {
             if (e?.SubjectLine?.Length > 0) // Why this test?
             {
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+                _packetAddressForm.MessageSubject = CreateValidatedSubject();
                 if (_packetMessage != null)
                 {
                     _packetMessage.Subject = _packetAddressForm.MessageSubject;
@@ -472,7 +473,7 @@ namespace PacketMessagingTS.ViewModels
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+                _packetAddressForm.MessageSubject = CreateValidatedSubject();
             }
 
             if (!_loadMessage)
@@ -529,6 +530,28 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private static string ValidateSubject(string subject)
+        {
+            if (string.IsNullOrEmpty(subject))
+                return subject;
+
+            try
+            {
+                return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
+                                     RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
+            }
+            // If we timeout when replacing invalid characters, 
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return string.Empty;
+            }
+        }
+
+        private string CreateValidatedSubject()
+        {
+            return ValidateSubject(_packetForm.CreateSubject());
+        }
 
         private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProvidersHelper.FormProviders formProvider = FormProvidersHelper.FormProviders.PacForm)
         {
@@ -551,7 +574,7 @@ namespace PacketMessagingTS.ViewModels
 
             UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
-            string subject = PacketForm.CreateSubject();
+            string subject = CreateValidatedSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             _packetMessage.Subject = subject ?? PacketAddressForm.MessageSubject;
             if (!_packetMessage.CreateFileName())
@@ -590,7 +613,7 @@ namespace PacketMessagingTS.ViewModels
             if (operatorTimeField != null)
                 operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-            string subject = PacketForm.CreateSubject();
+            string subject = CreateValidatedSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             packetMessage.Subject = (subject ?? PacketAddressForm.MessageSubject);
             packetMessage.MessageBody = PacketForm.CreateOutpostData(ref packetMessage);

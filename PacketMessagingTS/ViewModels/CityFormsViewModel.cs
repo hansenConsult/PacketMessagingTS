@@ -18,11 +18,11 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref cityFormsPagePivotSelectedIndex, value, true);
         }
 
-        //public override int FormsPagePivotSelectedIndex
-        //{
-        //    get => CityFormsPagePivotSelectedIndex;
-        //    set => CityFormsPagePivotSelectedIndex = value;
-        //}
+        public override int FormsPagePivotSelectedIndex
+        {
+            get => CityFormsPagePivotSelectedIndex;
+            set => CityFormsPagePivotSelectedIndex = value;
+        }
 
     }
 }
