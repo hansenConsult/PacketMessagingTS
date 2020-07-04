@@ -340,9 +340,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         MessageBody = packetMessageOutpost.MessageBody,
                         MessageState = MessageState.Locked,
                         MessageOpened = false,
-                        MessageOrigin = SharedCode.Helpers.MessageOriginHelper.MessageOrigin.Received,
+                        MessageOrigin = MessageOriginHelper.MessageOrigin.Received,
                     };
-                    //string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
                     string[] msgLines = packetMessageOutpost.MessageBody.Split(new string[] { "\r\n", "\r" }, StringSplitOptions.None);
                     // Check if base64 encoded
                     int startOfMessage = 0;
@@ -714,6 +713,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     _logHelper.Log(LogLevel.Error, $"Error opening message file {file.Path}");
                     continue;
                 }
+
+                // messages that are opened for editing will not be sent until editing is finished
+                if (packetMessage.MessageState == MessageState.Edit)
+                    continue;
 
                 // Moved to send button processing
                 //DateTime now = DateTime.Now;

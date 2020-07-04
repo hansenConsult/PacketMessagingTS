@@ -376,7 +376,11 @@ namespace MessageFormControl
 
         public override void MessageChanged(string message)
         {
-            MessageBody = message;
+            MessageBody = message ?? "";
+
+            if (string.IsNullOrEmpty(message))
+                return;
+
             Paragraph paragraph = new Paragraph();
             Run run = new Run();
             run.Text = message;

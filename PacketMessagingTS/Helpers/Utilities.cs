@@ -41,14 +41,18 @@ namespace PacketMessagingTS.Helpers
                 messageNumber = FindHighestUsedMesageNumber() + 1;
                 //messageNumber = 100;
             }
+            if (Singleton<PacketSettingsViewModel>.Instance.FirstMessageNumber > messageNumber)
+            {
+                messageNumber = Singleton<PacketSettingsViewModel>.Instance.FirstMessageNumber;
+            }
 
             if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
             {
-                messageNumberString = Singleton<IdentityViewModel>.Instance.TacticalMsgPrefix + "-" + messageNumber.ToString();
+                messageNumberString = $"{Singleton<IdentityViewModel>.Instance.TacticalMsgPrefix}-{messageNumber:d3}";
             }
             else
             {
-                messageNumberString = Singleton<IdentityViewModel>.Instance.UserMsgPrefix + "-" + messageNumber.ToString();
+                messageNumberString = $"{Singleton<IdentityViewModel>.Instance.UserMsgPrefix}-{messageNumber:d3}";
             }
             if (reserveMessageNumber)
             {
@@ -84,8 +88,9 @@ namespace PacketMessagingTS.Helpers
             DirectoryInfo DirInfo = new DirectoryInfo(folder);
             var files = DirInfo.EnumerateFiles();
             var fileNames = from f in DirInfo.EnumerateFiles()
-                        where f.Name.StartsWith(prefix) && f.Extension == ".xml"
-                        select f.Name;
+                            //where f.Name.StartsWith(prefix) && f.Extension == ".xml"
+                            where f.Extension == ".xml"
+                            select f.Name;
 
             List<string> fileList = fileNames.ToList();
 

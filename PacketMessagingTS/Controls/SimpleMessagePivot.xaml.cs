@@ -33,7 +33,8 @@ namespace PacketMessagingTS.Controls
         { get; set; }
 
         public string Subject
-        { get; set; }
+        { get;
+            set; }
 
 
         public SimpleMessagePivot()
@@ -53,8 +54,8 @@ namespace PacketMessagingTS.Controls
             string chechInOut = "";
             if (SelectedIndex == 0)
             {
-                Subject = "";
-                Message = "";
+                Subject = $"{Singleton<PacketSettingsViewModel>.Instance.DefaultSubject}";
+                Message = Singleton<PacketSettingsViewModel>.Instance.DefaultMessage;
             }
             else if (SelectedIndex == 1)    // Check in
             {

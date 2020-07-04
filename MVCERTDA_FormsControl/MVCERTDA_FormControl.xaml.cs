@@ -161,7 +161,8 @@ namespace MVCERTDA_FormsControl
         public override string CreateSubject()
         {
             //return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
-            return ("_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_");
+            //return ("_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_");
+            return $"{messageNo.Text}_{Severity?.ToUpper()[0]}/{HandlingOrder?.ToUpper()[0]}_MTV213-CERT_{subject.Text}";
         }
 
         public override void AppendDrillTraffic()
@@ -209,7 +210,7 @@ namespace MVCERTDA_FormsControl
             {
                 "!PACF! " + packetMessage.Subject,
                 "# JS:MTV 213 CERT SUMMARY (which4) ",
-                "# JS-ver. MV/PR-4.4-3.2, 09/19/18",
+                "# JS-ver. MV/PR-4.7-3.4, 11/05/19",
                 "# FORMFILENAME: MTV_213_CERT_Summary.html"
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);

@@ -44,6 +44,12 @@ namespace PacketMessagingTS.ViewModels
                 return;
 
             string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
+            // Change state so the message will not be sent if it is open for editing
+            if (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder == SharedData.UnsentMessagesFolder)
+            {
+                packetMessage.MessageState = MessageState.Edit;
+                packetMessage.Save(folder);
+            }
             string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
             Type type = typeof(CountyFormsPage);
             switch (packetMessage.FormControlType)

@@ -1055,6 +1055,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             readText = ReadTo(_BBSPromptRN);      // read response
                             _logHelper.Log(LogLevel.Info, readText);   // Subject + message body plus stuff
 
+                            packetMessage.MessageState = MessageState.Locked;
                             packetMessage.SentTime = DateTime.Now;
                             _packetMessagesSent.Add(packetMessage);
                         }

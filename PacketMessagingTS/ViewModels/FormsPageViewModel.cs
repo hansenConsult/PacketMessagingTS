@@ -49,7 +49,6 @@ namespace PacketMessagingTS.ViewModels
         protected SendFormDataControl _packetAddressForm;
         protected FormControlBase _packetForm;
         protected SimpleMessagePivot _simpleMessagePivot;
-        protected MessageOriginHelper.MessageOrigin _messageOrigin = MessageOriginHelper.MessageOrigin.New;
 
         public string MessageNo
         {
@@ -171,8 +170,28 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        public override bool IsAppBarSendEnabled
+        {
+            get => isAppBarSendEnabled;
+            set => SetProperty(ref isAppBarSendEnabled, value);
+        }
+        
         public BaseFormsPage FormsPage
         { get; set; }
+
+        private bool _loadMessage;
+        public bool LoadMessage
+        {
+            get => _loadMessage;
+            set => _loadMessage = value;
+        }
+
+        private MessageOriginHelper.MessageOrigin _messageOrigin = MessageOriginHelper.MessageOrigin.New;
+        public MessageOriginHelper.MessageOrigin MessageOrigin
+        {
+            get => _messageOrigin;
+            set => _messageOrigin = value;
+        }
 
         public FormControlBase PacketForm => _packetForm;
 
@@ -300,7 +319,7 @@ namespace PacketMessagingTS.ViewModels
                 _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
                 _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
 
-                _packetAddressForm.MessageSubject = $"{MessageNo}_R_<subject>";
+                _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     _packetAddressForm.MessageSubject += Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
@@ -314,8 +333,9 @@ namespace PacketMessagingTS.ViewModels
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = CreateValidatedSubject();
+                _packetAddressForm.MessageSubject = $"{MessageNo}";
             }
+            IsAppBarSendEnabled = true;
         }
 
         public void FillFormFromPacketMessage()
@@ -367,7 +387,7 @@ namespace PacketMessagingTS.ViewModels
         {
             if (e?.SubjectLine?.Length > 0) // Why this test?
             {
-                _packetAddressForm.MessageSubject = CreateValidatedSubject();
+                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
                 if (_packetMessage != null)
                 {
                     _packetMessage.Subject = _packetAddressForm.MessageSubject;
@@ -378,11 +398,6 @@ namespace PacketMessagingTS.ViewModels
         void SimpleMessage_SubjectChange(object sender, FormEventArgs e)
         {
             _packetAddressForm.MessageSubject = $"{MessageNo}_R_{e?.SubjectLine}";
-
-            if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-            {
-                _packetAddressForm.MessageSubject += Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
-            }
             
             if (_packetMessage != null)
             {
@@ -402,17 +417,24 @@ namespace PacketMessagingTS.ViewModels
 
         public async void FormsPagePivotSelectionChangedAsync(int selectedIndex)
         {
-            bool _loadMessage = FormsPage.LoadMessage;
-            _packetMessage = null;
-            _messageOrigin = MessageOriginHelper.MessageOrigin.New;
+            //bool _loadMessage = FormsPage.LoadMessage;
+            if (!_loadMessage)
+            {
+                _packetMessage = null;
+                _messageOrigin = MessageOriginHelper.MessageOrigin.New;
+            }
+            else
+            {
+                _packetMessage = FormsPage.PacketMessage;
+            }
 
             _packetAddressForm = new SendFormDataControl();
 
             string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 
-            PivotItem pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
+            _pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
             //PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
-            string pivotItemName = pivotItem.Name;
+            string pivotItemName = _pivotItem.Name;
             //string pivotItemName = SharedData.FormControlAttributeCountyList[FormsPagePivotSelectedIndex].FormControlName;
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
@@ -425,7 +447,7 @@ namespace PacketMessagingTS.ViewModels
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
 
-            StackPanel stackPanel = ((ScrollViewer)pivotItem.Content).Content as StackPanel;
+            StackPanel stackPanel = ((ScrollViewer)_pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
 
             stackPanel.Children.Clear();
@@ -447,14 +469,31 @@ namespace PacketMessagingTS.ViewModels
                 {
                     stackPanel.Children.Insert(0, _packetAddressForm);
                     stackPanel.Children.Insert(1, _packetForm);
+
+                    switch (_packetMessage.MessageOrigin)
+                    {
+                        case MessageOriginHelper.MessageOrigin.Received:
+                            (_packetForm as MessageControl).InBoxHeaderVisibility = true;
+                            break;
+                        case MessageOriginHelper.MessageOrigin.Sent:
+                            (_packetForm as MessageControl).SentHeaderVisibility = true;
+                            break;
+                        default:
+                            (_packetForm as MessageControl).NewHeaderVisibility = true;
+                            break;
+                    }
                 }
 
-                _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
-                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-                {
-                    _packetAddressForm.MessageSubject += practiceSubject;
-                }
+                //_packetAddressForm.MessageSubject = $"{MessageNo}_R_";
+                //if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+                //{
+                //    _packetAddressForm.MessageSubject += practiceSubject;
+                //    //_packetForm.MessageBody = Singleton<PacketSettingsViewModel>.Instance.DefaultMessage;
+                //}
                 _packetForm.MessageReceivedTime = DateTime.Now;
+                //var origin = FormsPage.PacketMessage.MessageOrigin;
+                //if (origin != _messageOrigin)
+                //    throw new Exception();
                 switch (_messageOrigin)
                 {
                     case MessageOriginHelper.MessageOrigin.Received:
@@ -473,7 +512,7 @@ namespace PacketMessagingTS.ViewModels
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = CreateValidatedSubject();
+                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
             }
 
             if (!_loadMessage)
@@ -519,12 +558,12 @@ namespace PacketMessagingTS.ViewModels
                             break;
                     }
                 }
+                IsAppBarSendEnabled = true;
             }
             else
             {
-                _packetMessage = FormsPage.PacketMessage;
                 FillFormFromPacketMessage();
- //               SetAppBarSendIsEnabled(!(_packetMessage.MessageState == MessageState.Locked));
+                IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
 
                 _loadMessage = false;
             }
@@ -548,10 +587,10 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private string CreateValidatedSubject()
-        {
-            return ValidateSubject(_packetForm.CreateSubject());
-        }
+        //private string CreateValidatedSubject()
+        //{
+        //    return ValidateSubject(_packetForm.CreateSubject());
+        //}
 
         private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProvidersHelper.FormProviders formProvider = FormProvidersHelper.FormProviders.PacForm)
         {
@@ -570,11 +609,11 @@ namespace PacketMessagingTS.ViewModels
                 MessageState = messageState,
             };
 
-            _packetMessage.MessageNumber = PacketForm.OriginMsgNo;
+            _packetMessage.MessageNumber = PacketForm.MessageNo;
 
             UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
-            string subject = CreateValidatedSubject();
+            string subject = _packetForm.CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             _packetMessage.Subject = subject ?? PacketAddressForm.MessageSubject;
             if (!_packetMessage.CreateFileName())
@@ -613,7 +652,7 @@ namespace PacketMessagingTS.ViewModels
             if (operatorTimeField != null)
                 operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-            string subject = CreateValidatedSubject();
+            string subject = _packetForm.CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
             packetMessage.Subject = (subject ?? PacketAddressForm.MessageSubject);
             packetMessage.MessageBody = PacketForm.CreateOutpostData(ref packetMessage);
@@ -664,6 +703,7 @@ namespace PacketMessagingTS.ViewModels
                 operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
             Utilities.MarkMessageNumberAsUsed();
+            _packetMessage.MessageState = MessageState.None;
             _packetMessage.MessageOrigin = MessageOriginHelper.MessageOrigin.Sent;
             if (_packetMessage.PacFormName == "SimpleMessage")
             {

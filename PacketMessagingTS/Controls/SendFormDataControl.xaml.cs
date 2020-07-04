@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
+using System.Text.RegularExpressions;
 using FormControlBaseClass;
 using FormControlBasicsNamespace;
 
@@ -51,8 +52,8 @@ namespace PacketMessagingTS.Controls
             //set => Set(ref messageSubject, value);
             set
             {
-                Set(ref messageSubject, value ?? "");
-                //textBoxMessageSubject.Text = value ?? "";  // Ned to use invoke??? Does not work if program set OK manually or externally
+                string validatedSubject = ValidateSubject(value);
+                Set(ref messageSubject, validatedSubject ?? "");
             }
         }
 
@@ -127,6 +128,24 @@ namespace PacketMessagingTS.Controls
         {
             get => isToIndividuals;
             set => Set(ref isToIndividuals, value);
+        }
+
+        private static string ValidateSubject(string subject)
+        {
+            if (string.IsNullOrEmpty(subject))
+                return string.Empty;
+
+            try
+            {
+                return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
+                                     RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
+            }
+            // If we timeout when replacing invalid characters, 
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return string.Empty;
+            }
         }
 
         private void MessageTo_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)

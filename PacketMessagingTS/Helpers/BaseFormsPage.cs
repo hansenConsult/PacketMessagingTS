@@ -180,6 +180,9 @@ namespace PacketMessagingTS.Helpers
         public FormsViewModel ViewModel
         { get; set; }
 
+        public MessageOrigin MessageOrigin => _messageOrigin;
+
+
         public BaseFormsPage()
         {
         }
@@ -437,23 +440,23 @@ namespace PacketMessagingTS.Helpers
 
         protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
 
-        //protected static string ValidateSubject(string subject)
-        //{
-        //    if (string.IsNullOrEmpty(subject))
-        //        return subject;
+        protected static string ValidateSubject(string subject)
+        {
+            if (string.IsNullOrEmpty(subject))
+                return subject;
 
-        //    try
-        //    {
-        //        return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
-        //                             RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
-        //    }
-        //    // If we timeout when replacing invalid characters, 
-        //    // we should return Empty.
-        //    catch (RegexMatchTimeoutException)
-        //    {
-        //        return string.Empty;
-        //    }
-        //}
+            try
+            {
+                return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
+                                     RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
+            }
+            // If we timeout when replacing invalid characters, 
+            // we should return Empty.
+            catch (RegexMatchTimeoutException)
+            {
+                return string.Empty;
+            }
+        }
 
         //public string CreateValidatedSubject()
         //{
@@ -614,6 +617,7 @@ namespace PacketMessagingTS.Helpers
                 // Open last used empty form
  //               _formsPagePivot.SelectedIndex = FormsPagePivotSelectedIndex;
                 _packetMessage = null;
+                ViewModel.LoadMessage = false;
                 base.OnNavigatedTo(e);
                 return;
             }
@@ -633,6 +637,7 @@ namespace PacketMessagingTS.Helpers
                 _packetMessage.MessageOpened = true;
                 string directory = Path.GetDirectoryName(packetMessagePath);
                 _loadMessage = true;
+                ViewModel.LoadMessage = _loadMessage;
                 foreach (PivotItem pivotItem in _formsPagePivot.Items)
                 {
                     if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
@@ -660,6 +665,7 @@ namespace PacketMessagingTS.Helpers
                         _messageOrigin = MessageOrigin.New;
                     }
                 }
+                ViewModel.MessageOrigin = _messageOrigin;
                 _packetMessage.Save(directory);
             }
             base.OnNavigatedTo(e);
