@@ -38,14 +38,14 @@ namespace PacketMessagingTS.Views
         public TNCSettingsViewModel _TNCSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel _addressBookViewModel { get; } = new AddressBookViewModel();
 
-        string[] CopyDestinations = new string[]
-        {
-            "Radio Room",
-            "Magement",
-            "Operations",
-            "Planning",
-            "Finance",
-        };
+        //string[] CopyDestinations = new string[]
+        //{
+        //    "Radio Room",
+        //    "Magement",
+        //    "Operations",
+        //    "Planning",
+        //    "Finance",
+        //};
 
 
         public SettingsPage()
@@ -173,26 +173,26 @@ namespace PacketMessagingTS.Views
             //        copyCount = Convert.ToInt32(receivedSentCount.Text);
             //}
 
-            string[] copyDestinations = new string[copyCount + 1];
-            Grid grid = pivotSettings.FindName($"{sentReceived}CopyDestinations") as Grid;
-            string baseName = $"{sentReceived}Dest";
-            for (int i = 1; i <= 4; i++)
-            {
-                string comboBoxName = baseName + i.ToString();
-                ComboBox comboBox = grid.FindName(comboBoxName) as ComboBox;
-                if (comboBox == null)
-                    continue;
+            //string[] copyDestinations = new string[copyCount + 1];
+            //Grid grid = pivotSettings.FindName($"{sentReceived}CopyDestinations") as Grid;
+            //string baseName = $"{sentReceived}Dest";
+            //for (int i = 1; i <= 4; i++)
+            //{
+            //    string comboBoxName = baseName + i.ToString();
+            //    ComboBox comboBox = grid.FindName(comboBoxName) as ComboBox;
+            //    if (comboBox == null)
+            //        continue;
 
-                if ((bool)checkBox.IsChecked && i <= copyCount)
-                {
-                    comboBox.IsEnabled = true;
-                    copyDestinations[i] = comboBox.SelectedItem as string;
-                }
-                else
-                {
-                    comboBox.IsEnabled = false;
-                }
-            }
+            //    if ((bool)checkBox.IsChecked && i <= copyCount)
+            //    {
+            //        comboBox.IsEnabled = true;
+            //        copyDestinations[i] = comboBox.SelectedItem as string;
+            //    }
+            //    else
+            //    {
+            //        comboBox.IsEnabled = false;
+            //    }
+            //}
             if (checkBox?.IsChecked == null || !(bool)checkBox.IsChecked)
             {
                 return;

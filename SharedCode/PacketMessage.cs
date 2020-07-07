@@ -807,6 +807,8 @@ namespace SharedCode
             Item = item;
             Data = data;
             SelectedIndex = index;
+            BackgroundBrush = _backgroundBrush;
+            ForegroundBrush = _foregroundBrush;
         }
 
         //public Brush GetBackgroundBrush()

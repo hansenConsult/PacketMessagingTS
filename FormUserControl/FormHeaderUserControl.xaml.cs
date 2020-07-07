@@ -68,9 +68,9 @@ namespace FormUserControl
                 }
 
                 // Create event time changed
-                EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
+                //EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
                 FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
-                OnMsgTimeChange?.Invoke(this, formEventArgs);
+                EventMsgTimeChanged?.Invoke(this, formEventArgs);
             }
         }
 

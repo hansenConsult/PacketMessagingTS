@@ -198,6 +198,8 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="120"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <CheckBox Grid.Column="0" x:Name="receivedPrint" Content="Print Received Messages."
@@ -207,45 +209,22 @@
                         <TextBlock Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}"  Margin="8,0,0,0"                        
                                    Text="Number of copies" VerticalAlignment="Center"/>
                         <muxc:NumberBox Grid.Column="2" x:Name="receivedCopyCount"
+                                        VerticalAlignment="Center" 
                                         IsEnabled="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=OneWay}"
-                                        Minimum="0" Maximum="6"
+                                        Minimum="0" Maximum="9"
                                         SmallChange="1"
                                         SpinButtonPlacementMode="Compact"
                                         Value="{x:Bind Path=_settingsViewModel.ReceivedCopyCount, Mode=TwoWay}" Margin="2,0,2,0"
                                         ValueChanged="ReceivedCopyCount_ValueChanged"/>
                         <!--Style="{StaticResource AlliedNumberBox}"-->
-
                         <!--TextChanged="TextBox_IntegerChanged"-->
+                        <TextBlock Grid.Column="3" Style="{StaticResource BodyTextBlockStyle}"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0" Text="Copy Names:"/>
+                        <TextBox Grid.Column="4" AcceptsReturn="True" Height="56" Margin="8,0,0,0"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 Text="{x:Bind _settingsViewModel.ReceivedCopyNames, Mode=TwoWay}"/>
                     </Grid>
-                    <Grid x:Name="receivedCopyDestinations">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Copy destination one" VerticalAlignment="Center"/>
-                        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="receivedDest1" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest1, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Copy destination two"/>
-                        <ComboBox Grid.Row="0" Grid.Column="3" x:Name="receivedDest2" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest2, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Copy three destination"/>
-                        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="receivedDest3" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest3, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Copy four destination"/>
-                        <ComboBox Grid.Row="1" Grid.Column="3" x:Name="receivedDest4" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedReceiveDest4, Mode=TwoWay}"/>
-                    </Grid>
-
                     <TextBlock Text="Print Sent Messages" Margin="0,20,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     <Grid Margin="0,12">
                         <Grid.RowDefinitions>
@@ -254,6 +233,8 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="120"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="120"/>
                         </Grid.ColumnDefinitions>
@@ -269,34 +250,12 @@
                                         Value="{x:Bind _settingsViewModel.SentCopyCount, Mode=TwoWay}"
                                         ValueChanged="ReceivedCopyCount_ValueChanged"/>
                         <!--Style="{StaticResource AlliedNumberTextBox}"-->
-                    </Grid>
-                    <Grid x:Name="sentCopyDestinations">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Copy one destination"/>
-                        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="sentDest1" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest1, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Copy two destination"/>
-                        <ComboBox Grid.Row="0" Grid.Column="3" x:Name="sentDest2" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest2, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Copy three destination"/>
-                        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="sentDest3" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest3, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Copy destination four"/>
-                        <ComboBox Grid.Row="1" Grid.Column="3" x:Name="sentDest4" IsEditable="True"
-                                  Width="200" ItemsSource="{x:Bind CopyDestinations}"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedSentDest4, Mode=TwoWay}"/>
+                        <TextBlock Grid.Column="3" Style="{StaticResource BodyTextBlockStyle}"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0" Text="Copy Names:"/>
+                        <TextBox Grid.Column="4" AcceptsReturn="True" Height="56" Margin="8,0,0,0"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 Text="{x:Bind _settingsViewModel.SentCopyNames, Mode=TwoWay}"/>
                     </Grid>
                     <TextBox Text="{x:Bind _settingsViewModel.DataPath, Mode=OneWay}" IsReadOnly="True" Margin="0,30"
                              Header="Data files path:"/>

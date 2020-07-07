@@ -39,7 +39,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
-                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,1">
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="7*"/>
@@ -49,7 +49,7 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,1">
+                            <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1">
                                 <!--<TextBlock Text="1. Incident Name" Style="{StaticResource EOC213RRFieldHeader}" Margin="5,2,0,0"/>-->
                                 <TextBox Name="incidentName" Margin="5,2" AcceptsReturn="True" 
                                     Text="{x:Bind IncidentName, Mode=TwoWay}"
@@ -65,7 +65,7 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,1">
                                     <!--<TextBlock Text="2. Date Initiated" Style="{StaticResource EOC213RRFieldHeader}"/>-->
                                     <TextBox Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
                                         Text="{x:Bind InitiatedDate, Mode=TwoWay}"
@@ -75,7 +75,7 @@
                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                         Header="2. Date Initiated:"/>
                                 </StackPanel>
-                                <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                <StackPanel Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1">
                                     <!--<TextBlock Style="{StaticResource EOC213RRFieldHeader}">
                             <Run Text="3. Time Initiated"/>
                             </TextBlock>-->
@@ -86,7 +86,7 @@
                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                         Header="3. Time Initiated:" Width="100"/>
                                 </StackPanel>
-                                <StackPanel Grid.Column="2" BorderBrush="Black" BorderThickness="1,1,0,1">
+                                <StackPanel Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,1">
                                     <TextBlock Text="4. Tracking Number" Style="{StaticResource EOC213RRFieldHeader}"/>
                                     <TextBlock Text=" (Completed by OA EOC)" Style="{StaticResource EOC213RRHeaderItalic}"/>
                                 </StackPanel>
@@ -214,9 +214,9 @@
                                     Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
                                 <TextBlock Grid.Column="4" Grid.Row="1" Text="12. Est'd Cost" HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
                                 <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" Margin="4,4,4,4" 
-                                    AcceptsReturn="True" 
+                                    AcceptsReturn="True" TextAlignment="Right" 
                                     TextChanged="TextBox_TextChanged"
-                                    Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0"/>
+                                    Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0" />
                                 <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" Margin="4" 
                                     AcceptsReturn="True" 
                                     TextChanged="TextBox_TextChanged"
@@ -232,7 +232,7 @@
                                             Style="{StaticResource MuniStatusComboBox}"
                                             DisplayMemberPath="Item"
                                             SelectedValuePath="Data"
-                                            ItemsSource="{x:Bind Priority, Mode=OneWay}" 
+                                            ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
                                             Loaded="ComboBox_Loaded"                                              
                                             SelectionChanged="ComboBox_SelectionChanged"
                                             HorizontalAlignment="Stretch" VerticalAlignment="Top"/>

@@ -183,25 +183,6 @@ namespace PacketMessagingTS.ViewModels
                 else
                     return tacticalSelectedIndexArray;
             }
-            //{
-            //    if (tacticalSelectedIndexArray is null)
-            //    {
-            //        // Only get saved value on startup. If a tactical call was added at last run adjust last index to less than current length.
-            //        GetProperty(ref tacticalSelectedIndexArray);
-            //        for (int i = 0; i < tacticalSelectedIndexArray.Length; i++)
-            //        {
-            //            if (TacticalCallsignsAreaSource[i].TacticalCallsigns == null
-            //                   || tacticalSelectedIndexArray[i] >= TacticalCallsignsAreaSource[i].TacticalCallsigns.TacticalCallsignsArray.Length)
-            //            {
-            //                tacticalSelectedIndexArray[i] = -1;
-            //            }
-            //        }
-            //        //return GetProperty(ref tacticalSelectedIndexArray);
-            //        return tacticalSelectedIndexArray;
-            //    }
-            //    return GetProperty(ref tacticalSelectedIndexArray);
-            //    //return tacticalSelectedIndexArray;
-            //}
             set => SetProperty(ref tacticalSelectedIndexArray, value, true);
         }
 

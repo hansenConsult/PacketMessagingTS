@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using FormControlBaseClass;
-using MessageFormControl;
+﻿using MessageFormControl;
+
 using MetroLog;
-using Microsoft.Toolkit.Helpers;
-using PacketMessagingTS.Services;
+
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
 using SharedCode.Helpers;
-using Windows.Storage;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
+
 using static SharedCode.Helpers.MessageOriginHelper;
 
 namespace PacketMessagingTS.Helpers

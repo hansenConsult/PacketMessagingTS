@@ -128,6 +128,27 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        public string MsgTime
+        {
+            get
+            {
+                if (_packetForm.FormHeaderControl != null)
+                    return _packetForm.FormHeaderControl.MsgTime;
+                else
+                    return _packetForm.MsgTime;
+            }
+            set
+            {
+                if (_packetForm.FormHeaderControl != null)
+                {
+                    _packetForm.FormHeaderControl.MsgTime = value;
+                    //_packetForm.MsgTime = value;
+                }
+                else
+                    _packetForm.MsgTime = value;
+            }
+        }
+
         public string OperatorName
         {
             get => Singleton<IdentityViewModel>.Instance.UserName;
@@ -187,11 +208,11 @@ namespace PacketMessagingTS.ViewModels
         }
 
         private MessageOriginHelper.MessageOrigin _messageOrigin = MessageOriginHelper.MessageOrigin.New;
-        public MessageOriginHelper.MessageOrigin MessageOrigin
-        {
-            get => _messageOrigin;
-            set => _messageOrigin = value;
-        }
+        //public MessageOriginHelper.MessageOrigin MessageOrigin
+        //{
+        //    get => _messageOrigin;
+        //    set => _messageOrigin = value;
+        //}
 
         public FormControlBase PacketForm => _packetForm;
 
@@ -333,6 +354,13 @@ namespace PacketMessagingTS.ViewModels
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
+                _packetForm.EventSubjectChanged += FormControl_SubjectChange;
+                if (_packetForm.FormHeaderControl != null)
+                {
+                    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
+                    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
+                }
+
                 _packetAddressForm.MessageSubject = $"{MessageNo}";
             }
             IsAppBarSendEnabled = true;
@@ -417,11 +445,9 @@ namespace PacketMessagingTS.ViewModels
 
         public async void FormsPagePivotSelectionChangedAsync(int selectedIndex)
         {
-            //bool _loadMessage = FormsPage.LoadMessage;
             if (!_loadMessage)
             {
                 _packetMessage = null;
-                _messageOrigin = MessageOriginHelper.MessageOrigin.New;
             }
             else
             {
@@ -433,9 +459,7 @@ namespace PacketMessagingTS.ViewModels
             string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 
             _pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
-            //PivotItem pivotItem = (PivotItem)((Pivot)sender).SelectedItem;
             string pivotItemName = _pivotItem.Name;
-            //string pivotItemName = SharedData.FormControlAttributeCountyList[FormsPagePivotSelectedIndex].FormControlName;
             _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
@@ -443,7 +467,7 @@ namespace PacketMessagingTS.ViewModels
                 return;
             }
 
-            _packetForm.FormPacketMessage = FormsPage.PacketMessage;
+            _packetForm.FormPacketMessage = _packetMessage;
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
 
@@ -462,11 +486,14 @@ namespace PacketMessagingTS.ViewModels
                     stackPanel.Children.Insert(1, _packetAddressForm);
                     stackPanel.Children.Insert(2, _packetForm);
 
+                    (_packetForm as MessageControl).NewHeaderVisibility = true;
+
                     _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
                     _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
                 }
                 else
                 {
+                    // Show existing message
                     stackPanel.Children.Insert(0, _packetAddressForm);
                     stackPanel.Children.Insert(1, _packetForm);
 
@@ -484,6 +511,7 @@ namespace PacketMessagingTS.ViewModels
                     }
                 }
 
+                // Moved to SimpleMessagePivot control
                 //_packetAddressForm.MessageSubject = $"{MessageNo}_R_";
                 //if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 //{
@@ -491,21 +519,6 @@ namespace PacketMessagingTS.ViewModels
                 //    //_packetForm.MessageBody = Singleton<PacketSettingsViewModel>.Instance.DefaultMessage;
                 //}
                 _packetForm.MessageReceivedTime = DateTime.Now;
-                //var origin = FormsPage.PacketMessage.MessageOrigin;
-                //if (origin != _messageOrigin)
-                //    throw new Exception();
-                switch (_messageOrigin)
-                {
-                    case MessageOriginHelper.MessageOrigin.Received:
-                        (_packetForm as MessageControl).InBoxHeaderVisibility = true;
-                        break;
-                    case MessageOriginHelper.MessageOrigin.Sent:
-                        (_packetForm as MessageControl).SentHeaderVisibility = true;
-                        break;
-                    default:
-                        (_packetForm as MessageControl).NewHeaderVisibility = true;
-                        break;
-                }
             }
             else
             {

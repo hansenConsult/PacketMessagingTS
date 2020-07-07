@@ -27,8 +27,6 @@
 				RelativePanel.AlignLeftWithPanel="True">
             <AppBarButton x:Name="appBarClearForm" Label="Clear Form" Icon="Clear" HorizontalAlignment="Right"
                           Command="{x:Bind _CountyFormsViewModel.ClearFormCommand}"/>
-            <!--<AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
-                          Click="AppBarViewOutpostData_ClickAsync"/>-->
             <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
                           Command="{x:Bind _CountyFormsViewModel.ViewOutpostDataCommand}"/>
             <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"

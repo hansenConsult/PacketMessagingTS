@@ -23,16 +23,6 @@ namespace PacketMessagingTS.Views
 
         public CountyFormsViewModel _CountyFormsViewModel { get; } = Singleton<CountyFormsViewModel>.Instance;
 
-        //public override int FormsPagePivotSelectedIndex
-        //{
-        //    get => _CountyFormsViewModel.CountyFormsPagePivotSelectedIndex;
-        //    //set => _CountyFormsViewModel.CountyFormsPagePivotSelectedIndex = value;
-        //    set
-        //    {
-        //        int x = value;
-        //    }
-        //}
-
 
         public CountyFormsPage()
         {
@@ -59,12 +49,6 @@ namespace PacketMessagingTS.Views
             _CountyFormsViewModel.FormsPage = this;
             ViewModel = _CountyFormsViewModel;
         }
-
-        protected override void SetAppBarSendIsEnabled(bool isEnabled)
-        {
-            _CountyFormsViewModel.IsAppBarSendEnabled = isEnabled;
-        }
-
 
     }
 }

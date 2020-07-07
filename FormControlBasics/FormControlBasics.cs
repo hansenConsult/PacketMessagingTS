@@ -86,6 +86,9 @@ namespace FormControlBasicsNamespace
         public virtual string MsgDate
         { get; set; }
 
+        public virtual string MsgTime
+        { get; set; }
+
         public virtual string HandlingOrder
         { get; set; }
 

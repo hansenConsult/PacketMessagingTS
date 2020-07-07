@@ -528,7 +528,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                         SettingsViewModel settingsViewModel = Singleton<SettingsViewModel>.Instance;
 
-                        Singleton<PrintQueue>.Instance.AddToPrintQueue(pktMsg.FileName, settingsViewModel.ReceivePrintDestinations);
+                        Singleton<PrintQueue>.Instance.AddToPrintQueue(pktMsg.FileName, settingsViewModel.ReceivedCopyNamesAsArray());
 
                         // Test
                         await Singleton<PrintQueue>.Instance.PrintToDestinationsAsync();
@@ -879,7 +879,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         packetMsg.Save(SharedData.PrintMessagesFolder.Path);
 
                         SettingsViewModel settingsViewModel = Singleton<SettingsViewModel>.Instance;
-                        Singleton<PrintQueue>.Instance.AddToPrintQueue(packetMsg.FileName, settingsViewModel.SentPrintDestinations);
+                        Singleton<PrintQueue>.Instance.AddToPrintQueue(packetMsg.FileName, settingsViewModel.SentCopyNamesAsArray());
                     }
 
                 }

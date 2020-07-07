@@ -66,6 +66,7 @@
                 </AppBarButton.Icon>-->
             <!--</AppBarButton>-->
             <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send"
+                          IsEnabled="{x:Bind _cityFormsViewModel.IsAppBarSendEnabled}"
                           Command="{x:Bind _cityFormsViewModel.SendReceiveCommand}"/>
         </CommandBar>
     </RelativePanel>

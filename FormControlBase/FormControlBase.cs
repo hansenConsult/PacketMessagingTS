@@ -912,8 +912,8 @@ namespace FormControlBaseClass
 				if (control is null || string.IsNullOrEmpty(formField.ControlContent))
 					continue;
 
-				if (control is TextBox textBox)
-				{
+                if (control is TextBox textBox)
+                {
                     textBox.Text = formField.ControlContent;
                     if (formControl.UserControl == null)
                     {
@@ -964,7 +964,7 @@ namespace FormControlBaseClass
 
                             switch (control.Name)
                             {
-                                case "messageNo":                                    
+                                case "messageNo":
                                     formHeaderControl.OriginMsgNo = textBox.Text;
                                     break;
                                 case "destinationMsgNo":
@@ -972,6 +972,9 @@ namespace FormControlBaseClass
                                     break;
                                 case "msgDate":
                                     formHeaderControl.MsgDate = textBox.Text;
+                                    break;
+                                case "msgTime":
+                                    formHeaderControl.MsgTime = textBox.Text;
                                     break;
                                 case null:
                                     continue;
@@ -989,21 +992,30 @@ namespace FormControlBaseClass
                     richTextBlock.Blocks.Add(paragraph);
                 }
                 else if (control is AutoSuggestBox autoSuggsetBox)
-				{
-					autoSuggsetBox.Text = formField.ControlContent;
-				}
-				else if (control is ComboBox comboBox)
-				{
+                {
+                    autoSuggsetBox.Text = formField.ControlContent;
+                }
+                else if (control is ComboBox comboBox)
+                {
                     FillComboBoxFromFormFields(formField, comboBox);
                 }
-				else if (control is ToggleButtonGroup toggleButtonGroup)
-				{
-                    toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
-				}
-				else if (control is CheckBox checkBox)
-				{
+                else if (control is ToggleButtonGroup toggleButtonGroup)
+                {
+                    if (formControl.UserControl == null)
+                    {
+                        toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
+                    }
+                    else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
+                    {
+                        FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
+                        if (control.Name == "handlingOrder")
+                            formHeaderControl.HandlingOrder = formField.ControlContent;
+                    }
+                }
+                else if (control is CheckBox checkBox)
+                {
                     checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
-				}
+                }
             }
             UpdateFormFieldsRequiredColors();
         }

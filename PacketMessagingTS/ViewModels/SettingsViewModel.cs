@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
@@ -192,58 +193,64 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref _receivedCopyCount);
             set
             {
+                if (value > 9)
+                    value = 9;
                 SetProperty(ref _receivedCopyCount, value, true);
+                ReceivedCopyNames = ReceivedCopyNamesArray[_receivedCopyCount];
             }
         }
 
-        private string _selectedReceiveDest1;
-        public string SelectedReceiveDest1
-        {
-            get => GetProperty(ref _selectedReceiveDest1);
-            set => SetProperty(ref _selectedReceiveDest1, value, true);
-        }
-
-        private string _selectedReceiveDest2;
-        public string SelectedReceiveDest2
-        {
-            get => GetProperty(ref _selectedReceiveDest2);
-            set => SetProperty(ref _selectedReceiveDest2, value, true);
-        }
-
-        private string _selectedReceiveDest3;
-        public string SelectedReceiveDest3
-        {
-            get => GetProperty(ref _selectedReceiveDest3);
-            set => SetProperty(ref _selectedReceiveDest3, value, true);
-        }
-
-        private string _selectedReceiveDest4;
-        public string SelectedReceiveDest4
-        {
-            get => GetProperty(ref _selectedReceiveDest4);
-            set => SetProperty(ref _selectedReceiveDest4, value, true);
-        }
-
-        public string[] ReceivePrintDestinations
+        private string[] receivedCopyNamesArray;
+        public string[] ReceivedCopyNamesArray
         {
             get
             {
-                string[] receivePrintDestinations = new string[ReceivedCopyCount];
-                for (int i = 0; i < ReceivedCopyCount; i++)
+                if (receivedCopyNamesArray is null)
                 {
-                    if (i == 0)
-                        receivePrintDestinations[i] = SelectedReceiveDest1;
-                    if (i == 1)
-                        receivePrintDestinations[i] = SelectedReceiveDest2;
-                    if (i == 2)
-                        receivePrintDestinations[i] = SelectedReceiveDest3;
-                    if (i == 3)
-                        receivePrintDestinations[i] = SelectedReceiveDest4;
+                    GetProperty(ref receivedCopyNamesArray);
+                    if (receivedCopyNamesArray is null)
+                    {
+                        receivedCopyNamesArray = new string[10];
+                        for (int i = 0; i < receivedCopyNamesArray.Length; i++)
+                        {
+                            receivedCopyNamesArray[i] = "";
+                        }
+                    }
                 }
+                return receivedCopyNamesArray;
+            }
+            set => SetProperty(ref receivedCopyNamesArray, value, true);
+        }
 
-                return receivePrintDestinations;
+        private string receivedCopyNames;
+        public string ReceivedCopyNames
+        {
+            get => ReceivedCopyNamesArray[ReceivedCopyCount];
+            set
+            {
+                string[] copynames = value.Split(new char[] { '\r', '\n' });
+                int excessCopyNames = copynames.Length - ReceivedCopyCount;
+                string newValue = value;
+                if (excessCopyNames > 0)
+                {
+                    int lastIndex;
+                    for (int i = 0; i < excessCopyNames; i++)
+                    {
+                        lastIndex = newValue.LastIndexOf('\r');
+                        newValue = newValue.Substring(0, lastIndex);
+                    }
+                    receivedCopyNames = value;  // To make sure an update happens
+                }
+                string[] copyNamesArray = new string[10];
+                ReceivedCopyNamesArray.CopyTo(copyNamesArray, 0);
+                copyNamesArray[ReceivedCopyCount] = newValue;
+                ReceivedCopyNamesArray = copyNamesArray;
+
+                SetProperty(ref receivedCopyNames, newValue);
             }
         }
+
+        public string[] ReceivedCopyNamesAsArray() => ReceivedCopyNames.Split(new char[] { '\r', '\n' });
 
         private bool _printSentMessages;
         public bool PrintSentMessages
@@ -256,56 +263,65 @@ namespace PacketMessagingTS.ViewModels
         public int SentCopyCount
         {
             get => GetProperty(ref _sentCopyCount);
-            set => SetProperty(ref _sentCopyCount, value, true);
+            set
+            {
+                if (value > 9)
+                    value = 9;
+                SetProperty(ref _sentCopyCount, value, true);
+            }
         }
 
-        private string _selectedSentDest1;
-        public string SelectedSentDest1
-        {
-            get => GetProperty(ref _selectedSentDest1);
-            set => SetProperty(ref _selectedSentDest1, value, true);
-        }
-
-        private string _selectedSentDest2;
-        public string SelectedSentDest2
-        {
-            get => GetProperty(ref _selectedSentDest2);
-            set => SetProperty(ref _selectedSentDest2, value, true);
-        }
-
-        private string _selectedSentDest3;
-        public string SelectedSentDest3
-        {
-            get => GetProperty(ref _selectedSentDest3);
-            set => SetProperty(ref _selectedSentDest3, value, true);
-        }
-
-        private string _selectedSentDest4;
-        public string SelectedSentDest4
-        {
-            get => GetProperty(ref _selectedSentDest4);
-            set => SetProperty(ref _selectedSentDest4, value, true);
-        }
-
-        public string[] SentPrintDestinations
+        private string[] sentCopyNamesArray;
+        public string[] SentCopyNamesArray
         {
             get
             {
-                string[] sentPrintDestinations = new string[SentCopyCount];
-                for (int i = 0; i < SentCopyCount; i++)
+                if (sentCopyNamesArray is null)
                 {
-                    if (i == 0)
-                        sentPrintDestinations[i] = SelectedSentDest1;
-                    if (i == 1)
-                        sentPrintDestinations[i] = SelectedSentDest2;
-                    if (i == 2)
-                        sentPrintDestinations[i] = SelectedSentDest3;
-                    if (i == 3)
-                        sentPrintDestinations[i] = SelectedSentDest4;
+                    GetProperty(ref sentCopyNamesArray);
+                    if (sentCopyNamesArray is null)
+                    {
+                        sentCopyNamesArray = new string[10];
+                        for (int i = 0; i < sentCopyNamesArray.Length; i++)
+                        {
+                            sentCopyNamesArray[i] = "";
+                        }
+                    }
                 }
-                return sentPrintDestinations;
+                return sentCopyNamesArray;
+            }
+            set => SetProperty(ref sentCopyNamesArray, value, true);
+        }
+
+        private string sentCopyNames;
+        public string SentCopyNames
+        {
+            get => SentCopyNamesArray[SentCopyCount];
+            set
+            {
+                string[] copynames = value.Split(new char[] { '\r', '\n' });
+                int excessCopyNames = copynames.Length - ReceivedCopyCount;
+                string newValue = value;
+                if (excessCopyNames > 0)
+                {
+                    int lastIndex;
+                    for (int i = 0; i < excessCopyNames; i++)
+                    {
+                        lastIndex = newValue.LastIndexOf('\r');
+                        newValue = newValue.Substring(0, lastIndex);
+                    }
+                    sentCopyNames = value;  // To make sure an update happens
+                }
+                string[] copyNamesArray = new string[10];
+                SentCopyNamesArray.CopyTo(copyNamesArray, 0);
+                copyNamesArray[SentCopyCount] = newValue;
+                SentCopyNamesArray = copyNamesArray;
+
+                SetProperty(ref sentCopyNames, newValue);
             }
         }
+
+        public string[] SentCopyNamesAsArray() => SentCopyNames.Split(new char[] { '\r', '\n' });
 
         public string DataPath
         {

@@ -53,7 +53,7 @@ namespace PacketMessagingTS.Helpers
 
         public PacketMessage PacketMessage => _packetMessage;
 
-        public bool LoadMessage => _loadMessage;
+        //public bool LoadMessage => _loadMessage;
 
         public Pivot FormsPagePivot => _formsPagePivot;
 
@@ -180,7 +180,7 @@ namespace PacketMessagingTS.Helpers
         public FormsViewModel ViewModel
         { get; set; }
 
-        public MessageOrigin MessageOrigin => _messageOrigin;
+        //public MessageOrigin MessageOrigin => _messageOrigin;
 
 
         public BaseFormsPage()
@@ -438,7 +438,7 @@ namespace PacketMessagingTS.Helpers
         //public abstract int FormsPagePivotSelectedIndex
         //{ get; set; }
 
-        protected abstract void SetAppBarSendIsEnabled(bool isEnabled);
+        //protected virtual void SetAppBarSendIsEnabled(bool isEnabled) { }           
 
         protected static string ValidateSubject(string subject)
         {
@@ -623,7 +623,6 @@ namespace PacketMessagingTS.Helpers
             }
 
             // Open a form with content
-            int index = 0;
             string packetMessagePath = e.Parameter as string;
             _packetMessage = PacketMessage.Open(packetMessagePath);
             if (_packetMessage is null)
@@ -638,6 +637,8 @@ namespace PacketMessagingTS.Helpers
                 string directory = Path.GetDirectoryName(packetMessagePath);
                 _loadMessage = true;
                 ViewModel.LoadMessage = _loadMessage;
+
+                int index = 0;
                 foreach (PivotItem pivotItem in _formsPagePivot.Items)
                 {
                     if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
@@ -649,23 +650,23 @@ namespace PacketMessagingTS.Helpers
                     }
                     index++;
                 }
-                // Show SimpleMessage header formatted by where the message came from
-                if (_packetMessage.PacFormName == "SimpleMessage")
-                {
-                    if (_packetMessage.MessageOrigin == MessageOrigin.Received || directory.Contains("Received"))
-                    {
-                        _messageOrigin = MessageOrigin.Received;
-                    }
-                    else if (_packetMessage.MessageOrigin == MessageOrigin.Sent || directory.Contains("Sent"))
-                    {
-                        _messageOrigin = MessageOrigin.Sent;
-                    }
-                    else
-                    {
-                        _messageOrigin = MessageOrigin.New;
-                    }
-                }
-                ViewModel.MessageOrigin = _messageOrigin;
+                //// Show SimpleMessage header formatted by where the message came from
+                //if (_packetMessage.PacFormName == "SimpleMessage")
+                //{
+                //    if (_packetMessage.MessageOrigin == MessageOrigin.Received || directory.Contains("Received"))
+                //    {
+                //        _messageOrigin = MessageOrigin.Received;
+                //    }
+                //    else if (_packetMessage.MessageOrigin == MessageOrigin.Sent || directory.Contains("Sent"))
+                //    {
+                //        _messageOrigin = MessageOrigin.Sent;
+                //    }
+                //    else
+                //    {
+                //        _messageOrigin = MessageOrigin.New;
+                //    }
+                //}
+                //ViewModel.MessageOrigin = _messageOrigin;
                 _packetMessage.Save(directory);
             }
             base.OnNavigatedTo(e);

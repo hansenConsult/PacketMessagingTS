@@ -25,11 +25,6 @@ namespace PacketMessagingTS.Views
 
         public CityFormsViewModel _cityFormsViewModel { get; } = Singleton<CityFormsViewModel>.Instance;
 
-        //public override int FormsPagePivotSelectedIndex
-        //{
-        //    get => _cityFormsViewModel.CityFormsPagePivotSelectedIndex;
-        //    set => _cityFormsViewModel.CityFormsPagePivotSelectedIndex = value;
-        //}
 
         public CityFormsPage()
         {
@@ -55,11 +50,6 @@ namespace PacketMessagingTS.Views
 
             _cityFormsViewModel.FormsPage = this;
             ViewModel = _cityFormsViewModel;
-        }
-
-        protected override void SetAppBarSendIsEnabled(bool isEnabled)
-        {
-            _cityFormsViewModel.IsAppBarSendEnabled = isEnabled;
         }
 
     }

@@ -94,12 +94,8 @@ namespace PacketMessagingTS.Helpers
                 // Retrieve value from dictionary
                 object o = _properties[propertyName];
                 backingStore = Convert.ToInt32(o);
-                //int temp = Convert.ToInt32(o);
-                //backingStore = temp;
-                //return temp;
             }
-            //else
-                return backingStore;
+            return backingStore;
         }
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
@@ -152,6 +148,30 @@ namespace PacketMessagingTS.Helpers
                 return backingStore;
             }
         }
+
+        protected string[] GetProperty(ref string[] backingStore, [CallerMemberName] string propertyName = "")
+        {
+            if (_properties != null && _properties.ContainsKey(propertyName))
+            {
+                try
+                {
+                    // Retrieve value from dictionary
+                    var o = _properties[propertyName];
+                    var stringArray = JsonConvert.DeserializeObject<string[]>(o as string);
+                    backingStore = stringArray;
+                    return stringArray;
+                }
+                catch
+                {
+                    return backingStore;
+                }
+            }
+            else
+            {
+                return backingStore;
+            }
+        }
+
 
         protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
                     [CallerMemberName]string propertyName = "", Action onChanged = null)
@@ -216,7 +236,26 @@ namespace PacketMessagingTS.Helpers
             }
 
             value.CopyTo(backingStore, 0);
-            //backingStore = value;
+            onChanged?.Invoke();
+            //OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        protected bool SetProperty(ref string[] backingStore, string[] value, bool persist = false, bool forceUpdate = false,
+                    [CallerMemberName] string propertyName = "", Action onChanged = null)
+        {
+            // Do not update displayed value if not changed or not forced
+            if (Equals(backingStore, value) && !forceUpdate)
+            {
+                return false;
+            }
+            if (persist)
+            {
+                // store value
+                _properties[propertyName] = JsonConvert.SerializeObject(value); ;
+            }
+
+            value.CopyTo(backingStore, 0);
             onChanged?.Invoke();
             //OnPropertyChanged(propertyName);
             return true;
