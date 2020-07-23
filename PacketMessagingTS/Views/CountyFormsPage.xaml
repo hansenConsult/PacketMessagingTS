@@ -29,8 +29,12 @@
                           Command="{x:Bind _CountyFormsViewModel.ClearFormCommand}"/>
             <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
                           Command="{x:Bind _CountyFormsViewModel.ViewOutpostDataCommand}"/>
-            <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"
-                          Command="{x:Bind _CountyFormsViewModel.SaveFormCommand}"/>
+            <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"                          
+                          Command="{x:Bind _CountyFormsViewModel.SaveFormCommand}">
+                <AppBarButton.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Control" Key="S"/>
+                </AppBarButton.KeyboardAccelerators>
+            </AppBarButton>
             <!--IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSaveEnabled}"-->
             <AppBarButton x:Name="appBarPrint" Label="Print Message" Icon="Print" HorizontalAlignment="Right"
                           Command="{x:Bind _CountyFormsViewModel.PrintFormCommand}"/>

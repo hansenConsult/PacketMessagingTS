@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 using MetroLog;
 
@@ -22,9 +23,10 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
+        //public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
+        public RxTxStatViewModel RxTxStatusViewmodel { get; } = new RxTxStatViewModel();
 
-        ViewLifetimeControl _viewLifetimeControl;
+        public ViewLifetimeControl _viewLifetimeControl;
 
         public static RxTxStatusPage rxtxStatusPage;
         private ScrollViewer _scrollViewer;
@@ -32,6 +34,8 @@ namespace PacketMessagingTS.Views
         public RxTxStatusPage()
         {
             InitializeComponent();
+
+            //bool success = Singleton<RxTxStatViewModel>.UpdateInstance();
 
             rxtxStatusPage = this;
             //RxTxStatusViewModel.StatusPage = this;
@@ -51,6 +55,9 @@ namespace PacketMessagingTS.Views
 
             _viewLifetimeControl.Height = RxTxStatusViewmodel.ViewControlHeight;
             _viewLifetimeControl.Width = RxTxStatusViewmodel.ViewControlWidth;
+
+            //_scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+            //_scrollViewer = FindScrollViewer();
         }
 
         public async void CloseStatusWindowAsync()
@@ -82,10 +89,41 @@ namespace PacketMessagingTS.Views
             return null;
         }
 
-        //public void AddTextToStatusWindow(string text)
-        //{
-        //    RxTxStatusViewmodel.AddRxTxStatus = text;
-        //}
+        private ScrollViewer FindScrollViewer()
+        {
+            var grid = (Grid)VisualTreeHelper.GetChild(textBoxStatus, 0);
+            for (var i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
+            {
+                object obj = VisualTreeHelper.GetChild(grid, i);
+                if (!(obj is ScrollViewer)) continue;
+                _scrollViewer = (ScrollViewer)obj;
+                //viewChanged = _scrollViewer.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+                break;
+            }
+            return _scrollViewer;
+        }
+
+        public void AddTextToStatusWindow(string text)
+        {
+            //if (_scrollViewer is null)
+            //{
+            //    _scrollViewer = FindScrollViewer();
+            //}
+
+            bool? viewChanged = false;
+            textBoxStatus.Text += text;
+            var grid = (Grid)VisualTreeHelper.GetChild(textBoxStatus, 0);
+            for (var i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
+            {
+                object obj = VisualTreeHelper.GetChild(grid, i);
+                if (!(obj is ScrollViewer)) continue;
+                _scrollViewer = (ScrollViewer)obj;
+                viewChanged = _scrollViewer.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+                break;
+            }
+            //Thread.Sleep(1);
+            //_logHelper.Log(LogLevel.Trace, $"Scrolled: {viewChanged}, Height: {_scrollViewer.ExtentHeight} text: {text}");
+        }
 
         int i = 0;
         //string textBoxText = "";
@@ -103,11 +141,13 @@ namespace PacketMessagingTS.Views
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
 
-            //RxTxStatusViewmodel.AppendRxTxStatus = $"Test text{i}\r";
-            RxTxStatusViewmodel.AppendRxTxStatus($"Test text{i}\r");
+            RxTxStatusViewmodel.AppendRxTxStatus = $"Test text{i}\r";
+            //RxTxStatusViewmodel.AppendRxTxStatus($"Test text{i}\r");
             //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";            
 
             //ScrollText();
+
+            //AddTextToStatusWindow($"Test text{i}\r");
         }
 
         //ScrollViewer scrollViewer = null;
@@ -122,22 +162,35 @@ namespace PacketMessagingTS.Views
             //await rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => 
             await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                bool? _viewChanged = _scrollViewer?.ChangeView(null, _scrollViewer.ExtentHeight, null, true);
+                bool? _viewChanged = _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
             });
         }
 
         private async void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //var grid = (Grid)VisualTreeHelper.GetChild(textBoxStatus, 0);
+            //for (var i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
+            //{
+            //    object obj = VisualTreeHelper.GetChild(grid, i);
+            //    if (!(obj is ScrollViewer)) continue;
+            //    ((ScrollViewer)obj).ChangeView(0.0f, ((ScrollViewer)obj).ExtentHeight, 1.0f, true);
+            //    break;
+            //}
+
+            //return;
             //_viewLifetimeControl.StartViewInUse();
             if (_scrollViewer is null)
             {
                 _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
             }
-            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await RxTxStatusViewmodel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                //_viewLifetimeControl.StartViewInUse();
                 bool? viewChanged = _scrollViewer.ChangeView(null, _scrollViewer.ExtentHeight, 1.0f, true);
-
-                //_logHelper.Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {_scrollViewer.ExtentHeight}");
+                    //if (viewChanged != true)
+                    //Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {_scrollViewer.ExtentHeight} text: {RxTxStatusViewmodel.AppendRxTxStatus}");
+                //_viewLifetimeControl.StopViewInUse();
             });
             //_viewLifetimeControl.StopViewInUse();
         }

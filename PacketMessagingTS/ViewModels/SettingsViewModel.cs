@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
@@ -60,20 +61,21 @@ namespace PacketMessagingTS.ViewModels
         {
         }
 
-        //public void Initialize()
-        //{
-        //    VersionDescription = GetVersionDescription();
-        //}
+        public async Task InitializeAsync()
+        {
+            VersionDescription = GetVersionDescription();
+            await Task.CompletedTask;
+        }
 
-        //private string GetVersionDescription()
-        //{
-        //    var appName = "AppDisplayName".GetLocalized();
-        //    var package = Package.Current;
-        //    var packageId = package.Id;
-        //    var version = packageId.Version;
+        private string GetVersionDescription()
+        {
+            var appName = "AppDisplayName".GetLocalized();
+            var package = Package.Current;
+            var packageId = package.Id;
+            var version = packageId.Version;
 
-        //    return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-        //}
+            return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
 
         private bool w1XSCStatusUp = true;
         public bool W1XSCStatusUp
@@ -130,7 +132,7 @@ namespace PacketMessagingTS.ViewModels
                 }
             }
         }
-        public bool w5XSCStatusUp = true;
+        public bool w5XSCStatusUp = false;
         public bool W5XSCStatusUp
         {
             get => GetProperty(ref w5XSCStatusUp);

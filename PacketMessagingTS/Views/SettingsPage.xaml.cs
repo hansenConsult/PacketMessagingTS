@@ -84,7 +84,7 @@ namespace PacketMessagingTS.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            //_settingsViewModel.Initialize();
+            _settingsViewModel.InitializeAsync();
 
             //_TNCSettingsViewModel.ListOfSerialPorts.Clear();
             //List<string> listOfSerialPorts = new List<string>();

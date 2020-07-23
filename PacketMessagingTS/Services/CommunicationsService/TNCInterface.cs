@@ -93,6 +93,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public void AbortConnection()
         {
+            _logHelper.Log(LogLevel.Info, $"Connection aborted.");
             _error = true;
         }
 
@@ -214,7 +215,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             DateTime dateTime = DateTime.Now;
             string dayTime = $"{dateTime.Year - 2000:d2}{dateTime.Month:d2}{dateTime.Day:d2}{dateTime.Hour:d2}{dateTime.Minute:d2}{dateTime.Second:d2}";
-            _serialPort.Write("daytime " + dayTime + "\r");
+            _serialPort.Write($"daytime {dayTime}\r");
 
             readText = ReadLine();       // Read command
             _logHelper.Log(LogLevel.Info, _TNCPrompt + " " + readText);
@@ -242,19 +243,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //if (!dispatcher.HasThreadAccess)
             //{
             RxTxStatViewModel rxTxStatViewModel = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel;
+            //RxTxStatViewModel rxTxStatViewModel = Singleton<RxTxStatViewModel>.Instance;
             await rxTxStatViewModel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
 
                 //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
-                rxTxStatViewModel.AppendRxTxStatus(text);
-                //RxTxStatusPage.rxtxStatusPage.TestAddRxTxStatus();
+                //rxTxStatViewModel.AppendRxTxStatus(text);
+                //rxTxStatViewModel.AppendRxTxStatus = text;
+                RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
                 //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
             });
-            //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    RxTxStatusPage.rxtxStatusPage.ScrollText();
-            //});
 
             //}
             //else
@@ -305,6 +303,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 string readText = _readBuffer;
                 _readBuffer = "";
+                //AddTextToStatusWindowAsync(readText);
                 return readText;
             }
 
@@ -320,6 +319,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _readBuffer = "";
             }
 
+            //AddTextToStatusWindowAsync(line);
             return line;
         }
         /*
@@ -523,6 +523,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 readText = _readBuffer;
                 _readBuffer = "";
+                //AddTextToStatusWindowAsync(readText);
                 return readText;
             }
 
@@ -537,6 +538,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _readBuffer = "";
             }
 
+            //AddTextToStatusWindowAsync(readText);
             return readText;
         }
 
@@ -811,7 +813,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     {
                         return;
                     }
-                    _logHelper.Log(LogLevel.Info, $"Force read bulletin {area}: {_forceReadBulletins.ToString()}");
+                    //_logHelper.Log(LogLevel.Info, $"Force read bulletin {area}: {_forceReadBulletins.ToString()}");
                     if (area == "ALLXSC")
                     {
                         _serialPort.Write("L> MTV\r");

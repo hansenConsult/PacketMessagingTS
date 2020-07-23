@@ -88,6 +88,8 @@ namespace OAShelterStatusFormControl
 
             InitializeToggleButtonGroups();
 
+            state.Text = "California";
+
             panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
             ScanControls(panelName, radioOperatorControl);
 

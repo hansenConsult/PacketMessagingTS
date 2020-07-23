@@ -140,11 +140,6 @@ namespace PacketMessagingTS.Helpers
             }
             else
             {
-                backingStore = new int[TacticalCallsigns._TacticalCallsignDataList.Count];
-                for (int i = 0; i < backingStore.Length; i++)
-                {
-                    backingStore[i] = 0;
-                }
                 return backingStore;
             }
         }
@@ -157,19 +152,16 @@ namespace PacketMessagingTS.Helpers
                 {
                     // Retrieve value from dictionary
                     var o = _properties[propertyName];
-                    var stringArray = JsonConvert.DeserializeObject<string[]>(o as string);
-                    backingStore = stringArray;
-                    return stringArray;
+                    backingStore = JsonConvert.DeserializeObject<string[]>(o as string);
+                    //backingStore = stringArray;
+                    //return stringArray;
                 }
                 catch
                 {
                     return backingStore;
                 }
             }
-            else
-            {
-                return backingStore;
-            }
+            return backingStore;
         }
 
 

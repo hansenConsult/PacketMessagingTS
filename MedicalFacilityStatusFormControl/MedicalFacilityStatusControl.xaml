@@ -372,7 +372,7 @@
                                   Tag="12.5.,conditionallyrequired"/>
                                 <StackPanel Grid.Row="0" Grid.Column="1"  Orientation="Horizontal" Margin="16,0,0,0">
                                     <TextBlock Text="Hours of Fuel Remaining:" Style="{StaticResource ShelterStatusHeaderText}"/>
-                                    <TextBox x:Name="hoursofFuelRemaining"
+                                    <TextBox x:Name="hoursofFuelRemaining" 
                                      Style="{StaticResource HAvBedNumberTextBox}"
                                      Tag="12.5f."/>
                                 </StackPanel>

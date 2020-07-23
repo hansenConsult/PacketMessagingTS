@@ -178,10 +178,17 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (tacticalSelectedIndexArray is null)
                 {
-                    return GetProperty(ref tacticalSelectedIndexArray);
+                    //return GetProperty(ref tacticalSelectedIndexArray);
+                    if (GetProperty(ref tacticalSelectedIndexArray) is null)
+                    {
+                        tacticalSelectedIndexArray = new int[TacticalCallsigns._TacticalCallsignDataList.Count];
+                        for (int i = 0; i < tacticalSelectedIndexArray.Length; i++)
+                        {
+                            tacticalSelectedIndexArray[i] = 0;
+                        }
+                    }
                 }
-                else
-                    return tacticalSelectedIndexArray;
+                return tacticalSelectedIndexArray;
             }
             set => SetProperty(ref tacticalSelectedIndexArray, value, true);
         }

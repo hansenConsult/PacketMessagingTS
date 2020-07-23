@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using FormControlBaseClass;
+
 using MetroLog;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -17,14 +15,11 @@ using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-using SharedCode.Helpers;
-using Windows.Foundation;
+
 using Windows.Storage;
 using Windows.UI;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -40,7 +35,6 @@ namespace PacketMessagingTS.Views
         public MainViewModel MainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
         public static MainPage Current;
-        //private readonly object _lock = new object();
 
         //List<string> _bulletinList;
 
@@ -183,11 +177,6 @@ namespace PacketMessagingTS.Views
 
             MainViewModel.RefreshDataGridAsync();
         }
-
-        //public void AddTextToStatusWindow(string text)
-        //{
-        //    Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-        //}
 
         // private void OpenMessage(PacketMessage packetMessage)
         // {
@@ -435,10 +424,20 @@ namespace PacketMessagingTS.Views
         {
             try
             {
+                PacketMessage msg = null;
                 MainViewModel.PacketMessageRightClicked = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
+                if (MainViewModel.SelectedMessages.Count > 1)
+                {
+                    msg = MainViewModel.SelectedMessages?.FirstOrDefault(m => m.MessageNumber == MainViewModel.PacketMessageRightClicked?.MessageNumber);
+                }
+                if (msg is null)
+                {
+                    (sender as DataGrid).SelectedItem = MainViewModel.PacketMessageRightClicked;
+                }
             }
-            catch
+            catch (Exception ex)
             {
+                string messGE = ex.Message;
                 return;
             }
         }

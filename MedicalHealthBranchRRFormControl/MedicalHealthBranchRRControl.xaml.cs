@@ -28,14 +28,22 @@ namespace MedicalHealthBranchRRFormControl
     {
         public MedicalHealthBranchRRControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            DependencyObject panelName = formHeaderControl.Panel;
+            ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            DependencyObject panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            panelName = radioOperatorControl.Panel;
             ScanControls(panelName, radioOperatorControl);
+
+            FormHeaderControl.NamePanel1Visibility = false;
+            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
+            FormHeaderControl.HeaderSubstring = "Version: September 2009";
+            FormHeaderControl.PIF = PIF;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -76,7 +84,8 @@ namespace MedicalHealthBranchRRFormControl
         //        requestTime.Text = time;
         //    }
         //}
-        public string HeaderPIF => $"PIF: {PIF}"; 
+        //        public string HeaderPIF => $"PIF: {PIF}"; 
+        public override string PIF => "3.1";
 
         public override void AppendDrillTraffic()
         {
@@ -90,7 +99,7 @@ namespace MedicalHealthBranchRRFormControl
         //public override Panel PrintPage1 => printPage1;
         public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
-        //public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
+        public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 

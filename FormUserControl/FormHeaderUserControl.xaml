@@ -16,6 +16,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="ToFromTextBox" TargetType="TextBox">
+                <Setter Property="Margin" Value="8,2,8,2"/>
+            </Style>
             <Style x:Key="LocalTextBox" TargetType="TextBox">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="FontSize" Value="12"/>
@@ -26,7 +29,7 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2"/>
-                <Setter Property="Padding" Value="8,8,0,0"/>
+                <!--<Setter Property="Padding" Value="8,8,0,0"/>-->
             </Style>
 
             <Style x:Key="DateTextBox" TargetType="TextBox" BasedOn="{StaticResource LocalTextBox}">
@@ -60,8 +63,17 @@
                 <ColumnDefinition Width="152"/>
                 <ColumnDefinition Width="152"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" x:Name="formNamePanel" VerticalAlignment="Center" Width="auto">
-                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" >
+            <Grid Grid.Column="0" x:Name="formNamePanel" Width="auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" 
+                            Visibility="{x:Bind NamePanel1Visibility}" >
                     <TextBlock FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                Foreground="Black" Margin="8,0"
                                VerticalAlignment="Center" 
@@ -71,15 +83,19 @@
                                VerticalAlignment="Center" Margin="0,4,0,0"
                                Text="{x:Bind HeaderString2, Mode=OneWay}"/>
                 </StackPanel>
-                <Grid Grid.Column="0" Margin="8,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{x:Bind HeaderSubstring, Mode=OneWay}" HorizontalAlignment="Left"/>
-                    <TextBlock Grid.Column="1" Text="{x:Bind HeaderPIF, Mode=OneWay}" HorizontalAlignment="Right" />
-                </Grid>
-            </StackPanel>
+                <TextBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" 
+                           FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
+                           Margin="8,-8" IsReadOnly="True" AcceptsReturn="True"
+                           VerticalAlignment="Top" Visibility="{x:Bind NamePanel2Visibility}" 
+                           Text="{x:Bind HeaderString1, Mode=OneWay}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind HeaderSubstring, Mode=OneWay}" 
+                           Visibility="{x:Bind NamePanel2Visibility}" HorizontalAlignment="Right" 
+                           Margin="8,6"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Bind HeaderSubstring, Mode=OneWay}" 
+                           Visibility="{x:Bind NamePanel1Visibility}" HorizontalAlignment="Left" Margin="8,2"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind HeaderPIF, Mode=OneWay}" 
+                           HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8,2"/>
+            </Grid>
 
             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBox Grid.Column="1" x:Name="messageNo"  
@@ -267,7 +283,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="ICS Position:"  />
-                <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="10,2,10,2"     
+                <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="8,2,8,2"     
                                 PlaceholderText="Select ICS Position"
                                 Style="{StaticResource AutoSuggestICSPosition}"                                                    
                                 BorderBrush="Gray"
@@ -286,7 +302,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  
                            Text="ICS Position:"  />
-                <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxFromICSPosition" Margin="10,2,10,2"     
+                <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxFromICSPosition" Margin="8,2,8,2"     
                                 PlaceholderText="Select ICS Position"
                                 Style="{StaticResource AutoSuggestICSPosition}"                                                    
                                 BorderBrush="Gray"
@@ -301,19 +317,28 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:"  />
-                <TextBox Grid.Column="1" x:Name="toLocation" Margin="10,2,10,2" 
+                <TextBox Grid.Column="1" x:Name="toLocation" Style="{StaticResource ToFromTextBox}"
                          TextChanged="TextBox_TextChanged"
                          Tag="7b.,required,Enter a To Location."/>
+                <!--<AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToLocation" Margin="8,2,8,2"     
+                                Style="{StaticResource AutoSuggestICSPosition}"                                                    
+                                BorderBrush="Gray"
+                                BorderThickness="1"
+                                TextChanged="AutoSuggestBoxLocation_TextChanged"
+                                SuggestionChosen="TextBoxLocation_SuggestionChosen"
+                                Tag="7b.,required,Enter a To Location." />-->
+
             </Grid>
             <Grid Grid.Row="1" Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="193*"/>
+                    <ColumnDefinition Width="101*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:"  />
-                <TextBox Grid.Column="1" x:Name="fromLocation" Margin="10,2,10,2" 
+                <TextBox Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2" 
                          TextChanged="TextBox_TextChanged"
-                         Tag="8b.,required,Enter a From Location."/>
+                         Tag="8b.,required,Enter a From Location." Grid.ColumnSpan="2"/>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -321,7 +346,8 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
-                <TextBox Grid.Column="1" x:Name="toName" Margin="10,2,10,2"  Tag="7c."/>
+                <TextBox Grid.Column="1" x:Name="toName" 
+                         Style="{StaticResource ToFromTextBox}" Tag="7c."/>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="3">
                 <Grid.ColumnDefinitions>
@@ -329,7 +355,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
-                <TextBox Grid.Column="1" x:Name="fromName" Margin="10,2,10,2"  Tag="8c."/>
+                <TextBox Grid.Column="1" x:Name="fromName" Style="{StaticResource ToFromTextBox}" Tag="8c."/>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -338,7 +364,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="toContactInfo" 
-                         Margin="10,2,10,2" Tag="7d." 
+                         Style="{StaticResource ToFromTextBox}" Tag="7d." 
                          TextChanged="TextBox_PhoneChanged"/>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="3">
@@ -348,7 +374,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="fromContactInfo" 
-                         Margin="10,2,10,2" Tag="8d." 
+                         Style="{StaticResource ToFromTextBox}" Tag="8d." 
                          TextChanged="TextBox_PhoneChanged"/>
             </Grid>
         </Grid>

@@ -95,8 +95,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
             await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
-                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus(text);
+                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
+                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus(text);
                 //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
             });
         }
@@ -832,6 +832,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
+                //return;     //Test
+
                 PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
 
                 _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
@@ -842,9 +844,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 // Close status window
                 //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                await RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
+                    //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
+                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.CloseStatusWindowAsync();
                 });
 
                 Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;

@@ -15,6 +15,7 @@
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -27,6 +28,7 @@
                 <StackPanel x:Name="directPrintContainer">
                     <Grid x:Name="printPage1">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -216,7 +218,7 @@
                                 </Grid>
                             </StackPanel>
                         </Grid>-->
-                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -300,7 +302,7 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="State:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <TextBox Grid.Column="1" Grid.Row="6" 
+                            <TextBox Grid.Column="1" Grid.Row="6" x:Name="state"
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33c.,conditionallyrequired"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Zip:" 
@@ -345,7 +347,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Capacity:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="1" Margin="2"
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource MuniStatusNumberTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="40a.,conditionallyrequired"
                                      TextChanged="capacity_TextChanged" VerticalAlignment="Center"/>
                             <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
@@ -353,11 +355,12 @@
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" BorderBrush="Black" BorderThickness="0,1,0,0">
                                 <TextBox x:Name="occupancy" Width="73" HorizontalAlignment="Left" 
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="40b.,conditionallyrequired"
+                                         Style="{StaticResource MuniStatusNumberTextBox}" Tag="40b.,conditionallyrequired"
                                          TextChanged="capacity_TextChanged" Margin="2" VerticalAlignment="Center"/>
-                                <TextBlock Text="       Availability" Style="{StaticResource ShelterStatusHeaderText}"/>
+                                <TextBlock Text="       Availability:" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox x:Name="availablity" Width="66" HorizontalAlignment="Left" IsReadOnly="True"
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="" Margin="2" VerticalAlignment="Center"/>
+                                         Style="{StaticResource MuniStatusTextBox}" 
+                                         Tag="" Margin="2" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Meals Served (last 24 hours):" 

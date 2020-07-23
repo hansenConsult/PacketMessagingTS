@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
@@ -13,7 +8,6 @@ using PacketMessagingTS.Views;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
@@ -25,13 +19,39 @@ namespace PacketMessagingTS.ViewModels
         {
             get => rxTxStatus;
             set => Set(ref rxTxStatus, value);
+            //get
+            //{
+            //    ScrollViewer _scrollViewer =  RxTxStatusPage.rxtxStatusPage._scrollViewer;
+            //    _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+            //    return rxTxStatus;
+            //}
+            //set
+            //{
+            //    Set(ref rxTxStatus, value);
+            //    ScrollViewer _scrollViewer = RxTxStatusPage.rxtxStatusPage._scrollViewer;
+            //    _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+            //}
         }
 
-        public void AppendRxTxStatus(string appendedStatus)
+        private string appendText;
+        public string AppendRxTxStatus
         {
-            string status = RxTxStatus + appendedStatus;
-            RxTxStatus = status;
+            get => appendText;
+            set
+            {
+                appendText = value;
+                //string status = rxTxStatus + appendText;
+                RxTxStatus = rxTxStatus + appendText; ;
+            }
+            //string status = rxTxStatus + appendedStatus;
+            //RxTxStatus = status;
         }
+
+        //public void AppendRxTxStatus(string appendedStatus)
+        //{
+        //    string status = rxTxStatus + appendedStatus;
+        //    RxTxStatus = status;
+        //}
 
         private double _viewControlHeight = 600;
         public double ViewControlHeight
@@ -45,6 +65,18 @@ namespace PacketMessagingTS.ViewModels
         {
             get => GetProperty(ref _viewControlWidth);
             set => SetProperty(ref _viewControlWidth, value, true);
+        }
+
+        public async void CloseStatusWindowAsync()
+        {
+            //_viewLifetimeControl.StartViewInUse();
+            Rect rect = ViewLifetimeControl.GetBounds();
+            ViewControlHeight = rect.Height;
+
+            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+                ApplicationView.GetForCurrentView().Id,
+                ApplicationViewSwitchingOptions.ConsolidateViews);
+            //_viewLifetimeControl.StopViewInUse();
         }
 
         private ICommand _abortCommand;

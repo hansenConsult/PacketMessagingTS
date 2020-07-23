@@ -39,8 +39,8 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <!--<src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />-->
-                        <Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
+                        <!--<Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />
@@ -74,7 +74,7 @@
                              Text="{x:Bind Path=DestinationMsgNo}"
                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                              Header="Destination:"/>
-                        </Grid>
+                        </Grid>-->
                         <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>

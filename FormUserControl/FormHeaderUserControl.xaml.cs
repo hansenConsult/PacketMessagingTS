@@ -27,6 +27,15 @@ namespace FormUserControl
 
         public DependencyObject Panel => formHeaderUserControl;
 
+        private bool namePanel1Visibility = true;
+        public bool NamePanel1Visibility
+        { 
+            get => namePanel1Visibility; 
+            set => Set(ref namePanel1Visibility, value);
+        }
+
+        public bool NamePanel2Visibility => !NamePanel1Visibility;
+
         private string headerString1;
         public string HeaderString1
         {
@@ -73,6 +82,36 @@ namespace FormUserControl
                 EventMsgTimeChanged?.Invoke(this, formEventArgs);
             }
         }
+
+        //private void TextBoxLocation_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        //{
+        //    // Set sender.Text. You can use args.SelectedItem to build your text string.
+        //    sender.Text = args.SelectedItem as string;
+        //}
+
+        //private void AutoSuggestBoxLocation_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        //{
+        //    // Only get results when it was a user typing, 
+        //    // otherwise assume the value got filled in by TextMemberPath 
+        //    // or the handler for SuggestionChosen.
+        //    if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        //    {
+        //        //Set the ItemsSource to be your filtered dataset
+        //        //sender.ItemsSource = null;
+        //        _ICSLocationFiltered = new List<string>();
+        //        foreach (string s in ICSPosition)
+        //        {
+        //            string lowerS = s.ToLower();
+        //            if (string.IsNullOrEmpty(sender.Text) || lowerS.StartsWith(sender.Text.ToLower()))
+        //            {
+        //                _ICSPositionFiltered.Add(s);
+        //            }
+        //        }
+        //        sender.ItemsSource = _ICSLocationFiltered;
+        //    }
+        //    AutoSuggestBox_TextChanged(sender, null);
+        //}
+
 
     }
 }
