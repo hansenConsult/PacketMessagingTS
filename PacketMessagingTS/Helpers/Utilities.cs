@@ -20,7 +20,9 @@ using Windows.Storage.Search;
 
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -208,14 +210,22 @@ namespace PacketMessagingTS.Helpers
             IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
             string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
             string bbs = AddressBook.Instance.GetBBS(from);
+            string tnc;
 
-            string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-            bool profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
-            if (profileBBSUp)
-            {
-                bbs = profileBBS;
-            }
-            string tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            //if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile is null)
+            //{
+            //    tnc = "";
+            //}
+            //else
+            //{
+                string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+                bool profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
+                if (profileBBSUp)
+                {
+                    bbs = profileBBS;
+                }
+                tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            //}
             return (bbs, tnc, from);
         }
 
@@ -267,6 +277,35 @@ namespace PacketMessagingTS.Helpers
 
             appView.Title = title;
         }
-    }
 
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
+        public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
+        {
+            foreach (childItem child in FindVisualChildren<childItem>(obj))
+            {
+                return child;
+            }
+            return null;
+        }
+
+    }
 }

@@ -40,12 +40,39 @@ namespace PacketMessagingTS.ViewModels
             get => ProfileArray.Instance.ProfileList;
         }
 
+        private bool _ProfileNameVisibility = true;
+        public bool ProfileNameVisibility
+        {
+            get => _ProfileNameVisibility;
+            set
+            {
+                Set(ref _ProfileNameVisibility, value);
+                NewProfileNameVisibility = !value;
+            }
+        }
+
+        private bool _NewProfileNameVisibility = false;
+        public bool NewProfileNameVisibility
+        {
+            get => _NewProfileNameVisibility;
+            set
+            {
+                Set(ref _NewProfileNameVisibility, value);
+                //ProfileNameVisibility = !value;
+            }
+        }
+
         private int profileSelectedIndex;
         public int ProfileSelectedIndex
         {
             get => GetProperty(ref profileSelectedIndex);
             set
             {
+                if (ProfileArray.Instance.ProfileList is null)
+                {
+                    SetProperty(ref profileSelectedIndex, -1, true);
+                    return;
+                }
                 if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
                 {
                     _SavedProfile = ProfileArray.Instance.ProfileList[value];
@@ -190,6 +217,13 @@ namespace PacketMessagingTS.ViewModels
         {
             bool changed = !Equals(savedProperty, newProperty);
             IsAppBarSaveEnabled = SaveEnabled(changed);
+        }
+
+        private string _ProfileName;
+        public string ProfileName
+        {
+            get => _ProfileName;
+            set => Set(ref _ProfileName, value);
         }
 
         private string tnc;

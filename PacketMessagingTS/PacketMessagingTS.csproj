@@ -140,6 +140,9 @@
     <Compile Include="Controls\ContentDialogOpenICS309.xaml.cs">
       <DependentUpon>ContentDialogOpenICS309.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\NewTabContentDialog.xaml.cs">
+      <DependentUpon>NewTabContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SendFormDataControl.xaml.cs">
       <DependentUpon>SendFormDataControl.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,7 @@
     <Compile Include="Helpers\DispatcherTaskExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\FormControlAttributes.cs" />
+    <Compile Include="Helpers\MessageDataGridViewModel.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\BaseViewModel.cs" />
     <Compile Include="Helpers\PrintQueue.cs" />
@@ -171,6 +175,7 @@
     <Compile Include="Models\AddressBook.cs" />
     <Compile Include="Models\BBSData.cs" />
     <Compile Include="Models\CommLog.cs" />
+    <Compile Include="Models\CustomFoldersArray.cs" />
     <Compile Include="Models\distributionlists.cs" />
     <Compile Include="Models\Emailaccounts.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
@@ -200,6 +205,7 @@
     <Compile Include="Services\WindowManagerService.cs" />
     <Compile Include="ViewModels\AddressBookViewModel.cs" />
     <Compile Include="ViewModels\CityFormsViewModel.cs" />
+    <Compile Include="ViewModels\CustomFoldersViewModel.cs" />
     <Compile Include="ViewModels\CountyFormsViewModel.cs" />
     <Compile Include="ViewModels\FormsPageViewModel.cs" />
     <Compile Include="ViewModels\HospitalFormsViewModel.cs" />
@@ -221,6 +227,9 @@
     </Compile>
     <Compile Include="Views\CountyFormsPage.xaml.cs">
       <DependentUpon>CountyFormsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomFoldersPage.xaml.cs">
+      <DependentUpon>CustomFoldersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HospitalFormsPage.xaml.cs">
       <DependentUpon>HospitalFormsPage.xaml</DependentUpon>
@@ -271,6 +280,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\NewTabContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SendFormDataControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -314,6 +327,10 @@
     <Page Include="Views\CountyFormsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CustomFoldersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HospitalFormsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

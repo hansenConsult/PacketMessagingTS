@@ -429,17 +429,20 @@
 										RelativePanel.AlignVerticalCenterWithPanel="True"/>
                                 <ComboBox x:Name="comboBoxProfiles"  Width="336"
 										  RelativePanel.RightOf="labelProfile"
+                                          IsEditable="False"
+                                          Visibility="{x:Bind _PacketSettingsViewmodel.ProfileNameVisibility, Mode=OneWay}"
                                           ItemsSource="{x:Bind _PacketSettingsViewmodel.ObservableProfileCollection, Mode=OneWay}"
                                           SelectedIndex="{x:Bind _PacketSettingsViewmodel.ProfileSelectedIndex, Mode=TwoWay}"
-                                          DisplayMemberPath="Name"/>
+                                          DisplayMemberPath="Name"
+                                          Text="{x:Bind _PacketSettingsViewmodel.ProfileName, Mode=TwoWay}"/>
                                 <!--SelectionChanged="ComboBoxProfiles_SelectionChanged"   />-->
-                                <!--ItemsSource="{x:Bind ProfilesCollection.View, Mode=OneWay}"-->
 
 
                                 <TextBox x:Name="textBoxNewProfileName" Width="300"
 										 RelativePanel.RightOf="labelProfile"
 										 PlaceholderText="Enter profile name"
-										 Visibility="Collapsed" IsSpellCheckEnabled="True" />
+                                         IsSpellCheckEnabled="True"
+                                         Visibility="{x:Bind _PacketSettingsViewmodel.NewProfileNameVisibility, Mode=OneWay}"/>
                             </RelativePanel>
                             <Grid x:Name="panelProfileGrid"                                 
 								  RelativePanel.Below="panelProfileSelection"

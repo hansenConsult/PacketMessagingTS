@@ -110,6 +110,7 @@ namespace PacketMessagingTS
             AddressBook.Instance.CreateAddressBook();
             await DistributionListArray.Instance.OpenAsync();
             await HospitalRollCall.Instance.OpenAsync();
+            await CustomFoldersArray.Instance.OpenAsync();
 
             if (!args.PrelaunchActivated)
             {
@@ -180,11 +181,11 @@ namespace PacketMessagingTS
         {
             Deferral deferral = args.GetDeferral();
 
-            _logHelper.Log(LogLevel.Trace, "Entered App_EnteredBackground");
+            _logHelper.Log(LogLevel.Trace, "In App_EnteredBackground");
             try
             {
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-                await localFolder.SaveAsync<Dictionary<string, object>>(PropertiesDictionaryFileName, Properties);
+                await localFolder.SaveAsync(PropertiesDictionaryFileName, Properties);
 
                 await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
 

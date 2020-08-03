@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using MetroLog;
-
+using SharedCode;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
@@ -35,7 +35,9 @@ namespace PacketMessagingTS.Models
 	[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
 	public partial class EmailAccountArray
 	{
-		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<DistributionListArray>();
+        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<EmailAccountArray>();
+        private static LogHelper _logHelper = new LogHelper(log);
+
 
 		//private Dictionary<string, string> _distributionListsDict;
 		private const string emailAccountsFileName = "EmailAccounts.xml";
@@ -84,7 +86,7 @@ namespace PacketMessagingTS.Models
 							_instance = new EmailAccountArray();
 					}
 				}
-				return _instance;
+                return _instance;
 			}
 		}
 
@@ -94,14 +96,15 @@ namespace PacketMessagingTS.Models
 
 			try
 			{
-                StorageFile storageItem = await localFolder.GetFileAsync(emailAccountsFileName);
-                BasicProperties basicProperties = null;
                 StorageFile emailAccountsFile;
+                ulong size = 0;
+                var storageItem = await localFolder.TryGetItemAsync(emailAccountsFileName);
                 if (storageItem != null)
                 {
-                    basicProperties = await storageItem.GetBasicPropertiesAsync();
+                    BasicProperties basicProperties = await storageItem.GetBasicPropertiesAsync();
+                    size = basicProperties.Size;
                 }
-                if (storageItem is null || (basicProperties != null && basicProperties.Size == 0))
+                if (storageItem is null || size == 0)
                 {
                     // Copy the file from the install folder to the local folder
                     StorageFolder assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
@@ -110,6 +113,10 @@ namespace PacketMessagingTS.Models
 					{
 						await emailAccountsFile.CopyAsync(localFolder, emailAccountsFileName, NameCollisionOption.ReplaceExisting);
 					}
+                    else
+                    {
+                        _logHelper.Log(LogLevel.Fatal, "Files are missing. Reinstall the application");
+                    }
 				}
 
                 emailAccountsFile = await localFolder.GetFileAsync(emailAccountsFileName);

@@ -103,14 +103,15 @@ namespace PacketMessagingTS.Models
 			StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 			try
 			{
-                StorageFile storageItem = await localFolder.GetFileAsync(bbsFileName);
-                BasicProperties basicProperties = null;
                 StorageFile bbsDataFile;
+                ulong size = 0;
+                var storageItem = await localFolder.TryGetItemAsync(bbsFileName);
                 if (storageItem != null)
                 {
-                    basicProperties = await storageItem.GetBasicPropertiesAsync();
+                    Windows.Storage.FileProperties.BasicProperties basicProperties = await storageItem.GetBasicPropertiesAsync();
+                    size = basicProperties.Size;
                 }
-                if (storageItem is null || (basicProperties != null && basicProperties.Size == 0))
+                if (storageItem is null || size == 0)
 				{
 					// Copy the file from the install folder to the local folder
 					var assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");

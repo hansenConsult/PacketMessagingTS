@@ -10,6 +10,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
@@ -55,7 +56,7 @@ namespace PacketMessagingTS.Views
                     case "pivotItemInBox":
                         item.Tag = SharedData.ReceivedMessagesFolder;
                         sortColumn = 1;
-                        dataGridInbox.Columns[sortColumn].SortDirection = sortDirection;
+                        dataGridInBox.Columns[sortColumn].SortDirection = sortDirection;
                         break;
                     case "pivotItemSent":
                         item.Tag = SharedData.SentMessagesFolder;
@@ -87,7 +88,6 @@ namespace PacketMessagingTS.Views
                 }
                 bool success = DataGridSortData.DataGridSortDataDictionary.TryAdd(item.Name, new DataGridSortData(item.Name, sortColumn, sortDirection));
             }
-
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -125,6 +125,73 @@ namespace PacketMessagingTS.Views
                 }
             }
             base.OnNavigatedTo(e);
+        }
+
+        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            int count = VisualTreeHelper.GetChildrenCount(obj);
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                    return (T)child;
+                else
+                {
+                    T childOfChild = FindVisualChild<T>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
+        public MenuFlyoutSubItem FindMenuFlyoutSubItem(DependencyObject panelName)
+        {
+            var count = VisualTreeHelper.GetChildrenCount(panelName);
+            DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
+
+            count = VisualTreeHelper.GetChildrenCount(control);
+            control = VisualTreeHelper.GetChild(control, 0);
+
+            count = VisualTreeHelper.GetChildrenCount(control);
+            control = VisualTreeHelper.GetChild(control, 0);
+
+            count = VisualTreeHelper.GetChildrenCount(control);
+            control = VisualTreeHelper.GetChild(control, 0);
+
+            if (control is MenuFlyoutSubItem)
+            {
+                return control as MenuFlyoutSubItem;
+            }
+            return null;
+        }
+
+        private void FillMoveLocations()
+        {
+            var dataGrid = MainViewModel.FindDataGrid(MainViewModel.MainPagePivotSelectedItem);
+            string menuFlyoutSubItemName = "moveMenu" + dataGrid.Name.Substring(8);
+            MenuFlyoutSubItem moveSubMenu = dataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
+            if (moveSubMenu is null)
+                return;
+
+            int itemsCount = moveSubMenu.Items.Count;
+            for (int i = 0; i < itemsCount; i++)
+            {
+                if (moveSubMenu.Items[i] != null && (moveSubMenu.Items[i] as MenuFlyoutItem).Text.Contains("Archive"))
+                {
+                    continue;
+                }
+                moveSubMenu.Items.Remove(moveSubMenu.Items[i]);
+            }
+
+            foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderList)
+            {
+                MenuFlyoutItem newMenuItem = new MenuFlyoutItem();
+                newMenuItem.Text = tabView.Folder;
+                //newMenuItem.Command = MainViewModel.MoveToFolderFromContextMenuCommand;
+                newMenuItem.Click += OnMoveToFolderFromContextMenuCommand;      // To get the folder name
+                moveSubMenu.Items.Add(newMenuItem);
+            }
         }
 
         //public DataGrid FindDataGrid(DependencyObject panelName)
@@ -169,43 +236,27 @@ namespace PacketMessagingTS.Views
         //    }
         //}
 
-        private void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnMoveToFolderFromContextMenuCommand(object sender, RoutedEventArgs e)
         {
-            MainViewModel.SelectedMessages.Clear();
+            string folder = (sender as MenuFlyoutItem).Text;
+            MainViewModel.MoveToFolderFromContextMenuCommand.Execute(folder);
+        }
+
+        private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //MainViewModel.SelectedMessages.Clear();
 
             MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
 
-            MainViewModel.RefreshDataGridAsync();
+            //MenuFlyoutSubItem noveSubMenu = moveMenu;
+            //var newMenuItem = new MenuFlyoutItem();
+            //newMenuItem.Text = "Test Menu";
+            //moveMenu.Items.Add(newMenuItem);
+
+            await MainViewModel.RefreshDataGridAsync();
+            FillMoveLocations();
         }
 
-        // private void OpenMessage(PacketMessage packetMessage)
-        // {
-        //     string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
-        //     string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
-        //     Type type = typeof(FormsPage);
-        //     switch (packetMessage.FormControlType)
-        //     {
-        //         case FormControlAttribute.FormType.Undefined:
-        //             type = typeof(FormsPage);
-        //             break;
-        //         case FormControlAttribute.FormType.None:
-        //             type = typeof(FormsPage);
-        //             break;
-        //case FormControlAttribute.FormType.CountyForm:
-        //             type = typeof(FormsPage);
-        //             break;
-        //case FormControlAttribute.FormType.CityForm:
-        //             type = typeof(CityFormsPage);
-        //             break;
-        //case FormControlAttribute.FormType.HospitalForm:
-        //             type = typeof(HospitalFormsPage);
-        //             break;
-        //         case FormControlAttribute.FormType.TestForm:
-        //             type = typeof(TestFormsPage);
-        //             break;
-        //     }
-        //     NavigationService.Navigate(type, packetMessagePath);
-        // }
 
         //private async Task DeleteMessageAsync(PacketMessage packetMessage)
         //{
@@ -387,6 +438,10 @@ namespace PacketMessagingTS.Views
             {
                 MainViewModel.SelectedMessages.Remove(packetMessage);
             }
+            if (MainViewModel.SelectedMessages.Count == 1)
+            {
+                MainViewModel.SingleSelectedMessage = MainViewModel.SelectedMessages[0];
+            }
         }
 
         private void DataGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -424,16 +479,17 @@ namespace PacketMessagingTS.Views
         {
             try
             {
-                PacketMessage msg = null;
+                //PacketMessage msg = null;
                 MainViewModel.PacketMessageRightClicked = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
-                if (MainViewModel.SelectedMessages.Count > 1)
-                {
-                    msg = MainViewModel.SelectedMessages?.FirstOrDefault(m => m.MessageNumber == MainViewModel.PacketMessageRightClicked?.MessageNumber);
-                }
-                if (msg is null)
-                {
-                    (sender as DataGrid).SelectedItem = MainViewModel.PacketMessageRightClicked;
-                }
+                MainViewModel.SingleSelectedMessage = MainViewModel.PacketMessageRightClicked;
+                //if (MainViewModel.SelectedMessages.Count > 1)
+                //{
+                //    msg = MainViewModel.SelectedMessages?.FirstOrDefault(m => m.MessageNumber == MainViewModel.PacketMessageRightClicked?.MessageNumber);
+                //}
+                //if (msg is null)
+                //{
+                //    (sender as DataGrid).SelectedItem = MainViewModel.PacketMessageRightClicked;
+                //}
             }
             catch (Exception ex)
             {

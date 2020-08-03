@@ -115,18 +115,20 @@ namespace PacketMessagingTS.ViewModels
             {
                 bool indexChanged = SetProperty(ref mainPagePivotSelectedIndex, value, true);
 
-                //if (indexChanged)
-                //{
+                if (indexChanged)
+                {
                 //    MainPagePivotSelectedItem = MainPagePivot.Items[mainPagePivotSelectedIndex] as PivotItem;
-                //    SelectedMessages.Clear();
+                    SelectedMessages.Clear();
                 //    RefreshDataGridAsync();
-                //}
+                }
             }
         }
 
         public PivotItem MainPagePivotSelectedItem { get; set; }
 
         public IList<PacketMessage> SelectedMessages { get; set; }
+
+        public PacketMessage SingleSelectedMessage { get; set; }
 
         public PacketMessage PacketMessageRightClicked { get; set; }
 
@@ -162,7 +164,7 @@ namespace PacketMessagingTS.ViewModels
             BulletinHelpers.SaveBulletinDictionary(areas);
         }
 
-        public DataGrid FindDataGrid(DependencyObject panelName)
+        public static DataGrid FindDataGrid(DependencyObject panelName)
         {
             DataGrid dataGrid = null;
 
@@ -187,6 +189,7 @@ namespace PacketMessagingTS.ViewModels
             //Use reflection to get order type
             return item.GetType().GetProperty(propName).GetValue(item);
         }
+
 
         public void SortColumn(DataGridColumn column)
         {
@@ -236,7 +239,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public async void RefreshDataGridAsync()
+        public async Task RefreshDataGridAsync()
         {
             try
             {
@@ -247,6 +250,10 @@ namespace PacketMessagingTS.ViewModels
                 UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
 
                 DataGrid dataGrid = FindDataGrid(MainPagePivotSelectedItem);
+
+                //MenuFlyoutSubItem val = Utilities.FindVisualChild<MenuFlyoutSubItem>(MainPagePivotSelectedItem);
+                //DataGridTextColumn val = Utilities.FindVisualChild<DataGridTextColumn>(MainPagePivotSelectedItem);
+
                 int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber;
                 if (sortColumnNumber == null || sortColumnNumber < 0)
                     return;
@@ -308,10 +315,10 @@ namespace PacketMessagingTS.ViewModels
         private ICommand _SendReceiveCommand;
         public ICommand SendReceiveCommand => _SendReceiveCommand ?? (_SendReceiveCommand = new RelayCommand(SendReceive));
 
-        public void SendReceive()
+        public async void SendReceive()
         {
             CommunicationsService.CreateInstance().BBSConnectAsync2();
-            RefreshDataGridAsync();
+            await RefreshDataGridAsync();
         }
 
         private ICommand _DeleteMessagesCommand;
@@ -323,7 +330,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 await DeleteMessageAsync(packetMessage);
             }
-            RefreshDataGridAsync();
+            await RefreshDataGridAsync();
         }
 
         private ICommand _MoveToArchiveCommand;
@@ -341,7 +348,7 @@ namespace PacketMessagingTS.ViewModels
                     await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
                 }
             }
-            RefreshDataGridAsync();
+            await RefreshDataGridAsync();
         }
 
 
@@ -359,7 +366,22 @@ namespace PacketMessagingTS.ViewModels
         public async void DeleteMessageFromContextMenu()
         {
             await DeleteMessageAsync(PacketMessageRightClicked);
-            RefreshDataGridAsync();
+            await RefreshDataGridAsync();
+        }
+
+        private ICommand _MoveToFolderFromContextMenuCommand;
+        public ICommand MoveToFolderFromContextMenuCommand => _MoveToFolderFromContextMenuCommand ?? (_MoveToFolderFromContextMenuCommand = new RelayCommand<string>(MoveToFolderFromContextMenu));
+
+        public async void MoveToFolderFromContextMenu(string folder)
+        {
+            StorageFolder storageFolder = MainPagePivotSelectedItem.Tag as StorageFolder;
+
+            var file = await storageFolder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+            StorageFolder _localFolder = ApplicationData.Current.LocalFolder;
+            StorageFolder moveToFolder = await _localFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
+            await file?.MoveAsync(moveToFolder);
+
+            await RefreshDataGridAsync();
         }
 
         private ICommand _MoveToArchiveFromContextMenuCommand;
@@ -372,11 +394,14 @@ namespace PacketMessagingTS.ViewModels
             var file = await folder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
             await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
 
-            RefreshDataGridAsync();
+            await RefreshDataGridAsync();
         }
 
         private ICommand _PrintFromContextMenuCommand;
         public ICommand PrintFromContextMenuCommand => _PrintFromContextMenuCommand ?? (_PrintFromContextMenuCommand = new RelayCommand(PrintFromContextMenu));
+
+        public object Utility { get; private set; }
+
         public async void PrintFromContextMenu()
         {
             StorageFolder folder = MainPagePivotSelectedItem.Tag as StorageFolder;

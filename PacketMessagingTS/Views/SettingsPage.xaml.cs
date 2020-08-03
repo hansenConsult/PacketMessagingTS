@@ -84,7 +84,7 @@ namespace PacketMessagingTS.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            _settingsViewModel.InitializeAsync();
+            await _settingsViewModel.InitializeAsync();
 
             //_TNCSettingsViewModel.ListOfSerialPorts.Clear();
             //List<string> listOfSerialPorts = new List<string>();
@@ -234,8 +234,9 @@ namespace PacketMessagingTS.Views
                     //_TNCSettingsViewModel.TNCDeviceSelectedIndex = Utilities.GetProperty("TNCDeviceSelectedIndex");
                     break;
                 case "pivotPacketSettings":
-                    comboBoxProfiles.Visibility = Visibility.Visible;
-                    textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                    //comboBoxProfiles.Visibility = Visibility.Visible;
+                    //textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                    _PacketSettingsViewmodel.ProfileNameVisibility = true;
 
                     //_TNCSettingsViewModel.TNCDeviceListSource = _TNCSettingsViewModel.TNCDeviceListSource;
                     //int profileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
@@ -457,8 +458,9 @@ namespace PacketMessagingTS.Views
                 //	newProfile.Selected = true;
 
                 //	ViewModels.SharedData._profileArray.Profiles.SetValue(newProfile, ViewModels.SharedData._profileArray.Profiles.Length - 1);
-                comboBoxProfiles.Visibility = Visibility.Visible;
-                textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                //comboBoxProfiles.Visibility = Visibility.Visible;
+                //textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                _PacketSettingsViewmodel.ProfileNameVisibility = true;
             }
             //else
             //{
@@ -510,14 +512,16 @@ namespace PacketMessagingTS.Views
                 }
                 ProfileArray.Instance.ProfileList.Add(newProfile);
                 await ProfileArray.Instance.SaveAsync();
-                comboBoxProfiles.Visibility = Visibility.Visible;
-                textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                //comboBoxProfiles.Visibility = Visibility.Visible;
+                //textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                _PacketSettingsViewmodel.ProfileNameVisibility = true;
                 //index = ProfileArray.Instance.ProfileList.Count - 1;
             }
             else
             {
                 Profile profile = comboBoxProfiles.Items[comboBoxProfiles.SelectedIndex] as Profile;
 
+                profile.Name = comboBoxProfiles.Text;
                 profile.BBS = comboBoxBBS.SelectedValue as string;
                 profile.TNC = comboBoxTNCs.SelectedValue as string;
                 profile.SendTo = textBoxTo.Text;
@@ -547,8 +551,9 @@ namespace PacketMessagingTS.Views
         {
             profileSave.IsEnabled = true;
 
-            comboBoxProfiles.Visibility = Visibility.Collapsed;
-            textBoxNewProfileName.Visibility = Visibility.Visible;
+            //comboBoxProfiles.Visibility = Visibility.Collapsed;
+            //textBoxNewProfileName.Visibility = Visibility.Visible;
+            _PacketSettingsViewmodel.ProfileNameVisibility = false;
 
             //Profile newProfile = new Profile()
             //{

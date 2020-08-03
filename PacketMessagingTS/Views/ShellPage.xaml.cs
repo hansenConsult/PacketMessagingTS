@@ -85,13 +85,6 @@ namespace PacketMessagingTS.Views
         //    }
         //}
 
-        //private void OnItemInvoked(WinUI.NavigationView sender, WinUI.NavigationViewItemInvokedEventArgs args)
-        //{
-        //    // Workaround for Issue https://github.com/Microsoft/WindowsTemplateStudio/issues/2774
-        //    // Using EventTriggerBehavior does not work on WinUI NavigationView ItemInvoked event in Release mode.
-        //    ViewModel.ItemInvokedCommand.Execute(args);
-        //}
-
         private void ClearDeviceEntries()
         {
             _listOfDevices.Clear();     // List of all devices

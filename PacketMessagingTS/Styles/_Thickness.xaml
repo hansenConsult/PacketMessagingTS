@@ -5,6 +5,9 @@
     <!--Custom size margins-->
     <Thickness x:Key="PageTitleMargin">0,0,12,7</Thickness>
     <Thickness x:Key="SettingsSubheaderMargin">0, 20, 0, 48</Thickness>
+
+    <!--Large size margins-->
+    <Thickness x:Key="LargeTopMargin">0,36,0,0</Thickness>
     
     <!--Medium size margins-->
     <Thickness x:Key="MediumLeftMargin">24,0,0,0</Thickness>
@@ -25,6 +28,7 @@
     <Thickness x:Key="SmallTopMargin">0, 12, 0, 0</Thickness>
     <Thickness x:Key="SmallTopBottomMargin">0, 12, 0, 12</Thickness>
     <Thickness x:Key="SmallLeftRightMargin">12, 0, 12, 0</Thickness>
+    <Thickness x:Key="SmallLeftTopRightBottomMargin">12, 12, 12, 12</Thickness>
     <Thickness x:Key="SmallRightMargin">0, 0, 12, 0</Thickness>
 
     <!--Extra Small size margins-->

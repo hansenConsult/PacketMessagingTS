@@ -298,12 +298,6 @@
   <data name="Main_Drafts.Header" xml:space="preserve">
     <value>Drafts</value>
   </data>
-  <data name="Main_Inbox.Header" xml:space="preserve">
-    <value>Inbox</value>
-  </data>
-  <data name="Main_Outbox.Header" xml:space="preserve">
-    <value>Outbox</value>
-  </data>
   <data name="Main_SentItems.Header" xml:space="preserve">
     <value>Sent Items</value>
   </data>
@@ -349,5 +343,15 @@
   <data name="Shell_CountyForms.Content" xml:space="preserve">
     <value>CountyForms</value>
     <comment>Navigation view item name for CountyForms</comment>
+  </data>
+  <data name="Shell_CustomFolders.Content" xml:space="preserve">
+    <value>CustomFolders</value>
+    <comment>Navigation view item name for CustomFolders</comment>
+  </data>
+  <data name="Main_InBox.Header" xml:space="preserve">
+    <value>InBox</value>
+  </data>
+  <data name="Main_OutBox.Header" xml:space="preserve">
+    <value>OutBox</value>
   </data>
 </root>

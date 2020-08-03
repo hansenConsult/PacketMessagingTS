@@ -53,8 +53,8 @@
                SelectionChanged="MainPagePivot_SelectionChanged">
 
             <!--  Inbox  -->
-            <PivotItem x:Uid="Main_Inbox"  x:Name="pivotItemInBox"  >
-                <controls:DataGrid x:Name="dataGridInbox"
+            <PivotItem x:Uid="Main_InBox"  x:Name="pivotItemInBox"  >
+                <controls:DataGrid x:Name="dataGridInBox"
                                    ItemsSource="{x:Bind MainViewModel.DataGridSource, Mode=OneWay}"
                                    HorizontalScrollBarVisibility="Auto"
                                    VerticalScrollBarVisibility="Auto"
@@ -70,22 +70,26 @@
                                    DoubleTapped="DataGrid_DoubleTapped"
                                    RightTapped="DataGrid_RightTapped"                                   
                                    >
-                    <controls:DataGrid.Columns>
+                    <controls:DataGrid.Columns >
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}"  CanUserSort="True" Width="Auto" Tag="Area"/>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime" />
                         <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding JNOSDate, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="JNOSDate" />
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject" />
-                        <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="auto" Tag="MessageNumber"/>
+                        <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="SizeToCells" Tag="MessageNumber"/>
                         <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" CanUserSort="True" Width="88" Tag="MessageTo"/>
-                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="76" Tag="MessageFrom"/>
-                        <controls:DataGridTextColumn Header="BBS" Binding="{Binding BBSName}" CanUserSort="True" Width="Auto" Tag="BBSName"/>
-                        <controls:DataGridTextColumn Header="Size" Binding="{Binding MessageSize}" CanUserSort="True" Width="Auto" Tag="MessageSize"/>
+                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="84" Tag="MessageFrom"/>
+                        <controls:DataGridTextColumn Header="BBS" Binding="{Binding BBSName}" CanUserSort="True" Width="SizeToCells" Tag="BBSName"/>
+                        <controls:DataGridTextColumn Header="Size" Binding="{Binding MessageSize}" CanUserSort="True" Width="SizeToCells" Tag="MessageSize"/>
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <!--<MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>-->
+                            <MenuFlyoutSubItem x:Name="moveMenuInBox" Text="Move" >
+                                <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
+                            </MenuFlyoutSubItem>
+                            <MenuFlyoutItem Text="Print" />
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
-                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -115,16 +119,19 @@
                         <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding SentTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="SentTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
                         <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="auto" Tag="MessageNumber"/>
-                        <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" CanUserSort="True" Width="76" Tag="MessageTo"/>
-                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="76" Tag="MessageSize"/>
+                        <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" CanUserSort="True" Width="84" Tag="MessageTo"/>
+                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="84" Tag="MessageSize"/>
                         <controls:DataGridTextColumn Header="BBS" Binding="{Binding BBSName}" CanUserSort="True" Width="Auto" Tag="BBSName"/>
                         <controls:DataGridTextColumn Header="Size" Binding="{Binding MessageSize}" CanUserSort="True" Width="Auto" Tag="MessageSize"/>
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <!--<MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>-->
+                            <MenuFlyoutSubItem x:Name="moveMenuSent" Text="Move" >
+                                <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
+                            </MenuFlyoutSubItem>
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
-                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -159,8 +166,10 @@
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutSubItem x:Name="moveMenuOutbox" Text="Move" >
+                                <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
+                            </MenuFlyoutSubItem>
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
-                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -213,15 +222,17 @@
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
-                        <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="auto" Tag="MessageNumber"/>
-                        <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" CanUserSort="True" Width="76" Tag="MessageTo"/>
-                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="76" Tag="MessageFrom"/>
+                        <controls:DataGridTextColumn Header="Msg. No." Binding="{Binding MessageNumber}" CanUserSort="True" Width="SizeToCells" Tag="MessageNumber"/>
+                        <controls:DataGridTextColumn Header="To" Binding="{Binding MessageTo}" CanUserSort="True" Width="84" Tag="MessageTo"/>
+                        <controls:DataGridTextColumn Header="From" Binding="{Binding MessageFrom}" CanUserSort="True" Width="84" Tag="MessageFrom"/>
                     </controls:DataGrid.Columns>
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutSubItem x:Name="moveMenuDrafts" Text="Move" >
+                                <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
+                            </MenuFlyoutSubItem>
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
-                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
@@ -257,6 +268,8 @@
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutSubItem x:Name="moveMenuArchived" Text="Move" >
+                            </MenuFlyoutSubItem>
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
@@ -292,8 +305,10 @@
                     <controls:DataGrid.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="Open" Command="{x:Bind MainViewModel.OpenMessageFromContextMenuCommand}"/>
+                            <MenuFlyoutSubItem x:Name="moveMenuDeleted" Text="Move" >
+                                <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
+                            </MenuFlyoutSubItem>
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
-                            <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>
