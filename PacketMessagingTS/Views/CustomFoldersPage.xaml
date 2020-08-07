@@ -94,10 +94,26 @@
                            AutoGenerateColumns="False"                                  
                            IsReadOnly="True"
                            CanUserSortColumns="True"
-                           Sorting="DataGrid_Sorting"
-                           SelectionChanged="DataGrid_SelectionChanged"
-                           DoubleTapped="DataGrid_DoubleTapped"
-                           RightTapped="DataGrid_RightTapped">
+                           IsRightTapEnabled="True"
+                           SelectedItem="{x:Bind ViewModel.SelectedMessage, Mode=TwoWay}">
+            <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="DoubleTapped">
+                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.DoubleTappedCommand}" />
+                </ic:EventTriggerBehavior>
+            <!--</i:Interaction.Behaviors>
+            <i:Interaction.Behaviors>-->
+                <ic:EventTriggerBehavior EventName="RightTapped">
+                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.RightTappedCommand}" />
+                </ic:EventTriggerBehavior>
+                <ic:EventTriggerBehavior EventName="Sorting">
+                    <ic:InvokeCommandAction Command="{x:Bind ViewModel.SortingCommand}" />
+                </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+
+            <!--Sorting="DataGrid_Sorting"-->
+            <!--RightTapped="DataGrid_RightTapped">-->
+            <!--DoubleTapped="DataGrid_DoubleTapped"-->
+            <!--SelectionChanged="DataGrid_SelectionChanged"-->
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Header="Create Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" MinWidth="100" Width="SizeToCells" Tag="CreateTime"/>
                 <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -119,11 +135,13 @@
 				    RelativePanel.AlignBottomWithPanel="True"
 				    RelativePanel.AlignRightWithPanel="True"
 				    RelativePanel.AlignLeftWithPanel="True" >
-            <AppBarButton Label="Edit" Icon="Edit" Command="{x:Bind ViewModel.EditFolderNameCommand}"/>
-            <AppBarButton Label="Open" Icon="OpenFile" Command="{x:Bind ViewModel.OpenMessageCommand}" />
-            <AppBarButton Label="Send/Receive" Icon="Send" Command="{x:Bind ViewModel.SendReceiveCommand}"/>
-            <AppBarButton Label="Delete" Icon="Delete" Command="{x:Bind ViewModel.DeleteMessagesCommand}" HorizontalAlignment="Right" />
+            <AppBarButton Label="Edit Folder Name" Icon="Edit" Command="{x:Bind ViewModel.EditFolderNameCommand}"/>
+            <AppBarButton Label="Open" Icon="OpenFile" Command="{x:Bind ViewModel.OpenMessageCommand}"
+                          />
+            <AppBarButton Label="Send/Receive" Icon="Send" Command="{x:Bind ViewModel.SendReceiveCommand}" />
+            <AppBarButton Label="Delete" Icon="Delete"
+                          Command="{x:Bind ViewModel.DeleteMessagesCommand}" CommandParameter="{x:Bind ViewModel.SelectedMessages}"
+                          HorizontalAlignment="Right" />
         </CommandBar>
-
     </RelativePanel>
 </Page>

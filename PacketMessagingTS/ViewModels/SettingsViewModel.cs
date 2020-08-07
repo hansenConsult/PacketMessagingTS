@@ -239,6 +239,8 @@ namespace PacketMessagingTS.ViewModels
                     for (int i = 0; i < excessCopyNames; i++)
                     {
                         lastIndex = newValue.LastIndexOf('\r');
+                        if (lastIndex < 0)
+                            break;
                         newValue = newValue.Substring(0, lastIndex);
                     }
                     receivedCopyNames = value;  // To make sure an update happens

@@ -434,7 +434,7 @@
                                           ItemsSource="{x:Bind _PacketSettingsViewmodel.ObservableProfileCollection, Mode=OneWay}"
                                           SelectedIndex="{x:Bind _PacketSettingsViewmodel.ProfileSelectedIndex, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
-                                          Text="{x:Bind _PacketSettingsViewmodel.ProfileName, Mode=TwoWay}"/>
+                                          />
                                 <!--SelectionChanged="ComboBoxProfiles_SelectionChanged"   />-->
 
 

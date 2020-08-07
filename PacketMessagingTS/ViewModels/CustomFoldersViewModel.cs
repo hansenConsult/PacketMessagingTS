@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using MetroLog;
+
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.UI.Xaml.Controls;
+
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
-using PacketMessagingTS.Services;
 using PacketMessagingTS.Views;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
+
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
@@ -32,7 +30,6 @@ namespace PacketMessagingTS.ViewModels
         private static CustomFoldersArray _customFoldersInstance = CustomFoldersArray.Instance;
 
         public CustomFoldersPage CustomFoldersPage { get; set; }
-        public DataGrid CustomFoldersDataGrid { get; set; }
 
         private int selectedTabIndex;
         public int SelectedTabIndex
@@ -89,10 +86,59 @@ namespace PacketMessagingTS.ViewModels
 
         public ObservableCollection<TabViewItemData> Tabs { get; } = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderList);
 
+
         public CustomFoldersViewModel()
         {
         }
 
+        protected override void FillMoveLocations()
+        {
+            DataGrid dataGrid = PageDataGrid;
+            dataGrid.ContextFlyout = new MenuFlyout();
+            MenuFlyout data = dataGrid.ContextFlyout as MenuFlyout;
+
+            MenuFlyoutItem newMenuItem = new MenuFlyoutItem()
+            {
+                Text = "Open",
+                Command = OpenMessageFromContextMenuCommand,
+            };
+            data.Items.Add(newMenuItem);
+
+            MenuFlyoutSubItem moveSubMenu = new MenuFlyoutSubItem()
+            {
+                Text = "Move",
+            };
+            data.Items.Add(moveSubMenu);
+
+            newMenuItem = new MenuFlyoutItem()
+            {
+                Text = "Move To Archive",
+                Command = MoveToArchiveFromContextMenuCommand,
+            };
+            moveSubMenu.Items.Add(newMenuItem);
+
+            string currentFolder = SelectedTab.Folder;
+            foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderList)
+            {
+                if (currentFolder != tabView.Folder)
+                {
+                    newMenuItem = new MenuFlyoutItem()
+                    {
+                        Text = tabView.Folder,
+                        Command = MoveToFolderFromContextMenuCommand,
+                        CommandParameter = tabView.Folder,
+                    };
+                    //newMenuItem.Click += OnMoveToFolderFromContextMenuCommand;
+                    moveSubMenu.Items.Add(newMenuItem);
+                }
+            }
+            newMenuItem = new MenuFlyoutItem()
+            {
+                Text = "Delete",
+                Command = DeleteMessagesCommand,
+            };
+            data.Items.Add(newMenuItem);
+        }
 
         private int GetCustomFolderListIndex()
         {
@@ -143,7 +189,7 @@ namespace PacketMessagingTS.ViewModels
                 if (sortColumnNumber == null || sortColumnNumber < 0)
                     return;
 
-                DataGridColumn sortColumn = CustomFoldersDataGrid.Columns[(int)sortColumnNumber];
+                DataGridColumn sortColumn = PageDataGrid.Columns[(int)sortColumnNumber];
                 SortColumn(sortColumn);
             }
             catch (Exception e)
@@ -193,6 +239,49 @@ namespace PacketMessagingTS.ViewModels
 
                 DataGridSortDataDictionary.Remove(item.Folder);
             }
+        }
+
+        private RelayCommand<DataGridColumnEventArgs> _SortingCommand;
+        public RelayCommand<DataGridColumnEventArgs> SortingCommand => _SortingCommand ?? (_SortingCommand = new RelayCommand<DataGridColumnEventArgs>(DataGridSorting));
+        private void DataGridSorting(DataGridColumnEventArgs args)
+        {
+            bool found = DataGridSortDataDictionary.TryGetValue(SelectedTab.Folder, out DataGridSortData sortData);
+            int sortColumnNumber = -1;
+            if (found)
+            {
+                sortColumnNumber = sortData.SortColumnNumber;
+            }
+            else
+            {
+                bool success = DataGridSortDataDictionary.TryAdd(SelectedTab.Folder, new DataGridSortData(SelectedTab.Folder, -1, DataGridSortDirection.Descending));
+            }
+            if (sortColumnNumber < 0)
+            {
+                // There is no default sorting column for this data grid. Select current column.
+                sortColumnNumber = args.Column.DisplayIndex;
+            }
+            if (PageDataGrid.Columns[sortColumnNumber].Header == args.Column.Header) // Sorting on same column, switch SortDirection
+            {
+                if (args.Column.SortDirection == DataGridSortDirection.Ascending)
+                    args.Column.SortDirection = DataGridSortDirection.Descending;
+                else
+                    args.Column.SortDirection = DataGridSortDirection.Ascending;
+            }
+            else
+            {
+                // Sorting on a new column. Use that columns SortDirection
+                args.Column.SortDirection = DataGridSortDataDictionary[SelectedTab.Header].SortDirection;
+            }
+
+            SortColumn(args.Column);
+
+            // If sort column has changed remove the sort icon from the previous column
+            if (PageDataGrid.Columns[sortColumnNumber].Header != args.Column.Header)
+            {
+                PageDataGrid.Columns[sortColumnNumber].SortDirection = null;
+            }
+            DataGridSortDataDictionary[SelectedTab.Header].SortColumnNumber = args.Column.DisplayIndex;
+            DataGridSortDataDictionary[SelectedTab.Header].SortDirection = args.Column.SortDirection;
         }
 
         public override async void OpenMessage(PacketMessage packetMessage)
@@ -284,11 +373,18 @@ namespace PacketMessagingTS.ViewModels
             ContentDialogResult result = await addTabDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                _selectedTab.Header = addTabDialog.NewTabName;
-                // Rename folder
-                StorageFolder itemFolder = await _localFolder.CreateFolderAsync(_selectedTab.Folder, CreationCollisionOption.OpenIfExists);
-                await itemFolder.RenameAsync(_selectedTab.Header);
-                _selectedTab.Folder = _selectedTab.Header;
+                try
+                {
+                    _selectedTab.Header = addTabDialog.NewTabName;
+                    // Rename folder
+                    StorageFolder itemFolder = await _localFolder.CreateFolderAsync(_selectedTab.Folder, CreationCollisionOption.OpenIfExists);
+                    await itemFolder.RenameAsync(_selectedTab.Header);
+                    _selectedTab.Folder = _selectedTab.Header;
+                }
+                catch (Exception e)
+                {
+                    _logHelper.Log(LogLevel.Warn, $"Rename folder failed. {_selectedTab.Header}, {e.Message}");
+                }
             }
         }
 

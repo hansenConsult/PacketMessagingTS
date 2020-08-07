@@ -88,7 +88,7 @@
                             <MenuFlyoutSubItem x:Name="moveMenuInBox" Text="Move" >
                                 <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             </MenuFlyoutSubItem>
-                            <MenuFlyoutItem Text="Print" />
+                            <!--<MenuFlyoutItem Text="Print" />-->
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>

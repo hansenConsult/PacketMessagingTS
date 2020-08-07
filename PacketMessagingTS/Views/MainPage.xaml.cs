@@ -242,19 +242,12 @@ namespace PacketMessagingTS.Views
             MainViewModel.MoveToFolderFromContextMenuCommand.Execute(folder);
         }
 
-        private async void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //MainViewModel.SelectedMessages.Clear();
 
             MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
 
-            //MenuFlyoutSubItem noveSubMenu = moveMenu;
-            //var newMenuItem = new MenuFlyoutItem();
-            //newMenuItem.Text = "Test Menu";
-            //moveMenu.Items.Add(newMenuItem);
-
-            await MainViewModel.RefreshDataGridAsync();
-            FillMoveLocations();
         }
 
 

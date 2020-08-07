@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Media;
 
 namespace PacketMessagingTS.Helpers
 {
-    public abstract class MessageDataGridViewModel : BaseViewModel
+    public abstract class DataGridViewModel : BaseViewModel
     {
         public List<PacketMessage> _messagesInFolder;
 
@@ -119,11 +119,11 @@ namespace PacketMessagingTS.Helpers
 
         public void OpenMessage()
         {
-            if (SelectedMessages != null && SelectedMessages.Count == 1)
-            {
-                OpenMessage(SelectedMessages[0]);
-            }
-            //OpenMessage(SingleSelectedMessage);
+            //if (SelectedMessages != null && SelectedMessages.Count == 1)
+            //{
+            //    OpenMessage(SelectedMessages[0]);
+            //}
+            OpenMessage(SingleSelectedMessage);
         }
 
         public abstract void OpenMessage(PacketMessage packetMessage);
@@ -186,8 +186,8 @@ namespace PacketMessagingTS.Helpers
 
         public void OpenMessageFromContextMenu()
         {
-            OpenMessage(PacketMessageRightClicked);
-            //OpenMessage(SingleSelectedMessage);
+            //OpenMessage(PacketMessageRightClicked);
+            OpenMessage(SingleSelectedMessage);
         }
 
         private ICommand _MoveToArchiveFromContextMenuCommand;
