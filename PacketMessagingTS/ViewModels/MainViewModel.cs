@@ -19,7 +19,9 @@ using SharedCode;
 using SharedCode.Helpers;
 
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -91,12 +93,12 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref source, value);
         }
 
-        private ObservableCollection<PacketMessage> dataGridSource;
-        public ObservableCollection<PacketMessage> DataGridSource
-        {
-            get => dataGridSource;
-            set => SetProperty(ref dataGridSource, value);
-        }
+        //private ObservableCollection<PacketMessage> dataGridSource;
+        //public ObservableCollection<PacketMessage> DataGridSource
+        //{
+        //    get => dataGridSource;
+        //    set => SetProperty(ref dataGridSource, value);
+        //}
 
         private int mainPagePivotSelectedIndex;// = Utilities.GetProperty("MainPagePivotSelectedIndex");
         public int MainPagePivotSelectedIndex
@@ -128,6 +130,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 Set(ref _MainPagePivotSelectedItem, value);
+                //PageDataGrid = null;
                 RefreshDataGridAsync();
             }
         }
@@ -137,6 +140,26 @@ namespace PacketMessagingTS.ViewModels
         //public PacketMessage SingleSelectedMessage { get; set; }
 
         //public PacketMessage PacketMessageRightClicked { get; set; }
+        protected DataGrid FindDataGrid(DependencyObject panelName)
+        {
+            DataGrid dataGrid = null;
+
+            var count = VisualTreeHelper.GetChildrenCount(panelName);
+            DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
+
+            count = VisualTreeHelper.GetChildrenCount(control);
+            control = VisualTreeHelper.GetChild(control, 0);
+
+            count = VisualTreeHelper.GetChildrenCount(control);
+            control = VisualTreeHelper.GetChild(control, 0);
+
+            if (control is DataGrid)
+            {
+                dataGrid = control as DataGrid;
+            }
+            return dataGrid;
+        }
+
 
         public async Task UpdateDownloadedBulletinsAsync()
         {
@@ -245,6 +268,38 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        protected override void DataGridSorting(DataGridColumnEventArgs args)
+        {
+            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber;
+            if (sortColumnNumber < 0)
+            {
+                // There is no default sorting column for this data grid. Select current column.
+                sortColumnNumber = args.Column.DisplayIndex;
+            }
+            if (PageDataGrid.Columns[sortColumnNumber].Header == args.Column.Header) // Sorting on same column, switch SortDirection
+            {
+                if (args.Column.SortDirection == DataGridSortDirection.Ascending)
+                    args.Column.SortDirection = DataGridSortDirection.Descending;
+                else
+                    args.Column.SortDirection = DataGridSortDirection.Ascending;
+            }
+            else
+            {
+                // Sorting on a new column. Use that columns SortDirection
+                args.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortDirection;
+            }
+
+            SortColumn(args.Column);
+
+            // If sort column has changed remove the sort icon from the previous column
+            if (PageDataGrid.Columns[sortColumnNumber].Header != args.Column.Header)
+            {
+                PageDataGrid.Columns[sortColumnNumber].SortDirection = null;
+            }
+            DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber = args.Column.DisplayIndex;
+            DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortDirection = args.Column.SortDirection;
+        }
+
         protected override async void RefreshDataGridAsync()
         {
             try
@@ -255,16 +310,15 @@ namespace PacketMessagingTS.ViewModels
 
                 UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
 
-                DataGrid dataGrid = FindDataGrid(MainPagePivotSelectedItem);
-
-                //MenuFlyoutSubItem val = Utilities.FindVisualChild<MenuFlyoutSubItem>(MainPagePivotSelectedItem);
-                //DataGridTextColumn val = Utilities.FindVisualChild<DataGridTextColumn>(MainPagePivotSelectedItem);
-
                 int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber;
                 if (sortColumnNumber == null || sortColumnNumber < 0)
                     return;
 
-                DataGridColumn sortColumn = dataGrid.Columns[(int)sortColumnNumber];
+                //if (PageDataGrid is null)
+                //{
+                    PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
+                //}
+                DataGridColumn sortColumn = PageDataGrid.Columns[(int)sortColumnNumber];
                 SortColumn(sortColumn);
             }
             catch (Exception e)
@@ -275,9 +329,9 @@ namespace PacketMessagingTS.ViewModels
 
         protected override void FillMoveLocations()
         {
-            var dataGrid = FindDataGrid(MainPagePivotSelectedItem);
-            string menuFlyoutSubItemName = "moveMenu" + dataGrid.Name.Substring(8);
-            MenuFlyoutSubItem moveSubMenu = dataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
+            PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
+            string menuFlyoutSubItemName = "moveMenu" + PageDataGrid.Name.Substring(8);
+            MenuFlyoutSubItem moveSubMenu = PageDataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
             if (moveSubMenu is null)
                 return;
 
@@ -337,16 +391,16 @@ namespace PacketMessagingTS.ViewModels
             _messagesInFolder = await PacketMessage.GetPacketMessages(folder);
         }
 
-        private ICommand _OpenMessageCommand;
-        public ICommand OpenMessageCommand => _OpenMessageCommand ?? (_OpenMessageCommand = new RelayCommand(OpenMessage));
+        //private ICommand _OpenMessageCommand;
+        //public ICommand OpenMessageCommand => _OpenMessageCommand ?? (_OpenMessageCommand = new RelayCommand(OpenMessage));
 
-        public void OpenMessage()
-        {
-            if (SelectedMessages != null && SelectedMessages.Count == 1)
-            {
-                OpenMessage(SelectedMessages[0]);
-            }
-        }
+        //public void OpenMessage()
+        //{
+        //    if (SelectedMessages != null && SelectedMessages.Count == 1)
+        //    {
+        //        OpenMessage(SelectedMessages[0]);
+        //    }
+        //}
 
         //private ICommand _SendReceiveCommand;
         //public ICommand SendReceiveCommand => _SendReceiveCommand ?? (_SendReceiveCommand = new RelayCommand(SendReceive));

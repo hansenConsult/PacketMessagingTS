@@ -5,6 +5,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:helpers="using:SharedCode"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
       Style="{StaticResource PageStyle}"
       mc:Ignorable="d">
     
@@ -63,13 +65,27 @@
                                    SelectionMode="Extended"
                                    AutoGenerateColumns="False"                                  
                                    CanUserSortColumns="True"
-                                   Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"                                   
+                                   
+                                   SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}"                          
                                    LoadingRow="DataGrid_LoadingRow"
                                    UnloadingRow="DataGrid_UnloadingRow"
-                                   DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGrid_RightTapped"                                   
+                                   
+                                                                     
                                    >
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="DoubleTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.DoubleTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="RightTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.RightTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="Sorting">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    <!--Sorting="DataGrid_Sorting"-->
+                    <!--RightTapped="DataGrid_RightTapped"-->
+                    <!--DoubleTapped="DataGrid_DoubleTapped"-->
                     <controls:DataGrid.Columns >
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}"  CanUserSort="True" Width="Auto" Tag="Area"/>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime" />
@@ -108,12 +124,23 @@
                                    AutoGenerateColumns="False"
                                    IsReadOnly="True"
                                    CanUserSortColumns="True"
-                                   Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"
-                                   DoubleTapped="DataGrid_DoubleTapped"
+                                   
+                                   SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}"
+                                   
                                    LoadingRow="DataGrid_LoadingRow"
                                    UnloadingRow="DataGrid_UnloadingRow"
-                                   RightTapped="DataGrid_RightTapped">
+                                   >
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="DoubleTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.DoubleTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="RightTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.RightTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="Sorting">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime"/>
                         <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding SentTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="SentTime"/>
@@ -150,10 +177,18 @@
                                    AutoGenerateColumns="False"                                  
                                    IsReadOnly="True"
                                    CanUserSortColumns="True"
-                                   Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"
-                                   DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGrid_RightTapped">
+                                   SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="DoubleTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.DoubleTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="RightTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.RightTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="Sorting">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -215,10 +250,18 @@
                                    AutoGenerateColumns="False"                                  
                                    IsReadOnly="True"
                                    CanUserSortColumns="True"
-                                   Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"
-                                   DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGrid_RightTapped">
+                                   SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="DoubleTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.DoubleTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="RightTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.RightTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="Sorting">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
                         <controls:DataGridTextColumn Header="Subject" Binding="{Binding Subject}" CanUserSort="True" Width="*" Tag="Subject"/>
@@ -250,10 +293,18 @@
                                    AutoGenerateColumns="False"                                  
                                    IsReadOnly="True"
                                    CanUserSortColumns="True"
-                                   Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"
-                                   DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGrid_RightTapped">
+                                   SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="DoubleTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.DoubleTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="RightTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.RightTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="Sorting">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Area" Binding="{Binding Area}" CanUserSort="True" Width="Auto"  Tag="Area"/>
                         <controls:DataGridTextColumn Header="Rcvd Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="Auto" Tag="ReceivedTime" />
@@ -289,10 +340,18 @@
                                    AutoGenerateColumns="False"                                  
                                    IsReadOnly="True"
                                    CanUserSortColumns="True"
-                                   Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"
-                                   DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGrid_RightTapped">
+                                   SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="DoubleTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.DoubleTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="RightTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.RightTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="Sorting">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Received Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="ReceivedTime"/>
                         <controls:DataGridTextColumn Header="Created Time" Binding="{Binding CreateTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="CreateTime"/>
@@ -326,10 +385,18 @@
                                    AutoGenerateColumns="False"                                  
                                    IsReadOnly="True"
                                    CanUserSortColumns="True"
-                                   Sorting="DataGrid_Sorting"
-                                   SelectionChanged="DataGrid_SelectionChanged"
-                                   DoubleTapped="DataGrid_DoubleTapped"
-                                   RightTapped="DataGrid_RightTapped">
+                                   SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}">
+                    <i:Interaction.Behaviors>
+                        <ic:EventTriggerBehavior EventName="DoubleTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.DoubleTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="RightTapped">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.RightTappedCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="Sorting">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Received Time" Binding="{Binding ReceivedTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="SizeToCells" Tag="ReceivedTime"/>
                         <controls:DataGridTextColumn Header="Sent Time" Binding="{Binding SentTime, Converter={StaticResource dateTimeConverter}}" CanUserSort="True" Width="auto" Tag="SentTime"/>

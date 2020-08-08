@@ -241,9 +241,9 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private RelayCommand<DataGridColumnEventArgs> _SortingCommand;
-        public RelayCommand<DataGridColumnEventArgs> SortingCommand => _SortingCommand ?? (_SortingCommand = new RelayCommand<DataGridColumnEventArgs>(DataGridSorting));
-        private void DataGridSorting(DataGridColumnEventArgs args)
+        //private RelayCommand<DataGridColumnEventArgs> _SortingCommand;
+        //public RelayCommand<DataGridColumnEventArgs> SortingCommand => _SortingCommand ?? (_SortingCommand = new RelayCommand<DataGridColumnEventArgs>(DataGridSorting));
+        protected override void DataGridSorting(DataGridColumnEventArgs args)
         {
             bool found = DataGridSortDataDictionary.TryGetValue(SelectedTab.Folder, out DataGridSortData sortData);
             int sortColumnNumber = -1;

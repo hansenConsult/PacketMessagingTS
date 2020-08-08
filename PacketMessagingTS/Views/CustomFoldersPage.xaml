@@ -100,8 +100,6 @@
                 <ic:EventTriggerBehavior EventName="DoubleTapped">
                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.DoubleTappedCommand}" />
                 </ic:EventTriggerBehavior>
-            <!--</i:Interaction.Behaviors>
-            <i:Interaction.Behaviors>-->
                 <ic:EventTriggerBehavior EventName="RightTapped">
                     <ic:InvokeCommandAction Command="{x:Bind ViewModel.RightTappedCommand}" />
                 </ic:EventTriggerBehavior>

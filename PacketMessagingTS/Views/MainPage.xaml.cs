@@ -166,33 +166,33 @@ namespace PacketMessagingTS.Views
             return null;
         }
 
-        private void FillMoveLocations()
-        {
-            var dataGrid = MainViewModel.FindDataGrid(MainViewModel.MainPagePivotSelectedItem);
-            string menuFlyoutSubItemName = "moveMenu" + dataGrid.Name.Substring(8);
-            MenuFlyoutSubItem moveSubMenu = dataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
-            if (moveSubMenu is null)
-                return;
+        //private void FillMoveLocations()
+        //{
+        //    var dataGrid = MainViewModel.FindDataGrid(MainViewModel.MainPagePivotSelectedItem);
+        //    string menuFlyoutSubItemName = "moveMenu" + dataGrid.Name.Substring(8);
+        //    MenuFlyoutSubItem moveSubMenu = dataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
+        //    if (moveSubMenu is null)
+        //        return;
 
-            int itemsCount = moveSubMenu.Items.Count;
-            for (int i = 0; i < itemsCount; i++)
-            {
-                if (moveSubMenu.Items[i] != null && (moveSubMenu.Items[i] as MenuFlyoutItem).Text.Contains("Archive"))
-                {
-                    continue;
-                }
-                moveSubMenu.Items.Remove(moveSubMenu.Items[i]);
-            }
+        //    int itemsCount = moveSubMenu.Items.Count;
+        //    for (int i = 0; i < itemsCount; i++)
+        //    {
+        //        if (moveSubMenu.Items[i] != null && (moveSubMenu.Items[i] as MenuFlyoutItem).Text.Contains("Archive"))
+        //        {
+        //            continue;
+        //        }
+        //        moveSubMenu.Items.Remove(moveSubMenu.Items[i]);
+        //    }
 
-            foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderList)
-            {
-                MenuFlyoutItem newMenuItem = new MenuFlyoutItem();
-                newMenuItem.Text = tabView.Folder;
-                //newMenuItem.Command = MainViewModel.MoveToFolderFromContextMenuCommand;
-                newMenuItem.Click += OnMoveToFolderFromContextMenuCommand;      // To get the folder name
-                moveSubMenu.Items.Add(newMenuItem);
-            }
-        }
+        //    foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderList)
+        //    {
+        //        MenuFlyoutItem newMenuItem = new MenuFlyoutItem();
+        //        newMenuItem.Text = tabView.Folder;
+        //        //newMenuItem.Command = MainViewModel.MoveToFolderFromContextMenuCommand;
+        //        newMenuItem.Click += OnMoveToFolderFromContextMenuCommand;      // To get the folder name
+        //        moveSubMenu.Items.Add(newMenuItem);
+        //    }
+        //}
 
         //public DataGrid FindDataGrid(DependencyObject panelName)
         //{
@@ -389,69 +389,69 @@ namespace PacketMessagingTS.Views
         //    MainViewModel.DataGridSource = new ObservableCollection<PacketMessage>(sortedItems);
         //}
 
-        private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
-        {
-            int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
-            if (sortColumnNumber < 0)
-            {
-                // There is no default sorting column for this data grid. Select current column.
-                sortColumnNumber = e.Column.DisplayIndex;
-            }
-            if ((sender as DataGrid).Columns[sortColumnNumber].Header == e.Column.Header) // Sorting on same column, switch SortDirection
-            {
-                if (e.Column.SortDirection == DataGridSortDirection.Ascending)
-                    e.Column.SortDirection = DataGridSortDirection.Descending;
-                else
-                    e.Column.SortDirection = DataGridSortDirection.Ascending;
-            }
-            else
-            {
-                // Sorting on a new column. Use that columns SortDirection
-                e.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortDirection;
-            }
+        //private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
+        //{
+        //    int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber;
+        //    if (sortColumnNumber < 0)
+        //    {
+        //        // There is no default sorting column for this data grid. Select current column.
+        //        sortColumnNumber = e.Column.DisplayIndex;
+        //    }
+        //    if ((sender as DataGrid).Columns[sortColumnNumber].Header == e.Column.Header) // Sorting on same column, switch SortDirection
+        //    {
+        //        if (e.Column.SortDirection == DataGridSortDirection.Ascending)
+        //            e.Column.SortDirection = DataGridSortDirection.Descending;
+        //        else
+        //            e.Column.SortDirection = DataGridSortDirection.Ascending;
+        //    }
+        //    else
+        //    {
+        //        // Sorting on a new column. Use that columns SortDirection
+        //        e.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortDirection;
+        //    }
 
-            MainViewModel.SortColumn(e.Column);
+        //    MainViewModel.SortColumn(e.Column);
 
-            // If sort column has changed remove the sort icon from the previous column
-            if ((sender as DataGrid).Columns[sortColumnNumber].Header != e.Column.Header)
-            {
-                (sender as DataGrid).Columns[sortColumnNumber].SortDirection = null;
-            }
-            DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber = e.Column.DisplayIndex;
-            DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortDirection = e.Column.SortDirection;
-        }
+        //    // If sort column has changed remove the sort icon from the previous column
+        //    if ((sender as DataGrid).Columns[sortColumnNumber].Header != e.Column.Header)
+        //    {
+        //        (sender as DataGrid).Columns[sortColumnNumber].SortDirection = null;
+        //    }
+        //    DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortColumnNumber = e.Column.DisplayIndex;
+        //    DataGridSortData.DataGridSortDataDictionary[MainViewModel.MainPagePivotSelectedItem.Name].SortDirection = e.Column.SortDirection;
+        //}
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            foreach (PacketMessage packetMessage in e.AddedItems)
-            {
-                MainViewModel.SelectedMessages.Add(packetMessage);
-            }
-            foreach (PacketMessage packetMessage in e.RemovedItems)
-            {
-                MainViewModel.SelectedMessages.Remove(packetMessage);
-            }
-            if (MainViewModel.SelectedMessages.Count == 1)
-            {
-                MainViewModel.SingleSelectedMessage = MainViewModel.SelectedMessages[0];
-            }
-        }
+        //private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    foreach (PacketMessage packetMessage in e.AddedItems)
+        //    {
+        //        MainViewModel.SelectedMessages.Add(packetMessage);
+        //    }
+        //    foreach (PacketMessage packetMessage in e.RemovedItems)
+        //    {
+        //        MainViewModel.SelectedMessages.Remove(packetMessage);
+        //    }
+        //    if (MainViewModel.SelectedMessages.Count == 1)
+        //    {
+        //        MainViewModel.SingleSelectedMessage = MainViewModel.SelectedMessages[0];
+        //    }
+        //}
 
-        private void DataGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            try
-            {
-                PacketMessage pktmsg = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
-                if (pktmsg != null)
-                {
-                    MainViewModel.OpenMessage(pktmsg);
-                }
-            }
-            catch
-            {
-                return;
-            }
-        }
+        //private void DataGrid_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        PacketMessage pktmsg = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
+        //        if (pktmsg != null)
+        //        {
+        //            MainViewModel.OpenMessage(pktmsg);
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        return;
+        //    }
+        //}
 
         private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
@@ -468,28 +468,28 @@ namespace PacketMessagingTS.Views
             e.Row.Background = new SolidColorBrush(Colors.White);
         }
 
-        private void DataGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            try
-            {
-                //PacketMessage msg = null;
-                MainViewModel.PacketMessageRightClicked = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
-                MainViewModel.SingleSelectedMessage = MainViewModel.PacketMessageRightClicked;
-                //if (MainViewModel.SelectedMessages.Count > 1)
-                //{
-                //    msg = MainViewModel.SelectedMessages?.FirstOrDefault(m => m.MessageNumber == MainViewModel.PacketMessageRightClicked?.MessageNumber);
-                //}
-                //if (msg is null)
-                //{
-                //    (sender as DataGrid).SelectedItem = MainViewModel.PacketMessageRightClicked;
-                //}
-            }
-            catch (Exception ex)
-            {
-                string messGE = ex.Message;
-                return;
-            }
-        }
+        //private void DataGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        //PacketMessage msg = null;
+        //        MainViewModel.PacketMessageRightClicked = (e.OriginalSource as TextBlock)?.DataContext as PacketMessage;
+        //        MainViewModel.SingleSelectedMessage = MainViewModel.PacketMessageRightClicked;
+        //        //if (MainViewModel.SelectedMessages.Count > 1)
+        //        //{
+        //        //    msg = MainViewModel.SelectedMessages?.FirstOrDefault(m => m.MessageNumber == MainViewModel.PacketMessageRightClicked?.MessageNumber);
+        //        //}
+        //        //if (msg is null)
+        //        //{
+        //        //    (sender as DataGrid).SelectedItem = MainViewModel.PacketMessageRightClicked;
+        //        //}
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string messGE = ex.Message;
+        //        return;
+        //    }
+        //}
 
     }
 }

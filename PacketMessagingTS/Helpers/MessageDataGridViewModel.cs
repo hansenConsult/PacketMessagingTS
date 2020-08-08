@@ -77,26 +77,6 @@ namespace PacketMessagingTS.Helpers
             return item.GetType().GetProperty(propName).GetValue(item);
         }
 
-        public DataGrid FindDataGrid(DependencyObject panelName)
-        {
-            DataGrid dataGrid = null;
-
-            var count = VisualTreeHelper.GetChildrenCount(panelName);
-            DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
-
-            count = VisualTreeHelper.GetChildrenCount(control);
-            control = VisualTreeHelper.GetChild(control, 0);
-
-            count = VisualTreeHelper.GetChildrenCount(control);
-            control = VisualTreeHelper.GetChild(control, 0);
-
-            if (control is DataGrid)
-            {
-                dataGrid = control as DataGrid;
-            }
-            return dataGrid;
-        }
-
         public void SortColumn(DataGridColumn column)
         {
             if (column.SortDirection is null)
@@ -245,6 +225,10 @@ namespace PacketMessagingTS.Helpers
                 return;
             }
         }
+
+        private RelayCommand<DataGridColumnEventArgs> _SortingCommand;
+        public RelayCommand<DataGridColumnEventArgs> SortingCommand => _SortingCommand ?? (_SortingCommand = new RelayCommand<DataGridColumnEventArgs>(DataGridSorting));
+        protected abstract void DataGridSorting(DataGridColumnEventArgs args);
 
     }
 }
