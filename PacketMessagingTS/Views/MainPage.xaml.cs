@@ -127,44 +127,23 @@ namespace PacketMessagingTS.Views
             base.OnNavigatedTo(e);
         }
 
-        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
-        {
-            int count = VisualTreeHelper.GetChildrenCount(obj);
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is T)
-                    return (T)child;
-                else
-                {
-                    T childOfChild = FindVisualChild<T>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
-        }
-
-        public MenuFlyoutSubItem FindMenuFlyoutSubItem(DependencyObject panelName)
-        {
-            var count = VisualTreeHelper.GetChildrenCount(panelName);
-            DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
-
-            count = VisualTreeHelper.GetChildrenCount(control);
-            control = VisualTreeHelper.GetChild(control, 0);
-
-            count = VisualTreeHelper.GetChildrenCount(control);
-            control = VisualTreeHelper.GetChild(control, 0);
-
-            count = VisualTreeHelper.GetChildrenCount(control);
-            control = VisualTreeHelper.GetChild(control, 0);
-
-            if (control is MenuFlyoutSubItem)
-            {
-                return control as MenuFlyoutSubItem;
-            }
-            return null;
-        }
+        //private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        //{
+        //    int count = VisualTreeHelper.GetChildrenCount(obj);
+        //    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+        //    {
+        //        DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+        //        if (child != null && child is T)
+        //            return (T)child;
+        //        else
+        //        {
+        //            T childOfChild = FindVisualChild<T>(child);
+        //            if (childOfChild != null)
+        //                return childOfChild;
+        //        }
+        //    }
+        //    return null;
+        //}
 
         //private void FillMoveLocations()
         //{
@@ -236,18 +215,16 @@ namespace PacketMessagingTS.Views
         //    }
         //}
 
-        private void OnMoveToFolderFromContextMenuCommand(object sender, RoutedEventArgs e)
-        {
-            string folder = (sender as MenuFlyoutItem).Text;
-            MainViewModel.MoveToFolderFromContextMenuCommand.Execute(folder);
-        }
+        //private void OnMoveToFolderFromContextMenuCommand(object sender, RoutedEventArgs e)
+        //{
+        //    string folder = (sender as MenuFlyoutItem).Text;
+        //    MainViewModel.MoveToFolderFromContextMenuCommand.Execute(folder);
+        //}
 
         private void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //MainViewModel.SelectedMessages.Clear();
-
             MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
-
+            //MainViewModel.PageDataGrid = MainViewModel.FindDataGrid((PivotItem)e.AddedItems[0]);
         }
 
 

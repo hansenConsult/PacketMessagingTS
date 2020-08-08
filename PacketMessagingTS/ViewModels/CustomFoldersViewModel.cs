@@ -59,6 +59,7 @@ namespace PacketMessagingTS.ViewModels
                 {
                     _selectedTab = _customFoldersInstance.CustomFolderList[selectedTabIndex];
                     RefreshDataGridAsync();
+                    FillMoveLocations();
                 }
                 return _selectedTab;
             }
@@ -67,11 +68,8 @@ namespace PacketMessagingTS.ViewModels
                 if (value != null)
                 {
                     Set(ref _selectedTab, value);
-                    //if ()
-                    //{
-                    //    CustomFoldersPage.FillMoveLocations(CustomFoldersDataGrid);
-                    //}
                     RefreshDataGridAsync();
+                    FillMoveLocations();
                 }
             }
         }
@@ -241,8 +239,6 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        //private RelayCommand<DataGridColumnEventArgs> _SortingCommand;
-        //public RelayCommand<DataGridColumnEventArgs> SortingCommand => _SortingCommand ?? (_SortingCommand = new RelayCommand<DataGridColumnEventArgs>(DataGridSorting));
         protected override void DataGridSorting(DataGridColumnEventArgs args)
         {
             bool found = DataGridSortDataDictionary.TryGetValue(SelectedTab.Folder, out DataGridSortData sortData);

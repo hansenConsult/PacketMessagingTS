@@ -30,11 +30,9 @@ namespace PacketMessagingTS.ViewModels
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainViewModel>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        //public List<PacketMessage> _messagesInFolder;
 
         public MainViewModel()
         {
-            //SelectedMessages = new List<PacketMessage>();
         }
 
         public override void OpenMessage(PacketMessage packetMessage)
@@ -76,31 +74,16 @@ namespace PacketMessagingTS.ViewModels
 
         }
 
-        //public void OpenMessageFromDoubleClick()
-        //{
-        //    if (SelectedItems != null && SelectedItems.Count == 1)
-        //    {
-        //        OpenMessage(SelectedItems[0]);
-        //    }
-        //}
-
         public Pivot MainPagePivot { get; set; }
 
-        private ObservableCollection<PacketMessage> source;
-        public ObservableCollection<PacketMessage> Source
-        {
-            get => source;
-            set => SetProperty(ref source, value);
-        }
-
-        //private ObservableCollection<PacketMessage> dataGridSource;
-        //public ObservableCollection<PacketMessage> DataGridSource
+        //private ObservableCollection<PacketMessage> source;
+        //public ObservableCollection<PacketMessage> Source
         //{
-        //    get => dataGridSource;
-        //    set => SetProperty(ref dataGridSource, value);
+        //    get => source;
+        //    set => SetProperty(ref source, value);
         //}
 
-        private int mainPagePivotSelectedIndex;// = Utilities.GetProperty("MainPagePivotSelectedIndex");
+        private int mainPagePivotSelectedIndex;
         public int MainPagePivotSelectedIndex
         {
             get => GetProperty(ref mainPagePivotSelectedIndex);
@@ -116,9 +99,8 @@ namespace PacketMessagingTS.ViewModels
 
                 if (indexChanged)
                 {
-                //    MainPagePivotSelectedItem = MainPagePivot.Items[mainPagePivotSelectedIndex] as PivotItem;
+                    //MainPagePivotSelectedItem = MainPagePivot.Items[mainPagePivotSelectedIndex] as PivotItem;
                     SelectedMessages.Clear();
-                //    RefreshDataGridAsync();
                 }
             }
         }
@@ -135,12 +117,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        //public IList<PacketMessage> SelectedMessages { get; set; }
-
-        //public PacketMessage SingleSelectedMessage { get; set; }
-
-        //public PacketMessage PacketMessageRightClicked { get; set; }
-        protected DataGrid FindDataGrid(DependencyObject panelName)
+        public DataGrid FindDataGrid(DependencyObject panelName)
         {
             DataGrid dataGrid = null;
 
@@ -193,49 +170,12 @@ namespace PacketMessagingTS.ViewModels
             BulletinHelpers.SaveBulletinDictionary(areas);
         }
 
-        //public static DataGrid FindDataGrid(DependencyObject panelName)
-        //{
-        //    DataGrid dataGrid = null;
-
-        //    var count = VisualTreeHelper.GetChildrenCount(panelName);
-        //    DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
-
-        //    count = VisualTreeHelper.GetChildrenCount(control);
-        //    control = VisualTreeHelper.GetChild(control, 0);
-
-        //    count = VisualTreeHelper.GetChildrenCount(control);
-        //    control = VisualTreeHelper.GetChild(control, 0);
-
-        //    if (control is DataGrid)
-        //    {
-        //        dataGrid = control as DataGrid;
-        //    }
-        //    return dataGrid;
-        //}
-
         //private object GetDynamicSortProperty(object item, string propName)
         //{
         //    //Use reflection to get order type
         //    return item.GetType().GetProperty(propName).GetValue(item);
         //}
 
-
-        //public void SortColumn(DataGridColumn column)
-        //{
-        //    if (column.SortDirection is null)
-        //        return;
-
-        //    IOrderedEnumerable<PacketMessage> sortedItems = null;
-        //    if (column.SortDirection == DataGridSortDirection.Ascending)
-        //    {
-        //        sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, column.Tag.ToString()) ascending select item;
-        //    }
-        //    else
-        //    {
-        //        sortedItems = from item in _messagesInFolder orderby GetDynamicSortProperty(item, column.Tag.ToString()) descending select item;
-        //    }
-        //    DataGridSource = new ObservableCollection<PacketMessage>(sortedItems);
-        //}
 
         public static void UpdateHeaderMessageCount(PivotItem pivotItem, int messageCount)
         {
@@ -310,14 +250,15 @@ namespace PacketMessagingTS.ViewModels
 
                 UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
 
+                if (PageDataGrid is null)
+                {
+                    PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
+                }
+
                 int? sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber;
                 if (sortColumnNumber == null || sortColumnNumber < 0)
                     return;
 
-                //if (PageDataGrid is null)
-                //{
-                    PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
-                //}
                 DataGridColumn sortColumn = PageDataGrid.Columns[(int)sortColumnNumber];
                 SortColumn(sortColumn);
             }
@@ -329,7 +270,7 @@ namespace PacketMessagingTS.ViewModels
 
         protected override void FillMoveLocations()
         {
-            PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
+            //PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
             string menuFlyoutSubItemName = "moveMenu" + PageDataGrid.Name.Substring(8);
             MenuFlyoutSubItem moveSubMenu = PageDataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
             if (moveSubMenu is null)
@@ -422,6 +363,15 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //    RefreshDataGridAsync();
         //}
+        private ICommand _PivotItemLoadedCommand;
+        public ICommand PivotItemLoadedCommand => _PivotItemLoadedCommand ?? (_PivotItemLoadedCommand = new RelayCommand(PivotItemLoaded));
+
+        public void PivotItemLoaded()
+        {
+            PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
+            //RefreshDataGridAsync();
+            FillMoveLocations();
+        }
 
         private ICommand _MoveToArchiveCommand;
         public ICommand MoveToArchiveCommand => _MoveToArchiveCommand ?? (_MoveToArchiveCommand = new RelayCommand(MoveToArchive));
@@ -441,15 +391,6 @@ namespace PacketMessagingTS.ViewModels
             RefreshDataGridAsync();
         }
 
-
-        //private ICommand _OpenMessageFromContextMenuCommand;
-        //public ICommand OpenMessageFromContextMenuCommand => _OpenMessageFromContextMenuCommand ?? (_OpenMessageFromContextMenuCommand = new RelayCommand(OpenMessageGromContextMenu));
-
-        //public void OpenMessageGromContextMenu()
-        //{
-        //    OpenMessage(PacketMessageRightClicked);
-        //}
-
         private ICommand _DeleteMessagesFromContextMenuCommand;
         public ICommand DeleteMessagesFromContextMenuCommand => _DeleteMessagesFromContextMenuCommand ?? (_DeleteMessagesFromContextMenuCommand = new RelayCommand(DeleteMessageFromContextMenu));
 
@@ -458,9 +399,6 @@ namespace PacketMessagingTS.ViewModels
             await DeleteMessageAsync(PacketMessageRightClicked);
             RefreshDataGridAsync();
         }
-
-        //private ICommand _MoveToFolderFromContextMenuCommand;
-        //public ICommand MoveToFolderFromContextMenuCommand => _MoveToFolderFromContextMenuCommand ?? (_MoveToFolderFromContextMenuCommand = new RelayCommand<string>(MoveToFolderFromContextMenu));
 
         protected override async void MoveToFolderFromContextMenu(string folder)
         {
@@ -473,9 +411,6 @@ namespace PacketMessagingTS.ViewModels
 
             RefreshDataGridAsync();
         }
-
-        //private ICommand _MoveToArchiveFromContextMenuCommand;
-        //public ICommand MoveToArchiveFromContextMenuCommand => _MoveToArchiveFromContextMenuCommand ?? (_MoveToArchiveFromContextMenuCommand = new RelayCommand(MoveToArchiveFromContextMenu));
 
         protected override async void MoveToArchiveFromContextMenu()
         {

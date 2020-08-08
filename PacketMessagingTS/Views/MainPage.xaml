@@ -52,8 +52,15 @@
 	           RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
                SelectedIndex="{x:Bind MainViewModel.MainPagePivotSelectedIndex, Mode=TwoWay}"
-               SelectionChanged="MainPagePivot_SelectionChanged">
-
+               SelectionChanged="MainPagePivot_SelectionChanged"
+               >
+            <i:Interaction.Behaviors>
+                <ic:EventTriggerBehavior EventName="PivotItemLoaded">
+                    <ic:InvokeCommandAction Command="{x:Bind MainViewModel.PivotItemLoadedCommand}" />
+                </ic:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
+            <!--SelectedItem="{x:Bind MainViewModel.MainPagePivotSelectedItem, Mode=TwoWay}"-->
+            <!--SelectionChanged="MainPagePivot_SelectionChanged"-->
             <!--  Inbox  -->
             <PivotItem x:Uid="Main_InBox"  x:Name="pivotItemInBox"  >
                 <controls:DataGrid x:Name="dataGridInBox"
