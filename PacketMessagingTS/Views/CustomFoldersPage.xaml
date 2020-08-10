@@ -18,6 +18,7 @@
     <Page.Resources>
         <shared:DateTimeConverter x:Key="dateTimeConverter" />
     </Page.Resources>
+    
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                    x:Name="ContentArea"
                    Margin="{StaticResource MediumLeftRightMargin}">

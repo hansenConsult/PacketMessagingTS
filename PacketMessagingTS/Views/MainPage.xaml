@@ -52,13 +52,16 @@
 	           RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
                SelectedIndex="{x:Bind MainViewModel.MainPagePivotSelectedIndex, Mode=TwoWay}"
-               SelectionChanged="MainPagePivot_SelectionChanged"
                >
             <i:Interaction.Behaviors>
                 <ic:EventTriggerBehavior EventName="PivotItemLoaded">
                     <ic:InvokeCommandAction Command="{x:Bind MainViewModel.PivotItemLoadedCommand}" />
                 </ic:EventTriggerBehavior>
+                <ic:EventTriggerBehavior EventName="SelectionChanged">
+                    <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SelectionChangedCommand}" />
+                </ic:EventTriggerBehavior>
             </i:Interaction.Behaviors>
+            
             <!--SelectedItem="{x:Bind MainViewModel.MainPagePivotSelectedItem, Mode=TwoWay}"-->
             <!--SelectionChanged="MainPagePivot_SelectionChanged"-->
             <!--  Inbox  -->
@@ -74,10 +77,6 @@
                                    CanUserSortColumns="True"
                                    
                                    SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}"                          
-                                   LoadingRow="DataGrid_LoadingRow"
-                                   UnloadingRow="DataGrid_UnloadingRow"
-                                   
-                                                                     
                                    >
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="DoubleTapped">
@@ -89,7 +88,15 @@
                         <ic:EventTriggerBehavior EventName="Sorting">
                             <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
                         </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="LoadingRow">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.LandingRowCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="UnloadingRow">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.UnloadingRowCommand}" />
+                        </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
+                    <!--LoadingRow="DataGrid_LoadingRow"
+                        UnloadingRow="DataGrid_UnloadingRow"-->
                     <!--Sorting="DataGrid_Sorting"-->
                     <!--RightTapped="DataGrid_RightTapped"-->
                     <!--DoubleTapped="DataGrid_DoubleTapped"-->
@@ -133,9 +140,6 @@
                                    CanUserSortColumns="True"
                                    
                                    SelectedItem="{x:Bind MainViewModel.SelectedMessage, Mode=TwoWay}"
-                                   
-                                   LoadingRow="DataGrid_LoadingRow"
-                                   UnloadingRow="DataGrid_UnloadingRow"
                                    >
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior EventName="DoubleTapped">
@@ -146,6 +150,12 @@
                         </ic:EventTriggerBehavior>
                         <ic:EventTriggerBehavior EventName="Sorting">
                             <ic:InvokeCommandAction Command="{x:Bind MainViewModel.SortingCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="LoadingRow">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.LandingRowCommand}" />
+                        </ic:EventTriggerBehavior>
+                        <ic:EventTriggerBehavior EventName="UnloadingRow">
+                            <ic:InvokeCommandAction Command="{x:Bind MainViewModel.UnloadingRowCommand}" />
                         </ic:EventTriggerBehavior>
                     </i:Interaction.Behaviors>
                     <controls:DataGrid.Columns>

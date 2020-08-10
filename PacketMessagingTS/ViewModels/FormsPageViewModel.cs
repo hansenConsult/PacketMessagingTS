@@ -207,7 +207,7 @@ namespace PacketMessagingTS.ViewModels
             set => _loadMessage = value;
         }
 
-        private MessageOriginHelper.MessageOrigin _messageOrigin = MessageOriginHelper.MessageOrigin.New;
+        //private MessageOriginHelper.MessageOrigin _messageOrigin = MessageOriginHelper.MessageOrigin.New;
         //public MessageOriginHelper.MessageOrigin MessageOrigin
         //{
         //    get => _messageOrigin;

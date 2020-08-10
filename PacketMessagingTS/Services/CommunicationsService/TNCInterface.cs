@@ -293,7 +293,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     throw (new Exception("Serial port timeout"));
                 }
             }
-            catch (AggregateException e)
+            catch (AggregateException )
             {
                 _logHelper.Log(LogLevel.Error, $"Serial port timeout in ReadLine. Connect state: {Enum.Parse(typeof(ConnectState), _connectState.ToString())}");
                 _error = true;

@@ -80,7 +80,7 @@ namespace PacketMessagingTS.Helpers
             return item.GetType().GetProperty(propName).GetValue(item);
         }
 
-        public void SortColumn(DataGridColumn column)
+        protected void SortColumn(DataGridColumn column)
         {
             if (column.SortDirection is null)
                 return;
@@ -106,7 +106,6 @@ namespace PacketMessagingTS.Helpers
             {
                 OpenMessage(SelectedMessages[0]);
             }
-            //OpenMessage(SingleSelectedMessage);
         }
 
         public abstract void OpenMessage(PacketMessage packetMessage);
@@ -170,7 +169,6 @@ namespace PacketMessagingTS.Helpers
         public void OpenMessageFromContextMenu()
         {
             OpenMessage(PacketMessageRightClicked);
-            //OpenMessage(SingleSelectedMessage);
         }
 
         private ICommand _MoveToArchiveFromContextMenuCommand;
@@ -231,36 +229,6 @@ namespace PacketMessagingTS.Helpers
         private RelayCommand<DataGridColumnEventArgs> _SortingCommand;
         public RelayCommand<DataGridColumnEventArgs> SortingCommand => _SortingCommand ?? (_SortingCommand = new RelayCommand<DataGridColumnEventArgs>(DataGridSorting));
         protected abstract void DataGridSorting(DataGridColumnEventArgs args);
-        //{
-        //    int sortColumnNumber = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber;
-        //    if (sortColumnNumber < 0)
-        //    {
-        //        // There is no default sorting column for this data grid. Select current column.
-        //        sortColumnNumber = args.Column.DisplayIndex;
-        //    }
-        //    if (PageDataGrid.Columns[sortColumnNumber].Header == args.Column.Header) // Sorting on same column, switch SortDirection
-        //    {
-        //        if (args.Column.SortDirection == DataGridSortDirection.Ascending)
-        //            args.Column.SortDirection = DataGridSortDirection.Descending;
-        //        else
-        //            args.Column.SortDirection = DataGridSortDirection.Ascending;
-        //    }
-        //    else
-        //    {
-        //        // Sorting on a new column. Use that columns SortDirection
-        //        args.Column.SortDirection = DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortDirection;
-        //    }
-
-        //    SortColumn(args.Column);
-
-        //    // If sort column has changed remove the sort icon from the previous column
-        //    if (PageDataGrid.Columns[sortColumnNumber].Header != args.Column.Header)
-        //    {
-        //        PageDataGrid.Columns[sortColumnNumber].SortDirection = null;
-        //    }
-        //    DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortColumnNumber = args.Column.DisplayIndex;
-        //    DataGridSortData.DataGridSortDataDictionary[MainPagePivotSelectedItem.Name].SortDirection = args.Column.SortDirection;
-        //}
 
     }
 }

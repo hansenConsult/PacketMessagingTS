@@ -59,8 +59,8 @@ namespace PacketMessagingTS.ViewModels
                 {
                     _selectedTab = _customFoldersInstance.CustomFolderList[selectedTabIndex];
                     RefreshDataGridAsync();
-                    FillMoveLocations();
                 }
+                FillMoveLocations();
                 return _selectedTab;
             }
             set
@@ -91,22 +91,21 @@ namespace PacketMessagingTS.ViewModels
 
         protected override void FillMoveLocations()
         {
-            DataGrid dataGrid = PageDataGrid;
-            dataGrid.ContextFlyout = new MenuFlyout();
-            MenuFlyout data = dataGrid.ContextFlyout as MenuFlyout;
+            PageDataGrid.ContextFlyout = new MenuFlyout();
+            MenuFlyout menuFlyout = PageDataGrid.ContextFlyout as MenuFlyout;
 
             MenuFlyoutItem newMenuItem = new MenuFlyoutItem()
             {
                 Text = "Open",
                 Command = OpenMessageFromContextMenuCommand,
             };
-            data.Items.Add(newMenuItem);
+            menuFlyout.Items.Add(newMenuItem);
 
             MenuFlyoutSubItem moveSubMenu = new MenuFlyoutSubItem()
             {
                 Text = "Move",
             };
-            data.Items.Add(moveSubMenu);
+            menuFlyout.Items.Add(moveSubMenu);
 
             newMenuItem = new MenuFlyoutItem()
             {
@@ -115,7 +114,7 @@ namespace PacketMessagingTS.ViewModels
             };
             moveSubMenu.Items.Add(newMenuItem);
 
-            string currentFolder = SelectedTab.Folder;
+            string currentFolder = _selectedTab.Folder;
             foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderList)
             {
                 if (currentFolder != tabView.Folder)
@@ -126,7 +125,6 @@ namespace PacketMessagingTS.ViewModels
                         Command = MoveToFolderFromContextMenuCommand,
                         CommandParameter = tabView.Folder,
                     };
-                    //newMenuItem.Click += OnMoveToFolderFromContextMenuCommand;
                     moveSubMenu.Items.Add(newMenuItem);
                 }
             }
@@ -135,7 +133,7 @@ namespace PacketMessagingTS.ViewModels
                 Text = "Delete",
                 Command = DeleteMessagesCommand,
             };
-            data.Items.Add(newMenuItem);
+            menuFlyout.Items.Add(newMenuItem);
         }
 
         private int GetCustomFolderListIndex()
@@ -155,14 +153,7 @@ namespace PacketMessagingTS.ViewModels
         {
             try
             {
-                int i = 0;
-                for (; i < _customFoldersInstance.CustomFolderList.Count; i++)
-                {
-                    if (_customFoldersInstance.CustomFolderList[i].Header == Tabs[selectedTabIndex].Header)
-                    {
-                        break;
-                    }
-                }
+                int i = GetCustomFolderListIndex();
                 TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderList[i];
                 StorageFolder itemFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
                 _messagesInFolder = await PacketMessage.GetPacketMessages(itemFolder);

@@ -107,7 +107,7 @@ namespace MedicalFacilityStatusFormControl
             new ComboBoxPackItItem("Insufficient", LightGrayBrush),
         };
 
-        string _pif;
+        //string _pif;
 
         public MedicalFacilityStatusControl()
         {

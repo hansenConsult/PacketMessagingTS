@@ -19,6 +19,7 @@ using SharedCode;
 using SharedCode.Helpers;
 
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -108,11 +109,20 @@ namespace PacketMessagingTS.ViewModels
         private PivotItem _MainPagePivotSelectedItem;
         public PivotItem MainPagePivotSelectedItem
         {
-            get => _MainPagePivotSelectedItem;
+            get
+            {
+                if (_MainPagePivotSelectedItem is null)
+                {
+                    _MainPagePivotSelectedItem = (PivotItem)MainPagePivot.Items[mainPagePivotSelectedIndex];
+                    RefreshDataGridAsync();
+                }
+                //FillMoveLocations();
+                return _MainPagePivotSelectedItem;
+            }
             set
             {
                 Set(ref _MainPagePivotSelectedItem, value);
-                //PageDataGrid = null;
+                PageDataGrid = null;
                 RefreshDataGridAsync();
             }
         }
@@ -270,8 +280,8 @@ namespace PacketMessagingTS.ViewModels
 
         protected override void FillMoveLocations()
         {
-            //PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
-            string menuFlyoutSubItemName = "moveMenu" + PageDataGrid.Name.Substring(8);
+            PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
+            string menuFlyoutSubItemName = "moveMenu" + PageDataGrid?.Name.Substring(8);
             MenuFlyoutSubItem moveSubMenu = PageDataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
             if (moveSubMenu is null)
                 return;
@@ -363,14 +373,44 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //    RefreshDataGridAsync();
         //}
-        private ICommand _PivotItemLoadedCommand;
-        public ICommand PivotItemLoadedCommand => _PivotItemLoadedCommand ?? (_PivotItemLoadedCommand = new RelayCommand(PivotItemLoaded));
+        private RelayCommand<PivotItemEventArgs> _PivotItemLoadedCommand;
+        public RelayCommand<PivotItemEventArgs> PivotItemLoadedCommand => _PivotItemLoadedCommand ?? (_PivotItemLoadedCommand = new RelayCommand<PivotItemEventArgs>(PivotItemLoaded));
 
-        public void PivotItemLoaded()
+        public void PivotItemLoaded(PivotItemEventArgs args)
         {
             PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
             //RefreshDataGridAsync();
             FillMoveLocations();
+        }
+
+        private RelayCommand<SelectionChangedEventArgs> _SelectionChangedCommand;
+        public RelayCommand<SelectionChangedEventArgs> SelectionChangedCommand => _SelectionChangedCommand ?? (_SelectionChangedCommand = new RelayCommand<SelectionChangedEventArgs>(SelectionChanged));
+
+        public void SelectionChanged(SelectionChangedEventArgs args)
+        {
+            MainPagePivotSelectedItem = (PivotItem)args.AddedItems[0];
+            //FillMoveLocations();
+        }
+
+        protected RelayCommand<DataGridRowEventArgs> _LandingRowCommand;
+        public RelayCommand<DataGridRowEventArgs> LandingRowCommand => _LandingRowCommand ?? (_LandingRowCommand = new RelayCommand<DataGridRowEventArgs>(LandingRow));
+
+        protected void LandingRow(DataGridRowEventArgs args)
+        {
+            PacketMessage packetMesage = args.Row.DataContext as PacketMessage;
+
+            if (!(bool)packetMesage?.MessageOpened)
+            {
+                args.Row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
+            }
+        }
+
+        protected RelayCommand<DataGridRowEventArgs> _UnloadingRowCommand;
+        public RelayCommand<DataGridRowEventArgs> UnloadingRowCommand => _UnloadingRowCommand ?? (_UnloadingRowCommand = new RelayCommand<DataGridRowEventArgs>(UnloadingRow));
+
+        protected void UnloadingRow(DataGridRowEventArgs args)
+        {
+            args.Row.Background = new SolidColorBrush(Colors.White);
         }
 
         private ICommand _MoveToArchiveCommand;

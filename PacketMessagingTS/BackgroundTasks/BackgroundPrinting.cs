@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
+
 using MetroLog;
-using Microsoft.Toolkit.Helpers;
+
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers.PrintHelpers;
+
 using SharedCode;
+
 using Windows.ApplicationModel.Background;
-using Windows.System.Threading;
 
 namespace PacketMessagingTS.BackgroundTasks
 {

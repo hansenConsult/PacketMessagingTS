@@ -110,18 +110,18 @@ namespace PacketMessagingTS.Views
                         messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
                         MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
                         break;
-                    //case "pivotItemDrafts":
-                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                    //    break;
-                    //case "pivotItemArchive":
-                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                    //    break;
-                    //case "pivotItemDeleted":
-                    //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
-                    //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
-                    //    break;
+                        //case "pivotItemDrafts":
+                        //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        //    break;
+                        //case "pivotItemArchive":
+                        //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        //    break;
+                        //case "pivotItemDeleted":
+                        //    messages = await PacketMessage.GetPacketMessages(item.Tag as StorageFolder);
+                        //    MainViewModel.UpdateHeaderMessageCount(item, messages.Count);
+                        //    break;
                 }
             }
             base.OnNavigatedTo(e);
@@ -221,11 +221,11 @@ namespace PacketMessagingTS.Views
         //    MainViewModel.MoveToFolderFromContextMenuCommand.Execute(folder);
         //}
 
-        private void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
-            //MainViewModel.PageDataGrid = MainViewModel.FindDataGrid((PivotItem)e.AddedItems[0]);
-        }
+        //private void MainPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    MainViewModel.MainPagePivotSelectedItem = (PivotItem)e.AddedItems[0];
+        //    //MainViewModel.PageDataGrid = MainViewModel.FindDataGrid((PivotItem)e.AddedItems[0]);
+        //}
 
 
         //private async Task DeleteMessageAsync(PacketMessage packetMessage)
@@ -327,10 +327,8 @@ namespace PacketMessagingTS.Views
             {
                 return;
             }
-
         }
 
-        int i = 0;
         private void AppBarMainPage_TestStatusPage(object sender, RoutedEventArgs e)
         {
             //i++;
@@ -430,20 +428,20 @@ namespace PacketMessagingTS.Views
         //    }
         //}
 
-        private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            PacketMessage packetMesage = e.Row.DataContext as PacketMessage;
+        //private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        //{
+        //    PacketMessage packetMesage = e.Row.DataContext as PacketMessage;
 
-            if (!(bool)packetMesage?.MessageOpened)
-            {
-                e.Row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
-            }
-        }
+        //    if (!(bool)packetMesage?.MessageOpened)
+        //    {
+        //        e.Row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
+        //    }
+        //}
 
-        private void DataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
-        {
-            e.Row.Background = new SolidColorBrush(Colors.White);
-        }
+        //private void DataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        //{
+        //    e.Row.Background = new SolidColorBrush(Colors.White);
+        //}
 
         //private void DataGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         //{
