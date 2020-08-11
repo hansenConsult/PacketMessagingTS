@@ -440,7 +440,8 @@
 				    RelativePanel.AlignLeftWithPanel="True" >
             <AppBarButton Label="TestStatus" Icon="Print" Click="AppBarMainPage_TestStatusPage" HorizontalAlignment="Right" />
             <AppBarButton Label="Move to Archive" Icon="MoveToFolder" Command="{x:Bind MainViewModel.MoveToArchiveCommand}" />
-            <AppBarButton Label="Open" Icon="OpenFile" Command="{x:Bind MainViewModel.OpenMessageCommand}" />
+            <AppBarButton Label="Open" Icon="OpenFile" Command="{x:Bind MainViewModel.OpenMessageCommand}" >
+            </AppBarButton>
             <!--<AppBarButton x:Name="appBarPrint" Label="Print Message" HorizontalAlignment="Right" Click="AppBarPrint_Click">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>

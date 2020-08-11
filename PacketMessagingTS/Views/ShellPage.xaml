@@ -46,7 +46,7 @@
             <winui:NavigationViewItem x:Uid="Shell_PrintMsgTest" Icon="Document" helpers:NavHelper.NavigateTo="views:PrintMsgTestPage" />
 
             <!--<winui:NavigationViewItem x:Uid="Shell_PrintMessage" Icon="Document" helpers:NavHelper.NavigateTo="views:PrintMessagePage" />-->
-            <winui:NavigationViewItem x:Uid="Shell_CustomFolders" Icon="Document" helpers:NavHelper.NavigateTo="views:CustomFoldersPage" />
+            <winui:NavigationViewItem x:Uid="Shell_CustomFolders" Icon="Folder" helpers:NavHelper.NavigateTo="views:CustomFoldersPage" />
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior

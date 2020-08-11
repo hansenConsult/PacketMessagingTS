@@ -333,7 +333,7 @@ namespace FormControlBaseClass
 
         public abstract void AppendDrillTraffic();
 
-        public virtual string PackItFormVersion => "3.0a";
+        public virtual string PackItFormVersion => "3.0";
 
         public abstract string CreateOutpostData(ref PacketMessage packetMessage);
 

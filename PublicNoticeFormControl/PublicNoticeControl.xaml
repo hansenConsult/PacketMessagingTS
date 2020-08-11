@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
         
     mc:Ignorable="d"
     d:DesignHeight="1056"
@@ -195,11 +196,13 @@
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="Font Size (pt):" Margin="8,0,8,0" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="1" Grid.Column="3" x:Name="topicFontSize" Width="64" 
                                      Text="{x:Bind TopicFontSize, Mode=TwoWay}" 
-                                     Style="{StaticResource NoticeTextBox}" HorizontalAlignment="Left" Tag="13"/>
+                                     HorizontalAlignment="Left" Tag="13"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Issued By:" Style="{StaticResource MediumLabel}"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="issuedBy"
+                            <!--<TextBox Grid.Row="2" Grid.Column="1" x:Name="issuedBy"
                                      Style="{StaticResource NoticeTextBox}"
-                                     Text="{x:Bind IssuedBy, Mode=TwoWay}" Tag="14"/>
+                                     Text="{x:Bind IssuedBy, Mode=TwoWay}" Tag="14"/>-->
+                            <src:EditBoxMemory Grid.Row="2" Grid.Column="1" x:Name="editBocMemory" 
+                                               Margin="0,2,2,2"/>
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Effective Date:" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="3" Grid.Column="1" x:Name="effectiveDate" 
                                      Style="{StaticResource NoticeTextBox}"

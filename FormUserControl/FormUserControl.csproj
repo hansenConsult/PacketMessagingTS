@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EditBoxMemory.xaml.cs" />
     <Compile Include="FormHeaderUserControl.xaml.cs">
       <DependentUpon>FormHeaderUserControl.xaml</DependentUpon>
     </Compile>
@@ -135,6 +136,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="EditBoxMemory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="FormHeaderUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

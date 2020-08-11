@@ -125,6 +125,7 @@ namespace PacketMessagingTS.ViewModels
                         Command = MoveToFolderFromContextMenuCommand,
                         CommandParameter = tabView.Folder,
                     };
+                    //newMenuItem.Click += OnMoveToFolderFromContextMenuCommand;
                     moveSubMenu.Items.Add(newMenuItem);
                 }
             }

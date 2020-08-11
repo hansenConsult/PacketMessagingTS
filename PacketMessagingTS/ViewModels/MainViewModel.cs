@@ -180,13 +180,6 @@ namespace PacketMessagingTS.ViewModels
             BulletinHelpers.SaveBulletinDictionary(areas);
         }
 
-        //private object GetDynamicSortProperty(object item, string propName)
-        //{
-        //    //Use reflection to get order type
-        //    return item.GetType().GetProperty(propName).GetValue(item);
-        //}
-
-
         public static void UpdateHeaderMessageCount(PivotItem pivotItem, int messageCount)
         {
             if (!(pivotItem.Name as string).Contains("pivotItemOutBox"))
@@ -282,7 +275,7 @@ namespace PacketMessagingTS.ViewModels
         {
             PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
             string menuFlyoutSubItemName = "moveMenu" + PageDataGrid?.Name.Substring(8);
-            MenuFlyoutSubItem moveSubMenu = PageDataGrid.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
+            MenuFlyoutSubItem moveSubMenu = PageDataGrid?.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
             if (moveSubMenu is null)
                 return;
 

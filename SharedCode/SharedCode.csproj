@@ -112,6 +112,7 @@
     <Compile Include="Helpers\FormControlAttribute.cs" />
     <Compile Include="Helpers\MessageOriginHelper.cs" />
     <Compile Include="Helpers\ContentDialogs.cs" />
+    <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelper.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelperOptions.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelperStateBag.cs" />
