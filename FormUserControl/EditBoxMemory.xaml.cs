@@ -4,12 +4,18 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FormControlBasicsNamespace;
+
+using PacketMessagingTS.Core.Helpers;
+using SharedCode.Helpers;
+
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.Media.Capture.Frames;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,11 +37,13 @@ namespace FormUserControl
 
     public sealed partial class EditBoxMemory : FormControlBasics
     {
-        ObservableCollection<ListItemData> collection = new ObservableCollection<ListItemData>();
+        readonly ObservableCollection<ListItemData> collection = new ObservableCollection<ListItemData>();
 
-        StandardUICommand _deleteCommand;
+        readonly StandardUICommand _deleteCommand;
+        string _matchedText = "";
 
-        private List<string> _PreviousTexts = new List<string>() { "MTVEOC", "XSCEOC" };
+
+        private List<string> _PreviousTexts;
         public List<string> PreviousTexts
         {
             get
@@ -46,21 +54,7 @@ namespace FormUserControl
                 }
                 return _PreviousTexts;
             }
-        }
-
-        private string _Text;
-        public string Text
-        {
-            get => _Text;
-            set
-            {
-                Set(ref _Text, value);
-                if (!PreviousTexts.Contains(_Text))
-                {
-                    PreviousTexts.Add(_Text);
-                    collection.Add(new ListItemData { Text = _Text, Command = _deleteCommand });
-                }
-            }
+            set => _PreviousTexts = value;
         }
 
         public EditBoxMemory()
@@ -74,7 +68,6 @@ namespace FormUserControl
 
                 //DeleteFlyoutItem.Command = _deleteCommand;
             }
-
         }
 
         private void DeleteCommand_ExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
@@ -85,33 +78,42 @@ namespace FormUserControl
                 {
                     if (i.Text == (args.Parameter as string))
                     {
+                        bool success = PreviousTexts.Remove(i.Text);
                         collection.Remove(i);
-                        PreviousTexts.Remove(i.Text);
                         return;
                     }
                 }
+                //collection.Clear();
+                //foreach (string s in PreviousTexts)
+                //{
+                //    if (!string.IsNullOrEmpty(s))
+                //    {
+                //        collection.Add(new ListItemData { Text = s, Command = _deleteCommand });
+                //    }
+                //}
             }
-            if (ListViewRight.SelectedIndex != -1)
-            {
-                PreviousTexts.RemoveAt(ListViewRight.SelectedIndex);
-                collection.RemoveAt(ListViewRight.SelectedIndex);
-            }
+            //int selectedIndex = autoSuggestMemory.Items.;
+            //if (ListViewRight.SelectedIndex != -1)
+            //{
+            //    PreviousTexts.RemoveAt(ListViewRight.SelectedIndex);
+            //    collection.RemoveAt(ListViewRight.SelectedIndex);
+            //}
         }
 
-        private void ListView_Loaded(object sender, RoutedEventArgs e)
-        {
-            var listView = (ListView)sender;
-            listView.ItemsSource = collection;
-        }
+        //private void ListView_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    var listView = (ListView)sender;
+        //    listView.ItemsSource = collection;
+        //}
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ListViewRight.SelectedIndex != -1)
-            {
-                var item = collection[ListViewRight.SelectedIndex];
-                Text = PreviousTexts[ListViewRight.SelectedIndex];
-            }
-        }
+        //private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    //if (ListViewRight.SelectedIndex != -1)
+        //    //{
+        //    //    var item = collection[ListViewRight.SelectedIndex];
+        //    //    Text = PreviousTexts[ListViewRight.SelectedIndex];
+        //    //}
+        //}
 
         private void ListViewSwipeContainer_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -126,41 +128,96 @@ namespace FormUserControl
             VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
         }
 
-        private void ControlExample_Loaded(object sender, RoutedEventArgs e)
+        private async void ControlExample_Loaded(object sender, RoutedEventArgs e)
         {
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
-            {
-                //var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
-                //deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
+            PreviousTexts = await ApplicationData.Current.LocalFolder.ReadAsync<List<string>>(Name);
 
-                //DeleteFlyoutItem.Command = _deleteCommand;
+            //if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+            //{
+            //    //DeleteFlyoutItem.Command = _deleteCommand;
 
-                foreach (string s in PreviousTexts)
-                {
-                    collection.Add(new ListItemData { Text = s, Command = _deleteCommand });
-                }
-            }
-            else
+            //    foreach (string s in PreviousTexts)
+            //    {
+            //        collection.Add(new ListItemData { Text = s, Command = _deleteCommand });
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (string s in PreviousTexts)
+            //    {
+            //        collection.Add(new ListItemData { Text = s, Command = null });
+            //    }
+            //}
+            //(sender as AutoSuggestBox).ItemsSource = collection;
+        }
+
+        //private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        //{
+        //    MenuFlyout flyout = new MenuFlyout();
+        //    ListItemData data = (ListItemData)args.Item;
+        //    MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
+        //    flyout.Opened += delegate (object element, object e) {
+        //        MenuFlyout flyoutElement = element as MenuFlyout;
+        //        ListViewItem elementToHighlight = flyoutElement.Target as ListViewItem;
+        //        elementToHighlight.IsSelected = true;
+        //    };
+        //    flyout.Items.Add(item);
+        //    args.ItemContainer.ContextFlyout = flyout;
+        //}
+
+        private async void AutoSuggestBoxMemory_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing, 
+            // otherwise assume the value got filled in by TextMemberPath 
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)            
             {
-                foreach (string s in PreviousTexts)
+                //Set the ItemsSource to be your filtered dataset
+                collection.Clear();
+                foreach (string text in PreviousTexts)
                 {
-                    collection.Add(new ListItemData { Text = s, Command = null });
+                    string lowerCaseS = text.ToLower();
+                    //if (string.IsNullOrEmpty(sender.Text) || lowerCaseS.StartsWith(sender.Text.ToLower()))
+                    if (lowerCaseS.StartsWith(sender.Text.ToLower()))
+                    {
+                        collection.Add(new ListItemData { Text = text, Command = _deleteCommand });
+                    }
                 }
+                
+                bool matchFound = false;
+                for (int i = 0; i < PreviousTexts.Count; i++)
+                {
+                    if (sender.Text.ToLower().Contains(PreviousTexts[i].ToLower()))
+                    {
+                        PreviousTexts[i] = sender.Text;
+                        _matchedText = sender.Text;
+                        matchFound = true;
+                        break;
+                    }
+                }
+                if (matchFound && !string.IsNullOrEmpty(sender.Text))
+                {
+                    await ApplicationData.Current.LocalFolder.SaveAsync(Name, PreviousTexts);
+                }
+                else if (!matchFound && !string.IsNullOrEmpty(sender.Text))
+                {
+                    PreviousTexts.Add(sender.Text);
+                    _matchedText = sender.Text;
+                }
+
+                sender.ItemsSource = collection;
             }
         }
 
-        private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private void TextBoxMemory_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            MenuFlyout flyout = new MenuFlyout();
-            ListItemData data = (ListItemData)args.Item;
-            MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
-            flyout.Opened += delegate (object element, object e) {
-                MenuFlyout flyoutElement = element as MenuFlyout;
-                ListViewItem elementToHighlight = flyoutElement.Target as ListViewItem;
-                elementToHighlight.IsSelected = true;
-            };
-            flyout.Items.Add(item);
-            args.ItemContainer.ContextFlyout = flyout;
+            //Set sender.Text.You can use args.SelectedItem to build your text string.
+            sender.Text = (args.SelectedItem as ListItemData).Text;
+            if (_matchedText != sender.Text)
+            {
+                PreviousTexts.Remove(_matchedText);
+            }
         }
+
     }
 }

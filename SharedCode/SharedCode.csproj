@@ -116,6 +116,7 @@
     <Compile Include="Helpers\PrintHelpers\PrintHelper.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelperOptions.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelperStateBag.cs" />
+    <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Models\hospitalrollcall.cs" />
     <Compile Include="Models\TacticalCallsigns.cs" />

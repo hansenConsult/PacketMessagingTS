@@ -135,7 +135,7 @@
                                                     BorderBrush="Gray"
                                                     BorderThickness="2"
                                                     TextChanged="AutoSuggestBoxICSPosition_TextChanged"
-                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                    SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                     Tag="7a.,required,Enter a To Position." />
                                     </Grid>
                                     <Grid BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -184,7 +184,7 @@
                                                     BorderBrush="Gray"
                                                     BorderThickness="2"
                                                     TextChanged="AutoSuggestBoxICSPosition_TextChanged"
-                                                    SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                    SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                     Tag="8a.,required,Enter a From position." FontFamily="Times New Roman"/>
                                     </Grid>
                                     <Grid BorderBrush="Black" BorderThickness="0,0,0,1">

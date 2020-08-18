@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using PacketMessagingTS.Activation;
 using PacketMessagingTS.Helpers;
-
+using SharedCode.Helpers;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;

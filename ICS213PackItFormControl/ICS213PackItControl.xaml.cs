@@ -280,7 +280,7 @@ namespace ICS213PackItFormControl
         //    return null;
         //}
 
-        //private void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        //private void TextBoxICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         //{
         //    // Set sender.Text. You can use args.SelectedItem to build your text string.
         //    sender.Text = args.SelectedItem as string;

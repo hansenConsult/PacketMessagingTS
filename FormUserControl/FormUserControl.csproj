@@ -154,6 +154,10 @@
       <Project>{aa1e4573-9165-4f4e-973f-54a8df18f1a8}</Project>
       <Name>FormControlBasics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PacketMessagingTS.Core\PacketMessagingTS.Core.csproj">
+      <Project>{5b519096-6713-4d1e-a67c-fc5f22df5e3d}</Project>
+      <Name>PacketMessagingTS.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
       <Name>SharedCode</Name>

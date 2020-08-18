@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
-
+using SharedCode.Helpers;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;

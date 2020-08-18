@@ -317,28 +317,23 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:"  />
-                <TextBox Grid.Column="1" x:Name="toLocation" Style="{StaticResource ToFromTextBox}"
+                <!--<TextBox Grid.Column="1" x:Name="toLocation" Style="{StaticResource ToFromTextBox}"
                          TextChanged="TextBox_TextChanged"
-                         Tag="7b.,required,Enter a To Location."/>
-                <!--<AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToLocation" Margin="8,2,8,2"     
-                                Style="{StaticResource AutoSuggestICSPosition}"                                                    
-                                BorderBrush="Gray"
-                                BorderThickness="1"
-                                TextChanged="AutoSuggestBoxLocation_TextChanged"
-                                SuggestionChosen="TextBoxLocation_SuggestionChosen"
-                                Tag="7b.,required,Enter a To Location." />-->
-
+                         Tag="7b.,required,Enter a To Location."/>-->
+                <local:EditBoxMemory Grid.Column="1" x:Name="toLocation" Margin="8,2,8,2"
+                                     Tag="7b.,required,Enter a To Location."/>
             </Grid>
             <Grid Grid.Row="1" Grid.Column="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="193*"/>
-                    <ColumnDefinition Width="101*"/>
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:"  />
-                <TextBox Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2" 
+                <!--<TextBox Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2" 
                          TextChanged="TextBox_TextChanged"
-                         Tag="8b.,required,Enter a From Location." Grid.ColumnSpan="2"/>
+                         Tag="8b.,required,Enter a From Location." Grid.ColumnSpan="2"/>-->
+                <local:EditBoxMemory Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2"
+                                     Tag="8b.,required,Enter a From Location."/>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1">
                 <Grid.ColumnDefinitions>

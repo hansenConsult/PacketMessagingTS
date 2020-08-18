@@ -253,7 +253,7 @@
                                                             BorderThickness="1"
 
                                                             TextChanged="AutoSuggestBoxICSPosition_TextChanged"
-                                                            SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                            SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                             Tag="7.,required,Enter a To Position." VerticalAlignment="Top"/>
                                         </StackPanel>
                                     </Border>
@@ -296,7 +296,7 @@
                                                             PlaceholderText="Select ICS Position"
                                                             Style="{StaticResource AutoSuggestICSPosition}"
                                                             TextChanged="AutoSuggestBoxICSPosition_TextChanged"
-                                                            SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                            SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                             Tag="8.,required,Enter a From position." FontFamily="Times New Roman"/>
                                         </StackPanel>
                                     </Border>
@@ -355,7 +355,7 @@
                                                         BorderThickness="1"
 
                                                         TextChanged="AutoSuggestBoxICSPosition_TextChanged"
-                                                        SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                        SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                         Tag="7.,required,Enter a To Position." VerticalAlignment="Top"/>
                                     </StackPanel>
                                 </Border>
@@ -372,7 +372,7 @@
                                                         BorderBrush="Gray"
                                                         BorderThickness="1"
                                                         TextChanged="AutoSuggestBoxICSPosition_TextChanged"
-                                                        SuggestionChosen="TextBoxFromICSPosition_SuggestionChosen"
+                                                        SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                         Tag="8.,required,Enter a From position." FontFamily="Times New Roman"/>
                                     </StackPanel>
                                 </Border>

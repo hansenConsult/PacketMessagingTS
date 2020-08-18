@@ -105,7 +105,7 @@ namespace MedicalHealthBranchRRFormControl
 
         public override string CreateSubject()
         {
-            return $"{OriginMsgNo}_{HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -158,25 +158,33 @@ namespace MedicalHealthBranchRRFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
+        public override void MsgTimeChanged(string msgTime)
         {
-            if (sender is TextBox textBox)
+            if (string.IsNullOrEmpty(requestTime.Text))
             {
-                FormControl formControl = null;
-                if (!string.IsNullOrEmpty(textBox.Name))
-                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
-
-                if (formControl == null || !CheckTimeFormat(formControl))
-                {
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(requestTime.Text))
-                {
-                    requestTime.Text = msgTime.Text;
-                }
+                requestTime.Text = msgTime;
             }
         }
+
+        //public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (sender is TextBox textBox)
+        //    {
+        //        FormControl formControl = null;
+        //        if (!string.IsNullOrEmpty(textBox.Name))
+        //            formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+
+        //        if (formControl == null || !CheckTimeFormat(formControl))
+        //        {
+        //            return;
+        //        }
+
+        //        if (string.IsNullOrEmpty(requestTime.Text))
+        //        {
+        //            requestTime.Text = msgTime.Text;
+        //        }
+        //    }
+        //}
 
     }
 }

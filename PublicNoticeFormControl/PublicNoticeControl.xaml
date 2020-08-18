@@ -198,11 +198,11 @@
                                      Text="{x:Bind TopicFontSize, Mode=TwoWay}" 
                                      HorizontalAlignment="Left" Tag="13"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Issued By:" Style="{StaticResource MediumLabel}"/>
-                            <!--<TextBox Grid.Row="2" Grid.Column="1" x:Name="issuedBy"
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="issuedBy"
                                      Style="{StaticResource NoticeTextBox}"
-                                     Text="{x:Bind IssuedBy, Mode=TwoWay}" Tag="14"/>-->
-                            <src:EditBoxMemory Grid.Row="2" Grid.Column="1" x:Name="editBocMemory" 
-                                               Margin="0,2,2,2"/>
+                                     Text="{x:Bind IssuedBy, Mode=TwoWay}" Tag="14"/>
+                            <!--<src:EditBoxMemory Grid.Row="2" Grid.Column="1" x:Name="editBoxMemory" 
+                                               Margin="0,2,2,2"/>-->
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Effective Date:" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="3" Grid.Column="1" x:Name="effectiveDate" 
                                      Style="{StaticResource NoticeTextBox}"

@@ -15,6 +15,7 @@ using PacketMessagingTS.ViewModels;
 using PacketMessagingTS.Views;
 
 using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.ApplicationModel;
@@ -80,7 +81,26 @@ namespace PacketMessagingTS
             //TacticalCallsArray = await localFolder.ReadAsync<int[]>(TacticalCallsArrayFileName);
 
 #if DEBUG
-            SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
+            //SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
+
+            IAsyncOperation<StorageFolder>[] folders = new IAsyncOperation<StorageFolder>[]
+            {
+                localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists),
+            };
+            //IAsyncOperation<StorageFolder> folders[0] =  localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
+
+            List<Task> folderTasks = new List<Task>() { folders[0].AsTask<StorageFolder>() };
+            while (folderTasks.Count > 0)
+            {
+                Task finishedTask = await Task.WhenAny(folderTasks);
+                string s = finishedTask.ToString();
+                
+                if (finishedTask == folders[0])
+                {
+                    SharedData.TestFilesFolder = folders[0].GetResults();
+                }
+                folderTasks.Remove(finishedTask);
+            }
 #endif
 
             SharedData.MetroLogsFolder = await localFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists);
@@ -102,15 +122,33 @@ namespace PacketMessagingTS
             }
             //await UserCallsigns.OpenAsync();
 
-            await TNCDeviceArray.Instance.OpenAsync();
-            await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
-            await EmailAccountArray.Instance.OpenAsync();
-            await ProfileArray.Instance.OpenAsync();
-            await UserAddressArray.Instance.OpenAsync();
+            //await TNCDeviceArray.Instance.OpenAsync();
+            //await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
+            //await EmailAccountArray.Instance.OpenAsync();
+            //await ProfileArray.Instance.OpenAsync();
+            //await UserAddressArray.Instance.OpenAsync();
+            //AddressBook.Instance.CreateAddressBook();
+            //await DistributionListArray.Instance.OpenAsync();
+            //await HospitalRollCall.Instance.OpenAsync();
+            //await CustomFoldersArray.Instance.OpenAsync();
+
+            List<Task> tasks = new List<Task>();
+
+            tasks.Add(TNCDeviceArray.Instance.OpenAsync());
+            tasks.Add(BBSDefinitions.Instance.OpenAsync());  //"ms-appx:///Assets/pdffile.pdf"
+            tasks.Add(EmailAccountArray.Instance.OpenAsync());
+            tasks.Add(ProfileArray.Instance.OpenAsync());
+            tasks.Add(UserAddressArray.Instance.OpenAsync());
+            tasks.Add(DistributionListArray.Instance.OpenAsync());
+            tasks.Add(HospitalRollCall.Instance.OpenAsync());
+            tasks.Add(CustomFoldersArray.OpenAsync());
+            while (tasks.Count > 0)
+            {
+                Task finishedTask = await Task.WhenAny(tasks);
+                tasks.Remove(finishedTask);
+            }
+
             AddressBook.Instance.CreateAddressBook();
-            await DistributionListArray.Instance.OpenAsync();
-            await HospitalRollCall.Instance.OpenAsync();
-            await CustomFoldersArray.Instance.OpenAsync();
 
             if (!args.PrelaunchActivated)
             {
@@ -121,12 +159,6 @@ namespace PacketMessagingTS
             SharedData.SettingsContainer = localSettings.CreateContainer("SettingsContainer", ApplicationDataCreateDisposition.Always);
 
             //SharedData.FilesInInstalledLocation = await Package.Current.InstalledLocation.GetFilesAsync();
-
-            //Singleton<SettingsViewModel>.Instance.W1XSCStatusUp = Utilities.GetProperty<bool>("W1XSCStatusUp");
-            //Singleton<SettingsViewModel>.Instance.W2XSCStatusUp = Utilities.GetProperty<bool>("W2XSCStatusUp");
-            //Singleton<SettingsViewModel>.Instance.W3XSCStatusUp = Utilities.GetProperty<bool>("W3XSCStatusUp");
-            //Singleton<SettingsViewModel>.Instance.W4XSCStatusUp = Utilities.GetProperty<bool>("W4XSCStatusUp");
-            //Singleton<SettingsViewModel>.Instance.W5XSCStatusUp = Utilities.GetProperty<bool>("W5XSCStatusUp");
 
             //await UpdatePacFormsFiles.SyncPacFormFoldersAsync();
 

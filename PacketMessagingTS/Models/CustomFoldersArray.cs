@@ -23,13 +23,13 @@ namespace PacketMessagingTS.Models
 {
     public class CustomFoldersArray
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CustomFoldersArray>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CustomFoldersArray>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         private static volatile CustomFoldersArray _instance;
-        private static object _syncRoot = new Object();
+        private static readonly object _syncRoot = new Object();
 
-        static string customFoldersFileName = "CustomFolders.xml";
+        private const string customFoldersFileName = "CustomFolders.xml";
 
         private TabViewItemData[] customFoldersArrayField;
 
@@ -47,17 +47,20 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        private List<TabViewItemData> customFolderList;
+        //private List<TabViewItemData> customFolderList;
         [System.Xml.Serialization.XmlIgnore]
         public List<TabViewItemData> CustomFolderList
         {
-            get => customFolderList;
-            set => customFolderList = value;
+            get;
+            set;
+            //get => customFolderList;
+            //set => customFolderList = value;
         }
 
         private CustomFoldersArray()
         {
-            customFoldersArrayField = new TabViewItemData[0];
+            //customFoldersArrayField = new TabViewItemData[0];
+            customFoldersArrayField = Array.Empty<TabViewItemData>();
         }
 
         public static CustomFoldersArray Instance
@@ -76,7 +79,7 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        public async Task OpenAsync()
+        public static async Task OpenAsync()
         {
             StorageFile file = null;
             try
@@ -93,8 +96,10 @@ namespace PacketMessagingTS.Models
                 if (storageItem is null || size == 0)
                 {
                     // Create a new Custom Folder file with two default entries
-                    _instance = new CustomFoldersArray();
-                    _instance.CustomFolders = new TabViewItemData[2];
+                    _instance = new CustomFoldersArray
+                    {
+                        CustomFolders = new TabViewItemData[2]
+                    };
 
                     TabViewItemData tabViewItemData = new TabViewItemData()
                     {

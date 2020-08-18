@@ -647,11 +647,11 @@ namespace FormControlBasicsNamespace
             OnSubjectChange?.Invoke(this, formEventArgs);
         }
 
-        protected virtual void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            // Set sender.Text. You can use args.SelectedItem to build your text string.
-            sender.Text = args.SelectedItem as string;
-        }
+        //protected virtual void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        //{
+        //    // Set sender.Text. You can use args.SelectedItem to build your text string.
+        //    sender.Text = args.SelectedItem as string;
+        //}
 
         protected virtual void TextBoxICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {

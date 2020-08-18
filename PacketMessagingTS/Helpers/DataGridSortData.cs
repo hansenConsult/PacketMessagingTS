@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using SharedCode.Helpers;
 
 namespace PacketMessagingTS.Helpers
 {

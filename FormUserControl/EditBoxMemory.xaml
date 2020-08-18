@@ -12,46 +12,37 @@
     d:DesignWidth="400">
 
     <MyBaseNamespace:FormControlBasics.Resources>
-        <Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemRevealStyle}">
-            <Setter Property="Height" Value="60"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemRevealStyle}">
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+        </ResourceDictionary>
     </MyBaseNamespace:FormControlBasics.Resources>
     <!--XAML Controls Gallery, StandardUICommand-->
-    <Grid Loaded="ControlExample_Loaded">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <!--<RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>-->
         </Grid.RowDefinitions>
-        <!--<muxc:MenuBar Grid.Row="0">
-            <muxc:MenuBarItem Title="File">
-                <MenuFlyoutItem Text="New"/>
-                <MenuFlyoutItem Text="Open..."/>
-                <MenuFlyoutItem Text="Save"/>
-                <MenuFlyoutItem Text="Exit"/>
-            </muxc:MenuBarItem>
-
-            <muxc:MenuBarItem Title="Edit">
-                <MenuFlyoutItem x:Name="DeleteFlyoutItem"/>
-            </muxc:MenuBarItem>
-
-            <muxc:MenuBarItem Title="Help">
-                <MenuFlyoutItem Text="About"/>
-            </muxc:MenuBarItem>
-        </muxc:MenuBar>-->
-        <TextBox Grid.Row="0" x:Name="textBox" Text="{x:Bind Text, Mode=TwoWay}"/>
-        <ListView Grid.Row="1" x:Name="ListViewRight" Height="120"
-                  Loaded="ListView_Loaded"
-                  ContainerContentChanging="ListViewRight_ContainerContentChanging"
-                  IsItemClickEnabled="True"
-                  SelectionMode="Single"
-                  SelectionChanged="ListView_SelectionChanged"
-                  ItemContainerStyle="{StaticResource HorizontalSwipe}"
-                  >
-            <ListView.ItemTemplate>
+        <AutoSuggestBox Grid.Row="0" x:Name="autoSuggestMemory"
+                        Style="{StaticResource AutoSuggestICSPosition}"                                                    
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        Loaded="ControlExample_Loaded"
+                        TextChanged="AutoSuggestBoxMemory_TextChanged"
+                        SuggestionChosen="TextBoxMemory_SuggestionChosen"
+                        >
+            <!--SuggestionChosen="TextBoxMemory_SuggestionChosen"-->
+            <AutoSuggestBox.ItemTemplate>
                 <DataTemplate x:DataType="local:ListItemData">
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" 
                                  PointerExited="ListViewSwipeContainer_PointerExited">
@@ -80,7 +71,51 @@
                         </Grid>
                     </UserControl>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </AutoSuggestBox.ItemTemplate>
+        </AutoSuggestBox>
+        <!--<TextBox Grid.Row="0" x:Name="textBox" Text="{x:Bind Text, Mode=TwoWay}"/>
+        <Popup x:Name="PreviousTextsPopup">
+            <ListView Grid.Row="1" x:Name="ListViewRight" 
+                      MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                      Margin="{ThemeResource AutoSuggestListMargin}"
+                  Loaded="ListView_Loaded"
+                  ContainerContentChanging="ListViewRight_ContainerContentChanging"
+                  IsItemClickEnabled="True"
+                  SelectionMode="Single"
+                  SelectionChanged="ListView_SelectionChanged"
+                  ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                  >
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:ListItemData">
+                        <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" 
+                                 PointerExited="ListViewSwipeContainer_PointerExited">
+                            <Grid AutomationProperties.Name="{x:Bind Text}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="HoveringStates">
+                                        <VisualState x:Name="HoverButtonsHidden" />
+                                        <VisualState x:Name="HoverButtonsShown">
+                                            <VisualState.Setters>
+                                                <Setter Target="HoverButton.Visibility" Value="Visible" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <SwipeControl x:Name="ListViewSwipeContainer" >
+                                    <SwipeControl.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem x:Name="DeleteSwipeItem" Background="Red" Command="{x:Bind Command}" CommandParameter="{x:Bind Text}"/>
+                                        </SwipeItems>
+                                    </SwipeControl.RightItems>
+                                    <Grid VerticalAlignment="Center">
+                                        <TextBlock Text="{x:Bind Text}" Margin="4" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <AppBarButton x:Name="HoverButton" IsTabStop="False" HorizontalAlignment="Right" Visibility="Collapsed" Command="{x:Bind Command}" CommandParameter="{x:Bind Text}"/>
+                                    </Grid>
+                                </SwipeControl>
+                            </Grid>
+                        </UserControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Popup>-->
     </Grid>
 </MyBaseNamespace:FormControlBasics>
