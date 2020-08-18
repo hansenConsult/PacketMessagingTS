@@ -521,7 +521,7 @@ namespace PacketMessagingTS.Views
             {
                 Profile profile = comboBoxProfiles.Items[comboBoxProfiles.SelectedIndex] as Profile;
 
-                profile.Name = comboBoxProfiles.Text;
+                profile.Name = comboBoxProfiles.SelectedItem.ToString();
                 profile.BBS = comboBoxBBS.SelectedValue as string;
                 profile.TNC = comboBoxTNCs.SelectedValue as string;
                 profile.SendTo = textBoxTo.Text;

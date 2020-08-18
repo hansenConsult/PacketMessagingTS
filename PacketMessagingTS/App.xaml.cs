@@ -122,16 +122,6 @@ namespace PacketMessagingTS
             }
             //await UserCallsigns.OpenAsync();
 
-            //await TNCDeviceArray.Instance.OpenAsync();
-            //await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
-            //await EmailAccountArray.Instance.OpenAsync();
-            //await ProfileArray.Instance.OpenAsync();
-            //await UserAddressArray.Instance.OpenAsync();
-            //AddressBook.Instance.CreateAddressBook();
-            //await DistributionListArray.Instance.OpenAsync();
-            //await HospitalRollCall.Instance.OpenAsync();
-            //await CustomFoldersArray.Instance.OpenAsync();
-
             List<Task> tasks = new List<Task>();
 
             tasks.Add(TNCDeviceArray.Instance.OpenAsync());

@@ -18,8 +18,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class PacketSettingsViewModel : BaseViewModel
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         Profile _SavedProfile;
 
