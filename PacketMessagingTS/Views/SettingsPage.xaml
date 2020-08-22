@@ -442,7 +442,9 @@
 										 RelativePanel.RightOf="labelProfile"
 										 PlaceholderText="Enter profile name"
                                          IsSpellCheckEnabled="True"
-                                         Visibility="{x:Bind _PacketSettingsViewmodel.NewProfileNameVisibility, Mode=OneWay}"/>
+                                         Visibility="{x:Bind _PacketSettingsViewmodel.NewProfileNameVisibility, Mode=OneWay}"
+                                         Text="{x:Bind _PacketSettingsViewmodel.NewProfileName, Mode=TwoWay}"/>
+                                
                             </RelativePanel>
                             <Grid x:Name="panelProfileGrid"                                 
 								  RelativePanel.Below="panelProfileSelection"
@@ -547,12 +549,15 @@
 							RelativePanel.AlignRightWithPanel="True">
                         <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add"
                                       HorizontalAlignment="Right"
-                                      Click="ProfileSettingsAdd_Click" />
+                                      Command="{x:Bind _PacketSettingsViewmodel.ProfileSettingsAddCommand}" />
+                        <!--Click="ProfileSettingsAdd_Click"-->
                         <AppBarButton x:Name="profileSave"  Label="Save Profile" Icon="Save"
                                       IsEnabled="{x:Bind _PacketSettingsViewmodel.IsAppBarSaveEnabled, Mode=TwoWay}"
-                                      Click="PacketSettingsSave_ClickAsync" />
+                                      Command="{x:Bind _PacketSettingsViewmodel.PacketSettingsSaveCommand}" />
+                        <!--Click="PacketSettingsSave_ClickAsync"-->
                         <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete"
-                                      Click="ProfileSettingsDelete_Click"  />
+                                      Command="{x:Bind _PacketSettingsViewmodel.ProfileSettingsDeleteCommand}" />
+                        <!--Click="ProfileSettingsDelete_Click"-->
                     </CommandBar>
                 </RelativePanel>
             </PivotItem>
@@ -573,7 +578,6 @@
                                          DisplayMemberPath="Name"
                                          Visibility="{x:Bind _TNCSettingsViewModel.DeviceListBoxVisibility, Mode=OneWay}"
 									     SelectedIndex="{x:Bind _TNCSettingsViewModel.TNCDeviceSelectedIndex, Mode=TwoWay}"
-                                         SelectionChanged="ConnectDevices_SelectionChanged"
 								>
                                     <!--SelectionChanged="ConnectDevices_SelectionChanged"-->
                                 </ListBox>
@@ -821,16 +825,20 @@
 							    RelativePanel.AlignLeftWithPanel="True">
                         <AppBarButton x:Name="appBarAddTNC" Label="Add" Icon="Add" HorizontalAlignment="Right"
                                       IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarAddEnabled, Mode=OneWay}"
-                                      Click="AppBarAddTNC_Clicked"/>
+                                      Command="{x:Bind _TNCSettingsViewModel.AppBarAddTNCCommand}"/>
+                        <!--Click="AppBarAddTNC_Clicked"-->
                         <AppBarButton x:Name="appBarSettingsEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right"
                                       IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarEditEnabled, Mode=OneWay}"
-                                      Click="AppBarEditTNC_Click"/>
+                                      Command="{x:Bind _TNCSettingsViewModel.AppBarEditTNCCommand}"/>
+                        <!--Click="AppBarEditTNC_Click"-->
                         <AppBarButton x:Name="appBarSaveTNC" Label="Save" Icon="Save" HorizontalAlignment="Right"
                                       IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarSaveEnabled, Mode=TwoWay}"
-                                      Click="AppBarSaveTNC_ClickAsync" />
+                                      Command="{x:Bind _TNCSettingsViewModel.AppBarSaveTNCCommand}" />
+                        <!--Click="AppBarSaveTNC_ClickAsync"-->
                         <AppBarButton x:Name="appBarDeleteTNC" Label="Delete" Icon="Delete" HorizontalAlignment="Right"
                                       IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarDeleteEnabled, Mode=OneWay}"
-                                      Click="AppBarDeleteTNC_Click"/>
+                                      Command="{x:Bind _TNCSettingsViewModel.AppBarDeleteTNCCommand}"/>
+                        <!--Click="AppBarDeleteTNC_Click"-->
                     </CommandBar>
                 </RelativePanel>
             </PivotItem>

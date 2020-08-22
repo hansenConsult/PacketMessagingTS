@@ -34,11 +34,13 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
-        //private List<Profile> observableProfileCollection;
-        public List<Profile> ObservableProfileCollection
-        {
-            get => ProfileArray.Instance.ProfileList;
-        }
+        public readonly ObservableCollection<Profile> ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+        //private List<Profile> _observableProfileCollection;
+        //public List<Profile> ObservableProfileCollection
+        //{
+        //    get => ProfileArray.Instance.ProfileList;
+        //    set => Set(ref _observableProfileCollection, value);
+        //}
 
         private bool _ProfileNameVisibility = true;
         public bool ProfileNameVisibility
@@ -60,6 +62,13 @@ namespace PacketMessagingTS.ViewModels
                 Set(ref _NewProfileNameVisibility, value);
                 //ProfileNameVisibility = !value;
             }
+        }
+
+        private string _NewProfileName;
+        public string NewProfileName
+        {
+            get => _NewProfileName;
+            set => Set(ref _NewProfileName, value);
         }
 
         private int profileSelectedIndex;
@@ -232,8 +241,8 @@ namespace PacketMessagingTS.ViewModels
             get => tnc;
             set
             {
-                //if (value is null)
-                //    return;
+                if (value is null)
+                    return;
 
                 SetProperty(ref tnc, value);
 
@@ -264,14 +273,14 @@ namespace PacketMessagingTS.ViewModels
             {
                 //Set(ref currentTNC, value);
                 currentTNC = value;
-                if (currentTNC.Name.Contains(SharedData.EMail))
+                if (currentTNC != null && currentTNC.Name.Contains(SharedData.EMail))
                 {
                     BBS = "";
                 }
-                else
-                {
-                    BBS = CurrentProfile.BBS;
-                }
+                //else
+                //{
+                //    BBS = CurrentProfile.BBS;
+                //}
             }
         }
 
@@ -446,5 +455,94 @@ namespace PacketMessagingTS.ViewModels
             get => forceReadBulletins;
             set => SetProperty(ref forceReadBulletins, value);
         }
+
+        private RelayCommand _ProfileSettingsAddCommand;
+        public RelayCommand ProfileSettingsAddCommand => _ProfileSettingsAddCommand ?? (_ProfileSettingsAddCommand = new RelayCommand(ProfileSettingsAdd));
+        private void ProfileSettingsAdd()
+        {
+            ProfileNameVisibility = false;
+
+            IsAppBarSaveEnabled = true;
+        }
+
+        private RelayCommand _PacketSettingsSaveCommand;
+        public RelayCommand PacketSettingsSaveCommand => _PacketSettingsSaveCommand ?? (_PacketSettingsSaveCommand = new RelayCommand(PacketSettingsSave));
+
+        public async void PacketSettingsSave()
+        {
+            //int index = comboBoxProfiles.SelectedIndex;
+            if (!ProfileNameVisibility)
+            {
+                Profile newProfile = new Profile()
+                {
+                    Name = _NewProfileName,
+                    //BBS = comboBoxBBS.SelectedValue as string,
+                    BBS = BBS,
+                    //TNC = comboBoxTNCs.SelectedValue as string,
+                    TNC = TNC,
+                    SendTo = DefaultTo,
+                    Subject = DefaultSubject,
+                    Message = DefaultMessage,
+
+                };
+                if (newProfile.TNC.Contains(SharedData.EMail))
+                {
+                    //comboBoxBBS.SelectedIndex = -1;
+                    BBS = "";
+                    newProfile.BBS = "";
+                }
+                ProfileArray.Instance.ProfileList.Add(newProfile);
+                ObservableProfileCollection.Add(newProfile);
+                await ProfileArray.Instance.SaveAsync();
+
+                ProfileSelectedIndex = ProfileArray.Instance.ProfileList.Count - 1;
+
+                //comboBoxProfiles.Visibility = Visibility.Visible;
+                //textBoxNewProfileName.Visibility = Visibility.Collapsed;
+                ProfileNameVisibility = true;
+                //index = ProfileArray.Instance.ProfileList.Count - 1;
+            }
+            else
+            {
+                //Profile profile = comboBoxProfiles.Items[ProfileSelectedIndex] as Profile;
+                Profile profile = CurrentProfile;
+
+                profile.Name = CurrentProfile.Name;
+                profile.BBS = BBS;
+                profile.TNC = TNC;
+                profile.SendTo = DefaultTo;
+                profile.Subject = DefaultSubject;
+                profile.Message = DefaultMessage;
+
+                //ProfileArray.Instance.ProfileList[ProfileArray.Instance.ProfileList.IndexOf(profile)] = profile;
+                ProfileArray.Instance.ProfileList[ProfileSelectedIndex] = profile;
+            }
+            //if (ProfileArray.Instance.ProfileList[ProfileSelectedIndex].TNC.Contains(SharedData.EMail))
+            //{
+
+            //    comboBoxBBS.SelectedIndex = -1;
+            //    (comboBoxProfiles.Items[comboBoxProfiles.SelectedIndex] as Profile).BBS = "";
+            //}
+
+            await ProfileArray.Instance.SaveAsync();
+
+            Utilities.SetApplicationTitle();
+
+            //_PacketSettingsViewmodel.ResetChangedProperty();
+            IsAppBarSaveEnabled = false;
+            //comboBoxProfiles.SelectedIndex = index;
+        }
+
+        private RelayCommand _ProfileSettingsDeleteCommand;
+        public RelayCommand ProfileSettingsDeleteCommand => _ProfileSettingsDeleteCommand ?? (_ProfileSettingsDeleteCommand = new RelayCommand(ProfileSettingsDelete));
+        private void ProfileSettingsDelete()
+        {
+            ProfileArray.Instance.ProfileList.Remove(CurrentProfile);
+            ObservableProfileCollection.Remove(CurrentProfile);
+
+            ProfileSelectedIndex = Math.Max(ProfileSelectedIndex - 1, 0);
+            IsAppBarSaveEnabled = true;
+        }
+
     }
 }

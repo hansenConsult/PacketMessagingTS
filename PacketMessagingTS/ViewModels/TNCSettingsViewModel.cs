@@ -41,7 +41,7 @@ namespace PacketMessagingTS.ViewModels
 
         TNCDevice _SavedTNCDevice;
 
-        private static object _syncRoot = new Object();
+        private static readonly object _syncRoot = new Object();
 
 
         public TNCSettingsViewModel()
@@ -82,7 +82,15 @@ namespace PacketMessagingTS.ViewModels
         private int tncDeviceSelectedIndex;
         public int TNCDeviceSelectedIndex
         {
-            get => GetProperty(ref tncDeviceSelectedIndex);
+            get
+            {
+                GetProperty(ref tncDeviceSelectedIndex);
+                if (CurrentTNCDevice == null)
+                {
+                    CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
+                }
+                return tncDeviceSelectedIndex;
+            }
             set
             {
                 //_logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index: {value}, {tncDeviceSelectedIndex}");
@@ -97,7 +105,7 @@ namespace PacketMessagingTS.ViewModels
                 if (value == tncDeviceSelectedIndex && !(currentTNCDevice is null))
                     return;
 
-                SaveChanges(tncDeviceSelectedIndex, State);
+                //SaveChanges(tncDeviceSelectedIndex, State);
 
                 //_logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after SaveChanges(): {value}, {tncDeviceSelectedIndex}");
 
@@ -118,6 +126,7 @@ namespace PacketMessagingTS.ViewModels
                 }
                 if (setPropertySuccess)
                 {
+                    SaveChanges(tncDeviceSelectedIndex, State);
                     // Utilities.SetApplicationTitle();
                 }
                 CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
@@ -653,35 +662,35 @@ namespace PacketMessagingTS.ViewModels
                 TNCState savedState2;
                 //int savedIndex = TNCDeviceSelectedIndex;
                 bool save = await ContentDialogs.ShowDualButtonMessageDialogAsync("Save changes?", "Yes", "No");
-                    if (save)
+                if (save)
+                {
+                    savedState2 = State;
+                    State = savedState;
+                    //TNCDeviceSelectedIndex = savedIndex;
+                    AppBarSaveTNC(selectedIndex, tncState);
+                    State = savedState2;
+                }
+                else
+                {
+                // Restore to default
+                //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
+                TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[selectedIndex];
+                if (!string.IsNullOrEmpty(tncDevice.MailUserName))
                     {
-                        savedState2 = State;
-                        State = savedState;
-                        //TNCDeviceSelectedIndex = savedIndex;
-                        AppBarSaveTNC(selectedIndex, tncState);
-                        State = savedState2;
+                        MailAccountSelectedIndex = EmailAccountArray.Instance.GetSelectedIndexFromEmailUserName(tncDevice.MailUserName);
+                        State = TNCState.EMail;
                     }
                     else
                     {
-                    // Restore to default
-                    //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
-                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[selectedIndex];
-                    if (!string.IsNullOrEmpty(tncDevice.MailUserName))
-                        {
-                            MailAccountSelectedIndex = EmailAccountArray.Instance.GetSelectedIndexFromEmailUserName(tncDevice.MailUserName);
-                            State = TNCState.EMail;
-                        }
-                        else
-                        {
-                            DeviceListBoxVisibility = Visibility.Visible;
-                            NewTNCDeviceNameVisibility = Visibility.Collapsed;
+                        DeviceListBoxVisibility = Visibility.Visible;
+                        NewTNCDeviceNameVisibility = Visibility.Collapsed;
 
-                            State = TNCState.TNC;
-                        }
-                        // Disable Save button
-                        ResetChangedProperty();
-                        IsAppBarSaveEnabled = false;
+                        State = TNCState.TNC;
                     }
+                    // Disable Save button
+                    ResetChangedProperty();
+                    IsAppBarSaveEnabled = false;
+                }
             }
         }
 
@@ -703,9 +712,9 @@ namespace PacketMessagingTS.ViewModels
 
             // Make sure Packet settings have the latest TNC devices, also restore currently selected TNC
             PacketSettingsViewModel packetSettingsViewmodel = Singleton<PacketSettingsViewModel>.Instance;
-            string selectedTNC = packetSettingsViewmodel.TNC;
+            //string selectedTNC = packetSettingsViewmodel.TNC;
             packetSettingsViewmodel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-            packetSettingsViewmodel.TNC = selectedTNC;
+            //packetSettingsViewmodel.TNC = selectedTNC;
 
             // Disable Save button
             ResetChangedProperty();
@@ -725,7 +734,7 @@ namespace PacketMessagingTS.ViewModels
                 TNCDevice tncDevice = TNCDeviceFromUI;
                 CurrentTNCDevice = tncDevice;
                 TNCDeviceArray.Instance.TNCDeviceListUpdate(TNCDeviceArray.Instance.TNCDeviceList.Count - 1, tncDevice);
-                await TNCDeviceArray.Instance.SaveAsync();
+                //await TNCDeviceArray.Instance.SaveAsync();
                 TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
                 TNCDeviceSelectedIndex = TNCDeviceArray.Instance.TNCDeviceList.Count - 1;
                 State = TNCState.TNC;
@@ -735,18 +744,18 @@ namespace PacketMessagingTS.ViewModels
                 TNCDevice tncDevice = TNCDeviceFromUI;
                 CurrentTNCDevice = tncDevice;
                 TNCDeviceArray.Instance.TNCDeviceListUpdate(TNCDeviceSelectedIndex, tncDevice);
-                await TNCDeviceArray.Instance.SaveAsync();
+                //await TNCDeviceArray.Instance.SaveAsync();
                 //TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
                 State = TNCState.TNC;
                 //_logHelper.Log(LogLevel.Trace, $"Saving, Comport: {tncDevice.CommPort.Comport}");
             }
-            else if (State == TNCState.TNCDelete)
-            {
+            //else if (State == TNCState.TNCDelete)
+            //{
                 await TNCDeviceArray.Instance.SaveAsync();
-                TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-                TNCDeviceSelectedIndex = Math.Min(TNCDeviceArray.Instance.TNCDeviceList.Count - 1, _deletedIndex);
-                State = TNCState.TNC;
-            }
+            //    TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+            //    TNCDeviceSelectedIndex = Math.Min(TNCDeviceArray.Instance.TNCDeviceList.Count - 1, _deletedIndex);
+            //    State = TNCState.TNC;
+            //}
         }
 
         #region Mail Settings
@@ -1119,6 +1128,154 @@ namespace PacketMessagingTS.ViewModels
         {
             get => isAppBarSaveEnabled;
             set => SetProperty(ref isAppBarSaveEnabled, value);
+        }
+
+        private void NewTNCDevice()
+        {
+            DeviceListBoxVisibility = Visibility.Collapsed;
+            NewTNCDeviceNameVisibility = Visibility.Visible;
+
+            TNCInitCommandsPre = "";
+            TNCInitCommandsPost = "";
+
+            IsToggleSwitchOn = false;
+            //SetComportComboBoxVisibility();
+
+            //if (CollectionOfBluetoothDevices.Count > 0)
+            //{
+            //    comboBoxComName.SelectedItem = CollectionOfBluetoothDevices[0];
+            //}
+
+            if (CollectionOfSerialDevices.Count > 0)
+            {
+                TNCComPort = CollectionOfSerialDevices[0];
+            }
+
+            TNCComBaudRate = 9600;
+            TNCComDatabits = 8;
+
+            //int i = 0;
+            //var values = Enum.GetValues(typeof(SerialParity));
+            //for (; i < values.Length; i++)
+            //{
+            //    if ((SerialParity)values.GetValue(i) == SerialParity.None) break;
+            //}
+            //comboBoxParity.SelectedIndex = i;
+            TNCComParity = Parity.None;
+
+            //values = Enum.GetValues(typeof(SerialStopBitCount));
+            //for (i = 0; i < values.Length; i++)
+            //{
+            //    if ((SerialStopBitCount)values.GetValue(i) == SerialStopBitCount.One) break;
+            //}
+            //comboBoxStopBits.SelectedIndex = i;
+            TNCComStopbits = StopBits.One;
+
+            //values = Enum.GetValues(typeof(SerialHandshake));
+            //for (i = 0; i < values.Length; i++)
+            //{
+            //    if ((SerialHandshake)values.GetValue(i) == SerialHandshake.RequestToSend)
+            //    {
+            //        break;
+            //    }
+            //}
+            //comboBoxFlowControl.SelectedIndex = i;
+            TNCComHandshake = Handshake.RequestToSend;
+
+            TNCPromptsCommand = "";
+            TNCPromptsTimeout = "";
+            TNCPromptsConnected = "";
+            TNCPromptsDisconnected = "";
+
+            TNCCommandsConnect = "";
+            TNCCommandsConversMode = "";
+            TNCCommandsMyCall = "";
+            TNCCommandsRetry = "";
+            TNCCommandsDateTime = "";
+
+            //TNCDevice tncDevice = new TNCDevice();
+            //tncDevice = TNCDeviceFromUI;
+            //TNCDeviceArray.Instance.TNCDeviceList.Add(tncDevice);
+            //CurrentTNCDevice = tncDevice;
+            IsAppBarSaveEnabled = true;
+        }
+
+        private RelayCommand _AppBarAddTNCCommand;
+        public RelayCommand AppBarAddTNCCommand => _AppBarAddTNCCommand ?? (_AppBarAddTNCCommand = new RelayCommand(AppBarAddTNC));
+        private void AppBarAddTNC()
+        {
+            if (State == TNCState.EMail)
+            {
+                _modifiedEmailAccountSelectedIndex = MailAccountSelectedIndex;
+                UpdateMailState(TNCSettingsViewModel.TNCState.EMailAdd);
+                IsAppBarSaveEnabled = true;
+            }
+            else if (State != TNCState.EMailDelete
+                            || State != TNCState.EMailEdit
+                            || State != TNCState.EMailAdd)
+            {
+                // Not an e-mail device
+                State = TNCState.TNCAdd;
+                NewTNCDevice();
+            }
+        }
+
+        private RelayCommand _AppBarEditTNCCommand;
+        public RelayCommand AppBarEditTNCCommand => _AppBarEditTNCCommand ?? (_AppBarEditTNCCommand = new RelayCommand(AppBarEditTNC));
+        private void AppBarEditTNC()
+        {
+            if (State == TNCState.EMail)
+            {
+                UpdateMailState(TNCState.EMailEdit);
+                _modifiedEmailAccountSelectedIndex = MailAccountSelectedIndex;
+            }
+            else
+            {
+                State = TNCState.TNCEdit;
+            }
+        }
+
+        private RelayCommand _AppBarSaveTNCCommand;
+        public RelayCommand AppBarSaveTNCCommand => _AppBarSaveTNCCommand ?? (_AppBarSaveTNCCommand = new RelayCommand(AppBarSaveTNC));
+        private void AppBarSaveTNC()
+        {
+            if (State == TNCState.TNCAdd)
+            {
+                TNCDevice tncDevice = new TNCDevice();
+                tncDevice = TNCDeviceFromUI;
+                TNCDeviceArray.Instance.TNCDeviceList.Add(tncDevice);
+                TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                CurrentTNCDevice = tncDevice;
+                TNCDeviceSelectedIndex = TNCDeviceArray.Instance.TNCDeviceList.Count - 1;
+                State = TNCState.TNCAdd;
+            }
+            AppBarSaveTNC(TNCDeviceSelectedIndex, State);
+            //int selectedIndex = _TNCSettingsViewModel.TNCDeviceSelectedIndex;
+            //_TNCSettingsViewModel.AppBarSaveTNC(selectedIndex);
+            //_TNCSettingsViewModel.TNCDeviceSelectedIndex = selectedIndex;
+            return;
+        }
+
+        private RelayCommand _AppBarDeleteTNCCommand;
+        public RelayCommand AppBarDeleteTNCCommand => _AppBarDeleteTNCCommand ?? (_AppBarDeleteTNCCommand = new RelayCommand(AppBarDeleteTNC));
+        private void AppBarDeleteTNC()
+        {
+            if (State == TNCState.EMail)
+            {
+                State = TNCState.EMailDelete;
+                _deletedIndex = MailAccountSelectedIndex;
+                EmailAccountArray.Instance.EmailAccountList.RemoveAt(_deletedIndex);
+                IsAppBarSaveEnabled = true;
+            }
+            else
+            {
+                State = TNCState.TNCDelete;
+                _deletedIndex = TNCDeviceSelectedIndex;
+                TNCDeviceArray.Instance.TNCDeviceList.RemoveAt(_deletedIndex);
+                TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                TNCDeviceSelectedIndex = Math.Max(_deletedIndex - 1, 0);
+                IsAppBarSaveEnabled = true;
+            }
         }
 
     }

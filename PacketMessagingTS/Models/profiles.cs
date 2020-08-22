@@ -45,7 +45,7 @@ namespace PacketMessagingTS.Models
         private static volatile ProfileArray _instance;
         private static object _syncRoot = new Object();
 
-        static string profileFileName = "Profiles.xml";
+        const string profileFileName = "Profiles.xml";
 
 		private Profile[] profileField;
 
@@ -73,7 +73,7 @@ namespace PacketMessagingTS.Models
 
         private ProfileArray()
         {
-            profileField = new Profile[0];
+            profileField = Array.Empty<Profile>();//new Profile[0];
         }
 
         public static ProfileArray Instance

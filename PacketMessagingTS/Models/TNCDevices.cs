@@ -31,8 +31,8 @@ namespace PacketMessagingTS.Models
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class TNCDeviceArray
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCDeviceArray>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCDeviceArray>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
         public static string tncFileName = "TNCData.xml";
@@ -60,18 +60,8 @@ namespace PacketMessagingTS.Models
         [System.Xml.Serialization.XmlIgnore]
         public List<TNCDevice> TNCDeviceList
         {
-            get
-            {
-                if (tncDeviceList is null || tncDeviceList.Count == 0)
-                {
-                    tncDeviceList = deviceField.ToList();
-                }
-                return tncDeviceList;
-            }
-            set
-            {
-                tncDeviceList = value;
-            }
+            get => tncDeviceList;
+            set => tncDeviceList = value;
         }
 
         public void TNCDeviceListUpdate(int index, TNCDevice tncDevice)
@@ -107,16 +97,22 @@ namespace PacketMessagingTS.Models
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
             try
-			{
-				var storageItem = await localFolder.TryGetItemAsync(tncFileName);
-				if (storageItem is null)
-				{
+            {
+                ulong size = 0;
+                var storageItem = await localFolder.TryGetItemAsync(tncFileName);
+                if (storageItem != null)
+                {
+                    Windows.Storage.FileProperties.BasicProperties basicProperties = await storageItem.GetBasicPropertiesAsync();
+                    size = basicProperties.Size;
+                }
+                if (storageItem is null || size == 0)
+                {
 					// Copy the file from the install folder to the local folder
 					var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
 					var storageFile = await folder.GetFileAsync(tncFileName);
 					if (storageFile != null)
 					{
-						await storageFile.CopyAsync(localFolder, tncFileName, NameCollisionOption.FailIfExists);
+						await storageFile.CopyAsync(localFolder, tncFileName, NameCollisionOption.ReplaceExisting);
 					}
 				}
 
@@ -128,9 +124,8 @@ namespace PacketMessagingTS.Models
 					{
 						XmlSerializer serializer = new XmlSerializer(typeof(TNCDeviceArray));
                         _instance = (TNCDeviceArray)serializer.Deserialize(reader);
-                        //TNCDeviceArray devarray = (TNCDeviceArray)serializer.Deserialize(reader);
-                        //TNCDeviceList = _instance.deviceField.ToList<TNCDevice>();
-                        //tncDeviceList = deviceField.ToList();
+
+                        _instance.TNCDeviceList = _instance.TNCDevices.ToList();
                     }
 				}
 			}
@@ -151,9 +146,10 @@ namespace PacketMessagingTS.Models
 
         public async Task SaveAsync()
         {
-            TNCDevice[] deviceList = TNCDeviceList.ToArray();
-            deviceField = new TNCDevice[TNCDeviceList.Count];
-            deviceList.CopyTo(deviceField, 0);
+            //TNCDevice[] deviceList = TNCDeviceList.ToArray();
+            //deviceField = new TNCDevice[TNCDeviceList.Count];
+            //deviceList.CopyTo(deviceField, 0);
+            TNCDevices = TNCDeviceList.ToArray();
 
             if (TNCDevices.Length == 0)
                 return;
