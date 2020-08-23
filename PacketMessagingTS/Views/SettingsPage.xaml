@@ -107,7 +107,7 @@
 
     <Grid >
         <Pivot x:Name="SettingsPivot"
-               SelectedIndex="{x:Bind _settingsViewModel.SettingsPivotSelectedIndex, Mode=TwoWay}"
+               SelectedIndex="{x:Bind SettingsViewModel.SettingsPivotSelectedIndex, Mode=TwoWay}"
                SelectionChanged="SettingsPivot_SelectionChanged">
 
             <!--Settings-->
@@ -122,24 +122,24 @@
                         <StackPanel Margin="{StaticResource EightTopMargin}">
                             <RadioButton x:Uid="Settings_Theme_Light"
                                          GroupName="AppTheme"
-                                         IsChecked="{x:Bind _settingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
-                                         Command="{x:Bind _settingsViewModel.SwitchThemeCommand}">
+                                         IsChecked="{x:Bind SettingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
+                                         Command="{x:Bind SettingsViewModel.SwitchThemeCommand}">
                                 <RadioButton.CommandParameter>
                                     <xaml:ElementTheme>Light</xaml:ElementTheme>
                                 </RadioButton.CommandParameter>
                             </RadioButton>
                             <RadioButton x:Uid="Settings_Theme_Dark"
                                          GroupName="AppTheme"
-                                         IsChecked="{x:Bind _settingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
-                                         Command="{x:Bind _settingsViewModel.SwitchThemeCommand}">
+                                         IsChecked="{x:Bind SettingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
+                                         Command="{x:Bind SettingsViewModel.SwitchThemeCommand}">
                                 <RadioButton.CommandParameter>
                                     <xaml:ElementTheme>Dark</xaml:ElementTheme>
                                 </RadioButton.CommandParameter>
                             </RadioButton>
                             <RadioButton x:Uid="Settings_Theme_Default"
                                          GroupName="AppTheme"
-                                         IsChecked="{x:Bind _settingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
-                                         Command="{x:Bind _settingsViewModel.SwitchThemeCommand}">
+                                         IsChecked="{x:Bind SettingsViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
+                                         Command="{x:Bind SettingsViewModel.SwitchThemeCommand}">
                                 <RadioButton.CommandParameter>
                                     <xaml:ElementTheme>Default</xaml:ElementTheme>
                                 </RadioButton.CommandParameter>
@@ -155,30 +155,30 @@
                                       RelativePanel.Below="bbsStatus"
                                       Header="W1XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{x:Bind _settingsViewModel.W1XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind SettingsViewModel.W1XSCStatusUp, Mode=TwoWay}"
                                       />
                         <ToggleSwitch x:Name="w2xscPrimaryStatus" 
                                       RelativePanel.Below="w1xscPrimaryStatus"
                                       Header="W2XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{x:Bind _settingsViewModel.W2XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind SettingsViewModel.W2XSCStatusUp, Mode=TwoWay}"
                                       />
                         <ToggleSwitch x:Name="w3xscPrimaryStatus" 
                                       RelativePanel.Below="w2xscPrimaryStatus"
                                       Header="W3XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{x:Bind _settingsViewModel.W3XSCStatusUp, Mode=TwoWay}"/>
+                                      IsOn="{x:Bind SettingsViewModel.W3XSCStatusUp, Mode=TwoWay}"/>
                         <ToggleSwitch x:Name="w4xscPrimaryStatus" 
                                       RelativePanel.Below="w3xscPrimaryStatus"
                                       Header="W4XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{x:Bind _settingsViewModel.W4XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind SettingsViewModel.W4XSCStatusUp, Mode=TwoWay}"
                                       />
                         <ToggleSwitch x:Name="w5xscPrimaryStatus" 
                                       RelativePanel.Below="w4xscPrimaryStatus"
                                       Header="W5XSC Status"
                                       OffContent="Down" OnContent="Up"
-                                      IsOn="{x:Bind _settingsViewModel.W5XSCStatusUp, Mode=TwoWay}"
+                                      IsOn="{x:Bind SettingsViewModel.W5XSCStatusUp, Mode=TwoWay}"
                                       />
 
                     </StackPanel>
@@ -187,7 +187,7 @@
                     <StackPanel Orientation="Horizontal" Margin="0,12">
                         <TextBlock Text="Select printer:"/>
                         <ComboBox x:Name="selectedPrinter" Width="300"
-                                  SelectedItem="{x:Bind _settingsViewModel.SelectedPrinter, Mode=TwoWay}"/>
+                                  SelectedItem="{x:Bind SettingsViewModel.SelectedPrinter, Mode=TwoWay}"/>
                     </StackPanel>
                     <TextBlock Text="Print Received Messages" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     <Grid Margin="0,12">
@@ -203,18 +203,18 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <CheckBox Grid.Column="0" x:Name="receivedPrint" Content="Print Received Messages."
-                                  IsChecked="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=TwoWay}"
+                                  IsChecked="{x:Bind SettingsViewModel.PrintReceivedMessages, Mode=TwoWay}"
                                   Checked="Print_CheckedUnchecked"
                                   Unchecked="Print_CheckedUnchecked"/>
                         <TextBlock Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}"  Margin="8,0,0,0"                        
                                    Text="Number of copies" VerticalAlignment="Center"/>
                         <muxc:NumberBox Grid.Column="2" x:Name="receivedCopyCount"
                                         VerticalAlignment="Center" 
-                                        IsEnabled="{x:Bind _settingsViewModel.PrintReceivedMessages, Mode=OneWay}"
+                                        IsEnabled="{x:Bind SettingsViewModel.PrintReceivedMessages, Mode=OneWay}"
                                         Minimum="0" Maximum="9"
                                         SmallChange="1"
                                         SpinButtonPlacementMode="Compact"
-                                        Value="{x:Bind Path=_settingsViewModel.ReceivedCopyCount, Mode=TwoWay}" Margin="2,0,2,0"
+                                        Value="{x:Bind Path=SettingsViewModel.ReceivedCopyCount, Mode=TwoWay}" Margin="2,0,2,0"
                                         ValueChanged="ReceivedCopyCount_ValueChanged"/>
                         <!--Style="{StaticResource AlliedNumberBox}"-->
                         <!--TextChanged="TextBox_IntegerChanged"-->
@@ -223,7 +223,7 @@
                                    Margin="8,0,0,0" Text="Copy Names:"/>
                         <TextBox Grid.Column="4" AcceptsReturn="True" Height="56" Margin="8,0,0,0"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                 Text="{x:Bind _settingsViewModel.ReceivedCopyNames, Mode=TwoWay}"/>
+                                 Text="{x:Bind SettingsViewModel.ReceivedCopyNames, Mode=TwoWay}"/>
                     </Grid>
                     <TextBlock Text="Print Sent Messages" Margin="0,20,0,0" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     <Grid Margin="0,12">
@@ -239,15 +239,15 @@
                             <ColumnDefinition Width="120"/>
                         </Grid.ColumnDefinitions>
                         <CheckBox Grid.Row="0" x:Name="sentPrint" Grid.Column="0" Content="Print Sent Messages"
-                                  IsChecked="{x:Bind _settingsViewModel.PrintSentMessages, Mode=TwoWay}"
+                                  IsChecked="{x:Bind SettingsViewModel.PrintSentMessages, Mode=TwoWay}"
                                   Checked="Print_CheckedUnchecked"
                                   Unchecked="Print_CheckedUnchecked"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="Number of copies"/>
                         <muxc:NumberBox Grid.Row="0" Grid.Column="2" x:Name="sentCopyCount"
                                         SmallChange="1"
                                         SpinButtonPlacementMode="Inline"
-                                        IsEnabled="{x:Bind _settingsViewModel.PrintSentMessages, Mode=OneWay}"
-                                        Value="{x:Bind _settingsViewModel.SentCopyCount, Mode=TwoWay}"
+                                        IsEnabled="{x:Bind SettingsViewModel.PrintSentMessages, Mode=OneWay}"
+                                        Value="{x:Bind SettingsViewModel.SentCopyCount, Mode=TwoWay}"
                                         ValueChanged="ReceivedCopyCount_ValueChanged"/>
                         <!--Style="{StaticResource AlliedNumberTextBox}"-->
                         <TextBlock Grid.Column="3" Style="{StaticResource BodyTextBlockStyle}"
@@ -255,26 +255,26 @@
                                    Margin="8,0,0,0" Text="Copy Names:"/>
                         <TextBox Grid.Column="4" AcceptsReturn="True" Height="56" Margin="8,0,0,0"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                 Text="{x:Bind _settingsViewModel.SentCopyNames, Mode=TwoWay}"/>
+                                 Text="{x:Bind SettingsViewModel.SentCopyNames, Mode=TwoWay}"/>
                     </Grid>
-                    <TextBox Text="{x:Bind _settingsViewModel.DataPath, Mode=OneWay}" IsReadOnly="True" Margin="0,30"
+                    <TextBox Text="{x:Bind SettingsViewModel.DataPath, Mode=OneWay}" IsReadOnly="True" Margin="0,30"
                              Header="Data files path:"/>
                 </StackPanel>
             </PivotItem>
 
             <!--Identity-->
-            <PivotItem x:Name="pivotIdentity" DataContext="{x:Bind _identityViewModel}"
+            <PivotItem x:Name="pivotIdentity" DataContext="{x:Bind IdentityViewModel}"
                        Header="Identity" Padding="0">
                 <ScrollViewer Margin="0,12,0,0" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <RelativePanel>
                             <TextBlock x:Name="LabelUserCallsign" RelativePanel.AlignLeftWithPanel="True" Text="User Callsign:" Width="125" Margin="0,10"/>
-                            <!--ItemsSource="{x:Bind _identityViewModel.UserCallsignsSource, Mode=OneTime}"-->
+                            <!--ItemsSource="{x:Bind IdentityViewModel.UserCallsignsSource, Mode=OneTime}"-->
                             <AutoSuggestBox x:Name="comboBoxUsercallsign" 
 									        RelativePanel.RightOf="LabelUserCallsign" 
 									        RelativePanel.AlignVerticalCenterWith="LabelUserCallsign"
 									        VerticalContentAlignment="Center" 
-                                            Text="{x:Bind _identityViewModel.UserCallsign, Mode=TwoWay}"
+                                            Text="{x:Bind IdentityViewModel.UserCallsign, Mode=TwoWay}"
                                             HorizontalAlignment="Left" VerticalAlignment="Center" Width="110"
                                             TextChanged="AutoSuggestBoxUserCallsign_TextChangedAsync"
                                             SuggestionChosen="AutoSuggestBoxUserCallsign_SuggestionChosen"
@@ -307,7 +307,7 @@
                         </RelativePanel>
                         <ToggleSwitch x:Name="toggleUseTacticalCallsign"									  
   									  Header="Use Tactical Call-sign" 
-									  IsOn="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									  IsOn="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									  Margin="0,30"/>
                         <Grid >
                             <Grid.ColumnDefinitions>
@@ -328,11 +328,11 @@
 									   Text="Tactical Call-sign Area:" />
                             <!--SelectionChanged="ComboBoxTacticalCallsignArea_SelectionChanged"-->
                             <ComboBox Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsignArea" 
-									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsAreaSource, Mode=OneTime}"
+									  ItemsSource="{x:Bind IdentityViewModel.TacticalCallsignsAreaSource, Mode=OneTime}"
 									  DisplayMemberPath = "AreaName"
 									  VerticalContentAlignment="Center"
-									  IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
-									  SelectedIndex="{x:Bind _identityViewModel.TacticalCallsignAreaSelectedIndex, Mode=TwoWay}"
+									  IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
+									  SelectedIndex="{x:Bind IdentityViewModel.TacticalCallsignAreaSelectedIndex, Mode=TwoWay}"
 									  Margin="5,1,0,1" Background="White" 
                                       Width="220" BorderThickness="2" >
                             </ComboBox>
@@ -340,43 +340,43 @@
 									   VerticalAlignment="Center"
 									   Text="Tactical Call-sign:" />
                             <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
-									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsSource, Mode=OneWay}" 									
-									  IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
+									  ItemsSource="{x:Bind IdentityViewModel.TacticalCallsignsSource, Mode=OneWay}" 									
+									  IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									  DisplayMemberPath="TacticalCallsign" IsEditable="True"
-									  SelectedIndex="{x:Bind _identityViewModel.TacticalCallsignSelectedIndex, Mode=TwoWay}"
+									  SelectedIndex="{x:Bind IdentityViewModel.TacticalCallsignSelectedIndex, Mode=TwoWay}"
                                       VerticalContentAlignment="Center"  
 									  Width="133" 
 									  BorderThickness="2" Margin="5,1,0,1"
-                                      Windows10version1809:Text="{x:Bind _identityViewModel.TacticalCallsignOther, Mode=TwoWay}"
+                                      Windows10version1809:Text="{x:Bind IdentityViewModel.TacticalCallsignOther, Mode=TwoWay}"
                                       />
-                            <!--Windows10version1809:Text="{x:Bind _identityViewModel.TacticalCallsignOther, Mode=TwoWay}"-->
+                            <!--Windows10version1809:Text="{x:Bind IdentityViewModel.TacticalCallsignOther, Mode=TwoWay}"-->
                             <!--Windows10version1809:TextSubmitted="ComboBoxTacticalCallsign_TextSubmitted"-->
                             <TextBox Grid.Column="1" Grid.Row="1"  x:Name="textBoxTacticalCallsign" 
-									 Text="{x:Bind _identityViewModel.TacticalCallsign, Mode=TwoWay}"
+									 Text="{x:Bind IdentityViewModel.TacticalCallsign, Mode=TwoWay}"
                                      HorizontalAlignment="Left"
-									 IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
+									 IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									 Width="133" Visibility="Collapsed"
 									 BorderThickness="2" Margin="5,1,0,1"
 									 TextChanged="TextBoxTacticalCallsign_TextChanged"/>
                             <TextBlock Grid.Column="0" Grid.Row="2"  x:Name="labelAdditionalText" 
 									   VerticalAlignment="Center" 
 									   Text="Additional ID text:" />
-                            <!--SelectedValue="{x:Bind _identityViewModel.TacticalAgencyName, Mode=TwoWay}"-->
+                            <!--SelectedValue="{x:Bind IdentityViewModel.TacticalAgencyName, Mode=TwoWay}"-->
                             <ComboBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" x:Name="comboBoxAdditionalText"  
-									  ItemsSource="{x:Bind _identityViewModel.TacticalCallsignsSource, Mode=OneWay}" 	
+									  ItemsSource="{x:Bind IdentityViewModel.TacticalCallsignsSource, Mode=OneWay}" 	
 									  DisplayMemberPath = "AgencyName"
                                       SelectedValuePath="AgencyName"
-                                      SelectedIndex="{x:Bind _identityViewModel.TacticalAgencyNameSelectedIndex, Mode=TwoWay}"
-                                      Windows10version1809:Text="{x:Bind _identityViewModel.TacticalAgencyName, Mode=TwoWay}"
-                                      IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
+                                      SelectedIndex="{x:Bind IdentityViewModel.TacticalAgencyNameSelectedIndex, Mode=TwoWay}"
+                                      Windows10version1809:Text="{x:Bind IdentityViewModel.TacticalAgencyName, Mode=TwoWay}"
+                                      IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									  VerticalContentAlignment="Center" Width="220" IsEditable="True"
 									  Margin="5,1,0,1" BorderThickness="2" />
                             <TextBlock Grid.Column="0" Grid.Row="3" x:Name="labelTacticalPrefix" 
 									   Text="Message ID Prefix:" 
 									   VerticalAlignment="Center"  />
                             <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxTacticalPrefix" 
-									 Text="{x:Bind _identityViewModel.TacticalMsgPrefix, Mode=OneWay}" 									
-								 	 IsEnabled="{x:Bind _identityViewModel.UseTacticalCallsign, Mode=OneWay}"
+									 Text="{x:Bind IdentityViewModel.TacticalMsgPrefix, Mode=OneWay}" 									
+								 	 IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
 									 HorizontalAlignment="Left"
 									 VerticalAlignment="Stretch" 
 									 BorderThickness="2" 
@@ -411,7 +411,7 @@
 									Click="ButtonSetAllPrimary_Click"/>-->
                             <ToggleSwitch Grid.Column="0" Grid.Row="7" x:Name="toggleDisplayIdentityAtStartup"
                                           Header="Display on Start" Margin="0, 30"
-										  IsOn="{x:Bind _identityViewModel.DisplayIdentityAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+										  IsOn="{x:Bind IdentityViewModel.DisplayIdentityAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
@@ -430,9 +430,9 @@
                                 <ComboBox x:Name="comboBoxProfiles"  Width="336"
 										  RelativePanel.RightOf="labelProfile"
                                           IsEditable="False"
-                                          Visibility="{x:Bind _PacketSettingsViewmodel.ProfileNameVisibility, Mode=OneWay}"
-                                          ItemsSource="{x:Bind _PacketSettingsViewmodel.ObservableProfileCollection, Mode=OneWay}"
-                                          SelectedIndex="{x:Bind _PacketSettingsViewmodel.ProfileSelectedIndex, Mode=TwoWay}"
+                                          Visibility="{x:Bind PacketSettingsViewmodel.ProfileNameVisibility, Mode=OneWay}"
+                                          ItemsSource="{x:Bind PacketSettingsViewmodel.ObservableProfileCollection, Mode=OneWay}"
+                                          SelectedIndex="{x:Bind PacketSettingsViewmodel.ProfileSelectedIndex, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
                                           />
                                 <!--SelectionChanged="ComboBoxProfiles_SelectionChanged"   />-->
@@ -442,8 +442,8 @@
 										 RelativePanel.RightOf="labelProfile"
 										 PlaceholderText="Enter profile name"
                                          IsSpellCheckEnabled="True"
-                                         Visibility="{x:Bind _PacketSettingsViewmodel.NewProfileNameVisibility, Mode=OneWay}"
-                                         Text="{x:Bind _PacketSettingsViewmodel.NewProfileName, Mode=TwoWay}"/>
+                                         Visibility="{x:Bind PacketSettingsViewmodel.NewProfileNameVisibility, Mode=OneWay}"
+                                         Text="{x:Bind PacketSettingsViewmodel.NewProfileName, Mode=TwoWay}"/>
                                 
                             </RelativePanel>
                             <Grid x:Name="panelProfileGrid"                                 
@@ -465,53 +465,53 @@
                                 <TextBlock x:Name="label7" Grid.Column="0" Grid.Row="0" Text="TNC:" HorizontalAlignment="Left"
                                            VerticalAlignment="Center" Margin="0,0,8,0"/>
                                 <ComboBox x:Name="comboBoxTNCs"  Grid.Column="1" Grid.Row="0"  VerticalAlignment="Center" Width="270"
-									      ItemsSource="{x:Bind _PacketSettingsViewmodel.TNCDeviceListSource, Mode=OneWay}"
+									      ItemsSource="{x:Bind PacketSettingsViewmodel.TNCDeviceListSource, Mode=OneWay}"
                                           DisplayMemberPath="Name"
 									      SelectedValuePath="Name"
-                                          SelectedValue="{x:Bind _PacketSettingsViewmodel.TNC, Mode=TwoWay}"
-                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.TNCFromSelectedProfile, Mode=TwoWay}"
+                                          SelectedValue="{x:Bind PacketSettingsViewmodel.TNC, Mode=TwoWay}"
+                                          SelectedItem="{x:Bind PacketSettingsViewmodel.TNCFromSelectedProfile, Mode=TwoWay}"
                                           HorizontalAlignment="Stretch"/>
                                 <TextBlock x:Name="label"  Grid.Column="0" Grid.Row="1" Text="BBS:"  VerticalAlignment="Center" />
                                 <ComboBox x:Name="comboBoxBBS"  Grid.Column="1" Grid.Row="1"
-										  ItemsSource="{x:Bind _PacketSettingsViewmodel.BBSDataCollection, Mode=OneWay}"
+										  ItemsSource="{x:Bind PacketSettingsViewmodel.BBSDataCollection, Mode=OneWay}"
 										  DisplayMemberPath="Name"
 										  VerticalAlignment="Center" Width="120"
                                           SelectedValuePath = "Name"
-                                          SelectedValue="{x:Bind _PacketSettingsViewmodel.BBS, Mode=TwoWay}"
-                                          SelectedItem="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"/>
+                                          SelectedValue="{x:Bind PacketSettingsViewmodel.BBS, Mode=TwoWay}"
+                                          SelectedItem="{x:Bind PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"/>
                                 <!--SelectedValuePath = "Name"-->
-                                <!--SelectedValue="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"-->
-                                <!--SelectedItem="{x:Bind _PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"-->
+                                <!--SelectedValue="{x:Bind PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"-->
+                                <!--SelectedItem="{x:Bind PacketSettingsViewmodel.BBSFromSelectedProfile, Mode=TwoWay}"-->
                                 <!--SelectionChanged="ComboBoxBBS_SelectionChanged"/>-->
                                 <TextBlock x:Name="label4" Grid.Column="0" Grid.Row="2" Text="Location:"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
                                 <TextBox x:Name="textBoxDescription" Grid.Column="1" Grid.Row="2" 
 										 IsReadOnly="True"
 										 VerticalAlignment="Center"
-                                         Text="{x:Bind _PacketSettingsViewmodel.BBSDescription, Mode=TwoWay}"/>
+                                         Text="{x:Bind PacketSettingsViewmodel.BBSDescription, Mode=TwoWay}"/>
                                 <TextBlock x:Name="label5" Grid.Column="0" Grid.Row="3"  Text="Frequencies:"
                                            VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxFrequency1"  Grid.Column="1" Grid.Row="3" Width="85"
 									     HorizontalAlignment="Left" IsReadOnly="True" VerticalContentAlignment="Center"
-                                         Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency1, Mode=OneWay}" Height="32"/>
+                                         Text="{x:Bind PacketSettingsViewmodel.BBSFrequency1, Mode=OneWay}" Height="32"/>
                                 <TextBox x:Name="textBoxFrequency2"  Grid.Column="1" Grid.Row="3" Width="85" Margin="0,0,0,0"
 										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
-                                         Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency2, Mode=OneWay}"/>
+                                         Text="{x:Bind PacketSettingsViewmodel.BBSFrequency2, Mode=OneWay}"/>
                                 <TextBox x:Name="textBoxFrequency3"  Grid.Column="1" Grid.Row="3" Width="85" 
 										 VerticalAlignment="Center" IsReadOnly="True" VerticalContentAlignment="Center"
                                          HorizontalAlignment="Right"
-                                         Text="{x:Bind _PacketSettingsViewmodel.BBSFrequency3, Mode=OneWay}"/>
+                                         Text="{x:Bind PacketSettingsViewmodel.BBSFrequency3, Mode=OneWay}"/>
                                 <TextBlock x:Name="label2" Grid.Column="0" Grid.Row="4"  Text="Default To:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxTo"  Grid.Column="1" Grid.Row="4" Width="270"
-										 Text="{x:Bind _PacketSettingsViewmodel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
+										 Text="{x:Bind PacketSettingsViewmodel.DefaultTo, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Center" 
 										  />
                                 <TextBlock x:Name="label3" Grid.Column="0" Grid.Row="5"  Text="Default Subject:" VerticalAlignment="Center" />
                                 <TextBox x:Name="textBoxSubject"  Grid.Column="1" Grid.Row="5" Width="270"
-										 Text="{x:Bind _PacketSettingsViewmodel.DefaultSubject, Mode=TwoWay}"
+										 Text="{x:Bind PacketSettingsViewmodel.DefaultSubject, Mode=TwoWay}"
                                          VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="0" Grid.Row="6"  Text="Default Message:" VerticalAlignment="Center"
                                            Margin="0,0,8,0"/>
                                 <TextBox x:Name="textBoxMessageBody"  Grid.Column="1" Grid.Row="6" Width="270"
-										 Text="{x:Bind _PacketSettingsViewmodel.DefaultMessage, Mode=TwoWay}"
+										 Text="{x:Bind PacketSettingsViewmodel.DefaultMessage, Mode=TwoWay}"
                                          VerticalAlignment="Center" />
                             </Grid>
                             <Grid>
@@ -521,25 +521,25 @@
                                 </Grid.ColumnDefinitions>
                                 <ToggleSwitch Grid.Column="0" x:Name="displayProfileOnStart"
                                           Header="Display on start" Margin="8"
-                                          IsOn="{x:Bind _PacketSettingsViewmodel.DisplayProfileOnStart, Mode=TwoWay}" />
+                                          IsOn="{x:Bind PacketSettingsViewmodel.DisplayProfileOnStart, Mode=TwoWay}" />
                                 <ToggleSwitch Grid.Column="1" x:Name="drillTraffic"
                                           Header="Append Drill Traffic" Margin="8"
-                                          IsOn="{x:Bind _PacketSettingsViewmodel.IsDrillTraffic, Mode=TwoWay}" />
+                                          IsOn="{x:Bind PacketSettingsViewmodel.IsDrillTraffic, Mode=TwoWay}" />
                             </Grid>
 
                             <TextBox x:Name="textBoxFirstMessageNumber" Header="Message Number Start:"
                                      Width="155" HorizontalAlignment="Left" Margin="8,16,0,0" 
-                                     Text="{x:Bind _PacketSettingsViewmodel.FirstMessageNumber, Mode=TwoWay}"/>
+                                     Text="{x:Bind PacketSettingsViewmodel.FirstMessageNumber, Mode=TwoWay}"/>
 
                             <TextBox x:Name="areaString" Header="Area string" MinHeight="60" Margin="8,8,0,0"                                   
                                      Width="300"  AcceptsReturn="True" HorizontalAlignment="Left"
-                                     Text="{x:Bind _PacketSettingsViewmodel.AreaString, Mode=TwoWay}" 
+                                     Text="{x:Bind PacketSettingsViewmodel.AreaString, Mode=TwoWay}" 
                                      />
                             <ToggleSwitch x:Name="sendReceivedReceipt" Header="Send Received Receipt" Margin="8"
-                                          IsOn="{x:Bind _PacketSettingsViewmodel.SendReceipt, Mode=TwoWay}"
+                                          IsOn="{x:Bind PacketSettingsViewmodel.SendReceipt, Mode=TwoWay}"
                                           />
                             <ToggleSwitch x:Name="forceReadBulletins" Header="Force onetime get bulletins" Margin="8"
-                                          IsOn="{x:Bind _PacketSettingsViewmodel.ForceReadBulletins, Mode=TwoWay}"
+                                          IsOn="{x:Bind PacketSettingsViewmodel.ForceReadBulletins, Mode=TwoWay}"
                                           />
                         </StackPanel>
                     </ScrollViewer>
@@ -549,21 +549,21 @@
 							RelativePanel.AlignRightWithPanel="True">
                         <AppBarButton x:Name="profileSettingsAdd" Label="Add Profile" Icon="Add"
                                       HorizontalAlignment="Right"
-                                      Command="{x:Bind _PacketSettingsViewmodel.ProfileSettingsAddCommand}" />
+                                      Command="{x:Bind PacketSettingsViewmodel.ProfileSettingsAddCommand}" />
                         <!--Click="ProfileSettingsAdd_Click"-->
                         <AppBarButton x:Name="profileSave"  Label="Save Profile" Icon="Save"
-                                      IsEnabled="{x:Bind _PacketSettingsViewmodel.IsAppBarSaveEnabled, Mode=TwoWay}"
-                                      Command="{x:Bind _PacketSettingsViewmodel.PacketSettingsSaveCommand}" />
+                                      IsEnabled="{x:Bind PacketSettingsViewmodel.IsAppBarSaveEnabled, Mode=TwoWay}"
+                                      Command="{x:Bind PacketSettingsViewmodel.PacketSettingsSaveCommand}" />
                         <!--Click="PacketSettingsSave_ClickAsync"-->
                         <AppBarButton x:Name="profileSettingsDelete" Label="Delete Profile" Icon="Delete"
-                                      Command="{x:Bind _PacketSettingsViewmodel.ProfileSettingsDeleteCommand}" />
+                                      Command="{x:Bind PacketSettingsViewmodel.ProfileSettingsDeleteCommand}" />
                         <!--Click="ProfileSettingsDelete_Click"-->
                     </CommandBar>
                 </RelativePanel>
             </PivotItem>
 
             <!--TNC-->
-            <PivotItem x:Name="pivotTNC" DataContext="{x:Bind _TNCSettingsViewModel}" Header="Interface" Padding="0">
+            <PivotItem x:Name="pivotTNC" DataContext="{x:Bind TncSettingsViewModel}" Header="Interface" Padding="0">
                 <RelativePanel Margin="-12,0,-12,0" >
                     <!--<ScrollViewer Name="scrollViewerTNC"
 								  RelativePanel.AlignTopWithPanel="True"
@@ -574,28 +574,28 @@
                         <SplitView.Pane >
                             <StackPanel>
                                 <ListBox x:Name="ConnectDevices"  Width="auto"  Height="auto"  Background="LightGray"
-									     ItemsSource="{x:Bind _TNCSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"
+									     ItemsSource="{x:Bind TncSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"
                                          DisplayMemberPath="Name"
-                                         Visibility="{x:Bind _TNCSettingsViewModel.DeviceListBoxVisibility, Mode=OneWay}"
-									     SelectedIndex="{x:Bind _TNCSettingsViewModel.TNCDeviceSelectedIndex, Mode=TwoWay}"
+                                         Visibility="{x:Bind TncSettingsViewModel.DeviceListBoxVisibility, Mode=OneWay}"
+									     SelectedIndex="{x:Bind TncSettingsViewModel.TNCDeviceSelectedIndex, Mode=TwoWay}"
 								>
                                     <!--SelectionChanged="ConnectDevices_SelectionChanged"-->
                                 </ListBox>
-                                <!--ItemsSource="{x:Bind _TNCSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"-->
+                                <!--ItemsSource="{x:Bind TncSettingsViewModel.TNCDeviceListSource, Mode=OneWay}"-->
                                 <!--SelectedIndex="{Binding TNCDeviceSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
                                 <TextBox x:Name="newTNCDeviceName" Header="New Device Name"
-                                         Text="{x:Bind _TNCSettingsViewModel.NewTNCDeviceName, Mode=TwoWay}"
+                                         Text="{x:Bind TncSettingsViewModel.NewTNCDeviceName, Mode=TwoWay}"
                                          Margin="5,58,5,0"
-                                         Visibility="{x:Bind _TNCSettingsViewModel.NewTNCDeviceNameVisibility, Mode=OneWay}"/>
+                                         Visibility="{x:Bind TncSettingsViewModel.NewTNCDeviceNameVisibility, Mode=OneWay}"/>
                             </StackPanel>
                             <!--<ListView x:Name="tncDeviceList" Width="100"/>-->
                         </SplitView.Pane>
                         <SplitView.Content>
                             <StackPanel>
                                 <Pivot x:Name="PivotTNC"  Margin="12,0,12,0"
-                                       SelectedIndex="{x:Bind _TNCSettingsViewModel.PivotTNCSelectedIndex, Mode=TwoWay}"
-                                       Visibility="{x:Bind _TNCSettingsViewModel.PivotTNCVisibility, Mode=OneWay}">
+                                       SelectedIndex="{x:Bind TncSettingsViewModel.PivotTNCSelectedIndex, Mode=TwoWay}"
+                                       Visibility="{x:Bind TncSettingsViewModel.PivotTNCVisibility, Mode=OneWay}">
                                     <PivotItem Header="Init Commands" >
                                         <ScrollViewer Margin="0,0,2,48" 
 												  VerticalScrollBarVisibility="Auto">
@@ -643,9 +643,9 @@
                                                     <!--ItemsSource="{x:Bind DeviceListSource.View, Mode=OneWay}"-->
 
                                                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxComPort"
-                                                              ItemsSource="{x:Bind _TNCSettingsViewModel.CollectionOfSerialDevices, Mode=OneWay}"
-                                                              SelectedItem="{x:Bind _TNCSettingsViewModel.TNCComPort, Mode=TwoWay}"
-                                                              Visibility="{x:Bind _TNCSettingsViewModel.TNCComPortVisible, Mode=OneWay}"
+                                                              ItemsSource="{x:Bind TncSettingsViewModel.CollectionOfSerialDevices, Mode=OneWay}"
+                                                              SelectedItem="{x:Bind TncSettingsViewModel.TNCComPort, Mode=TwoWay}"
+                                                              Visibility="{x:Bind TncSettingsViewModel.TNCComPortVisible, Mode=OneWay}"
 													          Width="100" 
 														      VerticalAlignment="Stretch" 
 														      Margin="0,1,0,3" 	/>
@@ -653,19 +653,19 @@
 													          ItemsSource="{x:Bind ComNameListSource.View, Mode=OneWay}"
                                                               SelectedValuePath = "Name"
                                                               DisplayMemberPath="Name"
-                                                              Visibility="{x:Bind _TNCSettingsViewModel.TNCComNameVisible, Mode=OneWay}"
+                                                              Visibility="{x:Bind TncSettingsViewModel.TNCComNameVisible, Mode=OneWay}"
 														      Width="210" 
 														      VerticalAlignment="Stretch" Margin="0,1,0,3"	/>
                                                     <!--SelectionChanged="comboBoxComName_SelectionChanged" />-->
                                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="Baud Rate:"  
 														   VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="1" x:Name="comboBoxBaudRate"  
-													          ItemsSource="{x:Bind _TNCSettingsViewModel.BaudRatesCollection, Mode=OneTime}"											
+													          ItemsSource="{x:Bind TncSettingsViewModel.BaudRatesCollection, Mode=OneTime}"											
 														      Width="100" Margin=" 0,2"
-                                                              SelectedItem="{x:Bind _TNCSettingsViewModel.TNCComBaudRate, Mode=TwoWay}" />
+                                                              SelectedItem="{x:Bind TncSettingsViewModel.TNCComBaudRate, Mode=TwoWay}" />
                                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Data Bits:" VerticalAlignment="Center" />
                                                     <ComboBox Grid.Column="1" Grid.Row="2" x:Name="comboBoxDatabits"
-                                                              ItemsSource="{x:Bind _TNCSettingsViewModel.DatabitsCollection, Mode=OneTime}"
+                                                              ItemsSource="{x:Bind TncSettingsViewModel.DatabitsCollection, Mode=OneTime}"
 														      Width="100" Margin="0,2"                                                             
                                                               SelectedValue="{Binding TNCComDatabits, Mode=TwoWay}">
                                                     </ComboBox>
@@ -700,7 +700,7 @@
                                     </PivotItem>
 
                                     <!--Prompts-->
-                                    <PivotItem Header="Prompts" DataContext="{x:Bind _TNCSettingsViewModel}">
+                                    <PivotItem Header="Prompts" DataContext="{x:Bind TncSettingsViewModel}">
                                         <Grid Margin="20" >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="100"/>
@@ -763,7 +763,7 @@
                                 </Pivot>
                                 <!--E Mail Settings-->
                                 <Grid x:Name="EMailSettings" Margin="10,20,0,0"
-                                      Visibility="{x:Bind _TNCSettingsViewModel.EMailSettingsVisibility, Mode=OneWay}">
+                                      Visibility="{x:Bind TncSettingsViewModel.EMailSettingsVisibility, Mode=OneWay}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="300"/>
@@ -785,34 +785,34 @@
                                              Header="Mail User Name:" Margin="10,20,0,0"
                                              TextChanged="MailUserName_TextChanged"/>-->
                                     <ComboBox Grid.Column="0" Grid.Row="0" x:Name="mailUserNameComboBox"
-                                              ItemsSource="{x:Bind _TNCSettingsViewModel.MailAccountListSource, Mode=OneWay}"
+                                              ItemsSource="{x:Bind TncSettingsViewModel.MailAccountListSource, Mode=OneWay}"
                                               DisplayMemberPath="MailUserName"
                                               IsEditable="True"
                                               Header="Mail User Account:" Margin="10,20,10,0"
                                               TextSubmitted="MailUserNameComboBox_TextSubmitted"
-                                              SelectedIndex="{x:Bind _TNCSettingsViewModel.MailAccountSelectedIndex, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                              SelectedIndex="{x:Bind TncSettingsViewModel.MailAccountSelectedIndex, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                               />
                                     <PasswordBox Grid.Column="1" Grid.Row="0" x:Name="mailPassword" 
-                                                 Password="{x:Bind _TNCSettingsViewModel.MailPassword, Mode=TwoWay}" 
+                                                 Password="{x:Bind TncSettingsViewModel.MailPassword, Mode=TwoWay}" 
                                                  Header="Mail password:"
-                                                 IsEnabled="{x:Bind _TNCSettingsViewModel.IsMailPasswordEnabled, Mode=OneWay}"
+                                                 IsEnabled="{x:Bind TncSettingsViewModel.IsMailPasswordEnabled, Mode=OneWay}"
                                                  Margin="10,20,10,0" PasswordRevealMode="Peek"/>
                                     <ComboBox Grid.Column="0" Grid.Row="1" x:Name="mailServerComboBox"
                                               Header="EMail Server:" 
-                                              ItemsSource="{x:Bind _TNCSettingsViewModel.MailAccountListSource, Mode=OneWay}"
+                                              ItemsSource="{x:Bind TncSettingsViewModel.MailAccountListSource, Mode=OneWay}"
                                               DisplayMemberPath="MailServer"
-                                              SelectedIndex="{x:Bind _TNCSettingsViewModel.MailAccountSelectedIndex, Mode=TwoWay}"
+                                              SelectedIndex="{x:Bind TncSettingsViewModel.MailAccountSelectedIndex, Mode=TwoWay}"
                                               TextSubmitted="MailServerComboBox_TextSubmitted"
                                               Margin="10,10,10,0" IsEditable="True"
-                                              IsEnabled="{x:Bind _TNCSettingsViewModel.IsMailServerEnabled, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                              IsEnabled="{x:Bind TncSettingsViewModel.IsMailServerEnabled, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                     <TextBox Grid.Column="1" Grid.Row="1" x:Name="mailPortString" 
-                                             Text="{x:Bind _TNCSettingsViewModel.MailServerPort, Mode=TwoWay}" 
+                                             Text="{x:Bind TncSettingsViewModel.MailServerPort, Mode=TwoWay}" 
                                              Header="EMail server port:"
-                                             IsEnabled="{x:Bind _TNCSettingsViewModel.IsMailServerPortEnabled, Mode=OneWay}"
+                                             IsEnabled="{x:Bind TncSettingsViewModel.IsMailServerPortEnabled, Mode=OneWay}"
                                              Margin="10,10,10,0" />
                                     <ToggleSwitch Grid.Column="0" Grid.Row="2" x:Name="mailIsSSL" 
-                                                  IsOn="{x:Bind _TNCSettingsViewModel.IsMailSSL, Mode=TwoWay}"                                                  
-                                                  Visibility="{x:Bind _TNCSettingsViewModel.IsMailServerSSLVisible, Mode=OneWay}"
+                                                  IsOn="{x:Bind TncSettingsViewModel.IsMailSSL, Mode=TwoWay}"                                                  
+                                                  Visibility="{x:Bind TncSettingsViewModel.IsMailServerSSLVisible, Mode=OneWay}"
                                                   Header="EMail Server SSL:" Margin="10,20,0,0" />
                                 </Grid>
                             </StackPanel>
@@ -824,20 +824,20 @@
 							    RelativePanel.AlignRightWithPanel="True"
 							    RelativePanel.AlignLeftWithPanel="True">
                         <AppBarButton x:Name="appBarAddTNC" Label="Add" Icon="Add" HorizontalAlignment="Right"
-                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarAddEnabled, Mode=OneWay}"
-                                      Command="{x:Bind _TNCSettingsViewModel.AppBarAddTNCCommand}"/>
+                                      IsEnabled="{x:Bind TncSettingsViewModel.IsAppBarAddEnabled, Mode=OneWay}"
+                                      Command="{x:Bind TncSettingsViewModel.AppBarAddTNCCommand}"/>
                         <!--Click="AppBarAddTNC_Clicked"-->
                         <AppBarButton x:Name="appBarSettingsEdit" Label="Edit" Icon="Edit" HorizontalAlignment="Right"
-                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarEditEnabled, Mode=OneWay}"
-                                      Command="{x:Bind _TNCSettingsViewModel.AppBarEditTNCCommand}"/>
+                                      IsEnabled="{x:Bind TncSettingsViewModel.IsAppBarEditEnabled, Mode=OneWay}"
+                                      Command="{x:Bind TncSettingsViewModel.AppBarEditTNCCommand}"/>
                         <!--Click="AppBarEditTNC_Click"-->
                         <AppBarButton x:Name="appBarSaveTNC" Label="Save" Icon="Save" HorizontalAlignment="Right"
-                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarSaveEnabled, Mode=TwoWay}"
-                                      Command="{x:Bind _TNCSettingsViewModel.AppBarSaveTNCCommand}" />
+                                      IsEnabled="{x:Bind TncSettingsViewModel.IsAppBarSaveEnabled, Mode=TwoWay}"
+                                      Command="{x:Bind TncSettingsViewModel.AppBarSaveTNCCommand}" />
                         <!--Click="AppBarSaveTNC_ClickAsync"-->
                         <AppBarButton x:Name="appBarDeleteTNC" Label="Delete" Icon="Delete" HorizontalAlignment="Right"
-                                      IsEnabled="{x:Bind _TNCSettingsViewModel.IsAppBarDeleteEnabled, Mode=OneWay}"
-                                      Command="{x:Bind _TNCSettingsViewModel.AppBarDeleteTNCCommand}"/>
+                                      IsEnabled="{x:Bind TncSettingsViewModel.IsAppBarDeleteEnabled, Mode=OneWay}"
+                                      Command="{x:Bind TncSettingsViewModel.AppBarDeleteTNCCommand}"/>
                         <!--Click="AppBarDeleteTNC_Click"-->
                     </CommandBar>
                 </RelativePanel>
@@ -845,7 +845,7 @@
 
             <!--Address Book-->
             <PivotItem x:Name="pivotItemAddressBook" Header="Address Book"
-                DataContext="{x:Bind _addressBookViewModel}">
+                DataContext="{x:Bind AddressBookViewModel}">
                 <RelativePanel >
                     <ListView x:Name="addressBookListView"  ItemsSource="{x:Bind ContactsCVS.View, Mode=OneWay}"
 							  ItemTemplate="{StaticResource ContactListViewTemplate}"
@@ -921,7 +921,7 @@
                                Style="{StaticResource SubtitleTextBlockStyle}" />
 
                     <StackPanel Margin="{StaticResource EightTopMargin}">
-                        <TextBlock Text="{x:Bind _settingsViewModel.VersionDescription, Mode=OneWay}" />
+                        <TextBlock Text="{x:Bind SettingsViewModel.VersionDescription, Mode=OneWay}" />
                         <TextBlock x:Uid="Settings_AboutDescription"
                                    Margin="{StaticResource EightTopMargin}" />
 
