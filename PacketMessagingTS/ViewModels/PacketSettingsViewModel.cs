@@ -60,7 +60,6 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 Set(ref _NewProfileNameVisibility, value);
-                //ProfileNameVisibility = !value;
             }
         }
 
@@ -228,12 +227,12 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = SaveEnabled(changed);
         }
 
-        private string _ProfileName;
-        public string ProfileName
-        {
-            get => _ProfileName;
-            set => Set(ref _ProfileName, value);
-        }
+        //private string _ProfileName;
+        //public string ProfileName
+        //{
+        //    get => _ProfileName;
+        //    set => Set(ref _ProfileName, value);
+        //}
 
         private string tnc;
         public string TNC

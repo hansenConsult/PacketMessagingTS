@@ -23,7 +23,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.ExtendedExecution;
 using Windows.Foundation;
 using Windows.Storage;
-using Windows.Storage.Search;
 using Windows.UI.Xaml;
 
 
@@ -83,6 +82,7 @@ namespace PacketMessagingTS
 #if DEBUG
             //SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
 
+            // Shows how to process tasks that return a value
             IAsyncOperation<StorageFolder>[] folders = new IAsyncOperation<StorageFolder>[]
             {
                 localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists),

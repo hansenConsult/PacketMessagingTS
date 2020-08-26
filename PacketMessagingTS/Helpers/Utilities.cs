@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MetroLog;
 
-using Newtonsoft.Json;
+using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
 
@@ -14,9 +12,6 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-using Windows.Storage;
-using Windows.Storage.Search;
-//using SharedCode.Helpers;
 
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;

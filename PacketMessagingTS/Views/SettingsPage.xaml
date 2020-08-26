@@ -7,7 +7,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
     xmlns:models="using:PacketMessagingTS.Models"
-    xmlns:vm="using:PacketMessagingTS.ViewModels"
     xmlns:helper="using:PacketMessagingTS.Helpers"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:xaml="using:Windows.UI.Xaml"
@@ -434,6 +433,7 @@
                                           ItemsSource="{x:Bind PacketSettingsViewmodel.ObservableProfileCollection, Mode=OneWay}"
                                           SelectedIndex="{x:Bind PacketSettingsViewmodel.ProfileSelectedIndex, Mode=TwoWay}"
                                           DisplayMemberPath="Name"
+                                          
                                           />
                                 <!--SelectionChanged="ComboBoxProfiles_SelectionChanged"   />-->
 

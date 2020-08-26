@@ -9,6 +9,7 @@ using PacketMessagingTS.Services;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -21,6 +22,22 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref settingsPivotSelectedIndex);
             set => SetProperty(ref settingsPivotSelectedIndex, value, true);
         }
+
+        //private PivotItem settingsPivotSelectedItem;
+        //public PivotItem SettingsPivotSelectedItem
+        //{
+        //    //get => settingsPivotSelectedItem;
+        //    get
+        //    {
+        //        switch (settingsPivotSelectedItem.Name)
+        //        {
+        //            case "pivotSettings":
+        //            break;
+        //        }
+        //        return settingsPivotSelectedItem;
+        //    }
+        //set => SetProperty(ref settingsPivotSelectedItem, value);
+        //}
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
         public ElementTheme ElementTheme

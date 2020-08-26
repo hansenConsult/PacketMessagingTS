@@ -714,6 +714,8 @@ namespace PacketMessagingTS.ViewModels
             PacketSettingsViewModel packetSettingsViewmodel = Singleton<PacketSettingsViewModel>.Instance;
             //string selectedTNC = packetSettingsViewmodel.TNC;
             packetSettingsViewmodel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+            packetSettingsViewmodel.ProfileSelectedIndex = Utilities.GetProperty(nameof(packetSettingsViewmodel.ProfileSelectedIndex));
+
             //packetSettingsViewmodel.TNC = selectedTNC;
 
             // Disable Save button
@@ -758,7 +760,7 @@ namespace PacketMessagingTS.ViewModels
             //}
         }
 
-        #region Mail Settings
+#region Mail Settings
         private Visibility eMailSettingsVisibility;
         public Visibility EMailSettingsVisibility
         {

@@ -6,6 +6,7 @@ using MetroLog;
 
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
+using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
@@ -232,12 +233,13 @@ namespace PacketMessagingTS.Views
                 case "pivotPacketSettings":
                     //comboBoxProfiles.Visibility = Visibility.Visible;
                     //textBoxNewProfileName.Visibility = Visibility.Collapsed;
-                    PacketSettingsViewmodel.ProfileNameVisibility = true;
+                    //PacketSettingsViewmodel.ProfileNameVisibility = true;
 
-                    //_TNCSettingsViewModel.TNCDeviceListSource = _TNCSettingsViewModel.TNCDeviceListSource;
-                    //int profileSelectedIndex = Utilities.GetProperty("ProfileSelectedIndex");
-                    //_PacketSettingsViewmodel.ProfileSelectedIndex = 1;
-                    //_PacketSettingsViewmodel.ProfileSelectedIndex = profileSelectedIndex;
+                    int profileSelectedIndex = Utilities.GetProperty(nameof(PacketSettingsViewmodel.ProfileSelectedIndex));
+                    string tnc = ProfileArray.Instance.ProfileList[profileSelectedIndex].TNC;
+                    // Trigger a change to force opdate if the TNC list is changed
+                    PacketSettingsViewmodel.TNC = "";
+                    PacketSettingsViewmodel.TNC = tnc;
                     break;
                 case "pivotIdentity":
                     //_identityViewModel.UserCallsign = Utilities.GetProperty<string>("UserCallsign");
@@ -254,7 +256,7 @@ namespace PacketMessagingTS.Views
             }
             // Disable Save button
             //_TNCSettingsViewModel.ResetChangedProperty();
-            _logHelper.Log(LogLevel.Trace, $"Exiting SettingsPivot_SelectionChanged(). {(SettingsPivot.SelectedItem as PivotItem).Name}");
+            //_logHelper.Log(LogLevel.Trace, $"Exiting SettingsPivot_SelectionChanged(). {(SettingsPivot.SelectedItem as PivotItem).Name}");
         }
 
         private void ReceivedCopyCount_ValueChanged(muxc.NumberBox sender, muxc.NumberBoxValueChangedEventArgs args)
@@ -432,8 +434,8 @@ namespace PacketMessagingTS.Views
                 IdentityViewModel.TacticalCallsignOther = ((ComboBox)sender).Text;
             }
         }
-#endregion Identity
-#region Profiles
+        #endregion Identity
+        #region Profiles
         //private bool _bbsChanged = false;
         //private bool _tncChanged = false;
         //private bool _defaultToChanged = false;
@@ -600,7 +602,7 @@ namespace PacketMessagingTS.Views
         //}
 
         #endregion
-#region Interface
+        #region Interface
 
         //private void TNCSaveAsCurrent()
         //{
