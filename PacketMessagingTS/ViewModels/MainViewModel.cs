@@ -289,7 +289,7 @@ namespace PacketMessagingTS.ViewModels
                 moveSubMenu.Items.Remove(moveSubMenu.Items[i]);
             }
 
-            foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderList)
+            foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderDataList)
             {
                 MenuFlyoutItem newMenuItem = new MenuFlyoutItem()
                 {

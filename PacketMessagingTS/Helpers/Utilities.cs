@@ -13,6 +13,7 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -133,6 +134,20 @@ namespace PacketMessagingTS.Helpers
             for (int i = 0; i < taskArray.Length; i++)
             {
                 msgNumbers.Add(taskArray[i].Result);
+            }
+
+            // Get message numbers from custom folders
+            CustomFoldersArray _customFoldersInstance = CustomFoldersArray.Instance;
+            List<Task<int>> taskList = new List<Task<int>>();
+            foreach (string path in _customFoldersInstance.CustomStorageFolderPathList)
+            {
+                taskList.Add(Task<int>.Factory.StartNew(() => FindHighestUsedMesageNumberInFolder(path, msgNoPrefix)));
+            }
+
+            results = new int[taskList.Count];
+            for (int i = 0; i < taskList.Count; i++)
+            {
+                msgNumbers.Add(taskList[i].Result);
             }
 
             msgNumbers.Sort();

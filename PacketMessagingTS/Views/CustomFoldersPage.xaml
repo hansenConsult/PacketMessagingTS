@@ -28,7 +28,7 @@
                        RelativePanel.AlignRightWithPanel="True"
                        AllowDropTabs="False"
                        TabWidthMode="SizeToContent"
-                       TabItemsSource="{x:Bind ViewModel.Tabs}"
+                       TabItemsSource="{x:Bind ViewModel.Tabs, Mode=TwoWay}"
                        SelectedIndex="{x:Bind ViewModel.SelectedTabIndex, Mode=TwoWay}"
                        SelectedItem="{x:Bind ViewModel.SelectedTab, Mode=TwoWay}"
                        AddTabButtonCommand="{x:Bind ViewModel.AddTabCommand}">
@@ -135,10 +135,11 @@
 				    RelativePanel.AlignRightWithPanel="True"
 				    RelativePanel.AlignLeftWithPanel="True" >
             <AppBarButton Label="Edit Folder Name" Icon="Edit" Command="{x:Bind ViewModel.EditFolderNameCommand}"/>
-            <AppBarButton Label="Open" Icon="OpenFile" Command="{x:Bind ViewModel.OpenMessageCommand}"
-                          />
+            <AppBarButton Label="Open" Icon="OpenFile"
+                          IsEnabled="{x:Bind ViewModel.IsAppBarOpenDeleteEnabled, Mode=OneWay}"
+                          Command="{x:Bind ViewModel.OpenMessageCommand}" />
             <AppBarButton Label="Send/Receive" Icon="Send" Command="{x:Bind ViewModel.SendReceiveCommand}" />
-            <AppBarButton Label="Delete" Icon="Delete"
+            <AppBarButton Label="Delete" Icon="Delete" IsEnabled="{x:Bind ViewModel.IsAppBarOpenDeleteEnabled, Mode=OneWay}"
                           Command="{x:Bind ViewModel.DeleteMessagesCommand}" CommandParameter="{x:Bind ViewModel.SelectedMessages}"
                           HorizontalAlignment="Right" />
         </CommandBar>

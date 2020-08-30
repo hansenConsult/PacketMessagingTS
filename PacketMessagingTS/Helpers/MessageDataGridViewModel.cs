@@ -97,6 +97,13 @@ namespace PacketMessagingTS.Helpers
             DataGridSource = new ObservableCollection<PacketMessage>(sortedItems);
         }
 
+        private bool _IsAppBarOpenDeleteEnabled;
+        public bool IsAppBarOpenDeleteEnabled
+        {
+            get => (_messagesInFolder != null && _messagesInFolder.Count > 0);
+            set => Set(ref _IsAppBarOpenDeleteEnabled, value);
+        }
+
         private ICommand _OpenMessageCommand;
         public ICommand OpenMessageCommand => _OpenMessageCommand ?? (_OpenMessageCommand = new RelayCommand(OpenMessage));
 

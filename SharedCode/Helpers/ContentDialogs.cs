@@ -30,6 +30,7 @@ namespace SharedCode.Helpers
             ((TextBox)content.Content).AcceptsReturn = true;
             ((TextBox)content.Content).TextWrapping = Windows.UI.Xaml.TextWrapping.Wrap;
             ((TextBox)content.Content).IsReadOnly = true;
+            ((TextBox)content.Content).BorderThickness = new Windows.UI.Xaml.Thickness(0);
             //ScrollViewer.SetVerticalScrollBarVisibility(content, ScrollBarVisibility.Auto);
             ((TextBox)content.Content).Text = dialogMessage;
 

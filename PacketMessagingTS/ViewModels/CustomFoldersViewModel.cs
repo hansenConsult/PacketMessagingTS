@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.Views;
 
 using SharedCode;
-
+using SharedCode.Helpers;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -29,6 +30,7 @@ namespace PacketMessagingTS.ViewModels
 
         private static CustomFoldersArray _customFoldersInstance = CustomFoldersArray.Instance;
 
+
         public CustomFoldersPage CustomFoldersPage { get; set; }
 
         private int selectedTabIndex;
@@ -37,7 +39,7 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 GetProperty(ref selectedTabIndex);
-                if (selectedTabIndex >= Tabs.Count)
+                if (selectedTabIndex < 0 || selectedTabIndex >= Tabs.Count)
                 {
                     SelectedTabIndex = 0;
                 }
@@ -57,7 +59,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (_selectedTab == null)
                 {
-                    _selectedTab = _customFoldersInstance.CustomFolderList[selectedTabIndex];
+                    _selectedTab = _customFoldersInstance.CustomFolderDataList[selectedTabIndex];
                     RefreshDataGridAsync();
                 }
                 FillMoveLocations();
@@ -75,14 +77,19 @@ namespace PacketMessagingTS.ViewModels
         }
 
 
-        private RelayCommand _addTabCommand;
-        private RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs> _closeTabCommand;
-
-        public RelayCommand AddTabCommand => _addTabCommand ?? (_addTabCommand = new RelayCommand(AddTabAsync));
-
-        public RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs> CloseTabCommand => _closeTabCommand ?? (_closeTabCommand = new RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs>(CloseTab));
-
-        public ObservableCollection<TabViewItemData> Tabs { get; } = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderList);
+        private ObservableCollection<TabViewItemData> _Tabs;
+        public ObservableCollection<TabViewItemData> Tabs
+        {
+            get => _Tabs ?? (_Tabs = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderDataList));
+            //{
+            //    if (_Tabs is null)
+            //    {
+            //        _Tabs = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderDataList);
+            //    }
+            //    return _Tabs;
+            //}
+            set => Set(ref _Tabs, value);
+        }
 
 
         public CustomFoldersViewModel()
@@ -115,7 +122,7 @@ namespace PacketMessagingTS.ViewModels
             moveSubMenu.Items.Add(newMenuItem);
 
             string currentFolder = _selectedTab.Folder;
-            foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderList)
+            foreach (TabViewItemData tabView in CustomFoldersArray.Instance.CustomFolderDataList)
             {
                 if (currentFolder != tabView.Folder)
                 {
@@ -140,9 +147,9 @@ namespace PacketMessagingTS.ViewModels
         private int GetCustomFolderListIndex()
         {
             int i = 0;
-            for (; i < _customFoldersInstance.CustomFolderList.Count; i++)
+            for (; i < _customFoldersInstance.CustomFolderDataList.Count; i++)
             {
-                if (_customFoldersInstance.CustomFolderList[i].Header == Tabs[selectedTabIndex].Header)
+                if (_customFoldersInstance.CustomFolderDataList[i].Header == Tabs[selectedTabIndex].Header)
                 {
                     break;
                 }
@@ -155,11 +162,17 @@ namespace PacketMessagingTS.ViewModels
             try
             {
                 int i = GetCustomFolderListIndex();
-                TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderList[i];
+                TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[i];
                 StorageFolder itemFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
                 _messagesInFolder = await PacketMessage.GetPacketMessages(itemFolder);
-
                 DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
+                if (_messagesInFolder.Count == 0)
+                {
+                    IsAppBarOpenDeleteEnabled = false;
+                    return;
+                }
+
+                IsAppBarOpenDeleteEnabled = true;
 
                 //UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
 
@@ -188,6 +201,8 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        private RelayCommand _addTabCommand;
+        public RelayCommand AddTabCommand => _addTabCommand ?? (_addTabCommand = new RelayCommand(AddTabAsync));
         private async void AddTabAsync()
         {
             int newIndex = Tabs.Any() ? Tabs.Max(t => t.Index) + 1 : 1;
@@ -198,7 +213,7 @@ namespace PacketMessagingTS.ViewModels
             ContentDialogResult result = await addTabDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                header = addTabDialog.NewTabName;
+                header = addTabDialog.NewTabName.Trim();
                 folder = header;
             }
             TabViewItemData tabViewItem = new TabViewItemData()
@@ -208,23 +223,38 @@ namespace PacketMessagingTS.ViewModels
                 Folder = folder,
             };
 
-            _customFoldersInstance.CustomFolderList.Add(tabViewItem);
+            //_customFoldersInstance.CustomFolderDataList.Add(tabViewItem);
             Tabs.Add(tabViewItem);
-            await _localFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
+            await _customFoldersInstance.AddFolderAsync(tabViewItem);
+            //StorageFolder storageFolder = await _localFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
+            //_customFoldersInstance.CustomStorageFolderList.Add(storageFolder);
             await _customFoldersInstance.SaveAsync();
 
             bool success = DataGridSortDataDictionary.TryAdd(tabViewItem.Folder, new DataGridSortData(tabViewItem.Folder, 0, DataGridSortDirection.Descending));
         }
 
+        private RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs> _closeTabCommand;
+        public RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs> CloseTabCommand => _closeTabCommand ?? (_closeTabCommand = new RelayCommand<WinUI.TabViewTabCloseRequestedEventArgs>(CloseTab));
         private async void CloseTab(WinUI.TabViewTabCloseRequestedEventArgs args)
         {
             if (args.Item is TabViewItemData item)
             {
-                StorageFolder itemFolder = await _localFolder.CreateFolderAsync(item.Folder, CreationCollisionOption.OpenIfExists);
-                await itemFolder.DeleteAsync();
+                if (_messagesInFolder.Count > 0)
+                {
+                    string dialogMessage = "All messages in the filder will be deleted.\rAre you sure uou want to continue?";
+                    bool result = await ContentDialogs.ShowDualButtonMessageDialogAsync(dialogMessage, "Yes", "Cancel", "Delete Folder");
+                    if (!result)
+                        return;
+                }
+                //StorageFolder itemFolder = await _localFolder.CreateFolderAsync(item.Folder, CreationCollisionOption.OpenIfExists);
+                //_customFoldersInstance.CustomStorageFolderList.Remove(itemFolder);
+                //await itemFolder.DeleteAsync();
+                //_customFoldersInstance.CustomFolderDataList.Remove(item);
+                await _customFoldersInstance.RemoveFolderAsync(item);
+
                 SelectedTabIndex = Math.Max(SelectedTabIndex - 1, 0);
                 Tabs.Remove(item);
-                _customFoldersInstance.CustomFolderList.Remove(item);
+
                 await _customFoldersInstance.SaveAsync();
 
                 DataGridSortDataDictionary.Remove(item.Folder);
@@ -277,7 +307,7 @@ namespace PacketMessagingTS.ViewModels
             if (packetMessage is null)
                 return;
 
-            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderList[GetCustomFolderListIndex()];
+            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[GetCustomFolderListIndex()];
             StorageFolder messageFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
 
             OpenMessage(messageFolder.Path, packetMessage);
@@ -285,7 +315,7 @@ namespace PacketMessagingTS.ViewModels
 
         protected override async void MoveToArchiveFromContextMenu()
         {
-            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderList[GetCustomFolderListIndex()];
+            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[GetCustomFolderListIndex()];
             StorageFolder messageFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
 
             var file = await messageFolder.CreateFileAsync(SingleSelectedMessage.FileName, CreationCollisionOption.OpenIfExists);
@@ -296,7 +326,7 @@ namespace PacketMessagingTS.ViewModels
 
         protected override async void MoveToFolderFromContextMenu(string folder)
         {
-            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderList[GetCustomFolderListIndex()];
+            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[GetCustomFolderListIndex()];
             StorageFolder messageFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
 
             var file = await messageFolder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
@@ -312,14 +342,14 @@ namespace PacketMessagingTS.ViewModels
                 return;
 
             int i = 0;
-            for (; i < _customFoldersInstance.CustomFolderList.Count; i++)
+            for (; i < _customFoldersInstance.CustomFolderDataList.Count; i++)
             {
-                if (_customFoldersInstance.CustomFolderList[i].Header == SelectedTab.Header as string)
+                if (_customFoldersInstance.CustomFolderDataList[i].Header == SelectedTab.Header as string)
                 {
                     break;
                 }
             }
-            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderList[i];
+            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[i];
             StorageFolder folder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
 
             //StorageFolder folder = MainPagePivotSelectedItem.Tag as StorageFolder;
@@ -357,17 +387,25 @@ namespace PacketMessagingTS.ViewModels
         {
             //SelectedTab.
             string header = _selectedTab.Header;
+            TabViewItemData tabViewItemDataOld = new TabViewItemData(_selectedTab);
             NewTabContentDialog addTabDialog = new NewTabContentDialog(_selectedTab.Header);
             ContentDialogResult result = await addTabDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
                 try
                 {
-                    _selectedTab.Header = addTabDialog.NewTabName;
-                    // Rename folder
-                    StorageFolder itemFolder = await _localFolder.CreateFolderAsync(_selectedTab.Folder, CreationCollisionOption.OpenIfExists);
-                    await itemFolder.RenameAsync(_selectedTab.Header);
-                    _selectedTab.Folder = _selectedTab.Header;
+                    TabViewItemData tabViewItemDataNew = new TabViewItemData()
+                    {
+                        Index = _selectedTab.Index,
+                        Header = addTabDialog.NewTabName,
+                        Folder = addTabDialog.NewTabName,
+                    };
+                    //_selectedTab.Header = addTabDialog.NewTabName;
+                    //_selectedTab.Folder = _selectedTab.Header;
+                    await _customFoldersInstance.RenameFolderAsync(tabViewItemDataOld, tabViewItemDataNew);
+                    Tabs = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderDataList);
+
+                    await _customFoldersInstance.SaveAsync();
                 }
                 catch (Exception e)
                 {
