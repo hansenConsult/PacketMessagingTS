@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +15,7 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -81,13 +81,6 @@ namespace PacketMessagingTS.ViewModels
         public ObservableCollection<TabViewItemData> Tabs
         {
             get => _Tabs ?? (_Tabs = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderDataList));
-            //{
-            //    if (_Tabs is null)
-            //    {
-            //        _Tabs = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderDataList);
-            //    }
-            //    return _Tabs;
-            //}
             set => Set(ref _Tabs, value);
         }
 
@@ -223,11 +216,8 @@ namespace PacketMessagingTS.ViewModels
                 Folder = folder,
             };
 
-            //_customFoldersInstance.CustomFolderDataList.Add(tabViewItem);
             Tabs.Add(tabViewItem);
             await _customFoldersInstance.AddFolderAsync(tabViewItem);
-            //StorageFolder storageFolder = await _localFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
-            //_customFoldersInstance.CustomStorageFolderList.Add(storageFolder);
             await _customFoldersInstance.SaveAsync();
 
             bool success = DataGridSortDataDictionary.TryAdd(tabViewItem.Folder, new DataGridSortData(tabViewItem.Folder, 0, DataGridSortDirection.Descending));
@@ -246,10 +236,6 @@ namespace PacketMessagingTS.ViewModels
                     if (!result)
                         return;
                 }
-                //StorageFolder itemFolder = await _localFolder.CreateFolderAsync(item.Folder, CreationCollisionOption.OpenIfExists);
-                //_customFoldersInstance.CustomStorageFolderList.Remove(itemFolder);
-                //await itemFolder.DeleteAsync();
-                //_customFoldersInstance.CustomFolderDataList.Remove(item);
                 await _customFoldersInstance.RemoveFolderAsync(item);
 
                 SelectedTabIndex = Math.Max(SelectedTabIndex - 1, 0);
@@ -400,8 +386,6 @@ namespace PacketMessagingTS.ViewModels
                         Header = addTabDialog.NewTabName,
                         Folder = addTabDialog.NewTabName,
                     };
-                    //_selectedTab.Header = addTabDialog.NewTabName;
-                    //_selectedTab.Folder = _selectedTab.Header;
                     await _customFoldersInstance.RenameFolderAsync(tabViewItemDataOld, tabViewItemDataNew);
                     Tabs = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderDataList);
 
@@ -409,6 +393,12 @@ namespace PacketMessagingTS.ViewModels
                 }
                 catch (Exception e)
                 {
+                    if (e.HResult == -2147024713)
+                    {
+                        string dialogMessage = "Rename folder failed.\rThe new folder name already exists.";
+                        await ContentDialogs.ShowSingleButtonContentDialogAsync(dialogMessage, "Close", "Rename Folder");
+                    }
+
                     _logHelper.Log(LogLevel.Warn, $"Rename folder failed. {_selectedTab.Header}, {e.Message}");
                 }
             }

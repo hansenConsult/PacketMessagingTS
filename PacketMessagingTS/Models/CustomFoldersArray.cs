@@ -50,14 +50,11 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        //private List<TabViewItemData> _customFolderList = new List<TabViewItemData>();
         [System.Xml.Serialization.XmlIgnore]
         public List<TabViewItemData> CustomFolderDataList
         {
             get;
             set;
-            //get => _customFolderList;
-            //set => _customFolderList = value;
         }
 
         private List<StorageFolder> _customStorageFolderList = new List<StorageFolder>();
@@ -74,7 +71,6 @@ namespace PacketMessagingTS.Models
         private CustomFoldersArray()
         {
             CustomFolderDataList = new List<TabViewItemData>();
-            //customFoldersArrayField = new TabViewItemData[0];
             customFoldersArrayField = Array.Empty<TabViewItemData>();
         }
 
@@ -147,6 +143,7 @@ namespace PacketMessagingTS.Models
             catch (Exception e)
             {
                 _logHelper.Log(LogLevel.Error, "Renamed folder exist");
+                throw;
             }
             storageFolder = await _localFolder.CreateFolderAsync(tabViewItemDataNew.Folder, CreationCollisionOption.OpenIfExists);
             CustomStorageFolderList.Add(storageFolder);
@@ -249,15 +246,6 @@ namespace PacketMessagingTS.Models
             }
         }
 
-        //public StorageFolder[] GetStorageFolders()
-        //{
-        //    StorageFolder[] customFolders = new StorageFolder[CustomFoldersArray.Instance.CustomFolderList.Count];
-        //    StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-        //    for (int i = 0; i < CustomFolderList.Count; i++) //TabViewItemData folderData in 
-        //    {
-        //        customFolders[i] = await localFolder.CreateFolderAsync(CustomFolderList[i].Folder, CreationCollisionOption.OpenIfExists);
-        //    }
-        //}
     }
 
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
@@ -332,6 +320,11 @@ namespace PacketMessagingTS.Models
                 return false;
             else
                 return Equals(tabViewItemData);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

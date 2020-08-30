@@ -223,7 +223,7 @@ namespace PacketMessagingTS.Models
 	[System.Diagnostics.DebuggerStepThroughAttribute()]
 	//[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class EmailAccount
+	public partial class EmailAccount : IEquatable<EmailAccount>
 	{
 		private string mailServerField;
 
@@ -353,6 +353,9 @@ namespace PacketMessagingTS.Models
                 return false;
 
         }
+
+        bool IEquatable<EmailAccount>.Equals(EmailAccount other) =>
+            throw new NotImplementedException();
     }
 
 }
