@@ -169,6 +169,12 @@ namespace FormControlBasicsNamespace
                     formControl.BaseBorderColor = TextBoxBorderBrush;
                     _formControlsList.Add(formControl);
                 }
+                //else if (control is EditBoxMemory)
+                //{
+                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                //    formControl.BaseBorderColor = TextBoxBorderBrush;
+                //    _formControlsList.Add(formControl);
+                //}
                 else if (control is RadioButton)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);

@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using MetroLog;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+
 using PacketMessagingTS.Core.Helpers;
-using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 
-using Windows.Media.ContentRestrictions;
 using Windows.Storage;
 
 namespace PacketMessagingTS.Models

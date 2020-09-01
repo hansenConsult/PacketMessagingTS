@@ -41,7 +41,6 @@
                         TextChanged="AutoSuggestBoxMemory_TextChanged"
                         SuggestionChosen="TextBoxMemory_SuggestionChosen"
                         >
-            <!--SuggestionChosen="TextBoxMemory_SuggestionChosen"-->
             <AutoSuggestBox.ItemTemplate>
                 <DataTemplate x:DataType="local:ListItemData">
                     <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" 

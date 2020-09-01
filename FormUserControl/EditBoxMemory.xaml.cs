@@ -45,6 +45,13 @@ namespace FormUserControl
             set => _PreviousTexts = value;
         }
 
+        //private string _ChosenText;
+        //public string ChosenText
+        //{
+        //    get => _ChosenText;
+        //    set => Set(ref _ChosenText, value);
+        //}
+
         public EditBoxMemory()
         {
             InitializeComponent();
