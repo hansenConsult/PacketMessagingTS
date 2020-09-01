@@ -177,13 +177,14 @@ namespace FormUserControl
             VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
         }
 
-        private async void ControlExample_Loaded(object sender, RoutedEventArgs e)
+        private async void AutoSuggestBoxLocation_Loaded(object sender, RoutedEventArgs e)
         {
             string name = (sender as AutoSuggestBox).Name;
             PreviousTexts = await ApplicationData.Current.LocalFolder.ReadAsync<List<string>>(name);
+
         }
 
-        private async void AutoSuggestBoxMemory_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void AutoSuggestBoxLocation_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Only get results when it was a user typing, 
             // otherwise assume the value got filled in by TextMemberPath 
@@ -225,9 +226,10 @@ namespace FormUserControl
 
                 sender.ItemsSource = collection;
             }
+            AutoSuggestBox_TextChanged(sender, null);
         }
 
-        private void TextBoxMemory_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void AutoSuggestBoxLocation_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             //Set sender.Text.You can use args.SelectedItem to build your text string.
             sender.Text = (args.SelectedItem as ListItemData).Text;

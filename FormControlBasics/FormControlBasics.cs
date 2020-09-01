@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using SharedCode;
@@ -127,7 +128,7 @@ namespace FormControlBasicsNamespace
         protected void OnPropertyChanged(string propertyName) =>
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        protected void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
+        protected virtual void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
             int count = VisualTreeHelper.GetChildrenCount(panelName);
 
@@ -169,12 +170,6 @@ namespace FormControlBasicsNamespace
                     formControl.BaseBorderColor = TextBoxBorderBrush;
                     _formControlsList.Add(formControl);
                 }
-                //else if (control is EditBoxMemory)
-                //{
-                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                //    formControl.BaseBorderColor = TextBoxBorderBrush;
-                //    _formControlsList.Add(formControl);
-                //}
                 else if (control is RadioButton)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
@@ -342,33 +337,60 @@ namespace FormControlBasicsNamespace
         public bool IsFieldRequired(FrameworkElement control)
         {
             string tag = (control.Tag as string)?.ToLower();
-            if (!string.IsNullOrEmpty(tag) && tag.Contains("conditionallyrequired"))
-                return false;
-            else if (!string.IsNullOrEmpty(tag) && tag.Contains("required"))
-                return true;
-            else
-                return false;
+            if (!string.IsNullOrEmpty(tag))
+            {                
+                if (tag.Contains("conditionallyrequired"))
+                    return false;
+                else if (tag.Contains("required"))
+                    return true;
+            }
+            return false;
+
+            //string tag = (control.Tag as string)?.ToLower();
+            //if (!string.IsNullOrEmpty(tag) && tag.Contains("conditionallyrequired"))
+            //    return false;
+            //else if (!string.IsNullOrEmpty(tag) && tag.Contains("required"))
+            //    return true;
+            //else
+            //    return false;
         }
 
         protected virtual void AutoSuggestBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            foreach (FormControl formControl in _formControlsList)
+            AutoSuggestBox autoSuggestBox = sender as AutoSuggestBox;
+            FormControl formControl = _formControlsList.FirstOrDefault(
+                                        control => control.InputControl.Name == autoSuggestBox.Name);
+            if (formControl != null)
             {
-                if (sender is AutoSuggestBox textBox && textBox.Name == formControl.InputControl.Name)
+                if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(autoSuggestBox.Text))
                 {
-                    if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(textBox.Text))
-                    {
-                        textBox.BorderThickness = new Thickness(2);
-                        textBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        textBox.BorderThickness = new Thickness(1);
-                        textBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
+                    autoSuggestBox.BorderThickness = new Thickness(2);
+                    autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
+                }
+                else
+                {
+                    autoSuggestBox.BorderThickness = new Thickness(1);
+                    autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
                 }
             }
+
+            //foreach (FormControl formControl in _formControlsList)
+            //{
+            //    if (sender is AutoSuggestBox textBox && textBox.Name == formControl.InputControl.Name)
+            //    {
+            //        if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(textBox.Text))
+            //        {
+            //            textBox.BorderThickness = new Thickness(2);
+            //            textBox.BorderBrush = formControl.RequiredBorderBrush;
+            //        }
+            //        else
+            //        {
+            //            textBox.BorderThickness = new Thickness(1);
+            //            textBox.BorderBrush = formControl.BaseBorderColor;
+            //        }
+            //        break;
+            //    }
+            //}
         }
 
         protected virtual void TextBox_IntegerChanged(object sender, TextChangedEventArgs e)

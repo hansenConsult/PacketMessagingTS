@@ -328,16 +328,14 @@
                 <!--<TextBox Grid.Column="1" x:Name="toLocation" Style="{StaticResource ToFromTextBox}"
                          TextChanged="TextBox_TextChanged"
                          Tag="7b.,required,Enter a To Location."/>-->
-                <!--<local:EditBoxMemory Grid.Column="1" x:Name="toLocation" Margin="8,2,8,0"
-                                     Tag="7b.,required,Enter a To Location." Height="32" VerticalAlignment="Top"/>-->
                 <AutoSuggestBox Grid.Column="1" x:Name="toLocation"
-                        Style="{StaticResource AutoSuggestICSPosition}" 
+                                Style="{StaticResource AutoSuggestICSPosition}" 
                                 Margin="8,2,8,0"
-                        BorderBrush="Gray"
-                        BorderThickness="1"
-                        Loaded="ControlExample_Loaded"
-                        TextChanged="AutoSuggestBoxMemory_TextChanged"
-                        SuggestionChosen="TextBoxMemory_SuggestionChosen"
+                                BorderBrush="Gray"
+                                BorderThickness="1"
+                                Loaded="AutoSuggestBoxLocation_Loaded"
+                                TextChanged="AutoSuggestBoxLocation_TextChanged"
+                                SuggestionChosen="AutoSuggestBoxLocation_SuggestionChosen"
                                 Tag="7b.,required,Enter a To Location."
                         >
                     <AutoSuggestBox.ItemTemplate>

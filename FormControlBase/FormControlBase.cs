@@ -180,19 +180,6 @@ namespace FormControlBaseClass
                         autoSuggestBox.BorderThickness = new Thickness(1);
                     }
                 }
-                //else if (control is EditBoxMemory editBoxMemory)
-                //{
-                //    if (string.IsNullOrEmpty(editBoxMemory.ChosenText) && IsFieldRequired(control) && newForm)
-                //    {
-                //        editBoxMemory.BorderBrush = formControl.RequiredBorderBrush;
-                //        editBoxMemory.BorderThickness = new Thickness(2);
-                //    }
-                //    else
-                //    {
-                //        editBoxMemory.BorderBrush = formControl.BaseBorderColor;
-                //        editBoxMemory.BorderThickness = new Thickness(1);
-                //    }
-                //}
                 else if (control is ComboBox comboBox)
                 {
                     if (comboBox.SelectedIndex < 0 && IsFieldRequired(control) && newForm)
@@ -347,6 +334,63 @@ namespace FormControlBaseClass
         public abstract void AppendDrillTraffic();
 
         public virtual string PackItFormVersion => "3.0";
+
+        //protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
+        //{
+        //    int count = VisualTreeHelper.GetChildrenCount(panelName);
+
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
+
+        //        if (control is FormHeaderUserControl)
+        //        {
+        //            ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
+        //        }
+        //        if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
+        //        {
+        //            ScanControls(control, formUserControl);
+        //        }
+        //        else if (control is TextBox textBox)
+        //        {
+        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+        //            if (textBox.IsReadOnly)
+        //            {
+        //                formControl.BaseBorderColor = WhiteBrush;
+        //            }
+        //            else
+        //            {
+        //                formControl.BaseBorderColor = textBox.BorderBrush;
+        //            }
+        //            _formControlsList.Add(formControl);
+        //        }
+        //        else if (control is ComboBox comboBox)
+        //        {
+        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+        //            formControl.BaseBorderColor = comboBox.BorderBrush;
+        //            _formControlsList.Add(formControl);
+        //        }
+        //        else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
+        //        {
+        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+        //            _formControlsList.Add(formControl);
+        //        }
+        //        else if (control is AutoSuggestBox)
+        //        {
+        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+        //            formControl.BaseBorderColor = TextBoxBorderBrush;
+        //            _formControlsList.Add(formControl);
+        //        }
+        //        else if (control is RadioButton)
+        //        {
+        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+        //            _formControlsList.Add(formControl);
+
+        //            _radioButtonsList.Add((RadioButton)control);
+        //        }
+        //    }
+        //}
+
 
         public abstract string CreateOutpostData(ref PacketMessage packetMessage);
 
@@ -827,10 +871,6 @@ namespace FormControlBaseClass
 				{
 					formField.ControlContent = autoSuggestBox.Text;
 				}
-                //else if (_formControlsList[i].InputControl is EditBoxMemory editBoxMemory)
-                //{
-                //    formField.ControlContent = editBoxMemory.ChosenText;
-                //}
 				else if (_formControlsList[i].InputControl is ComboBox comboBox)
                 {
                     if (FormProvider == FormProviders.PacForm)
@@ -1012,10 +1052,6 @@ namespace FormControlBaseClass
                 {
                     autoSuggsetBox.Text = formField.ControlContent;
                 }
-                //else if (control is EditBoxMemory editBoxMemory)
-                //{
-                //    editBoxMemory.ChosenText = formField.ControlContent;
-                //}
                 else if (control is ComboBox comboBox)
                 {
                     FillComboBoxFromFormFields(formField, comboBox);
