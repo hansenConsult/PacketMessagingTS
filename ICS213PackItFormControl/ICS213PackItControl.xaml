@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:src="using:FormUserControl"
 
     mc:Ignorable="d"
     d:DesignWidth="816" d:DesignHeight="1056">
@@ -377,18 +378,33 @@
                                     </StackPanel>
                                 </Border>
                                 <Border  Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1" >
-                                    <TextBox x:Name="toLocation" Margin="4,0,4,2" 
+                                    <StackPanel>
+                                    <TextBlock Padding="10,0,5,5" FontSize="12" FontFamily="Times New Roman" 
+                                                       FontWeight="Bold" Foreground="Black"
+                                                       Text="9a. Location:" />
+                                    <src:AutoSuggestTextBoxUserControl x:Name="toLocation" Margin="4,0,4,2"                                                     
+                                                     Tag="9a.,required,Enter a To Location."/>
+                                    <!--<TextBox x:Name="toLocation" Margin="4,0,4,2" 
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="9a. Location:"                                                 
                                                      TextChanged="TextBox_TextChanged"
-                                                     Tag="9a.,required,Enter a To Location."/>
+                                                     Tag="9a.,required,Enter a To Location."/>-->
+                                    </StackPanel>
                                 </Border>
                                 <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1" >
-                                    <TextBox x:Name="fromLocation" BorderThickness="1" Margin="4,0,4,2" 
+                                    <StackPanel>
+                                        <TextBlock Padding="10,0,5,5" FontSize="12" FontFamily="Times New Roman" 
+                                                       FontWeight="Bold" Foreground="Black"
+                                                       Text="9b. Location:" />
+                                        <src:AutoSuggestTextBoxUserControl x:Name="fromLocation" Margin="4,0,4,2"                                                     
+                                                     Tag="9b.,required,Enter a From Location."/>
+
+                                    <!--<TextBox x:Name="fromLocation" BorderThickness="1" Margin="4,0,4,2" 
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                      Header="9b. Location:"                                                                                                  
                                                      TextChanged="TextBox_TextChanged"
-                                                     Tag="9b.,required,Enter a From Location." />
+                                                     Tag="9b.,required,Enter a From Location." />-->
+                                    </StackPanel>
                                 </Border>
                                 <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <TextBox x:Name="toName"  
