@@ -30,15 +30,15 @@ namespace ICS213RRPackItFormControl
         {
             InitializeComponent();
 
-            DependencyObject panelName = formHeaderControl.Panel;
-            ScanControls(panelName, formHeaderControl);
+            //DependencyObject panelName = formHeaderControl.Panel;
+            //ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = radioOperatorControl.Panel;
-            ScanControls(panelName, radioOperatorControl);
+            //panelName = radioOperatorControl.Panel;
+            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "SCCo EOC RESOURCE REQUEST FORM 213RR";
             FormHeaderControl.HeaderSubstring = "Version 8/17";

@@ -31,15 +31,15 @@ namespace OAAlliedHealthStatus201802FormControl
         {
             InitializeComponent();
 
-            DependencyObject panelName = formHeaderControl.Panel;
-            ScanControls(panelName, formHeaderControl);
+            //DependencyObject panelName = formHeaderControl.Panel;
+            //ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = radioOperatorControl.Panel;
-            ScanControls(panelName, radioOperatorControl);
+            //panelName = radioOperatorControl.Panel;
+            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "Allied Health Status Report Short Form";
             FormHeaderControl.HeaderString2 = "(DEOC-9)";

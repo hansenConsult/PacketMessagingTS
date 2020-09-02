@@ -81,8 +81,8 @@ namespace OAShelterStatusFormControl
         {
             this.InitializeComponent();
 
-            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
-            ScanControls(panelName, formHeaderControl);
+            //DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            //ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
@@ -90,8 +90,8 @@ namespace OAShelterStatusFormControl
 
             state.Text = "California";
 
-            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-            ScanControls(panelName, radioOperatorControl);
+            //panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "Santa Clara OA Shelter Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20130814";

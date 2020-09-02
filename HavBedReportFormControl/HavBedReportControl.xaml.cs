@@ -51,15 +51,15 @@ namespace HavBedReportFormControl
         {
             this.InitializeComponent();
 
-            DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
-            ScanControls(panelName, formHeaderControl);
+            //DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
+            //ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-            ScanControls(panelName, radioOperatorControl);
+            //panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
+            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
             FormHeaderControl.HeaderSubstring = "EMResource: c190320";

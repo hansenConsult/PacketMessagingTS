@@ -30,15 +30,15 @@ namespace MedicalHealthBranchRRFormControl
         {
             InitializeComponent();
 
-            DependencyObject panelName = formHeaderControl.Panel;
-            ScanControls(panelName, formHeaderControl);
+            //DependencyObject panelName = formHeaderControl.Panel;
+            //ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = radioOperatorControl.Panel;
-            ScanControls(panelName, radioOperatorControl);
+            //panelName = radioOperatorControl.Panel;
+            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.NamePanel1Visibility = false;
             FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
