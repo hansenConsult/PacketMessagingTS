@@ -120,6 +120,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutoSuggestTextBoxUserControl.xaml.cs">
+      <DependentUpon>AutoSuggestTextBoxUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FormHeaderUserControl.xaml.cs">
       <DependentUpon>FormHeaderUserControl.xaml</DependentUpon>
     </Compile>
@@ -135,6 +138,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AutoSuggestTextBoxUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FormHeaderUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

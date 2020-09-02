@@ -335,61 +335,74 @@ namespace FormControlBaseClass
 
         public virtual string PackItFormVersion => "3.0";
 
-        //protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
-        //{
-        //    int count = VisualTreeHelper.GetChildrenCount(panelName);
+        protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(panelName);
 
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
 
-        //        if (control is FormHeaderUserControl)
-        //        {
-        //            ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
-        //        }
-        //        if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
-        //        {
-        //            ScanControls(control, formUserControl);
-        //        }
-        //        else if (control is TextBox textBox)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-        //            if (textBox.IsReadOnly)
-        //            {
-        //                formControl.BaseBorderColor = WhiteBrush;
-        //            }
-        //            else
-        //            {
-        //                formControl.BaseBorderColor = textBox.BorderBrush;
-        //            }
-        //            _formControlsList.Add(formControl);
-        //        }
-        //        else if (control is ComboBox comboBox)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-        //            formControl.BaseBorderColor = comboBox.BorderBrush;
-        //            _formControlsList.Add(formControl);
-        //        }
-        //        else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-        //            _formControlsList.Add(formControl);
-        //        }
-        //        else if (control is AutoSuggestBox)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-        //            formControl.BaseBorderColor = TextBoxBorderBrush;
-        //            _formControlsList.Add(formControl);
-        //        }
-        //        else if (control is RadioButton)
-        //        {
-        //            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-        //            _formControlsList.Add(formControl);
+                if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
+                {
+                    ScanControls(control, formUserControl);
+                }
+                else if (control is TextBox textBox)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    if (textBox.IsReadOnly)
+                    {
+                        formControl.BaseBorderColor = WhiteBrush;
+                    }
+                    else
+                    {
+                        formControl.BaseBorderColor = textBox.BorderBrush;
+                    }
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    formControl.BaseBorderColor = comboBox.BorderBrush;
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is AutoSuggestBox autoSuggestBox)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    formControl.BaseBorderColor = TextBoxBorderBrush;
+                    if (formControl.UserControl is AutoSuggestTextBoxUserControl)
+                    {
+                        autoSuggestBox.Name = formControl.UserControl.Name;
+                        autoSuggestBox.Tag = formControl.UserControl.Tag;
+                    }
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is RadioButton)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    _formControlsList.Add(formControl);
 
-        //            _radioButtonsList.Add((RadioButton)control);
-        //        }
-        //    }
-        //}
+                    _radioButtonsList.Add((RadioButton)control);
+                }
+                else if (control is AutoSuggestTextBoxUserControl)
+                {
+                    ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
+                }
+                else if (control is FormHeaderUserControl)
+                {
+                    ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
+                }
+                else if (control is RadioOperatorUserControl)
+                {
+                    ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
+                }
+            }
+        }
 
 
         public abstract string CreateOutpostData(ref PacketMessage packetMessage);

@@ -93,15 +93,15 @@ namespace OAMunicipalStatusPackItFormControl
         {
             InitializeComponent();
 
-            DependencyObject panelName = formHeaderControl.Panel;
-            ScanControls(panelName, formHeaderControl);
+            //DependencyObject panelName = formHeaderControl.Panel;
+            //ScanControls(panelName, formHeaderControl);
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
-            panelName = radioOperatorControl.Panel;
-            ScanControls(panelName, radioOperatorControl);
+            //panelName = radioOperatorControl.Panel;
+            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20190327";

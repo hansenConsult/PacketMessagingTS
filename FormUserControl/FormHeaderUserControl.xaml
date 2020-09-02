@@ -328,48 +328,8 @@
                 <!--<TextBox Grid.Column="1" x:Name="toLocation" Style="{StaticResource ToFromTextBox}"
                          TextChanged="TextBox_TextChanged"
                          Tag="7b.,required,Enter a To Location."/>-->
-                <AutoSuggestBox Grid.Column="1" x:Name="toLocation"
-                                Style="{StaticResource AutoSuggestICSPosition}" 
-                                Margin="8,2,8,0"
-                                BorderBrush="Gray"
-                                BorderThickness="1"
-                                Loaded="AutoSuggestBoxLocation_Loaded"
-                                TextChanged="AutoSuggestBoxLocation_TextChanged"
-                                SuggestionChosen="AutoSuggestBoxLocation_SuggestionChosen"
-                                Tag="7b.,required,Enter a To Location."
-                        >
-                    <AutoSuggestBox.ItemTemplate>
-                        <DataTemplate x:DataType="local:ListItemData">
-                            <UserControl PointerEntered="ListViewSwipeContainer_PointerEntered" 
-                                 PointerExited="ListViewSwipeContainer_PointerExited">
-                                <Grid AutomationProperties.Name="{x:Bind Text}">
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup x:Name="HoveringStates">
-                                            <VisualState x:Name="HoverButtonsHidden" />
-                                            <VisualState x:Name="HoverButtonsShown">
-                                                <VisualState.Setters>
-                                                    <Setter Target="HoverButton.Visibility" Value="Visible" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <SwipeControl x:Name="ListViewSwipeContainer" >
-                                        <SwipeControl.RightItems>
-                                            <SwipeItems Mode="Execute">
-                                                <SwipeItem x:Name="DeleteSwipeItem" Background="Red" Command="{x:Bind Command}" CommandParameter="{x:Bind Text}"/>
-                                            </SwipeItems>
-                                        </SwipeControl.RightItems>
-                                        <Grid VerticalAlignment="Center">
-                                            <TextBlock Text="{x:Bind Text}" Margin="4" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <AppBarButton x:Name="HoverButton" IsTabStop="False" HorizontalAlignment="Right" Visibility="Collapsed" Command="{x:Bind Command}" CommandParameter="{x:Bind Text}"/>
-                                        </Grid>
-                                    </SwipeControl>
-                                </Grid>
-                            </UserControl>
-                        </DataTemplate>
-                    </AutoSuggestBox.ItemTemplate>
-                </AutoSuggestBox>
-
+                <local:AutoSuggestTextBoxUserControl Grid.Column="1" x:Name="toLocation" Margin="8,2,8,2"                                                     
+                                                     Tag="7b.,required,Enter a To Location."/>
             </Grid>
             <Grid Grid.Row="1" Grid.Column="3">
                 <Grid.ColumnDefinitions>
@@ -377,11 +337,11 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:"  />
-                <TextBox Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2" 
+                <!--<TextBox Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2" 
                          TextChanged="TextBox_TextChanged"
-                         Tag="8b.,required,Enter a From Location." Grid.ColumnSpan="2"/>
-                <!--<local:EditBoxMemory Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2"
-                                     Tag="8b.,required,Enter a From Location."/>-->
+                         Tag="8b.,required,Enter a From Location." Grid.ColumnSpan="2"/>-->
+                <local:AutoSuggestTextBoxUserControl Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2"                                                     
+                                                     Tag="8b.,required,Enter a From Location."/>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1">
                 <Grid.ColumnDefinitions>
