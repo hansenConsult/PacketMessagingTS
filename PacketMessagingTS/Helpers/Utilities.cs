@@ -55,7 +55,6 @@ namespace PacketMessagingTS.Helpers
             if (reserveMessageNumber)
             {
                 messageNumber++;
-                //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
                 App.Properties["MessageNumber"] = messageNumber;
                 
             }
@@ -68,7 +67,6 @@ namespace PacketMessagingTS.Helpers
             int messageNumber;
             if (startMessageNumber < 0)
             {
-                //messageNumber = await SettingsStorageExtensions.ReadAsync<int>(SharedData.SettingsContainer, "MessageNumber");
                 messageNumber = GetProperty("MessageNumber");
                 messageNumber++;
             }
@@ -76,7 +74,6 @@ namespace PacketMessagingTS.Helpers
             {
                 messageNumber = startMessageNumber++;
             }
-            //await SettingsStorageExtensions.SaveAsync(SharedData.SettingsContainer, "MessageNumber", messageNumber);
             App.Properties["MessageNumber"] = messageNumber;
             _logHelper.Log(LogLevel.Info, $"MarkMessageNumberAsUsed {messageNumber}");
         }

@@ -141,7 +141,7 @@ namespace PacketMessagingTS.Views
 
             base.OnNavigatingFrom(e);
 
-            _logHelper.Log(LogLevel.Trace, $"Exiting OnNavigatingFrom() in Settings. {(SettingsPivot.SelectedItem as PivotItem).Name}");
+            //_logHelper.Log(LogLevel.Trace, $"Exiting OnNavigatingFrom() in Settings. {(SettingsPivot.SelectedItem as PivotItem).Name}");
         }
 
         private void EnableCopyTo(string sentReceived)

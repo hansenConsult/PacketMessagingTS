@@ -1039,7 +1039,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         break;
                     }
 
-                    _logHelper.Log(LogLevel.Info, $"BBSConnectName: {_bbsConnectName}, {packetMessage.BBSName}");
+                    //_logHelper.Log(LogLevel.Info, $"BBSConnectName: {_bbsConnectName}, {packetMessage.BBSName}");
                     if (_bbsConnectName.Contains(packetMessage.BBSName))
                     {
                         // Use SendMessage(ref packetMessage) here

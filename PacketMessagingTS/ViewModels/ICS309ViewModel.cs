@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-//using Microsoft.Toolkit.Uwp.Helpers;
+
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
+
 using SharedCode;
-using Windows.Graphics.Printing;
+
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -35,31 +35,20 @@ namespace PacketMessagingTS.ViewModels
             DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
             TotalPages = 1;
             PageNo = 1;
-            //PageNoOf = PageNoAsString;
         }
 
-        private string incidentNameActivationNumber;
-        public string IncidentNameActivationNumber
-        {
-            get => incidentNameActivationNumber;
-            //set => SetProperty(ref incidentName, value, true);
-            set
-            {
-                //CommLog.Instance.IncidentNameActivationNumber = value;
-                SetProperty(ref incidentNameActivationNumber, value);
-            }
-        }
+        //private string incidentNameActivationNumber;
+        //public string IncidentNameActivationNumber
+        //{
+        //    get => incidentNameActivationNumber;
+        //    set => SetProperty(ref incidentNameActivationNumber, value);
+        //}
 
         private string incidentName;
         public string IncidentName
         {
             get => incidentName;
-            //set => SetProperty(ref incidentName, value);
-            set
-            {
-                //CommLog.Instance.IncidentNameActivationNumber = value;
-                SetProperty(ref incidentName, value);
-            }
+            set => SetProperty(ref incidentName, value);
         }
 
         private string activationNumber;
@@ -291,7 +280,10 @@ namespace PacketMessagingTS.ViewModels
             FillFormFromCommLog();
         }
 
-        private void FillCommLogFromForm()
+        private ICommand _SaveICS309Command;
+        public ICommand SaveICS309Command => _SaveICS309Command ?? (_SaveICS309Command = new RelayCommand(SaveICS309));
+
+        public async void SaveICS309()
         {
             _CommLog.IncidentName = IncidentName;
             _CommLog.ActivationNumber = ActivationNumber;
@@ -300,14 +292,6 @@ namespace PacketMessagingTS.ViewModels
             _CommLog.RadioNetName = RadioNetName;
             _CommLog.OperatorNameCallsign = OperatorNameCallsign;
             _CommLog.DateTimePrepared = DateTimePrepared;
-        }
-
-        private ICommand _SaveICS309Command;
-        public ICommand SaveICS309Command => _SaveICS309Command ?? (_SaveICS309Command = new RelayCommand(SaveICS309));
-
-        public async void SaveICS309()
-        {
-            FillCommLogFromForm();
             await _CommLog.SaveAsync();
         }
 

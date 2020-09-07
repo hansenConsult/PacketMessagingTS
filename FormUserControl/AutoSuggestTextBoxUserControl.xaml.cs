@@ -43,8 +43,6 @@ namespace FormUserControl
             set => _PreviousTexts = value;
         }
 
-        public List<FormControl> FormControlsList => _formControlsList;
-
         public DependencyObject Panel => autoSuggestTextBoxUserControl;
 
 

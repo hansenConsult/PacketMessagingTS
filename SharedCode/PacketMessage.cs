@@ -22,7 +22,6 @@ using SharedCode.Helpers;
 
 using Windows.Storage;
 using Windows.Storage.Search;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
 
 using static SharedCode.Helpers.MessageOriginHelper;

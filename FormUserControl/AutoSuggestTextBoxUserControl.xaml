@@ -16,13 +16,13 @@
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemRevealStyle}">
-                <Setter Property="Height" Value="60"/>
+            <!--<Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemRevealStyle}">
+                <Setter Property="Height" Value="40"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="BorderThickness" Value="0"/>
-            </Style>
+            </Style>-->
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBasics.Resources>
 
@@ -51,12 +51,12 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <SwipeControl x:Name="ListViewSwipeContainer" >
-                                <SwipeControl.RightItems>
+                                <!--<SwipeControl.RightItems>
                                     <SwipeItems Mode="Execute">
                                         <SwipeItem x:Name="DeleteSwipeItem" Background="Red" Command="{x:Bind Command}" CommandParameter="{x:Bind Text}"/>
                                     </SwipeItems>
-                                </SwipeControl.RightItems>
-                                <Grid VerticalAlignment="Center">
+                                </SwipeControl.RightItems>-->
+                                <Grid VerticalAlignment="Center" Height="36">
                                     <TextBlock Text="{x:Bind Text}" Margin="4" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     <AppBarButton x:Name="HoverButton" IsTabStop="False" HorizontalAlignment="Right" Visibility="Collapsed" Command="{x:Bind Command}" CommandParameter="{x:Bind Text}"/>
                                 </Grid>

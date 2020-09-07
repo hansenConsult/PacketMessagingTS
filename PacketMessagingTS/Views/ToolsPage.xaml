@@ -11,6 +11,7 @@
 
       mc:Ignorable="d"
       d:DesignWidth="720"
+      
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
@@ -152,7 +153,7 @@
 							 RelativePanel.AlignRightWithPanel="True"
                              RelativePanel.Above="ButtomCommandBar"
                              FontFamily="Courier New"
-                             FontSize="12"
+                             FontSize="13"
 							 ScrollViewer.VerticalScrollBarVisibility="Auto"
 							 AcceptsReturn="True"
 							 TextWrapping="Wrap"
@@ -232,181 +233,136 @@
                         <Grid x:Name="DirectPrintContainer">
                             <Grid x:Name="PrintableContent">
                                 <!--<Grid x:Name="XamlRoot" />-->
-                        <!--</Grid>-->
-                        <ScrollViewer x:Name="ICS309ScrollViewer"                                   
-                                      RelativePanel.AlignTopWithPanel="True"
-                                      VerticalScrollBarVisibility="Auto"  >
-                            <RelativePanel x:Name="PrintableArea"
-                                           VerticalAlignment="Stretch"
-                                      
+                                <!--</Grid>-->
+                                <ScrollViewer x:Name="ICS309ScrollViewer"                                   
+                                              RelativePanel.AlignTopWithPanel="True"
+                                              VerticalScrollBarVisibility="Auto"  >
+                                    <RelativePanel x:Name="PrintableArea"
+                                           VerticalAlignment="Stretch"                                      
                                     >
-                                <StackPanel x:Name="ICS309MainForm"
-                                            BorderBrush="Black" BorderThickness="2"  >
+                                        <StackPanel x:Name="ICS309MainForm"
+                                                    BorderBrush="Black" BorderThickness="2"  >
 
-                                    <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="160"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="140"/>
-                                            <ColumnDefinition Width="1.5*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                            <TextBlock  Margin="10,4,10,-4.4" HorizontalAlignment="Center" 
-                                                    Style="{StaticResource MediumText}">
-                                            <Run Text="COMM Log" FontSize="14"/>
-                                            <LineBreak/>
-                                            <Run Text="  ICS 309-SCCo"/>
-                                            <LineBreak/>
-                                            <Run Text="  ARES/RACES"/>
-                                            </TextBlock>
-                                        </Border>
-                                        <Border Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,1,1"/>
-                                        <TextBox Grid.Column="1"  x:Name="incidentName"  BorderBrush="White" Margin="2"
-                                                     Text="{x:Bind _ICS309ViewModel.IncidentName, Mode=TwoWay}"
-                                                     Header="1. Incident name " 
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                        <!--TextChanged="IncidentName_TextChanged"/>-->
-                                        <TextBox Grid.Column="2" x:Name="activationNumber"  BorderBrush="White" Margin="2"
-                                                     Text="{x:Bind _ICS309ViewModel.ActivationNumber, Mode=TwoWay}"
-                                                     Header="and Activation Number" 
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                            <Grid Height="auto" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="160"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="140"/>
+                                                    <ColumnDefinition Width="1.5*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                    <TextBlock  Margin="10,4,10,-4.4" HorizontalAlignment="Center" 
+                                                                Style="{StaticResource MediumText}">
+                                                        <Run Text="COMM Log" FontSize="14"/>
+                                                        <LineBreak/>
+                                                        <Run Text="  ICS 309-SCCo"/>
+                                                        <LineBreak/>
+                                                        <Run Text="  ARES/RACES"/>
+                                                    </TextBlock>
+                                                </Border>
+                                                <Border Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,1,1"/>
+                                                    <TextBox Grid.Column="1"  x:Name="incidentName"  BorderBrush="White" Margin="2"
+                                                             Text="{x:Bind _ICS309ViewModel.IncidentName, Mode=TwoWay}"
+                                                             Header="1. Incident name " 
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                        <!--TextChanged="IncidentName_TextChanged"/>-->
+                                                    <TextBox Grid.Column="2" x:Name="activationNumber"  BorderBrush="White" Margin="2"
+                                                             Text="{x:Bind _ICS309ViewModel.ActivationNumber, Mode=TwoWay}"
+                                                             Header="and Activation Number" 
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
 
-                                        <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                            <TextBox x:Name="operationalPeriod"  BorderBrush="White" Margin="2"
-                                                     Text="{x:Bind _ICS309ViewModel.OperationalPeriod, Mode=TwoWay}"
-                                                     Header="2. Operational Period (Date/Time)" 
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
-                                            <!--TextChanged="OperationalPeriod_TextChangedAsync"/>-->
-                                        </Border>
-                                    </Grid>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1">
-                                            <TextBox x:Name="radioNetName" BorderBrush="White"
-                                                     Text="{x:Bind _ICS309ViewModel.RadioNetName, Mode=TwoWay}"
-                                                     Header="3. Radio Net Name (for NCOs)  or Position/Tactical Call" 
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                        </Border>
-                                        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                            <TextBox x:Name="radioOperator" BorderBrush="White"
-                                                     Text="{x:Bind _ICS309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
-                                                     Header="4. Radio Operator (Name, Call Sign)" 
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
-                                        </Border>
-                                    </Grid>
-                                    <Grid Background="LightGray" Margin="0" BorderBrush="Black" BorderThickness="0,0,0,1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="50*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="20"/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Column="0" Text="5." Style="{StaticResource MediumText}"
-                                                   Margin="4,0,0,0" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center"
-                                                   Style="{StaticResource MediumText}" 
-                                                   VerticalAlignment="Center"/>
-                                    </Grid>
-                                    <!--<Grid >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="8*"/>
-                                        <ColumnDefinition Width="12*"/>
-                                        <ColumnDefinition Width="12*"/>
-                                        <ColumnDefinition Width="12*"/>
-                                        <ColumnDefinition Width="12*"/>
-                                        <ColumnDefinition Width="40*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,1,1,1">
-                                        <TextBlock   Style="{StaticResource ListBoxHeader}">
-                                              Time<LineBreak/>(24:00)
-                                        </TextBlock>
-                                    </Border>
-                                    <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
-                                        <TextBlock Text="FROM" HorizontalAlignment="Center" Style="{StaticResource ListBoxHeader}"/>
-                                    </Border>
-                                    <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                                        <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
-                                    </Border>
-                                    <Border Grid.Column="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
-                                        <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}"/>
-                                    </Border>
-                                    <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2">
-                                        <TextBlock Text="TO" Style="{StaticResource ListBoxHeader}"/>
-                                    </Border>
-                                    <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                                        <TextBlock Text="Call Sign/ID" Style="{StaticResource ListBoxHeader}" />
-                                    </Border>
-                                    <Border Grid.Column="4" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,1">
-                                        <TextBlock Text="Msg #" Style="{StaticResource ListBoxHeader}" />
-                                    </Border>
-                                    <Border Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1,1,0,1">
-                                        <TextBlock Text="Message" VerticalAlignment="Center" Style="{StaticResource ListBoxHeader}" HorizontalAlignment="Left" Margin="4,0,0,0" />
-                                    </Border>
-                                </Grid>-->
-                                    <!--<ListView x:Name="logEntries" Height="590"
-                                          ItemsSource="{x:Bind CommLogMessagesCollection.View, Mode=OneWay}"                          
-                                          ItemTemplate="{StaticResource ics309ListViewTemplate}" VerticalContentAlignment="Top" 
-                                          />-->
-                                    <controls:DataGrid x:Name="ics309DataGrid" Height="664"
-                                                       ItemsSource="{x:Bind _ICS309ViewModel.CommLogEntryCollection, Mode=OneWay}"
-                                                       HorizontalScrollBarVisibility="Auto"
-                                                       VerticalScrollBarVisibility="Auto"
-                                                       GridLinesVisibility="Vertical"
-                                                       CanUserResizeColumns="True"
-                                                       IsReadOnly="True"
-                                                       SelectionMode="Single"
-                                                       AutoGenerateColumns="False"                                  
-                                                       CanUserSortColumns="False" >
-                                        <controls:DataGrid.Columns>
-                                            <controls:DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource datetimeConverter}}" IsReadOnly="True"/>
-                                            <controls:DataGridTextColumn Header="From" Binding="{Binding FromCallsign}" />
-                                            <controls:DataGridTextColumn Header="From Msg#" Binding="{Binding FromMessageNumber}" IsReadOnly="True"/>
-                                            <controls:DataGridTextColumn Header="To" Binding="{Binding ToCallsign}" />
-                                            <controls:DataGridTextColumn Header="To Msg#" Binding="{Binding ToMessageNumber}" IsReadOnly="True"/>
-                                            <controls:DataGridTextColumn Header="Subject" Binding="{Binding Message}" Width="1*"/>
-                                        </controls:DataGrid.Columns>
-                                    </controls:DataGrid>
+                                                    <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                                        <TextBox x:Name="operationalPeriod"  BorderBrush="White" Margin="2"
+                                                                 Text="{x:Bind _ICS309ViewModel.OperationalPeriod, Mode=TwoWay}"
+                                                                 Header="2. Operational Period (Date/Time)" 
+                                                                 HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
+                                                        <!--TextChanged="OperationalPeriod_TextChangedAsync"/>-->
+                                                    </Border>
+                                                </Grid>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                                    <TextBox x:Name="radioNetName" BorderBrush="White"
+                                                             Text="{x:Bind _ICS309ViewModel.RadioNetName, Mode=TwoWay}"
+                                                             Header="3. Radio Net Name (for NCOs)  or Position/Tactical Call" 
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                </Border>
+                                                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                                    <TextBox x:Name="radioOperator" BorderBrush="White"
+                                                             Text="{x:Bind _ICS309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
+                                                             Header="4. Radio Operator (Name, Call Sign)" 
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
+                                                </Border>
+                                            </Grid>
+                                            <Grid Background="LightGray" Margin="0" BorderBrush="Black" BorderThickness="0,0,0,1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="50*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="20"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Column="0" Text="5." Style="{StaticResource MediumText}"
+                                                           Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="COMMUNICATIONS LOG" HorizontalAlignment="Center"
+                                                           Style="{StaticResource MediumText}" 
+                                                           VerticalAlignment="Center"/>
+                                            </Grid>
+                                            <controls:DataGrid x:Name="ics309DataGrid" Height="788"
+                                                               ItemsSource="{x:Bind _ICS309ViewModel.CommLogEntryCollection, Mode=OneWay}"
+                                                               HorizontalScrollBarVisibility="Auto"
+                                                               VerticalScrollBarVisibility="Auto"
+                                                               GridLinesVisibility="Vertical"
+                                                               CanUserResizeColumns="True"
+                                                               IsReadOnly="True"
+                                                               SelectionMode="Single"
+                                                               AutoGenerateColumns="False"                                  
+                                                               CanUserSortColumns="False" >
+                                            <controls:DataGrid.Columns>
+                                                <controls:DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource datetimeConverter}}" IsReadOnly="True"/>
+                                                <controls:DataGridTextColumn Header="From" Binding="{Binding FromCallsign}"/>
+                                                <controls:DataGridTextColumn Header="From Msg#" Binding="{Binding FromMessageNumber}" IsReadOnly="True"/>
+                                                <controls:DataGridTextColumn Header="To" Binding="{Binding ToCallsign}" />
+                                                <controls:DataGridTextColumn Header="To Msg#" Binding="{Binding ToMessageNumber}" IsReadOnly="True"/>
+                                                <controls:DataGridTextColumn Header="Subject" Binding="{Binding Message}" Width="1*"/>
+                                            </controls:DataGrid.Columns>
+                                        </controls:DataGrid>
 
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
-                                            <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
-                                                     Text="{x:Bind _ICS309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
-                                                     Header="6. Prepared By (Name, Call Sign)" 
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                        </Border>
-                                        <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
-                                            <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
-                                                     Text="{x:Bind _ICS309ViewModel.DateTimePrepared, Mode=TwoWay}"
-                                                     Header="7. Date $ Time Prepared" 
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                        </Border>
-                                        <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
-                                            <TextBox x:Name="pageNoOf" BorderBrush="White" 
-                                                     Text="{x:Bind _ICS309ViewModel.PageNoAsString, Mode=OneWay}"
-                                                     Header="8."
-                                                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                        </Border>
-                                    </Grid>
-                                </StackPanel>
-                                <TextBlock RelativePanel.Below="ICS309MainForm"
-                                       Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)"
-                                       FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
-                            </RelativePanel>
-                        </ScrollViewer>
-                        </Grid>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="3*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                                    <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
+                                                             Text="{x:Bind _ICS309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
+                                                             Header="6. Prepared By (Name, Call Sign)" 
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                </Border>
+                                                <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                                    <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
+                                                             Text="{x:Bind _ICS309ViewModel.DateTimePrepared, Mode=TwoWay}"
+                                                             Header="7. Date $ Time Prepared" 
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                </Border>
+                                                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
+                                                    <TextBox x:Name="pageNoOf" BorderBrush="White" 
+                                                             Text="{x:Bind _ICS309ViewModel.PageNoAsString, Mode=OneWay}"
+                                                             Header="8."
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                </Border>
+                                            </Grid>
+                                        </StackPanel>
+                                        <TextBlock RelativePanel.Below="ICS309MainForm"
+                                                   Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)"
+                                                   FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
+                                    </RelativePanel>
+                                </ScrollViewer>
+                            </Grid>
                         </Grid>
 
                     </RelativePanel>
@@ -419,7 +375,7 @@
                         <AppBarButton x:Name="appBarOpenICS309" Label="Open" Icon="OpenFile" Command="{x:Bind _ICS309ViewModel.OpenICS309Command}"/>
                         <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" Command="{x:Bind _ICS309ViewModel.SaveICS309Command}" />
                         <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" Click="AppBarPrintICS309_ClickAsync"
-                                      Visibility="{Binding ICS309PrintButtonVisible, Mode=TwoWay}"
+                                      Visibility="{Binding ICS309PrintButtonVisible, Mode=OneWay}"
                                       HorizontalAlignment="Right" />
                         <!--<AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />-->
                     </CommandBar>

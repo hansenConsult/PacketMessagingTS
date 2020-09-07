@@ -8,11 +8,7 @@ using SharedCode;
 using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
-
-using Windows.UI;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -93,15 +89,9 @@ namespace OAMunicipalStatusPackItFormControl
         {
             InitializeComponent();
 
-            //DependencyObject panelName = formHeaderControl.Panel;
-            //ScanControls(panelName, formHeaderControl);
-
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-            //panelName = radioOperatorControl.Panel;
-            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20190327";

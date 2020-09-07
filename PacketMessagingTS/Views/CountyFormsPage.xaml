@@ -41,7 +41,6 @@
             <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send"
                           IsEnabled="{x:Bind _CountyFormsViewModel.IsAppBarSendEnabled}"
                           Command="{x:Bind _CountyFormsViewModel.SendReceiveCommand}"/>
-            <!--IsEnabled="{x:Bind _hospitalFormsViewModel.IsAppBarSendEnabled}"-->
         </CommandBar>
     </RelativePanel>
 </myBase:BaseFormsPage>

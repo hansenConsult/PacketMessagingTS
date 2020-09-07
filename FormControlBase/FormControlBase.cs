@@ -405,9 +405,21 @@ namespace FormControlBaseClass
         }
 
 
-        public abstract string CreateOutpostData(ref PacketMessage packetMessage);
+        public virtual string CreateOutpostData(ref PacketMessage packetMessage)
+        {
+            _outpostData = new List<string>
+            {
+                "!SCCoPIFO!",
+                $"#T: {PacFormName}.html",
+                $"#V: {PackItFormVersion}-{PIF}",
+            };
+            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-		protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
+            return CreateOutpostMessageBody(_outpostData);
+        }
+
+
+        protected virtual void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
         {
             if (packetMessage.FormFieldArray is null)
             {

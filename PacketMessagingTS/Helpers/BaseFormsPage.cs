@@ -611,11 +611,9 @@ namespace PacketMessagingTS.Helpers
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            _logHelper.Log(LogLevel.Trace, "Entering OnNavigatedTo in BaseFormsPage");
+            //_logHelper.Log(LogLevel.Trace, "Entering OnNavigatedTo in BaseFormsPage");
             if (e.Parameter is null)
             {
-                // Open last used empty form
- //               _formsPagePivot.SelectedIndex = FormsPagePivotSelectedIndex;
                 _packetMessage = null;
                 ViewModel.LoadMessage = false;
                 base.OnNavigatedTo(e);

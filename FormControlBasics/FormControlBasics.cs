@@ -345,14 +345,6 @@ namespace FormControlBasicsNamespace
                     return true;
             }
             return false;
-
-            //string tag = (control.Tag as string)?.ToLower();
-            //if (!string.IsNullOrEmpty(tag) && tag.Contains("conditionallyrequired"))
-            //    return false;
-            //else if (!string.IsNullOrEmpty(tag) && tag.Contains("required"))
-            //    return true;
-            //else
-            //    return false;
         }
 
         protected virtual void AutoSuggestBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -373,24 +365,6 @@ namespace FormControlBasicsNamespace
                     autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
                 }
             }
-
-            //foreach (FormControl formControl in _formControlsList)
-            //{
-            //    if (sender is AutoSuggestBox textBox && textBox.Name == formControl.InputControl.Name)
-            //    {
-            //        if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(textBox.Text))
-            //        {
-            //            textBox.BorderThickness = new Thickness(2);
-            //            textBox.BorderBrush = formControl.RequiredBorderBrush;
-            //        }
-            //        else
-            //        {
-            //            textBox.BorderThickness = new Thickness(1);
-            //            textBox.BorderBrush = formControl.BaseBorderColor;
-            //        }
-            //        break;
-            //    }
-            //}
         }
 
         protected virtual void TextBox_IntegerChanged(object sender, TextChangedEventArgs e)
@@ -674,12 +648,6 @@ namespace FormControlBasicsNamespace
             FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = MessageNo };
             OnSubjectChange?.Invoke(this, formEventArgs);
         }
-
-        //protected virtual void TextBoxFromICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        //{
-        //    // Set sender.Text. You can use args.SelectedItem to build your text string.
-        //    sender.Text = args.SelectedItem as string;
-        //}
 
         protected virtual void TextBoxICSPosition_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {

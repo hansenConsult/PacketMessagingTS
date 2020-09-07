@@ -21,13 +21,15 @@ using PacketMessagingTS.Views;
 
 using SharedCode;
 using SharedCode.Helpers;
-using SharedCode.Helpers.PrintHelpers;
 using SharedCode.Models;
 
 using Windows.ApplicationModel.Email;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
+using Windows.UI.WindowManagement;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -830,6 +832,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             if (!tncDevice.Name.Contains(SharedData.EMail))
             {
+                //AppWindow appWindow = await AppWindow.TryCreateAsync();
+                //Frame appWindowContentFrame = new Frame();
+                //appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
+                //ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+                //await appWindow.TryShowAsync();
+
                 ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
                 //return;     //Test

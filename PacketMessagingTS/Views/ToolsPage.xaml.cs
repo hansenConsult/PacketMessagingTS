@@ -4,12 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 using MetroLog;
-//using Microsoft.Toolkit.Uwp.Helpers;
-//using Microsoft.Toolkit.Uwp.UI.Controls;
 
 using PacketMessagingTS.Core.Helpers;
 
@@ -17,20 +14,17 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Views;
 
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Helpers.PrintHelpers;
 
 using Windows.Graphics.Printing;
-using Windows.Graphics.Printing.OptionDetails;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Printing;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
