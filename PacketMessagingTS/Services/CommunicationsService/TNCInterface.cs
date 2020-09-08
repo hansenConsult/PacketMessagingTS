@@ -1001,7 +1001,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     goto AbortWithoutConnect;
                 }
 
-                //goto AbortWithoutConnect;    //Test
+                goto AbortWithoutConnect;    //Test
 
                 _connectState = ConnectState.BBSTryConnect;
                 _serialPort.Write($"connect {_bbsConnectName}\r");
