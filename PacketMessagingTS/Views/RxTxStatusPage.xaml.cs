@@ -55,14 +55,10 @@ namespace PacketMessagingTS.Views
 
             _viewLifetimeControl.Height = RxTxStatusViewmodel.ViewControlHeight;
             _viewLifetimeControl.Width = RxTxStatusViewmodel.ViewControlWidth;
-
-            //_scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
-            //_scrollViewer = FindScrollViewer();
         }
 
         public async void CloseStatusWindowAsync()
         {
-            //_viewLifetimeControl.StartViewInUse();
             Rect rect = _viewLifetimeControl.GetBounds();
             RxTxStatusViewmodel.ViewControlHeight = rect.Height;
 
@@ -186,13 +182,8 @@ namespace PacketMessagingTS.Views
             //await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             await RxTxStatusViewmodel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                //_viewLifetimeControl.StartViewInUse();
                 bool? viewChanged = _scrollViewer.ChangeView(null, _scrollViewer.ExtentHeight, 1.0f, true);
-                    //if (viewChanged != true)
-                    //Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {_scrollViewer.ExtentHeight} text: {RxTxStatusViewmodel.AppendRxTxStatus}");
-                //_viewLifetimeControl.StopViewInUse();
             });
-            //_viewLifetimeControl.StopViewInUse();
         }
 
         private void TextBoxStatus_SizeChanged(object sender, SizeChangedEventArgs e)

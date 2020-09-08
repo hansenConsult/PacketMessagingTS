@@ -243,24 +243,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //if (!dispatcher.HasThreadAccess)
             //{
             RxTxStatViewModel rxTxStatViewModel = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel;
-            //RxTxStatViewModel rxTxStatViewModel = Singleton<RxTxStatViewModel>.Instance;
             await rxTxStatViewModel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-
-                //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
-                //rxTxStatViewModel.AppendRxTxStatus(text);
-                //rxTxStatViewModel.AppendRxTxStatus = text;
                 RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
-                //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
             });
-
-            //}
-            //else
-            //{
-            //    Singleton<RxTxStatusViewModel>.Instance.AddStatusWindowText(text);
-            //    //MainPage.Current.AddTextToStatusWindow(text);
-            //}
-            //Debug.Write(text);
         }
 
         // Returns next line read, returns line read plus a \r. Supports timeout.

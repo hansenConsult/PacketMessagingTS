@@ -851,7 +851,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 await _tncInterface.BBSConnectThreadProcAsync();
 
                 // Close status window
-                //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
