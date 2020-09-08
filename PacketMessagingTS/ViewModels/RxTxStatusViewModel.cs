@@ -67,17 +67,17 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref _viewControlWidth, value, true);
         }
 
-        public async void CloseStatusWindowAsync()
-        {
-            //_viewLifetimeControl.StartViewInUse();
-            Rect rect = ViewLifetimeControl.GetBounds();
-            ViewControlHeight = rect.Height;
+        //public async void CloseStatusWindowAsync()
+        //{
+        //    //_viewLifetimeControl.StartViewInUse();
+        //    Rect rect = ViewLifetimeControl.GetBounds();
+        //    ViewControlHeight = rect.Height;
 
-            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-                ApplicationView.GetForCurrentView().Id,
-                ApplicationViewSwitchingOptions.ConsolidateViews);
-            //_viewLifetimeControl.StopViewInUse();
-        }
+        //    await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+        //        ApplicationView.GetForCurrentView().Id,
+        //        ApplicationViewSwitchingOptions.ConsolidateViews);
+        //    //_viewLifetimeControl.StopViewInUse();
+        //}
 
         private ICommand _abortCommand;
 
@@ -90,11 +90,11 @@ namespace PacketMessagingTS.ViewModels
 
         public ViewLifetimeControl ViewLifetimeControl { get; private set; }
 
-        public void Initialize(ViewLifetimeControl viewLifetimeControl)
-        {
-            ViewLifetimeControl = viewLifetimeControl;
-            ViewLifetimeControl.Released += OnViewLifetimeControlReleased;
-        }
+        //public void Initialize(ViewLifetimeControl viewLifetimeControl)
+        //{
+        //    ViewLifetimeControl = viewLifetimeControl;
+        //    ViewLifetimeControl.Released += OnViewLifetimeControlReleased;
+        //}
 
         //public void Initialize(ViewLifetimeControl viewLifetimeControl, CoreDispatcher dispatcher)
         //{
@@ -110,14 +110,14 @@ namespace PacketMessagingTS.ViewModels
         //    StatusPage = statusPage;
         //}
 
-        private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
-        {
-            ViewLifetimeControl.Released -= OnViewLifetimeControlReleased;            
-            await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                WindowManagerService.Current.SecondaryViews.Remove(ViewLifetimeControl);
-            });
-        }
+        //private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
+        //{
+        //    ViewLifetimeControl.Released -= OnViewLifetimeControlReleased;            
+        //    await WindowManagerService.Current.MainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    {
+        //        WindowManagerService.Current.SecondaryViews.Remove(ViewLifetimeControl);
+        //    });
+        //}
 
     }
 

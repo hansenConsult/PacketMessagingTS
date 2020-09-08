@@ -24,6 +24,7 @@ using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.ApplicationModel.Email;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
@@ -834,7 +835,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame appWindowContentFrame = new Frame();
+                appWindow.Closed += delegate { appWindow = null; appWindowContentFrame.Content = null; };
                 appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
+                appWindow.RequestSize(new Size(300, 400));
                 ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
                 await appWindow.TryShowAsync();
 
@@ -851,12 +854,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 await _tncInterface.BBSConnectThreadProcAsync();
 
                 // Close status window
+                await appWindow.CloseAsync();
                 //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-//                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-//                {
-//                    //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
-//                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.CloseStatusWindowAsync();
-//                });
+                //                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                //                {
+                //                    //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
+                //                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.CloseStatusWindowAsync();
+                //                });
 
                 Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
                 if (!string.IsNullOrEmpty(bbs?.Name))
