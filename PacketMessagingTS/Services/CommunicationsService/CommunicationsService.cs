@@ -832,13 +832,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             if (!tncDevice.Name.Contains(SharedData.EMail))
             {
-                //AppWindow appWindow = await AppWindow.TryCreateAsync();
-                //Frame appWindowContentFrame = new Frame();
-                //appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
-                //ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
-                //await appWindow.TryShowAsync();
+                AppWindow appWindow = await AppWindow.TryCreateAsync();
+                Frame appWindowContentFrame = new Frame();
+                appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
+                ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+                await appWindow.TryShowAsync();
 
-                ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+                //                ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
                 //return;     //Test
 
@@ -852,11 +852,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 // Close status window
                 //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
-                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.CloseStatusWindowAsync();
-                });
+//                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//                {
+//                    //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
+//                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.CloseStatusWindowAsync();
+//                });
 
                 Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
                 if (!string.IsNullOrEmpty(bbs?.Name))

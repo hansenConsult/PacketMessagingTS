@@ -235,8 +235,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async void AddTextToStatusWindowAsync(string text)
         {
-            if (RxTxStatusPage.rxtxStatusPage.Dispatcher == null)
-                return;
+//            if (RxTxStatusPage.rxtxStatusPage.Dispatcher == null)
+//                return;
 
             //Debug.Write(text);
             //CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
@@ -244,15 +244,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //{
             RxTxStatViewModel rxTxStatViewModel = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel;
             //RxTxStatViewModel rxTxStatViewModel = Singleton<RxTxStatViewModel>.Instance;
-            await rxTxStatViewModel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
+//            await rxTxStatViewModel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//            {
 
-                //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
-                //rxTxStatViewModel.AppendRxTxStatus(text);
-                //rxTxStatViewModel.AppendRxTxStatus = text;
-                RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
-                //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
-            });
+//                //    //        //MainPage.Current.AddTextToStatusWindow("\nTesting");
+//                //rxTxStatViewModel.AppendRxTxStatus(text);
+//                //rxTxStatViewModel.AppendRxTxStatus = text;
+//                RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
+//                //    //Singleton<RxTxStatusViewModel>.Instance.StatusPage.AddTextToStatusWindow(text);
+//            });
 
             //}
             //else

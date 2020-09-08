@@ -45,16 +45,16 @@ namespace PacketMessagingTS.Views
         {
             base.OnNavigatedTo(e);
             // To avoid problems with a new thread generated for the rxTXStatus edit control
-            bool success = Singleton<RxTxStatViewModel>.UpdateInstance();
+//            bool success = Singleton<RxTxStatViewModel>.UpdateInstance();
 
-            _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
-            //RxTxStatusViewmodel.Initialize(_viewLifetimeControl, Dispatcher);
-            RxTxStatusViewmodel.Initialize(_viewLifetimeControl);
-            //RxTxStatusViewmodel.StatusPage = this;
-            RxTxStatusViewmodel.RxTxStatus = "";
+//            _viewLifetimeControl = e.Parameter as ViewLifetimeControl;
+//            //RxTxStatusViewmodel.Initialize(_viewLifetimeControl, Dispatcher);
+//            RxTxStatusViewmodel.Initialize(_viewLifetimeControl);
+//            //RxTxStatusViewmodel.StatusPage = this;
+//            RxTxStatusViewmodel.RxTxStatus = "";
 
-            _viewLifetimeControl.Height = RxTxStatusViewmodel.ViewControlHeight;
-            _viewLifetimeControl.Width = RxTxStatusViewmodel.ViewControlWidth;
+//            _viewLifetimeControl.Height = RxTxStatusViewmodel.ViewControlHeight;
+//            _viewLifetimeControl.Width = RxTxStatusViewmodel.ViewControlWidth;
 
             //_scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
             //_scrollViewer = FindScrollViewer();
@@ -184,14 +184,14 @@ namespace PacketMessagingTS.Views
                 _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
             }
             //await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            await RxTxStatusViewmodel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                //_viewLifetimeControl.StartViewInUse();
-                bool? viewChanged = _scrollViewer.ChangeView(null, _scrollViewer.ExtentHeight, 1.0f, true);
-                    //if (viewChanged != true)
-                    //Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {_scrollViewer.ExtentHeight} text: {RxTxStatusViewmodel.AppendRxTxStatus}");
-                //_viewLifetimeControl.StopViewInUse();
-            });
+//            await RxTxStatusViewmodel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//            {
+//                //_viewLifetimeControl.StartViewInUse();
+//                bool? viewChanged = _scrollViewer.ChangeView(null, _scrollViewer.ExtentHeight, 1.0f, true);
+//                    //if (viewChanged != true)
+//                    //Log(LogLevel.Trace, $"View Changed: {viewChanged}, ExtendHeight: {_scrollViewer.ExtentHeight} text: {RxTxStatusViewmodel.AppendRxTxStatus}");
+//                //_viewLifetimeControl.StopViewInUse();
+//            });
             //_viewLifetimeControl.StopViewInUse();
         }
 
