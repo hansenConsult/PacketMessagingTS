@@ -855,10 +855,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     appWindow.RequestSize(size);
                     // Move window Moves next to window not what I wanted
                     DisplayRegion displayRegion = appWindow.GetPlacement().DisplayRegion;
-                    //double displayRegionWidth = displayRegion.WorkAreaSize.Width;   // Screen width
-                    //double windowWidth = Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowSize.Width;
-                    //int horizontalOffset = (int)(  windowWidth);
-                 //   appWindow.RequestMoveRelativeToDisplayRegion(displayRegion, Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset);
+                //double displayRegionWidth = displayRegion.WorkAreaSize.Width;   // Screen width
+                //double windowWidth = Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowSize.Width;
+                //int horizontalOffset = (int)(  windowWidth);
+                Point offset = new Point(Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetX, Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetY);
+                    appWindow.RequestMoveRelativeToDisplayRegion(displayRegion, offset);
 
                     ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
 
@@ -884,7 +885,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 AppWindowPlacement appWindowPlacement = appWindow.GetPlacement();
                 Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
                 Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
-                //Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset = appWindowPlacement.Offset;
+                Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetX = appWindowPlacement.Offset.X;
+                Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetY = appWindowPlacement.Offset.Y;
 
                 await appWindow.CloseAsync();
                 //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

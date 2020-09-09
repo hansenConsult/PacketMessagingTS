@@ -1,21 +1,21 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+
+using MetroLog;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
-//using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
+using SharedCode;
 using Windows.UI.WindowManagement;
-using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
     public class RxTxStatViewModel : BaseViewModel
     {
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatViewModel>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
+
         private string rxTxStatus;
         public string RxTxStatus
         {
@@ -43,7 +43,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 appendText = value;
                 //string status = rxTxStatus + appendText;
-                RxTxStatus = rxTxStatus + appendText; ;
+                RxTxStatus = rxTxStatus + appendText;
+                _logHelper.Log(LogLevel.Trace, $"text: {appendText}");
             }
             //string status = rxTxStatus + appendedStatus;
             //RxTxStatus = status;
@@ -69,26 +70,34 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref _viewControlWidth, value, true);
         }
 
-        private Size _RxTxStatusAppWindowSize = new Size(500, 600);
-        public Size RxTxStatusAppWindowSize
-        {
-            get => GetProperty(ref _RxTxStatusAppWindowSize);
-            set => SetProperty(ref _RxTxStatusAppWindowSize, value, true);
-        }
-
-        private Point _RxTxStatusAppWindowOffset;
-        public Point RxTxStatusAppWindowOffset
+        private double _RxTxStatusAppWindowOffsetX;
+        public double RxTxStatusAppWindowOffsetX
         {
             get
             {
-                GetProperty(ref _RxTxStatusAppWindowOffset);
-                if (_RxTxStatusAppWindowOffset == null || _RxTxStatusAppWindowOffset == new Point(0,0))
+                GetProperty(ref _RxTxStatusAppWindowOffsetX);
+                if (_RxTxStatusAppWindowOffsetX == 0)
                 {
-                    _RxTxStatusAppWindowOffset = new Point(50, 20);
+                    _RxTxStatusAppWindowOffsetX = 50;
                 }
-                return _RxTxStatusAppWindowOffset;
+                return _RxTxStatusAppWindowOffsetX;
             }
-            set => SetProperty(ref _RxTxStatusAppWindowOffset, value, true);
+            set => SetProperty(ref _RxTxStatusAppWindowOffsetX, value, true);
+        }
+
+        private double _RxTxStatusAppWindowOffsetY;
+        public double RxTxStatusAppWindowOffsetY
+        {
+            get
+            {
+                GetProperty(ref _RxTxStatusAppWindowOffsetY);
+                if (_RxTxStatusAppWindowOffsetY == 0)
+                {
+                    _RxTxStatusAppWindowOffsetY = 20;
+                }
+                return _RxTxStatusAppWindowOffsetY;
+            }
+            set => SetProperty(ref _RxTxStatusAppWindowOffsetY, value, true);
         }
 
         //public async void CloseStatusWindowAsync()
