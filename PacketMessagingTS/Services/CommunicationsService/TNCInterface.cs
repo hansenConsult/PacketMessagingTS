@@ -245,7 +245,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             RxTxStatViewModel rxTxStatViewModel = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel;
             await rxTxStatViewModel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
+                rxTxStatViewModel.AppendRxTxStatus = text;
+                //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
             });
         }
 
@@ -987,7 +988,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     goto AbortWithoutConnect;
                 }
 
-                //goto AbortWithoutConnect;    //Test
+                goto AbortWithoutConnect;    //Test
 
                 _connectState = ConnectState.BBSTryConnect;
                 _serialPort.Write($"connect {_bbsConnectName}\r");
