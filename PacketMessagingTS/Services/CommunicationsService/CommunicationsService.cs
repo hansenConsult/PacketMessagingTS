@@ -80,7 +80,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //private static RxTxStatusPage rxTxStatusPage;
         public async void AddRxTxStatusAsync(string text)
         {
-
             //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
             if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
                 return;
@@ -833,17 +832,45 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             if (!tncDevice.Name.Contains(SharedData.EMail))
             {
-                AppWindow appWindow = await AppWindow.TryCreateAsync();
-                Frame appWindowContentFrame = new Frame();
-                appWindow.Closed += delegate { appWindow = null; appWindowContentFrame.Content = null; };
-                appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
-                appWindow.RequestSize(new Size(300, 400));
-                ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+                //AppWindow appWindow = null;
+                //if (appWindow == null)
+                //{
+                    AppWindow appWindow = await AppWindow.TryCreateAsync();
+                    Frame appWindowContentFrame = new Frame();
+                    //appWindow.Changed += delegate      // Does not work??
+                    //{
+                    //    AppWindowPlacement appWindowPlacement = appWindow.GetPlacement();
+                    //    Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowSize = appWindowPlacement.Size;
+                    //    Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset = appWindowPlacement.Offset;
+                    //};
+
+                    appWindow.Closed += delegate
+                    {
+                        appWindow = null;
+                        appWindowContentFrame.Content = null;
+                    };
+
+                    appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
+                Size size = new Size(Singleton<RxTxStatViewModel>.Instance.ViewControlWidth, Singleton<RxTxStatViewModel>.Instance.ViewControlHeight);
+                    appWindow.RequestSize(size);
+                    // Move window Moves next to window not what I wanted
+                    DisplayRegion displayRegion = appWindow.GetPlacement().DisplayRegion;
+                    //double displayRegionWidth = displayRegion.WorkAreaSize.Width;   // Screen width
+                    //double windowWidth = Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowSize.Width;
+                    //int horizontalOffset = (int)(  windowWidth);
+                 //   appWindow.RequestMoveRelativeToDisplayRegion(displayRegion, Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset);
+
+                    ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+
+                    Singleton<RxTxStatViewModel>.Instance.RxTxAppWindow = appWindow;
+                //}
                 await appWindow.TryShowAsync();
 
-                //                ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+                //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
                 //return;     //Test
+
+                //AddRxTxStatusAsync("Text text");
 
                 PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
 
@@ -854,6 +881,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 await _tncInterface.BBSConnectThreadProcAsync();
 
                 // Close status window
+                AppWindowPlacement appWindowPlacement = appWindow.GetPlacement();
+                Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
+                Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
+                //Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset = appWindowPlacement.Offset;
+
                 await appWindow.CloseAsync();
                 //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 //                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 
 using PacketMessagingTS.Models;
 
-
 namespace PacketMessagingTS.Helpers
 {
     public class BaseViewModel : INotifyPropertyChanged
@@ -160,7 +159,6 @@ namespace PacketMessagingTS.Helpers
             }
             return backingStore;
         }
-
 
         protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
                     [CallerMemberName]string propertyName = "", Action onChanged = null)

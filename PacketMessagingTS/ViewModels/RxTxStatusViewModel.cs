@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Input;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
-using Windows.Foundation;
+//using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
@@ -67,6 +69,28 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref _viewControlWidth, value, true);
         }
 
+        private Size _RxTxStatusAppWindowSize = new Size(500, 600);
+        public Size RxTxStatusAppWindowSize
+        {
+            get => GetProperty(ref _RxTxStatusAppWindowSize);
+            set => SetProperty(ref _RxTxStatusAppWindowSize, value, true);
+        }
+
+        private Point _RxTxStatusAppWindowOffset;
+        public Point RxTxStatusAppWindowOffset
+        {
+            get
+            {
+                GetProperty(ref _RxTxStatusAppWindowOffset);
+                if (_RxTxStatusAppWindowOffset == null || _RxTxStatusAppWindowOffset == new Point(0,0))
+                {
+                    _RxTxStatusAppWindowOffset = new Point(50, 20);
+                }
+                return _RxTxStatusAppWindowOffset;
+            }
+            set => SetProperty(ref _RxTxStatusAppWindowOffset, value, true);
+        }
+
         //public async void CloseStatusWindowAsync()
         //{
         //    //_viewLifetimeControl.StartViewInUse();
@@ -89,6 +113,8 @@ namespace PacketMessagingTS.ViewModels
         }
 
         public ViewLifetimeControl ViewLifetimeControl { get; private set; }
+
+        public AppWindow RxTxAppWindow { get; set; }
 
         //public void Initialize(ViewLifetimeControl viewLifetimeControl)
         //{

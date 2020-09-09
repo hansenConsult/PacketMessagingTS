@@ -11,6 +11,7 @@ using SharedCode;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -23,10 +24,12 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        //public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
-        public RxTxStatViewModel RxTxStatusViewmodel { get; } = new RxTxStatViewModel();
+        public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
+        //public RxTxStatViewModel RxTxStatusViewmodel { get; } = new RxTxStatViewModel();
 
         public ViewLifetimeControl _viewLifetimeControl;
+
+        AppWindow appWindow;
 
         public static RxTxStatusPage rxtxStatusPage;
         private ScrollViewer _scrollViewer;
@@ -39,6 +42,8 @@ namespace PacketMessagingTS.Views
 
             rxtxStatusPage = this;
             //RxTxStatusViewModel.StatusPage = this;
+
+            Loaded += AppWindowPage_Loaded;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -199,6 +204,36 @@ namespace PacketMessagingTS.Views
         {
             Windows.Foundation.Rect bounds = Window.Current.CoreWindow.Bounds;
             _viewLifetimeControl.Height = bounds.Bottom;
+        }
+
+        private void AppWindowPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            appWindow = RxTxStatusViewmodel.RxTxAppWindow;
+
+            //appWindow.Changed += AppWindow_Changed;
+            //appWindow.CloseRequested += AppWindow_CloseRequested;   // Does not work
+        }
+
+        private void AppWindow_CloseRequested(AppWindow sender, AppWindowCloseRequestedEventArgs args)
+        {
+            AppWindowPlacement appWindowPlacement = sender.GetPlacement();
+            Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
+            Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
+            //Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset = appWindowPlacement.Offset;
+        }
+
+        private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+        {
+            AppWindowPlacement appWindowPlacement = sender.GetPlacement();
+            if (args.DidSizeChange)
+            {
+                if (appWindowPlacement.Size == new Size(0, 0))
+                    return;
+
+                Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
+                Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
+            }
+            //Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset = appWindowPlacement.Offset;
         }
     }
 }
