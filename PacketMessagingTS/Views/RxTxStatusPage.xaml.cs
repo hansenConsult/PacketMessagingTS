@@ -127,7 +127,7 @@ namespace PacketMessagingTS.Views
                 break;
             }
             //Thread.Sleep(1);
-            //_logHelper.Log(LogLevel.Trace, $"Scrolled: {viewChanged}, Height: {_scrollViewer.ExtentHeight} text: {text}");
+            _logHelper.Log(LogLevel.Trace, $"Scrolled: {viewChanged}, Height: {_scrollViewer.ExtentHeight} text: {text}");
         }
 
         int i = 0;
