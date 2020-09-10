@@ -21,7 +21,6 @@
                  AcceptsReturn="True"
                  VerticalContentAlignment="Bottom"
                  IsReadOnly="True"
-                 Text="{x:Bind RxTxStatusViewmodel.RxTxStatus, Mode=OneWay}"
                  TextChanged="TextBoxStatus_TextChanged"/>
 
             <!--Text="{x:Bind RxTxStatusViewmodel.RxTxStatus, Mode=OneWay}"
@@ -32,7 +31,7 @@
                 RelativePanel.AlignBottomWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 Content="Abort Connection" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                Command="{x:Bind RxTxStatusViewmodel.AbortCommand}"/>
+                Click="AbortButton_Click"/>
         <Button x:Name="textButton" Margin="8"
                 RelativePanel.AlignBottomWithPanel="True"
                 RelativePanel.LeftOf="abortButton"

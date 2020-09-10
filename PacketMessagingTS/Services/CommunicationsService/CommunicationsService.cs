@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using FormControlBaseClass;
@@ -80,9 +81,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //private static RxTxStatusPage rxTxStatusPage;
         public async void AddRxTxStatusAsync(string text)
         {
+            CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
             //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
-            if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
+            //if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
+            if (dispatcher is null)
                 return;
+
+            //bool threadAccess = dispatcher.HasThreadAccess;
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
             //Thread.Sleep(0); No effect
             //{
@@ -93,13 +98,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //        return;
             //}
             //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            ////await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
-            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await MainPage.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await Singleton<RxTxStatViewModel>.Instance.AppWindowDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await MainPage.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
+                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
                 //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus(text);
-                //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
+                //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
+                MainPage.SetStatusText(text);
             });
         }
 
@@ -835,43 +842,45 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //AppWindow appWindow = null;
                 //if (appWindow == null)
                 //{
-                    AppWindow appWindow = await AppWindow.TryCreateAsync();
-                    Frame appWindowContentFrame = new Frame();
-                    //appWindow.Changed += delegate      // Does not work??
-                    //{
-                    //    AppWindowPlacement appWindowPlacement = appWindow.GetPlacement();
-                    //    Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowSize = appWindowPlacement.Size;
-                    //    Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset = appWindowPlacement.Offset;
-                    //};
+                //    AppWindow appWindow = await AppWindow.TryCreateAsync();
+                //    Frame appWindowContentFrame = new Frame();
 
-                    appWindow.Closed += delegate
-                    {
-                        appWindow = null;
-                        appWindowContentFrame.Content = null;
-                    };
+                //    //appWindow.Closed += delegate
+                //    //{
+                //    //    appWindow = null;
+                //    //    appWindowContentFrame.Content = null;
+                //    //};
 
-                    appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
-                Size size = new Size(Singleton<RxTxStatViewModel>.Instance.ViewControlWidth, Singleton<RxTxStatViewModel>.Instance.ViewControlHeight);
-                    appWindow.RequestSize(size);
-                    // Move window Moves next to window not what I wanted
-                    DisplayRegion displayRegion = appWindow.GetPlacement().DisplayRegion;
-                //double displayRegionWidth = displayRegion.WorkAreaSize.Width;   // Screen width
-                //double windowWidth = Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowSize.Width;
-                //int horizontalOffset = (int)(  windowWidth);
-                Point offset = new Point(Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetX, Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetY);
-                    appWindow.RequestMoveRelativeToDisplayRegion(displayRegion, offset);
+                //    appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
+                //Size size = new Size(Singleton<RxTxStatViewModel>.Instance.ViewControlWidth, Singleton<RxTxStatViewModel>.Instance.ViewControlHeight);
+                //    appWindow.RequestSize(size);
+                //    // Move window Moves next to window not what I wanted
+                //    DisplayRegion displayRegion = appWindow.GetPlacement().DisplayRegion;
+                ////double displayRegionWidth = displayRegion.WorkAreaSize.Width;   // Screen width
+                ////double windowWidth = Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowSize.Width;
+                ////int horizontalOffset = (int)(  windowWidth);
+                //Point offset = new Point(Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetX, Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetY);
+                //    appWindow.RequestMoveRelativeToDisplayRegion(displayRegion, offset);
 
-                    ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
+                //    ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
 
-                    Singleton<RxTxStatViewModel>.Instance.RxTxAppWindow = appWindow;
-                //}
-                await appWindow.TryShowAsync();
+                //    Singleton<RxTxStatViewModel>.Instance.RxTxAppWindow = appWindow;
+                //Singleton<RxTxStatViewModel>.Instance.RxTxAppWindowFrame = appWindowContentFrame;
+                ////}
+                //await appWindow.TryShowAsync();
 
                 //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
 
                 //return;     //Test
 
-                //AddRxTxStatusAsync("Text text");
+                //MainPage.SetStatusText("\rCommunicationsService text via MainPage");
+                //RxTxStatusPage page = (RxTxStatusPage)Singleton<RxTxStatViewModel>.Instance.RxTxAppWindowFrame.Content;
+                RxTxStatusPage page = RxTxStatusPage.rxtxStatusPage;
+                page.AddTextToStatusWindow("\rCommunicationsService text");
+
+                //AddRxTxStatusAsync("\rTest text");
+                //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("\rTest text");
+                //Thread.Sleep(1);
 
                 PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
 
@@ -882,13 +891,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 await _tncInterface.BBSConnectThreadProcAsync();
 
                 // Close status window
-                AppWindowPlacement appWindowPlacement = appWindow.GetPlacement();
-                Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
-                Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
-                Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetX = appWindowPlacement.Offset.X;
-                Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetY = appWindowPlacement.Offset.Y;
+                AppWindowPlacement appWindowPlacement = page.RxTxAppWindow.GetPlacement();
+                //page.ViewControlWidth = appWindowPlacement.Size.Width;
+                //page.ViewControlHeight = appWindowPlacement.Size.Height;
+                page.RxTxStatusAppWindowOffsetX = appWindowPlacement.Offset.X;
+                page.RxTxStatusAppWindowOffsetY = appWindowPlacement.Offset.Y;
 
-                await appWindow.CloseAsync();
+                await page.RxTxAppWindow.CloseAsync();
                 //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 //                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 //                {

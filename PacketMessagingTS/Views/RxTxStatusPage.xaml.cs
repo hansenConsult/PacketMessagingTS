@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Services;
+using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
@@ -24,12 +27,41 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
-        //public RxTxStatViewModel RxTxStatusViewmodel { get; } = new RxTxStatViewModel();
-
-        public ViewLifetimeControl _viewLifetimeControl;
+        //public RxTxStatViewModel RxTxStatusViewmodel { get; } = Singleton<RxTxStatViewModel>.Instance;
 
         AppWindow appWindow;
+
+        Dictionary<string, object> _properties = App.Properties;
+
+        public AppWindow RxTxAppWindow { get; set; }
+
+        private double _viewControlHeight = 600;
+        public double ViewControlHeight
+        {
+            get => GetProperty(ref _viewControlHeight);
+            set => SetProperty(ref _viewControlHeight, value, true);
+        }
+
+        private double _viewControlWidth = 500;
+        public double ViewControlWidth
+        {
+            get => GetProperty(ref _viewControlWidth);
+            set => SetProperty(ref _viewControlWidth, value, true);
+        }
+
+        private double _RxTxStatusAppWindowOffsetX = 50;
+        public double RxTxStatusAppWindowOffsetX
+        {
+            get => GetProperty(ref _RxTxStatusAppWindowOffsetX);
+            set => SetProperty(ref _RxTxStatusAppWindowOffsetX, value, true);
+        }
+
+        private double _RxTxStatusAppWindowOffsetY = 20;
+        public double RxTxStatusAppWindowOffsetY
+        {
+            get => GetProperty(ref _RxTxStatusAppWindowOffsetY);
+            set => SetProperty(ref _RxTxStatusAppWindowOffsetY, value, true);
+        }
 
         public static RxTxStatusPage rxtxStatusPage;
         private ScrollViewer _scrollViewer;
@@ -65,16 +97,50 @@ namespace PacketMessagingTS.Views
             //_scrollViewer = FindScrollViewer();
         }
 
-        public async void CloseStatusWindowAsync()
-        {
-            //_viewLifetimeControl.StartViewInUse();
-            Rect rect = _viewLifetimeControl.GetBounds();
-            RxTxStatusViewmodel.ViewControlHeight = rect.Height;
+        //public async void CloseStatusWindowAsync()
+        //{
+        //    //_viewLifetimeControl.StartViewInUse();
+        //    Rect rect = _viewLifetimeControl.GetBounds();
+        //    RxTxStatusViewmodel.ViewControlHeight = rect.Height;
 
-            await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
-                ApplicationView.GetForCurrentView().Id,
-                ApplicationViewSwitchingOptions.ConsolidateViews);
-            //_viewLifetimeControl.StopViewInUse();
+        //    await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
+        //        ApplicationView.GetForCurrentView().Id,
+        //        ApplicationViewSwitchingOptions.ConsolidateViews);
+        //    //_viewLifetimeControl.StopViewInUse();
+        //}
+
+        private T GetProperty<T>(ref T backingStore, [CallerMemberName] string propertyName = "")
+        {
+            if (_properties != null && _properties.ContainsKey(propertyName))
+            {
+                try
+                {
+                    // Retrieve value from dictionary
+                    object o = _properties[propertyName];
+                    //T property = JsonConvert.DeserializeObject<T>(o as string);
+                    backingStore = (T)o;
+                    //backingStore = property;
+                    return (T)o;
+                    //return property;
+                }
+                catch
+                {
+                    return backingStore;
+                }
+            }
+            else
+                return default;
+        }
+
+        private bool SetProperty<T>(ref T backingStore, T value, bool persist = false,
+            [CallerMemberName] string propertyName = "")
+        {
+            if (persist)
+            {
+                _properties[propertyName] = value;
+            }
+            backingStore = value;
+            return true;
         }
 
         private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
@@ -146,30 +212,35 @@ namespace PacketMessagingTS.Views
             //textBoxText += $" \nTest text{i}";
             //textBoxStatus.Text = textBoxText;
 
-            RxTxStatusViewmodel.AppendRxTxStatus = $"Test text{i}\r";
+            //RxTxStatusViewmodel.AppendRxTxStatus = $"Test text{i}\r";
             //RxTxStatusViewmodel.AppendRxTxStatus($"Test text{i}\r");
-            //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";            
+            //RxTxStatusViewmodel.RxTxStatus = $"\nTest text{i}";
 
             //ScrollText();
 
-            //AddTextToStatusWindow($"Test text{i}\r");
+            AddTextToStatusWindow($"Test text{i}\r");
         }
 
-        //ScrollViewer scrollViewer = null;
-        public async void ScrollText()
-        //public void ScrollText()
+        private void AbortButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_scrollViewer is null)
-            {
-                _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
-            }
-
-            //await rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => 
-            await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                bool? _viewChanged = _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
-            });
+            CommunicationsService.CreateInstance().AbortConnection();
         }
+
+        ////ScrollViewer scrollViewer = null;
+        //public async void ScrollText()
+        ////public void ScrollText()
+        //{
+        //    if (_scrollViewer is null)
+        //    {
+        //        _scrollViewer = FindVisualChild<ScrollViewer>(textBoxStatus);
+        //    }
+
+        //    //await rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => 
+        //    await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //    {
+        //        bool? _viewChanged = _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+        //    });
+        //}
 
         private void TextBoxStatus_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -200,19 +271,26 @@ namespace PacketMessagingTS.Views
             //_viewLifetimeControl.StopViewInUse();
         }
 
-        private void TextBoxStatus_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Windows.Foundation.Rect bounds = Window.Current.CoreWindow.Bounds;
-            _viewLifetimeControl.Height = bounds.Bottom;
-        }
+        //private void TextBoxStatus_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    Windows.Foundation.Rect bounds = Window.Current.CoreWindow.Bounds;
+        //    _viewLifetimeControl.Height = bounds.Bottom;
+        //}
 
         private void AppWindowPage_Loaded(object sender, RoutedEventArgs e)
         {
-            appWindow = RxTxStatusViewmodel.RxTxAppWindow;
+            appWindow = RxTxAppWindow;
 
-            //appWindow.Changed += AppWindow_Changed;
-            //appWindow.CloseRequested += AppWindow_CloseRequested;   // Does not work
+            //appWindow.Closed += AppWindow_Closed;
+            appWindow.Changed += AppWindow_Changed;
+            appWindow.CloseRequested += AppWindow_CloseRequested;   // Does not work
         }
+
+        //private void AppWindow_Closed(AppWindow sender, AppWindowClosedEventArgs args)
+        //{
+        //    RxTxAppWindow = null;
+        //    RxTxAppWindowFrame.Content = null;
+        //}
 
         private void AppWindow_CloseRequested(AppWindow sender, AppWindowCloseRequestedEventArgs args)
         {
@@ -224,16 +302,20 @@ namespace PacketMessagingTS.Views
 
         private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
         {
-            AppWindowPlacement appWindowPlacement = sender.GetPlacement();
-            if (args.DidSizeChange)
-            {
-                if (appWindowPlacement.Size == new Size(0, 0))
-                    return;
+            //AppWindowPlacement appWindowPlacement = sender.GetPlacement();
+            //if (args.DidSizeChange)
+            //{
+            //    if (appWindowPlacement.Size == new Size(0, 0))
+            //        return;
 
-                Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
-                Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
-            }
-            //Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffset = appWindowPlacement.Offset;
+            //    Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
+            //    Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
+            //}
+            AppWindowPlacement appWindowPlacement = appWindow.GetPlacement();
+            Singleton<RxTxStatViewModel>.Instance.ViewControlWidth = appWindowPlacement.Size.Width;
+            Singleton<RxTxStatViewModel>.Instance.ViewControlHeight = appWindowPlacement.Size.Height;
+            Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetX = appWindowPlacement.Offset.X;
+            Singleton<RxTxStatViewModel>.Instance.RxTxStatusAppWindowOffsetY = appWindowPlacement.Offset.Y;
         }
     }
 }

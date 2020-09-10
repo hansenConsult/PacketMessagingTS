@@ -16,11 +16,14 @@ using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -36,8 +39,6 @@ namespace PacketMessagingTS.Views
         public MainViewModel MainViewModel { get; } = Singleton<MainViewModel>.Instance;
 
         public static MainPage Current;
-
-        //List<string> _bulletinList;
 
 
         public MainPage()
@@ -270,20 +271,55 @@ namespace PacketMessagingTS.Views
         //    await RefreshDataGridAsync();
         //}
 
-        //private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
-        //{
-        //    //// Using ViewLifetimeControl
-        //    //await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+        public static void SetStatusText(string text)
+        {
+            //RxTxStatusPage page = (RxTxStatusPage)Singleton<RxTxStatViewModel>.Instance.RxTxAppWindowFrame.Content;
+            RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
+        }
 
-        //    CommunicationsService.CreateInstance().BBSConnectAsync2();
-        //    //communicationsService.BBSConnectAsync2(Dispatcher);
+        private async void AppBarMainPage_SendReceiveAsync(object sender, RoutedEventArgs e)
+        {
+            //await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+            AppWindow RxTxAppWindow = await AppWindow.TryCreateAsync();
 
-        //    await RefreshDataGridAsync();
-        //}
+            Frame RxTxAppWindowFrame = new Frame();
+            RxTxAppWindowFrame.Navigate(typeof(RxTxStatusPage));
+
+            RxTxStatusPage page = (RxTxStatusPage)RxTxAppWindowFrame.Content;
+            page.RxTxAppWindow = RxTxAppWindow;
+
+            Size size = new Size(page.ViewControlWidth, page.ViewControlHeight);
+            RxTxAppWindow.RequestSize(size);
+
+            DisplayRegion displayRegion = RxTxAppWindow.GetPlacement().DisplayRegion;
+            Point offset = new Point(page.RxTxStatusAppWindowOffsetX, page.RxTxStatusAppWindowOffsetY);
+            RxTxAppWindow.RequestMoveRelativeToDisplayRegion(displayRegion, offset);
+
+            ElementCompositionPreview.SetAppWindowContent(RxTxAppWindow, RxTxAppWindowFrame);
+
+            RxTxAppWindow.Title = "Connection Status";
+
+            RxTxAppWindow.Closed += delegate
+            {
+                RxTxAppWindowFrame.Content = null;
+                RxTxAppWindow = null;
+            };
+
+            await RxTxAppWindow.TryShowAsync();
+
+            Singleton<RxTxStatViewModel>.Instance.AppWindowDispatcher = Dispatcher;
+            //page.AddTextToStatusWindow("\rMain Window text");
+            MainPage.SetStatusText("\rMain Window text");
+
+            CommunicationsService.CreateInstance().BBSConnectAsync2();
+            //communicationsService.BBSConnectAsync2(Dispatcher);
+
+            //RefreshDataGridAsync();
+        }
 
         //private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
         //{
-        //     if (_selectedMessages != null && _selectedMessages.Count == 1)
+        //    if (_selectedMessages != null && _selectedMessages.Count == 1)
         //    {
         //        MainViewModel.OpenMessage(_selectedMessages[0]);
         //    }

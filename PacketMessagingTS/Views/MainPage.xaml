@@ -447,7 +447,8 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
                 </AppBarButton.Icon>
             </AppBarButton>-->
-            <AppBarButton Label="Send/Receive" Icon="Send" Command="{x:Bind MainViewModel.SendReceiveCommand}"/>
+            <AppBarButton Label="Send/Receive" Icon="Send" Click="AppBarMainPage_SendReceiveAsync"/>
+            <!--<AppBarButton Label="Send/Receive" Icon="Send" Command="{x:Bind MainViewModel.SendReceiveCommand}"/>-->
             <AppBarButton Label="Delete" Icon="Delete" Command="{x:Bind MainViewModel.DeleteMessagesCommand}" HorizontalAlignment="Right" />
         </CommandBar>
     </RelativePanel>

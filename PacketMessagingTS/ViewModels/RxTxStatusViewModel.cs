@@ -7,7 +7,10 @@ using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
 using SharedCode;
+
+using Windows.UI.Core;
 using Windows.UI.WindowManagement;
+using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -124,6 +127,10 @@ namespace PacketMessagingTS.ViewModels
         public ViewLifetimeControl ViewLifetimeControl { get; private set; }
 
         public AppWindow RxTxAppWindow { get; set; }
+
+        public Frame RxTxAppWindowFrame { get; set; }
+
+        public CoreDispatcher AppWindowDispatcher { get; set; }
 
         //public void Initialize(ViewLifetimeControl viewLifetimeControl)
         //{
