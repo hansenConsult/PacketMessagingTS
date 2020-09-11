@@ -12,6 +12,7 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
@@ -279,6 +280,7 @@ namespace PacketMessagingTS.Views
 
         private void AppWindowPage_Loaded(object sender, RoutedEventArgs e)
         {
+            UIContext uIContext = this.UIContext;
             appWindow = RxTxAppWindow;
 
             //appWindow.Closed += AppWindow_Closed;

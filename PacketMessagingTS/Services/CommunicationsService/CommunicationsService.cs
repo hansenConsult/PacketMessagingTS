@@ -82,6 +82,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         public async void AddRxTxStatusAsync(string text)
         {
             CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
+            //CoreDispatcher dispatcher = RxTxStatusPage.rxtxStatusPage.Dispatcher;
             //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
             //if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
             if (dispatcher is null)
@@ -101,7 +102,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //await MainPage.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //await Singleton<RxTxStatViewModel>.Instance.AppWindowDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            await MainPage.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
                 //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus(text);
@@ -876,7 +877,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //MainPage.SetStatusText("\rCommunicationsService text via MainPage");
                 //RxTxStatusPage page = (RxTxStatusPage)Singleton<RxTxStatViewModel>.Instance.RxTxAppWindowFrame.Content;
                 RxTxStatusPage page = RxTxStatusPage.rxtxStatusPage;
-                page.AddTextToStatusWindow("\rCommunicationsService text");
+                //AddTextToStatusWindow("\rCommunicationsService text");
+                //AddRxTxStatusAsync("\rCommunicationsService text");
 
                 //AddRxTxStatusAsync("\rTest text");
                 //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("\rTest text");

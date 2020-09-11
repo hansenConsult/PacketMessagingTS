@@ -20,6 +20,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -291,9 +292,11 @@ namespace PacketMessagingTS.Views
             Size size = new Size(page.ViewControlWidth, page.ViewControlHeight);
             RxTxAppWindow.RequestSize(size);
 
-            DisplayRegion displayRegion = RxTxAppWindow.GetPlacement().DisplayRegion;
+            IReadOnlyList<DisplayRegion> displayRegions = ApplicationView.GetForCurrentView().WindowingEnvironment.GetDisplayRegions();
+
+            //DisplayRegion displayRegion = RxTxAppWindow.GetPlacement().DisplayRegion;
             Point offset = new Point(page.RxTxStatusAppWindowOffsetX, page.RxTxStatusAppWindowOffsetY);
-            RxTxAppWindow.RequestMoveRelativeToDisplayRegion(displayRegion, offset);
+            RxTxAppWindow.RequestMoveRelativeToDisplayRegion(displayRegions[1], offset);
 
             ElementCompositionPreview.SetAppWindowContent(RxTxAppWindow, RxTxAppWindowFrame);
 
@@ -307,7 +310,7 @@ namespace PacketMessagingTS.Views
 
             await RxTxAppWindow.TryShowAsync();
 
-            Singleton<RxTxStatViewModel>.Instance.AppWindowDispatcher = Dispatcher;
+            Singleton<RxTxStatViewModel>.Instance.AppWindowDispatcher = Dispatcher; // This line may be needed?
             //page.AddTextToStatusWindow("\rMain Window text");
             MainPage.SetStatusText("\rMain Window text");
 
