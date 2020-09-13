@@ -620,7 +620,8 @@ namespace PacketMessagingTS.Views
             message.MessageBody += $"Subject: {messageSubject.Text}\r\n";
             message.MessageBody += PacFormText.Text;
             CommunicationsService communicationsService = CommunicationsService.CreateInstance();
-            await communicationsService.CreatePacketMessageFromMessageAsync(message);
+            //await communicationsService.CreatePacketMessageFromMessageAsync(message);
+            await CommunicationsService.CreatePacketMessageFromMessageAsync(message);
         }
 
         private async void ConvertFromBase64_Click(object sender, RoutedEventArgs e)

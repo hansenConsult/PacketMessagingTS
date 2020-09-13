@@ -321,16 +321,17 @@ namespace PacketMessagingTS.Views
             //AddTextToStatusWindow("\rFifth line");
             //TextBoxRxTxStatus.Text = "Main Window text";
 
-            CommunicationsService.CreateInstance().BBSConnectAsync2();
-            //communicationsService.BBSConnectAsync2(Dispatcher);
+            CommunicationsService communicationsService = new CommunicationsService();
+            //CommunicationsService.CreateInstance().BBSConnectAsync2();
+            communicationsService.BBSConnectAsync2();
 
             //RefreshDataGridAsync();
         }
 
-        public async void AddTextToStatusWindow(string text)
+        public  void AddTextToStatusWindow(string text)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
+            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            //{
                 //if (_scrollViewer is null)
                 //{
                 //    _scrollViewer = FindScrollViewer();
@@ -347,8 +348,8 @@ namespace PacketMessagingTS.Views
                     viewChanged = _scrollViewer.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
                     break;
                 }
-                //_logHelper.Log(LogLevel.Trace, $"Scrolled: {viewChanged}, Height: {_scrollViewer.ExtentHeight} text: {text}");
-            });
+                _logHelper.Log(LogLevel.Trace, $"Scrolled: {viewChanged}, Height: {_scrollViewer.ExtentHeight} text: {text}");
+            //});
         }
 
         //private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)

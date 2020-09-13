@@ -40,7 +40,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
     public class CommunicationsService
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CommunicationsService>();
-        private LogHelper _logHelper = new LogHelper(log);
+        private static LogHelper _logHelper = new LogHelper(log);
 
         //ViewLifetimeControl rxTxStatusWindow = null;
         //private AppWindow _appWindow = null;
@@ -59,13 +59,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 
 
-        private CommunicationsService()
+        public CommunicationsService()
         {
+            MainPage.Current.AddTextToStatusWindow("\rIn CommunicationsService constructor");
         }
 
         public static CommunicationsService CreateInstance()
         {
-            MainPage.Current.AddTextToStatusWindow("\rIn CreateInstance");
+            MainPage.Current.AddTextToStatusWindow("\rIn CommunicationsService CreateInstance");
 
             if (_communicationsService is null)
             {
@@ -120,7 +121,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _tncInterface?.AbortConnection();
         }
 
-        public async Task CreatePacketMessageFromMessageAsync(PacketMessage pktMsg)
+        public static async Task CreatePacketMessageFromMessageAsync(PacketMessage pktMsg)
         {
             FormControlBase formControl = new MessageControl();
             // test for packet form!!
@@ -712,6 +713,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             List<string> fileTypeFilter = new List<string>() { ".xml" };
             QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, fileTypeFilter);
 
+            MainPage.Current.AddTextToStatusWindow("\rCommunicationsService before await");
+
             // Get the files in the Outbox folder
             StorageFileQueryResult results = SharedData.UnsentMessagesFolder.CreateFileQueryWithOptions(queryOptions);
             // Iterate over the results
@@ -881,7 +884,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //RxTxStatusPage page = (RxTxStatusPage)Singleton<RxTxStatViewModel>.Instance.RxTxAppWindowFrame.Content;
                 RxTxStatusPage page = RxTxStatusPage.rxtxStatusPage;
                 //AddTextToStatusWindow("\rCommunicationsService text");
-//                AddRxTxStatusAsync("\rCommunicationsService text");
+                //       AddRxTxStatusAsync("\rCommunicationsService text");
+                MainPage.Current.AddTextToStatusWindow("\rCommunicationsService after await");
 
                 //AddRxTxStatusAsync("\rTest text");
                 //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("\rTest text");
