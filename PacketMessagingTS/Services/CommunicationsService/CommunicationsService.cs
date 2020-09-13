@@ -65,6 +65,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public static CommunicationsService CreateInstance()
         {
+            MainPage.Current.AddTextToStatusWindow("\rIn CreateInstance");
+
             if (_communicationsService is null)
             {
                 lock (singletonCreationLock)
@@ -79,14 +81,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
         }
 
         //private static RxTxStatusPage rxTxStatusPage;
-        public async void AddRxTxStatusAsync(string text)
+        public  void AddRxTxStatusAsync(string text)
         {
-            CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
+//            CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
             //CoreDispatcher dispatcher = RxTxStatusPage.rxtxStatusPage.Dispatcher;
             //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
             //if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
-            if (dispatcher is null)
-                return;
+//            if (dispatcher is null)
+//                return;
 
             //bool threadAccess = dispatcher.HasThreadAccess;
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
@@ -102,13 +104,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //await MainPage.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //await Singleton<RxTxStatViewModel>.Instance.AppWindowDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             //await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
+//            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//            {
                 //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
                 //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus(text);
                 //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
-                MainPage.SetStatusText(text);
-            });
+                //MainPage.SetStatusText(text);
+                MainPage.Current.AddTextToStatusWindow(text);
+//            });
         }
 
         public void AbortConnection()
@@ -878,7 +881,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //RxTxStatusPage page = (RxTxStatusPage)Singleton<RxTxStatViewModel>.Instance.RxTxAppWindowFrame.Content;
                 RxTxStatusPage page = RxTxStatusPage.rxtxStatusPage;
                 //AddTextToStatusWindow("\rCommunicationsService text");
-                //AddRxTxStatusAsync("\rCommunicationsService text");
+//                AddRxTxStatusAsync("\rCommunicationsService text");
 
                 //AddRxTxStatusAsync("\rTest text");
                 //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("\rTest text");

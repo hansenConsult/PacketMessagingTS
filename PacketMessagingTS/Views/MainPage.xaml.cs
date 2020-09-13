@@ -41,6 +41,8 @@ namespace PacketMessagingTS.Views
 
         public static MainPage Current;
 
+        private ScrollViewer _scrollViewer;
+
 
         public MainPage()
         {
@@ -294,7 +296,6 @@ namespace PacketMessagingTS.Views
 
             IReadOnlyList<DisplayRegion> displayRegions = ApplicationView.GetForCurrentView().WindowingEnvironment.GetDisplayRegions();
 
-            //DisplayRegion displayRegion = RxTxAppWindow.GetPlacement().DisplayRegion;
             Point offset = new Point(page.RxTxStatusAppWindowOffsetX, page.RxTxStatusAppWindowOffsetY);
             RxTxAppWindow.RequestMoveRelativeToDisplayRegion(displayRegions[1], offset);
 
@@ -312,12 +313,42 @@ namespace PacketMessagingTS.Views
 
             Singleton<RxTxStatViewModel>.Instance.AppWindowDispatcher = Dispatcher; // This line may be needed?
             //page.AddTextToStatusWindow("\rMain Window text");
-            MainPage.SetStatusText("\rMain Window text");
+            //MainPage.SetStatusText("\rMain Window text");
+            AddTextToStatusWindow("Main Window text");
+            //AddTextToStatusWindow("\rSecond line");
+            //AddTextToStatusWindow("\rThird line");
+            //AddTextToStatusWindow("\rFourth line");
+            //AddTextToStatusWindow("\rFifth line");
+            //TextBoxRxTxStatus.Text = "Main Window text";
 
             CommunicationsService.CreateInstance().BBSConnectAsync2();
             //communicationsService.BBSConnectAsync2(Dispatcher);
 
             //RefreshDataGridAsync();
+        }
+
+        public async void AddTextToStatusWindow(string text)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                //if (_scrollViewer is null)
+                //{
+                //    _scrollViewer = FindScrollViewer();
+                //}
+
+                bool? viewChanged = false;
+                TextBoxRxTxStatus.Text += text;
+                var grid = (Grid)VisualTreeHelper.GetChild(TextBoxRxTxStatus, 0);
+                for (var i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
+                {
+                    object obj = VisualTreeHelper.GetChild(grid, i);
+                    if (!(obj is ScrollViewer)) continue;
+                    _scrollViewer = (ScrollViewer)obj;
+                    viewChanged = _scrollViewer.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+                    break;
+                }
+                //_logHelper.Log(LogLevel.Trace, $"Scrolled: {viewChanged}, Height: {_scrollViewer.ExtentHeight} text: {text}");
+            });
         }
 
         //private void AppBarMainPage_OpenMessage(object sender, RoutedEventArgs e)
