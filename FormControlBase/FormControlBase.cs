@@ -96,7 +96,7 @@ namespace FormControlBaseClass
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
-        public static string DrillTraffic = "\r\nDrill Traffic";
+        public static string DrillTraffic = "\rDrill Traffic";
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
@@ -552,7 +552,7 @@ namespace FormControlBaseClass
                     {
                         formField.ControlContent = (GetOutpostValue(id, ref msgLines) == "true" ? "True" : "False");
                     }
-                    else if (control is ComboBox comboBox)
+                    else if (control is ComboBox)
                     {
                         formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
                     }
@@ -796,7 +796,7 @@ namespace FormControlBaseClass
                     return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
                 }
             }
-            else if (control is ComboBox comboBox)
+            else if (control is ComboBox)
             {
                 return CreateComboBoxOutpostDataString(formField, id);
             }
@@ -1096,7 +1096,7 @@ namespace FormControlBaseClass
                 }
                 else if (control is CheckBox checkBox)
                 {
-                    checkBox.IsChecked = formField.ControlContent == "True" ? true : false;
+                    checkBox.IsChecked = formField.ControlContent == "True";
                 }
             }
             UpdateFormFieldsRequiredColors();
@@ -1150,7 +1150,7 @@ namespace FormControlBaseClass
 			return null;
 		}
 
-        protected string ConvertTabsToSpaces(string text, int tabWidth)
+        protected static string ConvertTabsToSpaces(string text, int tabWidth)
 		{
 			StringBuilder sb = new StringBuilder();
 			var lines = text.Split(new string[] { "\r\n" }, StringSplitOptions.None);

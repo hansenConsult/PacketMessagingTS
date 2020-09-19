@@ -49,13 +49,15 @@ namespace PacketMessagingTS.Services
             ViewLifetimeControl viewControl = await CreateViewLifetimeControlAsync(windowTitle, pageType);
             SecondaryViews.Add(viewControl);
             viewControl.StartViewInUse();
-            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewControl.Id, ViewSizePreference.Default, ApplicationView.GetForCurrentView().Id, ViewSizePreference.Default);
-            viewControl.StopViewInUse();
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewControl.Id, ViewSizePreference.Default, ApplicationView.GetForCurrentView().Id, ViewSizePreference.Custom);
+            //await ApplicationViewSwitcher.TryShowAsStandaloneAsync(viewControl.Id, ViewSizePreference.Custom);
+            //viewControl.StopViewInUse();
 
-            await viewControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await viewControl.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
                 bool success = viewControl.ResizeView();
             });
+            viewControl.StopViewInUse();
 
             return viewControl;
         }
@@ -92,38 +94,6 @@ namespace PacketMessagingTS.Services
         }
 
         public bool IsWindowOpen(string windowTitle) => SecondaryViews.Any(v => v.Title == windowTitle);
-
-        //// This method is designed to always be run on the thread that's
-        //// binding to the list above
-        //public void UpdateTitle(String newTitle, int viewId)
-        //{
-        //    ViewLifetimeControl foundData;
-        //    if (TryFindViewLifetimeControlForViewId(viewId, out foundData))
-        //    {
-        //        foundData.Title = newTitle;
-        //    }
-        //    else
-        //    {
-        //        throw new KeyNotFoundException("Couldn't find the view ID in the collection");
-        //    }
-        //}
-
-        //// Loop through the collection to find the view ID
-        //// This should only be run on the main thread.
-        //private bool TryFindViewLifetimeControlForViewId(int viewId, out ViewLifetimeControl foundData)
-        //{
-        //    foreach (var ViewLifetimeControl in SecondaryViews)
-        //    {
-        //        if (ViewLifetimeControl.Id == viewId)
-        //        {
-        //            foundData = ViewLifetimeControl;
-        //            return true;
-        //        }
-        //    }
-        //    foundData = null;
-        //    return false;
-        //}
-
     }
 
 }

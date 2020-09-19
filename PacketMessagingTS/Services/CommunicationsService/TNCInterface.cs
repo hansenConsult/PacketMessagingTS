@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Text;
@@ -225,29 +224,24 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return readPrompt;
         }
 
-        //private async void ShowInStatusWindowAsync(string text)
-        //{
-        //    await _viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        //    {
-        //        Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-        //    });
-        //}
-
-        private async void AddTextToStatusWindowAsync(string text)
+        private void AddTextToStatusWindowAsync(string text)
         {
-            if (RxTxStatusPage.rxtxStatusPage.Dispatcher == null)
-                return;
+            //Thread.Sleep(1000);
+//            RxTxStatViewModel rxTxStatViewModel = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel;
+
+//            CoreDispatcher dispatcher = rxTxStatViewModel.ViewLifetimeControl.Dispatcher;
+//            if (dispatcher == null)
+//                return;
 
             //Debug.Write(text);
             //CoreDispatcher dispatcher = MainPage.Current.Dispatcher;
             //if (!dispatcher.HasThreadAccess)
             //{
-            RxTxStatViewModel rxTxStatViewModel = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel;
-            await rxTxStatViewModel.ViewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                rxTxStatViewModel.AppendRxTxStatus = text;
-                //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow(text);
-            });
+//            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//            {
+                //rxTxStatViewModel.AppendRxTxStatus = text;
+                RxTxStatusPage.Current.AddTextToStatusWindow(text);
+//            });
         }
 
         // Returns next line read, returns line read plus a \r. Supports timeout.
@@ -988,7 +982,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     goto AbortWithoutConnect;
                 }
 
-                goto AbortWithoutConnect;    //Test
+                //goto AbortWithoutConnect;    //Test
 
                 _connectState = ConnectState.BBSTryConnect;
                 _serialPort.Write($"connect {_bbsConnectName}\r");

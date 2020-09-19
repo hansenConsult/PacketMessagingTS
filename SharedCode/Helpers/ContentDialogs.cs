@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using MetroLog;
-
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace SharedCode.Helpers
@@ -20,6 +20,19 @@ namespace SharedCode.Helpers
                 Content = dialogMessage,
                 CloseButtonText = closeButtonText,
             };
+            await contentDialog.ShowAsync();
+        }
+
+        public static async Task ShowSingleButtonContentDialogAsync(XamlRoot xamlRoot, string dialogMessage, string closeButtonText = "Close", string title = "Packet Messaging")
+        {
+            // See https://docs.microsoft.com/en-us/windows/uwp/design/layout/show-multiple-views
+            ContentDialog contentDialog = new ContentDialog()
+            {
+                Title = title,
+                Content = dialogMessage,
+                CloseButtonText = closeButtonText,
+            };
+            contentDialog.XamlRoot = xamlRoot;
             await contentDialog.ShowAsync();
         }
 

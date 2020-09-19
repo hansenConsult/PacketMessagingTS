@@ -318,8 +318,10 @@ namespace MessageFormControl
 			}
             // Use RichTextBlock
             Paragraph paragraph = new Paragraph();
-            Run run = new Run();
-            run.Text = sb.ToString();
+            Run run = new Run
+            {
+                Text = sb.ToString()
+            };
 
             // Add the Run to the Paragraph, the Paragraph to the RichTextBlock.
             paragraph.Inlines.Add(run);

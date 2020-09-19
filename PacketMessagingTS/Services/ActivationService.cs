@@ -17,7 +17,8 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Services
 {
-    // For more information on application activation see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/activation.md
+    // For more information on understanding and extending activation flow see
+    // https://github.com/Microsoft/WindowsTemplateStudio/blob/release/docs/UWP/activation.md
     internal class ActivationService
     {
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ActivationService>();

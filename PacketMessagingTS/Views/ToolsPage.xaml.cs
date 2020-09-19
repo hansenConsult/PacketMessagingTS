@@ -499,7 +499,7 @@ namespace PacketMessagingTS.Views
             base.OnNavigatedFrom(e);
         }
 
-        public object GetDynamicSortProperty(object item, string propName)
+        public static object GetDynamicSortProperty(object item, string propName)
         {
             //Use reflection to get order type
             return item.GetType().GetProperty(propName).GetValue(item);
@@ -619,7 +619,7 @@ namespace PacketMessagingTS.Views
             message.MessageBody += $"To: {messageFrom.Text}\r\n";
             message.MessageBody += $"Subject: {messageSubject.Text}\r\n";
             message.MessageBody += PacFormText.Text;
-            CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+            CommunicationsService communicationsService = new CommunicationsService();
             await communicationsService.CreatePacketMessageFromMessageAsync(message);
         }
 
@@ -640,10 +640,10 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private string FormatDateTime(DateTime dateTime)
-        {
-            return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
-        }
+        //private string FormatDateTime(DateTime dateTime)
+        //{
+        //    return $"{dateTime.Month:d2}/{dateTime.Day:d2}/{dateTime.Year - 2000:d2} {dateTime.Hour:d2}:{dateTime.Minute:d2}";
+        //}
 
         private async void ToolsPagePivot_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
@@ -964,9 +964,9 @@ namespace PacketMessagingTS.Views
                 //#EOF
 
                 //";
-                CommunicationsService communicationService = CommunicationsService.CreateInstance();
-                communicationService._packetMessagesReceived.Add(packetMsg);
-                communicationService.ProcessReceivedMessagesAsync();
+                CommunicationsService communicationsService = new CommunicationsService();
+                communicationsService._packetMessagesReceived.Add(packetMsg);
+                communicationsService.ProcessReceivedMessagesAsync();
             }
             else
             {

@@ -28,7 +28,7 @@ using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
-
+using PacketMessagingTS.Services.CommunicationsService;
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -733,7 +733,8 @@ namespace PacketMessagingTS.ViewModels
 
             _packetMessage.Save(SharedData.UnsentMessagesFolder.Path);
 
-            Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
+            CommunicationsService communicationsService = new CommunicationsService();
+            //Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
             communicationsService.BBSConnectAsync2();
 
             // Create an empty form

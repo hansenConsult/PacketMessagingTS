@@ -24,9 +24,11 @@ using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.ApplicationModel.Email;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -41,15 +43,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
         private LogHelper _logHelper = new LogHelper(log);
 
         //ViewLifetimeControl rxTxStatusWindow = null;
-        //private AppWindow _appWindow = null;
-        //private Frame _appWindowFrame = new Frame();
         //Collection<DeviceListEntry> _listOfDevices;
 
         public List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
         private List<PacketMessage> _packetMessagesToSend = new List<PacketMessage>();
 
-        private static readonly Object singletonCreationLock = new Object();
-        private static volatile CommunicationsService _communicationsService = null;
+        //private static readonly Object singletonCreationLock = new Object();
+        public static CommunicationsService Current = null;
         //static bool _deviceFound = false;
         //public StreamSocket _socket = null;
         public SerialPort _serialPort;
@@ -57,50 +57,46 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 
 
-        private CommunicationsService()
+        public CommunicationsService()
         {
+            Current = this;
         }
 
-        public static CommunicationsService CreateInstance()
-        {
-            if (_communicationsService is null)
-            {
-                lock (singletonCreationLock)
-                {
-                    if (_communicationsService is null)
-                    {
-                        _communicationsService = new CommunicationsService();
-                    }
-                }
-            }
-            return _communicationsService;
-        }
+        //public static CommunicationsService CreateInstance()
+        //{
+        //    if (CommunicationsServiceInstance is null)
+        //    {
+        //        lock (singletonCreationLock)
+        //        {
+        //            if (CommunicationsServiceInstance is null)
+        //            {
+        //                CommunicationsServiceInstance = new CommunicationsService();
+        //            }
+        //        }
+        //    }
+        //    return CommunicationsServiceInstance;
+        //}
 
         //private static RxTxStatusPage rxTxStatusPage;
-        public async void AddRxTxStatusAsync(string text)
+
+        public void AddRxTxStatusAsync(string text)
         {
 
             //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
-            if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
-                return;
+//            if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
+//                return;
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
             //Thread.Sleep(0); No effect
             //{
-            //if (rxTxStatusPage == null)
-            //{
-            //    rxTxStatusPage = Singleton<RxTxStatusViewModel>.Instance.StatusPage;
-            //    if (rxTxStatusPage == null)
-            //        return;
-            //}
             //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             ////await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
-            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
-                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus(text);
+//            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//            {
+                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
+                RxTxStatusPage.Current.AddTextToStatusWindow(text);
                 //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
-            });
+//            });
         }
 
         public void AbortConnection()
@@ -637,40 +633,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return sendMailSuccess;
         }
 
-        private CoreDispatcher _dispatcher;
-        public void BBSConnectAsync2(CoreDispatcher dispatcher)
-        {
-            _dispatcher = dispatcher;
-            BBSConnectAsync2();
-        }
+        //private CoreDispatcher _dispatcher;
+        //public void BBSConnectAsync2(CoreDispatcher dispatcher)
+        //{
+        //    _dispatcher = dispatcher;
+        //    BBSConnectAsync2();
+        //}
 
         public async void BBSConnectAsync2()
         {
-            /* Using AppWindow
-            //_appWindow = appWindow;
-            //WindowManagerService.Current.Initialize();
-            // Only ever create one window. If the AppWindow already exists call TryShow on it to bring it to foreground.
-
-            //if (_appWindow == null)
-            //{
-            //    // Create a new window
-            //    _appWindow = await AppWindow.TryCreateAsync();
-            //    // Make sure we release the reference to this window, and release XAML resources, when it's closed
-            //    _appWindow.Closed += delegate { _appWindow = null; _appWindowFrame.Content = null; };
-            //    // Navigate the frame to the page we want to show in the new window
-            //    _appWindowFrame.Navigate(typeof(RxTxStatusPage));
-            //    // Attach the XAML content to our window
-            //    //ElementCompositionPreview.SetAppWindowContent(_appWindow, _appWindowFrame);
-            //}
-            //// Request the size of our window
-            //_appWindow.RequestSize(new Size(500, 320));
-            //// Attach the XAML content to our window
-            //ElementCompositionPreview.SetAppWindowContent(_appWindow, _appWindowFrame);
-
-            //// Now show the window
-            //await _appWindow.TryShowAsync();
-            */
-
             (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileDataBBSStatusChecked();
             //BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.BBSFromSelectedProfile;
             BBSData bbs = BBSDefinitions.Instance.BBSDataArray.Where(bBS => bBS.Name == bbsName).FirstOrDefault();
@@ -839,6 +810,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //await appWindow.TryShowAsync();
 
                 ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
+                //RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Height = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.ViewControlHeight;
+                //RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Width = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.ViewControlWidth;
+
+                //bool success = RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.ResizeView();
+
 
                 //return;     //Test
 
@@ -851,10 +827,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 await _tncInterface.BBSConnectThreadProcAsync();
 
                 // Close status window
-                await RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await RxTxStatusPage.Current._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
-                    RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.CloseStatusWindowAsync();
+                    RxTxStatusPage.Current.RxTxStatusViewmodel.CloseStatusWindowAsync();
                 });
 
                 Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;

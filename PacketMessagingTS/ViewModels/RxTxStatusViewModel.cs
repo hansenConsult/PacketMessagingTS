@@ -14,38 +14,35 @@ namespace PacketMessagingTS.ViewModels
 {
     public class RxTxStatViewModel : BaseViewModel
     {
-        private string rxTxStatus;
-        public string RxTxStatus
-        {
-            get => rxTxStatus;
-            set => Set(ref rxTxStatus, value);
-            //get
-            //{
-            //    ScrollViewer _scrollViewer =  RxTxStatusPage.rxtxStatusPage._scrollViewer;
-            //    _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
-            //    return rxTxStatus;
-            //}
-            //set
-            //{
-            //    Set(ref rxTxStatus, value);
-            //    ScrollViewer _scrollViewer = RxTxStatusPage.rxtxStatusPage._scrollViewer;
-            //    _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
-            //}
-        }
+        //private string rxTxStatus;
+        //public string RxTxStatus
+        //{
+        //    get => rxTxStatus;
+        //    set => Set(ref rxTxStatus, value);
+        //    //get
+        //    //{
+        //    //    ScrollViewer _scrollViewer =  RxTxStatusPage.rxtxStatusPage._scrollViewer;
+        //    //    _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+        //    //    return rxTxStatus;
+        //    //}
+        //    //set
+        //    //{
+        //    //    Set(ref rxTxStatus, value);
+        //    //    ScrollViewer _scrollViewer = RxTxStatusPage.rxtxStatusPage._scrollViewer;
+        //    //    _scrollViewer?.ChangeView(0.0f, _scrollViewer.ExtentHeight, 1.0f, true);
+        //    //}
+        //}
 
-        private string appendText;
-        public string AppendRxTxStatus
-        {
-            get => appendText;
-            set
-            {
-                appendText = value;
-                //string status = rxTxStatus + appendText;
-                RxTxStatus = rxTxStatus + appendText; ;
-            }
-            //string status = rxTxStatus + appendedStatus;
-            //RxTxStatus = status;
-        }
+        //private string appendText;
+        //public string AppendRxTxStatus
+        //{
+        //    get => appendText;
+        //    set
+        //    {
+        //        appendText = value;
+        //        RxTxStatus = rxTxStatus + appendText; ;
+        //    }
+        //}
 
         //public void AppendRxTxStatus(string appendedStatus)
         //{
@@ -70,7 +67,8 @@ namespace PacketMessagingTS.ViewModels
         public async void CloseStatusWindowAsync()
         {
             //_viewLifetimeControl.StartViewInUse();
-            Rect rect = ViewLifetimeControl.GetBounds();
+            //Rect rect = ViewLifetimeControl.GetBounds();
+            Size rect = RxTxStatusPage.Current.XamlRoot.Size;
             ViewControlHeight = rect.Height;
 
             await ApplicationViewSwitcher.SwitchAsync(WindowManagerService.Current.MainViewId,
@@ -83,10 +81,7 @@ namespace PacketMessagingTS.ViewModels
 
         public ICommand AbortCommand => _abortCommand ?? (_abortCommand = new RelayCommand(AbortConnection));
 
-        public void AbortConnection()
-        {
-            CommunicationsService.CreateInstance().AbortConnection();
-        }
+        public static void AbortConnection() => CommunicationsService.Current.AbortConnection();
 
         public ViewLifetimeControl ViewLifetimeControl { get; private set; }
 
@@ -95,20 +90,6 @@ namespace PacketMessagingTS.ViewModels
             ViewLifetimeControl = viewLifetimeControl;
             ViewLifetimeControl.Released += OnViewLifetimeControlReleased;
         }
-
-        //public void Initialize(ViewLifetimeControl viewLifetimeControl, CoreDispatcher dispatcher)
-        //{
-        //    _viewLifetimeControl = viewLifetimeControl;
-        //    _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
-        //    Dispatcher = dispatcher;
-        //}
-
-        //public void Initialize(ViewLifetimeControl viewLifetimeControl, RxTxStatusPage statusPage)
-        //{
-        //    _viewLifetimeControl = viewLifetimeControl;
-        //    _viewLifetimeControl.Released += OnViewLifetimeControlReleased;
-        //    StatusPage = statusPage;
-        //}
 
         private async void OnViewLifetimeControlReleased(object sender, EventArgs e)
         {
@@ -120,5 +101,4 @@ namespace PacketMessagingTS.ViewModels
         }
 
     }
-
 }

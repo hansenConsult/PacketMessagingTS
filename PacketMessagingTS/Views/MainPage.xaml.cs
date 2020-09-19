@@ -337,7 +337,7 @@ namespace PacketMessagingTS.Views
 
             //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = $"\nTest text{i}";
 
-            CommunicationsService communicationsService = CommunicationsService.CreateInstance();
+            //CommunicationsService communicationsService = CommunicationsService.CreateInstance();
             //communicationsService.AddRxTxStatusAsync($"\nTest text{i}");
         }
 

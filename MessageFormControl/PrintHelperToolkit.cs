@@ -116,8 +116,10 @@ namespace MessageFormControl
             _canvasContainer.RequestedTheme = ElementTheme.Light;
 
             _printPreviewPages = new List<FrameworkElement>();
-            _printCanvas = new Canvas();
-            _printCanvas.Opacity = 0;
+            _printCanvas = new Canvas
+            {
+                Opacity = 0
+            };
 
             _elementsToPrint = new List<FrameworkElement>();
 
@@ -518,7 +520,7 @@ namespace MessageFormControl
         private RichTextBlockOverflow AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
         {
             var page = new Page();
-            Grid printableArea = null;
+            Grid printableArea;
 
             // Check if this is the first page ( no previous RichTextBlockOverflow)
             if (element == null)

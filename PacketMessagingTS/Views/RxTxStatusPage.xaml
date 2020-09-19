@@ -21,8 +21,7 @@
                  AcceptsReturn="True"
                  VerticalContentAlignment="Bottom"
                  IsReadOnly="True"
-                 Text="{x:Bind RxTxStatusViewmodel.RxTxStatus, Mode=OneWay}"
-                 TextChanged="TextBoxStatus_TextChanged"/>
+                 />
 
             <!--Text="{x:Bind RxTxStatusViewmodel.RxTxStatus, Mode=OneWay}"
                  TextChanged="TextBoxStatus_TextChanged"/>-->

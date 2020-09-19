@@ -154,7 +154,8 @@ namespace PacketMessagingTS.Helpers
 
         public void SendReceive()
         {
-            CommunicationsService.CreateInstance().BBSConnectAsync2();
+            CommunicationsService communicationsService = new CommunicationsService();
+            communicationsService.BBSConnectAsync2();
             RefreshDataGridAsync();
         }
 
