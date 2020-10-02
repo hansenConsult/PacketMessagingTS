@@ -20,6 +20,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Documents;
+using Windows.Storage;
+using System.Linq;
 
 namespace FormControlBaseClass
 {
@@ -148,7 +150,7 @@ namespace FormControlBaseClass
         }
 
         public virtual void UpdateFormFieldsRequiredColors(bool newForm = true)
-        {
+        {            
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
@@ -159,12 +161,17 @@ namespace FormControlBaseClass
                     if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(textBox) && newForm)
                     {
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        textBox.BorderThickness = new Thickness(2);
+                        //textBox.BorderThickness = new Thickness(2);
                     }
-                    else
+                    else if (newForm)
                     {
                         textBox.BorderBrush = formControl.BaseBorderColor;
-                        textBox.BorderThickness = new Thickness(1);
+                        //textBox.BorderThickness = new Thickness(1);
+                    }
+                    else if (!newForm)
+                    {
+                        textBox.BorderBrush = new SolidColorBrush(Colors.White);
+                        //textBox.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
@@ -174,9 +181,14 @@ namespace FormControlBaseClass
                         autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
                         autoSuggestBox.BorderThickness = new Thickness(2);
                     }
-                    else
+                    else if (newForm)
                     {
                         autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
+                        autoSuggestBox.BorderThickness = new Thickness(1);
+                    }
+                    else if (!newForm)
+                    {
+                        autoSuggestBox.BorderBrush = new SolidColorBrush(Colors.White);
                         autoSuggestBox.BorderThickness = new Thickness(1);
                     }
                 }
@@ -187,7 +199,7 @@ namespace FormControlBaseClass
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         comboBox.BorderThickness = new Thickness(2);
                     }
-                    else
+                    else if (newForm)
                     {
                         comboBox.BorderBrush = formControl.BaseBorderColor;
                         comboBox.BorderThickness = new Thickness(1);
@@ -204,17 +216,26 @@ namespace FormControlBaseClass
                     {
                         toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
                     }
-
                 }
+            }
+        }
+
+        public override void UpdateStyles()
+        {
+            foreach (FormControl formControl in _formControlsList)
+            {
+                if (formControl.UserControl is FormHeaderUserControl formHeader)
+                {
+                    formHeader.FormPacketMessage = FormPacketMessage;
+                    formHeader.UpdateStyles();
+                }
+
             }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         //public static readonly DependencyProperty OperatorCallsignProperty =
         //	DependencyProperty.Register("OperatorCallsign", typeof(string), typeof(FormControlBase), null);
-
-        public PacketMessage FormPacketMessage
-        { get; set; }
 
         public virtual string TacticalCallsign
         { get; set; }
@@ -352,7 +373,7 @@ namespace FormControlBaseClass
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     if (textBox.IsReadOnly)
                     {
-                        formControl.BaseBorderColor = WhiteBrush;
+                        formControl.BaseBorderColor = textBox.Background;
                     }
                     else
                     {
@@ -404,6 +425,110 @@ namespace FormControlBaseClass
             }
         }
 
+        public void LockForm(FormField[] formFields)
+        {
+            Messagestate = MessageState.Locked;
+            FormFields = formFields;
+
+            //TextBox
+            RootPanel.Resources["TextControlBorderBrushPointerOver"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
+            RootPanel.Resources["TextControlBorderBrushFocused"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
+            // CheckBox
+            RootPanel.Resources["CheckBoxForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundChecked"];
+            RootPanel.Resources["CheckBoxBackgroundCheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundChecked"];
+            RootPanel.Resources["CheckBoxBorderBrushCheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushChecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundStrokeCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeChecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundFillCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillChecked"];
+            RootPanel.Resources["CheckBoxCheckGlyphForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundChecked"];
+
+            RootPanel.Resources["CheckBoxForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundUnchecked"];
+            RootPanel.Resources["CheckBoxBackgroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundUnchecked"];
+            RootPanel.Resources["CheckBoxBorderBrushUncheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushUnchecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundStrokeUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeUnchecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundFillUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillUnchecked"];
+            RootPanel.Resources["CheckBoxCheckGlyphForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundUnchecked"];
+
+            // RadioButton
+            RootPanel.Resources["RadioButtonForegroundDisabled"] = RootPanel.Resources["RadioButtonForeground"];
+            RootPanel.Resources["RadioButtonOuterEllipseFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseFill"];
+            RootPanel.Resources["RadioButtonOuterEllipseCheckedFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseCheckedFill"];
+            RootPanel.Resources["RadioButtonCheckGlyphFillDisabled"] = RootPanel.Resources["RadioButtonCheckGlyphFill"];
+
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                FrameworkElement control = formControl.InputControl;
+
+                if (control is TextBox textBox)
+                {
+                    textBox.IsReadOnly = true;
+                    textBox.IsSpellCheckEnabled = false;
+                    textBox.PlaceholderText = "";
+                    //textBox.TextAlignment = TextAlignment.Left;
+                }
+                else if (control is AutoSuggestBox autoSuggestBox)
+                {
+                    TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
+                    if (autoSuggestBoxAsTextBox != null)
+                    {
+                        autoSuggestBox.Visibility = Visibility.Collapsed;
+
+                        autoSuggestBoxAsTextBox.Visibility = Visibility.Visible;
+                        autoSuggestBoxAsTextBox.IsReadOnly = true;
+                        autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
+                        autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                        FormField formField = formFields.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
+                        if (!string.IsNullOrEmpty(formField?.ControlContent))
+                        {
+                            autoSuggestBoxAsTextBox.Text = formField.ControlContent;
+                        }
+                    }
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    TextBox comboBoxAsTextBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+                    if (comboBoxAsTextBox != null)
+                    {
+                        comboBox.Visibility = Visibility.Collapsed;
+
+                        comboBoxAsTextBox.Visibility = Visibility.Visible;
+                        comboBoxAsTextBox.IsReadOnly = true;
+                        comboBoxAsTextBox.IsSpellCheckEnabled = false;
+                        comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                        FormField formField = formFields.FirstOrDefault(f => f.ControlName == comboBox.Name);
+                        if (!string.IsNullOrEmpty(formField?.ControlContent))
+                        {
+                            comboBoxAsTextBox.Text = formField.ControlContent;
+                        }
+                    }
+                }
+                else if (control is RadioButton radioButton)
+                {
+                    radioButton.IsEnabled = false;
+                }
+                else if (control is CheckBox checkBox)
+                {
+                    checkBox.IsEnabled = false;
+                }
+                if (formControl.UserControl is FormHeaderUserControl formHeader)
+                {
+                    formHeader.LockForm(formFields);
+                }
+                else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
+                {
+                    autosuggestTextBox.Messagestate = MessageState.Locked;
+                    autosuggestTextBox.FormFields = formFields;
+                }
+                else if (formControl.UserControl is RadioOperatorUserControl userControl)
+                {
+                    userControl.Messagestate = MessageState.Locked;
+                }
+            }
+        }
 
         public virtual string CreateOutpostData(ref PacketMessage packetMessage)
         {
@@ -1099,7 +1224,7 @@ namespace FormControlBaseClass
                     checkBox.IsChecked = formField.ControlContent == "True";
                 }
             }
-            UpdateFormFieldsRequiredColors();
+            UpdateFormFieldsRequiredColors(false);
         }
 
 		public static string GetOutpostFieldValue(string field)
@@ -1225,6 +1350,7 @@ namespace FormControlBaseClass
             {
                 foreach (FormField formField in FormPacketMessage.FormFieldArray)
                 {
+                    //if (formField.ControlName == comboBox.Name && formField.ControlComboxContent.SelectedIndex < 0)
                     if (formField.ControlName == comboBox.Name)
                     {
                         //comboBox.SelectedValue = formField.ControlContent;
@@ -1235,6 +1361,11 @@ namespace FormControlBaseClass
                             {
                                 packItItem.SelectedIndex = index;
                                 comboBox.SelectedIndex = index;
+                                if (Messagestate == MessageState.Locked)
+                                {
+                                    TextBox textBox = FindName($"{comboBox.Name}TextBlock")as TextBox;
+                                    textBox.Background = packItItem.BackgroundBrush;
+                                }
                                 break;
                             }
                             index++;
@@ -1244,7 +1375,6 @@ namespace FormControlBaseClass
                 }
             }
         }
-
 
         protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         {
@@ -1355,6 +1485,7 @@ namespace FormControlBaseClass
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+            _printHelper.OnPreviewPagesCreated += PrintHelper_OnPreviewPagesCreated;
 
             await _printHelper.ShowPrintUIAsync(" ");
         }
@@ -1410,8 +1541,13 @@ namespace FormControlBaseClass
             ReleasePrintHelper();
         }
 
-        protected virtual void PrintHelper_OnPreviewPagesCreated(List<FrameworkElement> FrameworkElementList)
+        protected virtual async void PrintHelper_OnPreviewPagesCreated(List<FrameworkElement> FrameworkElementList)
         {
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await folder.CreateFileAsync("PrintTest.txt", CreationCollisionOption.ReplaceExisting);
+            //string fileContent = await Json.StringifyAsync(content);
+
+            //await FileIO.WriteTextAsync(file, FrameworkElementList[0].ToString());
 
         }
 

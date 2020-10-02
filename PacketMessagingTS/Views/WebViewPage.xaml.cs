@@ -76,7 +76,7 @@ namespace PacketMessagingTS.Views
                     webViewPivot.SelectedIndex = 2;
                 }
 
-                FormControlBase formControl = FormsViewModel.CreateFormControlInstance(packetMessage.PacFormName);
+                FormControlBase formControl = FormsViewModel.CreateFormControlInstance(packetMessage.PacFormName, packetMessage.MessageState);
 
                 ConvertFromOutpost(ref packetMessage, ref formControl, FormProviders.PacForm);
             }
@@ -199,7 +199,7 @@ namespace PacketMessagingTS.Views
                     formName = formName.Substring(0, formName.Length - html.Length);
                     pktMsg.PacFormName = formName;
 
-                    formControl = FormsViewModel.CreateFormControlInstance(pktMsg.PacFormName);
+                    formControl = FormsViewModel.CreateFormControlInstance(pktMsg.PacFormName, pktMsg.MessageState);
                     if (formControl is null)
                     {
                         _logHelper.Log(LogLevel.Error, $"Form {pktMsg.PacFormName} not found");

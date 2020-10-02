@@ -78,6 +78,7 @@ namespace PacketMessagingTS.Helpers
                 }
             }
             FillFormFromPacketMessage();
+            _packetForm.LockForm(_packetMessage.FormFieldArray);
 
             Singleton<PrintMsgTestViewModel>.Instance.PrintForm();
         }

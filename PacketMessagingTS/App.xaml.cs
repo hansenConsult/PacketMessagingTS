@@ -30,19 +30,19 @@ namespace PacketMessagingTS
 {
     public sealed partial class App : Application
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<App>();
-        private static  LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<App>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         private SuspendingDeferral suspendDeferral;
 
         private const string PropertiesDictionaryFileName = "PropertiesDictionary";
         public static Dictionary<string, object> Properties { get; set; }
 
-        private const string TacticalCallsArrayFileName = "TacticallsArray";
-        public static int[] TacticalCallsArray { get; set; }
+        //private const string TacticalCallsArrayFileName = "TacticallsArray";
+        //public static int[] TacticalCallsArray { get; set; }
 
 
-        private Lazy<ActivationService> _activationService;
+        private readonly Lazy<ActivationService> _activationService;
         private ActivationService ActivationService
         {
             get { return _activationService.Value; }
@@ -80,27 +80,27 @@ namespace PacketMessagingTS
             //TacticalCallsArray = await localFolder.ReadAsync<int[]>(TacticalCallsArrayFileName);
 
 #if DEBUG
-            //SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
+            SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
 
             // Shows how to process tasks that return a value
-            IAsyncOperation<StorageFolder>[] folders = new IAsyncOperation<StorageFolder>[]
-            {
-                localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists),
-            };
-            //IAsyncOperation<StorageFolder> folders[0] =  localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
+            //IAsyncOperation<StorageFolder>[] folders = new IAsyncOperation<StorageFolder>[]
+            //{
+            //    localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists),
+            //};
+            ////IAsyncOperation<StorageFolder> folders[0] =  localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
 
-            List<Task> folderTasks = new List<Task>() { folders[0].AsTask<StorageFolder>() };
-            while (folderTasks.Count > 0)
-            {
-                Task finishedTask = await Task.WhenAny(folderTasks);
-                string s = finishedTask.ToString();
+            //List<Task> folderTasks = new List<Task>() { folders[0].AsTask<StorageFolder>() };
+            //while (folderTasks.Count > 0)
+            //{
+            //    Task finishedTask = await Task.WhenAny(folderTasks);
+            //    string s = finishedTask.ToString();
                 
-                if (finishedTask == folders[0])
-                {
-                    SharedData.TestFilesFolder = folders[0].GetResults();
-                }
-                folderTasks.Remove(finishedTask);
-            }
+            //    if (finishedTask == folders[0])
+            //    {
+            //        SharedData.TestFilesFolder = folders[0].GetResults();
+            //    }
+            //    folderTasks.Remove(finishedTask);
+            //}
 #endif
 
             SharedData.MetroLogsFolder = await localFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists);
@@ -122,16 +122,17 @@ namespace PacketMessagingTS
             }
             //await UserCallsigns.OpenAsync();
 
-            List<Task> tasks = new List<Task>();
-
-            tasks.Add(TNCDeviceArray.Instance.OpenAsync());
-            tasks.Add(BBSDefinitions.Instance.OpenAsync());  //"ms-appx:///Assets/pdffile.pdf"
-            tasks.Add(EmailAccountArray.Instance.OpenAsync());
-            tasks.Add(ProfileArray.Instance.OpenAsync());
-            tasks.Add(UserAddressArray.Instance.OpenAsync());
-            tasks.Add(DistributionListArray.Instance.OpenAsync());
-            tasks.Add(HospitalRollCall.Instance.OpenAsync());
-            tasks.Add(CustomFoldersArray.OpenAsync());
+            List<Task> tasks = new List<Task>
+            {
+                TNCDeviceArray.Instance.OpenAsync(),
+                BBSDefinitions.Instance.OpenAsync(),  //"ms-appx:///Assets/pdffile.pdf"
+                EmailAccountArray.Instance.OpenAsync(),
+                ProfileArray.Instance.OpenAsync(),
+                UserAddressArray.Instance.OpenAsync(),
+                DistributionListArray.Instance.OpenAsync(),
+                HospitalRollCall.Instance.OpenAsync(),
+                CustomFoldersArray.OpenAsync()
+            };
             while (tasks.Count > 0)
             {
                 Task finishedTask = await Task.WhenAny(tasks);

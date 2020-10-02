@@ -449,12 +449,12 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class ToolsPage : Page
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
         public ToolsViewModel _toolsViewModel { get; } = new ToolsViewModel();
-        public ICS309ViewModel _ICS309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
+        public ICS309ViewModel Ics309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
 
         StorageFile _selectedFile;
         private int _selectedFileIndex;
@@ -477,12 +477,12 @@ namespace PacketMessagingTS.Views
         {
             if (PrintManager.IsSupported())
             {
-                _ICS309ViewModel.ICS309PrintButtonVisible = true;
+                Ics309ViewModel.ICS309PrintButtonVisible = true;
             }
             else
             {
                 // Remove the print button
-                _ICS309ViewModel.ICS309PrintButtonVisible = false;
+                Ics309ViewModel.ICS309PrintButtonVisible = false;
             }
 
             // Printing-related event handlers will never be called if printing
@@ -505,7 +505,7 @@ namespace PacketMessagingTS.Views
             return item.GetType().GetProperty(propName).GetValue(item);
         }
 
-        public List<T> Sort_List<T>(List<T> data)
+        public static List<T> Sort_List<T>(List<T> data)
         {
             List<T> data_sorted = new List<T>();
 
@@ -531,7 +531,7 @@ namespace PacketMessagingTS.Views
             logFilesComboBox.SelectedIndex = _selectedFileIndex;
         }
 
-        private async void logFilesComboBox_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+        private async void LogFilesComboBox_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             try
             {
@@ -661,8 +661,8 @@ namespace PacketMessagingTS.Views
             }
             else if (_currentPivotItem.Name == "ics309")
             {
-                _ICS309ViewModel.Initialize();
-                _ICS309ViewModel.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
+                Ics309ViewModel.Initialize();
+                Ics309ViewModel.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
             }
         }
 
@@ -703,7 +703,7 @@ namespace PacketMessagingTS.Views
         {
             ReleasePrintHelper();
 
-            _logHelper.Log(LogLevel.Error, $"Print failed. {_ICS309ViewModel.OperationalPeriod}");
+            _logHelper.Log(LogLevel.Error, $"Print failed. {Ics309ViewModel.OperationalPeriod}");
         }
 
         private void PrintHelper_OnPrintCanceled()
@@ -1034,8 +1034,7 @@ namespace PacketMessagingTS.Views
         private async void AppBarButtonTest_OpenFileAsync(object sender, RoutedEventArgs e)
         {
 #if DEBUG
-            StorageFile file = await SharedData.TestFilesFolder.TryGetItemAsync(textBoxTestFileName.Text) as StorageFile;
-            if (file != null)
+            if (await SharedData.TestFilesFolder.TryGetItemAsync(textBoxTestFileName.Text) is StorageFile file)
             {
                 receivedMessage.Text = await FileIO.ReadTextAsync(file);
             }
@@ -1060,7 +1059,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private async void AppBarButton_DeleteLogFileAsync(object sender, RoutedEventArgs e)
+        private async void AppBarButton_DeleteLogFileAsync()
         {
                 StorageFile deleteFile = logFilesComboBox.SelectedItem as StorageFile;
 

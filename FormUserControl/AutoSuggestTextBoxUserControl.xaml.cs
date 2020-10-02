@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 using FormControlBasicsNamespace;
-
+using SharedCode;
 using SharedCode.Helpers;
 
 using Windows.Foundation.Metadata;
@@ -97,6 +98,24 @@ namespace FormUserControl
 
         private async void AutoSuggestTextBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            FormControl formControl = _formControlsList.FirstOrDefault(
+                control => control.InputControl.Name == sender.Name);
+            if (string.IsNullOrEmpty(sender.Text) && IsFieldRequired(sender) && Messagestate != MessageState.Locked)
+            {
+                sender.BorderBrush = formControl.RequiredBorderBrush;
+                sender.BorderThickness = new Thickness(2);
+            }
+            else if (Messagestate != MessageState.Locked)
+            {
+                sender.BorderBrush = formControl.BaseBorderColor;
+                sender.BorderThickness = new Thickness(1);
+            }
+            else if (Messagestate == MessageState.Locked)
+            {
+                sender.BorderBrush = sender.Background;
+                sender.BorderThickness = new Thickness(1);
+            }
+
             // Only get results when it was a user typing, 
             // otherwise assume the value got filled in by TextMemberPath 
             // or the handler for SuggestionChosen.
@@ -137,7 +156,7 @@ namespace FormUserControl
 
                 sender.ItemsSource = collection;
             }
-            AutoSuggestBox_TextChanged(sender, null);
+            //AutoSuggestBox_TextChanged(sender, null);
         }
 
         private void AutoSuggestTextBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)

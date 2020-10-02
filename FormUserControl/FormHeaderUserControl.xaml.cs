@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using FormControlBasicsNamespace;
-
+using SharedCode;
 using ToggleButtonGroupControl;
-
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -18,6 +18,9 @@ namespace FormUserControl
         public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
 
+        public override FormControlBasics RootPanel => rootPanel;
+     
+
         public FormHeaderUserControl()
         {
             InitializeComponent();
@@ -25,6 +28,42 @@ namespace FormUserControl
             ScanControls(formHeaderUserControl);
 
             InitializeToggleButtonGroups();
+
+            //UpdateFormFieldsRequiredColors();
+        }
+
+        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                    return (T)child;
+                else
+                {
+                    T childOfChild = FindVisualChild<T>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
+        public new void UpdateStyles()
+        {
+            //if (FormPacketMessage != null && FormPacketMessage.MessageState == MessageState.Locked)
+            if (Messagestate == MessageState.Locked)
+            {
+                foreach (FormControl formControl in _formControlsList)
+                {
+                    FrameworkElement control = formControl.InputControl;
+
+                    if (control is AutoSuggestBox autosuggestBox)
+                    {
+                        TextBox autoSuggestBoxTextBox = FindVisualChild<TextBox>(autosuggestBox);
+                    }
+                }
+            }
         }
 
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
@@ -37,8 +76,8 @@ namespace FormUserControl
 
                 switch (control)
                 {
-                    case StackPanel s:
-                    case Grid g:
+                    case StackPanel _:
+                    case Grid _:
                     case Border b:
                     case RelativePanel r:
                         ScanControls(control, formUserControl);
@@ -84,12 +123,6 @@ namespace FormUserControl
                         break;
                     case AutoSuggestTextBoxUserControl autoSuggestTextBox:
                         ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
-                        break;
-                    case FormHeaderUserControl formHeader:
-                        ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
-                        break;
-                    case RadioOperatorUserControl radioOperator:
-                        ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
                         break;
                 }
 
@@ -146,6 +179,46 @@ namespace FormUserControl
                 //{
                 //    ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
                 //}
+            }
+        }
+
+        public void LockForm(FormField[] formFields)
+        {
+            Messagestate = MessageState.Locked;
+            FormFields = formFields;
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                FrameworkElement control = formControl.InputControl;
+
+                if (control is TextBox textBox)
+                {
+                }
+                else if (control is AutoSuggestBox autoSuggestBox)
+                {
+                    TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
+                    if (autoSuggestBoxAsTextBox != null)
+                    {
+                        autoSuggestBox.Visibility = Visibility.Collapsed;
+
+                        autoSuggestBoxAsTextBox.Visibility = Visibility.Visible;
+                        autoSuggestBoxAsTextBox.IsReadOnly = true;
+                        autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
+                        autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                        FormField formField = formFields.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
+                        if (!string.IsNullOrEmpty(formField?.ControlContent))
+                        {
+                            autoSuggestBoxAsTextBox.Text = formField.ControlContent;
+                        }
+                    }
+                }
+                else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
+                {
+                    autosuggestTextBox.Messagestate = MessageState.Locked;
+                    autosuggestTextBox.FormFields = formFields;
+                }
             }
         }
 

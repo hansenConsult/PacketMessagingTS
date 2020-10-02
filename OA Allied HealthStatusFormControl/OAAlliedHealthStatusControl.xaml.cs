@@ -49,6 +49,7 @@ namespace OAAlliedHealthStatus201802FormControl
             UpdateFormFieldsRequiredColors(false);
         }
 
+        public override FormControlBasics RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

@@ -49,23 +49,19 @@ namespace HavBedReportFormControl
 
         public HavBedReportControl()
         {
-            this.InitializeComponent();
-
-            //DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
-            //ScanControls(panelName, formHeaderControl);
+            InitializeComponent();
 
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-            //panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
             FormHeaderControl.HeaderSubstring = "EMResource: c190320";
 
             UpdateFormFieldsRequiredColors();
         }
+
+        public override FormControlBasics RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

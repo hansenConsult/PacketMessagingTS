@@ -72,22 +72,22 @@ namespace SharedCode.Helpers.PrintHelpers
         /// The list of elements used to store the print preview pages.
         /// This gives easy access to any desired preview page.
         /// </summary>
-        private List<FrameworkElement> _printPreviewPages;
+        private readonly List<FrameworkElement> _printPreviewPages;
 
         /// <summary>
         /// A hidden canvas used to hold pages we wish to print.
         /// </summary>
         private Canvas _printCanvas;
 
-        private Panel _canvasContainer;
+        private readonly Panel _canvasContainer;
         private string _printTaskName;
-        private Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
+        private readonly Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
         private bool _directPrint = false;
 
         /// <summary>
         /// The list of elements to print.
         /// </summary>
-        private List<FrameworkElement> _elementsToPrint;
+        private readonly List<FrameworkElement> _elementsToPrint;
 
         /// <summary>
         /// The options for the print dialog.
@@ -97,7 +97,7 @@ namespace SharedCode.Helpers.PrintHelpers
         /// <summary>
         /// The default options for the print dialog.
         /// </summary>
-        private PrintHelperOptions _defaultPrintHelperOptions;
+        private readonly PrintHelperOptions _defaultPrintHelperOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
@@ -106,16 +106,11 @@ namespace SharedCode.Helpers.PrintHelpers
         /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
         public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
         {
-            if (canvasContainer == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             _printPreviewPages = new List<FrameworkElement>();
             _printCanvas = new Canvas();
             _printCanvas.Opacity = 0;
 
-            _canvasContainer = canvasContainer;
+            _canvasContainer = canvasContainer ?? throw new ArgumentNullException();
             _canvasContainer.RequestedTheme = ElementTheme.Light;
 
             _elementsToPrint = new List<FrameworkElement>();
@@ -408,7 +403,7 @@ namespace SharedCode.Helpers.PrintHelpers
                 _printCanvas.Children.Clear();
 
                 var printPageTasks = new List<Task>();
-                foreach (var element in _elementsToPrint)
+                foreach (FrameworkElement element in _elementsToPrint)
                 {
                     printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
                 }
@@ -508,14 +503,14 @@ namespace SharedCode.Helpers.PrintHelpers
                 {
                     var newWidth = page.Width - marginWidth;
 
-                    element.Height = element.Height * (newWidth / element.Width);
+                    element.Height *= (newWidth / element.Width);
                     element.Width = newWidth;
                 }
                 else
                 {
                     var newHeight = page.Height - marginHeight;
 
-                    element.Width = element.Width * (newHeight / element.Height);
+                    element.Width *= (newHeight / element.Height);
                     element.Height = newHeight;
                 }
             }
@@ -523,8 +518,7 @@ namespace SharedCode.Helpers.PrintHelpers
             element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
             page.Content = element;
 
-            return DispatcherHelper.ExecuteOnUIThreadAsync(
-                () =>
+            return DispatcherHelper.ExecuteOnUIThreadAsync( () =>
                 {
                     // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
                     // through layout so that the linked containers correctly distribute the content inside them.

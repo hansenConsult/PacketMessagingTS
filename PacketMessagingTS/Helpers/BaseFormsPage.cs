@@ -33,8 +33,8 @@ namespace PacketMessagingTS.Helpers
 {
     public abstract class BaseFormsPage : Page
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         protected MessageOrigin _messageOrigin = MessageOrigin.New;
 

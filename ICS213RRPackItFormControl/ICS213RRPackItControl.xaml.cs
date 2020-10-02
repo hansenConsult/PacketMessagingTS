@@ -34,13 +34,29 @@ namespace ICS213RRPackItFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "SCCo EOC RESOURCE REQUEST FORM 213RR";
+            FormHeaderControl.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
             FormHeaderControl.HeaderSubstring = "Version 8/17";
-            FormHeaderControl.PIF = PIF;
 
             UpdateFormFieldsRequiredColors();
         }
 
+        public ICS213RRPackItControl(MessageState messageState)
+        {
+            Messagestate = messageState;
+
+             InitializeComponent();
+
+            ScanControls(PrintableArea);
+
+            InitializeToggleButtonGroups();
+
+            FormHeaderControl.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
+            FormHeaderControl.HeaderSubstring = "Version 8/17";
+
+            UpdateFormFieldsRequiredColors();
+        }
+
+        public override FormControlBasics RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
@@ -176,7 +192,7 @@ namespace ICS213RRPackItFormControl
             }
             base.FillFormFromFormFields(formFields);
 
-            UpdateFormFieldsRequiredColors();
+            //UpdateFormFieldsRequiredColors(false);
         }
 
         //private void resourceInfoPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)

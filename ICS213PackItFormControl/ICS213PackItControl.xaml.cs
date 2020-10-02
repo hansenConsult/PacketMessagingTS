@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 //using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using FormControlBasicsNamespace;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -46,6 +47,8 @@ namespace ICS213PackItFormControl
 
             UpdateFormFieldsRequiredColors();
         }
+
+        public override FormControlBasics RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
@@ -260,8 +263,9 @@ namespace ICS213PackItFormControl
             }
             base.FillFormFromFormFields(formFields);
 
-            UpdateFormFieldsRequiredColors();
+            //UpdateFormFieldsRequiredColors();
         }
+
 
         //private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         //{

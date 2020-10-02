@@ -1,5 +1,5 @@
 ﻿<MyBaseNamespace:FormControlBase
-    x:Name="OAAlliedHealthStatus"
+    x:Name="rootPanel"
     x:Class="OAAlliedHealthStatus201802FormControl.OAAlliedHealthStatusControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

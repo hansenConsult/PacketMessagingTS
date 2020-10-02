@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+
 using SharedCode;
 
 using ToggleButtonGroupControl;
@@ -74,6 +75,15 @@ namespace FormControlBasicsNamespace
         ////protected string[] _formProviders = new string[] { "PacForm", "PacItForm" };
         //protected int _providerIndix = 0;
 
+        public PacketMessage FormPacketMessage
+        { get; set; }
+
+        public FormField[] FormFields
+        { get; set; }
+
+        public virtual FormControlBasics RootPanel
+        { get; set; }
+
         public virtual string MessageNo
         { get; set; }
 
@@ -113,6 +123,18 @@ namespace FormControlBasicsNamespace
             set => Set(ref _pif, value);
         }
 
+        public MessageState Messagestate
+        { get; 
+            set; }
+
+        public virtual void UpdateStyles()
+        {
+        }
+
+            public FormControlBasics()
+        {
+            Messagestate = MessageState.None;
+        }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
@@ -354,16 +376,22 @@ namespace FormControlBasicsNamespace
                                         control => control.InputControl.Name == autoSuggestBox.Name);
             if (formControl != null)
             {
-                if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(autoSuggestBox.Text))
+                if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(autoSuggestBox.Text) && Messagestate != MessageState.Locked)
                 {
                     autoSuggestBox.BorderThickness = new Thickness(2);
                     autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
                 }
-                else
+                else if (Messagestate != MessageState.Locked)
                 {
                     autoSuggestBox.BorderThickness = new Thickness(1);
                     autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
                 }
+                else if (Messagestate == MessageState.Locked)
+                {
+                    autoSuggestBox.BorderBrush = new SolidColorBrush(Colors.White);
+                    autoSuggestBox.BorderThickness = new Thickness(0);
+                }
+
             }
         }
 
@@ -556,14 +584,19 @@ namespace FormControlBasicsNamespace
                     {
                         comboBox.SelectedIndex = -1;
                     }
-                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)
+                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0 && Messagestate != MessageState.Locked)
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         comboBox.BorderThickness = new Thickness(2);
                     }
-                    else
+                    else if (Messagestate != MessageState.Locked)
                     {
                         comboBox.BorderBrush = formControl.BaseBorderColor;
+                        comboBox.BorderThickness = new Thickness(1);
+                    }
+                    else if (Messagestate == MessageState.Locked)
+                    {
+                        comboBox.BorderBrush = comboBox.Background;
                         comboBox.BorderThickness = new Thickness(1);
                     }
                     break;
@@ -657,11 +690,44 @@ namespace FormControlBasicsNamespace
 
         protected virtual void AutoSuggestBoxICSPosition_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            FormControl formControl = _formControlsList.FirstOrDefault(
+                            control => control.InputControl.Name == sender.Name);
+
+            if (string.IsNullOrEmpty(sender.Text) && IsFieldRequired(sender) && Messagestate != MessageState.Locked)
+            {
+                sender.BorderBrush = formControl.RequiredBorderBrush;
+                sender.BorderThickness = new Thickness(2);
+            }
+            else if (Messagestate != MessageState.Locked)
+            {
+                sender.BorderBrush = formControl.BaseBorderColor;
+                sender.BorderThickness = new Thickness(1);
+            }
+            else if (Messagestate == MessageState.Locked)
+            {
+                sender.BorderBrush = sender.Background;
+                sender.BorderThickness = new Thickness(1);
+            }
+
             // Only get results when it was a user typing, 
             // otherwise assume the value got filled in by TextMemberPath 
             // or the handler for SuggestionChosen.
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
+                // Prevent user input
+                if (Messagestate == MessageState.Locked)
+                {
+                    int i = 0;
+                    for (; i < FormFields.Length; i++)
+                    {
+                        if (FormFields[i].ControlName == sender.Name)
+                        {
+                            break;
+                        }
+                    }
+                    sender.Text = FormFields[i].ControlContent;
+                    return;
+                }
                 //Set the ItemsSource to be your filtered dataset
                 //sender.ItemsSource = null;
                 _ICSPositionFiltered = new List<string>();
@@ -675,7 +741,7 @@ namespace FormControlBasicsNamespace
                 }
                 sender.ItemsSource = _ICSPositionFiltered;
             }
-            AutoSuggestBox_TextChanged(sender, null);
+            //AutoSuggestBox_TextChanged(sender, null);
         }
 
     }

@@ -145,7 +145,7 @@
 								  RelativePanel.AlignVerticalCenterWithPanel="True"
 								  ItemsSource="{x:Bind LogFilesCollection.View, Mode=OneWay}"
 								  DisplayMemberPath="Name" 
-								  SelectionChanged="logFilesComboBox_SelectionChangedAsync" />
+								  SelectionChanged="LogFilesComboBox_SelectionChangedAsync" />
                     </RelativePanel>
                     <TextBox x:Name="logFileTextBox" 
 							 RelativePanel.Below="fileSelectPanel"
@@ -262,18 +262,18 @@
                                                 </Border>
                                                 <Border Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,1,1"/>
                                                     <TextBox Grid.Column="1"  x:Name="incidentName"  BorderBrush="White" Margin="2"
-                                                             Text="{x:Bind _ICS309ViewModel.IncidentName, Mode=TwoWay}"
+                                                             Text="{x:Bind Ics309ViewModel.IncidentName, Mode=TwoWay}"
                                                              Header="1. Incident name " 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
                                                         <!--TextChanged="IncidentName_TextChanged"/>-->
                                                     <TextBox Grid.Column="2" x:Name="activationNumber"  BorderBrush="White" Margin="2"
-                                                             Text="{x:Bind _ICS309ViewModel.ActivationNumber, Mode=TwoWay}"
+                                                             Text="{x:Bind Ics309ViewModel.ActivationNumber, Mode=TwoWay}"
                                                              Header="and Activation Number" 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
 
                                                     <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,1">
                                                         <TextBox x:Name="operationalPeriod"  BorderBrush="White" Margin="2"
-                                                                 Text="{x:Bind _ICS309ViewModel.OperationalPeriod, Mode=TwoWay}"
+                                                                 Text="{x:Bind Ics309ViewModel.OperationalPeriod, Mode=TwoWay}"
                                                                  Header="2. Operational Period (Date/Time)" 
                                                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
                                                         <!--TextChanged="OperationalPeriod_TextChangedAsync"/>-->
@@ -286,13 +286,13 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1">
                                                     <TextBox x:Name="radioNetName" BorderBrush="White"
-                                                             Text="{x:Bind _ICS309ViewModel.RadioNetName, Mode=TwoWay}"
+                                                             Text="{x:Bind Ics309ViewModel.RadioNetName, Mode=TwoWay}"
                                                              Header="3. Radio Net Name (for NCOs)  or Position/Tactical Call" 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
                                                 </Border>
                                                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
                                                     <TextBox x:Name="radioOperator" BorderBrush="White"
-                                                             Text="{x:Bind _ICS309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
+                                                             Text="{x:Bind Ics309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
                                                              Header="4. Radio Operator (Name, Call Sign)" 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
                                                 </Border>
@@ -312,7 +312,7 @@
                                                            VerticalAlignment="Center"/>
                                             </Grid>
                                             <controls:DataGrid x:Name="ics309DataGrid" Height="788"
-                                                               ItemsSource="{x:Bind _ICS309ViewModel.CommLogEntryCollection, Mode=OneWay}"
+                                                               ItemsSource="{x:Bind Ics309ViewModel.CommLogEntryCollection, Mode=OneWay}"
                                                                HorizontalScrollBarVisibility="Auto"
                                                                VerticalScrollBarVisibility="Auto"
                                                                GridLinesVisibility="Vertical"
@@ -339,19 +339,19 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
                                                     <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
-                                                             Text="{x:Bind _ICS309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
+                                                             Text="{x:Bind Ics309ViewModel.OperatorNameCallsign, Mode=TwoWay}"
                                                              Header="6. Prepared By (Name, Call Sign)" 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
                                                 </Border>
                                                 <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
                                                     <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
-                                                             Text="{x:Bind _ICS309ViewModel.DateTimePrepared, Mode=TwoWay}"
+                                                             Text="{x:Bind Ics309ViewModel.DateTimePrepared, Mode=TwoWay}"
                                                              Header="7. Date $ Time Prepared" 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
                                                 </Border>
                                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
                                                     <TextBox x:Name="pageNoOf" BorderBrush="White" 
-                                                             Text="{x:Bind _ICS309ViewModel.PageNoAsString, Mode=OneWay}"
+                                                             Text="{x:Bind Ics309ViewModel.PageNoAsString, Mode=OneWay}"
                                                              Header="8."
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
                                                 </Border>
@@ -372,8 +372,8 @@
                                     RelativePanel.AlignLeftWithPanel="True"
                                 >
                         <!--Style="{ThemeResource AppBarButtonRevealStyle}"-->
-                        <AppBarButton x:Name="appBarOpenICS309" Label="Open" Icon="OpenFile" Command="{x:Bind _ICS309ViewModel.OpenICS309Command}"/>
-                        <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" Command="{x:Bind _ICS309ViewModel.SaveICS309Command}" />
+                        <AppBarButton x:Name="appBarOpenICS309" Label="Open" Icon="OpenFile" Command="{x:Bind Ics309ViewModel.OpenICS309Command}"/>
+                        <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" Command="{x:Bind Ics309ViewModel.SaveICS309Command}" />
                         <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" Click="AppBarPrintICS309_ClickAsync"
                                       Visibility="{Binding ICS309PrintButtonVisible, Mode=OneWay}"
                                       HorizontalAlignment="Right" />

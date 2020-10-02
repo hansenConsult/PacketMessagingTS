@@ -99,6 +99,8 @@ namespace OAMunicipalStatusPackItFormControl
             UpdateFormFieldsRequiredColors(false);
         }
 
+        public override FormControlBasics RootPanel => rootPanel;
+
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using MetroLog;
 
@@ -10,19 +8,14 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 using PacketMessagingTS.Services;
-using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace PacketMessagingTS.Views

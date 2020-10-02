@@ -134,6 +134,8 @@ namespace MVCERTDA_FormsControl
             set => Set(ref fromLocation, value);
         }
 
+        public override FormControlBasics RootPanel => rootPanel;
+
         public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CityForm;

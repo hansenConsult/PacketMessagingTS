@@ -221,7 +221,7 @@ namespace PacketMessagingTS.ViewModels
         public virtual int FormsPagePivotSelectedIndex
         { get; set; }
 
-        public static FormControlBase CreateFormControlInstance(string formControlName)
+        public static FormControlBase CreateFormControlInstance(string formControlName, MessageState messageState)
         {
             //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
             FormControlBase formControl = null;
@@ -283,6 +283,8 @@ namespace PacketMessagingTS.ViewModels
                 try
                 {
                     formControl = (FormControlBase)Activator.CreateInstance(foundType);
+                    //object[] parameters = new object[] { messageState };
+                    //formControl = (FormControlBase)Activator.CreateInstance(foundType, parameters);
                 }
                 catch (Exception e)
                 {
@@ -301,7 +303,7 @@ namespace PacketMessagingTS.ViewModels
             //string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 
             _packetAddressForm = new SendFormDataControl();
-            _packetForm = CreateFormControlInstance(formControlName); // Should be PacketFormName, since there may be multiple files with same name
+            _packetForm = CreateFormControlInstance(formControlName, MessageState.None); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
                 await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
@@ -309,7 +311,7 @@ namespace PacketMessagingTS.ViewModels
                 return;
             }
 
-            _packetForm.UpdateFormFieldsRequiredColors(true);
+            _packetForm.UpdateFormFieldsRequiredColors();
 
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
@@ -371,6 +373,8 @@ namespace PacketMessagingTS.ViewModels
             //_packetForm.FormProvider = _packetMessage.FormProvider;
             _packetAddressForm.MessageBBS = _packetMessage.BBSName;
             _packetAddressForm.MessageTNC = _packetMessage.TNCName;
+            //_packetForm.Messagestate = MessageState.Locked;
+            _packetForm.LockForm(_packetMessage.FormFieldArray);
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
             _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
             _packetAddressForm.MessageTo = _packetMessage.MessageTo;
@@ -445,13 +449,16 @@ namespace PacketMessagingTS.ViewModels
 
         public async void FormsPagePivotSelectionChangedAsync(int selectedIndex)
         {
+            MessageState messageState = MessageState.None;
             if (!_loadMessage)
             {
                 _packetMessage = null;
+                
             }
             else
             {
                 _packetMessage = FormsPage.PacketMessage;
+                messageState = FormsPage.PacketMessage.MessageState;
             }
 
             _packetAddressForm = new SendFormDataControl();
@@ -460,7 +467,7 @@ namespace PacketMessagingTS.ViewModels
 
             _pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
             string pivotItemName = _pivotItem.Name;
-            _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
+            _packetForm = CreateFormControlInstance(pivotItemName, messageState); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
                 await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
@@ -468,6 +475,7 @@ namespace PacketMessagingTS.ViewModels
             }
 
             _packetForm.FormPacketMessage = _packetMessage;
+            //_packetForm.UpdateStyles();
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
 

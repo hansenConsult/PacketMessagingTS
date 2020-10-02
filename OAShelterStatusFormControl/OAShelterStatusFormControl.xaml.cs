@@ -11,6 +11,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
+using FormControlBasicsNamespace;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -81,23 +82,19 @@ namespace OAShelterStatusFormControl
         {
             this.InitializeComponent();
 
-            //DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
-            //ScanControls(panelName, formHeaderControl);
-
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
 
             state.Text = "California";
 
-            //panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-            //ScanControls(panelName, radioOperatorControl);
-
             FormHeaderControl.HeaderString1 = "Santa Clara OA Shelter Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20130814";
 
             UpdateFormFieldsRequiredColors(false);
         }
+
+        public override FormControlBasics RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
