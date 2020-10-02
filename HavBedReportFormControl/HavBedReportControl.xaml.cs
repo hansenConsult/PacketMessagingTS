@@ -25,6 +25,7 @@ namespace HavBedReportFormControl
     /// </summary>
     public sealed partial class HavBedReportControl : FormControlBase
     {
+        private const string Key = "HAvBedNumberTextBox";
         readonly List<ComboBoxPackItItem> CommandCenterStatus = new List<ComboBoxPackItItem>
         {
             new ComboBoxPackItItem(null, ""),
@@ -50,6 +51,26 @@ namespace HavBedReportFormControl
         public HavBedReportControl()
         {
             InitializeComponent();
+
+            ScanControls(PrintableArea);
+
+            InitializeToggleButtonGroups();
+
+            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
+            FormHeaderControl.HeaderSubstring = "EMResource: c190320";
+
+            UpdateFormFieldsRequiredColors();
+        }
+
+        public HavBedReportControl(MessageState messageState)
+        {
+            InitializeComponent();
+
+            //if (messageState == MessageState.Locked)
+            //{
+            //    rootPanel.Resources["HAvBedNumberTextBox"] = (Style)rootPanel.Resources["HAvBedNumberTextBoxLocked"];
+            //    var setter = ((Style)rootPanel.Resources["HAvBedNumberTextBox"]).Setters[1];
+            //}
 
             ScanControls(PrintableArea);
 

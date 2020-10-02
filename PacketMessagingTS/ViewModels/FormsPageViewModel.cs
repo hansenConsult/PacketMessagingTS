@@ -373,8 +373,10 @@ namespace PacketMessagingTS.ViewModels
             //_packetForm.FormProvider = _packetMessage.FormProvider;
             _packetAddressForm.MessageBBS = _packetMessage.BBSName;
             _packetAddressForm.MessageTNC = _packetMessage.TNCName;
-            //_packetForm.Messagestate = MessageState.Locked;
-            _packetForm.LockForm(_packetMessage.FormFieldArray);
+            if (_packetMessage.MessageState == MessageState.Locked)
+            {
+                _packetForm.LockForm();
+            }
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
             _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
             _packetAddressForm.MessageTo = _packetMessage.MessageTo;

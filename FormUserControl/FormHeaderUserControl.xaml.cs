@@ -32,40 +32,6 @@ namespace FormUserControl
             //UpdateFormFieldsRequiredColors();
         }
 
-        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is T)
-                    return (T)child;
-                else
-                {
-                    T childOfChild = FindVisualChild<T>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
-        }
-
-        public new void UpdateStyles()
-        {
-            //if (FormPacketMessage != null && FormPacketMessage.MessageState == MessageState.Locked)
-            if (Messagestate == MessageState.Locked)
-            {
-                foreach (FormControl formControl in _formControlsList)
-                {
-                    FrameworkElement control = formControl.InputControl;
-
-                    if (control is AutoSuggestBox autosuggestBox)
-                    {
-                        TextBox autoSuggestBoxTextBox = FindVisualChild<TextBox>(autosuggestBox);
-                    }
-                }
-            }
-        }
-
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
             int count = VisualTreeHelper.GetChildrenCount(panelName);
@@ -78,8 +44,8 @@ namespace FormUserControl
                 {
                     case StackPanel _:
                     case Grid _:
-                    case Border b:
-                    case RelativePanel r:
+                    case Border _:
+                    case RelativePanel _:
                         ScanControls(control, formUserControl);
                         break;
                     case TextBox textBox:
@@ -99,8 +65,8 @@ namespace FormUserControl
                         formControl.BaseBorderColor = comboBox.BorderBrush;
                         _formControlsList.Add(formControl);
                         break;
-                    case CheckBox checkBox:
-                    case ToggleButtonGroup toggleButton:
+                    case CheckBox _:
+                    case ToggleButtonGroup _:
                     case RichTextBlock textBlock:
                         formControl = new FormControl((FrameworkElement)control, formUserControl);
                         _formControlsList.Add(formControl);
@@ -115,13 +81,13 @@ namespace FormUserControl
                         }
                         _formControlsList.Add(formControl);
                         break;
-                    case RadioButton radioButton:
+                    case RadioButton _:
                         formControl = new FormControl((FrameworkElement)control, formUserControl);
                         _formControlsList.Add(formControl);
 
                         _radioButtonsList.Add((RadioButton)control);
                         break;
-                    case AutoSuggestTextBoxUserControl autoSuggestTextBox:
+                    case AutoSuggestTextBoxUserControl _:
                         ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
                         break;
                 }
@@ -182,10 +148,10 @@ namespace FormUserControl
             }
         }
 
-        public void LockForm(FormField[] formFields)
+        public void LockForm()
         {
             Messagestate = MessageState.Locked;
-            FormFields = formFields;
+            //FormFields = formFields;
 
             foreach (FormControl formControl in _formControlsList)
             {
@@ -207,7 +173,7 @@ namespace FormUserControl
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
-                        FormField formField = formFields.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
+                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
                         if (!string.IsNullOrEmpty(formField?.ControlContent))
                         {
                             autoSuggestBoxAsTextBox.Text = formField.ControlContent;
@@ -216,8 +182,8 @@ namespace FormUserControl
                 }
                 else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
                 {
-                    autosuggestTextBox.Messagestate = MessageState.Locked;
-                    autosuggestTextBox.FormFields = formFields;
+                    autosuggestTextBox.Messagestate = FormPacketMessage.MessageState;
+                    //autosuggestTextBox.FormFields = formFields;
                 }
             }
         }

@@ -78,7 +78,10 @@ namespace PacketMessagingTS.Helpers
                 }
             }
             FillFormFromPacketMessage();
-            _packetForm.LockForm(_packetMessage.FormFieldArray);
+            if (_packetMessage.MessageState == MessageState.Locked)
+            {
+                _packetForm.LockForm();
+            }
 
             Singleton<PrintMsgTestViewModel>.Instance.PrintForm();
         }

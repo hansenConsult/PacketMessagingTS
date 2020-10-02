@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 using FormControlBaseClass;
-
+using FormControlBasicsNamespace;
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -24,7 +24,7 @@ namespace HospitalRollCallFormControl
     {
         public HospitalRollCallControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             ScanControls(PrintableArea);
 
@@ -32,6 +32,8 @@ namespace HospitalRollCallFormControl
         }
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+
+        public override FormControlBasics RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

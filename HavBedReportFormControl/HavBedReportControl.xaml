@@ -19,6 +19,15 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="HAvBedNumberTextBoxLocked" TargetType="TextBox">
+                <Setter Property="TextAlignment" Value="Left"/>
+                <Setter Property="Width" Value="0"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="2,2,2,2"/>
+                <Setter Property="Width" Value="72"/>
+            </Style>
+
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -157,7 +166,7 @@
                                       SelectionChanged="Subject_Changed" 
                                       Loaded="ComboBox_Loaded"
                                       Tag="20.,required" />
-                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="hospitalNameTextBlock"
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="hospitalNameTextBox"
                                      Width="auto"
                                      Visibility="Collapsed"
                                      Margin="4,0,4,0" 
@@ -172,7 +181,7 @@
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"                                      
                                       Tag="22.,required" />
-                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="commandCenterStatusTextBlock" 
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="commandCenterStatusTextBox" 
                                      Visibility="Collapsed" 
                                      Width="auto"
                                      Margin="4,0,4,0"
@@ -187,7 +196,6 @@
                             <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="4" Grid.Column="1" Name="adultICU" 
                                      Style="{StaticResource HAvBedNumberTextBox}"
-                                     TextAlignment="Right"
                                      TextChanged="TextBox_IntegerChanged"
                                      Tag="41.,required"/>
                             <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
@@ -249,7 +257,7 @@
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="49.,required"/>
-                            <TextBox Grid.Row="12" Grid.Column="1" x:Name="deconTextBlock"
+                            <TextBox Grid.Row="12" Grid.Column="1" x:Name="deconTextBox"
                                      Visibility="Collapsed" 
                                      Width="auto"
                                      Margin="4,0,4,0" 

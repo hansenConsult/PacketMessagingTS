@@ -158,48 +158,38 @@ namespace FormControlBaseClass
 
                 if (control is TextBox textBox)
                 {
-                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(textBox) && newForm)
+                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(textBox))
                     {
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
                         //textBox.BorderThickness = new Thickness(2);
                     }
-                    else if (newForm)
+                    else
                     {
                         textBox.BorderBrush = formControl.BaseBorderColor;
-                        //textBox.BorderThickness = new Thickness(1);
-                    }
-                    else if (!newForm)
-                    {
-                        textBox.BorderBrush = new SolidColorBrush(Colors.White);
                         //textBox.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
-                    if (string.IsNullOrEmpty(autoSuggestBox.Text) && IsFieldRequired(control) && newForm)
+                    if (string.IsNullOrEmpty(autoSuggestBox.Text) && IsFieldRequired(control))
                     {
                         autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
                         autoSuggestBox.BorderThickness = new Thickness(2);
                     }
-                    else if (newForm)
+                    else
                     {
                         autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
-                        autoSuggestBox.BorderThickness = new Thickness(1);
-                    }
-                    else if (!newForm)
-                    {
-                        autoSuggestBox.BorderBrush = new SolidColorBrush(Colors.White);
                         autoSuggestBox.BorderThickness = new Thickness(1);
                     }
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    if (comboBox.SelectedIndex < 0 && IsFieldRequired(control) && newForm)
+                    if (comboBox.SelectedIndex < 0 && IsFieldRequired(control))
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         comboBox.BorderThickness = new Thickness(2);
                     }
-                    else if (newForm)
+                    else
                     {
                         comboBox.BorderBrush = formControl.BaseBorderColor;
                         comboBox.BorderThickness = new Thickness(1);
@@ -217,19 +207,6 @@ namespace FormControlBaseClass
                         toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
                     }
                 }
-            }
-        }
-
-        public override void UpdateStyles()
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (formControl.UserControl is FormHeaderUserControl formHeader)
-                {
-                    formHeader.FormPacketMessage = FormPacketMessage;
-                    formHeader.UpdateStyles();
-                }
-
             }
         }
 
@@ -425,10 +402,10 @@ namespace FormControlBaseClass
             }
         }
 
-        public void LockForm(FormField[] formFields)
+        public void LockForm()
         {
-            Messagestate = MessageState.Locked;
-            FormFields = formFields;
+            if (FormPacketMessage.MessageState != MessageState.Locked)
+                return;
 
             //TextBox
             RootPanel.Resources["TextControlBorderBrushPointerOver"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
@@ -479,7 +456,7 @@ namespace FormControlBaseClass
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
-                        FormField formField = formFields.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
+                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
                         if (!string.IsNullOrEmpty(formField?.ControlContent))
                         {
                             autoSuggestBoxAsTextBox.Text = formField.ControlContent;
@@ -499,7 +476,7 @@ namespace FormControlBaseClass
                         comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
-                        FormField formField = formFields.FirstOrDefault(f => f.ControlName == comboBox.Name);
+                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
                         if (!string.IsNullOrEmpty(formField?.ControlContent))
                         {
                             comboBoxAsTextBox.Text = formField.ControlContent;
@@ -516,12 +493,12 @@ namespace FormControlBaseClass
                 }
                 if (formControl.UserControl is FormHeaderUserControl formHeader)
                 {
-                    formHeader.LockForm(formFields);
+                    formHeader.LockForm();
                 }
                 else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
                 {
                     autosuggestTextBox.Messagestate = MessageState.Locked;
-                    autosuggestTextBox.FormFields = formFields;
+                    autosuggestTextBox.FormPacketMessage = FormPacketMessage;
                 }
                 else if (formControl.UserControl is RadioOperatorUserControl userControl)
                 {
@@ -1363,7 +1340,7 @@ namespace FormControlBaseClass
                                 comboBox.SelectedIndex = index;
                                 if (Messagestate == MessageState.Locked)
                                 {
-                                    TextBox textBox = FindName($"{comboBox.Name}TextBlock")as TextBox;
+                                    TextBox textBox = FindName($"{comboBox.Name}TextBox")as TextBox;
                                     textBox.Background = packItItem.BackgroundBrush;
                                 }
                                 break;

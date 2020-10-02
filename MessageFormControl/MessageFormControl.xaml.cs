@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using FormControlBaseClass;
+using FormControlBasicsNamespace;
 //using Microsoft.Toolkit.Uwp.Helpers;
 using SharedCode;
 using SharedCode.Helpers;
@@ -166,6 +167,8 @@ namespace MessageFormControl
         }
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
+
+        public override FormControlBasics RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 
