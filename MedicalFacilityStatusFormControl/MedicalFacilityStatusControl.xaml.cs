@@ -127,7 +127,7 @@ namespace MedicalFacilityStatusFormControl
             FormHeaderControl.HeaderSubstring = "WebEOC: 20160101";
             FormHeaderControl.HeaderPIF = PIF;
 
-            UpdateFormFieldsRequiredColors(false);
+            UpdateFormFieldsRequiredColors();
         }
 
         public override FormControlBasics RootPanel => rootPanel;

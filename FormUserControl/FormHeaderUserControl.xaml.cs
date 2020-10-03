@@ -183,7 +183,7 @@ namespace FormUserControl
                 else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
                 {
                     autosuggestTextBox.Messagestate = FormPacketMessage.MessageState;
-                    //autosuggestTextBox.FormFields = formFields;
+                    autosuggestTextBox.FormPacketMessage = FormPacketMessage;
                 }
             }
         }

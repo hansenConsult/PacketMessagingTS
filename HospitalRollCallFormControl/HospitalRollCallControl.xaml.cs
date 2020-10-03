@@ -68,11 +68,6 @@ namespace HospitalRollCallFormControl
         }
 
         //public ObservableCollection<Hospital> DataGridSource => new ObservableCollection<Hospital>(HospitalRollCall.Instance.HospitalList);
-
     }
 
-    public class HospitalRollCallTemplateSelector : DataTemplateSelector 
-    {
-
-    }
 }

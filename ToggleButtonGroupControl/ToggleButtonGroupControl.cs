@@ -61,6 +61,7 @@ namespace ToggleButtonGroupControl
         {
             string newval = e.NewValue as string;
             (d as ToggleButtonGroup).SetRadioButtonCheckedState(e.NewValue as string);
+            //(d as ToggleButtonGroup).SetValue(CheckedControlNameProperty, e.NewValue as string);
         }
 
         public string CheckedControlName

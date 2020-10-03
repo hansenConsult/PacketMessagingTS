@@ -149,8 +149,18 @@ namespace FormControlBaseClass
             return true;
         }
 
-        public virtual void UpdateFormFieldsRequiredColors(bool newForm = true)
-        {            
+        public virtual void UpdateFormFieldsRequiredColors()
+        {
+            bool isReportTypeSelected = true;
+            ToggleButtonGroup reportType = FindName("reportType") as ToggleButtonGroup;
+            string reportTypestring = reportType.CheckedControlName;
+            string checkedReportType = reportType.GetRadioButtonCheckedState();
+            //if (reportType != null && string.IsNullOrEmpty(reportType.CheckedControlName))
+            if (reportType != null && string.IsNullOrEmpty(checkedReportType))
+            {
+                isReportTypeSelected = false;
+            }
+
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
@@ -158,7 +168,7 @@ namespace FormControlBaseClass
 
                 if (control is TextBox textBox)
                 {
-                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(textBox))
+                    if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(textBox) && isReportTypeSelected)
                     {
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
                         //textBox.BorderThickness = new Thickness(2);
@@ -171,7 +181,7 @@ namespace FormControlBaseClass
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
-                    if (string.IsNullOrEmpty(autoSuggestBox.Text) && IsFieldRequired(control))
+                    if (string.IsNullOrEmpty(autoSuggestBox.Text) && IsFieldRequired(control) && isReportTypeSelected)
                     {
                         autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
                         autoSuggestBox.BorderThickness = new Thickness(2);
@@ -184,7 +194,7 @@ namespace FormControlBaseClass
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    if (comboBox.SelectedIndex < 0 && IsFieldRequired(control))
+                    if (comboBox.SelectedIndex < 0 && IsFieldRequired(control) && isReportTypeSelected)
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         comboBox.BorderThickness = new Thickness(2);
@@ -197,8 +207,18 @@ namespace FormControlBaseClass
                 }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
-                    if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()) 
-                        && newForm || (toggleButtonGroup.Name == "reportType" && !newForm))
+                    if (toggleButtonGroup.Name != "reportType" && isReportTypeSelected)
+                    {
+                        if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+                        {
+                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+                        }
+                        else
+                        {
+                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                        }
+                    }
+                    else if (toggleButtonGroup.Name == "reportType" && !isReportTypeSelected)
                     {
                         toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
                     }
@@ -298,8 +318,12 @@ namespace FormControlBaseClass
         public virtual string Subject       // Required for setting Practice
         { get; set; }
 
+        private string _ReportType;
         public virtual string ReportType
-        { get; set; }
+        { 
+            get => _ReportType; 
+            set => Set(ref _ReportType, value); 
+        }
 
         private DateTime? messageReceivedTime = null;
         public virtual DateTime? MessageReceivedTime
@@ -1201,7 +1225,7 @@ namespace FormControlBaseClass
                     checkBox.IsChecked = formField.ControlContent == "True";
                 }
             }
-            UpdateFormFieldsRequiredColors(false);
+            UpdateFormFieldsRequiredColors();
         }
 
 		public static string GetOutpostFieldValue(string field)

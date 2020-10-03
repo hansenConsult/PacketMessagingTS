@@ -46,7 +46,7 @@ namespace OAAlliedHealthStatus201802FormControl
             FormHeaderControl.HeaderSubstring = "Version: February 2018";
             FormHeaderControl.PIF = "2.2";
 
-            UpdateFormFieldsRequiredColors(false);
+            UpdateFormFieldsRequiredColors();
         }
 
         public override FormControlBasics RootPanel => rootPanel;

@@ -91,7 +91,7 @@ namespace OAShelterStatusFormControl
             FormHeaderControl.HeaderString1 = "Santa Clara OA Shelter Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20130814";
 
-            UpdateFormFieldsRequiredColors(false);
+            UpdateFormFieldsRequiredColors();
         }
 
         public override FormControlBasics RootPanel => rootPanel;
