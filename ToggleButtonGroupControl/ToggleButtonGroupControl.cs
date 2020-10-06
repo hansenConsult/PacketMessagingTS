@@ -56,12 +56,14 @@ namespace ToggleButtonGroupControl
         public static readonly DependencyProperty
             CheckedControlNameProperty = DependencyProperty.Register("CheckedControlName", typeof(string),
                 typeof(ToggleButtonGroup), new PropertyMetadata(null, new PropertyChangedCallback(OnSelectionChanged)));
+                //typeof(ToggleButtonGroup), null);
 
         private static void OnSelectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            string newval = e.NewValue as string;
-            (d as ToggleButtonGroup).SetRadioButtonCheckedState(e.NewValue as string);
-            //(d as ToggleButtonGroup).SetValue(CheckedControlNameProperty, e.NewValue as string);
+            ToggleButtonGroup toggleButtonGroup = d as ToggleButtonGroup;
+            string checkedName = e.NewValue as string;
+            toggleButtonGroup.SetRadioButtonCheckedState(checkedName);
+            toggleButtonGroup.CheckedControlName = checkedName;
         }
 
         public string CheckedControlName
@@ -69,7 +71,6 @@ namespace ToggleButtonGroupControl
             get { return (string)GetValue(CheckedControlNameProperty); }
             set { SetValue(CheckedControlNameProperty, value); }
         }
-        //{ get { return GetRadioButtonCheckedState(); } set { SetRadioButtonCheckedState(value); } }
 
         public void Initialize(IList<RadioButton> radioButtonList, string groupName)
 		{

@@ -45,6 +45,8 @@ namespace PacketMessagingTS.Controls
             MessageFrom = from;
         }
 
+        public override FormControlBasics RootPanel => rootPanel;
+
         private string messageSubject;
         public string MessageSubject
         {

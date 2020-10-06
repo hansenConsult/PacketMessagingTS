@@ -376,6 +376,7 @@ namespace PacketMessagingTS.ViewModels
             if (_packetMessage.MessageState == MessageState.Locked)
             {
                 _packetForm.LockForm();
+                _packetAddressForm.LockForm();
             }
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
             _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
@@ -464,6 +465,7 @@ namespace PacketMessagingTS.ViewModels
             }
 
             _packetAddressForm = new SendFormDataControl();
+            _packetAddressForm.FormPacketMessage = _packetMessage;
 
             string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 

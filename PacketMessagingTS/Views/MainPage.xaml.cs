@@ -17,6 +17,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Views
 {
@@ -311,6 +312,9 @@ namespace PacketMessagingTS.Views
         {
             try
             {
+                if (MainViewModel.PacketMessageRightClicked.FormProvider != FormProviders.PacForm)
+                    return;
+
                 string folder = ((StorageFolder)((PivotItem)mainPagePivot.SelectedItem).Tag).Path;
                 string packetMessagePath = Path.Combine(folder, MainViewModel.PacketMessageRightClicked.FileName);
 

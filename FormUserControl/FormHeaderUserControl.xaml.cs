@@ -150,9 +150,6 @@ namespace FormUserControl
 
         public void LockForm()
         {
-            Messagestate = MessageState.Locked;
-            //FormFields = formFields;
-
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
@@ -162,14 +159,14 @@ namespace FormUserControl
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
-                    TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
-                    if (autoSuggestBoxAsTextBox != null)
+                    if (FindName($"{autoSuggestBox.Name}TextBox") is TextBox autoSuggestBoxAsTextBox)
                     {
                         autoSuggestBox.Visibility = Visibility.Collapsed;
 
                         autoSuggestBoxAsTextBox.Visibility = Visibility.Visible;
                         autoSuggestBoxAsTextBox.IsReadOnly = true;
                         autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
+                        autoSuggestBoxAsTextBox.PlaceholderText = "";
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
@@ -182,13 +179,10 @@ namespace FormUserControl
                 }
                 else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
                 {
-                    autosuggestTextBox.Messagestate = FormPacketMessage.MessageState;
                     autosuggestTextBox.FormPacketMessage = FormPacketMessage;
                 }
             }
         }
-
-        public List<FormControl> FormControlsList => _formControlsList;
 
         public DependencyObject Panel => formHeaderUserControl;
 

@@ -69,12 +69,6 @@ namespace FormControlBasicsNamespace
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //// <provider, index> "PacForm" or "PacItForm"
-        //// xx|yy,required,text
-        //protected Dictionary<string, string> _tagIndexByFormProvider;
-        ////protected string[] _formProviders = new string[] { "PacForm", "PacItForm" };
-        //protected int _providerIndix = 0;
-
         public PacketMessage FormPacketMessage
         { get; set; }
 
@@ -123,11 +117,11 @@ namespace FormControlBasicsNamespace
             set => Set(ref _pif, value);
         }
 
-        public MessageState Messagestate
-        {
-            get;
-            set;
-        }
+        //public MessageState Messagestate
+        //{
+        //    get;
+        //    set;
+        //}
 
         public virtual void UpdateStyles()
         {
@@ -135,7 +129,7 @@ namespace FormControlBasicsNamespace
 
         public FormControlBasics()
         {
-            Messagestate = MessageState.None;
+            //Messagestate = MessageState.None;
         }
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
@@ -200,6 +194,118 @@ namespace FormControlBasicsNamespace
                     _formControlsList.Add(formControl);
 
                     _radioButtonsList.Add((RadioButton)control);
+                }
+            }
+        }
+
+        public virtual void LockForm()
+        {
+            if (FormPacketMessage.MessageState != MessageState.Locked)
+                return;
+
+            //TextBox
+            RootPanel.Resources["TextControlBorderBrushPointerOver"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
+            RootPanel.Resources["TextControlBorderBrushFocused"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
+            // CheckBox
+            RootPanel.Resources["CheckBoxForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundChecked"];
+            RootPanel.Resources["CheckBoxBackgroundCheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundChecked"];
+            RootPanel.Resources["CheckBoxBorderBrushCheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushChecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundStrokeCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeChecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundFillCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillChecked"];
+            RootPanel.Resources["CheckBoxCheckGlyphForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundChecked"];
+
+            RootPanel.Resources["CheckBoxForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundUnchecked"];
+            RootPanel.Resources["CheckBoxBackgroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundUnchecked"];
+            RootPanel.Resources["CheckBoxBorderBrushUncheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushUnchecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundStrokeUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeUnchecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundFillUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillUnchecked"];
+            RootPanel.Resources["CheckBoxCheckGlyphForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundUnchecked"];
+
+            // RadioButton
+            RootPanel.Resources["RadioButtonForegroundDisabled"] = RootPanel.Resources["RadioButtonForeground"];
+            RootPanel.Resources["RadioButtonOuterEllipseFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseFill"];
+            RootPanel.Resources["RadioButtonOuterEllipseCheckedFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseCheckedFill"];
+            RootPanel.Resources["RadioButtonCheckGlyphFillDisabled"] = RootPanel.Resources["RadioButtonCheckGlyphFill"];
+
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                FrameworkElement control = formControl.InputControl;
+
+                if (control is TextBox textBox)
+                {
+                    textBox.IsReadOnly = true;
+                    textBox.IsSpellCheckEnabled = false;
+                    textBox.PlaceholderText = "";
+                    textBox.BorderBrush = WhiteBrush;
+                    //textBox.TextAlignment = TextAlignment.Left;
+                }
+                else if (control is AutoSuggestBox autoSuggestBox)
+                {
+                    TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
+                    if (autoSuggestBoxAsTextBox != null)
+                    {
+                        autoSuggestBox.Visibility = Visibility.Collapsed;
+
+                        autoSuggestBoxAsTextBox.Visibility = Visibility.Visible;
+                        autoSuggestBoxAsTextBox.IsReadOnly = true;
+                        autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
+                        autoSuggestBoxAsTextBox.PlaceholderText = "";
+                        autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
+                        if (formField != null)
+                        {
+                            autoSuggestBoxAsTextBox.Text = formField?.ControlContent;
+                        }
+                        else
+                        {       // This is in the SendFormDataControl
+                            if (autoSuggestBox.Name == "textBoxMessageTo")
+                            {
+                                autoSuggestBoxAsTextBox.Text = FormPacketMessage.MessageTo;
+                            }
+                        }
+                    }
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    TextBox comboBoxAsTextBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+                    if (comboBoxAsTextBox != null)
+                    {
+                        comboBox.Visibility = Visibility.Collapsed;
+
+                        comboBoxAsTextBox.Visibility = Visibility.Visible;
+                        comboBoxAsTextBox.IsReadOnly = true;
+                        comboBoxAsTextBox.IsSpellCheckEnabled = false;
+                        comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
+                        if (formField != null)
+                        {
+                            comboBoxAsTextBox.Text = formField?.ControlContent;
+                        }
+                        else
+                        {       // This is in the SendFormDataControl
+                            if (comboBox.Name == "comboBoxMessageBBS")
+                            {
+                                comboBoxAsTextBox.Text = FormPacketMessage.BBSName;
+                            }
+                            else if (comboBox.Name == "comboBoxMessageTNC")
+                            {
+                                comboBoxAsTextBox.Text = FormPacketMessage.TNCName;
+                            }
+                        }
+                    }
+                }
+                else if (control is RadioButton radioButton)
+                {
+                    radioButton.IsEnabled = false;
+                }
+                else if (control is CheckBox checkBox)
+                {
+                    checkBox.IsEnabled = false;
                 }
             }
         }
@@ -580,21 +686,21 @@ namespace FormControlBasicsNamespace
                     {
                         comboBox.SelectedIndex = -1;
                     }
-                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0 && Messagestate != MessageState.Locked)
+                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)// && Messagestate != MessageState.Locked)
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         comboBox.BorderThickness = new Thickness(2);
                     }
-                    else if (Messagestate != MessageState.Locked)
+                    else //if (Messagestate != MessageState.Locked)
                     {
                         comboBox.BorderBrush = formControl.BaseBorderColor;
                         comboBox.BorderThickness = new Thickness(1);
                     }
-                    else if (Messagestate == MessageState.Locked)
-                    {
-                        comboBox.BorderBrush = comboBox.Background;
-                        comboBox.BorderThickness = new Thickness(1);
-                    }
+                    //else if (Messagestate == MessageState.Locked)
+                    //{
+                    //    comboBox.BorderBrush = comboBox.Background;
+                    //    comboBox.BorderThickness = new Thickness(1);
+                    //}
                     break;
                 }
             }
@@ -634,7 +740,7 @@ namespace FormControlBasicsNamespace
                     //}
                     if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
                     {
-                        toggleButtonGroup.CheckedControlName = radioButton.Name;
+                        //toggleButtonGroup.CheckedControlName = radioButton.Name;
                         if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;

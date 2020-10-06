@@ -98,7 +98,7 @@ namespace FormControlBaseClass
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
-        public static string DrillTraffic = "\rDrill Traffic";
+        public static string DrillTraffic = "\rDrill Traffic\r";
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
@@ -151,10 +151,13 @@ namespace FormControlBaseClass
 
         public virtual void UpdateFormFieldsRequiredColors()
         {
+            if (FormPacketMessage != null && FormPacketMessage.MessageState == MessageState.Locked)
+                return;
+
             bool isReportTypeSelected = true;
             ToggleButtonGroup reportType = FindName("reportType") as ToggleButtonGroup;
-            string reportTypestring = reportType.CheckedControlName;
-            string checkedReportType = reportType.GetRadioButtonCheckedState();
+            string reportTypestring = reportType?.CheckedControlName;
+            string checkedReportType = reportType?.GetRadioButtonCheckedState();
             //if (reportType != null && string.IsNullOrEmpty(reportType.CheckedControlName))
             if (reportType != null && string.IsNullOrEmpty(checkedReportType))
             {
@@ -164,7 +167,7 @@ namespace FormControlBaseClass
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
-                string name = control.Name;
+                _ = control.Name;
 
                 if (control is TextBox textBox)
                 {
@@ -355,7 +358,7 @@ namespace FormControlBaseClass
 
         public abstract void AppendDrillTraffic();
 
-        public virtual string PackItFormVersion => "3.0";
+        public virtual string PackItFormVersion => "3.1";
 
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
@@ -426,7 +429,7 @@ namespace FormControlBaseClass
             }
         }
 
-        public void LockForm()
+        public override void LockForm()
         {
             if (FormPacketMessage.MessageState != MessageState.Locked)
                 return;
@@ -465,6 +468,7 @@ namespace FormControlBaseClass
                     textBox.IsReadOnly = true;
                     textBox.IsSpellCheckEnabled = false;
                     textBox.PlaceholderText = "";
+                    textBox.BorderBrush = WhiteBrush;
                     //textBox.TextAlignment = TextAlignment.Left;
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
@@ -477,14 +481,12 @@ namespace FormControlBaseClass
                         autoSuggestBoxAsTextBox.Visibility = Visibility.Visible;
                         autoSuggestBoxAsTextBox.IsReadOnly = true;
                         autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
+                        autoSuggestBoxAsTextBox.PlaceholderText = "";
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
                         FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
-                        if (!string.IsNullOrEmpty(formField?.ControlContent))
-                        {
-                            autoSuggestBoxAsTextBox.Text = formField.ControlContent;
-                        }
+                        autoSuggestBoxAsTextBox.Text = formField?.ControlContent;
                     }
                 }
                 else if (control is ComboBox comboBox)
@@ -501,10 +503,7 @@ namespace FormControlBaseClass
                         comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
                         FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
-                        if (!string.IsNullOrEmpty(formField?.ControlContent))
-                        {
-                            comboBoxAsTextBox.Text = formField.ControlContent;
-                        }
+                        comboBoxAsTextBox.Text = formField?.ControlContent;
                     }
                 }
                 else if (control is RadioButton radioButton)
@@ -517,16 +516,16 @@ namespace FormControlBaseClass
                 }
                 if (formControl.UserControl is FormHeaderUserControl formHeader)
                 {
+                    formHeader.FormPacketMessage = FormPacketMessage;
                     formHeader.LockForm();
                 }
                 else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
                 {
-                    autosuggestTextBox.Messagestate = MessageState.Locked;
                     autosuggestTextBox.FormPacketMessage = FormPacketMessage;
                 }
                 else if (formControl.UserControl is RadioOperatorUserControl userControl)
                 {
-                    userControl.Messagestate = MessageState.Locked;
+                    userControl.FormPacketMessage = FormPacketMessage;
                 }
             }
         }
@@ -1217,7 +1216,10 @@ namespace FormControlBaseClass
                     {
                         FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
                         if (control.Name == "handlingOrder")
+                        {
                             formHeaderControl.HandlingOrder = formField.ControlContent;
+                            toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
+                        }
                     }
                 }
                 else if (control is CheckBox checkBox)
@@ -1362,9 +1364,9 @@ namespace FormControlBaseClass
                             {
                                 packItItem.SelectedIndex = index;
                                 comboBox.SelectedIndex = index;
-                                if (Messagestate == MessageState.Locked)
+                                if (FormPacketMessage.MessageState == MessageState.Locked)
                                 {
-                                    TextBox textBox = FindName($"{comboBox.Name}TextBox")as TextBox;
+                                    TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
                                     textBox.Background = packItItem.BackgroundBrush;
                                 }
                                 break;
@@ -1394,7 +1396,7 @@ namespace FormControlBaseClass
             return null;
         }
 
-        #region Print
+#region Print
         public abstract Panel CanvasContainer
         { get;  }
 
@@ -1552,7 +1554,7 @@ namespace FormControlBaseClass
 
         }
 
-        #endregion Print
+#endregion Print
 
     }
 }

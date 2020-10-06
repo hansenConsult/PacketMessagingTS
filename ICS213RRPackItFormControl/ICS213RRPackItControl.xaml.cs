@@ -40,21 +40,21 @@ namespace ICS213RRPackItFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public ICS213RRPackItControl(MessageState messageState)
-        {
-            Messagestate = messageState;
+        //public ICS213RRPackItControl(MessageState messageState)
+        //{
+        //    Messagestate = messageState;
 
-             InitializeComponent();
+        //     InitializeComponent();
 
-            ScanControls(PrintableArea);
+        //    ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+        //    InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
-            FormHeaderControl.HeaderSubstring = "Version 8/17";
+        //    FormHeaderControl.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
+        //    FormHeaderControl.HeaderSubstring = "Version 8/17";
 
-            UpdateFormFieldsRequiredColors();
-        }
+        //    UpdateFormFieldsRequiredColors();
+        //}
 
         public override FormControlBasics RootPanel => rootPanel;
 
