@@ -66,12 +66,6 @@ namespace HavBedReportFormControl
         {
             InitializeComponent();
 
-            //if (messageState == MessageState.Locked)
-            //{
-            //    rootPanel.Resources["HAvBedNumberTextBox"] = (Style)rootPanel.Resources["HAvBedNumberTextBoxLocked"];
-            //    var setter = ((Style)rootPanel.Resources["HAvBedNumberTextBox"]).Setters[1];
-            //}
-
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
@@ -125,5 +119,22 @@ namespace HavBedReportFormControl
             return CreateOutpostMessageBody(_outpostData);
         }
 
+        public override void FormatTextBoxes()
+        {
+            if (FormPacketMessage.MessageState == MessageState.Locked)
+            {
+                foreach (FormField formField in FormPacketMessage.FormFieldArray)
+                {
+                    (string id, FrameworkElement control) = GetTagIndex(formField);
+                    if (control is TextBox textBox)
+                    {
+                        if (string.Compare(id, "50.") <= 0 && string.Compare(id, "41.") >= 0)
+                        {
+                            textBox.TextAlignment = TextAlignment.Left;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

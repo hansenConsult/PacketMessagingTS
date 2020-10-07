@@ -40,85 +40,6 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
-                        <!--<Grid Grid.Row="0" BorderBrush="Black" BorderThickness="1,1,1,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="152" />
-                                <ColumnDefinition Width="152"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial" FontWeight="Bold" 
-                                   Foreground="Black" Text="Santa Clara OA Jurisdiction Status" 
-                                   VerticalAlignment="Center" Margin="5,0" />
-                                <Grid Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0">
-                                    <TextBlock Text="WebEOC: 20190327" HorizontalAlignment="Left"/>
-                                    <TextBlock Text="{x:Bind PIFString}" HorizontalAlignment="Right"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                            <TextBox Grid.Column="1" x:Name="messageNo"  
-                                     Text="{x:Bind OriginMsgNo, Mode=TwoWay}"
-							    	 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
-                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                     Header="Origin:"
-                                     Tag="MsgNo,required,Enter a Message Number." 
-                                     TextChanged="Subject_Changed"/>
-
-                            <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                            <TextBox Grid.Column="2" x:Name="destinationMsgNo" 
-                                     TextAlignment="Center" BorderBrush="White" 
-                                     Margin="10,0,10,2" Tag="2"
-                                     Text="{x:Bind DestinationMsgNo}"
-                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                     Header="Destination:"/>
-
-                        </Grid>-->
-                        <!--<Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
-                                       VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="1" x:Name="msgDate" 
-                                     Style="{StaticResource MuniStatusDateTextBox}"
-                                     Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
-                                     Tag="1a.,required"
-                                     TextChanged="TextBox_DateChanged"/>
-                            <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
-                                       VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <TextBox Grid.Column="3" x:Name="msgTime" 
-                                     Style="{StaticResource MuniStatusTimeTextBox}"
-                                     Text="{x:Bind Mode=TwoWay, Path=MsgTime}" 
-                                     Tag="1b.,required"
-                                     TextChanged="TextBox_TextChanged"/>
-                            <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-                            <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
-                                       Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
-                            <MyNamespace:ToggleButtonGroup Grid.Column="4" x:Name="handlingOrder" 
-                                                           CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
-                                                           Tag="5.,required,Indicate Msg. Handling Order."/>
-                            <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
-                                         Style="{StaticResource RadioButtonTNR12B}" 
-                                         Margin="8,0" 
-                                         Content="Immediate (ASAP)" Checked="Subject_Changed"
-                                         ToolTipService.ToolTip="As soon as possible" />
-                            <RadioButton Grid.Column="6" x:Name="priority" GroupName="handlingOrder" 
-                                         Style="{StaticResource RadioButtonTNR12B}" 
-                                         Margin="8,0" Content="Priority (&lt;1 hr)" Checked="Subject_Changed"
-                                         ToolTipService.ToolTip="Less than one hour" />
-                            <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
-                                         Style="{StaticResource RadioButtonTNR12B}" Margin="0,0,8,0" 
-                                         Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
-                                         ToolTipService.ToolTip="Less than two hours" />
-                        </Grid>-->
                         <Grid Grid.Row="1" Margin="0,10,0,0" BorderBrush="Black" BorderThickness="0,0,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="92"/>
@@ -136,7 +57,7 @@
                                          Checked="ReportType_Checked" Tag="Update"/>
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
                                          Checked="ReportType_Checked" Tag="Complete"/>
-                            <TextBlock Grid.Column="3" Text="Jurisdiction Name:" VerticalAlignment="Center" Margin="5,0,10,0" />
+                            <TextBlock Grid.Column="3" Text="Jurisdiction Name:" VerticalAlignment="Center" Margin="8,4,8,0" />
                             <ComboBox Grid.Column="4" Name="jurisdictionName" Width="250"
                                       DisplayMemberPath="Item"
                                       SelectedValuePath="Item"

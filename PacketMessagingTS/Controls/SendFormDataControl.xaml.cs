@@ -132,6 +132,43 @@ namespace PacketMessagingTS.Controls
             set => Set(ref isToIndividuals, value);
         }
 
+        public override void LockForm()
+        {
+            base.LockForm();
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                FrameworkElement control = formControl.InputControl;
+
+                if (control is AutoSuggestBox autoSuggestBox)
+                {
+                    if (autoSuggestBox.Name == "textBoxMessageTo")
+                    {
+                        TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
+                        if (autoSuggestBoxAsTextBox != null)
+                        {
+                            autoSuggestBoxAsTextBox.Text = FormPacketMessage.MessageTo;
+                        }
+                    }
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    TextBox comboBoxAsTextBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+                    if (comboBoxAsTextBox != null)
+                    {
+                        if (comboBox.Name == "comboBoxMessageBBS")
+                        {
+                            comboBoxAsTextBox.Text = FormPacketMessage.BBSName;
+                        }
+                        else if (comboBox.Name == "comboBoxMessageTNC")
+                        {
+                            comboBoxAsTextBox.Text = FormPacketMessage.TNCName;
+                        }
+                    }
+                }
+            }
+        }
+
         private static string ValidateSubject(string subject)
         {
             if (string.IsNullOrEmpty(subject))

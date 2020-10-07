@@ -195,6 +195,11 @@ namespace FormControlBasicsNamespace
 
                     _radioButtonsList.Add((RadioButton)control);
                 }
+                else if (control is ToggleSwitch)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    _formControlsList.Add(formControl);
+                }
             }
         }
 
@@ -227,6 +232,14 @@ namespace FormControlBasicsNamespace
             RootPanel.Resources["RadioButtonOuterEllipseCheckedFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseCheckedFill"];
             RootPanel.Resources["RadioButtonCheckGlyphFillDisabled"] = RootPanel.Resources["RadioButtonCheckGlyphFill"];
 
+            //ToggleSwitch
+            RootPanel.Resources["ToggleSwitchContainerBackgroundDisabled"] = RootPanel.Resources["ToggleSwitchContainerBackground"];
+            RootPanel.Resources["ToggleSwitchContentForegroundDisabled"] = RootPanel.Resources["ToggleSwitchContentForeground"];
+            RootPanel.Resources["ToggleSwitchFillOffDisabled"] = RootPanel.Resources["ToggleSwitchFillOff"];
+            RootPanel.Resources["ToggleSwitchFillOnDisabled"] = RootPanel.Resources["ToggleSwitchFillOn"];
+            RootPanel.Resources["ToggleSwitchKnobFillOffDisabled"] = RootPanel.Resources["ToggleSwitchKnobFillOff"];
+            RootPanel.Resources["ToggleSwitchKnobFillOnDisabled"] = RootPanel.Resources["ToggleSwitchKnobFillOn"];
+
 
             foreach (FormControl formControl in _formControlsList)
             {
@@ -238,7 +251,6 @@ namespace FormControlBasicsNamespace
                     textBox.IsSpellCheckEnabled = false;
                     textBox.PlaceholderText = "";
                     textBox.BorderBrush = WhiteBrush;
-                    //textBox.TextAlignment = TextAlignment.Left;
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
@@ -255,16 +267,9 @@ namespace FormControlBasicsNamespace
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
                         FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
-                        if (formField != null)
+                        if (formField != null && formField.ControlContent != null)
                         {
-                            autoSuggestBoxAsTextBox.Text = formField?.ControlContent;
-                        }
-                        else
-                        {       // This is in the SendFormDataControl
-                            if (autoSuggestBox.Name == "textBoxMessageTo")
-                            {
-                                autoSuggestBoxAsTextBox.Text = FormPacketMessage.MessageTo;
-                            }
+                            autoSuggestBoxAsTextBox.Text = formField.ControlContent;
                         }
                     }
                 }
@@ -282,20 +287,9 @@ namespace FormControlBasicsNamespace
                         comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
                         FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
-                        if (formField != null)
+                        if (formField != null && formField.ControlContent != null)
                         {
-                            comboBoxAsTextBox.Text = formField?.ControlContent;
-                        }
-                        else
-                        {       // This is in the SendFormDataControl
-                            if (comboBox.Name == "comboBoxMessageBBS")
-                            {
-                                comboBoxAsTextBox.Text = FormPacketMessage.BBSName;
-                            }
-                            else if (comboBox.Name == "comboBoxMessageTNC")
-                            {
-                                comboBoxAsTextBox.Text = FormPacketMessage.TNCName;
-                            }
+                            comboBoxAsTextBox.Text = formField.ControlContent;
                         }
                     }
                 }
@@ -306,6 +300,10 @@ namespace FormControlBasicsNamespace
                 else if (control is CheckBox checkBox)
                 {
                     checkBox.IsEnabled = false;
+                }
+                else if (control is ToggleSwitch toggleSwitch)
+                {
+                    toggleSwitch.IsEnabled = false;
                 }
             }
         }

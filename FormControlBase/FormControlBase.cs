@@ -434,86 +434,10 @@ namespace FormControlBaseClass
             if (FormPacketMessage.MessageState != MessageState.Locked)
                 return;
 
-            //TextBox
-            RootPanel.Resources["TextControlBorderBrushPointerOver"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
-            RootPanel.Resources["TextControlBorderBrushFocused"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
-            // CheckBox
-            RootPanel.Resources["CheckBoxForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundChecked"];
-            RootPanel.Resources["CheckBoxBackgroundCheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundChecked"];
-            RootPanel.Resources["CheckBoxBorderBrushCheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushChecked"];
-            RootPanel.Resources["CheckBoxCheckBackgroundStrokeCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeChecked"];
-            RootPanel.Resources["CheckBoxCheckBackgroundFillCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillChecked"];
-            RootPanel.Resources["CheckBoxCheckGlyphForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundChecked"];
-
-            RootPanel.Resources["CheckBoxForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundUnchecked"];
-            RootPanel.Resources["CheckBoxBackgroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundUnchecked"];
-            RootPanel.Resources["CheckBoxBorderBrushUncheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushUnchecked"];
-            RootPanel.Resources["CheckBoxCheckBackgroundStrokeUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeUnchecked"];
-            RootPanel.Resources["CheckBoxCheckBackgroundFillUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillUnchecked"];
-            RootPanel.Resources["CheckBoxCheckGlyphForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundUnchecked"];
-
-            // RadioButton
-            RootPanel.Resources["RadioButtonForegroundDisabled"] = RootPanel.Resources["RadioButtonForeground"];
-            RootPanel.Resources["RadioButtonOuterEllipseFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseFill"];
-            RootPanel.Resources["RadioButtonOuterEllipseCheckedFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseCheckedFill"];
-            RootPanel.Resources["RadioButtonCheckGlyphFillDisabled"] = RootPanel.Resources["RadioButtonCheckGlyphFill"];
-
+            base.LockForm();
 
             foreach (FormControl formControl in _formControlsList)
             {
-                FrameworkElement control = formControl.InputControl;
-
-                if (control is TextBox textBox)
-                {
-                    textBox.IsReadOnly = true;
-                    textBox.IsSpellCheckEnabled = false;
-                    textBox.PlaceholderText = "";
-                    textBox.BorderBrush = WhiteBrush;
-                    //textBox.TextAlignment = TextAlignment.Left;
-                }
-                else if (control is AutoSuggestBox autoSuggestBox)
-                {
-                    TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
-                    if (autoSuggestBoxAsTextBox != null)
-                    {
-                        autoSuggestBox.Visibility = Visibility.Collapsed;
-
-                        autoSuggestBoxAsTextBox.Visibility = Visibility.Visible;
-                        autoSuggestBoxAsTextBox.IsReadOnly = true;
-                        autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
-                        autoSuggestBoxAsTextBox.PlaceholderText = "";
-                        autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
-                        autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
-
-                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
-                        autoSuggestBoxAsTextBox.Text = formField?.ControlContent;
-                    }
-                }
-                else if (control is ComboBox comboBox)
-                {
-                    TextBox comboBoxAsTextBox = FindName($"{comboBox.Name}TextBox") as TextBox;
-                    if (comboBoxAsTextBox != null)
-                    {
-                        comboBox.Visibility = Visibility.Collapsed;
-
-                        comboBoxAsTextBox.Visibility = Visibility.Visible;
-                        comboBoxAsTextBox.IsReadOnly = true;
-                        comboBoxAsTextBox.IsSpellCheckEnabled = false;
-                        comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
-                        comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
-
-                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
-                        comboBoxAsTextBox.Text = formField?.ControlContent;
-                    }
-                }
-                else if (control is RadioButton radioButton)
-                {
-                    radioButton.IsEnabled = false;
-                }
-                else if (control is CheckBox checkBox)
-                {
-                    checkBox.IsEnabled = false;
-                }
                 if (formControl.UserControl is FormHeaderUserControl formHeader)
                 {
                     formHeader.FormPacketMessage = FormPacketMessage;
@@ -528,6 +452,11 @@ namespace FormControlBaseClass
                     userControl.FormPacketMessage = FormPacketMessage;
                 }
             }
+        }
+
+        public virtual void FormatTextBoxes()
+        {
+
         }
 
         public virtual string CreateOutpostData(ref PacketMessage packetMessage)

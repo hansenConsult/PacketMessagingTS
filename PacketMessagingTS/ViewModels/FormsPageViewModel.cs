@@ -479,7 +479,7 @@ namespace PacketMessagingTS.ViewModels
             }
 
             _packetForm.FormPacketMessage = _packetMessage;
-            //_packetForm.UpdateStyles();
+            _packetForm.FormatTextBoxes();
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
 
@@ -559,7 +559,6 @@ namespace PacketMessagingTS.ViewModels
                     _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
                 }
 
-                //            _packetMessage.FormFieldArray = _packetForm.CreateFormFieldsInXML();
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     HandlingOrder = "routine";

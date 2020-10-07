@@ -10,80 +10,91 @@
     mc:Ignorable="d"
     d:DesignHeight="138"
     d:DesignWidth="815">
-    <Border BorderBrush="Black" BorderThickness="1" Padding="12" RequestedTheme="Light" Margin="0,8,0,0">
-    <Grid x:Name="messageInfo" >
+
+    <basics:FormControlBasics.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </basics:FormControlBasics.Resources>
+
+    <Border BorderBrush="Black" BorderThickness="1" Padding="14" RequestedTheme="Light" Margin="0,8,0,0">        <Grid x:Name="messageInfo" >
             <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="68" />
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="48" />
-            <ColumnDefinition />
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="1" />
             <TextBlock Grid.Row="0" Grid.Column="0" x:Name="labelBBS" VerticalAlignment="Center" Text="BBS:"
-                   FontWeight="SemiBold" Margin="8,0,0,0"/>
-        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxMessageBBS"
-                  VerticalContentAlignment="Center" Margin="0,2"
-                  ItemsSource="{x:Bind BBSArray, Mode=OneWay}"
-                  IsEditable="True"
-                  DisplayMemberPath="Name"
-                  SelectedValuePath="Name"
-                  SelectedValue="{x:Bind MessageBBS, Mode=TwoWay}"
-                  Tag="conditionallyrequired,Please select a BBS"
-                  VerticalAlignment="Center" HorizontalAlignment="Stretch"    />
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxMessageBBSTextBox"
-                 Visibility="Collapsed"
-                 Tag="conditionallyrequired,Please select a BBS" />
-        <TextBlock Grid.Row="0" Grid.Column="2" x:Name="labelTNC" Text="TNC:" VerticalAlignment="Center"
-                   FontWeight="SemiBold" Margin="8"/>
-        <ComboBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" x:Name="comboBoxMessageTNC" 
-                  VerticalContentAlignment="Center"
-                  DisplayMemberPath="Name"
-                  SelectedValuePath="Name"
-                  IsEditable="True"
-                  Margin="0,2"
-                  ItemsSource="{x:Bind DeviceList, Mode=OneWay}"
-                  SelectedValue="{x:Bind MessageTNC, Mode=TwoWay}"
-                  Tag="required,Please select a TNC"  
-                  HorizontalAlignment="Stretch"  
-                  />
-        <TextBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" x:Name="comboBoxMessageTNCTextBox"
-                   Visibility="Collapsed" 
-                   Tag="required,Please select a TNC" />
-        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="1,0,1,1" />
-        <TextBlock Grid.Row="1" Grid.Column="0" x:Name="labelFrom" VerticalAlignment="Center" Text="From:"
-                   FontWeight="SemiBold" Margin="8,0,0,0"/>
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxMessageFrom" 
-                 VerticalContentAlignment="Center" Height="32" Margin="0,1,0,2"
-                 Text="{x:Bind MessageFrom, Mode=OneWay}" IsReadOnly="True"
-                 Tag="required,Please fill the From field" />
-        <TextBlock Grid.Row="1" Grid.Column="2" x:Name="labelTo" Text="To:"  Margin="8"
-                   VerticalAlignment="Center" FontWeight="SemiBold"/>
+                       FontWeight="SemiBold" Margin="8,4,0,0"/>
+            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" />
+            <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxMessageBBS"
+                      VerticalContentAlignment="Center" Margin="0,2,1,2"
+                      ItemsSource="{x:Bind BBSArray, Mode=OneWay}"
+                      IsEditable="True"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Name"
+                      SelectedValue="{x:Bind MessageBBS, Mode=TwoWay}"
+                      Tag="conditionallyrequired,Please select a BBS"
+                      VerticalAlignment="Center" HorizontalAlignment="Stretch"    />
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxMessageBBSTextBox"
+                     Visibility="Collapsed" Margin="0,2,0,2"
+                     Tag="conditionallyrequired,Please select a BBS" />
+            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="labelTNC" Text="TNC:" VerticalAlignment="Center"
+                       FontWeight="SemiBold" Margin="8,4,0,0"/>
+            <ComboBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" x:Name="comboBoxMessageTNC" 
+                      VerticalContentAlignment="Center"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Name"
+                      IsEditable="True"
+                      Margin="0,2,2,2"
+                      ItemsSource="{x:Bind DeviceList, Mode=OneWay}"
+                      SelectedValue="{x:Bind MessageTNC, Mode=TwoWay}"
+                      Tag="required,Please select a TNC"  
+                      HorizontalAlignment="Stretch"  
+                      />
+            <TextBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" x:Name="comboBoxMessageTNCTextBox"
+                     Visibility="Collapsed" 
+                     Tag="required,Please select a TNC" />
+            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="1,0,1,1" />
+            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="labelFrom" VerticalAlignment="Center" Text="From:"
+                       FontWeight="SemiBold" Margin="8,4,0,0"/>
+            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" />
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="textBoxMessageFrom" 
+                     VerticalContentAlignment="Center" Height="32" Margin="0,1,1,2"
+                     Text="{x:Bind MessageFrom, Mode=OneWay}" IsReadOnly="True"
+                     Tag="required,Please fill the From field" />
+            <TextBlock Grid.Row="1" Grid.Column="2" x:Name="labelTo" Text="To:"  Margin="8,4,0,0"
+                       VerticalAlignment="Center" FontWeight="SemiBold"/>
             <AutoSuggestBox Grid.Row="1" Grid.Column="3" x:Name="textBoxMessageTo" Margin="0,1,0,2"
-					    Tag="required,Please fill the To field" 
-                        TextChanged="MessageTo_TextChanged"
-                        SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center"
-                        Text="{x:Bind MessageTo, Mode=TwoWay}"/>
-        <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxMessageToTextBox"
-                 Visibility="Collapsed"
-                 Tag="required,Please fill the To field" />
-        <ToggleSwitch Grid.Row="1" Grid.Column="4" x:Name="toSelection" Margin="12,0,0,0" 
-                      OffContent="Distribution List" OnContent="Individuals" 
-                      HorizontalAlignment="Right" 
-                      IsOn="{x:Bind IsToIndividuals, Mode=TwoWay}" VerticalAlignment="Center"/>
+			    		    Tag="required,Please fill the To field" 
+                            TextChanged="MessageTo_TextChanged"
+                            SuggestionChosen="MessageTo_SuggestionChosen" VerticalAlignment="Center"
+                            Text="{x:Bind MessageTo, Mode=TwoWay}"/>
+            <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,0" />
+            <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxMessageToTextBox"
+                     Visibility="Collapsed" Margin="0,2,4,2"
+                     Tag="required,Please fill the To field" />
+            <ToggleSwitch Grid.Row="1" Grid.Column="4" x:Name="toSelection" Margin="12,0,8,0" 
+                          OffContent="Distribution List" OnContent="Individuals" 
+                          HorizontalAlignment="Right" 
+                          IsOn="{x:Bind IsToIndividuals, Mode=TwoWay}" VerticalAlignment="Center"/>
             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="1,0,1,1" />
             <!--<StackPanel Orientation="Horizontal">-->
             <TextBlock Grid.Row="2" Grid.Column="0" x:Name="labelSubject" VerticalAlignment="Center" Text="Subject:"
-                   FontWeight="SemiBold" Margin="8,0,0,0"/>
+                       FontWeight="SemiBold" Margin="8,4,0,0"/>
             <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" x:Name="textBoxMessageSubject" 
-                 VerticalContentAlignment="Center" Margin="0,2,1,0"
-                 Text="{x:Bind MessageSubject, Mode=TwoWay}"
-                 Tag="required,Please fill out the Subject field" VerticalAlignment="Center" />
+                     VerticalContentAlignment="Center" Margin="0,2,1,2"
+                     Text="{x:Bind MessageSubject, Mode=TwoWay}"
+                     Tag="required,Please fill out the Subject field" VerticalAlignment="Center" />
                 <!--</StackPanel>
             </Border>-->
         </Grid>
