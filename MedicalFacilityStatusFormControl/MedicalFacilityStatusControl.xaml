@@ -129,12 +129,14 @@
                                                  Checked="ReportType_Checked" Tag="Complete"/>
                             <TextBlock Grid.Column="3" Text="Hospital Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
                             <ComboBox Grid.Column="4" x:Name="hospitalName" Width="300"
-                              DisplayMemberPath="Item"
-                              Style="{StaticResource MuniStatusComboBox}"  
-                              ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
-                              SelectionChanged="Subject_Changed" 
-                              Loaded="ComboBox_Loaded"
-                              Tag="20.,required" />
+                                      DisplayMemberPath="Item"
+                                      Style="{StaticResource MuniStatusComboBox}"  
+                                      ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
+                                      SelectionChanged="Subject_Changed" 
+                                      Loaded="ComboBox_Loaded"
+                                      Tag="20.,required" />
+                            <TextBox Grid.Column="4" x:Name="hospitalNameTextBox" Width="300"
+                                     Visibility="Collapsed" />
                         </Grid>
                         <Grid BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.RowDefinitions>
@@ -169,12 +171,15 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="diversionStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind DiversionStatus}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.1.,conditionallyrequired"/>
+                                          DisplayMemberPath="Item"
+                                          ItemsSource="{x:Bind DiversionStatus}"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.1.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="diversionStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -191,13 +196,16 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="deconStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind DeconStatus}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.2.,conditionallyrequired"/>
+                                <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="deconStatus" Width="150"                                          
+                                          DisplayMemberPath="Item"
+                                          ItemsSource="{x:Bind DeconStatus}"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.2.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="deconStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -221,6 +229,9 @@
                                   SelectionChanged="ComboBox_SelectionChanged"
                                   Loaded="ComboBox_Loaded"
                                   Tag="12.3.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="commandCenterStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -238,12 +249,15 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="morgueStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind MorgueStatus}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.4.,conditionallyrequired"/>
+                                          DisplayMemberPath="Item"
+                                          ItemsSource="{x:Bind MorgueStatus}"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.4.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="morgueStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -267,6 +281,8 @@
                                   SelectionChanged="ComboBox_SelectionChanged"
                                   Loaded="ComboBox_Loaded"
                                   Tag="12.5.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" x:Name="powerStatusTextBox" Width="150"
+                                         Visibility="Collapsed" />
                                 <StackPanel Grid.Row="0" Grid.Column="1"  Orientation="Horizontal" Margin="16,0,0,0">
                                     <TextBlock Text="Hours of Fuel Remaining:" Style="{StaticResource ShelterStatusHeaderText}"/>
                                     <TextBox x:Name="hoursofFuelRemaining" 
@@ -291,12 +307,14 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Column="0" Grid.ColumnSpan="3" x:Name="buildingStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind BuildingStatus}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.6.,conditionallyrequired" Margin="2,0,0,0"/>
+                                          DisplayMemberPath="Item"
+                                          ItemsSource="{x:Bind BuildingStatus}"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.6.,conditionallyrequired" Margin="2,0,0,0"/>
+                                <TextBox Grid.Column="0" Grid.ColumnSpan="3" x:Name="buildingStatusTextBox" 
+                                         Width="150" Margin="2,0,0,0" Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}" Grid.ColumnSpan="2" Margin="8,10,8,0" VerticalAlignment="Top"/>
                                 <TextBox Grid.Row="1" Grid.Column="2"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -320,6 +338,9 @@
                                   SelectionChanged="ComboBox_SelectionChanged"
                                   Loaded="ComboBox_Loaded"
                                   Tag="12.7.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="securityStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -337,12 +358,15 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="staffingStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind Status}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.8.,conditionallyrequired"/>
+                                        DisplayMemberPath="Item"
+                                        ItemsSource="{x:Bind Status}"
+                                        Style="{StaticResource MuniStatusComboBox}"                              
+                                        SelectionChanged="ComboBox_SelectionChanged"
+                                        Loaded="ComboBox_Loaded"
+                                        Tag="12.8.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="staffingStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -360,12 +384,15 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="medicalFacilitySuppliesStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind Status, Mode=OneWay}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.9.,conditionallyrequired"/>
+                                          DisplayMemberPath="Item"
+                                          ItemsSource="{x:Bind Status, Mode=OneWay}"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.9.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="medicalFacilitySuppliesStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -383,12 +410,15 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="clinicalSuppliesStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind Status}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.10.,conditionallyrequired"/>
+                                          DisplayMemberPath="Item"
+                                          ItemsSource="{x:Bind Status}"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.10.,conditionallyrequired"/>
+                                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="clinicalSuppliesStatusTextBox" 
+                                         Width="150"
+                                         Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
                                  Style="{StaticResource MedicalFacilityStatusCommentsText}"

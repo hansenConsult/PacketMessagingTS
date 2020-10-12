@@ -263,6 +263,7 @@ namespace FormControlBasicsNamespace
                         autoSuggestBoxAsTextBox.IsReadOnly = true;
                         autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
                         autoSuggestBoxAsTextBox.PlaceholderText = "";
+                        autoSuggestBoxAsTextBox.BorderBrush = WhiteBrush;
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
@@ -484,12 +485,12 @@ namespace FormControlBasicsNamespace
             {
                 if (IsFieldRequired(sender as Control) && string.IsNullOrEmpty(autoSuggestBox.Text))
                 {
-                    autoSuggestBox.BorderThickness = new Thickness(2);
+                    //autoSuggestBox.BorderThickness = new Thickness(2);
                     autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
                 }
                 else
                 {
-                    autoSuggestBox.BorderThickness = new Thickness(1);
+                    //autoSuggestBox.BorderThickness = new Thickness(1);
                     autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
                 }
             }
@@ -509,12 +510,12 @@ namespace FormControlBasicsNamespace
                 bool match = Regex.IsMatch(textBox.Text, pattern);
                 if (IsFieldRequired(sender as TextBox) && !match)
                 {
-                    textBox.BorderThickness = new Thickness(2);
+                    //textBox.BorderThickness = new Thickness(2);
                     textBox.BorderBrush = formControl.RequiredBorderBrush;
                 }
                 else
                 {
-                    textBox.BorderThickness = new Thickness(1);
+                    //textBox.BorderThickness = new Thickness(1);
                     textBox.BorderBrush = formControl.BaseBorderColor;
                 }
             }
@@ -522,22 +523,19 @@ namespace FormControlBasicsNamespace
 
         protected virtual void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            foreach (FormControl formControl in _formControlsList)
+            TextBox textBox = sender as TextBox;
+            FormControl formControl = _formControlsList.FirstOrDefault(
+                            control => control.InputControl.Name == textBox.Name);
+
+            if (IsFieldRequired(textBox) && string.IsNullOrEmpty(textBox.Text))
             {
-                if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
-                {
-                    if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
-                    {
-                        textBox.BorderThickness = new Thickness(2);
-                        textBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        textBox.BorderThickness = new Thickness(1);
-                        textBox.BorderBrush = formControl.BaseBorderColor;
-                    }
-                    break;
-                }
+                //textBox.BorderThickness = new Thickness(2);
+                textBox.BorderBrush = formControl.RequiredBorderBrush;
+            }
+            else
+            {
+                //textBox.BorderThickness = new Thickness(1);
+                textBox.BorderBrush = formControl.BaseBorderColor;
             }
         }
 
@@ -560,12 +558,12 @@ namespace FormControlBasicsNamespace
                         //if (!match || (IsFieldRequired(textBox) && !match))
                         if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
                         {
-                            textBox.BorderThickness = new Thickness(1);
+                            //textBox.BorderThickness = new Thickness(1);
                             textBox.BorderBrush = formControl.BaseBorderColor;
                         }
                         else
                         {
-                            textBox.BorderThickness = new Thickness(2);
+                            //textBox.BorderThickness = new Thickness(2);
                             textBox.BorderBrush = formControl.RequiredBorderBrush;
                         }
                         break;
@@ -600,12 +598,12 @@ namespace FormControlBasicsNamespace
                 if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
                 {
                     textBox.Text = date;
-                    textBox.BorderThickness = new Thickness(1);
+                    //textBox.BorderThickness = new Thickness(1);
                     textBox.BorderBrush = formControl.BaseBorderColor;
                 }
                 else
                 {
-                    textBox.BorderThickness = new Thickness(2);
+                    //textBox.BorderThickness = new Thickness(2);
                     textBox.BorderBrush = formControl.RequiredBorderBrush;
                 }
             }
@@ -624,7 +622,7 @@ namespace FormControlBasicsNamespace
 
             if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
             {
-                textBox.BorderThickness = new Thickness(1);
+                //textBox.BorderThickness = new Thickness(1);
                 textBox.BorderBrush = formControl.BaseBorderColor;
                 if (!string.IsNullOrEmpty(time) && time.Length == 4 && time[2] != ':')
                 {
@@ -634,7 +632,7 @@ namespace FormControlBasicsNamespace
             }
             else
             {
-                textBox.BorderThickness = new Thickness(2);
+                //textBox.BorderThickness = new Thickness(2);
                 textBox.BorderBrush = formControl.RequiredBorderBrush;
                 return false;
             }
@@ -754,12 +752,12 @@ namespace FormControlBasicsNamespace
                 {
                     if (IsFieldRequired(sender as TextBox) && string.IsNullOrEmpty(textBox.Text))
                     {
-                        textBox.BorderThickness = new Thickness(2);
+                        //textBox.BorderThickness = new Thickness(2);
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
                     }
                     else
                     {
-                        textBox.BorderThickness = new Thickness(1);
+                        //textBox.BorderThickness = new Thickness(1);
                         textBox.BorderBrush = formControl.BaseBorderColor;
                     }
                     break;

@@ -435,7 +435,13 @@ namespace PacketMessagingTS.ViewModels
 
         protected override async void MoveToFolderFromContextMenu(string folder)
         {
+            if (PacketMessageRightClicked == null)
+                return;
+
             StorageFolder storageFolder = MainPagePivotSelectedItem.Tag as StorageFolder;
+
+            PacketMessageRightClicked.MovedFromFolder = storageFolder.Name;
+            PacketMessageRightClicked.Save(storageFolder.Path);
 
             var file = await storageFolder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
             StorageFolder _localFolder = ApplicationData.Current.LocalFolder;
@@ -447,7 +453,13 @@ namespace PacketMessagingTS.ViewModels
 
         protected override async void MoveToArchiveFromContextMenu()
         {
+            if (PacketMessageRightClicked == null)
+                return;
+
             StorageFolder folder = MainPagePivotSelectedItem.Tag as StorageFolder;
+
+            PacketMessageRightClicked.MovedFromFolder = folder.Name;
+            PacketMessageRightClicked.Save(folder.Path);
 
             var file = await folder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
             await file?.MoveAsync(SharedData.ArchivedMessagesFolder);

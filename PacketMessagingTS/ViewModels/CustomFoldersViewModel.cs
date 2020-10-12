@@ -129,6 +129,14 @@ namespace PacketMessagingTS.ViewModels
                     moveSubMenu.Items.Add(newMenuItem);
                 }
             }
+
+            newMenuItem = new MenuFlyoutItem()
+            {
+                Text = "Undo Move",
+                Command = UndoMoveFromContextMenuCommand,
+            };
+            menuFlyout.Items.Add(newMenuItem);
+
             newMenuItem = new MenuFlyoutItem()
             {
                 Text = "Delete",
@@ -312,12 +320,39 @@ namespace PacketMessagingTS.ViewModels
 
         protected override async void MoveToFolderFromContextMenu(string folder)
         {
+            if (PacketMessageRightClicked is null)
+                return;
+
             TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[GetCustomFolderListIndex()];
             StorageFolder messageFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
+
+            PacketMessageRightClicked.MovedFromFolder = messageFolder.Name;
+            PacketMessageRightClicked.Save(messageFolder.Path);
 
             var file = await messageFolder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
             StorageFolder moveToFolder = await _localFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
             await file?.MoveAsync(moveToFolder);
+
+            RefreshDataGridAsync();
+        }
+
+        protected override async void UndoMoveFromContextMenu()
+        {
+            if (PacketMessageRightClicked == null)
+                return;
+
+            int i = GetCustomFolderListIndex();
+            TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[i];
+            StorageFolder itemFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
+
+            string fromFolderName = PacketMessageRightClicked.MovedFromFolder;
+            PacketMessageRightClicked.MovedFromFolder = "";
+            PacketMessageRightClicked.Save(itemFolder.Path);
+
+            StorageFile storageFile = await itemFolder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+
+            StorageFolder movedFromfolder = await _localFolder.CreateFolderAsync(fromFolderName, CreationCollisionOption.OpenIfExists);
+            await storageFile?.MoveAsync(movedFromfolder);
 
             RefreshDataGridAsync();
         }

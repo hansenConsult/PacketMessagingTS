@@ -17,7 +17,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <!--<ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Locked">
+                    
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>-->
             <Style x:Key="ToFromTextBox" TargetType="TextBox">
+                <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
                 <Setter Property="Margin" Value="8,2,2,2"/>
             </Style>
             <Style x:Key="LocalTextBox" TargetType="TextBox">
@@ -25,23 +31,18 @@
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="Foreground" Value="Black"/>
-                <!--<Setter Property="TextBox.FontWeight" Value="Bold"/>-->
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2"/>
-                <!--<Setter Property="Padding" Value="8,8,0,0"/>-->
             </Style>
 
             <Style x:Key="DateTextBox" TargetType="TextBox" BasedOn="{StaticResource LocalTextBox}">
                 <Setter Property="Width" Value="100"/>
-                <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
                 <Setter Property="PlaceholderText" Value="mm/dd/yyyy"/>
-                <!--<Setter Property="Height" Value="32"/>-->
             </Style>
             <Style x:Key="TimeTextBox" TargetType="TextBox" BasedOn="{StaticResource LocalTextBox}">
                 <Setter Property="Width" Value="70"/>
-                <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
                 <Setter Property="PlaceholderText" Value="hh:mm"/>
             </Style>
 
@@ -499,9 +500,11 @@
                                         <VisualState x:Name="PointerOver">
 
                                             <Storyboard>
-                                                --><!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                -->
+            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushPointerOver}" />
-                                                </ObjectAnimationUsingKeyFrames>--><!--
+                                                </ObjectAnimationUsingKeyFrames>-->
+            <!--
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxFocusedBackgroundThemeBrush}" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -525,9 +528,11 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocused}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                --><!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                -->
+            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushFocused}" />
-                                                </ObjectAnimationUsingKeyFrames>--><!--
+                                                </ObjectAnimationUsingKeyFrames>-->
+            <!--
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxFocusedBackgroundThemeBrush}" />
                                                 </ObjectAnimationUsingKeyFrames>
@@ -713,7 +718,9 @@
 
             <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBox Grid.Column="2" x:Name="destinationMsgNo" 
+                     Style="{StaticResource ReadOnlyTextBox}"
                      IsReadOnly="True"
+                     BorderThickness="0"
                      TextAlignment="Center" 
                      Margin="10,0,10,2" Tag="2"
                      Text="{x:Bind Path=DestinationMsgNo}"
@@ -871,9 +878,9 @@
         <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,1,1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" MaxHeight="37"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" MaxHeight="37"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
@@ -900,8 +907,7 @@
                                 Tag="7a.,required,Enter a To Position." />
                 <TextBox  Grid.Column="1" x:Name="autoSuggestBoxToICSPositionTextBox"
                           Style="{StaticResource ToFromTextBox}"
-                          Visibility="Collapsed"
-                          Tag="7a.,required,Enter a To Position." />
+                          Visibility="Collapsed" />
             </Grid>
             <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0">
                 <TextBlock x:Name="labelFrom" Style="{StaticResource LabelFontTNR14B}" Text=" From:" VerticalAlignment="Center" />
@@ -923,8 +929,7 @@
                                 Tag="8a.,required,Enter a From Position." />
                 <TextBox  Grid.Column="1" x:Name="autoSuggestBoxFromICSPositionTextBox"
                           Style="{StaticResource ToFromTextBox}"
-                          Visibility="Collapsed"
-                          Tag="8a.,required,Enter a From Position." />
+                          Visibility="Collapsed" />
             </Grid>
             <Grid Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
                 <Grid.ColumnDefinitions>
@@ -939,8 +944,7 @@
                                                      Tag="7b.,required,Enter a To Location."/>
                 <TextBox Grid.Column="1" x:Name="toLocationTextBox"
                          Style="{StaticResource ToFromTextBox}"
-                         Visibility="Collapsed"
-                         Tag="7b.,required,Enter a To Location." />
+                         Visibility="Collapsed" />
             </Grid>
             <Grid Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1">
                 <Grid.ColumnDefinitions>
@@ -955,8 +959,7 @@
                                                      Tag="8b.,required,Enter a From Location."/>
                 <TextBox Grid.Column="1" x:Name="fromLocationTextBox"
                          Style="{StaticResource ToFromTextBox}"
-                         Visibility="Collapsed"
-                         Tag="7b.,required,Enter a From Location." />
+                         Visibility="Collapsed" />
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
                 <Grid.ColumnDefinitions>
@@ -968,7 +971,6 @@
                 <TextBox Grid.Column="1" x:Name="toName" 
                          Style="{StaticResource ToFromTextBox}"
                          Tag="7c."/>
-                <!--Style="{StaticResource ToFromTextBox}"-->
             </Grid>
             <Grid Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1">
                 <Grid.ColumnDefinitions>
@@ -981,12 +983,13 @@
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="53*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="toContactInfo" 
                          Style="{StaticResource ToFromTextBox}" Tag="7d." 
-                         TextChanged="TextBox_PhoneChanged"/>
+                         TextChanged="TextBox_PhoneChanged" Grid.ColumnSpan="2" Margin="8,2,2,2"/>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="3">
                 <Grid.ColumnDefinitions>

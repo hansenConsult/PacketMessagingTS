@@ -354,8 +354,7 @@
                                                         SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                         Tag="7.,required,Enter a To Position."/>
                                         <TextBox x:Name="autoSuggestBoxToICSPositionTextBox" 
-                                                 Visibility="Collapsed" Margin="4,0,4,2"
-                                                 Tag="7.,required,Enter a To Position." />
+                                                 Visibility="Collapsed" Margin="4,0,4,2" />
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1"/>
@@ -374,8 +373,7 @@
                                                         SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                         Tag="8.,required,Enter a From position." FontFamily="Times New Roman"/>
                                         <TextBox x:Name="autoSuggestBoxFromICSPositionTextBox" 
-                                                 Visibility="Collapsed" Margin="4,0,4,2"
-                                                 Tag="8.,required,Enter a From Position." />
+                                                 Visibility="Collapsed" Margin="4,0,4,2" />
 
                                     </StackPanel>
                                 </Border>
@@ -387,8 +385,7 @@
                                         <src:AutoSuggestTextBoxUserControl x:Name="toLocation" Margin="4,0,4,2"                                                     
                                                      Tag="9a.,required,Enter a To Location."/>
                                         <TextBox x:Name="toLocationTextBox" Margin="4,0,4,2" 
-                                             Visibility="Collapsed"
-                                             Tag="9a.,required,Enter a To Location."/>
+                                             Visibility="Collapsed" />
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1" >
@@ -399,8 +396,7 @@
                                         <src:AutoSuggestTextBoxUserControl x:Name="fromLocation" Margin="4,0,4,2"                                                     
                                                      Tag="9b.,required,Enter a From Location."/>
                                         <TextBox x:Name="fromLocationTextBox"
-                                                 Visibility="Collapsed" Margin="4,0,4,2" 
-                                                 Tag="9b.,required,Enter a From Location." />
+                                                 Visibility="Collapsed" Margin="4,0,4,2" />
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">

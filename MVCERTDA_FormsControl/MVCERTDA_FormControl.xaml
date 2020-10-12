@@ -20,15 +20,19 @@
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="TextControlThemeMinWidth">40</x:Double>
-
+         
             <DataTemplate x:Name="ToFromHeaderTemplate">
-                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" Margin="-5,0,0,0"/>
+                <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" 
+                           Foreground="Black" Margin="0,0,0,0"/>
             </DataTemplate>
 
             <DataTemplate x:Name="smallHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" Foreground="Black" Margin="2,0,0,0"/>
             </DataTemplate>
 
+            <Style x:Key="ToFromTextBox" TargetType="TextBox">
+                <Setter Property="Margin" Value="2,0,2,2" />
+            </Style>
             <Style x:Key="TextBoxDA" TargetType="TextBox">
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Width" Value="44"/>
@@ -326,7 +330,7 @@
                                                 <RadioButton x:Name="actionNo" GroupName="action" Style="{StaticResource RadioButtonTNR12B}" 
                                                              Content="No" Tag="13" Margin="-60,0,0,0"  Padding="4"/>
                                             </StackPanel>
-                                            <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,4,0,0" />
+                                            <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,2,0,0" />
                                             <StackPanel Orientation="Horizontal">
                                                 <MyNamespace:ToggleButtonGroup x:Name="reply"/>
                                                 <RadioButton x:Name="replyYes" GroupName="reply" Style="{StaticResource RadioButtonTNR12B}" 
@@ -337,7 +341,7 @@
                                                              Content="No" Tag="16" Width="50" Margin="10,0,0,0" Padding="4" MinWidth="50"/>
                                             </StackPanel>
                                             <CheckBox x:Name="forInfo" Style="{StaticResource CheckBoxTNR12B}" 
-                                                      Margin="10,4,4,4" Content="FOR INFO" Tag="17" Padding="4"/>
+                                                      Margin="10,0,4,4" Content="FOR INFO" Tag="17" Padding="4"/>
                                         </StackPanel>
                                     </Border>
                                 </Grid>
@@ -354,7 +358,7 @@
                                         <Border BorderBrush="Black" BorderThickness="0,1">
                                             <StackPanel >
                                                 <TextBox  x:Name="textBoxToICSPosition" Visibility="Collapsed" Tag="20" />
-                                                <ComboBox x:Name="comboBoxToICSPosition" Margin="10,0,10,2" 	
+                                                <ComboBox x:Name="comboBoxToICSPosition" Margin="2,0,2,2" 	
                                                           ItemsSource="{x:Bind ICSPosition}"
                                                           HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                           Header="7.) ICS Position:"
@@ -366,16 +370,16 @@
                                                           SelectionChanged="ICSPosition_SelectionChanged" VerticalAlignment="Top"
                                                           />
                                                 <TextBox x:Name="comboBoxToICSPositionTextBox"
+                                                         Style="{StaticResource ToFromTextBox}"
                                                          Visibility="Collapsed"
-                                                         Margin="10,0,10,2"
-                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                         Header="7.) ICS Position:"
-                                                         Tag="21,required,Enter a To position." />
+                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}" 
+                                                         Header="7.) ICS Position:" />
                                             </StackPanel>
                                         </Border>
                                         <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
                                             <StackPanel >
-                                                <TextBox x:Name="textBoxToLocation"  BorderBrush="White" Margin="10,0,10,2" 
+                                                <TextBox x:Name="textBoxToLocation" 
+                                                         Style="{StaticResource ToFromTextBox}"
                                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                          Header="9a.) Location:"
                                                          Text="{x:Bind ToLocation, Mode=TwoWay}"
@@ -384,21 +388,18 @@
                                             </StackPanel>
                                         </Border>
                                         <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                            <StackPanel >
-                                                <TextBox x:Name="toName"  BorderBrush="White" Margin="10,0,10,2" 
-                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                         Header="Name:"
-                                                         Tag="27"/>
-                                            </StackPanel>
+                                            <TextBox x:Name="toName"  
+                                                     Style="{StaticResource ToFromTextBox}"
+                                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                     Header="Name:" />
                                         </Border>
-                                        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Margin="0, 0">
-                                            <StackPanel >
-                                                <TextBox x:Name="toTelephone" PlaceholderText="(123) 456-7890" 
-                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                         Header="Telephone number:"
-                                                         InputScope="TelephoneNumber" BorderBrush="White" Margin="10,0,10,2" Tag="29"
-                                                         TextChanged="PhoneNumber_TextChanged"/>
-                                            </StackPanel>
+                                        <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
+                                            <TextBox x:Name="toTelephone" PlaceholderText="(123) 456-7890" 
+                                                     Style="{StaticResource ToFromTextBox}"
+                                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                     Header="Telephone number:"
+                                                     InputScope="TelephoneNumber" Tag="29"
+                                                     TextChanged="PhoneNumber_TextChanged"/>
                                         </Border>
                                     </StackPanel>
                                     <Border Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1"/>
@@ -407,7 +408,7 @@
                                         <Border BorderBrush="Black" BorderThickness="0,1">
                                             <StackPanel>
                                                 <TextBox  x:Name="textBoxFromICSPosition" Visibility="Collapsed" Tag="23" />
-                                                <ComboBox x:Name="comboBoxFromICSPosition" Margin="10,0,10,2" 	
+                                                <ComboBox x:Name="comboBoxFromICSPosition" Margin="2,0,2,2" 	
                                                           ItemsSource="{x:Bind ICSPosition}"
                                                           HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                           Header="8.) ICS Position:"
@@ -418,11 +419,10 @@
                                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                           />
                                                 <TextBox x:Name="comboBoxFromICSPositionTextBox"
+                                                         Style="{StaticResource ToFromTextBox}"
                                                          Visibility="Collapsed"
-                                                         Margin="10,0,10,2"
-                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                         Header="8.) ICS Position:"
-                                                         Tag="24,required,Enter a From position." />
+                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}" 
+                                                         Header="8.) ICS Position:" />
                                             </StackPanel>
                                         </Border>
                                         <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
@@ -437,34 +437,30 @@
                                                           SelectedValue="{x:Bind CERTLocationValue, Mode=TwoWay}"
                                                           TextSubmitted="ComboBoxFromLocation_TextSubmitted"
                                                           SelectionChanged="ComboBoxFromLocation_SelectionChanged"
-                                                          Margin="10,0,10,2" IsEditable="True"
+                                                          Margin="2,0,2,2" IsEditable="True"
                                                           Tag="28,required,Enter a CERT Location." 
                                                           HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                                                           />
                                                 <TextBox x:Name="comboBoxFromLocationTextBox"
+                                                         Style="{StaticResource ToFromTextBox}"
                                                          Visibility="Collapsed"
-                                                         Margin="10,0,10,2"
                                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                         Header="9b.) Location:"
-                                                         Tag="28,required,Enter a CERT Location." />
+                                                         Header="9b.) Location:" />
                                             </StackPanel>
                                         </Border>
                                         <Border BorderBrush="Black" BorderThickness="0,0,0,1">
-                                            <StackPanel >
-                                                <TextBox x:Name="fromName"  BorderBrush="White" Margin="10,0,10,2" 
-                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                         Header="Name:"
-                                                         Tag="28"/>
-                                            </StackPanel>
+                                            <TextBox x:Name="fromName"  
+                                                     Style="{StaticResource ToFromTextBox}"
+                                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                     Header="Name:" />
                                         </Border>
-                                        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Margin="0, 0">
-                                            <StackPanel >
-                                                <TextBox x:Name="fromTelephone" PlaceholderText="(123) 456-7890" 
-                                                         HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                         Header="Telephone number:"
-                                                         InputScope="TelephoneNumber" Margin="10,0,10,2" Tag="30" BorderBrush="White"
-                                                         TextChanged="PhoneNumber_TextChanged"/>
-                                            </StackPanel>
+                                        <Border BorderBrush="Black" BorderThickness="0,0,0,1" >
+                                            <TextBox x:Name="fromTelephone" PlaceholderText="(123) 456-7890" 
+                                                     Style="{StaticResource ToFromTextBox}"
+                                                     HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                     Header="Telephone number:"
+                                                     InputScope="TelephoneNumber" Tag="30" 
+                                                     TextChanged="PhoneNumber_TextChanged"/>
                                         </Border>
                                     </StackPanel>
                                 </Grid>
@@ -484,12 +480,12 @@
                                              Tag="33,required,Enter a Subject." 
                                              TextChanged="Subject_Changed" 
                                              Margin="5,2,5,2" IsSpellCheckEnabled="True" HorizontalAlignment="Stretch" />
-                                    <TextBox Grid.Column="2" Grid.Row="0" x:Name="comments" Margin="5,2,5,2" 
+                                    <TextBox Grid.Column="2" Grid.Row="0" x:Name="comments" Margin="5,2,2,2" 
                                              IsSpellCheckEnabled="True" Tag="34"
                                              TextChanged="Subject_Changed"/>
                                     <TextBlock Grid.Column="0" Grid.Row="1" Text="11.) REFERENCE:" Style="{StaticResource LabelFontTNR14B}"   VerticalAlignment="Center" Margin="5,0,0,0"/>
                                     <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="reference" TextChanged="Subject_Changed" 
-                                             Margin="5,2,5,2" Tag="36"/>
+                                             Margin="5,2,2,2" Tag="36"/>
                                 </Grid>
                                 <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="12.) Message:" Margin="5,0,0,0"/>
                                 <Grid BorderBrush="Black" BorderThickness="0,1">
@@ -647,7 +643,7 @@
                                 <TextBlock Margin="8" 
                                     Text="12b.) Other Info:   (Top 1 or 2 incidents with locations and situation details.) "/>
                                 <TextBox x:Name="message" ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                         AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="5,0,5,2" Tag="53" 
+                                         AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="2,0,2,2" Tag="53" 
                                          PlaceholderText="Type message here." IsSpellCheckEnabled="True"
                                          TextChanged="TextBox_TextChanged"/>
                             </StackPanel>

@@ -31,6 +31,7 @@ namespace FormUserControl
 
         public DependencyObject Panel => radioOperatorOnly;
 
+        public override FormControlBasics RootPanel => rootPanel;
 
     }
 }

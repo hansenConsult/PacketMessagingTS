@@ -101,7 +101,10 @@ namespace SharedCode
 
         private FormControlAttribute.FormType formControlTypeField;
 
+        private string movedFromFolderField;
+
         private MessageOrigin messageOriginField;
+
 
         /// <remarks/>
         public string FileName
@@ -394,6 +397,13 @@ namespace SharedCode
             get => messageOriginField;
             set => messageOriginField = value;
         }
+
+        public string MovedFromFolder
+        {
+            get => movedFromFolderField;
+            set => movedFromFolderField = value;
+        }
+
         //[XmlIgnore]
         //public bool IsStillActive { get; set; } = true;
 

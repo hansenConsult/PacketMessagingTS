@@ -46,8 +46,7 @@
                       Tag="conditionallyrequired,Please select a BBS"
                       VerticalAlignment="Center" HorizontalAlignment="Stretch"    />
             <TextBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxMessageBBSTextBox"
-                     Visibility="Collapsed" Margin="0,2,0,2"
-                     Tag="conditionallyrequired,Please select a BBS" />
+                     Visibility="Collapsed" Margin="0,2,0,2" />
             <TextBlock Grid.Row="0" Grid.Column="2" x:Name="labelTNC" Text="TNC:" VerticalAlignment="Center"
                        FontWeight="SemiBold" Margin="8,4,0,0"/>
             <ComboBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" x:Name="comboBoxMessageTNC" 
@@ -62,8 +61,7 @@
                       HorizontalAlignment="Stretch"  
                       />
             <TextBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" x:Name="comboBoxMessageTNCTextBox"
-                     Visibility="Collapsed" 
-                     Tag="required,Please select a TNC" />
+                     Visibility="Collapsed" />
             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="1,0,1,1" />
             <TextBlock Grid.Row="1" Grid.Column="0" x:Name="labelFrom" VerticalAlignment="Center" Text="From:"
                        FontWeight="SemiBold" Margin="8,4,0,0"/>
@@ -81,8 +79,7 @@
                             Text="{x:Bind MessageTo, Mode=TwoWay}"/>
             <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,0" />
             <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxMessageToTextBox"
-                     Visibility="Collapsed" Margin="0,2,4,2"
-                     Tag="required,Please fill the To field" />
+                     Visibility="Collapsed" Margin="0,2,4,2" />
             <ToggleSwitch Grid.Row="1" Grid.Column="4" x:Name="toSelection" Margin="12,0,8,0" 
                           OffContent="Distribution List" OnContent="Individuals" 
                           HorizontalAlignment="Right" 

@@ -87,6 +87,8 @@
                                       ItemsSource="{x:Bind ShelterTypes}" 
                                       Tag="30.,conditionallyrequired"
                                       Loaded="ComboBox_Loaded"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" x:Name="shelterTypeTextBox"
+                                     Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Status:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -96,6 +98,8 @@
                                       ItemsSource="{x:Bind ShelterStatuses}" 
                                       Tag="31.,conditionallyrequired,Select shelter status"
                                       Loaded="ComboBox_Loaded"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatusTextBox"
+                                     Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Name:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -116,6 +120,8 @@
                                       ItemsSource="{x:Bind Municipalities}" 
                                       Tag="33b.,conditionallyrequired,Select a city name"
                                       Loaded="ComboBox_Loaded"/>
+                            <TextBox Grid.Column="1" Grid.Row="5" x:Name="shelterCityTextBox"
+                                     Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="State:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -196,27 +202,33 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Pet Friendly:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="6" 
+                            <ComboBox Grid.Column="1" Grid.Row="6" x:Name="petFriendly"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=YesNoContent}" Tag="43a."
                                       Loaded="ComboBox_Loaded"/>
+                            <TextBox Grid.Column="1" Grid.Row="6" x:Name="petFriendlyTextBox"
+                                     Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Basic Safety Inspection:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="7" 
+                            <ComboBox Grid.Column="1" Grid.Row="7" x:Name="basicSafety"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=YesNoContent}" Tag="43b."
                                       Loaded="ComboBox_Loaded"/>
+                            <TextBox Grid.Column="1" Grid.Row="7" x:Name="basicSafetyTextBox"
+                                     Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="ATC 20 Inspection:" 
                                    Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="8" 
+                            <ComboBox Grid.Column="1" Grid.Row="8" x:Name="act20Inspection"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=YesNoContent}" Tag="43c."
                                       Loaded="ComboBox_Loaded"/>
+                            <TextBox Grid.Column="1" Grid.Row="8" x:Name="act20InspectionTextBox"
+                                     Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="Available Services:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -276,6 +288,8 @@
                                       SelectedItem="American Red Cross" 
                                       Tag="50a.,conditionallyrequired" Width="260"
                                       Loaded="ComboBox_Loaded" Margin="2,0,0,0"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" x:Name="managedByTextBox"
+                                     Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" 
                                        Text="Managed By Detail:" Style="{StaticResource ShelterStatusHeaderText}"/>

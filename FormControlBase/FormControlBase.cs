@@ -167,20 +167,29 @@ namespace FormControlBaseClass
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
-                _ = control.Name;
+                if (control.Name == "toName" || control.Name == "preparedBy")
+                {
+                    int a = 2;
+                }
 
                 if (control is TextBox textBox)
                 {
                     if (string.IsNullOrEmpty(textBox.Text) && IsFieldRequired(textBox) && isReportTypeSelected)
                     {
                         textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        //textBox.BorderThickness = new Thickness(2);
+                        textBox.BorderThickness = new Thickness(2);
                     }
                     else
                     {
                         textBox.BorderBrush = formControl.BaseBorderColor;
-                        //textBox.BorderThickness = new Thickness(1);
+                        textBox.BorderThickness = new Thickness(1);
                     }
+                    //if (textBox.IsReadOnly)    // Noeffect
+                    //{
+                    //    textBox.FocusVisualPrimaryBrush = WhiteBrush;
+                    //    textBox.BorderBrush = WhiteBrush;
+                    //    textBox.BorderThickness = new Thickness(0);
+                    //}
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
@@ -438,6 +447,9 @@ namespace FormControlBaseClass
 
             foreach (FormControl formControl in _formControlsList)
             {
+                if (formControl.UserControl == null)
+                    continue;
+
                 if (formControl.UserControl is FormHeaderUserControl formHeader)
                 {
                     formHeader.FormPacketMessage = FormPacketMessage;
@@ -456,7 +468,7 @@ namespace FormControlBaseClass
 
         public virtual void FormatTextBoxes()
         {
-
+            // Used for customized formatting. For example in Municipal Status the numbers are moved from right to left in loscked state
         }
 
         public virtual string CreateOutpostData(ref PacketMessage packetMessage)

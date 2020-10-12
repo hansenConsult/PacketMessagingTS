@@ -121,6 +121,9 @@ namespace HavBedReportFormControl
 
         public override void FormatTextBoxes()
         {
+            if (FormPacketMessage is null)
+                return;
+
             if (FormPacketMessage.MessageState == MessageState.Locked)
             {
                 foreach (FormField formField in FormPacketMessage.FormFieldArray)

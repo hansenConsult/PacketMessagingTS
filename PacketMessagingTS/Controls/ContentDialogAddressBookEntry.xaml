@@ -45,6 +45,8 @@
                 <x:String>W4XSC</x:String>
                 <x:String>W5XSC</x:String>
             </ComboBox>
+            <TextBox x:Name="addressBookPrimaryBBSTextBox" Width="100" Margin="5,2,0,0"
+                     Visibility="Collapsed" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Secondary BBS:" VerticalAlignment="Center" Width="124"/>
@@ -57,6 +59,8 @@
                 <x:String>W4XSC</x:String>
                 <x:String>W5XSC</x:String>
             </ComboBox>
+            <TextBox x:Name="addressBookSecondaryBBSTextBox" Width="100" Margin="5,2,0,0"
+                     Visibility="Collapsed" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Last Used BBS:" VerticalAlignment="Center" Width="124"/>
@@ -69,6 +73,8 @@
                 <x:String>W4XSC</x:String>
                 <x:String>W5XSC</x:String>
             </ComboBox>
+            <TextBox x:Name="addressBookLastUsedBBSTextBox" Width="100" Margin="5,2,20,0"
+                     Visibility="Collapsed" />
             <TextBox x:Name="textBoxLastUsedBBSDate" Width="100"
                      IsEnabled="{x:Bind EmailNotEntered, Mode=OneWay}"
                      Text="{x:Bind LastUsedBBSDate, Mode=OneWay, Converter={StaticResource dateConverter}}"/>

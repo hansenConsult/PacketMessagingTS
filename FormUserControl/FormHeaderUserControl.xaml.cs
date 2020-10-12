@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+
 using FormControlBasicsNamespace;
+
 using SharedCode;
+
 using ToggleButtonGroupControl;
-using Windows.UI;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -56,7 +58,10 @@ namespace FormUserControl
                         }
                         else
                         {
-                            formControl.BaseBorderColor = textBox.BorderBrush;
+                            textBox.BorderBrush = RootPanel.Resources["TextControlBorderBrush"] as Brush;
+                            //textBox.BorderThickness = (Thickness)RootPanel.Resources["TextControlBorderThemeThickness"];
+                            //textBox.BorderThickness = RootPanel.Resources["TextControlBorderThemeThickness"] as Thickness;
+                            //formControl.BaseBorderColor = textBox.BorderBrush;
                         }
                         _formControlsList.Add(formControl);
                         break;
@@ -67,7 +72,7 @@ namespace FormUserControl
                         break;
                     case CheckBox _:
                     case ToggleButtonGroup _:
-                    case RichTextBlock textBlock:
+                    case RichTextBlock _:
                         formControl = new FormControl((FrameworkElement)control, formUserControl);
                         _formControlsList.Add(formControl);
                         break;
@@ -148,8 +153,10 @@ namespace FormUserControl
             }
         }
 
-        public void LockForm()
+        public new void LockForm()
         {
+            //base.LockForm();
+
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
@@ -167,6 +174,7 @@ namespace FormUserControl
                         autoSuggestBoxAsTextBox.IsReadOnly = true;
                         autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
                         autoSuggestBoxAsTextBox.PlaceholderText = "";
+                        autoSuggestBoxAsTextBox.BorderBrush = WhiteBrush;
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 

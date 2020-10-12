@@ -122,13 +122,14 @@ namespace ICS213RRPackItFormControl
         {
             if ((bool)(sender as CheckBox).IsChecked)
             {
-                suppReqFuelType.Tag = suppReqFuelType.Tag.ToString().Replace("conditionallyrequired", "required");
+                fuelType.Tag = (fuelType.Tag as string).Replace("conditionallyrequired", "required");
             }
             else
             {
-                suppReqFuelType.Tag = suppReqFuelType.Tag.ToString().Replace("required", "conditionallyrequired");
+                fuelType.Tag = (fuelType.Tag as string).Replace("required", "conditionallyrequired");
             }
-            base.TextBox_TextChanged(suppReqFuelType, null);
+            TextBox textBox = FindName("fuelType") as TextBox;
+            TextBox_TextChanged(textBox, null);
         }
 
         private void SuppReqOther_Checked(object sender, RoutedEventArgs e)
@@ -141,24 +142,8 @@ namespace ICS213RRPackItFormControl
             {
                 specialInstructions.Tag = specialInstructions.Tag.ToString().Replace("required", "conditionallyrequired");
             }
-            base.TextBox_TextChanged(specialInstructions, null);
-        }
-
-        protected override void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if ((sender as TextBox).Name == "suppReqFuelType")
-            {
-                if (string.IsNullOrEmpty(suppReqFuelType.Text))
-                {
-                    //suppReqFuel.IsChecked = false;
-                }
-                else
-                {
-                    suppReqFuel.IsChecked = true;
-                    return;
-                }
-            }
-            base.TextBox_TextChanged(sender, e);
+            TextBox textBox = FindName("specialInstructions") as TextBox;
+            TextBox_TextChanged(textBox, null);
         }
 
         public override void FillFormFromFormFields(FormField[] formFields)
@@ -191,8 +176,6 @@ namespace ICS213RRPackItFormControl
                     break;
             }
             base.FillFormFromFormFields(formFields);
-
-            //UpdateFormFieldsRequiredColors(false);
         }
 
         //private void resourceInfoPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)

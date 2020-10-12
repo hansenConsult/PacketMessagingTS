@@ -323,6 +323,8 @@
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="26.,required"/>
+                            <TextBox x:Name="priorityTextBox" Width="150"
+                                     Visibility="Collapsed" />
                         </StackPanel>
                         <StackPanel Grid.Row="6" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Border Height="24"  Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1">

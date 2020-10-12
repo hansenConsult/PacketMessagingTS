@@ -46,6 +46,8 @@ namespace FormUserControl
 
         public DependencyObject Panel => autoSuggestTextBoxUserControl;
 
+        public override FormControlBasics RootPanel => rootPanel;
+
 
         public AutoSuggestTextBoxUserControl()
         {

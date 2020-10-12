@@ -183,15 +183,26 @@ namespace PacketMessagingTS.Helpers
         public ICommand MoveToArchiveFromContextMenuCommand => _MoveToArchiveFromContextMenuCommand ?? (_MoveToArchiveFromContextMenuCommand = new RelayCommand(MoveToArchiveFromContextMenu));
 
         protected abstract void MoveToArchiveFromContextMenu();
-        //{
-        //    TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderList[GetCustomFolderListIndex()];
-        //    StorageFolder messageFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
 
-        //    var file = await folder.CreateFileAsync(SingleSelectedMessage.FileName, CreationCollisionOption.OpenIfExists);
-        //    await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
+        private ICommand _UndoMoveToArchiveFromContextMenuCommand;
+        public ICommand UndoMoveToArchiveFromContextMenuCommand => _UndoMoveToArchiveFromContextMenuCommand ?? (_UndoMoveToArchiveFromContextMenuCommand = new RelayCommand(UndoMoveToArchiveFromContextMenu));
 
-        //    RefreshDataGridAsync();
-        //}
+        protected async void UndoMoveToArchiveFromContextMenu()
+        {
+            if (PacketMessageRightClicked == null)
+                return;
+
+            string fromFolderName = PacketMessageRightClicked.MovedFromFolder;
+            PacketMessageRightClicked.MovedFromFolder = "";
+            PacketMessageRightClicked.Save(SharedData.ArchivedMessagesFolder.Path);
+
+            StorageFile storageFile = await SharedData.ArchivedMessagesFolder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+
+            StorageFolder movedFromfolder = await _localFolder.CreateFolderAsync(fromFolderName, CreationCollisionOption.OpenIfExists);
+            await storageFile?.MoveAsync(movedFromfolder);
+                      
+            RefreshDataGridAsync();
+        }
 
         private ICommand _MoveToFolderFromContextMenuCommand;
         public ICommand MoveToFolderFromContextMenuCommand => _MoveToFolderFromContextMenuCommand ?? (_MoveToFolderFromContextMenuCommand = new RelayCommand<string>(MoveToFolderFromContextMenu));
@@ -200,6 +211,30 @@ namespace PacketMessagingTS.Helpers
 
         protected RelayCommand<DoubleTappedRoutedEventArgs> _doubleTappedCommand;
         public RelayCommand<DoubleTappedRoutedEventArgs> DoubleTappedCommand => _doubleTappedCommand ?? (_doubleTappedCommand = new RelayCommand<DoubleTappedRoutedEventArgs>(DoubleTapped));
+
+        private ICommand _UndoMoveFromContextMenuCommand;
+        public ICommand UndoMoveFromContextMenuCommand => _UndoMoveFromContextMenuCommand ?? (_UndoMoveFromContextMenuCommand = new RelayCommand(UndoMoveFromContextMenu));
+
+        protected virtual void UndoMoveFromContextMenu()
+        {
+            if (PacketMessageRightClicked == null)
+                return;
+
+        //    int i = GetCustomFolderListIndex();
+        //    TabViewItemData tabViewItemData = _customFoldersInstance.CustomFolderDataList[i];
+        //    StorageFolder itemFolder = await _localFolder.CreateFolderAsync(tabViewItemData.Folder, CreationCollisionOption.OpenIfExists);
+
+            string fromFolderName = PacketMessageRightClicked.MovedFromFolder;
+            PacketMessageRightClicked.MovedFromFolder = "";
+        //    PacketMessageRightClicked.Save(.Path);
+
+        //    StorageFile storageFile = await .CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+
+        //    StorageFolder movedFromfolder = await _localFolder.CreateFolderAsync(fromFolderName, CreationCollisionOption.OpenIfExists);
+        //    await storageFile?.MoveAsync(movedFromfolder);
+
+        //    RefreshDataGridAsync();
+        }
 
         protected void DoubleTapped(DoubleTappedRoutedEventArgs args)
         {

@@ -135,8 +135,8 @@
                                 <RowDefinition Height="36"/>
                                 <RowDefinition Height="36"/>
                                 <RowDefinition Height="24"/>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition MaxHeight="36"/>
+                                <RowDefinition MaxHeight="36"/>
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -169,8 +169,7 @@
                             <TextBox Grid.Row="1" Grid.Column="1" x:Name="hospitalNameTextBox"
                                      Width="auto"
                                      Visibility="Collapsed"
-                                     Margin="4,0,4,0" 
-                                     Tag="20.,required" />
+                                     Margin="4,0,4,0" />
                             <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Command Center Status:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
@@ -185,8 +184,7 @@
                                      Visibility="Collapsed" 
                                      Width="auto"
                                      Margin="4,0,4,0"
-                                     IsFocusEngagementEnabled="False"
-                                     Tag="22.,required" />
+                                     IsFocusEngagementEnabled="False" />
                             <Border Grid.Row="3" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Bed Availability" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="3" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />
@@ -260,8 +258,7 @@
                             <TextBox Grid.Row="12" Grid.Column="1" x:Name="deconTextBox"
                                      Visibility="Collapsed" 
                                      Width="auto"
-                                     Margin="4,0,4,0" 
-                                     Tag="49.,required" />
+                                     Margin="4,0,4,0" />
                             <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="13" Grid.Column="0" Text="Vents:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="13" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
