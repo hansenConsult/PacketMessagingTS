@@ -167,10 +167,6 @@ namespace FormControlBaseClass
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
-                if (control.Name == "toName" || control.Name == "preparedBy")
-                {
-                    int a = 2;
-                }
 
                 if (control is TextBox textBox)
                 {

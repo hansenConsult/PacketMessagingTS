@@ -18,6 +18,17 @@
                 <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="ShelterStatusTextBox" TargetType="TextBox" >
+                <!--<Setter Property="FontFamily" Value="Segoe UI"/>-->
+                <!--<Setter Property="FontSize" Value="12"/>-->
+                <!--<Setter Property="Background" Value="White"/>-->
+                <!--<Setter Property="Foreground" Value="Black"/>-->
+                <!--<Setter Property="VerticalAlignment" Value="Center"/>-->
+                <!--<Setter Property="VerticalContentAlignment" Value="Center"/>-->
+                <Setter Property="Margin" Value="2"/>
+                <!--<Setter Property="Padding" Value="8,8,0,0"/>-->
+            </Style>
+
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -44,7 +55,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                            <MyNamespace:ToggleButtonGroup x:Name="reportType" Visibility="Collapsed"
+                            <MyNamespace:ToggleButtonGroup x:Name="reportType" Visibility="Collapsed" IsTabStop="False"
                                                            CheckedControlName ="{x:Bind Mode=TwoWay, Path=ReportType}" 
                                                            Tag="19.,required,Select Report Type"/>
                             <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"
@@ -52,7 +63,7 @@
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
                                          Checked="ReportType_Checked" Tag="Complete"/>
                             <TextBlock Grid.Column="3" Text="Shelter Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
-                            <TextBox Grid.Column="4" Margin="0,2,10,2" x:Name="shelterName"
+                            <TextBox Grid.Column="4" Margin="0,2,2,2" x:Name="shelterName"
                                      Text="{x:Bind ShelterName, Mode=TwoWay}"
                                      TextChanged="Subject_Changed"
                                      Tag="32.,required,Enter Shelter Name"/>
@@ -96,21 +107,27 @@
                                       Style="{StaticResource MuniStatusComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind ShelterStatuses}" 
-                                      Tag="31.,conditionallyrequired,Select shelter status"
-                                      Loaded="ComboBox_Loaded"/>
+                                      SelectionChanged="ComboBox_SelectionChanged"
+                                      Loaded="ComboBox_Loaded"
+                                      Tag="31.,conditionallyrequired,Select shelter status" />
                             <TextBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatusTextBox"
                                      Visibility="Collapsed" />
-                            <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                            <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" 
+                                    BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Name:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="3" 
+                                     Style="{StaticResource ReadOnlyTextBox}"
                                      Text="{x:Bind ShelterName, Mode=TwoWay}"
-                                     Style="{StaticResource MuniStatusTextBox}" Tag=""/>
-                            <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
+                                     Tag=""/>
+                            <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" 
+                                    BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Address:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="4" x:Name="shelterAddress"
-                                     Style="{StaticResource MuniStatusTextBox}" Tag="33a.,conditionallyrequired,Enter shelter address"/>
+                                     Margin="2"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="33a.,conditionallyrequired,Enter shelter address"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="City:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -126,7 +143,9 @@
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="State:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="6" x:Name="state"
-                                     Style="{StaticResource MuniStatusTextBox}" Tag="33c.,conditionallyrequired"/>
+                                     Style="{StaticResource MuniStatusTextBox}" 
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="33c.,conditionallyrequired"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Zip:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -172,17 +191,17 @@
                             <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="1" Margin="2"
                                      Style="{StaticResource MuniStatusNumberTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="40a.,conditionallyrequired"
-                                     TextChanged="capacity_TextChanged" VerticalAlignment="Center"/>
+                                     TextChanged="Capacity_TextChanged" VerticalAlignment="Center"/>
                             <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Occupancy:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" BorderBrush="Black" BorderThickness="0,1,0,0">
                                 <TextBox x:Name="occupancy" Width="73" HorizontalAlignment="Left" 
                                          Style="{StaticResource MuniStatusNumberTextBox}" Tag="40b.,conditionallyrequired"
-                                         TextChanged="capacity_TextChanged" Margin="2" VerticalAlignment="Center"/>
+                                         TextChanged="Capacity_TextChanged" Margin="2" VerticalAlignment="Center"/>
                                 <TextBlock Text="       Availability:" Style="{StaticResource ShelterStatusHeaderText}"/>
-                                <TextBox x:Name="availablity" Width="66" HorizontalAlignment="Left" IsReadOnly="True"
-                                         Style="{StaticResource MuniStatusTextBox}" 
+                                <TextBox x:Name="availablity" Width="66" HorizontalAlignment="Left"  
+                                         Style="{StaticResource ReadOnlyTextBox}" 
                                          Tag="" Margin="2" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
@@ -191,14 +210,16 @@
                             <TextBox Grid.Column="1" Grid.Row="4" 
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="41." 
-                                     Margin="2" VerticalAlignment="Center"/>
+                                     Margin="2" VerticalAlignment="Center"
+                                     TextChanged="TextBox_IntegerChanged" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="NSS Number:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="5" 
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="42." 
-                                     Margin="2" VerticalAlignment="Center"/>
+                                     Margin="2" VerticalAlignment="Center"
+                                     TextChanged="TextBox_IntegerChanged" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Pet Friendly:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>

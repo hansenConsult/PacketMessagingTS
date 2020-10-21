@@ -217,15 +217,15 @@ namespace PacketMessagingTS.Helpers
             IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
             string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
             string bbs = AddressBook.Instance.GetBBS(from);
-            string tnc;
+            string tnc = "";
 
-            //if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile is null)
-            //{
-            //    tnc = "";
-            //}
+            if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile is null)
+            {
+                return (bbs, tnc, from);
+            }
             //else
             //{
-                string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
                 bool profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
                 if (profileBBSUp)
                 {

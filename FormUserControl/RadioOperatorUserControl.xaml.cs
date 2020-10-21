@@ -22,7 +22,7 @@ namespace FormUserControl
     {
         public RadioOperatorUserControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             ScanControls(radioOperatorOnly);
         }

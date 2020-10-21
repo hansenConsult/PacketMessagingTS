@@ -25,7 +25,7 @@ namespace OAShelterStatusFormControl
 
     public sealed partial class OAShelterStatusControl : FormControlBase
     {
-        List<ComboBoxPackItItem> Municipalities = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxPackItItem> Municipalities = new List<ComboBoxPackItItem>
         {
                 new ComboBoxPackItItem("Campbell"),
                 new ComboBoxPackItItem("Cupertino"),
@@ -45,31 +45,29 @@ namespace OAShelterStatusFormControl
                 new ComboBoxPackItItem("Unincorporated Areas", "Unincorporated")
         };
 
-        List<ComboBoxPackItItem> ShelterTypes = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxPackItItem> ShelterTypes = new List<ComboBoxPackItItem>
         {
-                new ComboBoxPackItItem(null, ""),
                 new ComboBoxPackItItem("Type 1"),
                 new ComboBoxPackItItem("Type 2"),
                 new ComboBoxPackItItem("Type 3"),
                 new ComboBoxPackItItem("Type 4"),
         };
 
-        List<ComboBoxPackItItem> ShelterStatuses = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxPackItItem> ShelterStatuses = new List<ComboBoxPackItItem>
         {
-                new ComboBoxPackItItem(null, ""),
-                new ComboBoxPackItItem("Open"),
-                new ComboBoxPackItItem("Closed"),
-                new ComboBoxPackItItem("Full"),
+                new ComboBoxPackItItem("Open", LightGreenBrush),
+                new ComboBoxPackItItem("Closed", PinkBrush),
+                new ComboBoxPackItItem("Full", YellowBrush),
         };
 
-        List<ComboBoxPackItItem> YesNoContent = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxPackItItem> YesNoContent = new List<ComboBoxPackItItem>
         {
                 new ComboBoxPackItItem(null, ""),
                 new ComboBoxPackItItem("Yes", "checked"),
                 new ComboBoxPackItItem("No", "false"),
         };
 
-        List<ComboBoxPackItItem> Managers = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxPackItItem> Managers = new List<ComboBoxPackItItem>
         {
                 new ComboBoxPackItItem("American Red Cross"),
                 new ComboBoxPackItItem("Private"),
@@ -136,11 +134,19 @@ namespace OAShelterStatusFormControl
             return CreateOutpostMessageBody(_outpostData);
         }
 
-        private void capacity_TextChanged(object sender, TextChangedEventArgs e)
+        private void Capacity_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int occupancyInt = string.IsNullOrEmpty(occupancy.Text) ? 0 : Convert.ToInt32(occupancy.Text);
-            int capacityInt = string.IsNullOrEmpty(capacity.Text) ? 0 : Convert.ToInt32(capacity.Text);
-            availablity.Text = (capacityInt - occupancyInt).ToString();
+            TextBox_IntegerChanged(sender, e);
+            try
+            {
+                int occupancyInt = string.IsNullOrEmpty(occupancy.Text) ? 0 : Convert.ToInt32(occupancy.Text);
+                int capacityInt = string.IsNullOrEmpty(capacity.Text) ? 0 : Convert.ToInt32(capacity.Text);
+                availablity.Text = (capacityInt - occupancyInt).ToString();
+            }
+            catch (FormatException fe)
+            {
+                return;
+            }
         }
 
         protected override void UpdateRequiredFields(bool required)
@@ -151,6 +157,7 @@ namespace OAShelterStatusFormControl
                 shelterStatus.Tag = (shelterStatus.Tag as string).Replace(",required", ",conditionallyrequired");
                 shelterAddress.Tag = (shelterAddress.Tag as string).Replace(",required", ",conditionallyrequired");
                 shelterCity.Tag = (shelterCity.Tag as string).Replace(",required", ",conditionallyrequired");
+                state.Tag = (state.Tag as string).Replace(",required", ",conditionallyrequired");
                 capacity.Tag = (capacity.Tag as string).Replace(",required", ",conditionallyrequired");
                 occupancy.Tag = (occupancy.Tag as string).Replace(",required", ",conditionallyrequired");
                 managedBy.Tag = (managedBy.Tag as string).Replace(",required", ",conditionallyrequired");
@@ -163,6 +170,7 @@ namespace OAShelterStatusFormControl
                 shelterStatus.Tag = (shelterStatus.Tag as string).Replace(",conditionallyrequired", ",required");
                 shelterAddress.Tag = (shelterAddress.Tag as string).Replace(",conditionallyrequired", ",required");
                 shelterCity.Tag = (shelterCity.Tag as string).Replace(",conditionallyrequired", ",required");
+                state.Tag = (state.Tag as string).Replace(",conditionallyrequired", ",required");
                 capacity.Tag = (capacity.Tag as string).Replace(",conditionallyrequired", ",required");
                 occupancy.Tag = (occupancy.Tag as string).Replace(",conditionallyrequired", ",required");
                 managedBy.Tag = (managedBy.Tag as string).Replace(",conditionallyrequired", ",required");

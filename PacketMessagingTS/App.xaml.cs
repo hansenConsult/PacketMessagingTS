@@ -78,7 +78,6 @@ namespace PacketMessagingTS
             }
 
             //TacticalCallsArray = await localFolder.ReadAsync<int[]>(TacticalCallsArrayFileName);
-
 #if DEBUG
             SharedData.TestFilesFolder = await localFolder.CreateFolderAsync("TestFiles", CreationCollisionOption.OpenIfExists);
 
@@ -122,12 +121,14 @@ namespace PacketMessagingTS
             }
             //await UserCallsigns.OpenAsync();
 
+            // The following Open() must happen in the right order
+            await TNCDeviceArray.Instance.OpenAsync();
+            await BBSDefinitions.Instance.OpenAsync();  //"ms-appx:///Assets/pdffile.pdf"
+            await EmailAccountArray.Instance.OpenAsync();
+            await ProfileArray.Instance.OpenAsync();
+
             List<Task> tasks = new List<Task>
             {
-                TNCDeviceArray.Instance.OpenAsync(),
-                BBSDefinitions.Instance.OpenAsync(),  //"ms-appx:///Assets/pdffile.pdf"
-                EmailAccountArray.Instance.OpenAsync(),
-                ProfileArray.Instance.OpenAsync(),
                 UserAddressArray.Instance.OpenAsync(),
                 DistributionListArray.Instance.OpenAsync(),
                 HospitalRollCall.Instance.OpenAsync(),

@@ -26,7 +26,7 @@
                 <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
                 <Setter Property="Margin" Value="8,2,2,2"/>
             </Style>
-            <Style x:Key="LocalTextBox" TargetType="TextBox">
+            <Style x:Key="LocalTextBox" TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Background" Value="White"/>
@@ -756,7 +756,7 @@
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                            Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
-            <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
+            <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
                                            CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
                                            Tag="5.,required,Indicate Msg. Handling Order."/>
             <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
@@ -969,7 +969,7 @@
                 <TextBlock Style="{StaticResource BodyTextBlockStyle}"/>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
                 <TextBox Grid.Column="1" x:Name="toName" 
-                         Style="{StaticResource ToFromTextBox}"
+                         Margin="8,2,2,2"
                          Tag="7c."/>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -978,7 +978,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
-                <TextBox Grid.Column="1" x:Name="fromName" Style="{StaticResource ToFromTextBox}" Tag="8c."/>
+                <TextBox Grid.Column="1" x:Name="fromName" Margin="8,2,2,2" Tag="8c."/>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -988,7 +988,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="toContactInfo" 
-                         Style="{StaticResource ToFromTextBox}" Tag="7d." 
+                         Tag="7d." 
                          TextChanged="TextBox_PhoneChanged" Grid.ColumnSpan="2" Margin="8,2,2,2"/>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="3">
@@ -998,7 +998,8 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="fromContactInfo" 
-                         Style="{StaticResource ToFromTextBox}" Tag="8d." 
+                         Margin="8,2,2,2"
+                         Tag="8d." 
                          TextChanged="TextBox_PhoneChanged"/>
             </Grid>
         </Grid>

@@ -113,15 +113,9 @@ namespace MedicalFacilityStatusFormControl
         {
             this.InitializeComponent();
 
-            //DependencyObject panelName = (formHeaderControl as FormHeaderUserControl).Panel;
-            //ScanControls(panelName, formHeaderControl);
-
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-            //panelName = (radioOperatorControl as RadioOperatorUserControl).Panel;
-            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.HeaderString1 = "Medical facility Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20160101";

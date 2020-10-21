@@ -236,6 +236,9 @@ namespace PacketMessagingTS.Views
                     //PacketSettingsViewmodel.ProfileNameVisibility = true;
 
                     int profileSelectedIndex = Utilities.GetProperty(nameof(PacketSettingsViewmodel.ProfileSelectedIndex));
+                    if (profileSelectedIndex == -1)
+                        return;
+
                     string tnc = ProfileArray.Instance.ProfileList[profileSelectedIndex].TNC;
                     // Trigger a change to force opdate if the TNC list is changed
                     PacketSettingsViewmodel.TNC = "";

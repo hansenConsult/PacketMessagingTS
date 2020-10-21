@@ -153,8 +153,8 @@
                                 <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4. Situation Severity" Margin="8"/>
-                                        <MyNamespace:ToggleButtonGroup x:Name="severity" 
-                                                                   CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4.,required"/>
+                                        <MyNamespace:ToggleButtonGroup x:Name="severity" IsTabStop="False"
+                                                                       CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4.,required"/>
                                         <RadioButton x:Name="EMERGENCY" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                      Margin="10, 4" Padding="4" Content="EMERGENCY" Checked="Required_Checked"
 						    				         ToolTipService.ToolTip="Life threat" Tag="EMERGENCY">
@@ -172,7 +172,7 @@
                                 <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="5. Msg. Handling Order" Margin="8"/>
-                                        <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
+                                        <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
                                                                        CheckedControlName="{x:Bind HandlingOrder, Mode=TwoWay}"
                                                                        Tag="5.,required,Indicate Msg. Handling Order."/>
                                         <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
@@ -190,7 +190,7 @@
                                     <StackPanel x:Name="msgRequest" Grid.Column="3">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="6. Message requests you to:" Margin="8"/>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Take action" Margin="10,0,0,0"/>
-                                        <MyNamespace:ToggleButtonGroup x:Name="action" 
+                                        <MyNamespace:ToggleButtonGroup x:Name="action" IsTabStop="False"
                                                                        CheckedControlName="{x:Bind Action, Mode=TwoWay}" Tag="6a."/>
                                         <StackPanel Orientation="Horizontal">
                                             <RadioButton x:Name="actionYes" GroupName="action" 
@@ -202,7 +202,7 @@
                                         </StackPanel>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,4,0,0" />
                                         <StackPanel Orientation="Horizontal">
-                                            <MyNamespace:ToggleButtonGroup x:Name="reply" 
+                                            <MyNamespace:ToggleButtonGroup x:Name="reply" IsTabStop="False"
                                                                            CheckedControlName="{x:Bind Reply, Mode=TwoWay}" Tag="6b."/>
                                             <RadioButton x:Name="replyYes" GroupName="reply" 
                                                          Style="{StaticResource RadioButtonTNR12B}" 
@@ -226,7 +226,8 @@
                                              TextChanged="TextBox_TimeChanged"
                                              Margin="2" Height="50" Tag="1b.,required,Enter message creation time"/>
                                 </Border>
-                                <TextBox Grid.Row="2" Grid.Column="0" Visibility="Visible" Text="" BorderThickness="0" />
+                                <TextBox Grid.Row="2" Grid.Column="0" Visibility="Visible" Text="" BorderThickness="0" 
+                                         IsReadOnly="True" IsTabStop="False"/>
                             </Grid>
                             <!--<Grid >
                                 <Grid.ColumnDefinitions>
@@ -667,7 +668,7 @@
                                          Text="{x:Bind OperatorName, Mode=TwoWay}" VerticalAlignment="Center"
                                          BorderBrush="White" Margin="5,2,0,2" Width="auto" Tag="OpName"/>
                             </StackPanel>
-                            <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" 
+                            <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" IsTabStop="False"
                                                                CheckedControlName="{x:Bind HowReceivedSent, Mode=TwoWay}"
                                                                Tag="Method"/>
                             <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" GroupName="howRecevedSent" x:Name="telephone" 
@@ -713,13 +714,15 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0"  Style="{StaticResource ReceivedSentLabelFont}" Text="Date:" Margin="8,0,0,0"/>
                                 <TextBox Grid.Column="1" x:Name="operatorDate" 
-                                         IsReadOnly="True" Margin="5,2" 
-                                         BorderBrush="White" Tag="OpDate" FontFamily="Times New Roman"/>
+                                         Style="{StaticResource ReadOnlyTextBox}"
+                                         Margin="5,2" 
+                                         Tag="OpDate" FontFamily="Times New Roman"/>
                                 <TextBlock Grid.Column="2" Style="{StaticResource ReceivedSentLabelFont}" Text=" Time:"/>
                                 <TextBox Grid.Column="3" x:Name="operatorTime" 
-                                         IsReadOnly="True" Margin="5,2" TextAlignment="Left" 
-                                         BorderBrush="White" Tag="OpTime" FontFamily="Times New Roman"
-                                         VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                                         Style="{StaticResource ReadOnlyTextBox}"
+                                         Margin="5,2" 
+                                         Tag="OpTime" FontFamily="Times New Roman"
+                                         VerticalAlignment="Center" />
                             </Grid>
                         </Grid>
                     </Grid>

@@ -34,7 +34,17 @@ namespace PacketMessagingTS.ViewModels
             IsAppBarSaveEnabled = false;
         }
 
-        public readonly ObservableCollection<Profile> ObservableProfileCollection = new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+        public ObservableCollection<Profile> ObservableProfileCollection
+        {
+            get
+            {
+                if (ProfileArray.Instance.ProfileList is null)
+                {
+                    return null;
+                }
+                return new ObservableCollection<Profile>(ProfileArray.Instance.ProfileList);
+            }
+        }
         //private List<Profile> _observableProfileCollection;
         //public List<Profile> ObservableProfileCollection
         //{
@@ -251,7 +261,7 @@ namespace PacketMessagingTS.ViewModels
                 }
                 else
                 {
-                    BBS = CurrentProfile.BBS;
+                    BBS = CurrentProfile?.BBS;
                 }
                 UpdateProfileSaveButton(_SavedProfile.TNC, tnc);
             }
@@ -321,7 +331,7 @@ namespace PacketMessagingTS.ViewModels
                 BBSFrequency2 = currentBBS?.Frequency2;
                 BBSFrequency3 = currentBBS?.Frequency3;
 
-                bool changed = BBSFromSelectedProfile?.Name != currentProfile.BBS;            
+                bool changed = BBSFromSelectedProfile?.Name != currentProfile?.BBS;            
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
