@@ -228,8 +228,7 @@ namespace FormUserControl
         {
             if (sender is TextBox textBox)
             {
-                FormControl formControl;
-                formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
+                FormControl formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
 
                 if (formControl == null || !CheckTimeFormat(formControl))
                 {

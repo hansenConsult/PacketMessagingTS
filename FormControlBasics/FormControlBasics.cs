@@ -623,7 +623,7 @@ namespace FormControlBasicsNamespace
 
             if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
             {
-                //textBox.BorderThickness = new Thickness(1);
+                textBox.BorderThickness = new Thickness(1);
                 textBox.BorderBrush = formControl.BaseBorderColor;
                 if (!string.IsNullOrEmpty(time) && time.Length == 4 && time[2] != ':')
                 {
@@ -633,7 +633,7 @@ namespace FormControlBasicsNamespace
             }
             else
             {
-                //textBox.BorderThickness = new Thickness(2);
+                textBox.BorderThickness = new Thickness(2);
                 textBox.BorderBrush = formControl.RequiredBorderBrush;
                 return false;
             }

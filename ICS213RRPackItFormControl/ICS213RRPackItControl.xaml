@@ -19,8 +19,8 @@
                 <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate x:Name="ToFromHeaderTemplate">
-                <TextBlock Text="{Binding}" FontSize="13" 
+            <DataTemplate x:Name="ICS213RRHeaderTemplate">
+                <TextBlock Text="{Binding}" FontSize="13" Margin="4,0,0,0"
                            FontWeight="SemiBold" Foreground="Black" />
             </DataTemplate>
         </ResourceDictionary>
@@ -50,11 +50,11 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                            <TextBox Grid.Row="0" Grid.Column="0" Name="incidentName" Margin="5,2" AcceptsReturn="True" 
+                            <TextBox Grid.Row="0" Grid.Column="0" Name="incidentName" Margin="2" AcceptsReturn="True" 
                                     Text="{x:Bind IncidentName, Mode=TwoWay}"
                                     TextChanged="Subject_Changed" 
 									Tag="21.,required,Enter the Incident Name."
-                                    HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                    HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
                                     Header="1. Incident Name:"/>
                             <Grid Grid.Row="0" Grid.Column="1" >
                                 <Grid.ColumnDefinitions>
@@ -68,7 +68,7 @@
                                         Style="{StaticResource MuniStatusDateTextBox}"                                             
                                         TextChanged="TextBox_DateChanged"
                                         Tag="22.,required,Enter the Date Initialized."
-                                        HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                        HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
                                         Header="2. Date Initiated:"/>
 
                                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1"/>
@@ -76,7 +76,7 @@
                                         Style="{StaticResource MuniStatusTimeTextBox}"                                         
                                         TextChanged="TextBox_TimeChanged" Width="100"
                                         Tag="23.,required,Enter the message time."
-                                        HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                        HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
                                         Header="3. Time Initiated:" />
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                                 <TextBox Grid.Column="2" 
@@ -86,7 +86,7 @@
                                          Padding="8,8,0,0" >
                                     <TextBox.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock FontSize="13" FontWeight="SemiBold">
+                                            <TextBlock FontSize="13" FontWeight="SemiBold" Margin="4,0,0,0">
                                                 <Run Text="4. Tracking Number"/>
                                                 <Run Text=" (Completed by OA EOC)" FontStyle="Italic" 
                                                    FontWeight="Normal" Foreground="Black"/>
@@ -97,12 +97,12 @@
                             </Grid>
                             <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="0" Grid.Row="1" Name="requestedBy" FontFamily="Helvetica" FontSize="14"  
-                                     AcceptsReturn="True" Margin="4,2" 
+                                     AcceptsReturn="True" Margin="2" 
                                      TextChanged="TextBox_TextChanged"
                                      Tag="25.,required,Enter 5. Requested By." >
                                 <TextBox.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock FontSize="13" FontWeight="SemiBold">
+                                        <TextBlock FontSize="13" FontWeight="SemiBold" Margin="4,0,0,0">
                                                 <Run Text="5. Requested by"/>
                                                 <Run Text=" (Name, agency, email, phone)" FontStyle="Italic" 
                                                    FontWeight="Normal" Foreground="Black"/>
@@ -116,10 +116,10 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <TextBox Grid.Row="0" Name="preparedBy" FontFamily="Helvetica" FontSize="14"  
-                                         MinHeight="52" AcceptsReturn="True" Margin="4,2" Tag="26.">
+                                         MinHeight="52" AcceptsReturn="True" Margin="2" Tag="26.">
                                     <TextBox.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock FontSize="13" FontWeight="SemiBold">
+                                            <TextBlock FontSize="13" FontWeight="SemiBold" Margin="4,0,0,0">
                                                 <Run Text="6. Prepared by"/>
                                                 <Run Text=" (Name, position, email, phone)" FontStyle="Italic" 
                                                    FontWeight="Normal" Foreground="Black"/>
@@ -128,11 +128,12 @@
                                     </TextBox.HeaderTemplate>
                                 </TextBox>
                                 <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBox  Grid.Row="1" Name="approvedBy" FontFamily="Helvetica" FontSize="14" MinHeight="52"  
-                                          AcceptsReturn="True" Margin="4,2" Tag="27.">
+                                <TextBox  Grid.Row="1" Name="approvedBy" FontFamily="Helvetica" FontSize="14" 
+                                          MinHeight="52"  
+                                          AcceptsReturn="True" Margin="2" Tag="27.">
                                     <TextBox.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBlock FontSize="13" FontWeight="SemiBold">
+                                            <TextBlock FontSize="13" FontWeight="SemiBold" Margin="4,0,0,0">
                                                 <Run Text="7. Approved by"/>
                                                 <Run Text=" (Name, position, email, phone)" FontStyle="Italic" 
                                                      FontWeight="Normal" Foreground="Black"/>
@@ -142,7 +143,7 @@
                                 </TextBox>
                             </Grid>
                         </Grid>
-                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,1,0" >
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,0" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="1*"/>
@@ -168,7 +169,7 @@
                                     <ColumnDefinition Width="1.5*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="2.7*"/>
-                                    <ColumnDefinition Width="2.5*"/>
+                                    <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="1.6*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -200,36 +201,40 @@
                                 <TextBlock Grid.Column="3" Grid.Row="1" Text="11. Priority" HorizontalAlignment="Left" 
                                     Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
                                 <TextBlock Grid.Column="4" Grid.Row="1" Text="12. Est'd Cost" HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
-                                <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" Margin="4,4,4,4" 
+                                <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" 
+                                         Margin="2" Padding="0,6,8,0"
                                     AcceptsReturn="True" TextAlignment="Right" 
                                     TextChanged="TextBox_TextChanged"
                                     Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0" />
-                                <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" Margin="4" 
+                                <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" 
+                                         Margin="2" 
                                     AcceptsReturn="True" 
                                     TextChanged="TextBox_TextChanged"
                                     Tag="29.,required,Enter 9. Resource Description."/>
-                                <TextBox Grid.Column="2" Grid.Row="2" Name="resourceInfoArrival" AcceptsReturn="True" 
-                                    PlaceholderText="mm/dd/yy hhmm" 
-                                    Margin="4" 
-                                    TextChanged="TextBox_TextChanged"
-                                    Tag="30.,required,Enter 10. Arrival Date/Time."/>
+                                <TextBox Grid.Column="2" Grid.Row="2" Name="resourceInfoArrival" 
+                                         AcceptsReturn="True" 
+                                         PlaceholderText="mm/dd/yy hhmm" 
+                                         Margin="2" 
+                                         TextChanged="TextBox_TextChanged"
+                                         Tag="30.,required,Enter 10. Arrival Date/Time."/>
                                 <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
-                                <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" Margin="4,4,4,0" 
-                                            Tag="31.,required" MinWidth="124"
-                                            Style="{StaticResource MuniStatusComboBox}"
-                                            DisplayMemberPath="Item"
-                                            SelectedValuePath="Data"
-                                            ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
-                                            Loaded="ComboBox_Loaded"                                              
-                                            SelectionChanged="ComboBox_SelectionChanged"
-                                            HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                                <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" 
+                                          Margin="2" 
+                                          Tag="31.,required" Width="136"
+                                          Style="{StaticResource MuniStatusComboBox}"
+                                          DisplayMemberPath="Item"
+                                          SelectedValuePath="Data"
+                                          ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
+                                          Loaded="ComboBox_Loaded"                                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
                                 <TextBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriorityTextBox" 
-                                         Margin="4,0,4,0"
+                                         Margin="2"
                                          Visibility="Collapsed"
                                          HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
                                 <TextBox Grid.Column="4" Grid.Row="2" Name="resourceInfoCost1"  
                                     InputScope="CurrencyAmount" 
-                                    AcceptsReturn="True" Margin="4" MinWidth="0" Tag="32."/>
+                                    AcceptsReturn="True" Margin="2" MinWidth="0" Tag="32."/>
                             </Grid>
                             <Grid Grid.Column="1" Grid.Row="1">
                                 <Grid.ColumnDefinitions>
@@ -268,7 +273,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,0,0">
+                                <StackPanel Grid.Column="0" BorderBrush="Black" BorderThickness="1,0,1,0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1.2*"/>
@@ -327,13 +332,15 @@
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
-                                <StackPanel Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                    <TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>
-                                    <TextBox Name="specialInstructions"  Margin="2" 
-                                        AcceptsReturn="True" Height="120"
-                                        TextChanged="TextBox_TextChanged"
-                                        Tag="37.,conditionallyrequired"/>
-                                </StackPanel>
+                                <!--<StackPanel Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
+                                    <!--<TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>-->
+                                    <TextBox Grid.Column="1" Name="specialInstructions"  Margin="2" 
+                                             AcceptsReturn="True" 
+                                             TextChanged="TextBox_TextChanged"
+                                             HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
+                                             Header="17. Special Instructions"
+                                             Tag="37.,conditionallyrequired"/>
+                                <!--</StackPanel>-->
                             </Grid>
                         </Grid>
                         <src:RadioOperatorUserControl Grid.Row="3" x:Name="radioOperatorControl"/>
