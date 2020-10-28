@@ -107,23 +107,23 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        public string HandlingOrder
-        {
-            get
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.HandlingOrder;
-                else
-                    return _packetForm.HandlingOrder;
-            }
-            set
-            {
-                if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.HandlingOrder = value;
-                else
-                    _packetForm.HandlingOrder = value;
-            }
-        }
+        //public string HandlingOrder
+        //{
+        //    get
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            return _packetForm.FormHeaderControl.HandlingOrder;
+        //        else
+        //            return _packetForm.HandlingOrder;
+        //    }
+        //    set
+        //    {
+        //        if (_packetForm.FormHeaderControl != null)
+        //            _packetForm.FormHeaderControl.HandlingOrder = value;
+        //        else
+        //            _packetForm.HandlingOrder = value;
+        //    }
+        //}
 
         public string MsgDate
         {

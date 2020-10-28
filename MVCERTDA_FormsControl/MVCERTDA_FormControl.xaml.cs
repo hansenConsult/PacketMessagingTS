@@ -163,8 +163,7 @@ namespace MVCERTDA_FormsControl
         public override string CreateSubject()
         {
             //return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
-            //return ("_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_");
-            return $"{messageNo.Text}_{Severity?.ToUpper()[0]}/{HandlingOrder?.ToUpper()[0]}_MTV213-CERT_{subject.Text}";
+            return $"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_MTV213-CERT_{subject.Text}";
         }
 
         public override void AppendDrillTraffic()

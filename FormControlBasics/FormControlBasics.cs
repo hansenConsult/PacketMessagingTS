@@ -738,6 +738,10 @@ namespace FormControlBasicsNamespace
                     if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
                     {
                         //toggleButtonGroup.CheckedControlName = radioButton.Name;
+                        if (toggleButtonGroup.Name == "handlingOrder")
+                        {
+                            HandlingOrder = radioButton.Name;
+                        }
                         if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;

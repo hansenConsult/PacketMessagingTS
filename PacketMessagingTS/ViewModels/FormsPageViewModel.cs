@@ -542,12 +542,12 @@ namespace PacketMessagingTS.ViewModels
 
             if (!_loadMessage)
             {
-                _packetForm.EventSubjectChanged += FormControl_SubjectChange;
-                if (_packetForm.FormHeaderControl != null)
-                {
-                    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
-                    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
-                }
+                //_packetForm.EventSubjectChanged += FormControl_SubjectChange;
+                //if (_packetForm.FormHeaderControl != null)
+                //{
+                //    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
+                //    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
+                //}
 
                 DateTime now = DateTime.Now;
                 MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
@@ -590,6 +590,13 @@ namespace PacketMessagingTS.ViewModels
                 IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
 
                 _loadMessage = false;
+            }
+            // Moved here in case state is edit message. The form needs to be filled first otherwise the subject is incomplete
+            _packetForm.EventSubjectChanged += FormControl_SubjectChange;
+            if (_packetForm.FormHeaderControl != null)
+            {
+                _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
+                _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
             }
         }
 

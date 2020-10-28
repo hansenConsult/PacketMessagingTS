@@ -154,7 +154,8 @@
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4. Situation Severity" Margin="8"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="severity" IsTabStop="False"
-                                                                       CheckedControlName="{x:Bind Severity, Mode=TwoWay}" Tag="4.,required"/>
+                                                                       CheckedControlName="{x:Bind Severity, Mode=TwoWay}" 
+                                                                       Tag="4.,required" />
                                         <RadioButton x:Name="EMERGENCY" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                      Margin="10, 4" Padding="4" Content="EMERGENCY" Checked="Required_Checked"
 						    				         ToolTipService.ToolTip="Life threat" Tag="EMERGENCY">
