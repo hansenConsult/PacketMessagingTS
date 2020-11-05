@@ -40,8 +40,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class FormsViewModel : BaseViewModel
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         //public List<FormControlAttributes> _formControlAttributeList;
         protected PivotItem _pivotItem;
@@ -542,6 +542,7 @@ namespace PacketMessagingTS.ViewModels
 
             if (!_loadMessage)
             {
+                // Moved to end of function to allow for state Edit without updated subject 
                 //_packetForm.EventSubjectChanged += FormControl_SubjectChange;
                 //if (_packetForm.FormHeaderControl != null)
                 //{
@@ -623,7 +624,8 @@ namespace PacketMessagingTS.ViewModels
         //    return ValidateSubject(_packetForm.CreateSubject());
         //}
 
-        private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProvidersHelper.FormProviders formProvider = FormProvidersHelper.FormProviders.PacForm)
+        //private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProvidersHelper.FormProviders formProvider = FormProvidersHelper.FormProviders.PacItForm)
+        private void CreatePacketMessage(MessageState messageState = MessageState.None)
         {
             _packetMessage = new PacketMessage()
             {
@@ -721,9 +723,9 @@ namespace PacketMessagingTS.ViewModels
                 PacketForm.AppendDrillTraffic();
             }
 
-            CreatePacketMessage(MessageState.Edit);
-            DateTime now = DateTime.Now;
+            CreatePacketMessage();
 
+            DateTime now = DateTime.Now;
             var operatorDateField = _packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
             if (operatorDateField != null)
             {
@@ -733,8 +735,8 @@ namespace PacketMessagingTS.ViewModels
             if (operatorTimeField != null)
                 operatorTimeField.ControlContent = $"{now.Hour:d2}:{now.Minute:d2}";
 
-            Utilities.MarkMessageNumberAsUsed();
-            _packetMessage.MessageState = MessageState.None;
+            //Utilities.MarkMessageNumberAsUsed();
+            //_packetMessage.MessageState = MessageState.None;
             _packetMessage.MessageOrigin = MessageOriginHelper.MessageOrigin.Sent;
             if (_packetMessage.PacFormName == "SimpleMessage")
             {
@@ -783,7 +785,7 @@ namespace PacketMessagingTS.ViewModels
             if (_packetMessage != null)     // Not a new message
             {
                 // if the message state was locked it means it was previously sent or received.
-                // We must assign a new message number
+                // We must assign a new message number. Also unlock the message
                 if (_packetMessage.MessageState == MessageState.Locked)
                 {
                     MessageNo = Utilities.GetMessageNumberPacket();
@@ -794,7 +796,7 @@ namespace PacketMessagingTS.ViewModels
             }
             else
             {
-                CreatePacketMessage(MessageState.None);
+                CreatePacketMessage(); 
             }
 
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);

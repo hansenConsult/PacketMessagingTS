@@ -294,6 +294,10 @@
                                             Content="Equipment Operator" Style="{StaticResource EOC213RRFieldHeaderCB}" 
                                             VerticalContentAlignment="Center" Margin="10,0,0,0" 
                                                   Tag="36a." Height="30"/>
+                                        <CheckBox Grid.Column="1" Grid.Row="1" Name="suppReqLodinng" Content="Lodging" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}" VerticalContentAlignment="Center" 
+                                            Margin="10,0,0,0" Tag="36b." Height="30"/>
+
                                         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
                                             <CheckBox  Name="suppReqFuel" Content="Fuel type" 
                                                        Style="{StaticResource EOC213RRFieldHeaderCB}" 
@@ -304,22 +308,20 @@
                                             <TextBox Name="fuelType" Width="83" Tag="36d.,conditionallyrequired"
                                                      TextChanged="TextBox_TextChanged"/>
                                         </StackPanel>
-                                        <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
-                                            Style="{StaticResource EOC213RRFieldHeaderCB}"
-                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36f."/>
-                                        <CheckBox Grid.Column="0" Grid.Row="4" Name="suppReqWater" Content="Water" 
-                                            Style="{StaticResource EOC213RRFieldHeaderCB}" 
-                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36h."/>
-                                        <CheckBox Grid.Column="1" Grid.Row="1" Name="suppReqLodinng" Content="Lodging" 
-                                            Style="{StaticResource EOC213RRFieldHeaderCB}" VerticalContentAlignment="Center" 
-                                            Margin="10,0,0,0" Tag="36b." Height="30"/>
                                         <CheckBox Grid.Column="1" Grid.Row="2" Name="suppReqPower" Content="Power" 
                                             Style="{StaticResource EOC213RRFieldHeaderCB}" 
                                             VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36e."/>
+                                        <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}"
+                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36f."/>
                                         <CheckBox Grid.Column="1" Grid.Row="3" Name="suppReqMaintenance" 
                                             Content="Maintenance" 
                                             Style="{StaticResource EOC213RRFieldHeaderCB}" 
                                             VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36g."/>
+
+                                        <CheckBox Grid.Column="0" Grid.Row="4" Name="suppReqWater" Content="Water" 
+                                            Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                            VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36h."/>
                                         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
                                             <CheckBox Name="suppReqOther" Content="Other " 
                                                 Style="{StaticResource EOC213RRFieldHeaderCB}" 

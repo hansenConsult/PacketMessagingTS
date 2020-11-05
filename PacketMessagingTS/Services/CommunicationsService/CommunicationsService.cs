@@ -24,14 +24,9 @@ using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.ApplicationModel.Email;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -160,8 +155,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         return;
                     }
                     break;
-                    //} else if (msgLines[i].StartsWith("# PACFORMSSSS"))
-                    //{
                     //    pktMsg.FormProviderIndex = 0;
                 }
             }
@@ -298,7 +291,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 }
             }
         }
-
         public static string NormalizeEmailField(string emailAddress)
         {
             int startIndex = emailAddress.IndexOf('<');
@@ -653,19 +645,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //    tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
             //}
 
-            // Using ViewLifetimeControl
-            //ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
-
-            //await viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            //{
-            //    bool success = viewLifetimeControl.ResizeWindow();
-            //});
-
-            //RxTxStatusPage.rxtxStatusPage.AddTextToStatusWindow("Sending");
-            //AddRxTxStatusAsync("Sending\n");
-
-            //return; //Test
-
             _logHelper.Log(LogLevel.Info, "Start a new send/receive session");
             // Collect messages to be sent
             _packetMessagesToSend.Clear();
@@ -743,6 +722,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                         if (sendMailSuccess)
                         {
+                            packetMessage.MessageState = MessageState.Locked;
                             packetMessage.SentTime = DateTime.Now;
                             packetMessage.MailUserName = SmtpClient.Instance.UserName;
                             _logHelper.Log(LogLevel.Info, $"Message sent via E-Mail: {packetMessage.MessageNumber}");
@@ -753,7 +733,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             // Do a save to ensure that updates are saved
                             packetMessage.Save(SharedData.SentMessagesFolder.Path);
 
-                            messagesSentAsEMail.Add(packetMessage);
+                            _packetMessagesToSend.Remove(packetMessage);
+                            //messagesSentAsEMail.Add(packetMessage);
                         }
                     }
                     catch (Exception ex)
@@ -765,11 +746,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 }
             }
 
-            // Remove already processed E-Mail messages
-            foreach (PacketMessage packetMessage in messagesSentAsEMail)
-            {
-                _packetMessagesToSend.Remove(packetMessage);
-            }
+            // Remove already processed E-Mail messages.  Done above
+            //foreach (PacketMessage packetMessage in messagesSentAsEMail)
+            //{
+            //    _packetMessagesToSend.Remove(packetMessage);
+            //}
 
             // TODO check if TNC connected otherwise suggest send via email
             //if (_packetMessagesToSend.Count == 0)
@@ -803,12 +784,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             if (!tncDevice.Name.Contains(SharedData.EMail))
             {
-                //AppWindow appWindow = await AppWindow.TryCreateAsync();
-                //Frame appWindowContentFrame = new Frame();
-                //appWindowContentFrame.Navigate(typeof(RxTxStatusPage));
-                //ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
-                //await appWindow.TryShowAsync();
-
                 ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
                 //RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Height = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.ViewControlHeight;
                 //RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Width = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.ViewControlWidth;
