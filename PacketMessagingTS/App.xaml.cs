@@ -55,6 +55,7 @@ namespace PacketMessagingTS
             EnteredBackground += App_EnteredBackground;
             Resuming += App_Resuming;
             //Suspending += App_SuspendingAsync;
+            UnhandledException += OnAppUnhandledException;
 
             // Deferred execution until used. Check https://msdn.microsoft.com/library/dd642331(v=vs.110).aspx for further info on Lazy<T> class.
             _activationService = new Lazy<ActivationService>(CreateActivationService);
@@ -189,6 +190,13 @@ namespace PacketMessagingTS
             _logHelper.Log(LogLevel.Trace, "Entered OnActivated");
 
             await ActivationService.ActivateAsync(args);
+        }
+
+        private void OnAppUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            // TODO WTS: Please log and handle the exception as appropriate to your scenario
+            // For more info see https://docs.microsoft.com/uwp/api/windows.ui.xaml.application.unhandledexception
+            _logHelper.Log(LogLevel.Fatal, $"Unhandled exception: {e.Message}");
         }
 
         private ActivationService CreateActivationService()

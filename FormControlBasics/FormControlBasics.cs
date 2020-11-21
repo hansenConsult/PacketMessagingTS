@@ -552,7 +552,7 @@ namespace FormControlBasicsNamespace
                         bool match = false;
                         if (!string.IsNullOrEmpty(phoneNumber))
                         {
-                            string phonePattern = @"\b\d{3}[-]?\d{3}[-]?\d{4}\s*[xX]?\d*\b";
+                            string phonePattern = @"\b\d*\s*[ -]?\d{3}[-]?\d{3}[-]?\d{4}\s*[xX]?\d*\b";
                             match = Regex.IsMatch(phoneNumber, phonePattern);
                         }
 
@@ -587,13 +587,7 @@ namespace FormControlBasicsNamespace
                 bool match = false;
                 if (!string.IsNullOrEmpty(date))
                 {
-                    string datePattern;
-                    if (date.Length == 8)
-                    {
-                        date = date.Insert(2, "/");
-                        date = date.Insert(5, "/");
-                    }
-                    datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";//(0[1-9]|1[012])/(0[1-9]|1[0-9]|2[0-9]|3[01])/[1-2][0-9][0-9][0-9]
+                    string datePattern = @"^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$";//(0[1-9]|1[012])/(0[1-9]|1[0-9]|2[0-9]|3[01])/[1-2][0-9][0-9][0-9]
                     match = Regex.IsMatch(date, datePattern);
                 }
                 if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))

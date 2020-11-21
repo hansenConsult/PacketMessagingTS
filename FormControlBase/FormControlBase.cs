@@ -363,7 +363,7 @@ namespace FormControlBaseClass
 
         public abstract void AppendDrillTraffic();
 
-        public virtual string PackItFormVersion => "3.1";
+        public virtual string PackItFormVersion => "3.2";
 
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {

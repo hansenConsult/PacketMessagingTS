@@ -245,7 +245,8 @@
                             <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Name="eocOpenDate" 
                                      PlaceholderText="mm/dd/yyyy" 
-                                     Style="{StaticResource MuniStatusDateTextBox}"  Tag="36."/>
+                                     Style="{StaticResource MuniStatusDateTextBox}"  
+                                     TextChanged="TextBox_DateChanged" Tag="36."/>
                             <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Column="2" Grid.Row="2" Text="Expected to Open Time:" 
                                        Style="{StaticResource MuniStatusFieldTextRight}" />
@@ -259,7 +260,8 @@
                             <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="3" Name="eocCloseDate" 
                                      PlaceholderText="mm/dd/yyyy" 
-                                     Style="{StaticResource MuniStatusDateTextBox}" Tag="38."/>
+                                     Style="{StaticResource MuniStatusDateTextBox}" 
+                                     TextChanged="TextBox_DateChanged" Tag="38."/>
                             <Border Grid.Column="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Column="2" Grid.Row="3" Text="Expected to Close Time:" 
                                        Style="{StaticResource MuniStatusFieldTextRight}" />
