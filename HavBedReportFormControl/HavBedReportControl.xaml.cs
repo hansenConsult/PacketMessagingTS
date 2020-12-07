@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 
 using FormControlBaseClass;
+
 using FormControlBasicsNamespace;
+
 using FormUserControl;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -82,7 +86,7 @@ namespace HavBedReportFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
-        public override string PacFormName => "form-mhoc-beds-status";
+        public override string GetPacFormName() => "form-mhoc-beds-status";
 
         public override string PacFormType => "HAVBEDSTATUS";
 

@@ -163,7 +163,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             pktMsg.FormProvider = FormProviders.PacForm;        // TODO update with real provider
             pktMsg.FormControlType = formControl.FormControlType;
 
-            pktMsg.PacFormName = formControl.PacFormName;
+            pktMsg.PacFormName = formControl.GetPacFormName();
             pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
             //pktMsg.ReceivedTime = packetMessage.ReceivedTime;
             if (!pktMsg.CreateFileName())
@@ -468,7 +468,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     
                     //pktMsg.MessageNumber = GetMessageNumberPacket();		// Filled in BBS connection
                     pktMsg.PacFormType = formControl.PacFormType;
-                    pktMsg.PacFormName = formControl.PacFormName;
+                    pktMsg.PacFormName = formControl.GetPacFormName();
                     pktMsg.FormControlType = formControl.FormControlType;
                     pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, pktMsg.FormProvider);
 					//if (pktMsg.ReceivedTime != null)
@@ -707,7 +707,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 //TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
                 // Send as email if a TNC is not reachable, or if message is defined as an e-mail message
-                if (tncDevice.Name.Contains(SharedData.EMail))
+                if (tncDevice.Name.Contains(PublicData.EMail))
                 {
                     try
                     {
@@ -782,7 +782,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             //Utilities.SetApplicationTitle(bbs?.Name);
 
-            if (!tncDevice.Name.Contains(SharedData.EMail))
+            if (!tncDevice.Name.Contains(PublicData.EMail))
             {
                 ViewLifetimeControl viewLifetimeControl = await WindowManagerService.Current.TryShowAsStandaloneAsync("Connection Status", typeof(RxTxStatusPage));
                 //RxTxStatusPage.rxtxStatusPage._viewLifetimeControl.Height = RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.ViewControlHeight;

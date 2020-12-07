@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 
 using FormControlBaseClass;
+
 using FormControlBasicsNamespace;
+
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -37,7 +39,7 @@ namespace HospitalRollCallFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override string PacFormName => "hospital_roll_call";
+        public override string GetPacFormName() => "hospital_roll_call";
 
         public override string PacFormType => "ICS-213 Test";
 

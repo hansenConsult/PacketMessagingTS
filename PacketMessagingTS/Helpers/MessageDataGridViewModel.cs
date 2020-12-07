@@ -16,10 +16,8 @@ using SharedCode;
 using SharedCode.Helpers;
 
 using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -241,7 +239,7 @@ namespace PacketMessagingTS.Helpers
             try
             {
                 PacketMessage pktmsg = (args.OriginalSource as TextBlock)?.DataContext as PacketMessage;
-                if (pktmsg != null)
+                if (pktmsg != null || (SelectedMessages != null && SelectedMessages.Count == 1))
                 {
                     OpenMessage(pktmsg);
                 }

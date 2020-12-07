@@ -20,6 +20,7 @@ using MetroLog;
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.ViewModels;
+
 using SharedCode;
 
 using Windows.Storage;

@@ -6,6 +6,7 @@ using FormUserControl;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -98,7 +99,7 @@ namespace OAShelterStatusFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string PacFormName => "form-oa-shelter-status";
+        public override string GetPacFormName() => "form-oa-shelter-status";
 
         public override string PacFormType => "OAShelterStat";
 
@@ -143,7 +144,8 @@ namespace OAShelterStatusFormControl
                 int capacityInt = string.IsNullOrEmpty(capacity.Text) ? 0 : Convert.ToInt32(capacity.Text);
                 availablity.Text = (capacityInt - occupancyInt).ToString();
             }
-            catch (FormatException fe)
+            //catch (FormatException fe)
+            catch
             {
                 return;
             }

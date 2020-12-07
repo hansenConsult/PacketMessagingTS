@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using MetroLog;
 
@@ -13,6 +10,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 
 using SharedCode;
+using SharedCode.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -179,10 +177,10 @@ namespace PacketMessagingTS.ViewModels
                 TNC = currentProfile.TNC;
                 BBS = currentProfile.BBS;
                 DefaultTo = currentProfile.SendTo;
-                if (currentProfile.TNC.Contains(SharedData.EMail))
+                if (currentProfile.TNC.Contains(PublicData.EMail))
                 {
                     // Update SMTP data if using Email for sending
-                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(SharedData.EMail)).FirstOrDefault();
+                    TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(PublicData.EMail)).FirstOrDefault();
                     int index = EmailAccountArray.Instance.GetSelectedIndexFromEmailUserName(tncDevice.MailUserName);
                     Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = index;
                 }
@@ -255,7 +253,7 @@ namespace PacketMessagingTS.ViewModels
 
                 SetProperty(ref tnc, value);
 
-                if (tnc.Contains(SharedData.EMail))
+                if (tnc.Contains(PublicData.EMail))
                 {
                     BBS = "";
                 }
@@ -282,7 +280,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 //Set(ref currentTNC, value);
                 currentTNC = value;
-                if (currentTNC != null && currentTNC.Name.Contains(SharedData.EMail))
+                if (currentTNC != null && currentTNC.Name.Contains(PublicData.EMail))
                 {
                     BBS = "";
                 }
@@ -494,7 +492,7 @@ namespace PacketMessagingTS.ViewModels
                     Message = DefaultMessage,
 
                 };
-                if (newProfile.TNC.Contains(SharedData.EMail))
+                if (newProfile.TNC.Contains(PublicData.EMail))
                 {
                     //comboBoxBBS.SelectedIndex = -1;
                     BBS = "";

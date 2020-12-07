@@ -18,9 +18,8 @@ using PacketMessagingTS.Views;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
-
-using Windows.UI.Core;
 using SharedCode.Helpers;
+using SharedCode.Models;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {

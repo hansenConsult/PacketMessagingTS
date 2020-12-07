@@ -39,9 +39,6 @@ namespace PacketMessagingTS.Helpers
         public static List<FormControlAttributes> FormControlAttributeHospitalList;
 
         public static List<FormControlAttributes> FormControlAttributeTestList;
-
-        public static string EMail = "Email";
-        public static string EMailPreample = $"Email: ";       
     }
 
 }

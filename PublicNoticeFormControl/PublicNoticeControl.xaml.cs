@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 using FormControlBaseClass;
 
-using PacketMessagingTS.Core.Helpers;
-
 using SharedCode;
 using SharedCode.Helpers;
-using SharedCode.Helpers.PrintHelpers;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -45,7 +43,7 @@ namespace PublicNoticeFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
-        public override string PacFormName => "PublicNotice";
+        public override string GetPacFormName() => "PublicNotice";
 
         public override string PacFormType => "PublicNoticeForm";
 

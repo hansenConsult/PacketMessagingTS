@@ -62,7 +62,8 @@ namespace ICS213RRPackItFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string PacFormName => "form-scco-eoc-213rr";
+        //public override string GetPacFormName() => "form-scco-eoc-213rr";
+        public override string GetPacFormName() => PublicData.FormControlAttributeCountyList[2].FormControlName;  
 
         public override string PacFormType => "XSC_EOC_213RR";
 
@@ -105,18 +106,18 @@ namespace ICS213RRPackItFormControl
             return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
         }
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>
-            {
-                "!SCCoPIFO!",
-                "#T: form-scco-eoc-213rr.html",
-                $"#V: {PackItFormVersion}-{PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+        //public override string CreateOutpostData(ref PacketMessage packetMessage)
+        //{
+        //    _outpostData = new List<string>
+        //    {
+        //        "!SCCoPIFO!",
+        //        $"#T: {GetPacFormName()}.html",
+        //        $"#V: {PackItFormVersion}-{PIF}",
+        //    };
+        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(_outpostData);
-        }
+        //    return CreateOutpostMessageBody(_outpostData);
+        //}
 
         private void SuppReqFuel_Checked(object sender, RoutedEventArgs e)
         {

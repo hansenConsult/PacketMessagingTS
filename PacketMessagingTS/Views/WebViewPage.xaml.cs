@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -14,17 +13,11 @@ using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
-using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 
-//using static SharedCode.Helpers.FormProvidersHelper;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
-
-using Windows.ApplicationModel;
-using Windows.Storage;
-using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SharedCode.Helpers;
@@ -209,7 +202,7 @@ namespace PacketMessagingTS.Views
                     break;
                 }
             }
-            pktMsg.PacFormName = formControl.PacFormName;
+            pktMsg.PacFormName = formControl.GetPacFormName();
             pktMsg.PacFormType = formControl.PacFormType;       // Added line
             pktMsg.FormControlType = formControl.FormControlType;
             pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);

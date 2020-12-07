@@ -24,6 +24,7 @@ using PacketMessagingTS.Controls;
 using SharedCode;
 using SharedCode.Helpers;
 using static SharedCode.Helpers.MessageOriginHelper;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;

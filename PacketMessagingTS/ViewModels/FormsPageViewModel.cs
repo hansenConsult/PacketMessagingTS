@@ -29,6 +29,7 @@ using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.CommunicationsService;
+
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -563,6 +564,7 @@ namespace PacketMessagingTS.ViewModels
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 {
                     HandlingOrder = "routine";
+                    MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
                     switch (_packetForm.PacFormType)
                     {
                         case "ICS213":
@@ -634,7 +636,7 @@ namespace PacketMessagingTS.ViewModels
                 TNCName = PacketAddressForm.MessageTNC,
                 FormFieldArray = PacketForm.CreateFormFieldsInXML(),
                 FormProvider = PacketForm.FormProvider,
-                PacFormName = PacketForm.PacFormName,
+                PacFormName = PacketForm.GetPacFormName(),
                 PacFormType = PacketForm.PacFormType,
                 MessageFrom = PacketAddressForm.MessageFrom,
                 MessageTo = PacketAddressForm.MessageTo,
@@ -670,7 +672,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 FormFieldArray = PacketForm.CreateFormFieldsInXML(),
                 FormProvider = PacketForm.FormProvider,
-                PacFormName = PacketForm.PacFormName,
+                PacFormName = PacketForm.GetPacFormName(),
                 PacFormType = PacketForm.PacFormType,
                 MessageNumber = PacketForm.MessageNo,
                 CreateTime = DateTime.Now,

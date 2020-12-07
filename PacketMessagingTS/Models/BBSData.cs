@@ -9,23 +9,15 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-
-using FormControlBaseClass;
 
 using MetroLog;
 
 using SharedCode;
 
 using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
 
 namespace PacketMessagingTS.Models
 {

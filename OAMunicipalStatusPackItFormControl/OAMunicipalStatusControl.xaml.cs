@@ -6,6 +6,7 @@ using FormUserControl;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
@@ -107,7 +108,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string PacFormName => "form-oa-muni-status";
+        public override string GetPacFormName() => "form-oa-muni-status";
 
         public override string PacFormType => "OA Municipal Status";
 

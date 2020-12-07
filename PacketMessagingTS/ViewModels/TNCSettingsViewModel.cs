@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
-using System.Threading.Tasks;
+
 using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
@@ -12,8 +12,7 @@ using PacketMessagingTS.Models;
 
 using SharedCode;
 using SharedCode.Helpers;
-using Windows.Devices.Enumeration;
-using Windows.Devices.SerialCommunication;
+
 using Windows.UI.Xaml;
 
 
@@ -130,7 +129,7 @@ namespace PacketMessagingTS.ViewModels
                     // Utilities.SetApplicationTitle();
                 }
                 CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
-                if (CurrentTNCDevice.Name.Contains(SharedData.EMail))
+                if (CurrentTNCDevice.Name.Contains(PublicData.EMail))
                 {
                     UpdateMailState(TNCState.EMail);
                     MailAccountSelectedIndex = MailAccountSelectedIndex;
@@ -226,7 +225,7 @@ namespace PacketMessagingTS.ViewModels
 
                 currentTNCDevice = value;
 
-                if (!string.IsNullOrEmpty(currentTNCDevice.Name) && currentTNCDevice.Name.Contains(SharedData.EMail))
+                if (!string.IsNullOrEmpty(currentTNCDevice.Name) && currentTNCDevice.Name.Contains(PublicData.EMail))
                 {
                     //    // Update email account index
                     //    string mailPreample = SharedData.EMailPreample;
@@ -1045,7 +1044,7 @@ namespace PacketMessagingTS.ViewModels
                 //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
                 TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[selectedIndex];
                 tncDevice.MailUserName = emailAccount.MailUserName;
-                tncDevice.Name = $"{SharedData.EMailPreample}{emailAccount.MailUserName}";
+                tncDevice.Name = $"{PublicData.EMailPreample}{emailAccount.MailUserName}";
                 _logHelper.Log(LogLevel.Trace, $"SaveEmailAccounts(selectedIndex): {tncDeviceSelectedIndex}");
                 await TNCDeviceArray.Instance.SaveAsync();
                 TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
@@ -1066,7 +1065,7 @@ namespace PacketMessagingTS.ViewModels
                 EmailAccount emailAccount = CurrentMailAccount;
                 TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
                 tncDevice.MailUserName = emailAccount.MailUserName;
-                tncDevice.Name = $"{SharedData.EMailPreample}{emailAccount.MailUserName}";
+                tncDevice.Name = $"{PublicData.EMailPreample}{emailAccount.MailUserName}";
                 await TNCDeviceArray.Instance.SaveAsync();
                 TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
                 TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
@@ -1084,7 +1083,7 @@ namespace PacketMessagingTS.ViewModels
                 int tncDeviceSelectedIndex = TNCDeviceSelectedIndex;
                 TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex];
                 tncDevice.MailUserName = emailAccount.MailUserName;     // TODO double user name??
-                tncDevice.Name = $"{SharedData.EMailPreample}{emailAccount.MailUserName}";
+                tncDevice.Name = $"{PublicData.EMailPreample}{emailAccount.MailUserName}";
                 await TNCDeviceArray.Instance.SaveAsync();
 
                 TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);

@@ -12,7 +12,6 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
 //using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 using FormControlBasicsNamespace;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -54,7 +53,7 @@ namespace ICS213PackItFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string PacFormName => "form-ics213";	// Used in CreateFileName() 
+        public override string GetPacFormName() => "form-ics213";	// Used in CreateFileName() 
 
         public override string PacFormType => "ICS213";
 

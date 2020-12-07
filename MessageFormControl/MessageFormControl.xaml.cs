@@ -4,9 +4,11 @@ using System.Text;
 
 using FormControlBaseClass;
 using FormControlBasicsNamespace;
-//using Microsoft.Toolkit.Uwp.Helpers;
+
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Models;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -172,7 +174,7 @@ namespace MessageFormControl
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 
-        public override string PacFormName => "SimpleMessage";
+        public override string GetPacFormName() => "SimpleMessage";
 
         public override string PacFormType => "SimpleMessage";
 

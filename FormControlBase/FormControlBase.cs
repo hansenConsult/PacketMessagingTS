@@ -21,7 +21,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Documents;
 using Windows.Storage;
-using System.Linq;
 
 namespace FormControlBaseClass
 {
@@ -48,21 +47,21 @@ namespace FormControlBaseClass
     //	public string FormControlMenuName { get; set; }    // 
     //}
 
- //   public sealed class FormEventArgs : EventArgs
-	//{
-	//	//public FormEventArgs() { }
+    //   public sealed class FormEventArgs : EventArgs
+    //{
+    //	//public FormEventArgs() { }
 
-	//	//public FormEventArgs(string tacticalCallsign)
-	//	//{
-	//	//	TacticalCallsign = tacticalCallsign;
-	//	//}
+    //	//public FormEventArgs(string tacticalCallsign)
+    //	//{
+    //	//	TacticalCallsign = tacticalCallsign;
+    //	//}
 
-	//	//public string TacticalCallsign
-	//	//{ get; set; }
+    //	//public string TacticalCallsign
+    //	//{ get; set; }
 
-	//	public string SubjectLine
-	//	{ get; set; }
-	//}
+    //	public string SubjectLine
+    //	{ get; set; }
+    //}
 
     public abstract partial class FormControlBase : FormControlBasics
     {
@@ -353,8 +352,7 @@ namespace FormControlBaseClass
         public abstract FormProviders FormProvider
         { get; }
 
-        public abstract string PacFormName
-		{ get; }
+        public abstract string GetPacFormName();
 
         public abstract string PacFormType
         { get; }
@@ -472,7 +470,7 @@ namespace FormControlBaseClass
             _outpostData = new List<string>
             {
                 "!SCCoPIFO!",
-                $"#T: {PacFormName}.html",
+                $"#T: {GetPacFormName()}.html",
                 $"#V: {PackItFormVersion}-{PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);

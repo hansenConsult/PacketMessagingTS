@@ -39,6 +39,12 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList.AddRange(_formControlAttributeList1);
 
                 SharedData.FormControlAttributeCountyList = _formControlAttributeList;
+                PublicData.FormControlAttributeCountyList = new List<FormControlAttributes2>(); //Testing
+                foreach (FormControlAttributes attr in _formControlAttributeList)
+                {
+                    FormControlAttributes2 attr2 = new FormControlAttributes2(attr.FormControlName, attr.FormControlMenuName, attr.FormControlType, attr.FormControlFile);
+                    PublicData.FormControlAttributeCountyList.Add(attr2);  // Testing
+                }
             }
             else
             {

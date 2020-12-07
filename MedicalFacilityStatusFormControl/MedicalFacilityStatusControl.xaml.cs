@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using FormControlBaseClass;
+
 using FormControlBasicsNamespace;
 
 using FormUserControl;
@@ -14,6 +15,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -130,7 +132,7 @@ namespace MedicalFacilityStatusFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
-        public override string PacFormName => "form-medical-facility-status-v2";
+        public override string GetPacFormName() => "form-medical-facility-status-v2";
 
         public override string PacFormType => "XSC_MedicalCacilityStatus";
 

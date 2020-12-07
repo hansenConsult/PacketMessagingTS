@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using Microsoft.Toolkit.Uwp.UI.Controls;
-
+﻿
 using PacketMessagingTS.Core.Helpers;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
-using SharedCode;
-
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 

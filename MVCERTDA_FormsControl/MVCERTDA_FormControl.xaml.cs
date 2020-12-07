@@ -140,7 +140,7 @@ namespace MVCERTDA_FormsControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CityForm;
 
-        public override string PacFormName => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
+        public override string GetPacFormName() => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 
         public override string PacFormType => "MVCERTSummary";
 

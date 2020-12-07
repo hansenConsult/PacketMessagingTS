@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="DateTimeConverter.cs" />
     <Compile Include="Helpers\FormControlAttribute.cs" />
+    <Compile Include="Helpers\FormControlAttributes.cs" />
     <Compile Include="Helpers\MessageOriginHelper.cs" />
     <Compile Include="Helpers\ContentDialogs.cs" />
     <Compile Include="Helpers\Observable.cs" />
@@ -117,10 +118,11 @@
     <Compile Include="Helpers\PrintHelpers\PrintHelperOptions.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelperStateBag.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
+    <Compile Include="Helpers\PublicData.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Models\hospitalrollcall.cs" />
+    <Compile Include="Models\PacketMessage.cs" />
     <Compile Include="Models\TacticalCallsigns.cs" />
-    <Compile Include="PacketMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\SharedCode.rd.xml" />
   </ItemGroup>

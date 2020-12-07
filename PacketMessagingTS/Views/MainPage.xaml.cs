@@ -17,6 +17,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 namespace PacketMessagingTS.Views
