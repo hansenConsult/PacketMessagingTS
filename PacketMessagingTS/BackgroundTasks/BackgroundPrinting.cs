@@ -17,7 +17,7 @@ namespace PacketMessagingTS.BackgroundTasks
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundPrinting>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        private volatile bool _cancelRequested = false;
+        //private volatile bool _cancelRequested = false;
         private IBackgroundTaskInstance _taskInstance;
         private BackgroundTaskDeferral _deferral;
 
@@ -95,7 +95,7 @@ namespace PacketMessagingTS.BackgroundTasks
 
         public override void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-            _cancelRequested = true;
+            //_cancelRequested = true;
 
             // TODO WTS: Insert code to handle the cancelation request here.
             // Documentation: https://docs.microsoft.com/windows/uwp/launch-resume/handle-a-cancelled-background-task

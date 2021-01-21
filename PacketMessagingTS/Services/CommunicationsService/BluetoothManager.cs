@@ -24,28 +24,28 @@ namespace PacketMessagingTS.Services.CommunicationsService
 		private static volatile BluetoothManager instance;
 		private static readonly Object singletonCreationLock = new Object();
 
-		private CancellationTokenSource _ReadCancellationTokenSource;
+		//private readonly CancellationTokenSource _ReadCancellationTokenSource;
 		private Object _ReadCancelLock = new Object();
 
 		//private Boolean IsReadTaskPending;
 		//private uint ReadBytesCounter = 0;
-		DataReader _DataReaderObject = null;
-		string _readBytesBuffer = "";
+		//DataReader _DataReaderObject = null;
+        //readonly string _readBytesBuffer = "";
 
 		// Track Write Operation
-		private CancellationTokenSource _WriteCancellationTokenSource;
+		//private CancellationTokenSource _WriteCancellationTokenSource;
 		private Object _WriteCancelLock = new Object();
 
 		//private Boolean IsWriteTaskPending;
 		//private uint WriteBytesCounter = 0;
-		DataWriter _DataWriteObject = null;
+		//DataWriter _DataWriteObject = null;
 
 		//bool WriteBytesAvailable = false;
 
 		//SerialDevice _serialDevice = null;
 
 		TNCDevice _tncDevice;
-		private ILogger log1;
+		//private readonly ILogger log1;
 
 		private BluetoothManager()
 		{
@@ -68,48 +68,48 @@ namespace PacketMessagingTS.Services.CommunicationsService
 			return instance;
 		}
 
-		//private async Task<uint> Send(string msg)
-		//{
-		//	//tbError.Text = string.Empty;
+        //private async Task<uint> Send(string msg)
+        //{
+        //	//tbError.Text = string.Empty;
 
-		//	try
-		//	{
-		//		var writer = new DataWriter(_socket.OutputStream);
+        //	try
+        //	{
+        //		var writer = new DataWriter(_socket.OutputStream);
 
-		//		writer.WriteString(msg);
+        //		writer.WriteString(msg);
 
-		//		// Launch an async task to 
-		//		//complete the write operation
-		//		var store = writer.StoreAsync().AsTask();
+        //		// Launch an async task to 
+        //		//complete the write operation
+        //		var store = writer.StoreAsync().AsTask();
 
-		//		return await store;
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		LogHelper(LogLevel.Error, $"Error writing to Bluetooth: {ex.Message}");
+        //		return await store;
+        //	}
+        //	catch (Exception ex)
+        //	{
+        //		LogHelper(LogLevel.Error, $"Error writing to Bluetooth: {ex.Message}");
 
-		//		return 0;
-		//	}
-		//}
+        //		return 0;
+        //	}
+        //}
 
-		//private async void Listen()
-		//{
-		//	ReadCancellationTokenSource = new CancellationTokenSource();
-		//	if (_socket.InputStream != null)
-		//	{
-		//		dataReaderObject = new DataReader(_socket.InputStream);
-		//		// keep reading the serial input
-		//		while (true)
-		//		{
-		//			await ReadAsync(ReadCancellationTokenSource.Token);
-		//		}
-		//	}
-		//}
+        //private async void Listen()
+        //{
+        //	ReadCancellationTokenSource = new CancellationTokenSource();
+        //	if (_socket.InputStream != null)
+        //	{
+        //		dataReaderObject = new DataReader(_socket.InputStream);
+        //		// keep reading the serial input
+        //		while (true)
+        //		{
+        //			await ReadAsync(ReadCancellationTokenSource.Token);
+        //		}
+        //	}
+        //}
 
-		DataReader dataReaderObject;
-		private CancellationTokenSource ReadCancellationTokenSource;
+        private readonly DataReader dataReaderObject;
+        //private readonly CancellationTokenSource ReadCancellationTokenSource;
 
-		private async Task ReadAsync(CancellationToken cancellationToken)
+        private async Task ReadAsync(CancellationToken cancellationToken)
 		{
 			uint ReadBufferLength = 1024;
 

@@ -41,7 +41,7 @@ namespace PacketMessagingTS.Views
 
         private static bool _watchersSuspended = false;
         private static bool _watchersStarted = false;
-        private bool _isAllDevicesEnumerated = false;
+        //private bool _isAllDevicesEnumerated = false;
         readonly ComportComparer _comportComparer = new ComportComparer();
 
 
@@ -322,7 +322,7 @@ namespace PacketMessagingTS.Views
         /// <param name="args"></param>
         private void OnDeviceEnumerationComplete(DeviceWatcher sender, Object args)
         {
-            _isAllDevicesEnumerated = true;
+            //_isAllDevicesEnumerated = true;
 
             // Select current TNC device
             //comboBoxComPort.SelectedValue = _TNCSettingsViewModel.CurrentTNCDevice.CommPort.Comport;
@@ -363,7 +363,7 @@ namespace PacketMessagingTS.Views
         private void InitializeDeviceWatchers()
         {
             _watchersStarted = false;
-            _isAllDevicesEnumerated = false;
+            //_isAllDevicesEnumerated = false;
             _listOfSerialPorts = new List<string>();
 
             // Target all Serial Devices present on the system
@@ -386,7 +386,7 @@ namespace PacketMessagingTS.Views
         {
             // Start all device watchers
             _watchersStarted = true;
-            _isAllDevicesEnumerated = false;
+            //_isAllDevicesEnumerated = false;
 
             foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
             {

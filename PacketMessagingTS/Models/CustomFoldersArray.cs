@@ -136,7 +136,7 @@ namespace PacketMessagingTS.Models
             {
                 await storageFolder.RenameAsync(tabViewItemDataNew.Folder);
             }
-            catch (Exception e)
+            catch
             {
                 _logHelper.Log(LogLevel.Error, "Renamed folder exist");
                 throw;

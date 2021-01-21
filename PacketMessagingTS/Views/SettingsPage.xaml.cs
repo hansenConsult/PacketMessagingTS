@@ -424,18 +424,18 @@ namespace PacketMessagingTS.Views
         private void TextBoxTacticalCallsign_TextChanged(object sender, TextChangedEventArgs e)
         {
             return;
-            if (((ComboBox)sender).Text.Length == 6)
-            {
-                IdentityViewModel.TacticalCallsign = ((ComboBox)sender).Text;
-                TacticalCall tacticalCall = new TacticalCall()
-                {
-                    TacticalCallsign = ((ComboBox)sender).Text,
-                    AgencyName = "",
-                    Prefix = ((ComboBox)sender).Text.Substring(((ComboBox)sender).Text.Length - 3),
-                };
-                IdentityViewModel.TacticalCallsignsSource.Add(tacticalCall);
-                IdentityViewModel.TacticalCallsignOther = ((ComboBox)sender).Text;
-            }
+            //if (((ComboBox)sender).Text.Length == 6)
+            //{
+            //    IdentityViewModel.TacticalCallsign = ((ComboBox)sender).Text;
+            //    TacticalCall tacticalCall = new TacticalCall()
+            //    {
+            //        TacticalCallsign = ((ComboBox)sender).Text,
+            //        AgencyName = "",
+            //        Prefix = ((ComboBox)sender).Text.Substring(((ComboBox)sender).Text.Length - 3),
+            //    };
+            //    IdentityViewModel.TacticalCallsignsSource.Add(tacticalCall);
+            //    IdentityViewModel.TacticalCallsignOther = ((ComboBox)sender).Text;
+            //}
         }
         #endregion Identity
         #region Profiles
