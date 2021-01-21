@@ -182,15 +182,15 @@ namespace MVCERTDA_FormsControl
                 }
                 else
                 {
-                    if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
-                    {
+                    //if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
+                    //{
                         int index = Convert.ToInt32(data[1]);
                         return $"{id}: [{data[0]}}}{index + 1}]";
-                    }
-                    else
-                    {
-                        return $"{id}: [{data[0]}}}{data[1]}]";
-                    }
+                    //}
+                    //else
+                    //{
+                    //    return $"{id}: [{data[0]}}}{data[1]}]";
+                    //}
                 }
             }
             else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
@@ -211,8 +211,8 @@ namespace MVCERTDA_FormsControl
             {
                 "!PACF! " + packetMessage.Subject,
                 "# JS:MTV 213 CERT SUMMARY (which4) ",
-                "# JS-ver. MV/PR-4.7-3.4, 11/05/19",
-                "# FORMFILENAME: MTV_213_CERT_Summary.html"
+                "# JS-ver. MV/PR-4.7-3.6, 01/23/20",
+                "# FORMFILENAME: MTV_213_CERT_Summary-v200123.html"
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
@@ -252,7 +252,7 @@ namespace MVCERTDA_FormsControl
                     continue;
 
                 if (formField.ControlName == "fires" && !string.IsNullOrWhiteSpace(formField.ControlContent))
-                    damageAssesmentMessage[0] += $"  F{formField.ControlContent}";
+                    damageAssesmentMessage[0] += $"F{formField.ControlContent}";
                 if (formField.ControlName == "gasLeak" && !string.IsNullOrWhiteSpace(formField.ControlContent))
                     damageAssesmentMessage[1] += $"  G{formField.ControlContent}";
                 if (formField.ControlName == "waterLeak" && !string.IsNullOrWhiteSpace(formField.ControlContent))

@@ -14,11 +14,11 @@ namespace PacketMessagingTS.Services.SMTPClient
     public class SmtpMessage
     {
         private List<String> _EncodeHeaderKeys = new List<String>();
-        private String _From = null;
+        //private String _From = null;
         private List<String> to = new List<String>();
         private List<String> cc = new List<String>();
         private List<String> bcc = new List<String>();
-        private SmtpPriority mailPriority = SmtpPriority.Normal;
+        //private SmtpPriority mailPriority = SmtpPriority.Normal;
         private Encoding _HeaderEncoding = Encoding.UTF8;
         
         private List<String> headers = new List<string>();

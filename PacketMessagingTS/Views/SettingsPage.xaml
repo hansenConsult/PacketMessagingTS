@@ -79,7 +79,7 @@
                            Margin="20,0,0,0" Toggled="ToggleSwitch_Toggled" />
                 <TextBox Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" x:Name="lastUsedBBS"
                          IsReadOnly="true"
-                         Text="{x:Bind LastUsedBBS, Mode=OneWay}"
+                         Text="{x:Bind LastUsedBBS, Mode=TwoWay}"
                          Header="Last used BBS" VerticalAlignment="Center"/>
             </Grid>
         </DataTemplate>

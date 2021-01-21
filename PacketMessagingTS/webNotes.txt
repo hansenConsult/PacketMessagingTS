@@ -1,0 +1,9 @@
+
+website IP address: 192.185.6.145
+
+theunitedeffort.org
+
+ASP.NET settings on website
+
+LocalSQLServer		data source=.\SQLEXPRESS;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|aspnetdb.mdf;User Instance=true
+DefaultConnection	Data Source=(LocalDb)\v11.0;Initial Catalog=aspnet-RentalWeb-20180514095210;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\aspnet-RentalWeb-20180514095210.mdf

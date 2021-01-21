@@ -141,10 +141,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                {
                     _packetForm.FormHeaderControl.MsgTime = value;
-                    //_packetForm.MsgTime = value;
-                }
                 else
                     _packetForm.MsgTime = value;
             }
@@ -743,9 +740,11 @@ namespace PacketMessagingTS.ViewModels
             if (_packetMessage.PacFormName == "SimpleMessage")
             {
                 // Copy messageBody to facilitate printing for long messages
-                FormField formField = new FormField();
-                formField.ControlName = "richTextMessageBody";
-                formField.ControlContent = _packetMessage.FormFieldArray[0].ControlContent;
+                FormField formField = new FormField()
+                {
+                    ControlName = "richTextMessageBody",
+                    ControlContent = _packetMessage.FormFieldArray[0].ControlContent,
+                };
                 _packetMessage.FormFieldArray[1] = formField;
             }
 

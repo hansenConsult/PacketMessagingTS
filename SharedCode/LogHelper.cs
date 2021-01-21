@@ -6,7 +6,7 @@ namespace SharedCode
 {
     public class LogHelper
     {
-        private ILogger _log;
+        private readonly ILogger _log;
 
         public LogHelper()
         { }

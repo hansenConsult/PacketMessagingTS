@@ -223,16 +223,13 @@ namespace PacketMessagingTS.Helpers
             {
                 return (bbs, tnc, from);
             }
-            //else
-            //{
             string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-                bool profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
-                if (profileBBSUp)
-                {
-                    bbs = profileBBS;
-                }
-                tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
-            //}
+            bool? profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
+            if (profileBBSUp == true)
+            {
+                bbs = profileBBS;
+            }
+            tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
             return (bbs, tnc, from);
         }
 
@@ -243,8 +240,8 @@ namespace PacketMessagingTS.Helpers
             string bbs = AddressBook.Instance.GetBBS(from);
 
             string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-            bool profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
-            if (profileBBSUp)
+            bool? profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
+            if (profileBBSUp == true)
             {
                 bbs = profileBBS;
             }

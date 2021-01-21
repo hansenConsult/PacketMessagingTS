@@ -78,7 +78,7 @@ namespace PacketMessagingTS.Services.SMTPClient
                 this.smtpSocket = new SmtpSocket(this.Server, this.Port, this.IsSsl, this.UserName, this.Password);
                 var response = await this.smtpSocket.EstablishConnection();
 
-                if (response.ContainsStatus(SmtpCode.ServiceReady))
+                if (!(response is null) && response.ContainsStatus(SmtpCode.ServiceReady))
                 {
                     this.IsConnected = true;
                     return true;

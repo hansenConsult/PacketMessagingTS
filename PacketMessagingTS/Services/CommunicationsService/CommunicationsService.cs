@@ -35,7 +35,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
     public class CommunicationsService
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CommunicationsService>();
-        private LogHelper _logHelper = new LogHelper(log);
+        private readonly LogHelper _logHelper = new LogHelper(log);
 
         //ViewLifetimeControl rxTxStatusWindow = null;
         //Collection<DeviceListEntry> _listOfDevices;
@@ -698,8 +698,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
             _logHelper.Log(LogLevel.Info, $"Send messages count: {_packetMessagesToSend.Count}");
 
+            if(tncDevice.Name.Contains(PublicData.EMail) && _packetMessagesToSend.Count == 0)
+            {
+                return;
+            }
             List<PacketMessage> messagesSentAsEMail = new List<PacketMessage>();
-            //
+            // Send email messages
             foreach (PacketMessage packetMessage in _packetMessagesToSend)
             {
                 //tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == packetMessage.TNCName).FirstOrDefault();
@@ -733,8 +737,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             // Do a save to ensure that updates are saved
                             packetMessage.Save(SharedData.SentMessagesFolder.Path);
 
-                            _packetMessagesToSend.Remove(packetMessage);
-                            //messagesSentAsEMail.Add(packetMessage);
+                            //_packetMessagesToSend.Remove(packetMessage);
+                            messagesSentAsEMail.Add(packetMessage);
                         }
                     }
                     catch (Exception ex)
@@ -746,11 +750,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 }
             }
 
-            // Remove already processed E-Mail messages.  Done above
-            //foreach (PacketMessage packetMessage in messagesSentAsEMail)
-            //{
-            //    _packetMessagesToSend.Remove(packetMessage);
-            //}
+            // Remove already processed E-Mail messages. 
+            foreach (PacketMessage packetMessage in messagesSentAsEMail)
+            {
+                _packetMessagesToSend.Remove(packetMessage);
+            }
 
             // TODO check if TNC connected otherwise suggest send via email
             //if (_packetMessagesToSend.Count == 0)

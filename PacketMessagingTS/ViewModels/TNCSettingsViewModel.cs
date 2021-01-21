@@ -21,7 +21,7 @@ namespace PacketMessagingTS.ViewModels
     public class TNCSettingsViewModel : BaseViewModel
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCSettingsViewModel>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         public enum TNCState
         {
@@ -40,7 +40,7 @@ namespace PacketMessagingTS.ViewModels
 
         TNCDevice _SavedTNCDevice;
 
-        private static readonly object _syncRoot = new Object();
+        //private static readonly object _syncRoot = new Object();
 
 
         public TNCSettingsViewModel()
@@ -227,26 +227,26 @@ namespace PacketMessagingTS.ViewModels
 
                 if (!string.IsNullOrEmpty(currentTNCDevice.Name) && currentTNCDevice.Name.Contains(PublicData.EMail))
                 {
-                    //    // Update email account index
-                    //    string mailPreample = SharedData.EMailPreample;
-                    //    string mailUserName;
-                    //    int index = currentTNCDevice.Name.IndexOf(mailPreample);
-                    //    if (index == 0)
+                    //// Update email account index
+                    //string mailPreample = PublicData.EMailPreample;
+                    //string mailUserName;
+                    //int index = currentTNCDevice.Name.IndexOf(mailPreample);
+                    //if (index == 0)
+                    //{
+                    //    mailUserName = currentTNCDevice.Name.Substring(mailPreample.Length);
+                    //    int i = 0;
+                    //    for (; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
                     //    {
-                    //        mailUserName = currentTNCDevice.Name.Substring(mailPreample.Length);
-                    //        int i = 0;
-                    //        for (; i < EmailAccountArray.Instance.EmailAccounts.Length; i++)
+                    //        if (mailUserName.Contains(EmailAccountArray.Instance.EmailAccounts[i].MailUserName))
                     //        {
-                    //            if (mailUserName.Contains(EmailAccountArray.Instance.EmailAccounts[i].MailUserName))
-                    //            {
-                    //                break;
-                    //            }
+                    //            break;
                     //        }
-                    //        if (i >= EmailAccountArray.Instance.EmailAccounts.Length)
-                    //            MailAccountSelectedIndex = 0;
-                    //        else
-                    //            MailAccountSelectedIndex = i;
                     //    }
+                    //    if (i >= EmailAccountArray.Instance.EmailAccounts.Length)
+                    //        MailAccountSelectedIndex = 0;
+                    //    else
+                    //        MailAccountSelectedIndex = i;
+                    //}
                 }
                 else
                 {
@@ -819,14 +819,14 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                EmailAccount eMailAccountFromUI = new EmailAccount();
-
-                eMailAccountFromUI.MailServer = MailServer;
-                eMailAccountFromUI.MailServerPort = MailServerPort;
-                eMailAccountFromUI.MailIsSSLField = IsMailSSL;
-                eMailAccountFromUI.MailUserName = MailUserName;
-                eMailAccountFromUI.MailPassword = MailPassword;
-
+                EmailAccount eMailAccountFromUI = new EmailAccount()
+                {
+                    MailServer = MailServer,
+                    MailServerPort = MailServerPort,
+                    MailIsSSLField = IsMailSSL,
+                    MailUserName = MailUserName,
+                    MailPassword = MailPassword,
+                };
                 return eMailAccountFromUI;
             }
         }
