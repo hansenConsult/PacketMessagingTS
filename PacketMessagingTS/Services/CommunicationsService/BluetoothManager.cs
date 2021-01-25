@@ -18,7 +18,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 {
 	public class BluetoothManager
 	{
-		private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BluetoothManager>();
+		private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BluetoothManager>();
 
 		//ViewModels.SharedData sharedData = ViewModels.SharedData.SharedDataInstance;
 		private static volatile BluetoothManager instance;

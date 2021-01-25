@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -74,25 +75,25 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         //private static RxTxStatusPage rxTxStatusPage;
 
-        public void AddRxTxStatusAsync(string text)
-        {
+//        public void AddRxTxStatusAsync(string text)
+//        {
 
-            //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
-//            if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
-//                return;
-            //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
-            //Thread.Sleep(0); No effect
-            //{
-            //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            ////await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
-//            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-//            {
-                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
-                RxTxStatusPage.Current.AddTextToStatusWindow(text);
-                //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
-//            });
-        }
+//            //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
+////            if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
+////                return;
+//            //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
+//            //Thread.Sleep(0); No effect
+//            //{
+//            //await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//            ////await rxTxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//            ////await Singleton<RxTxStatusViewModel>.Instance.StatusPage.Dispatcher.RunTaskAsync( async () =>
+////            await RxTxStatusPage.rxtxStatusPage.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+////            {
+//                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
+//                RxTxStatusPage.Current.AddTextToStatusWindow(text);
+//                //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
+////            });
+//        }
 
         public void AbortConnection()
         {
@@ -386,6 +387,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     {
                         // Not an encoded message
                         //_logHelper.Log(LogLevel.Info, "Not an encoded message");
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        _logHelper.Log(LogLevel.Error, "Argument out of range");
                     }
                     bool toFound = false;
 					subjectFound = false;
@@ -831,9 +836,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         // Do a save to ensure that updates from tncInterface.BBSConnect are saved
                         packetMsg.Save(SharedData.SentMessagesFolder.Path);
                     }
-                    catch (Exception e)
+                    catch (FileNotFoundException)
                     {
-                        _logHelper.Log(LogLevel.Error, $"Exception {e.Message}");
+                        _logHelper.Log(LogLevel.Error, $"File Not Found {packetMsg.FileName}");
+                        continue;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        _logHelper.Log(LogLevel.Error, $"Unauthorized Access {packetMsg.FileName}");
                         continue;
                     }
                     if (string.IsNullOrEmpty(packetMsg.Area) && Singleton<SettingsViewModel>.Instance.PrintSentMessages)

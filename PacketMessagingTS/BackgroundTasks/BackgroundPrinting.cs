@@ -14,7 +14,7 @@ namespace PacketMessagingTS.BackgroundTasks
 {
     public sealed class BackgroundPrinting : BackgroundTask
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundPrinting>();
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundPrinting>();
         private static LogHelper _logHelper = new LogHelper(log);
 
         //private volatile bool _cancelRequested = false;
