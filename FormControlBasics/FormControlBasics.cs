@@ -114,7 +114,7 @@ namespace FormControlBasicsNamespace
         public string HeaderPIF
         {
             get => $"PIF: {_pif}";
-            set => Set(ref _pif, value);
+            //set => Set(ref _pif, value);
         }
 
         //public MessageState Messagestate

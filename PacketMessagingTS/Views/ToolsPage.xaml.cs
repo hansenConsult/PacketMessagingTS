@@ -457,7 +457,7 @@ namespace PacketMessagingTS.Views
         public ICS309ViewModel Ics309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
 
         StorageFile _selectedFile;
-        private readonly int _selectedFileIndex;
+        private int _selectedFileIndex;
         PivotItem _currentPivotItem;
 
         private PrintHelper _printHelper;

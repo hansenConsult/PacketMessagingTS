@@ -121,7 +121,8 @@ namespace MedicalFacilityStatusFormControl
 
             FormHeaderControl.HeaderString1 = "Medical facility Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20160101";
-            FormHeaderControl.HeaderPIF = PIF;
+            //FormHeaderControl.HeaderPIF = PIF;
+            FormHeaderControl.PIF = PIF;
 
             UpdateFormFieldsRequiredColors();
         }

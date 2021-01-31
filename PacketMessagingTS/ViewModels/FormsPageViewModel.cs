@@ -450,8 +450,11 @@ namespace PacketMessagingTS.ViewModels
 
         public async void FormsPagePivotSelectionChangedAsync(int selectedIndex)
         {
+            if (selectedIndex < 0)
+                return;
+
             MessageState messageState = MessageState.None;
-            if (!_loadMessage)
+            if (!LoadMessage)
             {
                 _packetMessage = null;
                 
@@ -487,7 +490,7 @@ namespace PacketMessagingTS.ViewModels
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")
             {
-                if (!_loadMessage)
+                if (!LoadMessage)
                 {
                     // Insert Pivot for message type
                     _simpleMessagePivot = new SimpleMessagePivot();
@@ -538,7 +541,7 @@ namespace PacketMessagingTS.ViewModels
                 _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
             }
 
-            if (!_loadMessage)
+            if (!LoadMessage)
             {
                 // Moved to end of function to allow for state Edit without updated subject 
                 //_packetForm.EventSubjectChanged += FormControl_SubjectChange;
@@ -589,7 +592,8 @@ namespace PacketMessagingTS.ViewModels
                 FillFormFromPacketMessage();
                 IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
 
-                _loadMessage = false;
+                LoadMessage = false;
+                selectedIndex = -1;
             }
             // Moved here in case state is edit message. The form needs to be filled first otherwise the subject is incomplete
             _packetForm.EventSubjectChanged += FormControl_SubjectChange;

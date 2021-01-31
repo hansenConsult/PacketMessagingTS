@@ -41,7 +41,7 @@ namespace PacketMessagingTS.Helpers
 
         protected Pivot _formsPagePivot;
         protected PacketMessage _packetMessage;
-        public bool _loadMessage = false;
+        //public bool _loadMessage = false;
 
         protected SendFormDataControl _packetAddressForm;
         protected FormControlBase _packetForm;
@@ -53,8 +53,6 @@ namespace PacketMessagingTS.Helpers
         protected List<FormControlAttributes> _formControlAttributeList;
 
         public PacketMessage PacketMessage => _packetMessage;
-
-        //public bool LoadMessage => _loadMessage;
 
         public Pivot FormsPagePivot => _formsPagePivot;
 
@@ -634,8 +632,7 @@ namespace PacketMessagingTS.Helpers
             {
                 _packetMessage.MessageOpened = true;
                 string directory = Path.GetDirectoryName(packetMessagePath);
-                _loadMessage = true;
-                ViewModel.LoadMessage = _loadMessage;
+                ViewModel.LoadMessage = true;
 
                 int index = 0;
                 foreach (PivotItem pivotItem in _formsPagePivot.Items)
