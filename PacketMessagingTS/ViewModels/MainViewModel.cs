@@ -28,8 +28,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class MainViewModel : MessageDataGridViewModel
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainViewModel>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainViewModel>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
         public MainViewModel()
@@ -127,17 +127,17 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public DataGrid FindDataGrid(DependencyObject panelName)
+        public static DataGrid FindDataGrid(DependencyObject panelName)
         {
             DataGrid dataGrid = null;
 
-            var count = VisualTreeHelper.GetChildrenCount(panelName);
+            //var count = VisualTreeHelper.GetChildrenCount(panelName);
             DependencyObject control = VisualTreeHelper.GetChild(panelName, 0);
 
-            count = VisualTreeHelper.GetChildrenCount(control);
+            //count = VisualTreeHelper.GetChildrenCount(control);
             control = VisualTreeHelper.GetChild(control, 0);
 
-            count = VisualTreeHelper.GetChildrenCount(control);
+            //count = VisualTreeHelper.GetChildrenCount(control);
             control = VisualTreeHelper.GetChild(control, 0);
 
             if (control is DataGrid)
@@ -166,7 +166,7 @@ namespace PacketMessagingTS.ViewModels
                         {
                             if (packetMessage.Area == area)
                             {
-                                if (!BulletinHelpers.BulletinDictionary.TryGetValue(area, out List<string> bulletinList))
+                                if (!BulletinHelpers.BulletinDictionary.TryGetValue(area, out _))
                                 {
                                     BulletinHelpers.BulletinDictionary[area] = new List<string>();
                                 }
@@ -275,8 +275,8 @@ namespace PacketMessagingTS.ViewModels
         {
             PageDataGrid = FindDataGrid(MainPagePivotSelectedItem);
             string menuFlyoutSubItemName = "moveMenu" + PageDataGrid?.Name.Substring(8);
-            MenuFlyoutSubItem moveSubMenu = PageDataGrid?.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
-            if (moveSubMenu is null)
+            //MenuFlyoutSubItem moveSubMenu = PageDataGrid?.FindName(menuFlyoutSubItemName) as MenuFlyoutSubItem;
+            if (!(PageDataGrid?.FindName(menuFlyoutSubItemName) is MenuFlyoutSubItem moveSubMenu))
                 return;
 
             int itemsCount = moveSubMenu.Items.Count;
@@ -325,12 +325,16 @@ namespace PacketMessagingTS.ViewModels
                     await file?.MoveAsync(SharedData.DeletedMessagesFolder);
                 }
             }
-            catch (Exception ex)
+            catch (FileNotFoundException)
             {
                 var file = await folder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
                 await file?.DeleteAsync();
 
-                string s = ex.ToString();
+                //string s = ex.ToString();
+            }
+            catch (Exception )
+            {
+                int a = 3;
             }
             _messagesInFolder = await PacketMessage.GetPacketMessages(folder);
         }
@@ -388,7 +392,7 @@ namespace PacketMessagingTS.ViewModels
         protected RelayCommand<DataGridRowEventArgs> _LandingRowCommand;
         public RelayCommand<DataGridRowEventArgs> LandingRowCommand => _LandingRowCommand ?? (_LandingRowCommand = new RelayCommand<DataGridRowEventArgs>(LandingRow));
 
-        protected void LandingRow(DataGridRowEventArgs args)
+        protected static void LandingRow(DataGridRowEventArgs args)
         {
             PacketMessage packetMesage = args.Row.DataContext as PacketMessage;
 
@@ -401,7 +405,7 @@ namespace PacketMessagingTS.ViewModels
         protected RelayCommand<DataGridRowEventArgs> _UnloadingRowCommand;
         public RelayCommand<DataGridRowEventArgs> UnloadingRowCommand => _UnloadingRowCommand ?? (_UnloadingRowCommand = new RelayCommand<DataGridRowEventArgs>(UnloadingRow));
 
-        protected void UnloadingRow(DataGridRowEventArgs args)
+        protected static void UnloadingRow(DataGridRowEventArgs args)
         {
             args.Row.Background = new SolidColorBrush(Colors.White);
         }
@@ -476,7 +480,7 @@ namespace PacketMessagingTS.ViewModels
         {
             StorageFolder folder = MainPagePivotSelectedItem.Tag as StorageFolder;
 
-            var file = await folder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
+            await folder.CreateFileAsync(PacketMessageRightClicked.FileName, CreationCollisionOption.OpenIfExists);
             //await file?.MoveAsync(SharedData.ArchivedMessagesFolder);
         }
 

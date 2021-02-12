@@ -29,7 +29,10 @@ namespace PacketMessagingTS.ViewModels
                 int index = GetProperty(ref hospitalFormsPagePivotSelectedIndex);
                 if (index >= SharedData.FormControlAttributeHospitalList.Count)
                     index = 0;
+                if (!FirstTimeFormOpened)
+                    LoadMessage = false;
                 FormsPagePivotSelectionChangedAsync(index);
+                FirstTimeFormOpened = false;
                 return index;
             }
             set => SetProperty(ref hospitalFormsPagePivotSelectedIndex, value, true);

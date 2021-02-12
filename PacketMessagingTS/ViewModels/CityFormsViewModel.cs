@@ -12,7 +12,10 @@ namespace PacketMessagingTS.ViewModels
                 int index = GetProperty(ref cityFormsPagePivotSelectedIndex);
                 if (index >= SharedData.FormControlAttributeCityList.Count)
                     index = 0;
+                if (!FirstTimeFormOpened)
+                    LoadMessage = false;
                 FormsPagePivotSelectionChangedAsync(index);
+                FirstTimeFormOpened = false;
                 return index;
             }
             set => SetProperty(ref cityFormsPagePivotSelectedIndex, value, true);

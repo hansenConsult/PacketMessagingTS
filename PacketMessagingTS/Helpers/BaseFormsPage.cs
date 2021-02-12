@@ -28,6 +28,7 @@ using static SharedCode.Helpers.MessageOriginHelper;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+
 using PacketMessagingTS.ViewModels;
 
 namespace PacketMessagingTS.Helpers
@@ -40,8 +41,6 @@ namespace PacketMessagingTS.Helpers
         protected MessageOrigin _messageOrigin = MessageOrigin.New;
 
         protected Pivot _formsPagePivot;
-        protected PacketMessage _packetMessage;
-        //public bool _loadMessage = false;
 
         protected SendFormDataControl _packetAddressForm;
         protected FormControlBase _packetForm;
@@ -52,7 +51,12 @@ namespace PacketMessagingTS.Helpers
 
         protected List<FormControlAttributes> _formControlAttributeList;
 
-        public PacketMessage PacketMessage => _packetMessage;
+        private PacketMessage _packetMessage;
+        public PacketMessage PacketMessage
+        {
+            get => _packetMessage;
+            set => _packetMessage = value;
+        }
 
         public Pivot FormsPagePivot => _formsPagePivot;
 
@@ -611,9 +615,10 @@ namespace PacketMessagingTS.Helpers
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //_logHelper.Log(LogLevel.Trace, "Entering OnNavigatedTo in BaseFormsPage");
+            ViewModel.FirstTimeFormOpened = true;
             if (e.Parameter is null)
             {
-                _packetMessage = null;
+                PacketMessage = null;
                 ViewModel.LoadMessage = false;
                 base.OnNavigatedTo(e);
                 return;
@@ -621,23 +626,24 @@ namespace PacketMessagingTS.Helpers
 
             // Open a form with content
             string packetMessagePath = e.Parameter as string;
-            _packetMessage = PacketMessage.Open(packetMessagePath);
-            if (_packetMessage is null)
+            PacketMessage = PacketMessage.Open(packetMessagePath);
+            if (PacketMessage is null)
             {
                 _logHelper.Log(LogLevel.Error, $"Failed to open {packetMessagePath}");
+                ViewModel.LoadMessage = false;
                 base.OnNavigatedTo(e);
                 return;
             }
             else
             {
-                _packetMessage.MessageOpened = true;
+                PacketMessage.MessageOpened = true;
                 string directory = Path.GetDirectoryName(packetMessagePath);
                 ViewModel.LoadMessage = true;
 
                 int index = 0;
                 foreach (PivotItem pivotItem in _formsPagePivot.Items)
                 {
-                    if (pivotItem.Name == _packetMessage.PacFormName) // If PacFormType is not set
+                    if (pivotItem.Name == PacketMessage.PacFormName) // If PacFormType is not set
                     {
                         //_formsPagePivot.SelectedIndex = index;
                         //FormsPagePivotSelectedIndex = index;
@@ -663,7 +669,7 @@ namespace PacketMessagingTS.Helpers
                 //    }
                 //}
                 //ViewModel.MessageOrigin = _messageOrigin;
-                _packetMessage.Save(directory);
+                PacketMessage.Save(directory);
             }
             base.OnNavigatedTo(e);
         }

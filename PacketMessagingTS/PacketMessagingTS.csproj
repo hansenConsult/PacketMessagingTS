@@ -207,7 +207,7 @@
     <Compile Include="ViewModels\CityFormsViewModel.cs" />
     <Compile Include="ViewModels\CustomFoldersViewModel.cs" />
     <Compile Include="ViewModels\CountyFormsViewModel.cs" />
-    <Compile Include="ViewModels\FormsPageViewModel.cs" />
+    <Compile Include="ViewModels\FormsViewModel.cs" />
     <Compile Include="ViewModels\HospitalFormsViewModel.cs" />
     <Compile Include="ViewModels\ICS309ViewModel.cs" />
     <Compile Include="ViewModels\IdentityViewModel.cs" />

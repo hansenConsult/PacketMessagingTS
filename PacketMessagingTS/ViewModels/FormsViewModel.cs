@@ -51,6 +51,13 @@ namespace PacketMessagingTS.ViewModels
         protected FormControlBase _packetForm;
         protected SimpleMessagePivot _simpleMessagePivot;
 
+        //private bool forstTimeFormOpened;
+        public bool FirstTimeFormOpened
+        {
+            get;
+            set;
+        }
+
         public string MessageNo
         {
             get
@@ -292,7 +299,7 @@ namespace PacketMessagingTS.ViewModels
             return formControl;
         }
 
-        private async Task InitializeFormControlAsync()
+        public async void InitializeFormControlAsync()
         {
             _packetMessage = null;
             //_pivotItem = FormsPage.FormsPagePivot.Items[FormsPagePivotSelectedIndex] as PivotItem;
@@ -305,7 +312,6 @@ namespace PacketMessagingTS.ViewModels
             if (_packetForm is null)
             {
                 await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
-
                 return;
             }
 
@@ -390,7 +396,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 _packetForm.MessageSentTime = _packetMessage.JNOSDate;
                 _packetForm.ReceivedOrSent = "Receiver";
-                if (_packetForm.FormProvider == Core.Helpers.FormProvidersHelper.FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
+                if (_packetForm.FormProvider == FormProvidersHelper.FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                 {
                     MessageNo = _packetMessage.MessageNumber;
                     _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
@@ -456,8 +462,7 @@ namespace PacketMessagingTS.ViewModels
             MessageState messageState = MessageState.None;
             if (!LoadMessage)
             {
-                _packetMessage = null;
-                
+                _packetMessage = null;                
             }
             else
             {
@@ -592,8 +597,8 @@ namespace PacketMessagingTS.ViewModels
                 FillFormFromPacketMessage();
                 IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
 
-                LoadMessage = false;
-                selectedIndex = -1;
+                //_MessageFormFilled = true;
+                //selectedIndex = -1; // Possible this is called twice on double click on message? Seems to fix the problem that an empty form is loaded
             }
             // Moved here in case state is edit message. The form needs to be filled first otherwise the subject is incomplete
             _packetForm.EventSubjectChanged += FormControl_SubjectChange;
@@ -763,7 +768,7 @@ namespace PacketMessagingTS.ViewModels
             communicationsService.BBSConnectAsync2();
 
             // Create an empty form
-            await InitializeFormControlAsync();
+            InitializeFormControlAsync();
         }
 
         private ICommand _PrintFormCommand;
@@ -777,9 +782,9 @@ namespace PacketMessagingTS.ViewModels
         private ICommand _ClearFormCommand;
         public ICommand ClearFormCommand => _ClearFormCommand ?? (_ClearFormCommand = new RelayCommand(ClearForm));
 
-        public async void ClearForm()
+        public void ClearForm()
         {
-            await InitializeFormControlAsync();
+            InitializeFormControlAsync();
         }
 
         private ICommand _SaveFormCommand;

@@ -484,21 +484,21 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" FontFamily="Times New Roman" FontSize="12" FontWeight="Bold" 
                                        Text=" CC:" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Column="1" x:Name="Management" FontFamily="Times New Roman" FontSize="11" 
+                            <CheckBox Grid.Column="1" x:Name="Management" FontFamily="Times New Roman" FontSize="12" 
                                       VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Management" 
-                                      Padding="4,0,0,0" />
-                            <CheckBox Grid.Column="2" x:Name="Operations" FontFamily="Times New Roman" FontSize="11" 
+                                      Padding="4,0,0,0" IsEnabled="False"/>
+                            <CheckBox Grid.Column="2" x:Name="Operations" FontFamily="Times New Roman" FontSize="12" 
                                       VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Operations" 
-                                      Padding="4,0,0,0"/>
-                            <CheckBox Grid.Column="3" x:Name="Planning" FontFamily="Times New Roman" FontSize="11" 
+                                      Padding="4,0,0,0" IsEnabled="False"/>
+                            <CheckBox Grid.Column="3" x:Name="Planning" FontFamily="Times New Roman" FontSize="12" 
                                       VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Planning" 
-                                      Padding="4,0,0,0"/>
-                            <CheckBox Grid.Column="4" x:Name="Logistics" FontFamily="Times New Roman" FontSize="11" 
+                                      Padding="4,0,0,0" IsEnabled="False"/>
+                            <CheckBox Grid.Column="4" x:Name="Logistics" FontFamily="Times New Roman" FontSize="12" 
                                       VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Logistics" 
-                                      Padding="4,0,0,0"/>
-                            <CheckBox Grid.Column="5" x:Name="Finance" FontFamily="Times New Roman" FontSize="11" 
+                                      Padding="4,0,0,0" IsEnabled="False"/>
+                            <CheckBox Grid.Column="5" x:Name="Finance" FontFamily="Times New Roman" FontSize="12" 
                                       VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Finance" 
-                                      Padding="4,0,0,0"/>
+                                      Padding="4,0,0,0" IsEnabled="False"/>
                         </Grid>
                         <Border Grid.Row="5" BorderBrush="Black" BorderThickness="1,0,1,1" Background="LightGray" >
                             <TextBlock Text="14. Operators Use Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
@@ -522,7 +522,7 @@
                             <TextBlock Grid.Column="3" Text="Sent:" Style="{StaticResource LabelFontTNR14B}" 
                                        VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <TextBox Grid.Column="4" x:Name="relaySent" BorderThickness="1"  
-                                     Margin="8,2,2,2" Tag="OpRelaySent" />
+                                     Margin="8,2,2,2" Tag="OpRelaySent" Text="" />
                         </Grid>
                         <!--<Grid Grid.Row="7" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
@@ -646,13 +646,11 @@
                                                VerticalAlignment="Center" Margin="8,0,5,0" />
                                 <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
                                                                    CheckedControlName="{x:Bind ReceivedOrSent}" Tag="Rec-Sent"/>
-                                <RadioButton x:Name="receiver" GroupName="receivedOrSent" 
-                                                 Style="{StaticResource ReceivedSentRadioButton}" 
-                                                 Content=" or Sent" Padding="5" Tag=""/>
-                                <RadioButton x:Name="sender" GroupName="receivedOrSent" Content="" Margin="-30,0,0,0" 
-                                                 HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                 FontFamily="Times New Roman" Tag="sender"/>
-                                <!--<TextBlock Text="    " Width="120" Margin="-94,0,0,0" Height="32" FontFamily="Times New Roman" Canvas.ZIndex="1"/>-->
+                                <RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                                     Content="" Padding="5" Tag=""/>
+                                <RadioButton x:Name="sent" GroupName="receivedOrSent" 
+                                                     Style="{StaticResource ResourceKey=ReceivedSentRadioButton}"
+                                                     Content="or sent" Margin="-30,0,0,0" Padding="-68,4,5,5" Tag="sender"/>
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" Height="auto">
                                 <TextBlock Style="{StaticResource ReceivedSentLabelFont}" Text="Operator Call Sign:" 
@@ -664,9 +662,9 @@
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" >
                                 <TextBlock Style="{StaticResource ReceivedSentLabelFont}" Text="Operator Name:"  
-                                           Margin="8,0,0,0" VerticalAlignment="Center" />
+                                           Margin="8,0,0,0" />
                                 <TextBox x:Name="operatorName" 
-                                         Text="{x:Bind OperatorName, Mode=TwoWay}" VerticalAlignment="Center"
+                                         Text="{x:Bind OperatorName, Mode=TwoWay}" 
                                          BorderBrush="White" Margin="5,2,0,2" Width="auto" Tag="OpName"/>
                             </StackPanel>
                             <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" IsTabStop="False"
@@ -674,19 +672,19 @@
                                                                Tag="Method"/>
                             <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" GroupName="howRecevedSent" x:Name="telephone" 
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="Telephone" 
-                                         Margin="8,0,0,0" Padding="4,0,0,0" Tag="Telephone" VerticalAlignment="Center"/>
+                                         Tag="Telephone" VerticalAlignment="Center"/>
                             <RadioButton Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="dispatchCenter" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="Dispatch Center" 
-                                         Padding="4" Width="100" Tag="Dispatch Center"/>
+                                         Width="100" Tag="Dispatch Center"/>
                             <RadioButton Grid.Row="2" Grid.Column="0" x:Name="eOCRadio" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="EOC Radio" 
-                                         Padding="4" Tag="EOC Radio"/>
+                                         Tag="EOC Radio"/>
                             <RadioButton Grid.Row="2" Grid.Column="1" x:Name="fax" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="FAX" 
-                                         Grid.ColumnSpan="2" Padding="4" Tag="FAX"/>
+                                         Grid.ColumnSpan="2" Tag="FAX"/>
                             <RadioButton Grid.Row="2" Grid.Column="2" x:Name="courier" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="Courier" 
-                                         Padding="4"  Width="auto" Tag="Courier"/>
+                                         Width="auto" Tag="Courier"/>
                             <TextBlock Grid.Row="2" Grid.Column="3" Text=" "/>
                             <!--<Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0" Grid.ColumnSpan="3"/>-->
                             <RadioButton Grid.Row="3" Grid.Column="0" x:Name="amateurRadio" GroupName="howRecevedSent" 

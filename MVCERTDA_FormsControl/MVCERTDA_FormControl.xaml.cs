@@ -12,7 +12,6 @@ using SharedCode.Models;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -50,7 +49,6 @@ namespace MVCERTDA_FormsControl
             comboBoxToICSPosition.SelectedItem = "Planning";
             comboBoxFromICSPosition.SelectedItem = "Planning";
             ToLocation = "Mountain View EOC";
-            //subject.Text = subjectText;
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
@@ -211,37 +209,13 @@ namespace MVCERTDA_FormsControl
             {
                 "!PACF! " + packetMessage.Subject,
                 "# JS:MTV 213 CERT SUMMARY (which4) ",
-                "# JS-ver. MV/PR-4.7-3.6, 01/23/20",
-                "# FORMFILENAME: MTV_213_CERT_Summary-v200123.html"
+                "# JS-ver. MV/PR-4.7-3.6.2, 01/24/21",
+                "# FORMFILENAME: MTV_213_CERT_Summary-v210124.html"
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
         }
-
-        //protected override void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
-        //{
-        //    var data = formField.ControlContent.Split(new char[] { ',' });
-        //    int index = Convert.ToInt32(data[1]);
-        //    if (index < 0 && comboBox.IsEditable)
-        //    {
-        //        if (comboBox.Name == "comboBoxFromLocation")
-        //        {
-        //            FromLocation = data[0];
-        //        }
-        //        else
-        //            comboBox.Text = data[0];
-        //        //comboBox.SelectedIndex = index;
-        //        //bool result = comboBox.Focus(FocusState.Programmatic);
-        //        //comboBox.Visibility = Visibility.Visible;
-        //    }
-        //    else
-        //    {
-        //        //comboBox.SelectedItem = data[0];
-        //        comboBox.SelectedIndex = index;
-        //    }
-        //}
-
 
         private void CreateDamageAssesmentMessage(ref PacketMessage packetMessage)
         {
@@ -365,7 +339,6 @@ namespace MVCERTDA_FormsControl
                 if (comboBoxFromLocation.SelectedIndex < 0 && comboBoxFromLocation.IsEditable)
                 {
                     textBoxFromLocation.Text = comboBoxFromLocation.Text;
-                    //FromLocation = comboBoxFromLocation.Text;
                 }
                 else
                 {
@@ -402,31 +375,11 @@ namespace MVCERTDA_FormsControl
             ComboBox_SelectionChanged(sender, e);
         }
 
-        private void ComboBoxFromLocation_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
-        {
-            subject.Text = _subjectText + args.Text;
-            textBoxFromLocation.Text = args.Text;
-
-            foreach (FormControl formControl in _formControlsList)
-            {
-                Control control = formControl.InputControl as Control;
-
-                if (control.Name == sender.Name)
-                {
-                    if (string.IsNullOrEmpty(args.Text) && IsFieldRequired(sender))
-                    {
-                        sender.BorderBrush = formControl.RequiredBorderBrush;
-                        sender.BorderThickness = new Thickness(2);
-                    }
-                    else
-                    {
-                        sender.BorderBrush = formControl.BaseBorderColor;
-                        sender.BorderThickness = new Thickness(1);
-                    }
-                    break;
-                }
-            }
-        }
+        //private void ComboBoxFromLocation_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
+        //{
+        //    subject.Text = _subjectText + args.Text;
+        //    textBoxFromLocation.Text = args.Text;
+        //}
 
     }
 }

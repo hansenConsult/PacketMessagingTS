@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="TextControlThemeMinWidth">40</x:Double>
-         
+
             <DataTemplate x:Name="ToFromHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" FontWeight="Bold" 
                            Foreground="Black" Margin="0,0,0,0"/>
@@ -222,7 +222,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                                       Foreground="Black" Text="MESSAGE FORM" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0"/>
+                                       Foreground="Black" Text="MV CERT/EOC MESSAGE FORM" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0"/>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel >
                                     <TextBlock FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" 
@@ -435,12 +435,13 @@
                                                           DisplayMemberPath="AgencyName"
                                                           SelectedValuePath = "TacticalCallsign"
                                                           SelectedValue="{x:Bind CERTLocationValue, Mode=TwoWay}"
-                                                          TextSubmitted="ComboBoxFromLocation_TextSubmitted"
+                                                          
                                                           SelectionChanged="ComboBoxFromLocation_SelectionChanged"
                                                           Margin="2,0,2,2" IsEditable="True"
                                                           Tag="29,required,Enter a CERT Location." 
                                                           HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                                                           />
+                                                <!--TextSubmitted="ComboBoxFromLocation_TextSubmitted"-->
                                                 <TextBox x:Name="comboBoxFromLocationTextBox"
                                                          Style="{StaticResource ToFromTextBox}"
                                                          Visibility="Collapsed"
@@ -653,7 +654,7 @@
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="1">
                             <TextBox x:Name="ActionTaken1" Height="60" Style="{StaticResource TypedText}" 
-                                         Margin="5,2,5,2" Tag="35"/>
+                                         Margin="5,2,5,2" Tag="55"/>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="1,0,1,1">
                             <StackPanel Orientation="Horizontal" >
@@ -701,15 +702,18 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="How received" VerticalAlignment="Center" Margin="5,0,5,0" />
                                         <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" CheckedControlName="{x:Bind ReceivedOrSent}"/>
                                         <RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=RadioButtonTNR12B}" 
-                                                     Content="or Sent" Padding="5" Tag="62"/>
-                                        <RadioButton x:Name="sent" GroupName="receivedOrSent" Content="" Margin="-30,0,0,0" Tag="61"/>
+                                                     Content="" Padding="5" Tag="61"/>
+                                        <RadioButton x:Name="sent" GroupName="receivedOrSent" 
+                                                     Style="{StaticResource ResourceKey=RadioButtonTNR12B}"
+                                                     Content="or sent" Margin="-30,0,0,0" Padding="-68,5,5,5" Tag="62"/>
                                     </StackPanel>
                                 </Border>
                                 <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" CheckedControlName="{x:Bind HowReceivedSent}"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="149*" />
-                                        <ColumnDefinition Width="131*" />
+                                        <ColumnDefinition Width="140*" />
+                                        <ColumnDefinition Width="53*" />
+                                        <ColumnDefinition Width="71*"/>
                                         <ColumnDefinition Width="Auto" MinWidth="76" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
@@ -717,34 +721,35 @@
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3" Height="34"/>
-                                    <RadioButton Grid.Row="0" GroupName="howRecevedSent" Grid.Column="0" x:Name="telephone" 
+                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="4" Height="34"/>
+                                    <!--Style="{StaticResource ResourceKey=RadioButtonTNR12B}"-->
+                                    <RadioButton GroupName="howRecevedSent" Grid.Column="0" x:Name="telephone" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Telephone" 
                                                  Margin="5,0,0,0" Padding="4" Tag="63"/>
-                                    <RadioButton Grid.Row="0" Grid.Column="1" x:Name="dispatchCenter" GroupName="howRecevedSent" 
+                                    <RadioButton Grid.Column="1" x:Name="dispatchCenter" GroupName="howRecevedSent" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Dispatch Center" 
-                                                 Grid.ColumnSpan="2" Padding="4" Width="100" Tag="64"/>
-                                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="3"/>
+                                                 Grid.ColumnSpan="3" Padding="4" Width="100" Tag="64" Margin="8,0,0,0"/>
+                                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" Grid.ColumnSpan="4"/>
                                     <RadioButton Grid.Row="1" Grid.Column="0" x:Name="eOCRadio" GroupName="howRecevedSent" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="EOC Radio" 
                                                  Margin="5,0,0,0" Padding="4" Tag="65"/>
                                     <RadioButton Grid.Row="1" Grid.Column="1" x:Name="fax" GroupName="howRecevedSent" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="FAX" 
-                                                 Grid.ColumnSpan="2" Padding="4" Tag="66"/>
-                                    <RadioButton Grid.Row="1" Grid.Column="2" x:Name="courier" GroupName="howRecevedSent" 
+                                                 Grid.ColumnSpan="3" Padding="4" Tag="66" Margin="8,0,0,0"/>
+                                    <RadioButton Grid.Row="1" Grid.Column="3" x:Name="courier" GroupName="howRecevedSent" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Courier" 
-                                                 Padding="4" Height="34" Width="auto" Tag="67"/>
-                                    <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="3"/>
+                                                 Padding="4" Height="34" Width="auto" Tag="67" Margin="8,0,0,0"/>
+                                    <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" Grid.ColumnSpan="4"/>
                                     <RadioButton Grid.Row="2" Grid.Column="0" x:Name="amateurRadio" GroupName="howRecevedSent" 
                                                  Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Amateur Radio" 
                                                  Margin="5,0,0,0" Padding="5" Tag="68"/>
-                                    <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="1.333,0,-1.667,0" Height="34" VerticalAlignment="Top">
+                                    <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="2,0,-2,0" Height="34" VerticalAlignment="Center">
                                         <RadioButton Grid.Row="2" Grid.Column="1" x:Name="otherRecvdType" GroupName="howRecevedSent" 
                                                      Style="{StaticResource ResourceKey=RadioButtonTNR12B}" Content="Other" 
                                                      Width="auto" Grid.ColumnSpan="2" IsChecked="True" Padding="5" Tag="69"/>
-                                        <TextBox x:Name="otherText"  Margin="-20,0,0,0" VerticalContentAlignment="Center" 
+                                        <TextBox x:Name="otherText"  Margin="-30,0,0,0" VerticalContentAlignment="Center" 
                                                  TextAlignment="Left" BorderBrush="White" Width="100" Text="Packet" 
-                                                 BorderThickness="0" HorizontalAlignment="Left" Padding="8" Tag="70"/>
+                                                 BorderThickness="0" HorizontalAlignment="Left" Padding="0,6,0,0" Tag="70"/>
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
@@ -754,16 +759,16 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Call Sign:" VerticalAlignment="Center" Margin="5"/>
                                         <TextBox x:Name="operatorCallsign"  
                                                  Text="{x:Bind OperatorCallsign, Mode=TwoWay}" 
-                                                 BorderBrush="White" HorizontalAlignment="Left" 
-                                                 Margin="5,0,0,0" Width="auto" Tag="71" />
+                                                 BorderBrush="White" 
+                                                 Margin="5,4,0,4" Width="auto" Tag="71" />
                                     </StackPanel>
                                 </Border>
                                 <Border BorderBrush="Black" BorderThickness="0,0,0,1" Height="34">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Name:"  VerticalAlignment="Center" Margin="5"/>
-                                        <TextBox x:Name="operatorName"  
+                                        <TextBox x:Name="operatorName" 
                                                  Text="{x:Bind OperatorName}"
-                                                 BorderBrush="White" Margin="5,0,0,0" Width="auto" Tag="72"/>
+                                                 BorderBrush="White" Margin="5,4,0,4" Width="auto" Tag="72"/>
                                     </StackPanel>
                                 </Border>
                                 <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="" Height="33" />
@@ -791,7 +796,7 @@
                         </Grid>
                         <TextBlock FontSize="11" FontWeight="Bold" FontFamily="Helvetica"
                                Margin="0,12,4,0" HorizontalAlignment="Right" >
-                            <Underline>FORM 213 MTV CERT Summary (Ver. MV/PR-4.7-3.4)</Underline>, 11/05/19
+                            <Underline>FORM 213 MTV CERT Summary (Ver. MV/PR-4.7-3.6.2)</Underline>, 01/24/21
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>

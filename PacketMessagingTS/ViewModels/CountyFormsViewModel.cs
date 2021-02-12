@@ -20,10 +20,17 @@ namespace PacketMessagingTS.ViewModels
                 int index = GetProperty(ref countyFormsPagePivotSelectedIndex);
                 if (index >= SharedData.FormControlAttributeCountyList.Count)
                     index = 0;
+                if (!FirstTimeFormOpened)
+                    LoadMessage = false;
                 FormsPagePivotSelectionChangedAsync(index);
+                FirstTimeFormOpened = false;
                 return index;
             }
-            set => SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);
+            //set => SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);
+            set
+            {
+                SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);
+            }
         }
 
     }

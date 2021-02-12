@@ -677,7 +677,9 @@ namespace FormControlBasicsNamespace
                     {
                         comboBox.SelectedIndex = -1;
                     }
-                    if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)// && Messagestate != MessageState.Locked)
+                    //if (IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0)
+                    if ((IsFieldRequired(comboBox) && comboBox.SelectedIndex < 0 && !comboBox.IsEditable) ||
+                        (IsFieldRequired(comboBox) && string.IsNullOrEmpty(selection) && comboBox.IsEditable))
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         comboBox.BorderThickness = new Thickness(2);
