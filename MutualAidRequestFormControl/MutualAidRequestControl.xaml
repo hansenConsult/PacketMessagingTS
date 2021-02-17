@@ -77,7 +77,7 @@
                             </Grid.ColumnDefinitions>
                             <Border  Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Name:" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2"  Tag="15.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="agencyName" Margin="2"  Tag="15.,Required" />
                         </Grid>
                         <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelCenterSemiBold}" Text="Event / Incident" />
@@ -261,7 +261,10 @@
                                 <TextBlock Grid.Column="0" />
                                 <TextBlock Grid.Column="1" Style="{StaticResource LabelCenter}" Text="Date:" />
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                <TextBox Grid.Column="2" PlaceholderText="mm/dd/yyyy" Margin="2,2,4,2" VerticalAlignment="Center" Tag="26a.,Required" />
+                                <TextBox Grid.Column="2" PlaceholderText="mm/dd/yyyy" x:Name="signedDate"
+                                         Margin="2,2,4,2" VerticalAlignment="Center" 
+                                         Text="{x:Bind SignedDate, Mode=TwoWay}"
+                                         TextChanged="TextBox_DateChanged" Tag="26a.,Required" />
                                 <TextBlock Grid.Column="3" Style="{StaticResource LabelCenter}" Text="Time:" />
                                 <TextBox Grid.Column="4" PlaceholderText="hh:mm" Margin="2" VerticalAlignment="Center" Tag="26b.,Required" />
                             </Grid>

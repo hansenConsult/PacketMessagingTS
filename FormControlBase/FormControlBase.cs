@@ -247,8 +247,7 @@ namespace FormControlBaseClass
         { get; set; }
     
         public virtual FormHeaderUserControl FormHeaderControl
-        { get; 
-            set; }
+        { get; set; }
 
         public virtual RadioOperatorUserControl RadioOperatorControl
         { get; set; }
