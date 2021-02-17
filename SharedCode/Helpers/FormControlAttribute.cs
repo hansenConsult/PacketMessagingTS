@@ -28,5 +28,8 @@ namespace SharedCode.Helpers
 
         // Menu text
         public string FormControlMenuName { get; set; }    // 
+
+        // Menu index
+        public int FormControlMenuIndex { get; set; }
     }
 }

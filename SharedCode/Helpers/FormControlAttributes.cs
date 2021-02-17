@@ -24,16 +24,20 @@ namespace SharedCode.Helpers
         public string FormControlMenuName
         { get; private set; }
 
+        public int FormControlMenuIndex
+        { get; private set; }
+
         public FormControlAttribute.FormType FormControlType
         { get; private set; }
 
         public StorageFile FormControlFile
         { get; set; }
 
-        public FormControlAttributes2(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, StorageFile formControlFile)
+        public FormControlAttributes2(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex, StorageFile formControlFile)
         {
             FormControlName = formControlType;
             FormControlMenuName = formControlMenuName;
+            FormControlMenuIndex = formControlMenuIndex;
             FormControlType = formType;
             FormControlFile = formControlFile;
         }

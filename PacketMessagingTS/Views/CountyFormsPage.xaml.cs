@@ -42,7 +42,7 @@ namespace PacketMessagingTS.Views
                 PublicData.FormControlAttributeCountyList = new List<FormControlAttributes2>(); //Testing
                 foreach (FormControlAttributes attr in _formControlAttributeList)
                 {
-                    FormControlAttributes2 attr2 = new FormControlAttributes2(attr.FormControlName, attr.FormControlMenuName, attr.FormControlType, attr.FormControlFile);
+                    FormControlAttributes2 attr2 = new FormControlAttributes2(attr.FormControlName, attr.FormControlMenuName, attr.FormControlType, attr.FormControlMenuIndex, attr.FormControlFile);
                     PublicData.FormControlAttributeCountyList.Add(attr2);  // Testing
                 }
             }

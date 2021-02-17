@@ -248,7 +248,7 @@ namespace PacketMessagingTS.ViewModels
                         foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
                         {
                             var namedArguments = customAttribute.NamedArguments;
-                            if (namedArguments.Count == 3)
+                            if (namedArguments.Count == 4)
                             {
                                 foreach (CustomAttributeNamedArgument arg in namedArguments)
                                 {
@@ -476,6 +476,11 @@ namespace PacketMessagingTS.ViewModels
             string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 
             _pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
+            if (_pivotItem is null)
+            {
+                await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
+                return;
+            }
             string pivotItemName = _pivotItem.Name;
             _packetForm = CreateFormControlInstance(pivotItemName, messageState); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)

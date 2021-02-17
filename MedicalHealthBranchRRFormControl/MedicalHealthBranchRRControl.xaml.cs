@@ -21,7 +21,8 @@ namespace MedicalHealthBranchRRFormControl
     [FormControl(
         FormControlName = "form-medical-resource-request",
         FormControlMenuName = "XSC Medical Resource Request",
-        FormControlType = FormControlAttribute.FormType.HospitalForm)
+        FormControlType = FormControlAttribute.FormType.HospitalForm,
+        FormControlMenuIndex = 2)
     ]
 
     /// <summary>
@@ -33,15 +34,9 @@ namespace MedicalHealthBranchRRFormControl
         {
             InitializeComponent();
 
-            //DependencyObject panelName = formHeaderControl.Panel;
-            //ScanControls(panelName, formHeaderControl);
-
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-            //panelName = radioOperatorControl.Panel;
-            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.NamePanel1Visibility = false;
             FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";

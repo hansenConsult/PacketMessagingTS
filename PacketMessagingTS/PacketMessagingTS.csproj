@@ -426,6 +426,10 @@
       <Project>{475FFB7E-6AC6-4448-8A79-DA711662893C}</Project>
       <Name>MessageFormControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MutualAidRequestFormControl\MutualAidRequestFormControl.csproj">
+      <Project>{4bb24155-945f-43e5-9b73-80e1dfa902f8}</Project>
+      <Name>MutualAidRequestFormControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVCERTDA_FormsControl\MVCERTDA_FormControl.csproj">
       <Project>{2322ba11-25a0-4a4c-a323-0dc147eef403}</Project>
       <Name>MVCERTDA_FormControl</Name>

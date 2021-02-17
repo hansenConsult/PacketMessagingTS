@@ -19,10 +19,11 @@ using Windows.UI.Xaml.Controls;
 namespace ICS213RRPackItFormControl
 {
     [FormControl(
-    FormControlName = "form-scco-eoc-213rr",
-    FormControlMenuName = "EOC Resource Request",
-    FormControlType = FormControlAttribute.FormType.CountyForm)
-]
+        FormControlName = "form-scco-eoc-213rr",
+        FormControlMenuName = "EOC Resource Request",
+        FormControlType = FormControlAttribute.FormType.CountyForm,
+        FormControlMenuIndex = 2)
+    ]
 
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {

@@ -20,7 +20,8 @@ namespace MVCERTDA_FormsControl
     [FormControl(
         FormControlName = "MV_CERT_DA_Summary",
         FormControlMenuName = "MTV 213 CERT DA Summary",
-        FormControlType = FormControlAttribute.FormType.CityForm)
+        FormControlType = FormControlAttribute.FormType.CityForm,
+        FormControlMenuIndex = 0)
     ]
 
     public sealed partial class MVCERTDAControl : FormControlBase

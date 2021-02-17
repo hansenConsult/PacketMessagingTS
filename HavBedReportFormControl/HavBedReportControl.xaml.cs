@@ -21,7 +21,8 @@ namespace HavBedReportFormControl
     [FormControl(
         FormControlName = "form-mhoc-beds-status",
         FormControlMenuName = "XSC HAvBed Report",
-        FormControlType = FormControlAttribute.FormType.HospitalForm)
+        FormControlType = FormControlAttribute.FormType.HospitalForm,
+        FormControlMenuIndex = 0)
     ]
 
     /// <summary>

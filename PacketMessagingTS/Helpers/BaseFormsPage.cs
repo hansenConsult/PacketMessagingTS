@@ -214,15 +214,37 @@ namespace PacketMessagingTS.Helpers
 
         protected virtual void PopulateFormsPagePivot()
         {
+            // Get a list of menuItems in order
+            FormControlAttributes[] formControlAttributesInMenuOrder = new FormControlAttributes[10];
             foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
             {
-                if (string.IsNullOrEmpty(formControlAttribute.FormControlMenuName))
+                if (formControlAttribute.FormControlMenuIndex < 0)
                 {
+                    _logHelper.Log(LogLevel.Warn, $"Menu index is undefined for {formControlAttribute.FormControlName}");
                     continue;
                 }
-                PivotItem pivotItem = CreatePivotItem(formControlAttribute);
+                formControlAttributesInMenuOrder[formControlAttribute.FormControlMenuIndex] = formControlAttribute;
+            }
+            for (int i = 0; formControlAttributesInMenuOrder[i] != null; i++)
+            {
+                if (string.IsNullOrEmpty(formControlAttributesInMenuOrder[i].FormControlMenuName))
+                {
+                    _logHelper.Log(LogLevel.Warn, $"Menu name is undefined for {formControlAttributesInMenuOrder[i].FormControlName}");
+                    continue;
+                }
+                PivotItem pivotItem = CreatePivotItem(formControlAttributesInMenuOrder[i]);
                 _formsPagePivot.Items.Add(pivotItem);
             }
+
+            //foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
+            //{
+            //    if (string.IsNullOrEmpty(formControlAttribute.FormControlMenuName))
+            //    {
+            //        continue;
+            //    }
+            //    PivotItem pivotItem = CreatePivotItem(formControlAttribute);
+            //    _formsPagePivot.Items.Add(pivotItem);
+            //}
         }
 
         public virtual void ScanFormAttributes(FormControlAttribute.FormType[] formTypes)
@@ -244,12 +266,13 @@ namespace PacketMessagingTS.Helpers
                         //if (!(customAttribute is FormControlAttribute))
                         //    continue;
                         IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
-                        if (namedArguments.Count == 3)
+                        if (namedArguments.Count == 4)
                         {
                             bool formControlTypeFound = false;
                             string formControlName = "";
                             FormControlAttribute.FormType formControlType = FormControlAttribute.FormType.Undefined;
                             string formControlMenuName = "";
+                            int formControlMenuIndex = 0;
                             foreach (CustomAttributeNamedArgument arg in namedArguments)
                             {
                                 if (arg.MemberName == "FormControlName")
@@ -272,10 +295,14 @@ namespace PacketMessagingTS.Helpers
                                 {
                                     formControlMenuName = arg.TypedValue.Value as string;
                                 }
+                                else if (arg.MemberName == "FormControlMenuIndex")
+                                {
+                                    formControlMenuIndex = (int)arg.TypedValue.Value;
+                                }
                             }
                             if (formControlTypeFound)
                             {
-                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, null);
+                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, formControlMenuIndex, null);
                                 _formControlAttributeList.Add(formControlAttributes);
                             }
                         }

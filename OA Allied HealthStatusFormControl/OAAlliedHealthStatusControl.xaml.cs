@@ -20,7 +20,8 @@ namespace OAAlliedHealthStatus201802FormControl
     [FormControl(
                 FormControlName = "form-allied-health-facility-status",
                 FormControlMenuName = "Allied Health Facility status",
-                FormControlType = FormControlAttribute.FormType.CountyForm)
+                FormControlType = FormControlAttribute.FormType.CountyForm,
+        FormControlMenuIndex = 5)
     ]
 
 

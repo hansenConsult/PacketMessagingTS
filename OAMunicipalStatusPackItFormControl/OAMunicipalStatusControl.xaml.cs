@@ -25,7 +25,8 @@ namespace OAMunicipalStatusPackItFormControl
     [FormControl(
         FormControlName = "form-oa-muni-status",
         FormControlMenuName = "OA Municipal Status",
-        FormControlType = FormControlAttribute.FormType.CountyForm)
+        FormControlType = FormControlAttribute.FormType.CountyForm,
+        FormControlMenuIndex = 3)
     ]
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase

@@ -21,6 +21,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Documents;
 using Windows.Storage;
+using Windows.System;
+using Windows.UI.Xaml.Input;
 
 namespace FormControlBaseClass
 {
@@ -243,9 +245,10 @@ namespace FormControlBaseClass
 
         public virtual string TacticalCallsign
         { get; set; }
-
+    
         public virtual FormHeaderUserControl FormHeaderControl
-        { get; set; }
+        { get; 
+            set; }
 
         public virtual RadioOperatorUserControl RadioOperatorControl
         { get; set; }
@@ -1311,6 +1314,17 @@ namespace FormControlBaseClass
                         break;
                     }
                 }
+            }
+        }
+
+        // This is for filtering non number keys for a number key only field
+        protected void TextBoxResource_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (!((e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Number9) || (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.NumberPad9)
+                || e.Key == VirtualKey.Delete || e.Key == VirtualKey.End || e.Key == VirtualKey.Left || e.Key == VirtualKey.Right
+                || e.Key == VirtualKey.Back))
+            {
+                e.Handled = true;
             }
         }
 

@@ -19,7 +19,8 @@ namespace HospitalRollCallFormControl
     [FormControl(
         FormControlName = "hospital_roll_call",
         FormControlMenuName = "Hospital RollCall",
-        FormControlType = FormControlAttribute.FormType.HospitalForm)
+        FormControlType = FormControlAttribute.FormType.HospitalForm,
+        FormControlMenuIndex = 4)
     ]
 
     public sealed partial class HospitalRollCallControl : FormControlBase

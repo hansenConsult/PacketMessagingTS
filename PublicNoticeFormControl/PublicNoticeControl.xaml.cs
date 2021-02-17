@@ -16,10 +16,11 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 namespace PublicNoticeFormControl
 {
     [FormControl(
-    FormControlName = "PublicNotice",
-    FormControlMenuName = "SCCo Public Notice",
-    FormControlType = FormControlAttribute.FormType.TestForm)
-]
+        FormControlName = "PublicNotice",
+        FormControlMenuName = "SCCo Public Notice",
+        FormControlType = FormControlAttribute.FormType.TestForm,
+        FormControlMenuIndex = 0)
+    ]
 
     public sealed partial class PublicNoticeControl : FormControlBase
     {
