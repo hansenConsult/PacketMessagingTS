@@ -214,8 +214,20 @@ namespace PacketMessagingTS.Helpers
 
         protected virtual void PopulateFormsPagePivot()
         {
-            // Get a list of menuItems in order
-            FormControlAttributes[] formControlAttributesInMenuOrder = new FormControlAttributes[10];
+            foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
+            {
+                if (string.IsNullOrEmpty(formControlAttribute.FormControlMenuName))
+                {
+                    continue;
+                }
+                PivotItem pivotItem = CreatePivotItem(formControlAttribute);
+                _formsPagePivot.Items.Add(pivotItem);
+            }
+        }
+
+        protected virtual void PopulateFormsPagePivot(FormControlAttributes[] formControlAttributesInMenuOrder)
+        {
+            // Create an array in menu index order
             foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
             {
                 if (formControlAttribute.FormControlMenuIndex < 0)
@@ -225,7 +237,8 @@ namespace PacketMessagingTS.Helpers
                 }
                 formControlAttributesInMenuOrder[formControlAttribute.FormControlMenuIndex] = formControlAttribute;
             }
-            for (int i = 0; formControlAttributesInMenuOrder[i] != null; i++)
+
+            for (int i = 0; i < formControlAttributesInMenuOrder.Length; i++)
             {
                 if (string.IsNullOrEmpty(formControlAttributesInMenuOrder[i].FormControlMenuName))
                 {
@@ -235,16 +248,6 @@ namespace PacketMessagingTS.Helpers
                 PivotItem pivotItem = CreatePivotItem(formControlAttributesInMenuOrder[i]);
                 _formsPagePivot.Items.Add(pivotItem);
             }
-
-            //foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
-            //{
-            //    if (string.IsNullOrEmpty(formControlAttribute.FormControlMenuName))
-            //    {
-            //        continue;
-            //    }
-            //    PivotItem pivotItem = CreatePivotItem(formControlAttribute);
-            //    _formsPagePivot.Items.Add(pivotItem);
-            //}
         }
 
         public virtual void ScanFormAttributes(FormControlAttribute.FormType[] formTypes)
@@ -266,7 +269,8 @@ namespace PacketMessagingTS.Helpers
                         //if (!(customAttribute is FormControlAttribute))
                         //    continue;
                         IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
-                        if (namedArguments.Count == 4)
+                        //if (namedArguments.Count == 4)
+                        if (namedArguments.Count == FormControlAttributes.AttributesCount)
                         {
                             bool formControlTypeFound = false;
                             string formControlName = "";

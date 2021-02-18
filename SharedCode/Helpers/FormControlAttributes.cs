@@ -16,7 +16,7 @@ using Windows.Storage;
 
 namespace SharedCode.Helpers
 {
-    public class FormControlAttributes2
+    public class FormControlAttributes
     {
         public string FormControlName
         { get; private set; }
@@ -24,8 +24,12 @@ namespace SharedCode.Helpers
         public string FormControlMenuName
         { get; private set; }
 
+        private int _FormControlMenuIndex = -1;
         public int FormControlMenuIndex
-        { get; private set; }
+        {
+            get => _FormControlMenuIndex;
+            private set => _FormControlMenuIndex = value;
+        }
 
         public FormControlAttribute.FormType FormControlType
         { get; private set; }
@@ -33,7 +37,9 @@ namespace SharedCode.Helpers
         public StorageFile FormControlFile
         { get; set; }
 
-        public FormControlAttributes2(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex, StorageFile formControlFile)
+        public static int AttributesCount => 4;
+
+        public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex, StorageFile formControlFile)
         {
             FormControlName = formControlType;
             FormControlMenuName = formControlMenuName;

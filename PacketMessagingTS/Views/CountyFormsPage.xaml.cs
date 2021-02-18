@@ -39,22 +39,40 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList.AddRange(_formControlAttributeList1);
 
                 SharedData.FormControlAttributeCountyList = _formControlAttributeList;
-                PublicData.FormControlAttributeCountyList = new List<FormControlAttributes2>(); //Testing
-                foreach (FormControlAttributes attr in _formControlAttributeList)
-                {
-                    FormControlAttributes2 attr2 = new FormControlAttributes2(attr.FormControlName, attr.FormControlMenuName, attr.FormControlType, attr.FormControlMenuIndex, attr.FormControlFile);
-                    PublicData.FormControlAttributeCountyList.Add(attr2);  // Testing
-                }
+
+                //SortAttributesByMenuIndex(PublicData.FormControlAttributesInMenuOrderCounty);
+                //PublicData.FormControlAttributeCountyList = new List<FormControlAttributes>(); //Testing
+                //foreach (FormControlAttributes attr in _formControlAttributeList)
+                //{
+                //    FormControlAttributes attr2 = new FormControlAttributes(attr.FormControlName, attr.FormControlMenuName, attr.FormControlType, attr.FormControlMenuIndex, attr.FormControlFile);
+                //    PublicData.FormControlAttributeCountyList.Add(attr2);  // Testing
+                //}
             }
             else
             {
                 _formControlAttributeList = SharedData.FormControlAttributeCountyList;
             }
-            PopulateFormsPagePivot();
+            int indexCount = _formControlAttributeList.Count;
+            PublicData.FormControlAttributesInMenuOrderCounty = new FormControlAttributes[indexCount];
+
+            PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderCounty);
 
             _CountyFormsViewModel.FormsPage = this;
             ViewModel = _CountyFormsViewModel;
         }
 
+        //private void SortAttributesByMenuIndex(FormControlAttributes[] formControlAttributesInMenuOrder)
+        //{
+        //    // Get a list of menuItems in order
+        //    foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
+        //    {
+        //        if (formControlAttribute.FormControlMenuIndex < 0)
+        //        {
+        //            _logHelper.Log(LogLevel.Warn, $"Menu index is undefined for {formControlAttribute.FormControlName}");
+        //            continue;
+        //        }
+        //        formControlAttributesInMenuOrder[formControlAttribute.FormControlMenuIndex] = formControlAttribute;
+        //    }
+        //}
     }
 }

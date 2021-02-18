@@ -1,5 +1,7 @@
 ﻿using PacketMessagingTS.Helpers;
 
+using SharedCode.Helpers;
+
 namespace PacketMessagingTS.ViewModels
 {
     public class CityFormsViewModel : FormsViewModel
@@ -10,7 +12,8 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref cityFormsPagePivotSelectedIndex);
-                if (index >= SharedData.FormControlAttributeCityList.Count)
+                //if (index >= SharedData.FormControlAttributeCityList.Count)
+                if (index >= PublicData.FormControlAttributesInMenuOrderCity.Length)
                     index = 0;
                 if (!FirstTimeFormOpened)
                     LoadMessage = false;

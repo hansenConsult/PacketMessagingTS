@@ -10,7 +10,12 @@ namespace SharedCode.Helpers
 {
     public static class PublicData
     {
-        public static List<FormControlAttributes2> FormControlAttributeCountyList;
+        public static List<FormControlAttributes> FormControlAttributeCountyList;
+
+        public static FormControlAttributes[] FormControlAttributesInMenuOrderCounty;
+        public static FormControlAttributes[] FormControlAttributesInMenuOrderCity;
+        public static FormControlAttributes[] FormControlAttributesInMenuOrderHospital;
+
 
         public static string EMail = "Email";
         public static string EMailPreample = $"Email: ";

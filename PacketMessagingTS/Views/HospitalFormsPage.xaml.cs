@@ -45,9 +45,10 @@ namespace PacketMessagingTS.Views
             {
                 _formControlAttributeList = SharedData.FormControlAttributeHospitalList;
             }
+            int indexCount = _formControlAttributeList.Count;
+            PublicData.FormControlAttributesInMenuOrderHospital = new FormControlAttributes[indexCount];
 
-            //_formControlAttributeList.AddRange(_attributeListTypeHospital);
-            PopulateFormsPagePivot();
+            PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderHospital);
 
             _hospitalFormsViewModel.FormsPage = this;
             ViewModel = _hospitalFormsViewModel;

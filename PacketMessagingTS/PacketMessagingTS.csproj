@@ -162,7 +162,6 @@
     <Compile Include="Helpers\DeviceListEntry.cs" />
     <Compile Include="Helpers\DispatcherTaskExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
-    <Compile Include="Helpers\FormControlAttributes.cs" />
     <Compile Include="Helpers\MessageDataGridViewModel.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\BaseViewModel.cs" />

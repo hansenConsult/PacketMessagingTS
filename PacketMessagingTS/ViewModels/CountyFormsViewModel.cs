@@ -2,6 +2,8 @@
 
 using PacketMessagingTS.Helpers;
 
+using SharedCode.Helpers;
+
 namespace PacketMessagingTS.ViewModels
 {
     public class CountyFormsViewModel : FormsViewModel
@@ -18,7 +20,7 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref countyFormsPagePivotSelectedIndex);
-                if (index >= SharedData.FormControlAttributeCountyList.Count)
+                if (index >= PublicData.FormControlAttributesInMenuOrderCounty.Length)
                     index = 0;
                 if (!FirstTimeFormOpened)
                     LoadMessage = false;
@@ -26,11 +28,7 @@ namespace PacketMessagingTS.ViewModels
                 FirstTimeFormOpened = false;
                 return index;
             }
-            //set => SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);
-            set
-            {
-                SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);
-            }
+            set => SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);
         }
 
     }

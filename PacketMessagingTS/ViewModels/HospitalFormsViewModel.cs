@@ -11,6 +11,8 @@
 
 using PacketMessagingTS.Helpers;
 
+using SharedCode.Helpers;
+
 namespace PacketMessagingTS.ViewModels
 {
     public class HospitalFormsViewModel : FormsViewModel
@@ -27,7 +29,7 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref hospitalFormsPagePivotSelectedIndex);
-                if (index >= SharedData.FormControlAttributeHospitalList.Count)
+                if (index >= PublicData.FormControlAttributesInMenuOrderHospital.Length)
                     index = 0;
                 if (!FirstTimeFormOpened)
                     LoadMessage = false;

@@ -248,7 +248,8 @@ namespace PacketMessagingTS.ViewModels
                         foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
                         {
                             var namedArguments = customAttribute.NamedArguments;
-                            if (namedArguments.Count == 4)
+                            //if (namedArguments.Count == 4)
+                            if (namedArguments.Count == FormControlAttributes.AttributesCount)
                             {
                                 foreach (CustomAttributeNamedArgument arg in namedArguments)
                                 {

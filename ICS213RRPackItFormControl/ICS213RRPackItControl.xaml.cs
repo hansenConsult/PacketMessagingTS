@@ -64,7 +64,9 @@ namespace ICS213RRPackItFormControl
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
         //public override string GetPacFormName() => "form-scco-eoc-213rr";
-        public override string GetPacFormName() => PublicData.FormControlAttributeCountyList[2].FormControlName;  
+        //public override string GetPacFormName() => PublicData.FormControlAttributeCountyList[2].FormControlName;  
+        // The index is FormControlMenuIndex.
+        public override string GetPacFormName() => PublicData.FormControlAttributesInMenuOrderCounty[2].FormControlName;
 
         public override string PacFormType => "XSC_EOC_213RR";
 

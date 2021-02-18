@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
+using SharedCode.Helpers;
+
 using Windows.Storage;
 
 namespace PacketMessagingTS.Helpers

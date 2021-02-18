@@ -36,11 +36,8 @@ namespace MutualAidRequestFormControl
 
             InitializeToggleButtonGroups();
 
-            //formHeaderControl.NamePanel1Visibility = false;
             FormHeaderControl.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
             FormHeaderControl.HeaderSubstring = "Version: 190614";
-
-            //signedDate.Text = FormHeaderControl.MsgDate;
 
             UpdateFormFieldsRequiredColors();
         }
