@@ -162,9 +162,8 @@ namespace OAShelterStatusFormControl
             return CreateOutpostMessageBody(_outpostData);
         }
 
-        private void Capacity_TextChanged(object sender, TextChangedEventArgs e)
+        private void UpdateAvailability()
         {
-            TextBox_IntegerChanged(sender, e);
             try
             {
                 int occupancyInt = string.IsNullOrEmpty(occupancy.Text) ? 0 : Convert.ToInt32(occupancy.Text);
@@ -176,6 +175,14 @@ namespace OAShelterStatusFormControl
             {
                 return;
             }
+
+        }
+
+        private void Capacity_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox_IntegerChanged(sender, e);
+
+            UpdateAvailability();
         }
 
         protected override void UpdateRequiredFields(bool required)
@@ -211,7 +218,7 @@ namespace OAShelterStatusFormControl
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
-            bool found1 = false;
+            bool found1 = false, found2 = false, found3 = false;
             foreach (FormField formField in formFields)
             {
                 FrameworkElement control = GetFrameworkElement(formField);
@@ -227,11 +234,21 @@ namespace OAShelterStatusFormControl
                             ShelterName = formField.ControlContent;
                             found1 = true;
                             break;
+                        case "capacity":
+                            capacity.Text = formField.ControlContent;
+                            UpdateAvailability();
+                            found2 = true;
+                            break;
+                        case "occupancy":
+                            occupancy.Text = formField.ControlContent;
+                            UpdateAvailability();
+                            found3 = true;
+                            break;
                         case null:
                             continue;
                     }
                 }
-                if (found1)
+                if (found1 && found2 && found3)
                     break;
             }
             base.FillFormFromFormFields(formFields);
@@ -263,7 +280,7 @@ namespace OAShelterStatusFormControl
                                 comboBox.SelectedIndex = index;
                                 //if (FormPacketMessage.MessageState == MessageState.Locked)
                                 //{
-                                    textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+                                //    textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
                                     textBox.Background = packItItem.BackgroundBrush;
                                 //}
                                 break;
@@ -293,7 +310,12 @@ namespace OAShelterStatusFormControl
                                 tagFnd = true;
                                 comboBox.SelectedItem = comboBoxItem;
                                 textBox.Text = comboBoxItem.Content as string;
-                                //break;
+                                if (comboBoxItem.Background != null)
+                                {
+                                    backgroundColorFound = true;
+                                    textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
+                                    break;
+                                }
                             }
                             if ((comboBoxItem.Content as string) == formField.ControlContent)
                             {
@@ -301,24 +323,16 @@ namespace OAShelterStatusFormControl
                                 {
                                     backgroundColorFound = true;
                                     comboBox.SelectedItem = comboBoxItem;
+                                    textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
                                     //break;
                                 }
                             }
-
                         }
-                        if (tagFnd || backgroundColorFound)
-                        {
-                            //comboBox.SelectedItem = comboBoxItem;
-                        }
-                        else
+                        if (!tagFnd && !backgroundColorFound)
                         {
                             comboBox.SelectedValue = formField.ControlContent;
                         }
-
-                        if (textBox != null && backgroundColorFound)
-                        {
-                            textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
-                        }
+                        break;
                     }
                 }
 

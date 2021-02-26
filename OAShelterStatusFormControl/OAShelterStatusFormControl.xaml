@@ -225,7 +225,7 @@
                                       Tag="30.,conditionallyrequired"
                                       Loaded="ComboBox_Loaded"/>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="shelterTypeTextBox"
-                                     Margin="2" Visibility="Collapsed" />
+                                     Margin="2" Width="auto" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Status:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -282,7 +282,7 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Zip:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <TextBox Grid.Column="1" Grid.Row="7" Width="100"
+                            <TextBox Grid.Column="1" Grid.Row="7" x:Name="zip" Width="100"
                                      HorizontalAlignment="Left"
                                      Style="{StaticResource MuniStatusTextBox}" Tag="33d."/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>

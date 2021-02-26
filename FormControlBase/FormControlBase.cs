@@ -768,6 +768,10 @@ namespace FormControlBaseClass
                     {
                         return $"{id}: [{formField.ControlComboxContent.PacketData}]";
                     }
+                    else if (formField.ControlComboxContent == null)
+                    {
+                        return $"{id}: [{formField.ControlContent}]";
+                    }
                     else
                     {
                         string[] selection = formField.ControlContent.Split(new char[] { ' ' });
