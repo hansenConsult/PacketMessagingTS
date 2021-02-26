@@ -227,16 +227,6 @@ namespace OAAlliedHealthStatus201802FormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        private void TextBoxResource_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (!((e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Number9) || (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.NumberPad9)
-                || e.Key == VirtualKey.Delete || e.Key == VirtualKey.End || e.Key == VirtualKey.Left || e.Key == VirtualKey.Right
-                || e.Key == VirtualKey.Back))
-            {
-                e.Handled = true;         
-            }
-        }
-
         public override void FillFormFromFormFields(FormField[] formFields)
         {
             bool found1 = false;

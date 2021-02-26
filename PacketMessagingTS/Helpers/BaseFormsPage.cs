@@ -186,15 +186,17 @@ namespace PacketMessagingTS.Helpers
         //public MessageOrigin MessageOrigin => _messageOrigin;
 
 
-        public BaseFormsPage()
-        {
-        }
+        //public BaseFormsPage()
+        //{
+        //}
 
         protected virtual PivotItem CreatePivotItem(FormControlAttributes formControlAttributes)
         {
-            PivotItem pivotItem = new PivotItem();
-            pivotItem.Name = formControlAttributes.FormControlName;
-            pivotItem.Header = formControlAttributes.FormControlMenuName;
+            PivotItem pivotItem = new PivotItem
+            {
+                Name = formControlAttributes.FormControlName,
+                Header = formControlAttributes.FormControlMenuName
+            };
 
             ScrollViewer scrollViewer = new ScrollViewer
             {
@@ -203,8 +205,10 @@ namespace PacketMessagingTS.Helpers
                 Height = double.NaN
             };
 
-            StackPanel stackpanel = new StackPanel();
-            stackpanel.Name = pivotItem.Name + "Panel";
+            StackPanel stackpanel = new StackPanel
+            {
+                Name = pivotItem.Name + "Panel"
+            };
             scrollViewer.Content = stackpanel;
 
             pivotItem.Content = scrollViewer;
@@ -490,6 +494,18 @@ namespace PacketMessagingTS.Helpers
             {
                 return string.Empty;
             }
+            //catch (ArgumentException)
+            //{
+            //    return string.Empty;
+            //}
+            catch (ArgumentNullException)
+            {
+                return string.Empty;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return string.Empty;
+            }
         }
 
         //public string CreateValidatedSubject()
@@ -646,7 +662,7 @@ namespace PacketMessagingTS.Helpers
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //_logHelper.Log(LogLevel.Trace, "Entering OnNavigatedTo in BaseFormsPage");
-            ViewModel.FirstTimeFormOpened = true;
+            //ViewModel.FirstTimeFormOpened = true;
             if (e.Parameter is null)
             {
                 PacketMessage = null;

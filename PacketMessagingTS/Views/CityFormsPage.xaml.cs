@@ -20,10 +20,10 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class CityFormsPage : BaseFormsPage
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CityFormsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CityFormsPage>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public CityFormsViewModel _cityFormsViewModel { get; } = Singleton<CityFormsViewModel>.Instance;
+        public CityFormsViewModel CityFormsViewModel { get; } = Singleton<CityFormsViewModel>.Instance;
 
 
         public CityFormsPage()
@@ -50,8 +50,11 @@ namespace PacketMessagingTS.Views
 
             PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderCity);
 
-            _cityFormsViewModel.FormsPage = this;
-            ViewModel = _cityFormsViewModel;
+            CityFormsViewModel.FormsPage = this;
+            ViewModel = CityFormsViewModel;
+            //ViewModel = _cityFormsViewModel;
+            //ViewModel.FormsPage = this;
+
         }
 
     }

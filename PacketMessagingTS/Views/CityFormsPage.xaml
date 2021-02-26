@@ -18,7 +18,7 @@
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
-               SelectedIndex="{x:Bind _cityFormsViewModel.CityFormsPagePivotSelectedIndex, Mode=TwoWay}"/>
+               SelectedIndex="{x:Bind CityFormsViewModel.CityFormsPagePivotSelectedIndex, Mode=TwoWay}"/>
         <!--SelectionChanged="FormsPagePivot_SelectionChangedAsync"-->
         <!--Simple Message-->
         <!--<PivotItem x:Name="SimpleMessage" DataContext="{Binding FormsPartViewModel}" Header="Simple Message">
@@ -54,20 +54,20 @@
 				RelativePanel.AlignRightWithPanel="True"
 				RelativePanel.AlignLeftWithPanel="True">
             <AppBarButton x:Name="appBarClearForm" Label="Clear Form" Icon="Clear" HorizontalAlignment="Right"
-                          Command="{x:Bind _cityFormsViewModel.ClearFormCommand}"/>
+                          Command="{x:Bind CityFormsViewModel.ClearFormCommand}"/>
             <AppBarButton x:Name="appBarViewOutpostData" Label="View Outpost Data" Icon="View" HorizontalAlignment="Right"
-                          Command="{x:Bind _cityFormsViewModel.ViewOutpostDataCommand}"/>
+                          Command="{x:Bind CityFormsViewModel.ViewOutpostDataCommand}"/>
             <AppBarButton x:Name="appBarSave" Label="Save Message" Icon="Save" HorizontalAlignment="Right"
-                          Command="{x:Bind _cityFormsViewModel.SaveFormCommand}"/>
+                          Command="{x:Bind CityFormsViewModel.SaveFormCommand}"/>
             <AppBarButton x:Name="appBarPrint" Label="Print Message" Icon="Print" HorizontalAlignment="Right"
-                          Command="{x:Bind _cityFormsViewModel.PrintFormCommand}"/>
+                          Command="{x:Bind CityFormsViewModel.PrintFormCommand}"/>
             <!--<AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2F6;"/>
                 </AppBarButton.Icon>-->
             <!--</AppBarButton>-->
             <AppBarButton x:Name="appBarSend" Label="Send Message" Icon="Send"
-                          IsEnabled="{x:Bind _cityFormsViewModel.IsAppBarSendEnabled}"
-                          Command="{x:Bind _cityFormsViewModel.SendReceiveCommand}"/>
+                          IsEnabled="{x:Bind CityFormsViewModel.IsAppBarSendEnabled}"
+                          Command="{x:Bind CityFormsViewModel.SendReceiveCommand}"/>
         </CommandBar>
     </RelativePanel>
 </myBase:BaseFormsPage>

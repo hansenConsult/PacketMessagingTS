@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
-    <StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="HAvBedReportControl" >
+    <StackPanel x:Name="PrintableArea" RequestedTheme="Light" DataContext="MedicalFacilityStatusControl" >
         <Border x:Name="FormHAvBedReport" BorderBrush="Black" BorderThickness="1" Padding="15" HorizontalAlignment="Stretch" >
             <StackPanel>
                 <Grid x:Name="container" Opacity="0" />

@@ -23,7 +23,7 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<HospitalFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        public HospitalFormsViewModel _hospitalFormsViewModel { get; } = Singleton<HospitalFormsViewModel>.Instance;
+        public HospitalFormsViewModel HospitalFormsViewModel { get; } = Singleton<HospitalFormsViewModel>.Instance;
 
 
         public HospitalFormsPage()
@@ -50,8 +50,8 @@ namespace PacketMessagingTS.Views
 
             PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderHospital);
 
-            _hospitalFormsViewModel.FormsPage = this;
-            ViewModel = _hospitalFormsViewModel;
+            HospitalFormsViewModel.FormsPage = this;
+            ViewModel = HospitalFormsViewModel;
         }
 
     }

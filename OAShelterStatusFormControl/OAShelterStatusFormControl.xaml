@@ -18,6 +18,144 @@
                 <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <!--<Style TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItemRevealStyle}" />-->
+            <!--<Style TargetType="ComboBoxItem" x:Key="ComboBoxItemRevealStyle">
+                <Setter Property="Foreground" Value="{ThemeResource ComboBoxItemForeground}" />
+                <Setter Property="Background" Value="YellowBrush" />
+                <Setter Property="BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrush}" />
+                <Setter Property="BorderThickness" Value="{ThemeResource ComboBoxItemRevealBorderThemeThickness}" />
+                <Setter Property="TabNavigation" Value="Local" />
+                <Setter Property="Padding" Value="{ThemeResource ComboBoxItemRevealThemePadding}" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBoxItem">
+                            <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" Control.IsTemplateFocusTarget="True">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="PointerOver" />
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundPointerOver}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushPointerOver}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundPointerOver}" />
+                                            </VisualState.Setters>
+
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundDisabled}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushDisabled}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundDisabled}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundPressed}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushPressed}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundPressed}" />
+                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+
+                                            <Storyboard>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelected}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelected}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelected}" />
+                                            </VisualState.Setters>
+
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="SelectedUnfocused">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedUnfocused}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedUnfocused}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedUnfocused}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="SelectedDisabled">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedDisabled}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedDisabled}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedDisabled}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="SelectedPointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedPointerOver}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedPointerOver}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedPointerOver}" />
+                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="PointerOver" />
+                                            </VisualState.Setters>
+
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="SelectedPressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedPressed}" />
+                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedPressed}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedPressed}" />
+                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="Pressed" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="InputModeStates">
+                                        <VisualState x:Name="InputModeDefault" />
+                                        <VisualState x:Name="TouchInputMode">
+                                            <VisualState.Setters>
+                                                <Setter Target="ContentPresenter.Margin" Value="{ThemeResource ComboBoxItemRevealThemeTouchPadding}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="GameControllerInputMode">
+                                            <VisualState.Setters>
+                                                <Setter Target="ContentPresenter.Margin" Value="{ThemeResource ComboBoxItemRevealThemeGameControllerPadding}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter x:Name="ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Margin="{TemplateBinding Padding}" />
+
+                            </Grid>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>-->
+            <!--<Color x:Key="YellowBrush">#FF1F1F1F</Color>-->
+            <!--<SolidColorBrush x:Key="ComboBoxItemBackground" Color="{StaticResource YellowBrush}" />-->
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -83,30 +221,36 @@
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterType" 
                                       Style="{StaticResource MuniStatusComboBox}"
-                                      DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind ShelterTypes}" 
                                       Tag="30.,conditionallyrequired"
                                       Loaded="ComboBox_Loaded"/>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="shelterTypeTextBox"
-                                     Visibility="Collapsed" />
+                                     Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Status:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
+                            <!--<ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
                                       Style="{StaticResource MuniStatusComboBox}"
-                                      DisplayMemberPath="Item"
+                                      DisplayMemberPath="Item"                                      
                                       ItemsSource="{x:Bind ShelterStatuses}" 
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
-                                      Tag="31.,conditionallyrequired,Select shelter status" />
+                                      Tag="31.,conditionallyrequired,Select shelter status" />-->
+                            <ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
+                                      Style="{StaticResource MuniStatusComboBox}"
+                                      ItemsSource="{x:Bind ShelterStatuses}" 
+                                      SelectionChanged="ComboBox_SelectionChanged"
+                                      Loaded="ComboBox_Loaded"
+                                      Tag="31.,conditionallyrequired,Select shelter status" >
+                            </ComboBox>
                             <TextBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatusTextBox"
-                                     Visibility="Collapsed" />
+                                     Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" 
                                     BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Name:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="3" 
-                                     Style="{StaticResource ReadOnlyTextBox}"
+                                     Style="{StaticResource ReadOnlyTextBox}" Margin="2"
                                      Text="{x:Bind ShelterName, Mode=TwoWay}"
                                      Tag=""/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" 
@@ -120,14 +264,14 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="City:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="5" x:Name="shelterCity" 
+                            <ComboBox Grid.Column="1" Grid.Row="5" x:Name="shelterCity" Width="180"
                                       Style="{StaticResource MuniStatusComboBox}"
-                                      DisplayMemberPath="Item" Width="180"
                                       ItemsSource="{x:Bind Municipalities}" 
                                       Tag="33b.,conditionallyrequired,Select a city name"
                                       Loaded="ComboBox_Loaded"/>
+                            <!--DisplayMemberPath="Item" -->
                             <TextBox Grid.Column="1" Grid.Row="5" x:Name="shelterCityTextBox"
-                                     Visibility="Collapsed" />
+                                     Margin="2" Width="180" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="State:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -212,31 +356,28 @@
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="6" x:Name="petFriendly"
                                       Style="{StaticResource MuniStatusComboBox}"
-                                      DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind Path=YesNoContent}" Tag="43a."
+                                      ItemsSource="{x:Bind Path=YesNoContentPet}" Tag="43a."
                                       Loaded="ComboBox_Loaded"/>
                             <TextBox Grid.Column="1" Grid.Row="6" x:Name="petFriendlyTextBox"
-                                     Visibility="Collapsed" />
+                                     Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Basic Safety Inspection:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="7" x:Name="basicSafety"
                                       Style="{StaticResource MuniStatusComboBox}"
-                                      DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind Path=YesNoContent}" Tag="43b."
+                                      ItemsSource="{x:Bind Path=YesNoContentSafety}" Tag="43b."
                                       Loaded="ComboBox_Loaded"/>
                             <TextBox Grid.Column="1" Grid.Row="7" x:Name="basicSafetyTextBox"
-                                     Visibility="Collapsed" />
+                                     Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="ATC 20 Inspection:" 
                                    Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="8" x:Name="act20Inspection"
                                       Style="{StaticResource MuniStatusComboBox}"
-                                      DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind Path=YesNoContent}" Tag="43c."
-                                      Loaded="ComboBox_Loaded"/>
+                                      ItemsSource="{x:Bind Path=YesNoContentArt20}" Tag="43c."
+                                      Loaded="ComboBox_Loaded" Margin="3,2,0,0" VerticalAlignment="Top"/>
                             <TextBox Grid.Column="1" Grid.Row="8" x:Name="act20InspectionTextBox"
-                                     Visibility="Collapsed" />
+                                     Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="Available Services:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
@@ -297,7 +438,7 @@
                                       Tag="50a.,conditionallyrequired" Width="260"
                                       Loaded="ComboBox_Loaded" Margin="2,0,0,0"/>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="managedByTextBox"
-                                     Visibility="Collapsed" />
+                                     Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" 
                                        Text="Managed By Detail:" Style="{StaticResource ShelterStatusHeaderText}"/>

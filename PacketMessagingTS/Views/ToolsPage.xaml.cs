@@ -457,7 +457,7 @@ namespace PacketMessagingTS.Views
         public ICS309ViewModel Ics309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
 
         StorageFile _selectedFile;
-        private int _selectedFileIndex;
+        //private int _selectedTestFileIndex;
         PivotItem _currentPivotItem;
 
         private PrintHelper _printHelper;
@@ -528,7 +528,7 @@ namespace PacketMessagingTS.Views
             var observableCollection = new ObservableCollection<StorageFile>(files);
             LogFilesCollection.Source = observableCollection.OrderByDescending(f => f.Name);
 
-            logFilesComboBox.SelectedIndex = _selectedFileIndex;
+            //logFilesComboBox.SelectedIndex = _selectedFileIndex;
         }
 
         private async void LogFilesComboBox_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
@@ -736,7 +736,7 @@ namespace PacketMessagingTS.Views
                 var observableCollection = new ObservableCollection<StorageFile>(files);
                 TestFilesCollection.Source = observableCollection.OrderByDescending(f => f.Name);
 
-                comboBoxTestFiles.SelectedIndex = _selectedFileIndex;
+                //comboBoxTestFiles.SelectedIndex = _selectedTestFileIndex;
             }
         }
 #endif

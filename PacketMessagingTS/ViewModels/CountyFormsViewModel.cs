@@ -20,12 +20,9 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref countyFormsPagePivotSelectedIndex);
-                if (index >= PublicData.FormControlAttributesInMenuOrderCounty.Length)
+                if (index >= PublicData.FormControlAttributesInMenuOrderCounty.Length || index < 0)
                     index = 0;
-                if (!FirstTimeFormOpened)
-                    LoadMessage = false;
                 FormsPagePivotSelectionChangedAsync(index);
-                FirstTimeFormOpened = false;
                 return index;
             }
             set => SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);

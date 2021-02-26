@@ -332,9 +332,9 @@ namespace PacketMessagingTS.ViewModels
 
                 //string s = ex.ToString();
             }
-            catch (Exception )
+            catch (Exception e)
             {
-                int a = 3;
+                _logHelper.Log(LogLevel.Error, $"{e.Message}");
             }
             _messagesInFolder = await PacketMessage.GetPacketMessages(folder);
         }

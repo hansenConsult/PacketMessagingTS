@@ -51,12 +51,8 @@ namespace PacketMessagingTS.ViewModels
         protected FormControlBase _packetForm;
         protected SimpleMessagePivot _simpleMessagePivot;
 
-        //private bool forstTimeFormOpened;
         public bool FirstTimeFormOpened
-        {
-            get;
-            set;
-        }
+        { get; set; }
 
         public string MessageNo
         {
@@ -471,8 +467,10 @@ namespace PacketMessagingTS.ViewModels
                 messageState = FormsPage.PacketMessage.MessageState;
             }
 
-            _packetAddressForm = new SendFormDataControl();
-            _packetAddressForm.FormPacketMessage = _packetMessage;
+            _packetAddressForm = new SendFormDataControl
+            {
+                FormPacketMessage = _packetMessage
+            };
 
             string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
 

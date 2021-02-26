@@ -661,7 +661,13 @@ namespace FormControlBasicsNamespace
                         break;
                     }
                     string selection;
-                    if (e.AddedItems[0] is ComboBoxPackItItem comboBoxPackItItem)
+                    if (e.AddedItems[0] is ComboBoxItem comboBoxItem)
+                    {
+                        selection = comboBoxItem.Content as string;
+                        comboBox.Background = comboBoxItem.Background;
+                        comboBox.Foreground = comboBoxItem.Foreground;
+                    }
+                    else if (e.AddedItems[0] is ComboBoxPackItItem comboBoxPackItItem)
                     {
                         selection = comboBoxPackItItem.Item;
                         comboBoxPackItItem.SelectedIndex = comboBox.SelectedIndex;
@@ -689,11 +695,6 @@ namespace FormControlBasicsNamespace
                         comboBox.BorderBrush = formControl.BaseBorderColor;
                         comboBox.BorderThickness = new Thickness(1);
                     }
-                    //else if (Messagestate == MessageState.Locked)
-                    //{
-                    //    comboBox.BorderBrush = comboBox.Background;
-                    //    comboBox.BorderThickness = new Thickness(1);
-                    //}
                     break;
                 }
             }

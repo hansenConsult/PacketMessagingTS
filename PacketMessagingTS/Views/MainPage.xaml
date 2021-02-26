@@ -40,7 +40,7 @@
     </Page.Resources>
     
     <RelativePanel Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-                   x:Name="ContentArea"
+                   x:Name="ContentArea" 
                    Margin="{StaticResource MediumLeftRightMargin}">
         <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                 Place your content here.-->

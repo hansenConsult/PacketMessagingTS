@@ -719,7 +719,7 @@ namespace SharedCode
 
         private string itemField;
 
-        private string dataField;
+        private string packetDataField;
 
         private int selectedIndexField;
 
@@ -737,10 +737,10 @@ namespace SharedCode
         }
 
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Data
+        public string PacketData
         {
-            get => this.dataField;
-            set => this.dataField = value;
+            get => this.packetDataField;
+            set => this.packetDataField = value;
         }
 
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -777,7 +777,7 @@ namespace SharedCode
         public ComboBoxPackItItem(string item)
         {
             Item = item;
-            Data = item;
+            PacketData = item;
             BackgroundBrush = _backgroundBrush;
             ForegroundBrush = _foregroundBrush;
         }
@@ -792,7 +792,7 @@ namespace SharedCode
         public ComboBoxPackItItem(string item, Brush brush)
         {
             Item = item;
-            Data = item;
+            PacketData = item;
             BackgroundBrush = brush;
             ForegroundBrush = _foregroundBrush;
         }
@@ -800,21 +800,21 @@ namespace SharedCode
         public ComboBoxPackItItem(string item, Brush brush, Brush foregroundBrush)
         {
             Item = item;
-            Data = item;
+            PacketData = item;
             BackgroundBrush = brush;
             ForegroundBrush = foregroundBrush;
         }
 
-        public ComboBoxPackItItem(string item, string data)
+        public ComboBoxPackItItem(string item, string packetData)
         {
             Item = item;
-            Data = data;
+            PacketData = packetData;
         }
 
-        public ComboBoxPackItItem(string item, string data, int index)
+        public ComboBoxPackItItem(string item, string packetData, int index)
         {
             Item = item;
-            Data = data;
+            PacketData = packetData;
             SelectedIndex = index;
             BackgroundBrush = _backgroundBrush;
             ForegroundBrush = _foregroundBrush;
@@ -829,6 +829,11 @@ namespace SharedCode
         //    Color color = ColorHelper.FromArgb(a, r, g, b);
         //    return new SolidColorBrush(color);
         //}
-    }
 
+        public override string ToString()
+        {
+            return Item;
+        }
+
+    }
 }

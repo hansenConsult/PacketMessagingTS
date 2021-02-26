@@ -764,9 +764,9 @@ namespace FormControlBaseClass
                     }
                     break;
                 case FormProviders.PacItForm:
-                    if (!string.IsNullOrEmpty(formField.ControlComboxContent?.Data))
+                    if (!string.IsNullOrEmpty(formField.ControlComboxContent?.PacketData))
                     {
-                        return $"{id}: [{formField.ControlComboxContent.Data}]";
+                        return $"{id}: [{formField.ControlComboxContent.PacketData}]";
                     }
                     else
                     {
@@ -967,12 +967,25 @@ namespace FormControlBaseClass
                     }
                     else if (FormProvider == FormProviders.PacItForm)
                     {
-                        if (comboBox.SelectedItem as ComboBoxPackItItem != null)
+                        //if (comboBox.SelectedItem as ComboBoxPackItItem != null)
+                        if (comboBox.SelectedItem is ComboBoxPackItItem)
                         {
                             ComboBoxPackItItem comboBoxPackItItem = comboBox.SelectedItem as ComboBoxPackItItem;
                             comboBoxPackItItem.SelectedIndex = comboBox.SelectedIndex;
                             formField.ControlComboxContent = comboBoxPackItItem;
                             formField.ControlContent = comboBoxPackItItem?.Item;
+                        }
+                        else if (comboBox.SelectedItem is ComboBoxItem)
+                        {
+                            ComboBoxItem comboBoxItem = comboBox.SelectedItem as ComboBoxItem;
+                            if (comboBoxItem.Tag is null)
+                            {
+                                formField.ControlContent = comboBoxItem?.Content as string;
+                            }
+                            else
+                            {
+                                formField.ControlContent = comboBoxItem?.Tag as string;
+                            }                            
                         }
                         else
                         {
@@ -1025,13 +1038,30 @@ namespace FormControlBaseClass
 
                 if (formField.ControlComboxContent != null)
                 {
+                    // ComboBoxPackItItem control
                     comboBox.SelectedIndex = formField.ControlComboxContent.SelectedIndex;
                     //comboBox.SelectedValue = formField.ControlContent;
 
                 }
                 else
                 {
-                    comboBox.SelectedValue = formField.ControlContent;
+                    // If locked see ComboBoc_Loaded
+                    // Check if Tag is used
+                    //var count = comboBox.Items.Count;
+                    //bool tagFound = false;
+                    //foreach (ComboBoxItem comboBoxItem in comboBox.Items)
+                    //{
+                    //    if ((comboBoxItem.Tag as string) == formField.ControlContent)
+                    //    {
+                    //        tagFound = true;
+                    //        comboBox.SelectedItem = comboBoxItem;
+                    //        break;
+                    //    }
+                    //}
+                    //if (!tagFound)
+                    //{
+                        comboBox.SelectedValue = formField.ControlContent;
+                    //}
                 }
             }
         }
@@ -1297,7 +1327,7 @@ namespace FormControlBaseClass
                         int index = 0;
                         foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
                         {
-                            if (packItItem.Data == formField.ControlContent)
+                            if (packItItem.PacketData == formField.ControlContent)
                             {
                                 packItItem.SelectedIndex = index;
                                 comboBox.SelectedIndex = index;
