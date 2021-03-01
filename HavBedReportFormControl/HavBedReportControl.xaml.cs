@@ -31,25 +31,25 @@ namespace HavBedReportFormControl
     public sealed partial class HavBedReportControl : FormControlBase
     {
         private const string Key = "HAvBedNumberTextBox";
-        readonly List<ComboBoxPackItItem> CommandCenterStatus = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxItem> CommandCenterStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Available", LightGreenBrush),
-            new ComboBoxPackItItem("Drill or Exercise", LightGrayBrush),
-            new ComboBoxPackItItem("Full Activation", PinkBrush),
-            new ComboBoxPackItItem("Monitoring", OrangeBrush),
-            new ComboBoxPackItItem("Not Activated", LightGreenBrush),
-            new ComboBoxPackItItem("Unvailable", PinkBrush),
-            new ComboBoxPackItItem("Limited Activation", PinkBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Available", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Drill or Exercise", Background = LightGrayBrush },
+            new ComboBoxItem() { Content = "Full Activation", Background = PinkBrush },
+            new ComboBoxItem() { Content = "Monitoring", Background = OrangeBrush },
+            new ComboBoxItem() { Content = "Not Activated", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Unvailable", Background = PinkBrush },
+            new ComboBoxItem() { Content = "Limited Activation", Background = PinkBrush },
         };
 
-        readonly List<ComboBoxPackItItem> Decon = new List<ComboBoxPackItItem>
+        readonly List<ComboBoxItem> Decon = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Exceeded", BlackBrush, WhiteBrush),
-            new ComboBoxPackItItem("Full", PinkBrush),
-            new ComboBoxPackItItem("Inactive", YellowBrush),
-            new ComboBoxPackItItem("Open", LightGreenBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Exceeded", Background = BlackBrush, Foreground = WhiteBrush },
+            new ComboBoxItem() { Content = "Full", Background = PinkBrush },
+            new ComboBoxItem() { Content = "Inactive", Background = YellowBrush },
+            new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
         };
 
 
@@ -108,7 +108,7 @@ namespace HavBedReportFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_HAvBed_{(hospitalName.SelectedItem as ComboBoxPackItItem)?.Item}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_HAvBed_{hospitalName.SelectedItem}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

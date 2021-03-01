@@ -74,17 +74,6 @@ namespace MedicalHealthBranchRRFormControl
             set => Set(ref requestMsgDate, value);
         }
 
-        //public override string MsgTime
-        //{
-        //    get => _msgTime;
-        //    set
-        //    {
-        //        string time = TimeCheck(value);
-        //        Set(ref _msgTime, time);
-        //        requestTime.Text = time;
-        //    }
-        //}
-        //        public string HeaderPIF => $"PIF: {PIF}"; 
         public override string PIF => "3.1";
 
         public override void AppendDrillTraffic()

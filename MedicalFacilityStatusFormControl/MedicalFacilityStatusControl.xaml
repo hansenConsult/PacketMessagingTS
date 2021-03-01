@@ -172,6 +172,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="diversionStatus" Width="150"
                                           ItemsSource="{x:Bind DiversionStatus}"
+                                          SelectedValuePath="Content"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
@@ -198,6 +199,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="deconStatus" Width="150"                                          
                                           ItemsSource="{x:Bind DeconStatus}"
+                                          SelectedValuePath="Content"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
@@ -249,6 +251,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="morgueStatus" Width="150"
                                           ItemsSource="{x:Bind MorgueStatus}"
+                                          SelectedValuePath="Content"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
@@ -273,11 +276,12 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" x:Name="powerStatus" Width="150"
-                                  ItemsSource="{x:Bind PowerStatus}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.5.,conditionallyrequired"/>
+                                          ItemsSource="{x:Bind PowerStatus}"
+                                          SelectedValuePath="Content"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.5.,conditionallyrequired"/>
                                 <TextBox Grid.Row="0" Grid.Column="0" x:Name="powerStatusTextBox" Width="150"
                                          Visibility="Collapsed" />
                                 <StackPanel Grid.Row="0" Grid.Column="1"  Orientation="Horizontal" Margin="16,0,0,0">
@@ -305,6 +309,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Column="0" Grid.ColumnSpan="3" x:Name="buildingStatus" Width="150"
                                           ItemsSource="{x:Bind BuildingStatus}"
+                                          SelectedValuePath="Content"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
@@ -328,11 +333,12 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="securityStatus" Width="150"
-                                  ItemsSource="{x:Bind SecurityStatus}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.7.,conditionallyrequired"/>
+                                          ItemsSource="{x:Bind SecurityStatus}"
+                                          SelectedValuePath="Content"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.7.,conditionallyrequired"/>
                                 <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="securityStatusTextBox" 
                                          Width="150"
                                          Visibility="Collapsed" />
@@ -353,11 +359,12 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="staffingStatus" Width="150"
-                                        ItemsSource="{x:Bind Staffing}"
-                                        Style="{StaticResource MuniStatusComboBox}"                              
-                                        SelectionChanged="ComboBox_SelectionChanged"
-                                        Loaded="ComboBox_Loaded"
-                                        Tag="12.8.,conditionallyrequired"/>
+                                          ItemsSource="{x:Bind Staffing}"
+                                          SelectedValuePath="Content"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.8.,conditionallyrequired"/>
                                 <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="staffingStatusTextBox" 
                                          Width="150"
                                          Visibility="Collapsed" />
@@ -379,6 +386,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="medicalFacilitySuppliesStatus" Width="150"
                                           ItemsSource="{x:Bind Status, Mode=OneWay}"
+                                          SelectedValuePath="Content"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
@@ -404,6 +412,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="clinicalSuppliesStatus" Width="150"
                                           ItemsSource="{x:Bind ClinicalSupplies}"
+                                          SelectedValuePath="Content"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"

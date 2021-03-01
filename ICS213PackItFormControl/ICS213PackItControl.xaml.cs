@@ -223,18 +223,18 @@ namespace ICS213PackItFormControl
         //    return "";
         //}
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>()
-            {
-                "!SCCoPIFO!",
-                "#T: form-ics213.html",
-                $"#V: {PackItFormVersion}-{PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+        //public override string CreateOutpostData(ref PacketMessage packetMessage)
+        //{
+        //    _outpostData = new List<string>()
+        //    {
+        //        "!SCCoPIFO!",
+        //        "#T: form-ics213.html",
+        //        $"#V: {PackItFormVersion}-{PIF}",
+        //    };
+        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(_outpostData);
-        }
+        //    return CreateOutpostMessageBody(_outpostData);
+        //}
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
@@ -262,8 +262,6 @@ namespace ICS213PackItFormControl
                     break;
             }
             base.FillFormFromFormFields(formFields);
-
-            //UpdateFormFieldsRequiredColors();
         }
 
 

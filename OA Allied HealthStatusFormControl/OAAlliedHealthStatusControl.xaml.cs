@@ -32,9 +32,6 @@ namespace OAAlliedHealthStatus201802FormControl
         {
             InitializeComponent();
 
-            //DependencyObject panelName = formHeaderControl.Panel;
-            //ScanControls(panelName, formHeaderControl);
-
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();

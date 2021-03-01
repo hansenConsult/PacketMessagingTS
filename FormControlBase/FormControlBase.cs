@@ -1305,6 +1305,34 @@ namespace FormControlBaseClass
             UpdateFormFieldsRequiredColors();
         }
 
+        protected void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxPackItItem> comboBoxPackItList)
+        {
+            for (int i = 0; i < comboBoxPackItList.Count; i++)
+            {
+                ComboBoxItem comboBoxItem = new ComboBoxItem()
+                {
+                    Content = comboBoxPackItList[i].Item,
+                    Background = comboBoxPackItList[i].BackgroundBrush,
+                    Tag = comboBoxPackItList[i].PacketData,
+                };
+                comboBoxList.Add(comboBoxItem);
+            }
+        }
+
+        protected void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxItem> comboBoxRefList)
+        {
+            for (int i = 0; i < comboBoxRefList.Count; i++)
+            {
+                ComboBoxItem comboBoxItem = new ComboBoxItem()
+                {
+                    Content = comboBoxRefList[i].Content,
+                    Background = comboBoxRefList[i].Background,
+                    Tag = comboBoxRefList[i].Tag,
+                };
+                comboBoxList.Add(comboBoxItem);
+            }
+        }
+
         public virtual void MessageChanged(string message)      // Must be public, not protected
         { }
 

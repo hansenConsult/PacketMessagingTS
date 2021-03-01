@@ -31,63 +31,91 @@ namespace OAMunicipalStatusPackItFormControl
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
-        List<ComboBoxPackItItem> Municipalities = new List<ComboBoxPackItItem>
+        List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
         {
-                new ComboBoxPackItItem("Campbell"),
-                new ComboBoxPackItItem("Cupertino"),
-                new ComboBoxPackItItem("Gilroy"),
-                new ComboBoxPackItItem("Los Altos"),
-                new ComboBoxPackItItem("Los Altos Hills"),
-                new ComboBoxPackItItem("Los Gatos"),
-                new ComboBoxPackItItem("Milpitas"),
-                new ComboBoxPackItItem("Monte Sereno"),
-                new ComboBoxPackItItem("Morgan Hill"),
-                new ComboBoxPackItItem("Mountain View"),
-                new ComboBoxPackItItem("Palo Alto"),
-                new ComboBoxPackItItem("San Jose"),
-                new ComboBoxPackItItem("Santa Clara"),
-                new ComboBoxPackItItem("Saratoga"),
-                new ComboBoxPackItItem("Sunnyvale"),
-                new ComboBoxPackItItem("*Unincorporated County Areas*", "Unincorporated")
+                new ComboBoxItem() {Content = "Campbell"},
+                new ComboBoxItem() {Content = "Cupertino"},
+                new ComboBoxItem() {Content = "Gilroy"},
+                new ComboBoxItem() {Content = "Los Altos"},
+                new ComboBoxItem() {Content = "Los Altos Hills"},
+                new ComboBoxItem() {Content = "Los Gatos"},
+                new ComboBoxItem() {Content = "Milpitas"},
+                new ComboBoxItem() {Content = "Monte Sereno"},
+                new ComboBoxItem() {Content = "Morgan Hill"},
+                new ComboBoxItem() {Content = "Mountain View"},
+                new ComboBoxItem() {Content = "Palo Alto"},
+                new ComboBoxItem() {Content = "San Jose"},
+                new ComboBoxItem() {Content = "Santa Clara"},
+                new ComboBoxItem() {Content = "Saratoga"},
+                new ComboBoxItem() {Content = "Sunnyvale"},
+                new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
         };
 
-        List<ComboBoxPackItItem> OfficeStatus = new List<ComboBoxPackItItem>
+        List<ComboBoxItem> OfficeStatus = new List<ComboBoxItem>
         {
-                new ComboBoxPackItItem(null, ""),
-                new ComboBoxPackItItem("Unknown", LightGrayBrush),
-                new ComboBoxPackItItem("Open", LightGreenBrush),
-                new ComboBoxPackItItem("Closed", PinkBrush),
+                new ComboBoxItem() {Content = null, Tag = "" },
+                new ComboBoxItem() {Content = "Unknown", Background = LightGrayBrush},
+                new ComboBoxItem() {Content = "Open", Background = LightGreenBrush},
+                new ComboBoxItem() {Content = "Closed", Background = PinkBrush},
         };
 
-        List<ComboBoxPackItItem> UnknownYesNo = new List<ComboBoxPackItItem>
+        List<ComboBoxItem> UnknownYesNo = new List<ComboBoxItem>
         {
-                new ComboBoxPackItItem(null, ""),
-                new ComboBoxPackItItem("Unknown", LightGrayBrush),
-                new ComboBoxPackItItem("Yes", PinkBrush),
-                new ComboBoxPackItItem("No", LightGreenBrush),
+                new ComboBoxItem() {Content = null, Tag = "" },
+                new ComboBoxItem() {Content = "Unknown", Background = LightGrayBrush },
+                new ComboBoxItem() {Content = "Yes", Background = PinkBrush },
+                new ComboBoxItem() {Content = "No", Background = LightGreenBrush },
         };
 
-        List<ComboBoxPackItItem> ActivationLevel = new List<ComboBoxPackItItem>
+        List<ComboBoxItem> ActivationLevel = new List<ComboBoxItem>
         {
-                new ComboBoxPackItItem(null, ""),
-                new ComboBoxPackItItem("Normal", LightGreenBrush),
-                new ComboBoxPackItItem("Duty Officer", YellowBrush),
-                new ComboBoxPackItItem("Monitor", OrangeBrush),
-                new ComboBoxPackItItem("Partial", PinkBrush),
-                new ComboBoxPackItItem("Full", PinkBrush)
+                new ComboBoxItem() {Content = null, Tag = ""},
+                new ComboBoxItem() {Content = "Normal", Background = LightGreenBrush},
+                new ComboBoxItem() {Content = "Duty Officer", Background = YellowBrush},
+                new ComboBoxItem() {Content = "Monitor", Background = OrangeBrush},
+                new ComboBoxItem() {Content = "Partial", Background = PinkBrush},
+                new ComboBoxItem() {Content = "Full", Background = PinkBrush}
         };
 
-        List<ComboBoxPackItItem> CurrentSituation = new List<ComboBoxPackItItem>
+        //List<ComboBoxPackItItem> CurrentSituation = new List<ComboBoxPackItItem>
+        //{
+        //        new ComboBoxPackItItem(null, ""),
+        //        new ComboBoxPackItItem("Unknown", LightGrayBrush),
+        //        new ComboBoxPackItItem("Normal", LightGreenBrush),
+        //        new ComboBoxPackItItem("Problem", YellowBrush),
+        //        new ComboBoxPackItItem("Failure", PinkBrush),
+        //        new ComboBoxPackItItem("Delayed", WhiteBrush),
+        //        new ComboBoxPackItItem("Closed", WhiteBrush),
+        //        new ComboBoxPackItItem("Early Out", WhiteBrush),
+        //};
+        List<ComboBoxItem> Communications = new List<ComboBoxItem>
         {
-                new ComboBoxPackItItem(null, ""),
-                new ComboBoxPackItItem("Unknown", LightGrayBrush),
-                new ComboBoxPackItItem("Normal", LightGreenBrush),
-                new ComboBoxPackItItem("Problem", YellowBrush),
-                new ComboBoxPackItItem("Failure", PinkBrush),
-                new ComboBoxPackItItem("Delayed", WhiteBrush),
-                new ComboBoxPackItItem("Closed", WhiteBrush),
-                new ComboBoxPackItItem("Early Out", WhiteBrush),
+                new ComboBoxItem() {Content = null, Tag = "" },
+                new ComboBoxItem() {Content = "Unknown", Background = LightGrayBrush },
+                new ComboBoxItem() {Content = "Normal", Background = LightGreenBrush },
+                new ComboBoxItem() {Content = "Problem", Background = YellowBrush },
+                new ComboBoxItem() {Content = "Failure", Background = PinkBrush },
+                new ComboBoxItem() {Content = "Delayed", Background = WhiteBrush },
+                new ComboBoxItem() {Content = "Closed", Background = WhiteBrush },
+                new ComboBoxItem() {Content = "Early Out", Background = WhiteBrush },
         };
+
+        //List<ComboBoxItem> Communications = new List<ComboBoxItem>();
+        List<ComboBoxItem> Debris = new List<ComboBoxItem>(); 
+        List<ComboBoxItem> Flooding = new List<ComboBoxItem>();
+        List<ComboBoxItem> Hazmat = new List<ComboBoxItem>();
+        List<ComboBoxItem> EmergencyServices = new List<ComboBoxItem>();
+        List<ComboBoxItem> Casualties = new List<ComboBoxItem>();
+        List<ComboBoxItem> UtilitiesGas = new List<ComboBoxItem>();
+        List<ComboBoxItem> UtilitiesElectric = new List<ComboBoxItem>();
+        List<ComboBoxItem> InfrastructurePower = new List<ComboBoxItem>();
+        List<ComboBoxItem> InfrastructureWater = new List<ComboBoxItem>();
+        List<ComboBoxItem> InfrastructureSewer = new List<ComboBoxItem>();
+        List<ComboBoxItem> SearchAndRescue = new List<ComboBoxItem>();
+        List<ComboBoxItem> TransportationsRoads = new List<ComboBoxItem>();
+        List<ComboBoxItem> TransportationsBridges = new List<ComboBoxItem>();
+        List<ComboBoxItem> CivilUnrest = new List<ComboBoxItem>();
+        List<ComboBoxItem> AnimalIssues = new List<ComboBoxItem>();
 
         public OAMunicipalStatusControl()
         {
@@ -99,6 +127,23 @@ namespace OAMunicipalStatusPackItFormControl
 
             FormHeaderControl.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20190327";
+
+            //CreateComboBoxList(Communications, CurrentSituation);
+            CreateComboBoxList(Debris, Communications);
+            CreateComboBoxList(Flooding, Communications);
+            CreateComboBoxList(Hazmat, Communications);
+            CreateComboBoxList(EmergencyServices, Communications);
+            CreateComboBoxList(Casualties, Communications);
+            CreateComboBoxList(UtilitiesGas, Communications);
+            CreateComboBoxList(UtilitiesElectric, Communications);
+            CreateComboBoxList(InfrastructurePower, Communications);
+            CreateComboBoxList(InfrastructureWater, Communications);
+            CreateComboBoxList(InfrastructureSewer, Communications);
+            CreateComboBoxList(SearchAndRescue, Communications);
+            CreateComboBoxList(TransportationsRoads, Communications);
+            CreateComboBoxList(TransportationsBridges, Communications);
+            CreateComboBoxList(CivilUnrest, Communications);
+            CreateComboBoxList(AnimalIssues, Communications);
 
             UpdateFormFieldsRequiredColors();
         }

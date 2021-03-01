@@ -359,7 +359,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Communications" Style="{StaticResource MuniStatusFieldText}" Margin="5,2,4,2"/>
                             <Border Grid.Column="1" Grid.Row="2"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="2" Name="comboBoxCommunications" 
-                                      ItemsSource="{x:Bind CurrentSituation}" 
+                                      ItemsSource="{x:Bind Communications}" 
                                       Style="{StaticResource MuniStatusSituationComboBox}"
                                       Tag="41.0.,conditionallyrequired,Enter communications status"
                                       SelectionChanged="Status_SelectionChanged"
@@ -375,7 +375,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Debris" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="3"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="3" Name="comboBoxDebris" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind Debris}"
                                       Style="{StaticResource MuniStatusSituationComboBox}"
                                       Tag="42.0.,conditionallyrequired,Enter Debris status"
                                       SelectionChanged="Status_SelectionChanged"
@@ -391,7 +391,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Flooding" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="4"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="4" Name="comboBoxFlooding" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind Flooding}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="43.0.,conditionallyrequired,Enter Flooding Status"
                                       SelectionChanged="Status_SelectionChanged"
@@ -407,7 +407,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="Hazmat" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="5"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="5" Name="comboBoxHazmat" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind Hazmat}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="44.0.,conditionallyrequired,Enter Hazmat Status"
                                       SelectionChanged="Status_SelectionChanged"
@@ -423,7 +423,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Emergency Services" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="6"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="6"  Name="comboBoxEmergencyServices" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind EmergencyServices}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="45.0.,conditionallyrequired,Enter Emergency Services Status"
                                       SelectionChanged="Status_SelectionChanged"
@@ -439,7 +439,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Casualties" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="7"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="7" Name="comboBoxCasualties" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind Casualties}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="46.0.,conditionallyrequired,Enter Casualties Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -455,7 +455,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="Utilities (Gas)" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="8"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="8" Name="comboBoxUtilitiesGas" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind UtilitiesGas}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="47.0.,conditionallyrequired,Enter Utilities (Gas) Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -471,7 +471,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="Utilities (Electric)" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="9"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="9" Name="comboBoxUtilitiesElectric" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind UtilitiesElectric}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="48.0.,conditionallyrequired,Enter Utilities (Electric) Status"
                                       SelectionChanged="Status_SelectionChanged"
@@ -487,7 +487,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="Infrastructure (Power)" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="10"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="10" Name="comboBoxInfrastructurePower" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind InfrastructurePower}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="49.0.,conditionallyrequired,Enter Infrastructure (Power) Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -506,7 +506,7 @@
                             </StackPanel>
                             <Border Grid.Column="1" Grid.Row="11"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="11" Name="comboBoxInfrastructureWater" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind InfrastructureWater}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="50.0.,conditionallyrequired,Enter Infrastructure (Water Systems) Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -525,7 +525,7 @@
                             </StackPanel>
                             <Border Grid.Column="1" Grid.Row="12"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="12" Name="comboBoxInfrastructureSewer" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind InfrastructureSewer}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="51.0.,conditionallyrequired,Enter Infrastructure (Sewer Systems) Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -541,7 +541,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="13" Text="Search and Rescue" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="13"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="13" Name="comboBoxSearchAndRescue" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind SearchAndRescue}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="52.0.,conditionallyrequired,Enter Search and Rescue Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -557,7 +557,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="14" Text="Transportations (Roads)" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="14"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="14" Name="comboBoxTransportationsRoads" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind TransportationsRoads}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="53.0.,conditionallyrequired,Enter Transportations (Roads) Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -573,7 +573,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="15" Text="Transportations (Bridges)" Style="{StaticResource MuniStatusFieldText}" Margin="5,2,4,2"/>
                             <Border Grid.Column="1" Grid.Row="15"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="15" Name="comboBoxTransportationsBridges" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind TransportationsBridges}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="54.0.,conditionallyrequired,Enter Transportations (Bridges) Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -589,7 +589,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="16" Text="Civil Unrest" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="16"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="16" Name="comboBoxCivilUnrest" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind CivilUnrest}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="55.0.,conditionallyrequired,Enter Civil Unrest Status" 
                                       SelectionChanged="Status_SelectionChanged"
@@ -605,7 +605,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="17" Text="Animal Issues" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="17"  BorderBrush="Black" BorderThickness="0,0,1,1" />
                             <ComboBox Grid.Column="1" Grid.Row="17" Name="comboBoxAnimalIssues" 
-                                      ItemsSource="{x:Bind CurrentSituation}"
+                                      ItemsSource="{x:Bind AnimalIssues}"
                                       Style="{StaticResource MuniStatusSituationComboBox}" 
                                       Tag="56.0.,conditionallyrequired,Enter Animal Issues Status" 
                                       SelectionChanged="Status_SelectionChanged"
