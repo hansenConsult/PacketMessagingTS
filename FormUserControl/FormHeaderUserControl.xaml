@@ -377,16 +377,18 @@
             </Style>
 
             <Style x:Key="HandlingOrderRadioButtonStyle" TargetType="RadioButton">
-                <Setter Property="FontFamily" Value="Sans serif"/>
-                <Setter Property="FontSize" Value="10"/>
-                <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="8,0,0,0"/>
                 <Setter Property="Padding" Value="4"/>
             </Style>
+            <!--<Setter Property="FontFamily" Value="Sans serif"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Black"/>-->
+
 
             <!--<Style x:Key="HorizontalSwipe" TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemRevealStyle}">
                 <Setter Property="Height" Value="60"/>
@@ -888,7 +890,7 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0">
+            <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="1,0,1,0">
                 <TextBlock x:Name="labelTo" Style="{StaticResource LabelFontTNR14B}" Text=" To:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
             <Grid Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -909,7 +911,7 @@
                           Style="{StaticResource ToFromTextBox}"
                           Visibility="Collapsed" />
             </Grid>
-            <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,0">
+            <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" Background="LightGray" BorderBrush="Black" BorderThickness="1,0,1,0">
                 <TextBlock x:Name="labelFrom" Style="{StaticResource LabelFontTNR14B}" Text=" From:" VerticalAlignment="Center" />
             </Border>
             <Grid Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1">

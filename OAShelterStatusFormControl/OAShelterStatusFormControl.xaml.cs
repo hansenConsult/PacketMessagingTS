@@ -64,7 +64,7 @@ namespace OAShelterStatusFormControl
         //        new ComboBoxPackItItem("Closed", PinkBrush),
         //        new ComboBoxPackItItem("Full", YellowBrush),
         //};
-        public IList<ComboBoxItem> ShelterStatuses = new List<ComboBoxItem>
+        readonly IList<ComboBoxItem> ShelterStatuses = new List<ComboBoxItem>
         {
                 new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
                 new ComboBoxItem() { Content = "Closed", Background = PinkBrush },
@@ -149,18 +149,18 @@ namespace OAShelterStatusFormControl
             return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
         }
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>
-            {
-                "!SCCoPIFO!",
-                "#T: form-oa-shelter-status.html",
-                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+        //public override string CreateOutpostData(ref PacketMessage packetMessage)
+        //{
+        //    _outpostData = new List<string>
+        //    {
+        //        "!SCCoPIFO!",
+        //        "#T: form-oa-shelter-status.html",
+        //        $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
+        //    };
+        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(_outpostData);
-        }
+        //    return CreateOutpostMessageBody(_outpostData);
+        //}
 
         private void UpdateAvailability()
         {
@@ -254,90 +254,90 @@ namespace OAShelterStatusFormControl
             base.FillFormFromFormFields(formFields);
         }
 
-        protected override void ComboBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            ComboBox comboBox = sender as ComboBox;
+        //protected override void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    ComboBox comboBox = sender as ComboBox;
 
-            TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+        //    TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
 
-            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
-            {
-                if (FormPacketMessage.MessageState != MessageState.Locked)
-                    return;
+        //    if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
+        //    {
+        //        if (FormPacketMessage.MessageState != MessageState.Locked)
+        //            return;
 
-                foreach (FormField formField in FormPacketMessage.FormFieldArray)
-                {
-                    //if (formField.ControlName == comboBox.Name && formField.ControlComboxContent.SelectedIndex < 0)
-                    if (formField.ControlName == comboBox.Name)
-                    {
-                        //comboBox.SelectedValue = formField.ControlContent;
-                        int index = 0;
-                        foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
-                        {
-                            if (packItItem.PacketData == formField.ControlContent)
-                            {
-                                packItItem.SelectedIndex = index;
-                                comboBox.SelectedIndex = index;
-                                //if (FormPacketMessage.MessageState == MessageState.Locked)
-                                //{
-                                //    textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
-                                    textBox.Background = packItItem.BackgroundBrush;
-                                //}
-                                break;
-                            }
-                            index++;
-                        }
-                        break;
-                    }
-                }
-            }
-            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxItem>)
-            {
-                if (FormPacketMessage.MessageState != MessageState.Locked)
-                    return;
+        //        foreach (FormField formField in FormPacketMessage.FormFieldArray)
+        //        {
+        //            //if (formField.ControlName == comboBox.Name && formField.ControlComboxContent.SelectedIndex < 0)
+        //            if (formField.ControlName == comboBox.Name)
+        //            {
+        //                //comboBox.SelectedValue = formField.ControlContent;
+        //                int index = 0;
+        //                foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
+        //                {
+        //                    if (packItItem.PacketData == formField.ControlContent)
+        //                    {
+        //                        packItItem.SelectedIndex = index;
+        //                        comboBox.SelectedIndex = index;
+        //                        //if (FormPacketMessage.MessageState == MessageState.Locked)
+        //                        //{
+        //                        //    textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+        //                            textBox.Background = packItItem.BackgroundBrush;
+        //                        //}
+        //                        break;
+        //                    }
+        //                    index++;
+        //                }
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxItem>)
+        //    {
+        //        if (FormPacketMessage.MessageState != MessageState.Locked)
+        //            return;
 
-                foreach (FormField formField in FormPacketMessage.FormFieldArray)
-                {
-                    if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
-                    {
-                        var co = comboBox.Items.Count;
-                        bool tagFnd = false;
-                        bool backgroundColorFound = false;
-                        foreach (ComboBoxItem comboBoxItem in comboBox.Items)
-                        {
-                            if ((comboBoxItem.Tag as string) == formField.ControlContent)
-                            {
-                                tagFnd = true;
-                                comboBox.SelectedItem = comboBoxItem;
-                                textBox.Text = comboBoxItem.Content as string;
-                                if (comboBoxItem.Background != null)
-                                {
-                                    backgroundColorFound = true;
-                                    textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
-                                    break;
-                                }
-                            }
-                            if ((comboBoxItem.Content as string) == formField.ControlContent)
-                            {
-                                if (comboBoxItem.Background != null)
-                                {
-                                    backgroundColorFound = true;
-                                    comboBox.SelectedItem = comboBoxItem;
-                                    textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
-                                    //break;
-                                }
-                            }
-                        }
-                        if (!tagFnd && !backgroundColorFound)
-                        {
-                            comboBox.SelectedValue = formField.ControlContent;
-                        }
-                        break;
-                    }
-                }
+        //        foreach (FormField formField in FormPacketMessage.FormFieldArray)
+        //        {
+        //            if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
+        //            {
+        //                var co = comboBox.Items.Count;
+        //                bool tagFnd = false;
+        //                bool backgroundColorFound = false;
+        //                foreach (ComboBoxItem comboBoxItem in comboBox.Items)
+        //                {
+        //                    if ((comboBoxItem.Tag as string) == formField.ControlContent)
+        //                    {
+        //                        tagFnd = true;
+        //                        comboBox.SelectedItem = comboBoxItem;
+        //                        textBox.Text = comboBoxItem.Content as string;
+        //                        if (comboBoxItem.Background != null)
+        //                        {
+        //                            backgroundColorFound = true;
+        //                            textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
+        //                            break;
+        //                        }
+        //                    }
+        //                    if ((comboBoxItem.Content as string) == formField.ControlContent)
+        //                    {
+        //                        if (comboBoxItem.Background != null)
+        //                        {
+        //                            backgroundColorFound = true;
+        //                            comboBox.SelectedItem = comboBoxItem;
+        //                            textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
+        //                            //break;
+        //                        }
+        //                    }
+        //                }
+        //                if (!tagFnd && !backgroundColorFound)
+        //                {
+        //                    comboBox.SelectedValue = formField.ControlContent;
+        //                }
+        //                break;
+        //            }
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
     }
 }

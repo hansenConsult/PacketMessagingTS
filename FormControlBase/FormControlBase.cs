@@ -1035,8 +1035,11 @@ namespace FormControlBaseClass
             }
             else
             {
+                // Does not work for ComBoxItem. Use ComBox_Loaded
+
                 // Received forms neds to have their ControlComboxContent updated
                 var items = comboBox.Items;
+                var number = comboBox.Items.Count;
                 var selectedItem = comboBox.Items[0];
                 var itemSource = comboBox.ItemsSource;
 
@@ -1047,26 +1050,28 @@ namespace FormControlBaseClass
                     //comboBox.SelectedValue = formField.ControlContent;
 
                 }
-                else
-                {
-                    // If locked see ComboBoc_Loaded
-                    // Check if Tag is used
-                    //var count = comboBox.Items.Count;
-                    //bool tagFound = false;
-                    //foreach (ComboBoxItem comboBoxItem in comboBox.Items)
-                    //{
-                    //    if ((comboBoxItem.Tag as string) == formField.ControlContent)
-                    //    {
-                    //        tagFound = true;
-                    //        comboBox.SelectedItem = comboBoxItem;
-                    //        break;
-                    //    }
-                    //}
-                    //if (!tagFound)
-                    //{
-                        comboBox.SelectedValue = formField.ControlContent;
-                    //}
-                }
+                //    else
+                //    {
+                //        // Use ComboBox_Loaded
+
+                //        // If locked see ComboBoc_Loaded
+                //        // Check if Tag is used
+                //        //var count = comboBox.Items.Count;
+                //        bool tagFound = false;
+                //        //foreach (ComboBoxItem comboBoxItem in comboBox.Items)
+                //        //{
+                //        //    if ((comboBoxItem.Tag as string) == formField.ControlContent)
+                //        //    {
+                //        //        tagFound = true;
+                //        //        comboBox.SelectedItem = comboBoxItem;
+                //        //        break;
+                //        //    }
+                //        //}
+                //        //if (!tagFound)
+                //        //{
+                //        //comboBox.SelectedValue = formField.ControlContent;
+                //        //}
+                //    }
             }
         }
 
@@ -1320,8 +1325,14 @@ namespace FormControlBaseClass
         protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
+
+            TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+
             if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
             {
+                if (FormPacketMessage.MessageState != MessageState.Locked)
+                    return;
+
                 foreach (FormField formField in FormPacketMessage.FormFieldArray)
                 {
                     //if (formField.ControlName == comboBox.Name && formField.ControlComboxContent.SelectedIndex < 0)
@@ -1335,11 +1346,11 @@ namespace FormControlBaseClass
                             {
                                 packItItem.SelectedIndex = index;
                                 comboBox.SelectedIndex = index;
-                                if (FormPacketMessage.MessageState == MessageState.Locked)
-                                {
-                                    TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
-                                    textBox.Background = packItItem.BackgroundBrush;
-                                }
+                                //if (FormPacketMessage.MessageState == MessageState.Locked)
+                                //{
+                                //    textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+                                textBox.Background = packItItem.BackgroundBrush;
+                                //}
                                 break;
                             }
                             index++;
@@ -1348,7 +1359,100 @@ namespace FormControlBaseClass
                     }
                 }
             }
+            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxItem>)
+            {
+                //if (FormPacketMessage.MessageState != MessageState.Locked)
+                //    return;
+
+                foreach (FormField formField in FormPacketMessage.FormFieldArray)
+                {
+                    if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
+                    {
+                        var co = comboBox.Items.Count;
+                        bool tagFnd = false;
+                        bool backgroundColorFound = false;
+                        foreach (ComboBoxItem comboBoxItem in comboBox.Items)
+                        {
+                            if ((comboBoxItem.Tag as string) == formField.ControlContent)
+                            {
+                                tagFnd = true;
+                                if (FormPacketMessage.MessageState == MessageState.Locked)
+                                {
+                                    //comboBox.SelectedItem = comboBoxItem;
+                                    textBox.Text = comboBoxItem.Content as string;
+                                    if (comboBoxItem.Background != null)
+                                    {
+                                        backgroundColorFound = true;
+                                        textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
+                                        break;
+                                    }
+                                }
+                                //else 
+                                //{
+                                //    comboBox.SelectedItem = comboBoxItem;
+                                //}
+                                comboBox.SelectedItem = comboBoxItem;
+                            }
+                            if ((comboBoxItem.Content as string) == formField.ControlContent)
+                            {
+                                if (comboBoxItem.Background != null)
+                                {
+                                    backgroundColorFound = true;
+                                    comboBox.SelectedItem = comboBoxItem;
+                                    if (FormPacketMessage.MessageState == MessageState.Locked)
+                                    {
+                                        textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
+                                    }
+                                    //break;
+                                }
+                            }
+                        }
+                        if (!tagFnd && !backgroundColorFound)
+                        {
+                            comboBox.SelectedValue = formField.ControlContent;
+                        }
+                        break;
+                    }
+                }
+
+            }
         }
+
+        //protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    ComboBox comboBox = sender as ComboBox;
+        //    if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null 
+        //        && comboBox.ItemsSource is List<ComboBoxPackItItem>
+        //        && FormPacketMessage.MessageState == MessageState.Locked)
+        //    {
+        //        foreach (FormField formField in FormPacketMessage.FormFieldArray)
+        //        {
+        //            if (formField.ControlName == comboBox.Name && comboBox.SelectedIndex > -1)
+        //            {
+        //                int indx = comboBox.SelectedIndex;
+        //                comboBox.SelectedValue = formField.ControlContent;
+        //                int index = 0;
+        //                foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
+        //                //ComboBoxPackItItem packItItem = (comboBox.ItemsSource as List<ComboBoxPackItItem>)[index];
+        //                {
+        //                    if (packItItem.PacketData == formField.ControlContent)
+        //                    {
+        //                        packItItem.SelectedIndex = index;
+        //                        //comboBox.SelectedIndex = index;
+        //                        //if (FormPacketMessage.MessageState == MessageState.Locked)
+        //                        //{
+        //                            TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
+        //                            textBox.Background = packItItem.BackgroundBrush;
+        //                        //}
+        //                        break;
+        //                    }
+        //                    index++;
+        //                }
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
         // This is for filtering non number keys for a number key only field
         protected void TextBoxResource_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

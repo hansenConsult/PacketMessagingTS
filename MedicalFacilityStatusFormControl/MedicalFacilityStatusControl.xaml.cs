@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using FormControlBaseClass;
 
@@ -34,85 +35,170 @@ namespace MedicalFacilityStatusFormControl
     /// </summary>
     public sealed partial class MedicalFacilityStatusControl : FormControlBase
     {
-        readonly List<ComboBoxPackItItem> DiversionStatus = new List<ComboBoxPackItItem>
+        //readonly List<ComboBoxPackItItem> DiversionStatus = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown", LightGrayBrush),
+        //    new ComboBoxPackItItem("Open", LightGreenBrush),
+        //    new ComboBoxPackItItem("Diverting Ambulances"),
+        //    new ComboBoxPackItItem("Internal Disaster", BlackBrush, WhiteBrush),
+        //    new ComboBoxPackItItem("Specialty Bypass", YellowBrush),
+        //};
+        readonly List<ComboBoxItem> DiversionStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown", LightGrayBrush),
-            new ComboBoxPackItItem("Open", LightGreenBrush),
-            new ComboBoxPackItItem("Diverting Ambulances"),
-            new ComboBoxPackItItem("Internal Disaster", BlackBrush, WhiteBrush),
-            new ComboBoxPackItItem("Specialty Bypass", YellowBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown", Background = LightGrayBrush },
+            new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Diverting Ambulances" },
+            new ComboBoxItem() { Content = "Internal Disaster", Background = BlackBrush, Foreground = WhiteBrush },
+            new ComboBoxItem() { Content = "Specialty Bypass", Background = YellowBrush}
         };
 
-        readonly List<ComboBoxPackItItem> DeconStatus = new List<ComboBoxPackItItem>
+        //readonly List<ComboBoxPackItItem> DeconStatus = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown", LightGrayBrush),
+        //    new ComboBoxPackItItem("Not Available", OrangeBrush),
+        //    new ComboBoxPackItItem("Active", LightGreenBrush),
+        //    new ComboBoxPackItItem("Available", YellowBrush),
+        //};
+        readonly List<ComboBoxItem> DeconStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown", LightGrayBrush),
-            new ComboBoxPackItItem("Not Available", OrangeBrush),
-            new ComboBoxPackItItem("Active", LightGreenBrush),
-            new ComboBoxPackItItem("Available", YellowBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown", Background = LightGrayBrush },
+            new ComboBoxItem() { Content = "Not Available", Background = OrangeBrush },
+            new ComboBoxItem() { Content = "Active", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Available", Background = YellowBrush },
         };
 
-        readonly List<ComboBoxPackItItem> CommandCenterStatus = new List<ComboBoxPackItItem>
+        //readonly List<ComboBoxPackItItem> CommandCenterStatus = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown", GainsboroBrush),
+        //    new ComboBoxPackItItem("Inactive", LightGreenBrush),
+        //    new ComboBoxPackItItem("Activated", PinkBrush),
+        //};
+        readonly List<ComboBoxItem> CommandCenterStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown", GainsboroBrush),
-            new ComboBoxPackItItem("Inactive", LightGreenBrush),
-            new ComboBoxPackItItem("Activated", PinkBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown", Background = GainsboroBrush },
+            new ComboBoxItem() { Content = "Inactive", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Activated", Background = PinkBrush },
         };
 
-        readonly List<ComboBoxPackItItem> MorgueStatus = new List<ComboBoxPackItItem>
+        //readonly List<ComboBoxPackItItem> MorgueStatus = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown", GainsboroBrush),
+        //    new ComboBoxPackItItem("Open", LightGreenBrush),
+        //    new ComboBoxPackItItem("Full", YellowBrush),
+        //};
+        readonly List<ComboBoxItem> MorgueStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown", GainsboroBrush),
-            new ComboBoxPackItItem("Open", LightGreenBrush),
-            new ComboBoxPackItItem("Full", YellowBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown", Background = GainsboroBrush },
+            new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Full", Background = YellowBrush },
         };
 
-        readonly List<ComboBoxPackItItem> PowerStatus = new List<ComboBoxPackItItem>
+
+        //readonly List<ComboBoxPackItItem> PowerStatus = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown", GainsboroBrush),
+        //    new ComboBoxPackItItem("Normal", LightGreenBrush),
+        //    new ComboBoxPackItItem("Generator", YellowBrush),
+        //    new ComboBoxPackItItem("None"),
+        //};
+        readonly List<ComboBoxItem> PowerStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown", GainsboroBrush),
-            new ComboBoxPackItItem("Normal", LightGreenBrush),
-            new ComboBoxPackItItem("Generator", YellowBrush),
-            new ComboBoxPackItItem("None"),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown", Background = GainsboroBrush },
+            new ComboBoxItem() { Content = "Normal", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Generator", Background = YellowBrush },
+            new ComboBoxItem() { Content = "None" },
         };
 
-        readonly List<ComboBoxPackItItem> BuildingStatus = new List<ComboBoxPackItItem>
+        //readonly List<ComboBoxPackItItem> BuildingStatus = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown", GainsboroBrush),
+        //    new ComboBoxPackItItem("Restricted Use"),
+        //    new ComboBoxPackItItem("Unsafe to Occupy"),
+        //    new ComboBoxPackItItem("Not Inspected"),
+        //    new ComboBoxPackItItem("Safe to Occupy", YellowBrush),
+        //    new ComboBoxPackItItem("Normal", LightGreenBrush),
+        //    new ComboBoxPackItItem("Compromised", WhiteBrush),
+        //    new ComboBoxPackItItem("Evacuating", PinkBrush),
+        //    new ComboBoxPackItItem("Closed"),
+        //};
+        readonly List<ComboBoxItem> BuildingStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown", GainsboroBrush),
-            new ComboBoxPackItItem("Restricted Use"),
-            new ComboBoxPackItItem("Unsafe to Occupy"),
-            new ComboBoxPackItItem("Not Inspected"),
-            new ComboBoxPackItItem("Safe to Occupy", YellowBrush),
-            new ComboBoxPackItItem("Normal", LightGreenBrush),
-            new ComboBoxPackItItem("Compromised", WhiteBrush),
-            new ComboBoxPackItItem("Evacuating", PinkBrush),
-            new ComboBoxPackItItem("Closed"),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown", Background = GainsboroBrush },
+            new ComboBoxItem() { Content = "Restricted Use" },
+            new ComboBoxItem() { Content = "Unsafe to Occupy" },
+            new ComboBoxItem() { Content = "Not Inspected" },
+            new ComboBoxItem() { Content = "Safe to Occupy", Background = YellowBrush },
+            new ComboBoxItem() { Content = "Normal", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Compromised", Background = WhiteBrush },
+            new ComboBoxItem() { Content = "Evacuating", Background = PinkBrush },
+            new ComboBoxItem() { Content = "Closed" },
         };
 
-        readonly List<ComboBoxPackItItem> SecurityStatus = new List<ComboBoxPackItItem>
+
+        //readonly List<ComboBoxPackItItem> SecurityStatus = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown"),
+        //    new ComboBoxPackItItem("Normal", LightGreenBrush),
+        //    new ComboBoxPackItItem("Ekevated", YellowBrush),
+        //    new ComboBoxPackItItem("Restricted Access", OrangeBrush),
+        //    new ComboBoxPackItItem("Lockdown", PinkBrush),
+        //};
+        readonly List<ComboBoxItem> SecurityStatus = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown"),
-            new ComboBoxPackItItem("Normal", LightGreenBrush),
-            new ComboBoxPackItItem("Ekevated", YellowBrush),
-            new ComboBoxPackItItem("Restricted Access", OrangeBrush),
-            new ComboBoxPackItItem("Lockdown", PinkBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown" },
+            new ComboBoxItem() { Content = "Normal", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Ekevated", Background = YellowBrush },
+            new ComboBoxItem() { Content = "Restricted Access", Background = OrangeBrush },
+            new ComboBoxItem() { Content = "Lockdown", Background = PinkBrush },
         };
 
-        readonly List<ComboBoxPackItItem> Status = new List<ComboBoxPackItItem>
+
+        //readonly List<ComboBoxPackItItem> Status = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem(null, ""),
+        //    new ComboBoxPackItItem("Unknown"),
+        //    new ComboBoxPackItItem("Adequate", LightGreenBrush),
+        //    new ComboBoxPackItItem("Insufficient", LightGrayBrush),
+        //};
+        readonly List<ComboBoxItem> Staffing = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem(null, ""),
-            new ComboBoxPackItItem("Unknown"),
-            new ComboBoxPackItItem("Adequate", LightGreenBrush),
-            new ComboBoxPackItItem("Insufficient", LightGrayBrush),
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown" },
+            new ComboBoxItem() { Content = "Adequate", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Insufficient", Background = PinkBrush },
         };
 
-        //string _pif;
+        readonly List<ComboBoxItem> Status = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown" },
+            new ComboBoxItem() { Content = "Adequate", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Insufficient", Background = PinkBrush },
+        };
 
-        public MedicalFacilityStatusControl()
+        public List<ComboBoxItem> ClinicalSupplies = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() { Content = null, Tag = "" },
+            new ComboBoxItem() { Content = "Unknown" },
+            new ComboBoxItem() { Content = "Adequate", Background = LightGreenBrush },
+            new ComboBoxItem() { Content = "Insufficient", Background = PinkBrush },
+        };
+
+    public MedicalFacilityStatusControl()
         {
             this.InitializeComponent();
 
@@ -122,10 +208,11 @@ namespace MedicalFacilityStatusFormControl
 
             FormHeaderControl.HeaderString1 = "Medical facility Status";
             FormHeaderControl.HeaderSubstring = "WebEOC: 20160101";
-            //FormHeaderControl.HeaderPIF = PIF;
             FormHeaderControl.PIF = PIF;
 
             UpdateFormFieldsRequiredColors();
+            
+            //ClinicalSupplies.AddRange(Status);
         }
 
         public override FormControlBasics RootPanel => rootPanel;

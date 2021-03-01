@@ -220,14 +220,15 @@
                                 <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
                                 <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" 
                                           Margin="2" 
+                                          DisplayMemberPath="Item"
+                                          SelectedValuePath="Item"
                                           Tag="31.,required" Width="136"
                                           Style="{StaticResource MuniStatusComboBox}"
-                                          DisplayMemberPath="Item"
-                                          SelectedValuePath="Data"
                                           ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
                                           Loaded="ComboBox_Loaded"                                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+
                                 <TextBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriorityTextBox" 
                                          Margin="2"
                                          Visibility="Collapsed"

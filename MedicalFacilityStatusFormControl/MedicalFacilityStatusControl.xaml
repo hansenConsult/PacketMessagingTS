@@ -171,14 +171,14 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="diversionStatus" Width="150"
-                                          DisplayMemberPath="Item"
                                           ItemsSource="{x:Bind DiversionStatus}"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.1.,conditionallyrequired"/>
+                                <!--DisplayMemberPath="Item"-->
                                 <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="diversionStatusTextBox" 
-                                         Width="150"
+                                         Width="150" Margin="2"
                                          Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
@@ -197,14 +197,14 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="deconStatus" Width="150"                                          
-                                          DisplayMemberPath="Item"
                                           ItemsSource="{x:Bind DeconStatus}"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.2.,conditionallyrequired"/>
+                                <!--DisplayMemberPath="Item"-->
                                 <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="deconStatusTextBox" 
-                                         Width="150"
+                                         Width="150" Margin="2"
                                          Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"
@@ -223,12 +223,11 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="commandCenterStatus" Width="150"
-                                  DisplayMemberPath="Item"
-                                  ItemsSource="{x:Bind CommandCenterStatus}"
-                                  Style="{StaticResource MuniStatusComboBox}"                              
-                                  SelectionChanged="ComboBox_SelectionChanged"
-                                  Loaded="ComboBox_Loaded"
-                                  Tag="12.3.,conditionallyrequired"/>
+                                          ItemsSource="{x:Bind CommandCenterStatus}"
+                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          Loaded="ComboBox_Loaded"
+                                          Tag="12.3.,conditionallyrequired"/>
                                 <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="commandCenterStatusTextBox" 
                                          Width="150"
                                          Visibility="Collapsed" />
@@ -249,7 +248,6 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="morgueStatus" Width="150"
-                                          DisplayMemberPath="Item"
                                           ItemsSource="{x:Bind MorgueStatus}"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
@@ -275,7 +273,6 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" x:Name="powerStatus" Width="150"
-                                  DisplayMemberPath="Item"
                                   ItemsSource="{x:Bind PowerStatus}"
                                   Style="{StaticResource MuniStatusComboBox}"                              
                                   SelectionChanged="ComboBox_SelectionChanged"
@@ -307,7 +304,6 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Column="0" Grid.ColumnSpan="3" x:Name="buildingStatus" Width="150"
-                                          DisplayMemberPath="Item"
                                           ItemsSource="{x:Bind BuildingStatus}"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
@@ -332,7 +328,6 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="securityStatus" Width="150"
-                                  DisplayMemberPath="Item"
                                   ItemsSource="{x:Bind SecurityStatus}"
                                   Style="{StaticResource MuniStatusComboBox}"                              
                                   SelectionChanged="ComboBox_SelectionChanged"
@@ -358,8 +353,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="staffingStatus" Width="150"
-                                        DisplayMemberPath="Item"
-                                        ItemsSource="{x:Bind Status}"
+                                        ItemsSource="{x:Bind Staffing}"
                                         Style="{StaticResource MuniStatusComboBox}"                              
                                         SelectionChanged="ComboBox_SelectionChanged"
                                         Loaded="ComboBox_Loaded"
@@ -384,7 +378,6 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="medicalFacilitySuppliesStatus" Width="150"
-                                          DisplayMemberPath="Item"
                                           ItemsSource="{x:Bind Status, Mode=OneWay}"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
@@ -410,14 +403,13 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="clinicalSuppliesStatus" Width="150"
-                                          DisplayMemberPath="Item"
-                                          ItemsSource="{x:Bind Status}"
+                                          ItemsSource="{x:Bind ClinicalSupplies}"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.10.,conditionallyrequired"/>
                                 <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="clinicalSuppliesStatusTextBox" 
-                                         Width="150"
+                                         Width="150" Margin="2"
                                          Visibility="Collapsed" />
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Comment" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox Grid.Row="1" Grid.Column="1"

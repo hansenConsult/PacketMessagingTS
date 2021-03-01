@@ -10,7 +10,7 @@
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"
     mc:Ignorable="d"
-    d:DesignWidth="816" d:DesignHeight="1756">
+    d:DesignWidth="816" d:DesignHeight="1690">
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -222,7 +222,9 @@
                             <ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterType" 
                                       Style="{StaticResource MuniStatusComboBox}"
                                       ItemsSource="{x:Bind ShelterTypes}" 
+                                      SelectedValuePath="Content"
                                       Tag="30.,conditionallyrequired"
+                                      SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"/>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="shelterTypeTextBox"
                                      Margin="2" Width="auto" Visibility="Collapsed" />
@@ -267,6 +269,7 @@
                             <ComboBox Grid.Column="1" Grid.Row="5" x:Name="shelterCity" Width="180"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       ItemsSource="{x:Bind Municipalities}" 
+                                      SelectedValuePath="Content"
                                       Tag="33b.,conditionallyrequired,Select a city name"
                                       Loaded="ComboBox_Loaded"/>
                             <!--DisplayMemberPath="Item" -->
@@ -313,7 +316,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition />
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Shelter Information" Style="{StaticResource EOC213RRFieldLabelLarge}" 
@@ -347,16 +350,17 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="NSS Number:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <TextBox Grid.Column="1" Grid.Row="5" 
+                            <TextBox Grid.Column="1" Grid.Row="5" x:Name="nssNumber"
                                      Style="{StaticResource MuniStatusTextBox}"
                                      HorizontalAlignment="Stretch" Tag="42." 
-                                     Margin="2" VerticalAlignment="Center" />
+                                     Margin=" 2,1,2,1" VerticalAlignment="Center" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Pet Friendly:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="6" x:Name="petFriendly"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentPet}" Tag="43a."
+                                      SelectedValuePath="Content"
                                       Loaded="ComboBox_Loaded"/>
                             <TextBox Grid.Column="1" Grid.Row="6" x:Name="petFriendlyTextBox"
                                      Margin="2" Visibility="Collapsed" />
@@ -366,6 +370,7 @@
                             <ComboBox Grid.Column="1" Grid.Row="7" x:Name="basicSafety"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentSafety}" Tag="43b."
+                                      SelectedValuePath="Content"
                                       Loaded="ComboBox_Loaded"/>
                             <TextBox Grid.Column="1" Grid.Row="7" x:Name="basicSafetyTextBox"
                                      Margin="2" Visibility="Collapsed" />
@@ -375,28 +380,29 @@
                             <ComboBox Grid.Column="1" Grid.Row="8" x:Name="act20Inspection"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentArt20}" Tag="43c."
+                                      SelectedValuePath="Content"
                                       Loaded="ComboBox_Loaded" Margin="3,2,0,0" VerticalAlignment="Top"/>
                             <TextBox Grid.Column="1" Grid.Row="8" x:Name="act20InspectionTextBox"
                                      Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="9" Text="Available Services:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <TextBox Grid.Column="1" Grid.Row="9" Height="30"
+                            <TextBox Grid.Column="1" Grid.Row="9" x:Name="availableServices" Height="30"
                                      AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
-                                     HorizontalAlignment="Stretch" Margin="2"
+                                     HorizontalAlignment="Stretch" Margin=" 2,1,2,1"
                                      Style="{StaticResource MuniStatusTextBox}" Tag="44."/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="MOU:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="10" x:Name="mouTextBox" 
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource MuniStatusTextBox}" Margin=" 2,1,2,1"
                                      PlaceholderText="where/how sent"
                                      Tag="45." />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="11" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="11" Text="Floor Plan:" 
                                    Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="11"
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource MuniStatusTextBox}" Margin=" 2,1,2,1"
                                      PlaceholderText="where/how sent"
                                      Tag="46."/>
                         </Grid>
