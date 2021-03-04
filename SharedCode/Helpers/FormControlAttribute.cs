@@ -20,16 +20,50 @@ namespace SharedCode.Helpers
             TestForm,
         };
 
+        //public FormControlAttribute(string formControlName, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex)
+        //{
+        //    _FormControlName = formControlName;
+        //    _FormControlMenuName = formControlMenuName;
+        //    _FormControlMenuIndex = formControlMenuIndex;
+        //    _FormControlType = formType;
+        //}
+
         // Form file name
-        public string FormControlName { get; set; }    // 
+        protected string _FormControlName;
+        public string FormControlName
+        {
+            get => _FormControlName;
+            set => _FormControlName = value;
+        }
+
+        // Form file name
+        //public string FormControlName { get; set; }    // 
 
         // Form type (County, Hospital etc.)
-        public FormType FormControlType { get; set; }
+        protected FormControlAttribute.FormType _FormControlType;
+        public FormControlAttribute.FormType FormControlType
+        {
+            get => _FormControlType;
+            set => _FormControlType = value;
+        }
+        //public FormType FormControlType { get; set; }
 
         // Menu text
-        public string FormControlMenuName { get; set; }    // 
+        protected string _FormControlMenuName;
+        public string FormControlMenuName
+        {
+            get => _FormControlMenuName;
+            set => _FormControlMenuName = value;
+        }
+        //public string FormControlMenuName { get; set; }    // 
 
         // Menu index
-        public int FormControlMenuIndex { get; set; }
+        protected int _FormControlMenuIndex = -1;
+        public int FormControlMenuIndex
+        {
+            get => _FormControlMenuIndex;
+            set => _FormControlMenuIndex = value;
+        }
+        //public int FormControlMenuIndex { get; set; }
     }
 }

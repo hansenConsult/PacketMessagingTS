@@ -170,7 +170,7 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
         }

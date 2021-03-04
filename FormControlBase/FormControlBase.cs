@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Input;
+using System.Linq;
 
 namespace FormControlBaseClass
 {
@@ -71,30 +72,54 @@ namespace FormControlBaseClass
 
         protected ScrollViewer _scrollViewer;
 
-        readonly protected List<ComboBoxPackItItem> Hospitals = new List<ComboBoxPackItItem>
+        //readonly protected List<ComboBoxPackItItem> Hospitals = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem("El Camino Hospital Los Gatos"),
+        //    new ComboBoxPackItItem("El Camino Hospital Mountain View"),
+        //    new ComboBoxPackItItem("Good Samaritan Hospital"),
+        //    new ComboBoxPackItItem("Kaiser Gan Jose Medical Center"),
+        //    new ComboBoxPackItItem("Kaiser Santa Clara Hospital"),
+        //    new ComboBoxPackItItem("Lucile Packard Children's Hospital"),
+        //    new ComboBoxPackItItem("O'Connor Hospital"),
+        //    new ComboBoxPackItItem("Palo Alto Veterans Hospital"),
+        //    new ComboBoxPackItItem("Regional San Jose Medical Center"),
+        //    new ComboBoxPackItItem("Saint Loise Regional Hospital"),
+        //    new ComboBoxPackItItem("Stanford Hospital"),
+        //    new ComboBoxPackItItem("Stanford School of Medicine"),
+        //    new ComboBoxPackItItem("Valley Medical Center"),
+        //};
+        readonly protected List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem("El Camino Hospital Los Gatos"),
-            new ComboBoxPackItItem("El Camino Hospital Mountain View"),
-            new ComboBoxPackItItem("Good Samaritan Hospital"),
-            new ComboBoxPackItItem("Kaiser Gan Jose Medical Center"),
-            new ComboBoxPackItItem("Kaiser Santa Clara Hospital"),
-            new ComboBoxPackItItem("Lucile Packard Children's Hospital"),
-            new ComboBoxPackItItem("O'Connor Hospital"),
-            new ComboBoxPackItItem("Palo Alto Veterans Hospital"),
-            new ComboBoxPackItItem("Regional San Jose Medical Center"),
-            new ComboBoxPackItItem("Saint Loise Regional Hospital"),
-            new ComboBoxPackItItem("Stanford Hospital"),
-            new ComboBoxPackItItem("Stanford School of Medicine"),
-            new ComboBoxPackItItem("Valley Medical Center"),
+            new ComboBoxItem() { Content = "El Camino Hospital Los Gatos" },
+            new ComboBoxItem() { Content = "El Camino Hospital Mountain View" },
+            new ComboBoxItem() { Content = "Good Samaritan Hospital" },
+            new ComboBoxItem() { Content = "Kaiser Gan Jose Medical Center" },
+            new ComboBoxItem() { Content = "Kaiser Santa Clara Hospital" },
+            new ComboBoxItem() { Content = "Lucile Packard Children's Hospital" },
+            new ComboBoxItem() { Content = "O'Connor Hospital" },
+            new ComboBoxItem() { Content = "Palo Alto Veterans Hospital" },
+            new ComboBoxItem() { Content = "Regional San Jose Medical Center" },
+            new ComboBoxItem() { Content = "Saint Loise Regional Hospital" },
+            new ComboBoxItem() { Content = "Stanford Hospital" },
+            new ComboBoxItem() { Content = "Stanford School of Medicine" },
+            new ComboBoxItem() { Content = "Valley Medical Center" },
         };
 
-        protected List<ComboBoxPackItItem> Priority = new List<ComboBoxPackItItem>
+        //protected List<ComboBoxPackItItem> Priority = new List<ComboBoxPackItItem>
+        //{
+        //    new ComboBoxPackItItem("Now", "Now", 0),
+        //    new ComboBoxPackItItem("High (0-4 hrs.)", "High", 1),
+        //    new ComboBoxPackItItem("Medium (5-12 hrs.)", "Medium", 2),
+        //    new ComboBoxPackItItem("Low (12+ hrs.)", "Low", 3),
+        //};
+        protected List<ComboBoxItem> Priority = new List<ComboBoxItem>
         {
-            new ComboBoxPackItItem("Now", "Now", 0),
-            new ComboBoxPackItItem("High (0-4 hrs.)", "High", 1),
-            new ComboBoxPackItItem("Medium (5-12 hrs.)", "Medium", 2),
-            new ComboBoxPackItItem("Low (12+ hrs.)", "Low", 3),
+            new ComboBoxItem() { Content = "Now", Tag = "Now"},
+            new ComboBoxItem() { Content = "High (0-4 hrs.)", Tag = "High" },
+            new ComboBoxItem() { Content = "Medium (5-12 hrs.)", Tag = "Medium" },
+            new ComboBoxItem() { Content = "Low (12+ hrs.)", Tag = "Low" },
         };
+
 
         private static Dictionary<string, object> _properties = new Dictionary<string, object>();
         static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
@@ -103,7 +128,6 @@ namespace FormControlBaseClass
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
-
 
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
         {
@@ -1305,19 +1329,19 @@ namespace FormControlBaseClass
             UpdateFormFieldsRequiredColors();
         }
 
-        protected void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxPackItItem> comboBoxPackItList)
-        {
-            for (int i = 0; i < comboBoxPackItList.Count; i++)
-            {
-                ComboBoxItem comboBoxItem = new ComboBoxItem()
-                {
-                    Content = comboBoxPackItList[i].Item,
-                    Background = comboBoxPackItList[i].BackgroundBrush,
-                    Tag = comboBoxPackItList[i].PacketData,
-                };
-                comboBoxList.Add(comboBoxItem);
-            }
-        }
+        //protected void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxPackItItem> comboBoxPackItList)
+        //{
+        //    for (int i = 0; i < comboBoxPackItList.Count; i++)
+        //    {
+        //        ComboBoxItem comboBoxItem = new ComboBoxItem()
+        //        {
+        //            Content = comboBoxPackItList[i].Item,
+        //            Background = comboBoxPackItList[i].BackgroundBrush,
+        //            Tag = comboBoxPackItList[i].PacketData,
+        //        };
+        //        comboBoxList.Add(comboBoxItem);
+        //    }
+        //}
 
         protected void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxItem> comboBoxRefList)
         {

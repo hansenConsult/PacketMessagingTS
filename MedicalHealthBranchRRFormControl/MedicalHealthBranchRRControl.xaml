@@ -316,13 +316,14 @@
                         </Grid>
                         <StackPanel Grid.Row="5" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <TextBlock Text="Priority:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
-                            <ComboBox x:Name="priority" Width="150"
-                                      DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind Mode=OneWay, Path=Priority}"
+                            <ComboBox x:Name="ReqPriority" Width="150"
+                                      ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
                                       Style="{StaticResource MuniStatusComboBox}"
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="26.,required"/>
+                            <!--DisplayMemberPath="Item"-->
+
                             <TextBox x:Name="priorityTextBox" Width="150"
                                      Visibility="Collapsed" />
                         </StackPanel>

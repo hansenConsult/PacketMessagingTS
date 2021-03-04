@@ -449,6 +449,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             }
                             pktMsg.SenderMessageNumber = FormControlBase.GetOutpostValue(msgLines[i + 1]);
                             pktMsg.FormProvider = FormProviders.PacForm;    // TODO update with real provider
+                            //pktMsg.FormProvider = formControl.FormProvider;    // TODO update with real provider
                             break;
                         }
                         else if (msgLines[i].StartsWith("#T:"))

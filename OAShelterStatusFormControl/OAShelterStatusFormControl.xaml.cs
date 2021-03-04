@@ -72,7 +72,7 @@ namespace OAShelterStatusFormControl
         };
 
 
-        public IList<ComboBoxItem> ShelterStatusStrings = new List<ComboBoxItem>();
+        //public IList<ComboBoxItem> ShelterStatusStrings = new List<ComboBoxItem>();
 
         public List<ComboBoxItem> YesNoContentPet = new List<ComboBoxItem>
         {

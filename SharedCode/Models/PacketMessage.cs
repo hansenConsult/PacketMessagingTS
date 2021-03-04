@@ -438,10 +438,28 @@ namespace SharedCode
 
         public static PacketMessage Open(string filePath)
 		{
-			if (!File.Exists(filePath))
-				return null;
+            if (!File.Exists(filePath))
+            {
+                _logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, file does not exist");
+                return null;
+            }
+            //string fileName = Path.GetFileName(filePath);
+            //string directory = Path.GetDirectoryName(filePath);
+            ////StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            //StorageFolder storageFolder = await StorageFolder.GetFolderFromPathAsync(directory);
+            //var storageItem = await storageFolder.TryGetItemAsync(fileName);
+            //if (storageItem != null)
+            //{
+            //    Windows.Storage.FileProperties.BasicProperties basicProperties = await storageItem.GetBasicPropertiesAsync();
+            //    var size = basicProperties.Size;
+            //    if (size == 0)
+            //    {
+            //        _logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, file size = 0");
+            //        return null;
+            //    }
+            //}
 
-			PacketMessage packetMessage;
+            PacketMessage packetMessage;
 			try
 			{
 				using (var stream = new FileStream(filePath, FileMode.Open))
@@ -456,7 +474,7 @@ namespace SharedCode
 			}
 			catch (Exception e)
 			{
-                _logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, {e}");
+                _logHelper.Log(LogLevel.Error, $"Failed to open {filePath}, {e.Message}");
 			}
 			return null;
 		}
@@ -555,7 +573,7 @@ namespace SharedCode
 
             if (!string.IsNullOrEmpty(fileFolder) && Directory.Exists(fileFolder))
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(fileFolder);
                     FileInfo[] info = dirInfo.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
@@ -773,9 +791,11 @@ namespace SharedCode
 
         public ComboBoxPackItItem()
         { }
-        
+
         public ComboBoxPackItItem(string item)
         {
+            //throw new Exception("Obsolete");
+
             Item = item;
             PacketData = item;
             BackgroundBrush = _backgroundBrush;
@@ -791,6 +811,8 @@ namespace SharedCode
 
         public ComboBoxPackItItem(string item, Brush brush)
         {
+            //throw new Exception("Obsolete");
+
             Item = item;
             PacketData = item;
             BackgroundBrush = brush;
@@ -799,6 +821,8 @@ namespace SharedCode
 
         public ComboBoxPackItItem(string item, Brush brush, Brush foregroundBrush)
         {
+            //throw new Exception("Obsolete");
+
             Item = item;
             PacketData = item;
             BackgroundBrush = brush;
@@ -807,12 +831,16 @@ namespace SharedCode
 
         public ComboBoxPackItItem(string item, string packetData)
         {
+            //throw new Exception("Obsolete");
+
             Item = item;
             PacketData = packetData;
         }
 
         public ComboBoxPackItItem(string item, string packetData, int index)
         {
+            //throw new Exception("Obsolete");
+
             Item = item;
             PacketData = packetData;
             SelectedIndex = index;
@@ -832,6 +860,8 @@ namespace SharedCode
 
         public override string ToString()
         {
+            //throw new Exception("Obsolete");
+
             return Item;
         }
 

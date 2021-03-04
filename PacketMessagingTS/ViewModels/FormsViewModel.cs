@@ -243,8 +243,10 @@ namespace PacketMessagingTS.ViewModels
                         //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
                         foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
                         {
+                            if (customAttribute.AttributeType != typeof(FormControlAttribute))
+                                continue;
+
                             var namedArguments = customAttribute.NamedArguments;
-                            //if (namedArguments.Count == 4)
                             if (namedArguments.Count == FormControlAttributes.AttributesCount)
                             {
                                 foreach (CustomAttributeNamedArgument arg in namedArguments)
@@ -275,6 +277,7 @@ namespace PacketMessagingTS.ViewModels
                 catch (Exception ex)
                 {
                     _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
+                    continue;
                 }
                 if (foundType != null)
                     break;

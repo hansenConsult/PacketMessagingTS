@@ -38,7 +38,7 @@ namespace PacketMessagingTS.Views
             ViewModel.Initialize(webView);            
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -51,6 +51,7 @@ namespace PacketMessagingTS.Views
             ViewModel.PopulateEmptyForm = false;
 
             string packetMessagePath = e.Parameter as string;
+            //PacketMessage packetMessage = PacketMessage.OpenAsync(packetMessagePath);
             PacketMessage packetMessage = PacketMessage.Open(packetMessagePath);
             if (packetMessage != null)
             {

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 using FormControlBaseClass;
 using FormControlBasicsNamespace;
@@ -16,6 +19,14 @@ using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
+//[assembly: FormControl("form-scco-eoc-213rr", "EOC Resource Request", FormControlAttribute.FormType.CountyForm, 2)]
+//    FormControlName = "form-scco-eoc-213rr",
+//    FormControlMenuName = "EOC Resource Request",
+//    FormControlType = FormControlAttribute.FormType.CountyForm,
+//    FormControlMenuIndex = 2)
+//]
+
+//[assembly: FormControl("form-scco-eoc-213rr", "EOC Resource Request", FormControlAttribute.FormType.CountyForm, 2)]
 namespace ICS213RRPackItFormControl
 {
     [FormControl(
@@ -64,7 +75,27 @@ namespace ICS213RRPackItFormControl
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
         // The index is FormControlMenuIndex.
-        public override string GetPacFormName() => PublicData.FormControlAttributesInMenuOrderCounty[2].FormControlName;
+        // Does not work for received messages        
+        public override string GetPacFormName()
+        {
+            string fileName = "";
+            Type clsType = typeof(ICS213RRPackItControl);
+            Assembly assy = clsType.Assembly;
+            String assyName = assy.GetName().Name;  // ICS213RRPackItFormControl
+            bool isdef = Attribute.IsDefined(assy, typeof(FormControlAttribute));
+            if (isdef)
+            {
+                FormControlAttribute adAttr =
+                        (FormControlAttribute)Attribute.GetCustomAttribute(
+                        assy, typeof(FormControlAttribute));
+                if (adAttr != null)
+                {
+                    fileName = adAttr.FormControlName;
+                }
+            }
+            return "form-scco-eoc-213rr";
+        }
+        //public override string GetPacFormName() => "form-scco-eoc-213rr";
 
         public override string PacFormType => "XSC_EOC_213RR";
 

@@ -270,8 +270,12 @@ namespace PacketMessagingTS.Helpers
                     foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
                     {
                         //_logHelper.Log(LogLevel.Info, $"CustomAttributeData: {customAttribute}");
-                        //if (!(customAttribute is FormControlAttribute))
+                        //if (customAttribute.AttributeType.Name != nameof(FormControlAttribute))
                         //    continue;
+                        //Type formControlAttributeType = typeof(FormControlAttribute);
+                        //Type customAttributeType = customAttribute.AttributeType;
+                        if (customAttribute.AttributeType != typeof(FormControlAttribute))
+                            continue;
                         IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
                         //if (namedArguments.Count == 4)
                         if (namedArguments.Count == FormControlAttributes.AttributesCount)
@@ -310,7 +314,7 @@ namespace PacketMessagingTS.Helpers
                             }
                             if (formControlTypeFound)
                             {
-                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, formControlMenuIndex, null);
+                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, formControlMenuIndex);
                                 _formControlAttributeList.Add(formControlAttributes);
                             }
                         }
@@ -659,7 +663,7 @@ namespace PacketMessagingTS.Helpers
         //    return formControl;
         //}
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             //_logHelper.Log(LogLevel.Trace, "Entering OnNavigatedTo in BaseFormsPage");
             //ViewModel.FirstTimeFormOpened = true;

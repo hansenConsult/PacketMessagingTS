@@ -9,6 +9,7 @@
 //
 //*********************************************************
 
+
 using SharedCode.Helpers;
 
 using Windows.Storage;
@@ -18,34 +19,51 @@ namespace SharedCode.Helpers
 {
     public class FormControlAttributes
     {
+        protected string _FormControlName;
         public string FormControlName
-        { get; private set; }
+        { 
+            get => _FormControlName; 
+            set => _FormControlName = value; 
+        }
 
+        protected string _FormControlMenuName;
         public string FormControlMenuName
-        { get; private set; }
+        {  
+            get => _FormControlMenuName;  
+            set => _FormControlMenuName = value; 
+        }
 
-        private int _FormControlMenuIndex = -1;
+        protected int _FormControlMenuIndex = -1;
         public int FormControlMenuIndex
         {
             get => _FormControlMenuIndex;
-            private set => _FormControlMenuIndex = value;
+            set => _FormControlMenuIndex = value;
         }
 
+        protected FormControlAttribute.FormType _FormControlType;
         public FormControlAttribute.FormType FormControlType
-        { get; private set; }
-
-        public StorageFile FormControlFile
-        { get; set; }
+        { 
+            get => _FormControlType; 
+            set => _FormControlType = value; 
+        }
 
         public static int AttributesCount => 4;
 
-        public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex, StorageFile formControlFile)
+        public FormControlAttributes(string formControlName, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex)
         {
-            FormControlName = formControlType;
-            FormControlMenuName = formControlMenuName;
-            FormControlMenuIndex = formControlMenuIndex;
-            FormControlType = formType;
-            FormControlFile = formControlFile;
+            _FormControlName = formControlName;
+            _FormControlMenuName = formControlMenuName;
+            _FormControlMenuIndex = formControlMenuIndex;
+            _FormControlType = formType;
         }
+
+        //public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex, StorageFile formControlFile)
+        //{
+        //    FormControlName = formControlType;
+        //    FormControlMenuName = formControlMenuName;
+        //    FormControlMenuIndex = formControlMenuIndex;
+        //    FormControlType = formType;
+        //    FormControlFile = formControlFile;
+        //}
     }
 }
