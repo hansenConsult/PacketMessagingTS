@@ -24,47 +24,10 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using System.Linq;
+using System.Reflection;
 
 namespace FormControlBaseClass
 {
-    //   // This is for deciding at runtime which form is supported by an assembly
-    //   [AttributeUsage(AttributeTargets.Class)]
-    //public class FormControlAttribute : Attribute
-    //{
-    //	public enum FormType
-    //	{
-    //		None,
-    //		CountyForm,
-    //		CityForm,
-    //		HospitalForm,
-    //           TestForm,
-    //	};
-
-    //       // Form file name
-    //	public string FormControlName { get; set; }    // 
-
-    //       // Form type (County, Hospital etc.)
-    //	public FormType FormControlType { get; set; }
-
-    //       // Menu text
-    //	public string FormControlMenuName { get; set; }    // 
-    //}
-
-    //   public sealed class FormEventArgs : EventArgs
-    //{
-    //	//public FormEventArgs() { }
-
-    //	//public FormEventArgs(string tacticalCallsign)
-    //	//{
-    //	//	TacticalCallsign = tacticalCallsign;
-    //	//}
-
-    //	//public string TacticalCallsign
-    //	//{ get; set; }
-
-    //	public string SubjectLine
-    //	{ get; set; }
-    //}
 
     public abstract partial class FormControlBase : FormControlBasics
     {
@@ -372,16 +335,25 @@ namespace FormControlBaseClass
             set => Set(ref messageSentTime, value);
         }
 
-        public abstract FormControlAttribute.FormType FormControlType
-        { get; }
+        //private FormControlAttribute.FormType _FormControlType;
+        public virtual FormControlAttribute.FormType FormControlType
+        { get; set; }
 
         public abstract FormProviders FormProvider
         { get; }
 
-        public abstract string GetPacFormName();
+        public virtual string GetPacFormName()
+        {
+            return FormControlName;
+        }
+
+        public virtual string FormControlName
+        { get; set; }
 
         public abstract string PacFormType
         { get; }
+
+
         
         public abstract string CreateSubject();
 
@@ -1354,6 +1326,73 @@ namespace FormControlBaseClass
                     Tag = comboBoxRefList[i].Tag,
                 };
                 comboBoxList.Add(comboBoxItem);
+            }
+        }
+
+        protected void GetFormDataFromAttribute(Type formType)
+        {
+            Type clsType = formType;
+            Assembly assembly = clsType.Assembly;
+            //Assembly assembly = formType.Assembly;
+
+            Type[] expTypes = assembly.GetExportedTypes();
+            //Type[] types = assembly.GetTypes();
+            foreach (Type classType in expTypes)
+            {
+                var attrib = classType.GetTypeInfo();
+                //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
+                foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+                {
+                    //Type formControlAttributeType = typeof(FormControlAttribute);
+                    //Type customAttributeType = customAttribute.AttributeType;
+                    if (customAttribute.AttributeType != typeof(FormControlAttribute))
+                        continue;
+                    IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
+                    FormControlAttribute.FormType formControlType = FormControlAttribute.FormType.Undefined;
+                    foreach (CustomAttributeNamedArgument arg in namedArguments)
+                    {
+                        if (arg.MemberName == "FormControlName")
+                        {
+                            FormControlName = arg.TypedValue.Value as string;
+                        }
+                        else if (arg.MemberName == "FormControlType")
+                        {
+                            FormControlAttribute.FormType[] formTypes = new FormControlAttribute.FormType[] {
+                                FormControlAttribute.FormType.None, FormControlAttribute.FormType.CountyForm,
+                                FormControlAttribute.FormType.CityForm, FormControlAttribute.FormType.HospitalForm,
+                                FormControlAttribute.FormType.TestForm, FormControlAttribute.FormType.Undefined,
+                            };
+                            bool formControlTypeFound = false;
+                            formControlType = (FormControlAttribute.FormType)Enum.Parse(typeof(FormControlAttribute.FormType), arg.TypedValue.Value.ToString());
+                            for (int i = 0; i < formTypes.Length; i++)
+                            {
+                                if (formControlType == formTypes[i])
+                                {
+                                    formControlTypeFound = true;
+                                    break;
+                                }
+                            }
+                            if (formControlTypeFound)
+                            {
+                                FormControlType = formControlType;
+                            }
+                        }
+                        //else if (arg.MemberName == "FormControlMenuName")
+                        //{
+                        //    formControlMenuName = arg.TypedValue.Value as string;
+                        //}
+                        //else if (arg.MemberName == "FormControlMenuIndex")
+                        //{
+                        //    formControlMenuIndex = (int)arg.TypedValue.Value;
+                        //}
+                    }
+                    break;
+                    //if (formControlTypeFound)
+                    //{
+                    //    //FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, formControlMenuIndex);
+                    //    //_formControlAttributeList.Add(formControlAttributes);
+                    //}
+                }
             }
         }
 

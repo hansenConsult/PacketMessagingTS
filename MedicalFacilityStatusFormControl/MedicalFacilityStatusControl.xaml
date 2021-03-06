@@ -129,7 +129,6 @@
                                                  Checked="ReportType_Checked" Tag="Complete"/>
                             <TextBlock Grid.Column="3" Text="Hospital Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
                             <ComboBox Grid.Column="4" x:Name="hospitalName" Width="300"
-                                      DisplayMemberPath="Item"
                                       Style="{StaticResource MuniStatusComboBox}"  
                                       ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
                                       SelectionChanged="Subject_Changed" 

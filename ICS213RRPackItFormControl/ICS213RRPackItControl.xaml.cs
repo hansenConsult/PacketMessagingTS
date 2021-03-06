@@ -49,6 +49,12 @@ namespace ICS213RRPackItFormControl
             FormHeaderControl.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
             FormHeaderControl.HeaderSubstring = "Version 8/17";
 
+            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
+            {
+                //GetFormDataFromAttribute(typeof(ICS213RRPackItControl));
+                GetFormDataFromAttribute(GetType());
+            }
+
             UpdateFormFieldsRequiredColors();
         }
 
@@ -72,30 +78,25 @@ namespace ICS213RRPackItFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        // The index is FormControlMenuIndex.
-        // Does not work for received messages        
-        public override string GetPacFormName()
-        {
-            string fileName = "";
-            Type clsType = typeof(ICS213RRPackItControl);
-            Assembly assy = clsType.Assembly;
-            String assyName = assy.GetName().Name;  // ICS213RRPackItFormControl
-            bool isdef = Attribute.IsDefined(assy, typeof(FormControlAttribute));
-            if (isdef)
-            {
-                FormControlAttribute adAttr =
-                        (FormControlAttribute)Attribute.GetCustomAttribute(
-                        assy, typeof(FormControlAttribute));
-                if (adAttr != null)
-                {
-                    fileName = adAttr.FormControlName;
-                }
-            }
-            return "form-scco-eoc-213rr";
-        }
-        //public override string GetPacFormName() => "form-scco-eoc-213rr";
+        //public override string GetPacFormName()
+        //{
+        //    return FormControlName;
+
+        //    //    //bool isdef = Attribute.IsDefined(assembly, typeof(FormControlAttribute));
+        //    //    //if (isdef)
+        //    //    //{
+        //    //    //    FormControlAttribute adAttr =
+        //    //    //            (FormControlAttribute)Attribute.GetCustomAttribute(
+        //    //    //            assembly, typeof(FormControlAttribute));
+        //    //    //    if (adAttr != null)
+        //    //    //    {
+        //    //    //        fileName = adAttr.FormControlName;
+        //    //    //    }
+        //    //    //}
+        //    //return "form-scco-eoc-213rr";
+        //}
 
         public override string PacFormType => "XSC_EOC_213RR";
 

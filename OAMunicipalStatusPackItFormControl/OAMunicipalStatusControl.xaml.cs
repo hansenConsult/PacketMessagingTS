@@ -145,6 +145,11 @@ namespace OAMunicipalStatusPackItFormControl
             CreateComboBoxList(CivilUnrest, Communications);
             CreateComboBoxList(AnimalIssues, Communications);
 
+            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
+            {
+                GetFormDataFromAttribute(GetType());
+            }
+
             UpdateFormFieldsRequiredColors();
         }
 
@@ -152,9 +157,9 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string GetPacFormName() => "form-oa-muni-status";
+        //public override string GetPacFormName() => "form-oa-muni-status";
 
         public override string PacFormType => "OA Municipal Status";
 
@@ -173,7 +178,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MuniStat_{jurisdictionName.SelectedValue as string}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MuniStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         /// <summary>

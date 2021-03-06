@@ -133,6 +133,11 @@ namespace MedicalFacilityStatusFormControl
             CreateComboBoxList(Status, Staffing);
             CreateComboBoxList(ClinicalSupplies, Staffing);
 
+            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
+            {
+                GetFormDataFromAttribute(GetType());
+            }
+
             UpdateFormFieldsRequiredColors();
         }
 
@@ -140,9 +145,9 @@ namespace MedicalFacilityStatusFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
-        public override string GetPacFormName() => "form-medical-facility-status-v2";
+        //public override string GetPacFormName() => "form-medical-facility-status-v2";
 
         public override string PacFormType => "XSC_MedicalCacilityStatus";
 
@@ -169,7 +174,7 @@ namespace MedicalFacilityStatusFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedItem as ComboBoxPackItItem)?.Item}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

@@ -54,6 +54,11 @@ namespace MVCERTDA_FormsControl
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
 
+            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
+            {
+                GetFormDataFromAttribute(GetType());
+            }
+
             UpdateFormFieldsRequiredColors();
         }
 
@@ -137,9 +142,9 @@ namespace MVCERTDA_FormsControl
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CityForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CityForm;
 
-        public override string GetPacFormName() => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
+        //public override string GetPacFormName() => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
 
         public override string PacFormType => "MVCERTSummary";
 

@@ -78,6 +78,11 @@ namespace HavBedReportFormControl
             FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
             FormHeaderControl.HeaderSubstring = "EMResource: c190320";
 
+            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
+            {
+                GetFormDataFromAttribute(GetType());
+            }
+
             UpdateFormFieldsRequiredColors();
         }
 
@@ -85,9 +90,9 @@ namespace HavBedReportFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
-        public override string GetPacFormName() => "form-mhoc-beds-status";
+        //public override string GetPacFormName() => "form-mhoc-beds-status";
 
         public override string PacFormType => "HAVBEDSTATUS";
 
@@ -108,7 +113,7 @@ namespace HavBedReportFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_HAvBed_{hospitalName.SelectedItem}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_HAvBed_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

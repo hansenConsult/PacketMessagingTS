@@ -62,8 +62,6 @@
                                          Checked="ReportType_Checked" Tag="Complete"/>
                             <TextBlock Grid.Column="3" Text="Jurisdiction Name:" VerticalAlignment="Center" Margin="8,4,8,0" />
                             <ComboBox Grid.Column="4" Name="jurisdictionName" Width="250"
-                                      DisplayMemberPath="Item"
-                                      SelectedValuePath="Item"
                                       ItemsSource="{x:Bind Municipalities, Mode=OneWay}"
                                       Style="{StaticResource MuniStatusComboBox}"
                                       SelectionChanged="Subject_Changed" 

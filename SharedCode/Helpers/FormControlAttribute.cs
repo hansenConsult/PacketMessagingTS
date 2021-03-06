@@ -13,11 +13,11 @@ namespace SharedCode.Helpers
         public enum FormType
         {
             Undefined,
-            None,
-            CountyForm,
-            CityForm,
-            HospitalForm,
-            TestForm,
+            None = 1,
+            CountyForm = 2,
+            CityForm = 3,
+            HospitalForm = 4,
+            TestForm = 5,
         };
 
         //public FormControlAttribute(string formControlName, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex)

@@ -160,7 +160,6 @@
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Hospital Name:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Row="1" Grid.Column="1" x:Name="hospitalName" Width="300"
-                                      DisplayMemberPath="Item"
                                       Style="{StaticResource MuniStatusComboBox}"  
                                       ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
                                       SelectionChanged="Subject_Changed" 

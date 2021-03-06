@@ -43,6 +43,11 @@ namespace MedicalHealthBranchRRFormControl
             FormHeaderControl.HeaderSubstring = "Version: September 2009";
             FormHeaderControl.PIF = PIF;
 
+            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
+            {
+                GetFormDataFromAttribute(GetType());
+            }
+
             UpdateFormFieldsRequiredColors();
         }
 
@@ -50,9 +55,9 @@ namespace MedicalHealthBranchRRFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
 
-        public override string GetPacFormName() => "form-medical-resource-request";
+        //public override string GetPacFormName() => "form-medical-resource-request";
 
         public override string PacFormType => "XSC_MedicalResourceRequest";
 
