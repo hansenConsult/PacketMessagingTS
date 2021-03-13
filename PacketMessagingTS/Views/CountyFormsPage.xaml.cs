@@ -21,7 +21,8 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CountyFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        public CountyFormsViewModel _CountyFormsViewModel { get; } = Singleton<CountyFormsViewModel>.Instance;
+        //public CountyFormsViewModel _CountyFormsViewModel { get; } = Singleton<CountyFormsViewModel>.Instance;
+        private CountyFormsViewModel CountyFormsViewModel = CountyFormsViewModel.Instance;
 
 
         public CountyFormsPage()
@@ -57,8 +58,8 @@ namespace PacketMessagingTS.Views
 
             PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderCounty);
 
-            _CountyFormsViewModel.FormsPage = this;
-            ViewModel = _CountyFormsViewModel;
+            CountyFormsViewModel.FormsPage = this;
+            ViewModel = CountyFormsViewModel;
         }
 
         //private void SortAttributesByMenuIndex(FormControlAttributes[] formControlAttributesInMenuOrder)

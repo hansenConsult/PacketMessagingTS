@@ -8,6 +8,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class CountyFormsViewModel : FormsViewModel
     {
+        public static CountyFormsViewModel Instance { get; } = new CountyFormsViewModel();
+
         public override int FormsPagePivotSelectedIndex
         {
             get => CountyFormsPagePivotSelectedIndex;

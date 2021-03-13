@@ -454,7 +454,8 @@ namespace PacketMessagingTS.Views
 
 
         public ToolsViewModel _toolsViewModel { get; } = new ToolsViewModel();
-        public ICS309ViewModel Ics309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
+        //public ICS309ViewModel Ics309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
+        private ICS309ViewModel Ics309ViewModel = ICS309ViewModel.Instance;
 
         StorageFile _selectedFile;
         //private int _selectedTestFileIndex;

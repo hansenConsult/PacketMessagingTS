@@ -311,35 +311,35 @@ namespace OAMunicipalStatusPackItFormControl
             return CreateOutpostMessageBody(_outpostData);
         }
 
-        public override void FillFormFromFormFields(FormField[] formFields)
-        {
-            bool found1 = false;
-            foreach (FormField formField in formFields)
-            {
-                FrameworkElement control = GetFrameworkElement(formField);
+        //public override void FillFormFromFormFields(FormField[] formFields)
+        //{
+        //    bool found1 = false;
+        //    foreach (FormField formField in formFields)
+        //    {
+        //        FrameworkElement control = GetFrameworkElement(formField);
 
-                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
-                    continue;
+        //        if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+        //            continue;
 
-                if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    switch (control.Name)
-                    {
-                        case "reportType":
-                            ReportType = formField.ControlContent;
-                            found1 = true;
-                            break;
-                        case null:
-                            continue;
-                    }
-                }
-                if (found1)
-                    break;
-            }
-            base.FillFormFromFormFields(formFields);
+        //        if (control is ToggleButtonGroup toggleButtonGroup)
+        //        {
+        //            switch (control.Name)
+        //            {
+        //                case "reportType":
+        //                    ReportType = formField.ControlContent;
+        //                    found1 = true;
+        //                    break;
+        //                case null:
+        //                    continue;
+        //            }
+        //        }
+        //        if (found1)
+        //            break;
+        //    }
+        //    base.FillFormFromFormFields(formFields);
 
-            UpdateFormFieldsRequiredColors();
-        }
+        //    UpdateFormFieldsRequiredColors();
+        //}
 
         //private void EocOpen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{

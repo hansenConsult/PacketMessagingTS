@@ -67,12 +67,13 @@ namespace PacketMessagingTS.Controls
             }
             if (SelectedIndex > 0)
             {
-                string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
-                string userName = Singleton<IdentityViewModel>.Instance.UserName;
-                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+                //string userCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
+                string userCallsign = IdentityViewModel.Instance.UserCallsign;
+                string userName = IdentityViewModel.Instance.UserName;
+                if (IdentityViewModel.Instance.UseTacticalCallsign)
                 {
-                    string tacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
-                    string tacticalAgencyName = Singleton<IdentityViewModel>.Instance.TacticalAgencyName;
+                    string tacticalCallsign = IdentityViewModel.Instance.TacticalCallsign;
+                    string tacticalAgencyName = IdentityViewModel.Instance.TacticalAgencyName;
                     Subject = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName}";
                     Message = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName} \r\nPresent are:\r\n{userCallsign}, {userName}\r\n";
                 }

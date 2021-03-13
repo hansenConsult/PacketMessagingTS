@@ -13,6 +13,8 @@ namespace PacketMessagingTS.ViewModels
         //public static TacticalCall _callsignData;
         //public TacticalCallsignData _tacticalCallsignData;
 
+        public static IdentityViewModel Instance { get; } = new IdentityViewModel();
+
         public IdentityViewModel()
         {
 

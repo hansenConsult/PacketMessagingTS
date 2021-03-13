@@ -17,6 +17,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class HospitalFormsViewModel : FormsViewModel
     {
+        public static HospitalFormsViewModel Instance { get; } = new HospitalFormsViewModel();
+
         public override int FormsPagePivotSelectedIndex
         {
             get => HospitalFormsPagePivotSelectedIndex;

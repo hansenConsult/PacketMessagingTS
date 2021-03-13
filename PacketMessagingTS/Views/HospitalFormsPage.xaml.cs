@@ -23,7 +23,8 @@ namespace PacketMessagingTS.Views
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<HospitalFormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
-        public HospitalFormsViewModel HospitalFormsViewModel { get; } = Singleton<HospitalFormsViewModel>.Instance;
+        //public HospitalFormsViewModel HospitalFormsViewModel { get; } = Singleton<HospitalFormsViewModel>.Instance;
+        private HospitalFormsViewModel HospitalFormsViewModel = HospitalFormsViewModel.Instance;
 
 
         public HospitalFormsPage()

@@ -5,6 +5,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class CityFormsViewModel : FormsViewModel
     {
+        public static CityFormsViewModel Instance { get; } = new CityFormsViewModel();
+
         protected int cityFormsPagePivotSelectedIndex;
         public int CityFormsPagePivotSelectedIndex
         {

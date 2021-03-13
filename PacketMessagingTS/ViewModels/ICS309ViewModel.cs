@@ -19,8 +19,11 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ICS309ViewModel : BaseViewModel
     {
+        public static ICS309ViewModel Instance { get; } = new ICS309ViewModel();
+
         private CommLog _CommLog;
         private bool _fromOpenFile;
+
 
         public void Initialize()
         {

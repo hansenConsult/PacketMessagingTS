@@ -23,8 +23,8 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CityFormsPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public CityFormsViewModel CityFormsViewModel { get; } = Singleton<CityFormsViewModel>.Instance;
-
+        //public CityFormsViewModel CityFormsViewModel { get; } = Singleton<CityFormsViewModel>.Instance;
+        CityFormsViewModel CityFormsViewModel = CityFormsViewModel.Instance;
 
         public CityFormsPage()
         {

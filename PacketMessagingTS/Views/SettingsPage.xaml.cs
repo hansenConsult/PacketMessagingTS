@@ -30,7 +30,9 @@ namespace PacketMessagingTS.Views
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
         public SettingsViewModel SettingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
-        public IdentityViewModel IdentityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
+
+        //public IdentityViewModel IdentityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
+        private IdentityViewModel IdentityViewModel = IdentityViewModel.Instance;
         public PacketSettingsViewModel PacketSettingsViewmodel { get; } = Singleton<PacketSettingsViewModel>.Instance;
         public TNCSettingsViewModel TncSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
         public AddressBookViewModel AddressBookViewModel { get; } = new AddressBookViewModel();
