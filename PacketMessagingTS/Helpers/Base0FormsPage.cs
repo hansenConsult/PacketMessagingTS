@@ -21,7 +21,7 @@ namespace PacketMessagingTS.Helpers
 {
     public class Base0FormsPage : Page
     {
-        private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<Base0FormsPage>();
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<Base0FormsPage>();
         private static LogHelper _logHelper = new LogHelper(log);
 
         protected PacketMessage _packetMessage;
@@ -170,7 +170,7 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
         }

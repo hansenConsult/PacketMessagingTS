@@ -663,7 +663,7 @@ namespace PacketMessagingTS.Helpers
         //    return formControl;
         //}
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //_logHelper.Log(LogLevel.Trace, "Entering OnNavigatedTo in BaseFormsPage");
             //ViewModel.FirstTimeFormOpened = true;

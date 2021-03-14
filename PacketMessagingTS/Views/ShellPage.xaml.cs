@@ -30,7 +30,7 @@ namespace PacketMessagingTS.Views
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
         //public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
-        private ShellViewModel ViewModel = ShellViewModel.Instance;
+        private readonly ShellViewModel ViewModel = ShellViewModel.Instance;
 
         private SuspendingEventHandler appSuspendEventHandler;
         private EventHandler<Object> appResumeEventHandler;

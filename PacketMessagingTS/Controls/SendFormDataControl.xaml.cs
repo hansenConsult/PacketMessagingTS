@@ -144,8 +144,7 @@ namespace PacketMessagingTS.Controls
                 {
                     if (autoSuggestBox.Name == "textBoxMessageTo")
                     {
-                        TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
-                        if (autoSuggestBoxAsTextBox != null)
+                        if (FindName($"{autoSuggestBox.Name}TextBox") is TextBox autoSuggestBoxAsTextBox)
                         {
                             autoSuggestBoxAsTextBox.Text = FormPacketMessage.MessageTo;
                         }
@@ -153,8 +152,7 @@ namespace PacketMessagingTS.Controls
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    TextBox comboBoxAsTextBox = FindName($"{comboBox.Name}TextBox") as TextBox;
-                    if (comboBoxAsTextBox != null)
+                    if (FindName($"{comboBox.Name}TextBox") is TextBox comboBoxAsTextBox)
                     {
                         if (comboBox.Name == "comboBoxMessageBBS")
                         {

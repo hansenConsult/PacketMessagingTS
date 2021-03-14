@@ -573,7 +573,7 @@ namespace SharedCode
 
             if (!string.IsNullOrEmpty(fileFolder) && Directory.Exists(fileFolder))
             {
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(fileFolder);
                     FileInfo[] info = dirInfo.GetFiles("*.xml", SearchOption.TopDirectoryOnly);

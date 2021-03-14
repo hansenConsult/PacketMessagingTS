@@ -244,8 +244,7 @@ namespace MessageFormControl
         {
             for (int i = 0; i < FrameworkElementList.Count; i++)
             {
-                TextBlock footer = FrameworkElementList[i].FindName("footer") as TextBlock;
-                if (footer != null)
+                if (FrameworkElementList[i].FindName("footer") is TextBlock footer)
                 {
                     footer.Text = $"Page {i + 1} of {FrameworkElementList.Count}";
                 }
@@ -261,8 +260,7 @@ namespace MessageFormControl
             {
                 if (_printPanels[i] != null && !DirectPrintContainer.Children.Contains(_printPanels[i]))
                 {
-                    TextBlock footer = _printPanels[i].FindName("footer") as TextBlock;
-                    if (footer != null)
+                    if (_printPanels[i].FindName("footer") is TextBlock footer)
                     {
                         _printPanels[i].Children.Remove(footer);
                     }
@@ -390,8 +388,10 @@ namespace MessageFormControl
                 return;
 
             Paragraph paragraph = new Paragraph();
-            Run run = new Run();
-            run.Text = message;
+            Run run = new Run
+            {
+                Text = message
+            };
 
             // Add the Run to the Paragraph, the Paragraph to the RichTextBlock.
             paragraph.Inlines.Add(run);

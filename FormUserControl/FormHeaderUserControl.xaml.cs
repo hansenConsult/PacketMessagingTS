@@ -66,8 +66,10 @@ namespace FormUserControl
                         _formControlsList.Add(formControl);
                         break;
                     case ComboBox comboBox:
-                        formControl = new FormControl((FrameworkElement)control, formUserControl);
-                        formControl.BaseBorderColor = comboBox.BorderBrush;
+                        formControl = new FormControl((FrameworkElement)control, formUserControl)
+                        {
+                            BaseBorderColor = comboBox.BorderBrush
+                        };
                         _formControlsList.Add(formControl);
                         break;
                     case CheckBox _:
@@ -77,8 +79,10 @@ namespace FormUserControl
                         _formControlsList.Add(formControl);
                         break;
                     case AutoSuggestBox autoSuggestBox:
-                        formControl = new FormControl((FrameworkElement)control, formUserControl);
-                        formControl.BaseBorderColor = TextBoxBorderBrush;
+                        formControl = new FormControl((FrameworkElement)control, formUserControl)
+                        {
+                            BaseBorderColor = TextBoxBorderBrush
+                        };
                         if (formControl.UserControl is AutoSuggestTextBoxUserControl)
                         {
                             autoSuggestBox.Name = formControl.UserControl.Name;

@@ -123,14 +123,14 @@ namespace FormControlBasicsNamespace
         //    set;
         //}
 
-        public virtual void UpdateStyles()
-        {
-        }
+        //public virtual void UpdateStyles()
+        //{
+        //}
 
-        public FormControlBasics()
-        {
-            //Messagestate = MessageState.None;
-        }
+        //public FormControlBasics()
+        //{
+        //    //Messagestate = MessageState.None;
+        //}
 
         protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
@@ -160,21 +160,25 @@ namespace FormControlBasicsNamespace
                 }
                 else if (control is TextBox textBox)
                     {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    //if (textBox.IsReadOnly)
-                    //{
-                    //    formControl.BaseBorderColor = WhiteBrush;
-                    //}
-                    //else
-                    //{
-                        formControl.BaseBorderColor = textBox.BorderBrush;
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                    {
+                        //if (textBox.IsReadOnly)
+                        //{
+                        //    formControl.BaseBorderColor = WhiteBrush;
+                        //}
+                        //else
+                        //{
+                        BaseBorderColor = textBox.BorderBrush
+                    };
                     //}
                     _formControlsList.Add(formControl);
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    formControl.BaseBorderColor = comboBox.BorderBrush;
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                    {
+                        BaseBorderColor = comboBox.BorderBrush
+                    };
                     _formControlsList.Add(formControl);
                 }
                 else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
@@ -184,8 +188,10 @@ namespace FormControlBasicsNamespace
                 }
                 else if (control is AutoSuggestBox)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    formControl.BaseBorderColor = TextBoxBorderBrush;
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                    {
+                        BaseBorderColor = TextBoxBorderBrush
+                    };
                     _formControlsList.Add(formControl);
                 }
                 else if (control is RadioButton)
@@ -254,8 +260,7 @@ namespace FormControlBasicsNamespace
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
-                    TextBox autoSuggestBoxAsTextBox = FindName($"{autoSuggestBox.Name}TextBox") as TextBox;
-                    if (autoSuggestBoxAsTextBox != null)
+                    if (FindName($"{autoSuggestBox.Name}TextBox") is TextBox autoSuggestBoxAsTextBox)
                     {
                         autoSuggestBox.Visibility = Visibility.Collapsed;
 
@@ -276,8 +281,7 @@ namespace FormControlBasicsNamespace
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    TextBox comboBoxAsTextBox = FindName($"{comboBox.Name}TextBox") as TextBox;
-                    if (comboBoxAsTextBox != null)
+                    if (FindName($"{comboBox.Name}TextBox") is TextBox comboBoxAsTextBox)
                     {
                         comboBox.Visibility = Visibility.Collapsed;
 
@@ -431,7 +435,7 @@ namespace FormControlBasicsNamespace
         }
 
         // Formats a 10 digit number to (123) 456-7890
-        protected string FormatTelephoneNumber(string phoneNumber)
+        protected static string FormatTelephoneNumber(string phoneNumber)
         {
             char[] phoneNumberArray = phoneNumber.ToCharArray();
             char[] digitArray = new char[16];
@@ -463,7 +467,7 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        public bool IsFieldRequired(FrameworkElement control)
+        public static bool IsFieldRequired(FrameworkElement control)
         {
             string tag = (control.Tag as string)?.ToLower();
             if (!string.IsNullOrEmpty(tag))

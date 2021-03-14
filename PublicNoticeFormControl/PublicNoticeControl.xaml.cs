@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 using FormControlBaseClass;
 
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+
 using SharedCode;
 using SharedCode.Helpers;
 
@@ -17,7 +20,7 @@ namespace PublicNoticeFormControl
 {
     [FormControl(
         FormControlName = "PublicNotice",
-        FormControlMenuName = "SCCo Public Notice",
+        FormControlMenuName = "Public Notice",
         FormControlType = FormControlAttribute.FormType.TestForm,
         FormControlMenuIndex = 0)
     ]
@@ -57,17 +60,14 @@ namespace PublicNoticeFormControl
 
         public override void AppendDrillTraffic()
         {
-            notice.Text = notice.Text + DrillTraffic;
+            notice.Text += DrillTraffic;
         }
 
         private bool _pageVisibility = true;
         public bool PageVisibility
         {
             get => _pageVisibility;
-            set
-            {
-                Set(ref _pageVisibility, value);
-            }
+            set => Set(ref _pageVisibility, value);
         }
 
         private bool _noticeVisibility = false;

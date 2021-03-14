@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Reflection;
 using System.Text;
 
 using FormControlBasicsNamespace;
@@ -23,8 +23,6 @@ using Windows.UI.Xaml.Documents;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Input;
-using System.Linq;
-using System.Reflection;
 
 namespace FormControlBaseClass
 {
@@ -84,58 +82,58 @@ namespace FormControlBaseClass
         };
 
 
-        private static Dictionary<string, object> _properties = new Dictionary<string, object>();
-        static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
+        private static readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
+        //static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
         public static string DrillTraffic = "\rDrill Traffic\r";
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
 
-        protected T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
-        {
-            if (_properties != null && _properties.ContainsKey(propertyName))
-            {
-                // Retrieve value from dictionary
-                object o = _properties[propertyName];
-                backingStore = (T)o;
-                return (T)o;
-            }
-            else
-                return backingStore;
-        }
+        //protected static T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
+        //{
+        //    if (_properties != null && _properties.ContainsKey(propertyName))
+        //    {
+        //        // Retrieve value from dictionary
+        //        object o = _properties[propertyName];
+        //        backingStore = (T)o;
+        //        return (T)o;
+        //    }
+        //    else
+        //        return backingStore;
+        //}
 
-        protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
-                    [CallerMemberName]string propertyName = "", Action onChanged = null)
-        {
-            bool firstTime = false;
-            if (_propertyFirstTime.ContainsKey(propertyName))
-            {
-                firstTime = _propertyFirstTime[propertyName];
-            }
-            else
-            {
-                firstTime = true;
-            }
-            _propertyFirstTime[propertyName] = false;
-            //Do not update displayed value if not changed or not first time or not forced
-            if (Equals(backingStore, value) && !firstTime && !forceUpdate)
-            {
-                return false;
-            }
-            //_propertyFirstTime[propertyName] = false;
+        //protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
+        //            [CallerMemberName] string propertyName = "", Action onChanged = null)
+        //{
+        //    bool firstTime = false;
+        //    if (_propertyFirstTime.ContainsKey(propertyName))
+        //    {
+        //        firstTime = _propertyFirstTime[propertyName];
+        //    }
+        //    else
+        //    {
+        //        firstTime = true;
+        //    }
+        //    _propertyFirstTime[propertyName] = false;
+        //    //Do not update displayed value if not changed or not first time or not forced
+        //    if (Equals(backingStore, value) && !firstTime && !forceUpdate)
+        //    {
+        //        return false;
+        //    }
+        //    //_propertyFirstTime[propertyName] = false;
 
-            if (persist)
-            {
-                // store value
-                _properties[propertyName] = value;
-            }
+        //    if (persist)
+        //    {
+        //        // store value
+        //        _properties[propertyName] = value;
+        //    }
 
-            backingStore = value;
-            onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
-            return true;
-        }
+        //    backingStore = value;
+        //    onChanged?.Invoke();
+        //    OnPropertyChanged(propertyName);
+        //    return true;
+        //}
 
         public virtual void UpdateFormFieldsRequiredColors()
         {
@@ -388,8 +386,10 @@ namespace FormControlBaseClass
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    formControl.BaseBorderColor = comboBox.BorderBrush;
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                    {
+                        BaseBorderColor = comboBox.BorderBrush
+                    };
                     _formControlsList.Add(formControl);
                 }
                 else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
@@ -399,8 +399,10 @@ namespace FormControlBaseClass
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    formControl.BaseBorderColor = TextBoxBorderBrush;
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                    {
+                        BaseBorderColor = TextBoxBorderBrush
+                    };
                     if (formControl.UserControl is AutoSuggestTextBoxUserControl)
                     {
                         autoSuggestBox.Name = formControl.UserControl.Name;
@@ -549,7 +551,7 @@ namespace FormControlBaseClass
                 {
                     formField.ControlContent = (GetOutpostValue(id, ref msgLines) == "checked" ? "True" : "False");
                 }
-                else if (control is ComboBox comboBox)
+                else if (control is ComboBox)
                 {
                     formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
                 }
@@ -865,7 +867,7 @@ namespace FormControlBaseClass
             return "";
         }
 
-        protected string CreateOutpostMessageBody(List<string> outpostData)
+        protected static string CreateOutpostMessageBody(List<string> outpostData)
 		{
 			StringBuilder sb = new StringBuilder();
 			foreach (string s in outpostData)
@@ -1164,8 +1166,10 @@ namespace FormControlBaseClass
                 else if (control is RichTextBlock richTextBlock)
                 {
                     Paragraph paragraph = new Paragraph();
-                    Run run = new Run();
-                    run.Text = formField.ControlContent;
+                    Run run = new Run
+                    {
+                        Text = formField.ControlContent
+                    };
                     // Add the Run to the Paragraph, the Paragraph to the RichTextBlock.
                     paragraph.Inlines.Add(run);
                     richTextBlock.Blocks.Add(paragraph);
@@ -1315,7 +1319,7 @@ namespace FormControlBaseClass
         //    }
         //}
 
-        protected void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxItem> comboBoxRefList)
+        protected static void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxItem> comboBoxRefList)
         {
             for (int i = 0; i < comboBoxRefList.Count; i++)
             {
@@ -1505,7 +1509,6 @@ namespace FormControlBaseClass
                         break;
                     }
                 }
-
             }
         }
 

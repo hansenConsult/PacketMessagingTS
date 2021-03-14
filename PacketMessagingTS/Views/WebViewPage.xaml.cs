@@ -27,8 +27,8 @@ namespace PacketMessagingTS.Views
 {
     public sealed partial class WebViewPage : Page
     {
-        static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<WebViewPage>();
-        private LogHelper _logHelper = new LogHelper(log);
+        static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<WebViewPage>();
+        private readonly LogHelper _logHelper = new LogHelper(log);
 
         public WebViewViewModel ViewModel { get; } = new WebViewViewModel();
 
@@ -38,7 +38,7 @@ namespace PacketMessagingTS.Views
             ViewModel.Initialize(webView);            
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -72,7 +72,7 @@ namespace PacketMessagingTS.Views
 
                 FormControlBase formControl = FormsViewModel.CreateFormControlInstance(packetMessage.PacFormName, packetMessage.MessageState);
 
-                ConvertFromOutpost(ref packetMessage, ref formControl, FormProviders.PacForm);
+                ConvertFromOutpost(ref packetMessage, ref formControl);
             }
         }
 
@@ -115,7 +115,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        public void ConvertFromOutpost(ref PacketMessage packetMessage, ref FormControlBase formControl, FormProviders formProvider)
+        public void ConvertFromOutpost(ref PacketMessage packetMessage, ref FormControlBase formControl)
         {
             List<string> inlList = new List<string>();
             List<string> inrList = new List<string>();

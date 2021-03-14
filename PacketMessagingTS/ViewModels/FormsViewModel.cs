@@ -302,7 +302,7 @@ namespace PacketMessagingTS.ViewModels
         public async void InitializeFormControlAsync()
         {
             LoadMessage = false;
-            ShowPacketFormAsync();
+            await ShowPacketFormAsync();
             return;
 
             //_packetMessage = null;
