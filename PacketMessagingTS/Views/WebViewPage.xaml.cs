@@ -127,7 +127,7 @@ namespace PacketMessagingTS.Views
             }
             string[] msgLines = packetMessage.MessageBody.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            string value = "";
+            string value;
             foreach (FormField formField in formFields)
             {
                 (string id, FrameworkElement control) = formControl.GetTagIndex(formField);

@@ -608,7 +608,7 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        public bool CheckTimeFormat(FormControl formControl)
+        public static bool CheckTimeFormat(FormControl formControl)
         {
             TextBox textBox = formControl.InputControl as TextBox;
             string time = textBox.Text;

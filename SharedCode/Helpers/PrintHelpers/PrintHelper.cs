@@ -107,8 +107,10 @@ namespace SharedCode.Helpers.PrintHelpers
         public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
         {
             _printPreviewPages = new List<FrameworkElement>();
-            _printCanvas = new Canvas();
-            _printCanvas.Opacity = 0;
+            _printCanvas = new Canvas
+            {
+                Opacity = 0
+            };
 
             _canvasContainer = canvasContainer ?? throw new ArgumentNullException();
             _canvasContainer.RequestedTheme = ElementTheme.Light;

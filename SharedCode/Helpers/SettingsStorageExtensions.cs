@@ -50,7 +50,7 @@ namespace SharedCode.Helpers
         {
             if (!File.Exists(Path.Combine(folder.Path, GetFileName(name))))
             {
-                return default(T);
+                return default;
             }
 
             var file = await folder.GetFileAsync($"{name}.json");
