@@ -16,12 +16,5 @@ namespace PacketMessagingTS.Core.Helpers
             }
         }
 
-        //public static bool UpdateInstance()
-        //{
-        //    T newValue = new T();
-        //    bool success = _instances.TryUpdate(typeof(T), newValue, Instance);
-        //    return success;
-        //}
-
     }
 }

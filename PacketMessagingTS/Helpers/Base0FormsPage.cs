@@ -148,7 +148,7 @@ namespace PacketMessagingTS.Helpers
 
         public string OperatorName
         {
-            get => Singleton<IdentityViewModel>.Instance.UserName;
+            get => IdentityViewModel.Instance.UserName;
             set
             {
                 if (_packetForm.RadioOperatorControl != null)
@@ -160,7 +160,7 @@ namespace PacketMessagingTS.Helpers
 
         public string OperatorCallsign
         {
-            get => Singleton<IdentityViewModel>.Instance.UserCallsign;
+            get => IdentityViewModel.Instance.UserCallsign;
             set
             {
                 if (_packetForm.RadioOperatorControl != null)

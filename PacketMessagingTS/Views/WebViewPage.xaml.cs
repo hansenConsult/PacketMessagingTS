@@ -242,7 +242,7 @@ namespace PacketMessagingTS.Views
             // open payload in SimpleMessage in FormsPage. Fill in To and send
             string payload = e.Value;
 
-            IdentityViewModel viewModel = Singleton<IdentityViewModel>.Instance;
+            IdentityViewModel viewModel = IdentityViewModel.Instance;
             PacketMessage packetMessage = new PacketMessage()
             {
                 //ReceivedTime = DateTime.Parse(messageReceivedTime.Text),

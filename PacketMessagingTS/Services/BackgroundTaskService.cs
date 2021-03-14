@@ -23,6 +23,8 @@ namespace PacketMessagingTS.Services
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BackgroundTaskService>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        public static BackgroundTaskService Instance { get; } = new BackgroundTaskService();
+
         public static IEnumerable<BackgroundTask> BackgroundTasks => BackgroundTaskInstances.Value;
 
         private static readonly Lazy<IEnumerable<BackgroundTask>> BackgroundTaskInstances =

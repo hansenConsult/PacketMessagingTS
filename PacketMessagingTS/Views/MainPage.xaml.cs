@@ -28,7 +28,8 @@ namespace PacketMessagingTS.Views
         private static LogHelper _logHelper = new LogHelper(log);
 
 
-        public MainViewModel MainViewModel { get; } = Singleton<MainViewModel>.Instance;
+        //public MainViewModel MainViewModel { get; } = Singleton<MainViewModel>.Instance;
+        private MainViewModel MainViewModel = MainViewModel.Instance;
 
         public static MainPage Current;
 

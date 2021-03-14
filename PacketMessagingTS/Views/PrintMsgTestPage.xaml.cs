@@ -8,8 +8,8 @@ namespace PacketMessagingTS.Views
 {
     public sealed partial class PrintMsgTestPage : BasePrintFormsPage
     {
-        public PrintMsgTestViewModel ViewModel { get; } = Singleton<PrintMsgTestViewModel>.Instance;
-
+        //public PrintMsgTestViewModel ViewModel { get; } = Singleton<PrintMsgTestViewModel>.Instance;
+        private PrintMsgTestViewModel ViewModel = PrintMsgTestViewModel.Instance;
 
         public PrintMsgTestPage()
         {

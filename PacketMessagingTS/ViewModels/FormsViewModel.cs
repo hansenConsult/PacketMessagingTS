@@ -152,7 +152,7 @@ namespace PacketMessagingTS.ViewModels
 
         public string OperatorName
         {
-            get => Singleton<IdentityViewModel>.Instance.UserName;
+            get => IdentityViewModel.Instance.UserName;
             set
             {
                 if (_packetForm.RadioOperatorControl != null)
@@ -164,7 +164,7 @@ namespace PacketMessagingTS.ViewModels
 
         public string OperatorCallsign
         {
-            get => Singleton<IdentityViewModel>.Instance.UserCallsign;
+            get => IdentityViewModel.Instance.UserCallsign;
             set
             {
                 if (_packetForm.RadioOperatorControl != null)
@@ -309,7 +309,7 @@ namespace PacketMessagingTS.ViewModels
             ////_pivotItem = FormsPage.FormsPagePivot.Items[FormsPagePivotSelectedIndex] as PivotItem;
             //string formControlName = _pivotItem.Name;
 
-            ////string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+            ////string practiceSubject = PacketSettingsViewModel>.Instance.DefaultSubject;
 
             //_packetAddressForm = new SendFormDataControl();
             //_packetForm = CreateFormControlInstance(formControlName, MessageState.None); // Should be PacketFormName, since there may be multiple files with same name
@@ -353,7 +353,7 @@ namespace PacketMessagingTS.ViewModels
             //    _packetAddressForm.MessageSubject = $"{MessageNo}_R_";
             //    if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
             //    {
-            //        _packetAddressForm.MessageSubject += Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+            //        _packetAddressForm.MessageSubject += PacketSettingsViewModel>.Instance.DefaultSubject;
             //    }
 
             //    (_packetForm as MessageControl).NewHeaderVisibility = true;
@@ -476,7 +476,7 @@ namespace PacketMessagingTS.ViewModels
                 FormPacketMessage = _packetMessage
             };
 
-            string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+            string practiceSubject = PacketSettingsViewModel.Instance.DefaultSubject;
 
             //_pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
             //if (_pivotItem is null)
@@ -542,7 +542,7 @@ namespace PacketMessagingTS.ViewModels
                 //if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
                 //{
                 //    _packetAddressForm.MessageSubject += practiceSubject;
-                //    //_packetForm.MessageBody = Singleton<PacketSettingsViewModel>.Instance.DefaultMessage;
+                //    //_packetForm.MessageBody = PacketSettingsViewModel>.Instance.DefaultMessage;
                 //}
                 _packetForm.MessageReceivedTime = DateTime.Now;
             }
@@ -567,11 +567,11 @@ namespace PacketMessagingTS.ViewModels
                 DateTime now = DateTime.Now;
                 MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                 //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-                OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-                OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
-                if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+                OperatorName = IdentityViewModel.Instance.UserName;
+                OperatorCallsign = IdentityViewModel.Instance.UserCallsign;
+                if (IdentityViewModel.Instance.UseTacticalCallsign)
                 {
-                    _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+                    _packetForm.TacticalCallsign = IdentityViewModel.Instance.TacticalCallsign;
                 }
 
                 if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
@@ -648,7 +648,7 @@ namespace PacketMessagingTS.ViewModels
             //    FormPacketMessage = _packetMessage
             //};
 
-            //string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+            //string practiceSubject = <PacketSettingsViewModel>.Instance.DefaultSubject;
 
             ////_pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
             ////if (_pivotItem is null)
@@ -714,7 +714,7 @@ namespace PacketMessagingTS.ViewModels
             //    //if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
             //    //{
             //    //    _packetAddressForm.MessageSubject += practiceSubject;
-            //    //    //_packetForm.MessageBody = Singleton<PacketSettingsViewModel>.Instance.DefaultMessage;
+            //    //    //_packetForm.MessageBody = PacketSettingsViewModel>.Instance.DefaultMessage;
             //    //}
             //    _packetForm.MessageReceivedTime = DateTime.Now;
             //}
@@ -906,7 +906,7 @@ namespace PacketMessagingTS.ViewModels
             }
 
             // append "Drill Traffic" if requested
-            if (Singleton<PacketSettingsViewModel>.Instance.IsDrillTraffic)
+            if (PacketSettingsViewModel.Instance.IsDrillTraffic)
             {
                 PacketForm.AppendDrillTraffic();
             }

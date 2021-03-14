@@ -88,7 +88,7 @@ namespace PacketMessagingTS.Services
 
         private async Task InitializeAsync()
         {
-            await Singleton<BackgroundTaskService>.Instance.RegisterBackgroundTasksAsync().ConfigureAwait(false);
+            await BackgroundTaskService.Instance.RegisterBackgroundTasksAsync().ConfigureAwait(false);
             await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);
             await WindowManagerService.Current.InitializeAsync();
         }
@@ -121,9 +121,9 @@ namespace PacketMessagingTS.Services
 
         private IEnumerable<ActivationHandler> GetActivationHandlers()
         {
-            yield return Singleton<BackgroundTaskService>.Instance;
-            yield return Singleton<SuspendAndResumeService>.Instance;
-            //yield return Singleton<SchemeActivationHandler>.Instance; // Only used for external activation (Protocol Activated)
+            yield return BackgroundTaskService.Instance;
+            yield return SuspendAndResumeService.Instance;
+            //yield return SchemeActivationHandler>.Instance; // Only used for external activation (Protocol Activated)
         }
 
         private bool IsInteractive(object args)

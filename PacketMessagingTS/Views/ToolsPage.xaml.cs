@@ -453,7 +453,8 @@ namespace PacketMessagingTS.Views
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
-        public ToolsViewModel _toolsViewModel { get; } = new ToolsViewModel();
+        //public ToolsViewModel _toolsViewModel { get; } = new ToolsViewModel();
+        private ToolsViewModel _toolsViewModel = ToolsViewModel.Instance;
         //public ICS309ViewModel Ics309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
         private ICS309ViewModel Ics309ViewModel = ICS309ViewModel.Instance;
 
@@ -991,14 +992,14 @@ namespace PacketMessagingTS.Views
             };
 
             List<PacketMessage> packetMessagesReceived = new List<PacketMessage>();
-            BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.BBSFromSelectedProfile;
-            TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.TNCFromSelectedProfile;
+            BBSData bbs = PacketSettingsViewModel.Instance.BBSFromSelectedProfile;
+            TNCDevice tncDevice = PacketSettingsViewModel.Instance.TNCFromSelectedProfile;
             //bbs?.ConnectName, ref tncDevice, bool forceReadBulletins, string areas, ref List<PacketMessage> packetMessagesToSend
             packetMessagesReceived.Add(packetMsg);
             TNCInterface tncInterface = new TNCInterface();
-            string tncName = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            string tncName = PacketSettingsViewModel.Instance.CurrentProfile.TNC;
             //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
-            string messageBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+            string messageBBS = PacketSettingsViewModel.Instance.CurrentProfile.BBS;
             tncInterface.SendMessageReceipts(messageBBS, ref tncDevice, "", packetMessagesReceived);
             foreach (PacketMessage packetMessage in tncInterface.PacketMessagesSent)
             {

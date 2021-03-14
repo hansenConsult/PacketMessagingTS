@@ -295,8 +295,8 @@ namespace PacketMessagingTS.Models
                     sb.AppendLine($"Prepared Date:       {DateTimePrepared}");
                     sb.AppendLine($"Operational Period:  {$"{DateTimeStrings.DateTimeString(OperationalPeriodFrom)} to {DateTimeStrings.DateTimeString(OperationalPeriodTo)}"}");
                     sb.AppendLine($"Task Name:           {IncidentName}");
-                    sb.AppendLine($"Radio Operator Name: {Singleton<IdentityViewModel>.Instance.UserName}");
-                    sb.AppendLine($"Station ID:          {Singleton<IdentityViewModel>.Instance.UserCallsign}");
+                    sb.AppendLine($"Radio Operator Name: {IdentityViewModel.Instance.UserName}");
+                    sb.AppendLine($"Station ID:          {IdentityViewModel.Instance.UserCallsign}");
                     sb.AppendLine();
                     sb.AppendLine("Date/Time      From        From Msg#  To          To Msg#    Subject");
                     sb.AppendLine("-------------- ----------- ---------- ----------- ---------- -------------------------------------");
@@ -348,8 +348,8 @@ namespace PacketMessagingTS.Models
                     sb.AppendLine($"Prepared Date:,{DateTimePrepared}");
                     sb.AppendLine($"Operational Period:{$"{DateTimeStrings.DateTimeString(OperationalPeriodFrom)} to {DateTimeStrings.DateTimeString(OperationalPeriodTo)}"}");
                     sb.AppendLine($"Task Name:,{IncidentName}");
-                    sb.AppendLine($"Radio Operator Name:,{Singleton<IdentityViewModel>.Instance.UserName}");
-                    sb.AppendLine($"Station ID:,{Singleton<IdentityViewModel>.Instance.UserCallsign}");
+                    sb.AppendLine($"Radio Operator Name:,{IdentityViewModel.Instance.UserName}");
+                    sb.AppendLine($"Station ID:,{IdentityViewModel.Instance.UserCallsign}");
                     sb.AppendLine();
                     sb.AppendLine("Date/Time,From,From Msg#,To,To Msg#,Subject");
                     foreach (CommLogEntry entry in CommLogEntryList)

@@ -54,8 +54,8 @@ namespace PacketMessagingTS.Controls
             string chechInOut = "";
             if (SelectedIndex == 0)
             {
-                Subject = $"{Singleton<PacketSettingsViewModel>.Instance.DefaultSubject}";
-                Message = Singleton<PacketSettingsViewModel>.Instance.DefaultMessage;
+                Subject = $"{PacketSettingsViewModel.Instance.DefaultSubject}";
+                Message = PacketSettingsViewModel.Instance.DefaultMessage;
             }
             else if (SelectedIndex == 1)    // Check in
             {

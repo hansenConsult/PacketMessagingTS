@@ -20,6 +20,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ShellViewModel : BaseViewModel
     {
+        public static ShellViewModel Instance { get; } = new ShellViewModel();
+
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
         private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
 

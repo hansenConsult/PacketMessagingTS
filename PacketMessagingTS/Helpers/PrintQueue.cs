@@ -22,6 +22,8 @@ namespace PacketMessagingTS.Helpers.PrintHelpers
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PrintQueue>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        public static PrintQueue Instance { get; } = new PrintQueue();
+
         Dictionary<string, object> _properties = App.Properties;
 
         private const string SettingsKey = "PrintDestinations";

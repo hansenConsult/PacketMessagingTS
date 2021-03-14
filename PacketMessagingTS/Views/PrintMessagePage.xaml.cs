@@ -13,7 +13,8 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PrintMessagePage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public PrintMessageViewModel ViewModel { get; } = Singleton<PrintMessageViewModel>.Instance;
+        //public PrintMessageViewModel ViewModel { get; } = Singleton<PrintMessageViewModel>.Instance;
+        private PrintMessageViewModel ViewModel = PrintMessageViewModel.Instance;
 
         public PrintMessagePage()
         {

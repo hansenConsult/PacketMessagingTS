@@ -41,7 +41,7 @@ namespace PacketMessagingTS.Controls
             MessageBBS = bbs; //Utilities.GetBBSName(out string from, out string tnc);
             //AddressBook.Instance.UserBBS = MessageBBS;
             MessageTNC = tnc;
-            MessageTo = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.SendTo;
+            MessageTo = PacketSettingsViewModel.Instance.CurrentProfile.SendTo;
             MessageFrom = from;
         }
 

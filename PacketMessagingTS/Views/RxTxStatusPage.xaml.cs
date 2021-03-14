@@ -20,7 +20,8 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<RxTxStatusPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public RxTxStatViewModel RxTxStatusViewmodel { get; } = new RxTxStatViewModel();
+        //public RxTxStatViewModel RxTxStatusViewmodel { get; } = new RxTxStatViewModel();
+        private RxTxStatViewModel RxTxStatusViewmodel = RxTxStatViewModel.Instance;
 
         public ViewLifetimeControl _viewLifetimeControl;
 

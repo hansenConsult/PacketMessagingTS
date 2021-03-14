@@ -33,8 +33,8 @@ namespace PacketMessagingTS.ViewModels
             OperationalPeriodStart = DateTime.Today;
             OperationalPeriodEnd = DateTime.Now;
             OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
-            RadioNetName = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign ? $"{Singleton<IdentityViewModel>.Instance.TacticalCallsign}" : "";
-            OperatorNameCallsign = $"{Singleton<IdentityViewModel>.Instance.UserName}, {Singleton<IdentityViewModel>.Instance.UserCallsign}";
+            RadioNetName = IdentityViewModel.Instance.UseTacticalCallsign ? $"{IdentityViewModel.Instance.TacticalCallsign}" : "";
+            OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
             DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
             TotalPages = 1;
             PageNo = 1;

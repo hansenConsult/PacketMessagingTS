@@ -50,7 +50,7 @@ namespace PacketMessagingTS.BackgroundTasks
 
                 // TODO WTS: Define the trigger for your background task and set any (optional) conditions
                 // More details at https://docs.microsoft.com/windows/uwp/launch-resume/create-and-register-an-inproc-background-task
-                builder.SetTrigger(Singleton<PrintQueue>.Instance.BackgroundPrintingTrigger);
+                builder.SetTrigger(PrintQueue.Instance.BackgroundPrintingTrigger);
                 builder.AddCondition(new SystemCondition(SystemConditionType.UserPresent));
 
                 builder.Register();
@@ -87,7 +87,7 @@ namespace PacketMessagingTS.BackgroundTasks
 
                 //Singleton<PrintQueue>.Instance.RestorePrintQueue();
 
-                await Singleton<PrintQueue>.Instance.PrintToDestinationsAsync();
+                await PrintQueue.Instance.PrintToDestinationsAsync();
 
                 _deferral?.Complete();
             });

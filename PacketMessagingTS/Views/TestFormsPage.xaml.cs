@@ -22,7 +22,8 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TestFormsPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public TestFormsViewModel _TestFormsViewModel { get; } = Singleton<TestFormsViewModel>.Instance;
+        //public TestFormsViewModel _TestFormsViewModel { get; } = Singleton<TestFormsViewModel>.Instance;
+        public TestFormsViewModel TestFormsViewModel = TestFormsViewModel.Instance;
 
 
         public TestFormsPage()
@@ -47,8 +48,8 @@ namespace PacketMessagingTS.Views
 
             PopulateFormsPagePivot();
 
-            _TestFormsViewModel.FormsPage = this;
-            ViewModel = _TestFormsViewModel;
+            TestFormsViewModel.FormsPage = this;
+            ViewModel = TestFormsViewModel;
         }
 
     }

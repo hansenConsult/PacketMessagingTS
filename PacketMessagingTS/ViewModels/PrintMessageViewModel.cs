@@ -8,6 +8,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class PrintMessageViewModel : FormsViewModel
     {
+        public static PrintMessageViewModel Instance { get; } = new PrintMessageViewModel();
+
         private ViewLifetimeControl _viewLifetimeControl;
 
 

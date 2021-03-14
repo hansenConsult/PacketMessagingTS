@@ -16,6 +16,8 @@ namespace PacketMessagingTS.ViewModels
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings.md
     public class SettingsViewModel : BaseViewModel
     {
+        public static SettingsViewModel Instance { get; } = new SettingsViewModel();
+
         private int settingsPivotSelectedIndex;
         public int SettingsPivotSelectedIndex
         {

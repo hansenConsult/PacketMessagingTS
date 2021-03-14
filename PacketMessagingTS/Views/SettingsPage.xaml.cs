@@ -29,13 +29,19 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<SettingsPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public SettingsViewModel SettingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
+        //public SettingsViewModel SettingsViewModel { get; } = Singleton<SettingsViewModel>.Instance;
+        private SettingsViewModel SettingsViewModel = SettingsViewModel.Instance;
 
         //public IdentityViewModel IdentityViewModel { get; } = Singleton<IdentityViewModel>.Instance;
         private IdentityViewModel IdentityViewModel = IdentityViewModel.Instance;
-        public PacketSettingsViewModel PacketSettingsViewmodel { get; } = Singleton<PacketSettingsViewModel>.Instance;
-        public TNCSettingsViewModel TncSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
-        public AddressBookViewModel AddressBookViewModel { get; } = new AddressBookViewModel();
+        //public PacketSettingsViewModel PacketSettingsViewmodel { get; } = Singleton<PacketSettingsViewModel>.Instance;
+        private PacketSettingsViewModel PacketSettingsViewmodel = PacketSettingsViewModel.Instance;
+        //private PacketSettingsViewModel PacketSettingsViewmodel = PacketSettingsViewModel.Instance;
+        //public TNCSettingsViewModel TncSettingsViewModel { get; } = Singleton<TNCSettingsViewModel>.Instance;
+        private TNCSettingsViewModel TncSettingsViewModel = TNCSettingsViewModel.Instance;
+
+        //public AddressBookViewModel AddressBookViewModel { get; } = new AddressBookViewModel();
+        private AddressBookViewModel AddressBookViewModel = AddressBookViewModel.Instance;
 
         //string[] CopyDestinations = new string[]
         //{
@@ -616,7 +622,7 @@ namespace PacketMessagingTS.Views
 
         //    //TNCDevice tncDevice = SharedData.CurrentTNCDevice;
 
-        //    UpdateTNCFromUI(Singleton<PacketSettingsViewModel>.Instance.CurrentTNC);
+        //    UpdateTNCFromUI(PacketSettingsViewModel>.Instance.CurrentTNC);
         //}
 
         //private async void appBarSaveTNC_ClickAsync(object sender, RoutedEventArgs e)

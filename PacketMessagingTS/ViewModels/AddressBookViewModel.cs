@@ -10,6 +10,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class AddressBookViewModel : BaseViewModel
     {
+        public static AddressBookViewModel Instance { get; } = new AddressBookViewModel();
+
         public AddressBookViewModel()
         {
 

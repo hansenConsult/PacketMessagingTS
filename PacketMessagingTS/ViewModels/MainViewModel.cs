@@ -31,6 +31,7 @@ namespace PacketMessagingTS.ViewModels
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainViewModel>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
+        public static MainViewModel Instance { get; } = new MainViewModel();
 
         public MainViewModel()
         {
@@ -150,7 +151,7 @@ namespace PacketMessagingTS.ViewModels
 
         public async Task UpdateDownloadedBulletinsAsync()
         {
-            PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+            PacketSettingsViewModel packetSettingsViewModel = PacketSettingsViewModel.Instance;
             string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             BulletinHelpers.BulletinDictionary = new Dictionary<string, List<string>>();
@@ -250,6 +251,9 @@ namespace PacketMessagingTS.ViewModels
                 _messagesInFolder = await PacketMessage.GetPacketMessages(MainPagePivotSelectedItem.Tag as StorageFolder);
 
                 DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
+
+                if (_messagesInFolder.Count == 0)
+                    return;
 
                 UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
 

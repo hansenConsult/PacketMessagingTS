@@ -8,6 +8,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ToolsViewModel : BaseViewModel
     {
+        public static ToolsViewModel Instance { get; } = new ToolsViewModel();
+
         private int toolsPivotSelectedIndex;
         public int ToolsPivotSelectedIndex
         {

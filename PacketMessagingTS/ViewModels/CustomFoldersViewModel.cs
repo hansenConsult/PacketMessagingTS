@@ -28,6 +28,8 @@ namespace PacketMessagingTS.ViewModels
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CustomFoldersViewModel>();
         private static LogHelper _logHelper = new LogHelper(log);
 
+        public static CustomFoldersViewModel Instance { get; } = new CustomFoldersViewModel();
+
         private static CustomFoldersArray _customFoldersInstance = CustomFoldersArray.Instance;
 
 

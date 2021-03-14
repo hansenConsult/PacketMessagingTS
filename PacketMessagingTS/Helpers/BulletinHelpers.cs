@@ -48,7 +48,7 @@ namespace PacketMessagingTS.Helpers
 
         public static void CreateBulletinDictionaryFromFiles()
         {
-            PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+            PacketSettingsViewModel packetSettingsViewModel = PacketSettingsViewModel.Instance;
             string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             BulletinDictionary = new Dictionary<string, List<string>>();

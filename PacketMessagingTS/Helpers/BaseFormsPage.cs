@@ -737,7 +737,7 @@ namespace PacketMessagingTS.Helpers
         //    PivotItem pivotItem = _formsPagePivot.SelectedItem as PivotItem;
         //    string formControlName = pivotItem.Name;
 
-        //    string practiceSubject = Singleton<PacketSettingsViewModel>.Instance.DefaultSubject;
+        //    string practiceSubject = PacketSettingsViewModel.Instance.DefaultSubject;
 
         //    _packetAddressForm = new SendFormDataControl();
         //    _packetForm = CreateFormControlInstance(formControlName); // Should be PacketFormName, since there may be multiple files with same name

@@ -39,18 +39,18 @@ namespace PacketMessagingTS.Helpers
                 messageNumber = FindHighestUsedMesageNumber() + 1;
                 //messageNumber = 100;
             }
-            if (Singleton<PacketSettingsViewModel>.Instance.FirstMessageNumber > messageNumber)
+            if (PacketSettingsViewModel.Instance.FirstMessageNumber > messageNumber)
             {
-                messageNumber = Singleton<PacketSettingsViewModel>.Instance.FirstMessageNumber;
+                messageNumber = PacketSettingsViewModel.Instance.FirstMessageNumber;
             }
 
-            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            if (IdentityViewModel.Instance.UseTacticalCallsign)
             {
-                messageNumberString = $"{Singleton<IdentityViewModel>.Instance.TacticalMsgPrefix}-{messageNumber:d3}";
+                messageNumberString = $"{IdentityViewModel.Instance.TacticalMsgPrefix}-{messageNumber:d3}";
             }
             else
             {
-                messageNumberString = $"{Singleton<IdentityViewModel>.Instance.UserMsgPrefix}-{messageNumber:d3}";
+                messageNumberString = $"{IdentityViewModel.Instance.UserMsgPrefix}-{messageNumber:d3}";
             }
             if (reserveMessageNumber)
             {
@@ -105,13 +105,13 @@ namespace PacketMessagingTS.Helpers
         public static int FindHighestUsedMesageNumber()
         {
             string msgNoPrefix;
-            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            if (IdentityViewModel.Instance.UseTacticalCallsign)
             {
-                msgNoPrefix = Singleton<IdentityViewModel>.Instance.TacticalMsgPrefix;
+                msgNoPrefix = IdentityViewModel.Instance.TacticalMsgPrefix;
             }
             else
             {
-                msgNoPrefix = Singleton<IdentityViewModel>.Instance.UserMsgPrefix;
+                msgNoPrefix = IdentityViewModel.Instance.UserMsgPrefix;
             }
 
             if (string.IsNullOrEmpty(msgNoPrefix))
@@ -200,11 +200,11 @@ namespace PacketMessagingTS.Helpers
 
         public static (string bbs, string tnc, string from) GetProfileData()
         {
-            IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+            IdentityViewModel instance = IdentityViewModel.Instance;
             string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
 
-            string bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-            string tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            string bbs = PacketSettingsViewModel.Instance.CurrentProfile.BBS;
+            string tnc = PacketSettingsViewModel.Instance.CurrentProfile.TNC;
             //if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail))
             //{
             //    bbs = AddressBook.Instance.GetBBS(from);
@@ -214,33 +214,33 @@ namespace PacketMessagingTS.Helpers
 
         public static (string bbs, string tnc, string from) GetProfileDataBBSStatusChecked()
         {
-            IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+            IdentityViewModel instance = IdentityViewModel.Instance;
             string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
             string bbs = AddressBook.Instance.GetBBS(from);
             string tnc = "";
 
-            if (Singleton<PacketSettingsViewModel>.Instance.CurrentProfile is null)
+            if (PacketSettingsViewModel.Instance.CurrentProfile is null)
             {
                 return (bbs, tnc, from);
             }
-            string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-            bool? profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
+            string profileBBS = PacketSettingsViewModel.Instance.CurrentProfile.BBS;
+            bool? profileBBSUp = SettingsViewModel.Instance.IsBBSUp(profileBBS);
             if (profileBBSUp == true)
             {
                 bbs = profileBBS;
             }
-            tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+            tnc = PacketSettingsViewModel.Instance.CurrentProfile.TNC;
             return (bbs, tnc, from);
         }
 
         public static string GetSenderBBSStatusChecked()
         {
-            IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+            IdentityViewModel instance = IdentityViewModel.Instance;
             string from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
             string bbs = AddressBook.Instance.GetBBS(from);
 
-            string profileBBS = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-            bool? profileBBSUp = Singleton<SettingsViewModel>.Instance.IsBBSUp(profileBBS);
+            string profileBBS = PacketSettingsViewModel.Instance.CurrentProfile.BBS;
+            bool? profileBBSUp = SettingsViewModel.Instance.IsBBSUp(profileBBS);
             if (profileBBSUp == true)
             {
                 bbs = profileBBS;
@@ -253,8 +253,8 @@ namespace PacketMessagingTS.Helpers
         //    IdentityViewModel instance = PacketMessagingTS.Core.Helpers.Singleton<IdentityViewModel>.Instance;
         //    from = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
 
-        //    string bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
-        //    tnc = Singleton<PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
+        //    string bbs = PacketSettingsViewModel>.Instance.CurrentProfile.BBS;
+        //    tnc = PacketSettingsViewModel>.Instance.CurrentProfile.TNC;
         //    if (string.IsNullOrEmpty(bbs) || !bbs.Contains("XSC") && !tnc.Contains(SharedData.EMail)) 
         //    {
         //        bbs = AddressBook.Instance.GetBBS(from);
@@ -268,10 +268,10 @@ namespace PacketMessagingTS.Helpers
             appView.Title = "";
 
             string title = "Packet Messaging, ";
-            title += Singleton<IdentityViewModel>.Instance.UserCallsign;
-            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            title += IdentityViewModel.Instance.UserCallsign;
+            if (IdentityViewModel.Instance.UseTacticalCallsign)
             {
-                title += " as " + Singleton<IdentityViewModel>.Instance.TacticalCallsign;
+                title += " as " + IdentityViewModel.Instance.TacticalCallsign;
             }
 
             (string bbs, string tnc, string from) = GetProfileDataBBSStatusChecked();

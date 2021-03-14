@@ -10,6 +10,9 @@ namespace PacketMessagingTS.ViewModels
 {
     public class TestFormsViewModel : FormsViewModel
     {
+        public static TestFormsViewModel Instance { get; } = new TestFormsViewModel();
+
+
         public override int FormsPagePivotSelectedIndex
         {
             get => TestFormsPagePivotSelectedIndex;

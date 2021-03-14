@@ -23,6 +23,8 @@ namespace PacketMessagingTS.ViewModels
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCSettingsViewModel>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
+        public static TNCSettingsViewModel Instance { get; } = new TNCSettingsViewModel();
+
         public enum TNCState
         {
             TNC,
@@ -710,7 +712,7 @@ namespace PacketMessagingTS.ViewModels
             NewTNCDeviceNameVisibility = Visibility.Collapsed;
 
             // Make sure Packet settings have the latest TNC devices, also restore currently selected TNC
-            PacketSettingsViewModel packetSettingsViewmodel = Singleton<PacketSettingsViewModel>.Instance;
+            PacketSettingsViewModel packetSettingsViewmodel = PacketSettingsViewModel.Instance;
             //string selectedTNC = packetSettingsViewmodel.TNC;
             packetSettingsViewmodel.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
             packetSettingsViewmodel.ProfileSelectedIndex = Utilities.GetProperty(nameof(packetSettingsViewmodel.ProfileSelectedIndex));
@@ -1050,8 +1052,8 @@ namespace PacketMessagingTS.ViewModels
                 TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
                 TNCDeviceSelectedIndex = 0;
                 TNCDeviceSelectedIndex = tncDeviceSelectedIndex;
-                Singleton<PacketSettingsViewModel>.Instance.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-                Singleton<PacketSettingsViewModel>.Instance.TNC = tncDevice.Name;
+                PacketSettingsViewModel.Instance.TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
+                PacketSettingsViewModel.Instance.TNC = tncDevice.Name;
             }
             else if (State == TNCState.EMailDelete)
             {

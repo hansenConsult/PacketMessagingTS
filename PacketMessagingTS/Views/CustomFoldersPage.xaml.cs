@@ -13,7 +13,9 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class CustomFoldersPage : Page
     {
-        public CustomFoldersViewModel ViewModel { get; } = Singleton<CustomFoldersViewModel>.Instance;
+        //public CustomFoldersViewModel ViewModel { get; } = Singleton<CustomFoldersViewModel>.Instance;
+        private CustomFoldersViewModel ViewModel = CustomFoldersViewModel.Instance;
+
         //public event RoutedEventHandler OnMoveToFolderFromContextMenuCommand;
 
         public CustomFoldersPage()

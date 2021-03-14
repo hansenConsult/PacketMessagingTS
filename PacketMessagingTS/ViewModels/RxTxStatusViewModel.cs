@@ -14,6 +14,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class RxTxStatViewModel : BaseViewModel
     {
+        public static RxTxStatViewModel Instance { get; } = new RxTxStatViewModel();
+
         //private string rxTxStatus;
         //public string RxTxStatus
         //{

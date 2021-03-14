@@ -219,9 +219,9 @@ namespace PacketMessagingTS
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
                 await localFolder.SaveAsync(PropertiesDictionaryFileName, Properties);
 
-                await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
+                await SuspendAndResumeService.Instance.SaveStateAsync();
 
-                await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+                await MainViewModel.Instance.UpdateDownloadedBulletinsAsync();
             }
             catch (Exception e)
             {
@@ -256,7 +256,7 @@ namespace PacketMessagingTS
                                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
                                 await localFolder.SaveAsync(PropertiesDictionaryFileName, Properties);
 
-                                await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+                                await MainViewModel.Instance.UpdateDownloadedBulletinsAsync();
                             }
                             catch (TaskCanceledException te)
                             {
@@ -281,7 +281,7 @@ namespace PacketMessagingTS
 
                 //await Singleton<SuspendAndResumeService>.Instance.SaveStateAsync();
 
-                //await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+                //await MainViewModel.Instance.UpdateDownloadedBulletinsAsync();
 
             }
             catch (Exception e)
@@ -319,7 +319,7 @@ namespace PacketMessagingTS
 
         private void App_Resuming(object sender, object e)
         {
-            Singleton<SuspendAndResumeService>.Instance.ResumeApp();
+            SuspendAndResumeService.Instance.ResumeApp();
         }
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)

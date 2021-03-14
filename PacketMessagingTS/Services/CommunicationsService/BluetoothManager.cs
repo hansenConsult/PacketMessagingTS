@@ -49,7 +49,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
 		private BluetoothManager()
 		{
-			_tncDevice = Singleton<TNCSettingsViewModel>.Instance.CurrentTNCDevice;
+			_tncDevice = TNCSettingsViewModel.Instance.CurrentTNCDevice;
 
 		}
 

@@ -19,6 +19,8 @@ namespace PacketMessagingTS.ViewModels
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
+        public static PacketSettingsViewModel Instance { get; } = new PacketSettingsViewModel();
+
         Profile _SavedProfile;
 
         public PacketSettingsViewModel()
@@ -182,7 +184,7 @@ namespace PacketMessagingTS.ViewModels
                     // Update SMTP data if using Email for sending
                     TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(PublicData.EMail)).FirstOrDefault();
                     int index = EmailAccountArray.Instance.GetSelectedIndexFromEmailUserName(tncDevice.MailUserName);
-                    Singleton<TNCSettingsViewModel>.Instance.MailAccountSelectedIndex = index;
+                    TNCSettingsViewModel.Instance.MailAccountSelectedIndex = index;
                 }
                 if (!string.IsNullOrEmpty(DefaultTo) && (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE")))
                 {
@@ -199,7 +201,7 @@ namespace PacketMessagingTS.ViewModels
                     {
                         return;
                     }
-                    IdentityViewModel instance = Singleton<IdentityViewModel>.Instance;
+                    IdentityViewModel instance = IdentityViewModel.Instance;
                     DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, " +
                                      $"{netTime.Month:d2}/{netTime.Day:d2}/{netTime.Year:d4}";
                 }

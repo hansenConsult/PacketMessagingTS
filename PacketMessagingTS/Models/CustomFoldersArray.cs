@@ -290,7 +290,7 @@ namespace PacketMessagingTS.Models
         {
             get
             {
-                return Singleton<CustomFoldersViewModel>.Instance.DataGridSource;
+                return CustomFoldersViewModel.Instance.DataGridSource;
             }
         }
 

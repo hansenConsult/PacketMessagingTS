@@ -140,13 +140,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             cmdResult = ReadTo(_TNCPrompt);
 
-            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            if (IdentityViewModel.Instance.UseTacticalCallsign)
             {
-                _serialPort.Write($"my {Singleton<IdentityViewModel>.Instance.TacticalCallsign}\r");
+                _serialPort.Write($"my {IdentityViewModel.Instance.TacticalCallsign}\r");
             }
             else
             {
-                _serialPort.Write($"my {Singleton<IdentityViewModel>.Instance.UserCallsign}\r");
+                _serialPort.Write($"my {IdentityViewModel.Instance.UserCallsign}\r");
             }
             readText = ReadLine();       // Read command
             _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
@@ -200,13 +200,13 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             TNCCommand("Echo on");
 
-            if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
+            if (IdentityViewModel.Instance.UseTacticalCallsign)
             {
-                TNCCommand("my " + Singleton<IdentityViewModel>.Instance.TacticalCallsign);
+                TNCCommand("my " + IdentityViewModel.Instance.TacticalCallsign);
             }
             else
             {
-                TNCCommand("my " + Singleton<IdentityViewModel>.Instance.UserCallsign);
+                TNCCommand("my " + IdentityViewModel.Instance.UserCallsign);
             }
 
             TNCCommand("Mon off");
@@ -639,7 +639,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private void SendMessageReceipts()
         {
-            if (Singleton<PacketSettingsViewModel>.Instance.SendReceipt)
+            if (PacketSettingsViewModel.Instance.SendReceipt)
             {
                 // Do not send received receipt for receive receipt messages
                 foreach (PacketMessage pktMsg in PacketMessagesReceived)
@@ -688,9 +688,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
                             TNCName = _TncDevice.Name,
                             MessageTo = pktMsg.MessageFrom,
-                            MessageFrom = Singleton<IdentityViewModel>.Instance.UseTacticalCallsign
-                                    ? Singleton<IdentityViewModel>.Instance.TacticalCallsign
-                                    : Singleton<IdentityViewModel>.Instance.UserCallsign,
+                            MessageFrom = IdentityViewModel.Instance.UseTacticalCallsign
+                                    ? IdentityViewModel.Instance.TacticalCallsign
+                                    : IdentityViewModel.Instance.UserCallsign,
                             Subject = $"DELIVERED: {pktMsg.Subject}",
                         };
 
@@ -1102,7 +1102,7 @@ AbortWithoutConnect:
                     readText = ReadLine();       // Read command
                     _logHelper.Log(LogLevel.Info, readCmdText + " " + readText);
 
-                    string fccId = $"de {Singleton<IdentityViewModel>.Instance.UserCallsign}";
+                    string fccId = $"de {IdentityViewModel.Instance.UserCallsign}";
                     _serialPort.Write(fccId + "\r");
                     readText = ReadLine();
                     _logHelper.Log(LogLevel.Info, readText);
@@ -1142,7 +1142,7 @@ AbortWithoutConnect:
                 }
                 else if (_connectState == ConnectState.ConverseMode)
                 {
-                    await ContentDialogs.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {Singleton<IdentityViewModel>.Instance.UserCallsign}.", "Close", "TNC Converse Error");
+                    await ContentDialogs.ShowSingleButtonContentDialogAsync($"Error sending FCC Identification - {IdentityViewModel.Instance.UserCallsign}.", "Close", "TNC Converse Error");
                 }
                 //else if (e.Message.Contains("not exist"))
                 else if (e.GetType() == typeof(IOException))

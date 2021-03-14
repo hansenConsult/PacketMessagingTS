@@ -29,7 +29,8 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ShellPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
+        //public ShellViewModel ViewModel { get; } = Singleton<ShellViewModel>.Instance;
+        private ShellViewModel ViewModel = ShellViewModel.Instance;
 
         private SuspendingEventHandler appSuspendEventHandler;
         private EventHandler<Object> appResumeEventHandler;
@@ -55,7 +56,7 @@ namespace PacketMessagingTS.Views
 
             // Serial ports
             //ViewModel.CollectionOfSerialDevices = new ObservableCollection<string>();
-            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices = new ObservableCollection<string>();
+            TNCSettingsViewModel.Instance.CollectionOfSerialDevices = new ObservableCollection<string>();
             //_listOfBluetoothDevices = new List<DeviceInformation>();
             //CollectionOfBluetoothDevices = new ObservableCollection<DeviceInformation>();
             //_comportComparer = new ComportComparer();
@@ -89,7 +90,7 @@ namespace PacketMessagingTS.Views
         {
             _listOfDevices.Clear();     // List of all devices
             _listOfSerialPorts.Clear();
-            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices.Clear();
+            TNCSettingsViewModel.Instance.CollectionOfSerialDevices.Clear();
             //_listOfBluetoothDevices.Clear();
             //CollectionOfBluetoothDevices.Clear();
         }
@@ -204,7 +205,7 @@ namespace PacketMessagingTS.Views
                 }
             }
             _listOfSerialPorts.Sort(_comportComparer);
-            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
+            TNCSettingsViewModel.Instance.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
         }
 
         /// <summary>
@@ -284,7 +285,7 @@ namespace PacketMessagingTS.Views
                             match.ComPort = serialDevice.PortName;
                             _listOfSerialPorts.Add(serialDevice.PortName);
                             _listOfSerialPorts.Sort(_comportComparer);
-                            Singleton<TNCSettingsViewModel>.Instance.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
+                            TNCSettingsViewModel.Instance.CollectionOfSerialDevices = new ObservableCollection<string>(_listOfSerialPorts);
 
                             serialDevice.Dispose();     // Necessary to avoid crash on removed device
 

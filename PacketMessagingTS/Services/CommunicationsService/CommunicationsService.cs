@@ -78,7 +78,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 //        public void AddRxTxStatusAsync(string text)
 //        {
 
-//            //if (Singleton<RxTxStatViewModel>.Instance.Dispatcher is null)
+//            //if (RxTxStatViewModel>.Instance.Dispatcher is null)
 ////            if (RxTxStatusPage.rxtxStatusPage.Dispatcher is null)
 ////                return;
 //            //Singleton<RxTxStatusViewModel>.Instance.AddRxTxStatus = text;
@@ -91,7 +91,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 ////            {
 //                //RxTxStatusPage.rxtxStatusPage.RxTxStatusViewmodel.AppendRxTxStatus = text;
 //                RxTxStatusPage.Current.AddTextToStatusWindow(text);
-//                //Singleton<RxTxStatViewModel>.Instance.StatusPage.ScrollText();
+//                //RxTxStatViewModel>.Instance.StatusPage.ScrollText();
 ////            });
 //        }
 
@@ -516,25 +516,25 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                     // Do printing if requested
                     if (!string.IsNullOrEmpty(pktMsg.Subject) && !pktMsg.Subject.Contains("DELIVERED:")
-                        && string.IsNullOrEmpty(pktMsg.Area) && Singleton<SettingsViewModel>.Instance.PrintReceivedMessages)
+                        && string.IsNullOrEmpty(pktMsg.Area) && SettingsViewModel.Instance.PrintReceivedMessages)
                     {
                         _logHelper.Log(LogLevel.Info, $"Message number {pktMsg.MessageNumber} to be printed");
 
                         pktMsg.Save(SharedData.PrintMessagesFolder.Path);
 
-                        SettingsViewModel settingsViewModel = Singleton<SettingsViewModel>.Instance;
+                        SettingsViewModel settingsViewModel = SettingsViewModel.Instance;
 
-                        Singleton<PrintQueue>.Instance.AddToPrintQueue(pktMsg.FileName, settingsViewModel.ReceivedCopyNamesAsArray());
+                        PrintQueue.Instance.AddToPrintQueue(pktMsg.FileName, settingsViewModel.ReceivedCopyNamesAsArray());
 
                         // Test
-                        await Singleton<PrintQueue>.Instance.PrintToDestinationsAsync();
+                        await PrintQueue.Instance.PrintToDestinationsAsync();
                         //await Singleton<PrintQueue>.Instance.BackgroundPrintingTrigger.RequestAsync();
                     }
                 }
                 //RefreshDataGrid();      // Display newly added messages
                 if (updateBulletinList)
                 {
-                    await Singleton<MainViewModel>.Instance.UpdateDownloadedBulletinsAsync();
+                    await MainViewModel.Instance.UpdateDownloadedBulletinsAsync();
                 }
             }
         }
@@ -542,7 +542,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //private async System.Threading.Tasks.Task<bool> TryOpenComportAsync()
         //{
         //	Boolean openSuccess = false;
-        //	var aqsFilter = SerialDevice.GetDeviceSelector(Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport);
+        //	var aqsFilter = SerialDevice.GetDeviceSelector(PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport);
         //	var devices = await DeviceInformation.FindAllAsync(aqsFilter);
         //	if (devices.Count > 0)
         //	{
@@ -641,10 +641,10 @@ namespace PacketMessagingTS.Services.CommunicationsService
         public async void BBSConnectAsync2()
         {
             (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileDataBBSStatusChecked();
-            //BBSData bbs = Singleton<PacketSettingsViewModel>.Instance.BBSFromSelectedProfile;
+            //BBSData bbs = PacketSettingsViewModel.Instance.BBSFromSelectedProfile;
             BBSData bbs = BBSDefinitions.Instance.BBSDataArray.Where(bBS => bBS.Name == bbsName).FirstOrDefault();
             //TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == tncName).FirstOrDefault();
-            TNCDevice tncDevice = Singleton<PacketSettingsViewModel>.Instance.TNCFromSelectedProfile;
+            TNCDevice tncDevice = PacketSettingsViewModel.Instance.TNCFromSelectedProfile;
 
             //if (tncName.Contains(SharedData.EMail) && tncDevice is null)
             //{
@@ -725,7 +725,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         packetMessage.TNCName = tncDevice.Name;
                         //if (!tncDevice.Name.Contains(SharedData.EMail))
                         //{
-                        //    packetMessage.TNCName = "E-Mail-" + Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
+                        //    packetMessage.TNCName = "E-Mail-" + PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
                         //}
 
                         bool sendMailSuccess = await SendMessageViaEMailAsync(packetMessage);
@@ -765,7 +765,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             // TODO check if TNC connected otherwise suggest send via email
             //if (_packetMessagesToSend.Count == 0)
             //{
-            //    tncDevice = Singleton<PacketSettingsViewModel>.Instance.CurrentTNC;
+            //    tncDevice = PacketSettingsViewModel>.Instance.CurrentTNC;
 
             //    (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileData();
             //    //string MessageFrom = from;
@@ -787,7 +787,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             //    tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _packetMessagesToSend[0].TNCName).FirstOrDefault();
             //    bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == _packetMessagesToSend[0].BBSName).FirstOrDefault();
             //    //Utilities.SetApplicationTitle(bbs.Name);
-            //    //bbs = Singleton<PacketSettingsViewModel>.Instance.CurrentBBS;
+            //    //bbs = PacketSettingsViewModel>.Instance.CurrentBBS;
             //}
 
             //Utilities.SetApplicationTitle(bbs?.Name);
@@ -803,7 +803,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 //return;     //Test
 
-                PacketSettingsViewModel packetSettingsViewModel = Singleton<PacketSettingsViewModel>.Instance;
+                PacketSettingsViewModel packetSettingsViewModel = PacketSettingsViewModel.Instance;
 
                 _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
 
@@ -815,10 +815,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 await RxTxStatusPage.Current._viewLifetimeControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     //RxTxStatusPage.rxtxStatusPage.CloseStatusWindowAsync();
-                    RxTxStatusPage.Current.RxTxStatusViewmodel.CloseStatusWindowAsync();
+                    //RxTxStatusPage.Current.RxTxStatusViewmodel.CloseStatusWindowAsync();
+                    RxTxStatViewModel.Instance.CloseStatusWindowAsync();
                 });
 
-                Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
+                PacketSettingsViewModel.Instance.ForceReadBulletins = false;
                 if (!string.IsNullOrEmpty(bbs?.Name))
                 {
                     _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs?.ConnectName}. Connect time = {_tncInterface.BBSDisconnectTime - _tncInterface.BBSConnectTime}");
@@ -847,15 +848,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         _logHelper.Log(LogLevel.Error, $"Unauthorized Access {packetMsg.FileName}");
                         continue;
                     }
-                    if (string.IsNullOrEmpty(packetMsg.Area) && Singleton<SettingsViewModel>.Instance.PrintSentMessages)
+                    if (string.IsNullOrEmpty(packetMsg.Area) && SettingsViewModel.Instance.PrintSentMessages)
                     {
                         // Do printing if requested
                         _logHelper.Log(LogLevel.Info, $"Message number {packetMsg.MessageNumber} to be printed");
 
                         packetMsg.Save(SharedData.PrintMessagesFolder.Path);
 
-                        SettingsViewModel settingsViewModel = Singleton<SettingsViewModel>.Instance;
-                        Singleton<PrintQueue>.Instance.AddToPrintQueue(packetMsg.FileName, settingsViewModel.SentCopyNamesAsArray());
+                        SettingsViewModel settingsViewModel = SettingsViewModel.Instance;
+                        PrintQueue.Instance.AddToPrintQueue(packetMsg.FileName, settingsViewModel.SentCopyNamesAsArray());
                     }
 
                 }
@@ -914,7 +915,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                 //_result = $"The COM Port ({_TncDevice.CommPort.Comport}) is in use by another application.";
                             }
 
-                            Singleton<PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
+                            PacketSettingsViewModel>.Instance.ForceReadBulletins = false;
                             if (!string.IsNullOrEmpty(bbs?.Name))
                             {
                                 _logHelper.Log(LogLevel.Info, $"Disconnected from: {bbs?.ConnectName}. Connect time = {rxTxBackgroundTask.BBSDisconnectTime - rxTxBackgroundTask.BBSConnectTime}");
@@ -962,7 +963,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         /// <param name="deviceInformation"></param>
         //private void OnDeviceConnected(EventHandlerForDevice sender, DeviceInformation deviceInformation)
         //{
-        //          _logHelper.Log(LogLevel.Info, $"{Singleton<PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport} Connected.");
+        //          _logHelper.Log(LogLevel.Info, $"{PacketSettingsViewModel>.Instance.CurrentTNC.CommPort.Comport} Connected.");
         //}
 
         ///// <summary>

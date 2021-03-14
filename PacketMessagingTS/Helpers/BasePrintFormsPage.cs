@@ -28,7 +28,7 @@ namespace PacketMessagingTS.Helpers
         //protected override void OnNavigatedTo(NavigationEventArgs e)
         //{
         //    base.OnNavigatedTo(e);
-        //    Singleton<PrintMessageViewModel>.Instance.Initialize(e.Parameter as ViewLifetimeControl);
+        //    PrintMessageViewModel.Instance.Initialize(e.Parameter as ViewLifetimeControl);
         //}
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -50,7 +50,7 @@ namespace PacketMessagingTS.Helpers
                 await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
                 return;
             }
-            Singleton<PrintMsgTestViewModel>.Instance.PacketForm = _packetForm;
+            PrintMsgTestViewModel.Instance.PacketForm = _packetForm;
             //_formsViewModel.PacketForm = _packetForm;
 
             _packetForm.FormPacketMessage = _packetMessage;
@@ -83,7 +83,7 @@ namespace PacketMessagingTS.Helpers
                 _packetForm.LockForm();
             }
 
-            Singleton<PrintMsgTestViewModel>.Instance.PrintForm();
+            PrintMsgTestViewModel.Instance.PrintForm();
         }
 
     }

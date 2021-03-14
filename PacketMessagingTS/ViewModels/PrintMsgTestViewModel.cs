@@ -7,6 +7,8 @@ namespace PacketMessagingTS.ViewModels
 {
     public class PrintMsgTestViewModel : BaseViewModel
     {
+        public static PrintMsgTestViewModel Instance { get; } = new PrintMsgTestViewModel();
+
         public PrintMsgTestViewModel()
         {
         }

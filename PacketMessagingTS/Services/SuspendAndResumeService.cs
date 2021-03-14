@@ -20,6 +20,8 @@ namespace PacketMessagingTS.Services
     //     * Application Lifecycle: https://docs.microsoft.com/windows/uwp/launch-resume/app-lifecycle
     internal class SuspendAndResumeService : ActivationHandler<LaunchActivatedEventArgs>
     {
+        public static SuspendAndResumeService Instance { get; } = new SuspendAndResumeService();
+
         private const string StateFilename = "SuspendAndResumeState";
 
         // TODO WTS: Subscribe to the OnBackgroundEntering event from your current Page to save the current App data.
