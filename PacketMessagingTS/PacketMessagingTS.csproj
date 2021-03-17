@@ -167,7 +167,6 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\MessageDataGridViewModel.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
-    <Compile Include="Helpers\BaseViewModel.cs" />
     <Compile Include="Helpers\PrintQueue.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SerialDeviceConfig.cs" />

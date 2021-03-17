@@ -18,7 +18,8 @@ using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class TNCSettingsViewModel : BaseViewModel
+    //public class TNCSettingsViewModel : BaseViewModel
+    public class TNCSettingsViewModel : ViewModelBase
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCSettingsViewModel>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
@@ -56,28 +57,28 @@ namespace PacketMessagingTS.ViewModels
         public Visibility PivotTNCVisibility
         {
             get => pivotTNCVisibility;
-            set => Set(ref pivotTNCVisibility, value);
+            set => SetProperty(ref pivotTNCVisibility, value);
         }
 
         private int pivotTNCSelectedIndex;
         public int PivotTNCSelectedIndex
         {
             get => GetProperty(ref pivotTNCSelectedIndex);
-            set => SetProperty(ref pivotTNCSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref pivotTNCSelectedIndex, value, true);
         }
 
         private Visibility deviceListBoxVisibility = Visibility.Visible;
         public Visibility DeviceListBoxVisibility
         {
             get => deviceListBoxVisibility;
-            set => Set(ref deviceListBoxVisibility, value);
+            set => SetProperty(ref deviceListBoxVisibility, value);
         }
 
         private Visibility newTNCDeviceNameVisibility = Visibility.Collapsed;
         public Visibility NewTNCDeviceNameVisibility
         {
             get => newTNCDeviceNameVisibility;
-            set => Set(ref newTNCDeviceNameVisibility, value);
+            set => SetProperty(ref newTNCDeviceNameVisibility, value);
         }
 
         private int tncDeviceSelectedIndex;
@@ -119,11 +120,11 @@ namespace PacketMessagingTS.ViewModels
                 }
                 else if (value >= TNCDeviceArray.Instance.TNCDeviceList.Count)
                 {
-                    setPropertySuccess = SetProperty(ref tncDeviceSelectedIndex, 0, true);
+                    setPropertySuccess = SetPropertyPrivate(ref tncDeviceSelectedIndex, 0, true);
                 }
                 else
                 {
-                    setPropertySuccess = SetProperty(ref tncDeviceSelectedIndex, value, true);
+                    setPropertySuccess = SetPropertyPrivate(ref tncDeviceSelectedIndex, value, true);
                 }
                 if (setPropertySuccess)
                 {
@@ -158,8 +159,8 @@ namespace PacketMessagingTS.ViewModels
                 return new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
             }
             set
-            { 
-                Set(ref _TNCDeviceListSource, value);
+            {
+                SetProperty(ref _TNCDeviceListSource, value);
             }
         }
 
@@ -168,7 +169,7 @@ namespace PacketMessagingTS.ViewModels
         public string NewTNCDeviceName
         {
             get => _NewTNCDeviceName;
-            set => Set(ref _NewTNCDeviceName, value);
+            set => SetProperty(ref _NewTNCDeviceName, value);
         }
 
         public TNCDevice TNCDeviceFromUI
@@ -371,7 +372,7 @@ namespace PacketMessagingTS.ViewModels
             //    //_logHelper.Log(LogLevel.Info, $"Serial Port count: {ListOfSerialPorts.Count}");
             //    //return new ObservableCollection<string>(ListOfSerialPorts);
             //}
-            set => Set(ref collectionOfSerialDevices, value);
+            set => SetProperty(ref collectionOfSerialDevices, value);
         }
 
         private string tncComPort;
@@ -766,7 +767,7 @@ namespace PacketMessagingTS.ViewModels
         public Visibility EMailSettingsVisibility
         {
             get => eMailSettingsVisibility;
-            set => Set(ref eMailSettingsVisibility, value);
+            set => SetProperty(ref eMailSettingsVisibility, value);
         }
 
         private int mailAccountSelectedIndex;
@@ -790,17 +791,17 @@ namespace PacketMessagingTS.ViewModels
                 if (value < 0)
                 {
                     //    SetProperty(ref mailAccountSelectedIndex, 0, true);
-                    SetProperty(ref mailAccountSelectedIndex, value, true);
+                    SetPropertyPrivate(ref mailAccountSelectedIndex, value, true);
                     return;
                 }
                 if (value >= EmailAccountArray.Instance.EmailAccountList.Count)
                 {
-                    SetProperty(ref mailAccountSelectedIndex, EmailAccountArray.Instance.EmailAccountList.Count - 1, true);
+                    SetPropertyPrivate(ref mailAccountSelectedIndex, EmailAccountArray.Instance.EmailAccountList.Count - 1, true);
                     //CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
                 }
                 else
                 {
-                    SetProperty(ref mailAccountSelectedIndex, value, true);
+                    SetPropertyPrivate(ref mailAccountSelectedIndex, value, true);
                 }
 
                 CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
@@ -814,7 +815,7 @@ namespace PacketMessagingTS.ViewModels
         public ObservableCollection<EmailAccount> MailAccountListSource
         {
             get => new ObservableCollection<EmailAccount>(EmailAccountArray.Instance.EmailAccountList);
-            set => Set(ref _MailAccountListSource, value);
+            set => SetProperty(ref _MailAccountListSource, value);
         }
 
         public EmailAccount EMailAccountFromUI
@@ -855,7 +856,7 @@ namespace PacketMessagingTS.ViewModels
         public bool IsMailServerEnabled
         {
             get => isMailServerEnabled;
-            set => Set(ref isMailServerEnabled, value);
+            set => SetProperty(ref isMailServerEnabled, value);
         }
 
         private string mailServer;
@@ -876,7 +877,7 @@ namespace PacketMessagingTS.ViewModels
         public bool IsMailServerPortEnabled
         {
             get => isMailServerPortEnabled;
-            set => Set(ref isMailServerPortEnabled, value);
+            set => SetProperty(ref isMailServerPortEnabled, value);
         }
 
         private ushort eMailServerPort;
@@ -901,7 +902,7 @@ namespace PacketMessagingTS.ViewModels
         public Visibility IsMailServerSSLVisible
         {
             get => isEMailServerSSLVisible;
-            set => Set(ref isEMailServerSSLVisible, value);
+            set => SetProperty(ref isEMailServerSSLVisible, value);
         }
 
         bool isMailSSL;
@@ -926,7 +927,7 @@ namespace PacketMessagingTS.ViewModels
         public bool IsEMailUserNameEnabled
         {
             get => isEMailUserNameEnabled;
-            set => Set(ref isEMailUserNameEnabled, value);
+            set => SetProperty(ref isEMailUserNameEnabled, value);
         }
 
         private string mailUserName;
@@ -951,7 +952,7 @@ namespace PacketMessagingTS.ViewModels
         public bool IsMailPasswordEnabled
         {
             get => isEMailPasswordEnabled;
-            set => Set(ref isEMailPasswordEnabled, value);
+            set => SetProperty(ref isEMailPasswordEnabled, value);
         }
 
         private string mailPassword;

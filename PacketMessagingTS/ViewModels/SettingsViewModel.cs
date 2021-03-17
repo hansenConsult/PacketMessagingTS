@@ -14,7 +14,8 @@ using Windows.UI.Xaml.Controls;
 namespace PacketMessagingTS.ViewModels
 {
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings.md
-    public class SettingsViewModel : BaseViewModel
+    //public class SettingsViewModel : BaseViewModel
+    public class SettingsViewModel : ViewModelBase
     {
         public static SettingsViewModel Instance { get; } = new SettingsViewModel();
 
@@ -22,24 +23,8 @@ namespace PacketMessagingTS.ViewModels
         public int SettingsPivotSelectedIndex
         {
             get => GetProperty(ref settingsPivotSelectedIndex);
-            set => SetProperty(ref settingsPivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref settingsPivotSelectedIndex, value, true);
         }
-
-        //private PivotItem settingsPivotSelectedItem;
-        //public PivotItem SettingsPivotSelectedItem
-        //{
-        //    //get => settingsPivotSelectedItem;
-        //    get
-        //    {
-        //        switch (settingsPivotSelectedItem.Name)
-        //        {
-        //            case "pivotSettings":
-        //            break;
-        //        }
-        //        return settingsPivotSelectedItem;
-        //    }
-        //set => SetProperty(ref settingsPivotSelectedItem, value);
-        //}
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
         public ElementTheme ElementTheme

@@ -30,7 +30,7 @@ namespace PacketMessagingTS.ViewModels
                 FormsPagePivotSelectionChangedAsync(index);
                 return index;
             }
-            set => SetProperty(ref _testFormsPagePivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref _testFormsPagePivotSelectedIndex, value, true);
         }
 
     }

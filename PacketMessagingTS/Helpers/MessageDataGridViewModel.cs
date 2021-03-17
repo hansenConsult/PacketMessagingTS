@@ -11,6 +11,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
+using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
@@ -21,7 +22,8 @@ using Windows.UI.Xaml.Input;
 
 namespace PacketMessagingTS.Helpers
 {
-    public abstract class MessageDataGridViewModel : BaseViewModel
+    //public abstract class MessageDataGridViewModel : BaseViewModel
+    public abstract class MessageDataGridViewModel : ViewModelBase
     {
         public List<PacketMessage> _messagesInFolder;
 
@@ -34,7 +36,7 @@ namespace PacketMessagingTS.Helpers
         public ObservableCollection<PacketMessage> DataGridSource
         {
             get => _dataGridSource;
-            set => Set(ref _dataGridSource, value);
+            set => SetProperty(ref _dataGridSource, value);
         }
 
         private Dictionary<string, DataGridSortData> _DataGridSortDataDictionary;
@@ -51,7 +53,7 @@ namespace PacketMessagingTS.Helpers
             get => _SelectedMessage;
             set
             {
-                Set(ref _SelectedMessage, value);
+                SetProperty(ref _SelectedMessage, value);
 
                 if (!(_SelectedMessage is null))
                 {
@@ -99,7 +101,7 @@ namespace PacketMessagingTS.Helpers
         public bool IsAppBarOpenDeleteEnabled
         {
             get => (_messagesInFolder != null && _messagesInFolder.Count > 0);
-            set => Set(ref _IsAppBarOpenDeleteEnabled, value);
+            set => SetProperty(ref _IsAppBarOpenDeleteEnabled, value);
         }
 
         private ICommand _OpenMessageCommand;

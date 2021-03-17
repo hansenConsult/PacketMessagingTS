@@ -16,7 +16,26 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ViewModelBase : ObservableRecipient
     {
+        Dictionary<string, bool> SaveEnabledDictionary = new Dictionary<string, bool>();
         Dictionary<string, object> _properties = App.Properties;
+
+        protected bool SaveEnabled(bool propertyChanged, [CallerMemberName] string propertyName = "")
+        {
+            SaveEnabledDictionary[propertyName] = propertyChanged;
+            bool saveEnabled = false;
+            foreach (bool value in SaveEnabledDictionary.Values)
+            {
+                saveEnabled |= value;
+            }
+            return saveEnabled;
+        }
+
+        protected bool isAppBarSaveEnabled;
+        public bool IsAppBarSaveEnabled
+        {
+            get => isAppBarSaveEnabled;
+            set => SetProperty(ref isAppBarSaveEnabled, value);
+        }
 
         protected bool isAppBarSendEnabled = false;
         public virtual bool IsAppBarSendEnabled
@@ -24,6 +43,7 @@ namespace PacketMessagingTS.ViewModels
             get => isAppBarSendEnabled;
             set => SetProperty(ref isAppBarSendEnabled, value);
         }
+
 
         protected int GetProperty(ref int backingStore, [CallerMemberName] string propertyName = "")
         {
@@ -80,6 +100,21 @@ namespace PacketMessagingTS.ViewModels
                 _properties[propertyName] = value;
             }
             return SetProperty(ref backingStore, value, propertyName);
+        }
+
+        public virtual void ResetChangedProperty()
+        {
+            string[] keyArray = new string[SaveEnabledDictionary.Count];
+
+            int i = 0;
+            foreach (string key in SaveEnabledDictionary.Keys)
+            {
+                keyArray[i++] = key;
+            }
+            for (i = 0; i < SaveEnabledDictionary.Count; i++)
+            {
+                SaveEnabledDictionary[keyArray[i]] = false;
+            }
         }
 
     }

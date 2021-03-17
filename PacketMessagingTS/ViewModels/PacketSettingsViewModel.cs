@@ -4,6 +4,7 @@ using System.Linq;
 
 using MetroLog;
 
+using Microsoft.Toolkit.Mvvm;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
@@ -14,7 +15,8 @@ using SharedCode.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class PacketSettingsViewModel : BaseViewModel
+    //public class PacketSettingsViewModel : BaseViewModel
+    public class PacketSettingsViewModel : ViewModelBase
     {
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
@@ -58,7 +60,7 @@ namespace PacketMessagingTS.ViewModels
             get => _ProfileNameVisibility;
             set
             {
-                Set(ref _ProfileNameVisibility, value);
+                SetProperty(ref _ProfileNameVisibility, value);
                 NewProfileNameVisibility = !value;
             }
         }
@@ -67,17 +69,14 @@ namespace PacketMessagingTS.ViewModels
         public bool NewProfileNameVisibility
         {
             get => _NewProfileNameVisibility;
-            set
-            {
-                Set(ref _NewProfileNameVisibility, value);
-            }
+            set => SetProperty(ref _NewProfileNameVisibility, value);
         }
 
         private string _NewProfileName;
         public string NewProfileName
         {
             get => _NewProfileName;
-            set => Set(ref _NewProfileName, value);
+            set => SetProperty(ref _NewProfileName, value);
         }
 
         private int profileSelectedIndex;
@@ -88,7 +87,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (ProfileArray.Instance.ProfileList is null)
                 {
-                    SetProperty(ref profileSelectedIndex, -1, true);
+                    SetPropertyPrivate(ref profileSelectedIndex, -1, true);
                     return;
                 }
                 if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
@@ -102,12 +101,12 @@ namespace PacketMessagingTS.ViewModels
 
                 if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
                 {
-                    SetProperty(ref profileSelectedIndex, value, true);
+                    SetPropertyPrivate(ref profileSelectedIndex, value, true);
                 }
                 else
                 {
                     _logHelper.Log(LogLevel.Error, $"ProfileSelectedIndex = {value}");
-                    SetProperty(ref profileSelectedIndex, 0, true);
+                    SetPropertyPrivate(ref profileSelectedIndex, 0, true);
                 }
                 CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
             }
@@ -228,7 +227,7 @@ namespace PacketMessagingTS.ViewModels
         public ObservableCollection<TNCDevice> TNCDeviceListSource
         {
             get => new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
-            set => Set(ref _TNCDeviceListSource, value);
+            set => SetProperty(ref _TNCDeviceListSource, value);
         }
 
         private void UpdateProfileSaveButton<T>(T savedProperty, T newProperty)
@@ -325,7 +324,7 @@ namespace PacketMessagingTS.ViewModels
             get => currentBBS;
             set
             {
-                Set(ref currentBBS, value);
+                SetProperty(ref currentBBS, value);
                 BBSDescription = currentBBS?.Description;
                 BBSFrequency1 = currentBBS?.Frequency1;
                 BBSFrequency2 = currentBBS?.Frequency2;
@@ -407,14 +406,14 @@ namespace PacketMessagingTS.ViewModels
         public bool DisplayProfileOnStart
         {
             get => GetProperty(ref displayProfileOnStart);
-            set => SetProperty(ref displayProfileOnStart, value, true);
+            set => SetPropertyPrivate(ref displayProfileOnStart, value, true);
         }
 
         private bool isDrillTraffic = false;
         public bool IsDrillTraffic
         {
             get => isDrillTraffic;
-            set => Set(ref isDrillTraffic, value);
+            set => SetProperty(ref isDrillTraffic, value);
         }
 
         private int firstMessageNumber;
@@ -440,7 +439,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 //Utilities.MarkMessageNumberAsUsed(value);
-                SetProperty(ref firstMessageNumber, value, true);
+                SetPropertyPrivate(ref firstMessageNumber, value, true);
             }
         }
 
@@ -448,14 +447,14 @@ namespace PacketMessagingTS.ViewModels
         public string AreaString
         {
             get => GetProperty(ref areaString);
-            set => SetProperty(ref areaString, value, true);
+            set => SetPropertyPrivate(ref areaString, value, true);
         }
 
         private bool sendReceipt;
         public bool SendReceipt
         {
             get => GetProperty(ref sendReceipt);
-            set => SetProperty(ref sendReceipt, value, true);
+            set => SetPropertyPrivate(ref sendReceipt, value, true);
         }
 
         private bool forceReadBulletins;

@@ -27,7 +27,7 @@ namespace PacketMessagingTS.ViewModels
                 FormsPagePivotSelectionChangedAsync(index);
                 return index;
             }
-            set => SetProperty(ref countyFormsPagePivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref countyFormsPagePivotSelectedIndex, value, true);
         }
 
     }

@@ -18,7 +18,7 @@ using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class ShellViewModel : BaseViewModel
+    public class ShellViewModel : ViewModelBase
     {
         public static ShellViewModel Instance { get; } = new ShellViewModel();
 
@@ -32,7 +32,7 @@ namespace PacketMessagingTS.ViewModels
         public bool IsBackEnabled
         {
             get { return _isBackEnabled; }
-            set { Set(ref _isBackEnabled, value); }
+            set { SetProperty(ref _isBackEnabled, value); }
         }
 
         private WinUI.NavigationViewItem _selected;
@@ -94,7 +94,6 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        //private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         private void OnBackRequested(WinUI.NavigationView sender, WinUI.NavigationViewBackRequestedEventArgs args)
         {
             NavigationService.GoBack();
@@ -146,7 +145,6 @@ namespace PacketMessagingTS.ViewModels
             return null;
         }
 
-        //private bool IsMenuItemForPageType(NavigationViewItem menuItem, Type sourcePageType)
         private bool IsMenuItemForPageType(WinUI.NavigationViewItem menuItem, Type sourcePageType)
         {
             var pageType = menuItem.GetValue(NavHelper.NavigateToProperty) as Type;

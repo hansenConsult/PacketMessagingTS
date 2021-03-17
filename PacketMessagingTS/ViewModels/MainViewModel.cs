@@ -97,7 +97,7 @@ namespace PacketMessagingTS.ViewModels
             //}
             set
             {
-                bool indexChanged = SetProperty(ref mainPagePivotSelectedIndex, value, true);
+                bool indexChanged = SetPropertyPrivate(ref mainPagePivotSelectedIndex, value, true);
 
                 if (indexChanged)
                 {
@@ -122,7 +122,7 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
-                Set(ref _MainPagePivotSelectedItem, value);
+                SetProperty(ref _MainPagePivotSelectedItem, value);
                 PageDataGrid = null;
                 RefreshDataGridAsync();
             }

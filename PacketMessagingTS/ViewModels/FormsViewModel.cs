@@ -39,7 +39,8 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class FormsViewModel : BaseViewModel
+    //public class FormsViewModel : BaseViewModel
+    public class FormsViewModel : ViewModelBase
     {
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);

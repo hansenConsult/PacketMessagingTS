@@ -39,7 +39,7 @@ namespace PacketMessagingTS.ViewModels
                 //FirstTimeFormOpened = false;
                 return index;
             }
-            set => SetProperty(ref hospitalFormsPagePivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref hospitalFormsPagePivotSelectedIndex, value, true);
         }
     }
 }

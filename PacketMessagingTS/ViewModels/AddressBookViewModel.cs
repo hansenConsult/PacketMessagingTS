@@ -8,7 +8,7 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class AddressBookViewModel : BaseViewModel
+    public class AddressBookViewModel : ViewModelBase
     {
         public static AddressBookViewModel Instance { get; } = new AddressBookViewModel();
 

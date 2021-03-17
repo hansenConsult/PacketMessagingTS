@@ -18,7 +18,7 @@ namespace PacketMessagingTS.ViewModels
                 FormsPagePivotSelectionChangedAsync(index);
                 return index;
             }
-            set => SetProperty(ref cityFormsPagePivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref cityFormsPagePivotSelectedIndex, value, true);
         }
 
         public override int FormsPagePivotSelectedIndex

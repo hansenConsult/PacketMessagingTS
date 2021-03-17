@@ -5,7 +5,8 @@ using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class PrintMsgTestViewModel : BaseViewModel
+    //public class PrintMsgTestViewModel : BaseViewModel
+    public class PrintMsgTestViewModel : ViewModelBase
     {
         public static PrintMsgTestViewModel Instance { get; } = new PrintMsgTestViewModel();
 

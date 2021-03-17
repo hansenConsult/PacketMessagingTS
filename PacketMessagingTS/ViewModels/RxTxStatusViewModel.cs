@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class RxTxStatViewModel : BaseViewModel
+    public class RxTxStatViewModel : ViewModelBase
     {
         public static RxTxStatViewModel Instance { get; } = new RxTxStatViewModel();
 
@@ -56,14 +56,14 @@ namespace PacketMessagingTS.ViewModels
         public double ViewControlHeight
         {
             get => GetProperty(ref _viewControlHeight);
-            set => SetProperty(ref _viewControlHeight, value, true);
+            set => SetPropertyPrivate(ref _viewControlHeight, value, true);
         }
 
         private double _viewControlWidth = 500;
         public double ViewControlWidth
         {
             get => GetProperty(ref _viewControlWidth);
-            set => SetProperty(ref _viewControlWidth, value, true);
+            set => SetPropertyPrivate(ref _viewControlWidth, value, true);
         }
 
         public async void CloseStatusWindowAsync()

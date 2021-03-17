@@ -71,7 +71,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (value != null)
                 {
-                    Set(ref _selectedTab, value);
+                    SetProperty(ref _selectedTab, value);
                     RefreshDataGridAsync();
                     FillMoveLocations();
                 }
@@ -83,7 +83,7 @@ namespace PacketMessagingTS.ViewModels
         public ObservableCollection<TabViewItemData> Tabs
         {
             get => _Tabs ?? (_Tabs = new ObservableCollection<TabViewItemData>(_customFoldersInstance.CustomFolderDataList));
-            set => Set(ref _Tabs, value);
+            set => SetProperty(ref _Tabs, value);
         }
 
 

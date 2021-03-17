@@ -12,7 +12,8 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class WebViewViewModel : BaseViewModel
+    //public class WebViewViewModel : BaseViewModel
+    public class WebViewViewModel : ViewModelBase
     {
         // TODO WTS: Set the URI of the page to show by default   ms-appx
         //private const string DefaultUrl = "https://developer.microsoft.com/en-us/windows/apps";
