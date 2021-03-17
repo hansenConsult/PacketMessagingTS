@@ -6,7 +6,6 @@ using PacketMessagingTS.Models;
 
 namespace PacketMessagingTS.ViewModels
 {
-    //public class ToolsViewModel : BaseViewModel
     public class ToolsViewModel : ViewModelBase
     {
         public static ToolsViewModel Instance { get; } = new ToolsViewModel();

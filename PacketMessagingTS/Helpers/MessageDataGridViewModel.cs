@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
 using PacketMessagingTS.Services;
@@ -22,7 +23,6 @@ using Windows.UI.Xaml.Input;
 
 namespace PacketMessagingTS.Helpers
 {
-    //public abstract class MessageDataGridViewModel : BaseViewModel
     public abstract class MessageDataGridViewModel : ViewModelBase
     {
         public List<PacketMessage> _messagesInFolder;

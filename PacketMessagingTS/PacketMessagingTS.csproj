@@ -168,7 +168,6 @@
     <Compile Include="Helpers\MessageDataGridViewModel.cs" />
     <Compile Include="Helpers\NavHelper.cs" />
     <Compile Include="Helpers\PrintQueue.cs" />
-    <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SerialDeviceConfig.cs" />
     <Compile Include="Helpers\SharedData.cs" />
     <Compile Include="Helpers\TimeConverter.cs" />

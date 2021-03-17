@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
 using FormControlBaseClass;
+
+using Microsoft.Toolkit.Mvvm.Input;
+
 using PacketMessagingTS.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    //public class PrintMsgTestViewModel : BaseViewModel
     public class PrintMsgTestViewModel : ViewModelBase
     {
         public static PrintMsgTestViewModel Instance { get; } = new PrintMsgTestViewModel();

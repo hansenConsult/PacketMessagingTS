@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Microsoft.Toolkit.Mvvm.Input;
+
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
@@ -12,7 +14,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    //public class WebViewViewModel : BaseViewModel
     public class WebViewViewModel : ViewModelBase
     {
         // TODO WTS: Set the URI of the page to show by default   ms-appx

@@ -6,6 +6,8 @@ using System.Linq;
 
 using MetroLog;
 
+using Microsoft.Toolkit.Mvvm.Input;
+
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
@@ -18,7 +20,6 @@ using Windows.UI.Xaml;
 
 namespace PacketMessagingTS.ViewModels
 {
-    //public class TNCSettingsViewModel : BaseViewModel
     public class TNCSettingsViewModel : ViewModelBase
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCSettingsViewModel>();

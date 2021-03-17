@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 using MetroLog;
 
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
 using PacketMessagingTS.Controls;

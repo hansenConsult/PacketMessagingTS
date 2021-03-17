@@ -4,7 +4,8 @@ using System.Linq;
 
 using MetroLog;
 
-using Microsoft.Toolkit.Mvvm;
+using Microsoft.Toolkit.Mvvm.Input;
+
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
@@ -15,7 +16,6 @@ using SharedCode.Helpers;
 
 namespace PacketMessagingTS.ViewModels
 {
-    //public class PacketSettingsViewModel : BaseViewModel
     public class PacketSettingsViewModel : ViewModelBase
     {
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<PacketSettingsViewModel>();
