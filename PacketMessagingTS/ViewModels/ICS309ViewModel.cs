@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
@@ -17,7 +19,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class ICS309ViewModel : BaseViewModel
+    public class ICS309ViewModel : ViewModelBase
     {
         public static ICS309ViewModel Instance { get; } = new ICS309ViewModel();
 

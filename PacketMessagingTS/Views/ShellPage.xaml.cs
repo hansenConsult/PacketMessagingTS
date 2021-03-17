@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 using MetroLog;
-
-using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.ViewModels;
@@ -20,6 +16,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Views

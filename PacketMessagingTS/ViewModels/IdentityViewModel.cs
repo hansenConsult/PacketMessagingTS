@@ -8,7 +8,7 @@ using SharedCode.Models;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class IdentityViewModel : BaseViewModel
+    public class IdentityViewModel : ViewModelBase
     {
         //public static TacticalCall _callsignData;
         //public TacticalCallsignData _tacticalCallsignData;
@@ -71,7 +71,7 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
-                if (SetProperty(ref userCallsign, value, true))
+                if (SetPropertyPrivate(ref userCallsign, value, true))
                 {
                     if (!string.IsNullOrEmpty(userCallsign))
                     {
@@ -137,7 +137,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref useTacticalCallsign);
             set
             {
-                if (SetProperty(ref useTacticalCallsign, value, true))
+                if (SetPropertyPrivate(ref useTacticalCallsign, value, true))
                 {
                     Utilities.SetApplicationTitle();
                 }
@@ -166,7 +166,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref tacticalCallsignAreaSelectedIndex);
             set
             {
-                SetProperty(ref tacticalCallsignAreaSelectedIndex, value, true);
+                SetPropertyPrivate(ref tacticalCallsignAreaSelectedIndex, value, true);
                 TacticalCallsignsSource = new ObservableCollection<TacticalCall>(TacticalCallsignsAreaSource[value].TacticalCallsigns?.TacticalCallsignsArray);
             }
         }
@@ -192,7 +192,7 @@ namespace PacketMessagingTS.ViewModels
                 }
                 return tacticalSelectedIndexArray;
             }
-            set => SetProperty(ref tacticalSelectedIndexArray, value, true);
+            set => SetPropertyPrivate(ref tacticalSelectedIndexArray, value, true);
         }
 
         private int tacticalCallsignSelectedIndex;

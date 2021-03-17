@@ -68,21 +68,21 @@ namespace PacketMessagingTS.Helpers
             set => SetProperty(ref isAppBarSendEnabled, value);
         }
 
-        public bool GetProperty<T>(string propertyName, out T property)
-        {
-            if (_properties != null && App.Properties.ContainsKey(propertyName))
-            {
-                // Retrieve value from dictionary
-                object o = _properties[propertyName];
-                property = (T)o;
-                return true;
-            }
-            else
-            {
-                property = default(T);
-                return false;
-            }
-        }
+        //public bool GetProperty<T>(string propertyName, out T property)
+        //{
+        //    if (_properties != null && App.Properties.ContainsKey(propertyName))
+        //    {
+        //        // Retrieve value from dictionary
+        //        object o = _properties[propertyName];
+        //        property = (T)o;
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        property = default(T);
+        //        return false;
+        //    }
+        //}
 
         protected int GetProperty(ref int backingStore, [CallerMemberName]string propertyName = "")
         {
