@@ -36,7 +36,6 @@ namespace PacketMessagingTS.Controls
 
             ScanControls(messageInfo);
 
-            //(string bbs, string tnc, string from) = Utilities.GetProfileData();
             (string bbs, string tnc, string from) = Utilities.GetProfileDataBBSStatusChecked();
             MessageBBS = bbs; //Utilities.GetBBSName(out string from, out string tnc);
             //AddressBook.Instance.UserBBS = MessageBBS;
@@ -51,19 +50,12 @@ namespace PacketMessagingTS.Controls
         public string MessageSubject
         {
             get => messageSubject;
-            //set => Set(ref messageSubject, value);
             set
             {
                 string validatedSubject = ValidateSubject(value);
-                Set(ref messageSubject, validatedSubject ?? "");
+                SetProperty(ref messageSubject, validatedSubject);
             }
         }
-
-        //public string MessageSubject
-        //{
-        //    get { return (string)GetValue(MessageSubjectProperty); }
-        //    set { SetValue(MessageSubjectProperty, value ?? ""); }
-        //}
 
         public ObservableCollection<BBSData> BBSArray => new ObservableCollection<BBSData>(BBSDefinitions.Instance.BBSDataArray);
 
@@ -73,11 +65,7 @@ namespace PacketMessagingTS.Controls
         public string MessageBBS
         {
             get => messageBBS;
-            set
-            {
-                Set(ref messageBBS, value);
-                //Utilities.SetApplicationTitle(messageBBS);
-            }
+            set => SetProperty(ref messageBBS, value);
         }
 
         public ObservableCollection<TNCDevice> DeviceList => new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
@@ -91,7 +79,7 @@ namespace PacketMessagingTS.Controls
                 if (string.IsNullOrEmpty(value))
                     return;
 
-                Set(ref messageTNC, value);
+                SetProperty(ref messageTNC, value);
 
                 if (messageTNC.Contains(PublicData.EMail))
                 {
@@ -115,21 +103,21 @@ namespace PacketMessagingTS.Controls
         public string MessageFrom
         {
             get => messageFrom;
-            set => Set(ref messageFrom, value);
+            set => SetProperty(ref messageFrom, value);
         }
 
         private string messageTo;
         public string MessageTo
         {
             get => messageTo;
-            set => Set(ref messageTo, value);
+            set => SetProperty(ref messageTo, value);
         }
 
         private bool isToIndividuals = true;
         public bool IsToIndividuals
         {
             get => isToIndividuals;
-            set => Set(ref isToIndividuals, value);
+            set => SetProperty(ref isToIndividuals, value);
         }
 
         public override void LockForm()

@@ -62,7 +62,7 @@ namespace MessageFormControl
             get => inBoxHeaderVisibility;
             set
             {
-                Set(ref inBoxHeaderVisibility, value);
+                SetProperty(ref inBoxHeaderVisibility, value);
                 if (value)
                 {
                     _visibleHeader = HeaderVisibility.InboxHeader;
@@ -80,7 +80,7 @@ namespace MessageFormControl
             get => sentHeaderVisibility;
             set
             {
-                Set(ref sentHeaderVisibility, value);
+                SetProperty(ref sentHeaderVisibility, value);
                 if (value)
                 {
                     _visibleHeader = HeaderVisibility.SentHeader;
@@ -98,7 +98,7 @@ namespace MessageFormControl
             get => newHeaderVisibility;
             set
             {
-                Set(ref newHeaderVisibility, value);
+                SetProperty(ref newHeaderVisibility, value);
                 if (value)
                 {
                     _visibleHeader = HeaderVisibility.NewHeader;
@@ -116,7 +116,7 @@ namespace MessageFormControl
             get => printHeaderVisibility;
             set
             {
-                Set(ref printHeaderVisibility, value);
+                SetProperty(ref printHeaderVisibility, value);
                 if (value)
                 {
                     _visibleHeader = HeaderVisibility.PrintHeader;
@@ -134,7 +134,7 @@ namespace MessageFormControl
             get => fixedContentVisibility;
             set 
             {
-                Set(ref fixedContentVisibility, value);
+                SetProperty(ref fixedContentVisibility, value);
             }
         }
 
@@ -166,7 +166,7 @@ namespace MessageFormControl
         public override string MessageBody
         {
             get => _messageBody;
-            set => Set(ref _messageBody, value);
+            set => SetProperty(ref _messageBody, value);
         }
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;

@@ -186,14 +186,14 @@ namespace PacketMessagingTS.ViewModels
         public string SelectedPrinter
         {
             get => GetProperty(ref _selectedPrinter);
-            set => SetProperty(ref _selectedPrinter, value, true);
+            set => SetPropertyPrivate(ref _selectedPrinter, value, true);
         }
 
         private bool _printReceivedMessages;
         public bool PrintReceivedMessages
         {
             get => GetProperty(ref _printReceivedMessages);
-            set => SetProperty(ref _printReceivedMessages, value, true);
+            set => SetPropertyPrivate(ref _printReceivedMessages, value, true);
         }
 
         private int _receivedCopyCount;
@@ -204,7 +204,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (value > 9)
                     value = 9;
-                SetProperty(ref _receivedCopyCount, value, true);
+                SetPropertyPrivate(ref _receivedCopyCount, value, true);
                 ReceivedCopyNames = ReceivedCopyNamesArray[_receivedCopyCount];
             }
         }
@@ -228,7 +228,7 @@ namespace PacketMessagingTS.ViewModels
                 }
                 return receivedCopyNamesArray;
             }
-            set => SetProperty(ref receivedCopyNamesArray, value, true);
+            set => SetPropertyPrivate(ref receivedCopyNamesArray, value, true);
         }
 
         private string receivedCopyNames;
@@ -267,7 +267,7 @@ namespace PacketMessagingTS.ViewModels
         public bool PrintSentMessages
         {
             get => GetProperty(ref _printSentMessages);
-            set => SetProperty(ref _printSentMessages, value, true);
+            set => SetPropertyPrivate(ref _printSentMessages, value, true);
         }
 
         private int _sentCopyCount;
@@ -278,7 +278,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (value > 9)
                     value = 9;
-                SetProperty(ref _sentCopyCount, value, true);
+                SetPropertyPrivate(ref _sentCopyCount, value, true);
             }
         }
 
@@ -301,7 +301,7 @@ namespace PacketMessagingTS.ViewModels
                 }
                 return sentCopyNamesArray;
             }
-            set => SetProperty(ref sentCopyNamesArray, value, true);
+            set => SetPropertyPrivate(ref sentCopyNamesArray, value, true);
         }
 
         private string sentCopyNames;

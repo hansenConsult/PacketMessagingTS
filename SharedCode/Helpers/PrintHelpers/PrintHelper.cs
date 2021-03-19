@@ -7,10 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI;
 
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
@@ -197,7 +200,9 @@ namespace SharedCode.Helpers.PrintHelpers
             }
 
             _printCanvas = null;
-            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            dispatcherQueue.EnqueueAsync(() =>
+            //DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 _printDocument.Paginate -= CreatePrintPreviewPages;
                 _printDocument.GetPreviewPage -= GetPrintPreviewPage;
@@ -222,7 +227,9 @@ namespace SharedCode.Helpers.PrintHelpers
         {
             if (!_directPrint)
             {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                await dispatcherQueue.EnqueueAsync(() =>
+                //await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -520,7 +527,9 @@ namespace SharedCode.Helpers.PrintHelpers
             element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
             page.Content = element;
 
-            return DispatcherHelper.ExecuteOnUIThreadAsync( () =>
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            return dispatcherQueue.EnqueueAsync(() =>
+            //return DispatcherHelper.ExecuteOnUIThreadAsync( () =>
                 {
                     // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
                     // through layout so that the linked containers correctly distribute the content inside them.
@@ -530,12 +539,14 @@ namespace SharedCode.Helpers.PrintHelpers
 
                     // Add the page to the page preview collection
                     _printPreviewPages.Add(page);
-                }, Windows.UI.Core.CoreDispatcherPriority.High);
+                }, Windows.System.DispatcherQueuePriority.High);
         }
 
         private Task ClearPageCache()
         {
-            return DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            return dispatcherQueue.EnqueueAsync(() =>
+            //return DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 if (!_directPrint)
                 {

@@ -186,7 +186,7 @@
                     <StackPanel Orientation="Horizontal" Margin="0,12">
                         <TextBlock Text="Select printer:"/>
                         <ComboBox x:Name="selectedPrinter" Width="300"
-                                  SelectedItem="{x:Bind SettingsViewModel.SelectedPrinter, Mode=TwoWay}"/>
+                                  SelectedValue="{x:Bind SettingsViewModel.SelectedPrinter, Mode=TwoWay}"/>
                     </StackPanel>
                     <TextBlock Text="Print Received Messages" Style="{StaticResource SubtitleTextBlockStyle}"/>
                     <Grid Margin="0,12">

@@ -106,7 +106,7 @@ namespace ICS213RRPackItFormControl
             set
             {
                 InitiatedDate = value;
-                Set(ref _msgDate, value);
+                SetProperty(ref _msgDate, value);
             }
         }
 
@@ -114,7 +114,7 @@ namespace ICS213RRPackItFormControl
         public string InitiatedDate
         {
             get => _initiatedDate;
-            set => Set(ref _initiatedDate, value);
+            set => SetProperty(ref _initiatedDate, value);
         }
 
         public override void AppendDrillTraffic()

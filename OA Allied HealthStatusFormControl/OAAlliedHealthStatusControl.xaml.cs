@@ -63,7 +63,7 @@ namespace OAAlliedHealthStatus201802FormControl
             get => _msgDate;
             set
             {
-                Set(ref _msgDate, value);
+                SetProperty(ref _msgDate, value);
                 facilityDate.Text = value;
             }
         }

@@ -67,77 +67,77 @@ namespace PublicNoticeFormControl
         public bool PageVisibility
         {
             get => _pageVisibility;
-            set => Set(ref _pageVisibility, value);
+            set => SetProperty(ref _pageVisibility, value);
         }
 
         private bool _noticeVisibility = false;
         public bool NoticeVisibility
         {
             get => _noticeVisibility;
-            set => Set(ref _noticeVisibility, value);
+            set => SetProperty(ref _noticeVisibility, value);
         }
 
         private string _noticeType;
         public string NoticeType
         {
             get => _noticeType;
-            set => Set(ref _noticeType, value);
+            set => SetProperty(ref _noticeType, value);
         }
 
         private int _typeFontSize = 50;
         public int TypeFontSize
         {
             get => _typeFontSize;
-            set => Set(ref _typeFontSize, value);
+            set => SetProperty(ref _typeFontSize, value);
         }
 
         private string _topic;
         public string Topic
         {
             get => _topic;
-            set => Set(ref _topic, value);
+            set => SetProperty(ref _topic, value);
         }
 
         private int _topicFontSize = 35;
         public int TopicFontSize
         {
             get => _topicFontSize;
-            set => Set(ref _topicFontSize, value);
+            set => SetProperty(ref _topicFontSize, value);
         }
 
         private string _issuedBy;
         public string IssuedBy
         {
             get => _issuedBy;
-            set => Set(ref _issuedBy, value);
+            set => SetProperty(ref _issuedBy, value);
         }
 
         private string _effectiveDate;
         public string EffectiveDate
         {
             get => _effectiveDate;
-            set => Set(ref _effectiveDate, value);
+            set => SetProperty(ref _effectiveDate, value);
         }
 
         private string _expires;
         public string Expires
         {
             get => _expires;
-            set => Set(ref _expires, value);
+            set => SetProperty(ref _expires, value);
         }
 
         private string _notice;
         public string Notice
         {
             get => _notice;
-            set => Set(ref _notice, value);
+            set => SetProperty(ref _notice, value);
         }
 
         private string _signed;
         public string Signed
         {
             get => _signed;
-            set => Set(ref _signed, value);
+            set => SetProperty(ref _signed, value);
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

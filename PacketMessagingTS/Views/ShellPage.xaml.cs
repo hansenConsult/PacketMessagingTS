@@ -47,7 +47,6 @@ namespace PacketMessagingTS.Views
         public ShellPage()
         {
             InitializeComponent();
-            //HideNavViewBackButton();  // WinUI
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
 

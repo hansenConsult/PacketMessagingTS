@@ -202,7 +202,7 @@ namespace FormUserControl
         public bool NamePanel1Visibility
         { 
             get => namePanel1Visibility; 
-            set => Set(ref namePanel1Visibility, value);
+            set => SetProperty(ref namePanel1Visibility, value);
         }
 
         public bool NamePanel2Visibility => !NamePanel1Visibility;
@@ -211,21 +211,21 @@ namespace FormUserControl
         public string HeaderString1
         {
             get => headerString1;
-            set => Set(ref headerString1, value);
+            set => SetProperty(ref headerString1, value);
         }
 
         private string headerString2;
         public string HeaderString2
         {
             get => headerString2;
-            set => Set(ref headerString2, $" {value}");
+            set => SetProperty(ref headerString2, $" {value}");
         }
 
         private string headerSubstring;
         public string HeaderSubstring
         {
             get => headerSubstring;
-            set => Set(ref headerSubstring, value);
+            set => SetProperty(ref headerSubstring, value);
         }
 
         public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)

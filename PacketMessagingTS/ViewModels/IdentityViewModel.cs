@@ -358,14 +358,14 @@ namespace PacketMessagingTS.ViewModels
         public string TacticalMsgPrefix
         {
             get => tacticalPrefix;
-            set { SetProperty(ref tacticalPrefix, value); }
+            set => SetProperty(ref tacticalPrefix, value);
         }
 
         private bool displayIdentityAtStartup;
         public bool DisplayIdentityAtStartup
         {
             get => GetProperty(ref displayIdentityAtStartup);
-            set => SetProperty(ref displayIdentityAtStartup, value, true);
+            set => SetPropertyPrivate(ref displayIdentityAtStartup, value, true);
         }
     }
 }

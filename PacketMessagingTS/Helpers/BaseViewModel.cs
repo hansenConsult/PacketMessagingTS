@@ -194,6 +194,38 @@ namespace PacketMessagingTS.Helpers
             return true;
         }
 
+        protected bool SetPropertyPrivate<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
+            [CallerMemberName] string propertyName = "", Action onChanged = null)
+        {
+            bool firstTime = false;
+            if (_propertyFirstTime.ContainsKey(propertyName))
+            {
+                firstTime = _propertyFirstTime[propertyName];
+            }
+            else
+            {
+                firstTime = true;
+            }
+            // Do not update displayed value if not changed or not first time or not forced
+            if (Equals(backingStore, value) && !firstTime && !forceUpdate)
+            {
+                return false;
+            }
+            _propertyFirstTime[propertyName] = false;
+
+            if (persist)
+            {
+                // store value
+                _properties[propertyName] = value;
+                //_properties[propertyName] = JsonConvert.SerializeObject(value);
+            }
+
+            backingStore = value;
+            onChanged?.Invoke();
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
         private bool Equals(int[] propA, int[] propB)
         {
             if (propA is null && propB is null)

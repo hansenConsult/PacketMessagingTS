@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+
 using SharedCode;
 
 using ToggleButtonGroupControl;
@@ -34,6 +36,7 @@ namespace FormControlBasicsNamespace
 
 
     public partial class FormControlBasics : UserControl, INotifyPropertyChanged
+    //public partial class FormControlBasics : UserControl
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
 
@@ -107,32 +110,16 @@ namespace FormControlBasicsNamespace
         public virtual string PIF
         {
             get => _pif;
-            set => Set(ref _pif, value);
+            set => SetProperty(ref _pif, value);
         }
 
         //private string headerPIF;
         public string HeaderPIF
         {
             get => $"PIF: {_pif}";
-            //set => Set(ref _pif, value);
         }
 
-        //public MessageState Messagestate
-        //{
-        //    get;
-        //    set;
-        //}
-
-        //public virtual void UpdateStyles()
-        //{
-        //}
-
-        //public FormControlBasics()
-        //{
-        //    //Messagestate = MessageState.None;
-        //}
-
-        protected void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value))
             {
@@ -142,6 +129,17 @@ namespace FormControlBasicsNamespace
             storage = value;
             OnPropertyChanged(propertyName);
         }
+
+        //protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        //{
+        //    if (Equals(storage, value))
+        //    {
+        //        return;
+        //    }
+
+        //    storage = value;
+        //    OnPropertyChanged(propertyName);
+        //}
 
         protected void OnPropertyChanged(string propertyName) =>
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

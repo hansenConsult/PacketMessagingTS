@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+
 using FormControlBasicsNamespace;
 
 using FormUserControl;
@@ -295,7 +297,7 @@ namespace FormControlBaseClass
         public virtual string IncidentName      // Required for setting Practice
         {
             get => _IncidentName;
-            set => Set(ref _IncidentName, value);
+            set => SetProperty(ref _IncidentName, value);
         }
 
         public virtual string FacilityName      // Required for setting Practice
@@ -306,7 +308,7 @@ namespace FormControlBaseClass
         public virtual string ShelterName
         {
             get => _shelterName;
-            set => Set(ref _shelterName, value);
+            set => SetProperty(ref _shelterName, value);
         }
 
         public virtual string Subject       // Required for setting Practice
@@ -316,21 +318,21 @@ namespace FormControlBaseClass
         public virtual string ReportType
         { 
             get => _ReportType; 
-            set => Set(ref _ReportType, value); 
+            set => SetProperty(ref _ReportType, value); 
         }
 
         private DateTime? messageReceivedTime = null;
         public virtual DateTime? MessageReceivedTime
         {
             get => messageReceivedTime;
-            set => Set(ref messageReceivedTime, value);
+            set => SetProperty(ref messageReceivedTime, value);
         }
 
         private DateTime? messageSentTime = null;
         public virtual DateTime? MessageSentTime
         {
             get => messageSentTime;
-            set => Set(ref messageSentTime, value);
+            set => SetProperty(ref messageSentTime, value);
         }
 
         //private FormControlAttribute.FormType _FormControlType;
@@ -1590,7 +1592,7 @@ namespace FormControlBaseClass
         public virtual bool PrintFooterVisibility
         {
             get => printFooterVisibility;
-            set => Set(ref printFooterVisibility, value);
+            set => SetProperty(ref printFooterVisibility, value);
         }
 
         protected void AddFooter()
@@ -1647,6 +1649,8 @@ namespace FormControlBaseClass
             if (CanvasContainer is null || DirectPrintContainer is null)
                 return;
 
+            var defaultPrintHelperOptions = new PrintHelperOptions();
+            //defaultPrintHelperOptions.ExtendDisplayedOptions
             _printHelper = new PrintHelper(CanvasContainer);
 
             _printPanels = PrintPanels;

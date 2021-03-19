@@ -67,7 +67,7 @@ namespace MedicalHealthBranchRRFormControl
             set
             {
                 RequestMsgDate = value;
-                Set(ref _msgDate, value);
+                SetProperty(ref _msgDate, value);
                 
             }
         }
@@ -76,7 +76,7 @@ namespace MedicalHealthBranchRRFormControl
         public string RequestMsgDate
         {
             get => requestMsgDate;
-            set => Set(ref requestMsgDate, value);
+            set => SetProperty(ref requestMsgDate, value);
         }
 
         public override string PIF => "3.1";

@@ -50,7 +50,7 @@ namespace PacketMessagingTS.ViewModels
             }
             set
             {
-                SetProperty(ref selectedTabIndex, value, true);
+                SetPropertyPrivate(ref selectedTabIndex, value, true);
                 //FillMoveLocations();
             }
         }

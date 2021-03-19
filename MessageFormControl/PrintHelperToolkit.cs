@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
@@ -209,7 +211,9 @@ namespace MessageFormControl
             }
 
             _printCanvas = null;
-            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            dispatcherQueue.EnqueueAsync(() =>
+            //DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 _printDocument.Paginate -= CreatePrintPreviewPages;
                 _printDocument.GetPreviewPage -= GetPrintPreviewPage;
@@ -256,7 +260,9 @@ namespace MessageFormControl
         {
             if (!_directPrint)
             {
-                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                await dispatcherQueue.EnqueueAsync(() =>
+                //await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -636,7 +642,9 @@ namespace MessageFormControl
 
         private Task ClearPageCache()
         {
-            return DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            return dispatcherQueue.EnqueueAsync(() =>
+            //return DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 if (!_directPrint)
                 {

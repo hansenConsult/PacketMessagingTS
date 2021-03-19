@@ -79,7 +79,7 @@ namespace MutualAidRequestFormControl
             set
             {
                 SignedDate = value;
-                Set(ref _msgDate, value);
+                SetProperty(ref _msgDate, value);
             }
         }
 
@@ -87,7 +87,7 @@ namespace MutualAidRequestFormControl
         public string SignedDate
         {
             get => _SignedDate;
-            set => Set(ref _SignedDate, value);
+            set => SetProperty(ref _SignedDate, value);
         }
 
         public override void FillFormFromFormFields(FormField[] formFields)

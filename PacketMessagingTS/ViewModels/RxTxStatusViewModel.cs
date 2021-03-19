@@ -3,14 +3,13 @@ using System.Windows.Input;
 
 using Microsoft.Toolkit.Mvvm.Input;
 
-using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;
 using PacketMessagingTS.Views;
+
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.ViewModels
 {

@@ -270,7 +270,7 @@ namespace SharedCode.Models
                     }
                     if (tacticalCallsignData.RawDataFileName == "Tactical_Calls.txt")
                     {
-                        tacticalCallFile = await localFolder.TryGetItemAsync(fileName);
+                        tacticalCallFile = await localFolder.TryGetItemAsync(fileName) as StorageFile;
                         fileInfo = new FileInfo(tacticalCallFile.Path);
                         // Check file creation times
                         var storageFile = await localFolder.TryGetItemAsync(TactiCallsMasterFileName);

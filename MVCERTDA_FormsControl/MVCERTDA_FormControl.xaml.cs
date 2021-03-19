@@ -79,7 +79,7 @@ namespace MVCERTDA_FormsControl
                 if (FormPacketMessage == null)
                 {
                     // New form
-                    Set(ref tacticalCallsign, value);
+                    SetProperty(ref tacticalCallsign, value);
                     agencyName = GetSelectedMTVTactical()?.AgencyName.Replace(" CERT", "");
                     
                 }
@@ -121,21 +121,21 @@ namespace MVCERTDA_FormsControl
         public string ToICSPosition
         {
             get => toICSPosition;
-            set => Set(ref toICSPosition, value);
+            set => SetProperty(ref toICSPosition, value);
         }
 
         private string toLocation;
         public string ToLocation
         {
             get => toLocation;
-            set => Set(ref toLocation, value);
+            set => SetProperty(ref toLocation, value);
         }
 
         private string fromLocation;
         public string FromLocation
         {
             get => fromLocation;
-            set => Set(ref fromLocation, value);
+            set => SetProperty(ref fromLocation, value);
         }
 
         public override FormControlBasics RootPanel => rootPanel;
