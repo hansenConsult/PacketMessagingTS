@@ -17,9 +17,9 @@
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
+               SelectionChanged="CountyFormsViewModel.FormsPagePivot_SelectionChanged"
                SelectedIndex="{x:Bind CountyFormsViewModel.CountyFormsPagePivotSelectedIndex, Mode=TwoWay}"/>
-        <!--SelectionChanged="FormsPagePivot_SelectionChangedAsync"-->
-        <!--SelectedIndex="{x:Bind _CountyFormsViewModel.FormsPagePivotSelectedIndex}"-->
+        <!--SelectionChanged="CountyFormsPagePivot_SelectionChangedAsync"-->
 
         <CommandBar x:Name="ButtomCommandBar"
 				RelativePanel.AlignBottomWithPanel="True"

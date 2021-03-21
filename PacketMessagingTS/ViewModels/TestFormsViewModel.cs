@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
 
+using SharedCode.Helpers;
+
 namespace PacketMessagingTS.ViewModels
 {
     public class TestFormsViewModel : FormsViewModel
@@ -19,15 +21,14 @@ namespace PacketMessagingTS.ViewModels
             set => TestFormsPagePivotSelectedIndex = value;
         }
 
-        protected int _testFormsPagePivotSelectedIndex;
+        protected int _testFormsPagePivotSelectedIndex = -1;
         public int TestFormsPagePivotSelectedIndex
         {
             get
             {
                 int index = GetProperty(ref _testFormsPagePivotSelectedIndex);
-                if (index >= SharedData.FormControlAttributeTestList.Count)
+                if (index >= PublicData.FormControlAttributesInMenuOrderOther.Length || index < 0)
                     index = 0;
-                FormsPagePivotSelectionChangedAsync(index);
                 return index;
             }
             set => SetPropertyPrivate(ref _testFormsPagePivotSelectedIndex, value, true);

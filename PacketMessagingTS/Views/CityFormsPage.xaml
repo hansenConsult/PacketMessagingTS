@@ -18,8 +18,9 @@
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
+               SelectionChanged="CityFormsViewModel.FormsPagePivot_SelectionChanged"
                SelectedIndex="{x:Bind CityFormsViewModel.CityFormsPagePivotSelectedIndex, Mode=TwoWay}"/>
-        <!--SelectionChanged="FormsPagePivot_SelectionChangedAsync"-->
+
         <!--Simple Message-->
         <!--<PivotItem x:Name="SimpleMessage" DataContext="{Binding FormsPartViewModel}" Header="Simple Message">
 				<ScrollViewer Margin="0,12,-12,0" HorizontalContentAlignment="Left"

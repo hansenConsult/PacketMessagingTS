@@ -7,7 +7,7 @@ namespace PacketMessagingTS.ViewModels
     {
         public static CityFormsViewModel Instance { get; } = new CityFormsViewModel();
 
-        protected int cityFormsPagePivotSelectedIndex;
+        private int cityFormsPagePivotSelectedIndex = -1;
         public int CityFormsPagePivotSelectedIndex
         {
             get
@@ -15,7 +15,6 @@ namespace PacketMessagingTS.ViewModels
                 int index = GetProperty(ref cityFormsPagePivotSelectedIndex);
                 if (index >= PublicData.FormControlAttributesInMenuOrderCity.Length || index < 0)
                     index = 0;
-                FormsPagePivotSelectionChangedAsync(index);
                 return index;
             }
             set => SetPropertyPrivate(ref cityFormsPagePivotSelectedIndex, value, true);

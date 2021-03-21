@@ -23,7 +23,6 @@ namespace PacketMessagingTS.Views
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CityFormsPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        //public CityFormsViewModel CityFormsViewModel { get; } = Singleton<CityFormsViewModel>.Instance;
         CityFormsViewModel CityFormsViewModel = CityFormsViewModel.Instance;
 
         public CityFormsPage()
@@ -54,7 +53,6 @@ namespace PacketMessagingTS.Views
             ViewModel = CityFormsViewModel;
             //ViewModel = _cityFormsViewModel;
             //ViewModel.FormsPage = this;
-
         }
 
     }

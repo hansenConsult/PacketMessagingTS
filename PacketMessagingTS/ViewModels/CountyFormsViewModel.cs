@@ -4,6 +4,8 @@ using PacketMessagingTS.Helpers;
 
 using SharedCode.Helpers;
 
+using Windows.UI.Xaml.Controls;
+
 namespace PacketMessagingTS.ViewModels
 {
     public class CountyFormsViewModel : FormsViewModel
@@ -16,7 +18,7 @@ namespace PacketMessagingTS.ViewModels
             set => CountyFormsPagePivotSelectedIndex = value;
         }
 
-        private int countyFormsPagePivotSelectedIndex;
+        private int countyFormsPagePivotSelectedIndex = -1;
         public int CountyFormsPagePivotSelectedIndex
         {
             get
@@ -24,11 +26,11 @@ namespace PacketMessagingTS.ViewModels
                 int index = GetProperty(ref countyFormsPagePivotSelectedIndex);
                 if (index >= PublicData.FormControlAttributesInMenuOrderCounty.Length || index < 0)
                     index = 0;
-                FormsPagePivotSelectionChangedAsync(index);
                 return index;
             }
             set => SetPropertyPrivate(ref countyFormsPagePivotSelectedIndex, value, true);
         }
+
 
     }
 }

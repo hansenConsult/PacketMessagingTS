@@ -18,8 +18,8 @@
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
+               SelectionChanged="HospitalFormsViewModel.FormsPagePivot_SelectionChanged"
                SelectedIndex="{x:Bind HospitalFormsViewModel.HospitalFormsPagePivotSelectedIndex, Mode=TwoWay}"/>
-        <!--SelectionChanged="FormsPagePivot_SelectionChangedAsync"-->
 
         <CommandBar x:Name="ButtomCommandBar"
 				RelativePanel.AlignBottomWithPanel="True"

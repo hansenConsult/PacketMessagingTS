@@ -471,6 +471,7 @@ namespace PacketMessagingTS.Views
 #if !DEBUG
             testReceive.Header = "";
 #endif
+            _toolsViewModel.ToolsPagePivot = toolsPagePivot;
             //_toolsViewModel.commLogEntryCollection = new ObservableCollection<CommLogEntry>();
             //ics309DataGrid.Columns[0].SortDirection = DataGridSortDirection.Descending;
         }

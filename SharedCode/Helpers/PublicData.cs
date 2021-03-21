@@ -15,6 +15,7 @@ namespace SharedCode.Helpers
         public static FormControlAttributes[] FormControlAttributesInMenuOrderCounty;
         public static FormControlAttributes[] FormControlAttributesInMenuOrderCity;
         public static FormControlAttributes[] FormControlAttributesInMenuOrderHospital;
+        public static FormControlAttributes[] FormControlAttributesInMenuOrderOther;
 
 
         public static string EMail = "Email";

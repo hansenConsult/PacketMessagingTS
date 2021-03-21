@@ -123,7 +123,7 @@
 
     <RelativePanel RequestedTheme = "Light">
 
-        <Pivot x:Name="Tools"
+        <Pivot x:Name="toolsPagePivot"
                RelativePanel.AlignBottomWithPanel="True"
                RelativePanel.AlignRightWithPanel="True"
                RelativePanel.AlignTopWithPanel="True"

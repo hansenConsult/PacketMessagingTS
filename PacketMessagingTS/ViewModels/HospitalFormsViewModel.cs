@@ -25,18 +25,14 @@ namespace PacketMessagingTS.ViewModels
             set => HospitalFormsPagePivotSelectedIndex = value;
         }
 
-        private int hospitalFormsPagePivotSelectedIndex;
+        private int hospitalFormsPagePivotSelectedIndex = -1;
         public int HospitalFormsPagePivotSelectedIndex
         {
             get
             {
                 int index = GetProperty(ref hospitalFormsPagePivotSelectedIndex);
-                if (index >= PublicData.FormControlAttributesInMenuOrderHospital.Length)
+                if (index >= PublicData.FormControlAttributesInMenuOrderHospital.Length || index < 0)
                     index = 0;
-                //if (!FirstTimeFormOpened)
-                //    LoadMessage = false;
-                FormsPagePivotSelectionChangedAsync(index);
-                //FirstTimeFormOpened = false;
                 return index;
             }
             set => SetPropertyPrivate(ref hospitalFormsPagePivotSelectedIndex, value, true);

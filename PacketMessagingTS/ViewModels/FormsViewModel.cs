@@ -460,6 +460,12 @@ namespace PacketMessagingTS.ViewModels
             _packetForm.MsgTimeChanged(e.SubjectLine);
         }
 
+        public void FormsPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = FormsPagePivotSelectedIndex;
+            FormsPagePivotSelectionChangedAsync(index);
+        }
+
         private async Task ShowPacketFormAsync()
         {
             MessageState messageState = MessageState.None;
@@ -480,12 +486,6 @@ namespace PacketMessagingTS.ViewModels
 
             string practiceSubject = PacketSettingsViewModel.Instance.DefaultSubject;
 
-            //_pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
-            //if (_pivotItem is null)
-            //{
-            //    await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
-            //    return;
-            //}
             string pivotItemName = _pivotItem.Name;
             _packetForm = CreateFormControlInstance(pivotItemName, messageState); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
@@ -499,27 +499,14 @@ namespace PacketMessagingTS.ViewModels
             MessageNo = Utilities.GetMessageNumberPacket();
             OriginMsgNo = MessageNo;
 
+            // Populate the form View
             StackPanel stackPanel = ((ScrollViewer)_pivotItem.Content).Content as StackPanel;
             stackPanel.Margin = new Thickness(0, 0, 12, 0);
 
             stackPanel.Children.Clear();
             if (pivotItemName == "SimpleMessage")
             {
-                if (!LoadMessage)
-                {
-                    // Insert Pivot for message type
-                    _simpleMessagePivot = new SimpleMessagePivot();
-
-                    stackPanel.Children.Insert(0, _simpleMessagePivot);
-                    stackPanel.Children.Insert(1, _packetAddressForm);
-                    stackPanel.Children.Insert(2, _packetForm);
-
-                    (_packetForm as MessageControl).NewHeaderVisibility = true;
-
-                    _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
-                    _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
-                }
-                else
+                if (LoadMessage)
                 {
                     // Show existing message
                     stackPanel.Children.Insert(0, _packetAddressForm);
@@ -537,6 +524,20 @@ namespace PacketMessagingTS.ViewModels
                             (_packetForm as MessageControl).NewHeaderVisibility = true;
                             break;
                     }
+                }
+                else
+                {
+                    // Insert Pivot for message type
+                    _simpleMessagePivot = new SimpleMessagePivot();
+
+                    stackPanel.Children.Insert(0, _simpleMessagePivot);
+                    stackPanel.Children.Insert(1, _packetAddressForm);
+                    stackPanel.Children.Insert(2, _packetForm);
+
+                    (_packetForm as MessageControl).NewHeaderVisibility = true;
+
+                    _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
+                    _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
                 }
 
                 // Moved to SimpleMessagePivot control
@@ -558,16 +559,9 @@ namespace PacketMessagingTS.ViewModels
 
             if (!LoadMessage)
             {
-                // Moved to end of function to allow for state Edit without updated subject 
-                //_packetForm.EventSubjectChanged += FormControl_SubjectChange;
-                //if (_packetForm.FormHeaderControl != null)
-                //{
-                //    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
-                //    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
-                //}
-
                 DateTime now = DateTime.Now;
                 MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
+                //HandlingOrder = null;
                 //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 OperatorName = IdentityViewModel.Instance.UserName;
                 OperatorCallsign = IdentityViewModel.Instance.UserCallsign;
@@ -606,6 +600,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 FillFormFromPacketMessage();
                 IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
+                LoadMessage = false;
 
                 //_MessageFormFilled = true;
                 //selectedIndex = -1; // Possible this is called twice on double click on message? Seems to fix the problem that an empty form is loaded
@@ -632,163 +627,6 @@ namespace PacketMessagingTS.ViewModels
             }
 
             await ShowPacketFormAsync();
-            return;
-
-            //MessageState messageState = MessageState.None;
-            //if (!LoadMessage)
-            //{
-            //    _packetMessage = null;                
-            //}
-            //else
-            //{
-            //    _packetMessage = FormsPage.PacketMessage;
-            //    messageState = FormsPage.PacketMessage.MessageState;
-            //}
-
-            //_packetAddressForm = new SendFormDataControl
-            //{
-            //    FormPacketMessage = _packetMessage
-            //};
-
-            //string practiceSubject = <PacketSettingsViewModel>.Instance.DefaultSubject;
-
-            ////_pivotItem = FormsPage.FormsPagePivot.Items[selectedIndex] as PivotItem;
-            ////if (_pivotItem is null)
-            ////{
-            ////    await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
-            ////    return;
-            ////}
-            //string pivotItemName = _pivotItem.Name;
-            //_packetForm = CreateFormControlInstance(pivotItemName, messageState); // Should be PacketFormName, since there may be multiple files with same name
-            //if (_packetForm is null)
-            //{
-            //    await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
-            //    return;
-            //}
-
-            //_packetForm.FormPacketMessage = _packetMessage;
-            //_packetForm.FormatTextBoxes();
-            //MessageNo = Utilities.GetMessageNumberPacket();
-            //OriginMsgNo = MessageNo;
-
-            //StackPanel stackPanel = ((ScrollViewer)_pivotItem.Content).Content as StackPanel;
-            //stackPanel.Margin = new Thickness(0, 0, 12, 0);
-
-            //stackPanel.Children.Clear();
-            //if (pivotItemName == "SimpleMessage")
-            //{
-            //    if (!LoadMessage)
-            //    {
-            //        // Insert Pivot for message type
-            //        _simpleMessagePivot = new SimpleMessagePivot();
-
-            //        stackPanel.Children.Insert(0, _simpleMessagePivot);
-            //        stackPanel.Children.Insert(1, _packetAddressForm);
-            //        stackPanel.Children.Insert(2, _packetForm);
-
-            //        (_packetForm as MessageControl).NewHeaderVisibility = true;
-
-            //        _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
-            //        _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
-            //    }
-            //    else
-            //    {
-            //        // Show existing message
-            //        stackPanel.Children.Insert(0, _packetAddressForm);
-            //        stackPanel.Children.Insert(1, _packetForm);
-
-            //        switch (_packetMessage.MessageOrigin)
-            //        {
-            //            case MessageOriginHelper.MessageOrigin.Received:
-            //                (_packetForm as MessageControl).InBoxHeaderVisibility = true;
-            //                break;
-            //            case MessageOriginHelper.MessageOrigin.Sent:
-            //                (_packetForm as MessageControl).SentHeaderVisibility = true;
-            //                break;
-            //            default:
-            //                (_packetForm as MessageControl).NewHeaderVisibility = true;
-            //                break;
-            //        }
-            //    }
-
-            //    // Moved to SimpleMessagePivot control
-            //    //_packetAddressForm.MessageSubject = $"{MessageNo}_R_";
-            //    //if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-            //    //{
-            //    //    _packetAddressForm.MessageSubject += practiceSubject;
-            //    //    //_packetForm.MessageBody = PacketSettingsViewModel>.Instance.DefaultMessage;
-            //    //}
-            //    _packetForm.MessageReceivedTime = DateTime.Now;
-            //}
-            //else
-            //{
-            //    stackPanel.Children.Insert(0, _packetForm);
-            //    stackPanel.Children.Insert(1, _packetAddressForm);
-
-            //    _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
-            //}
-
-            //if (!LoadMessage)
-            //{
-            //    // Moved to end of function to allow for state Edit without updated subject 
-            //    //_packetForm.EventSubjectChanged += FormControl_SubjectChange;
-            //    //if (_packetForm.FormHeaderControl != null)
-            //    //{
-            //    //    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
-            //    //    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
-            //    //}
-
-            //    DateTime now = DateTime.Now;
-            //    MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-            //    //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-            //    OperatorName = Singleton<IdentityViewModel>.Instance.UserName;
-            //    OperatorCallsign = Singleton<IdentityViewModel>.Instance.UserCallsign;
-            //    if (Singleton<IdentityViewModel>.Instance.UseTacticalCallsign)
-            //    {
-            //        _packetForm.TacticalCallsign = Singleton<IdentityViewModel>.Instance.TacticalCallsign;
-            //    }
-
-            //    if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
-            //    {
-            //        HandlingOrder = "routine";
-            //        MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-            //        switch (_packetForm.PacFormType)
-            //        {
-            //            case "ICS213":
-            //                _packetForm.Severity = "other";
-            //                _packetForm.Subject = practiceSubject;
-            //                break;
-            //            case "XSC_EOC_213RR":
-            //                _packetForm.IncidentName = practiceSubject;
-            //                break;
-            //            case "OA Municipal Status":
-            //                // Use Jurisdiction Name
-            //                break;
-            //            case "OAShelterStat":
-            //                _packetForm.ShelterName = practiceSubject;
-            //                break;
-            //            case "Allied_Health_Status":
-            //                _packetForm.FacilityName = practiceSubject;
-            //                break;
-            //        }
-            //    }
-            //    IsAppBarSendEnabled = true;
-            //}
-            //else
-            //{
-            //    FillFormFromPacketMessage();
-            //    IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
-
-            //    //_MessageFormFilled = true;
-            //    //selectedIndex = -1; // Possible this is called twice on double click on message? Seems to fix the problem that an empty form is loaded
-            //}
-            //// Moved here in case state is edit message. The form needs to be filled first otherwise the subject is incomplete
-            //_packetForm.EventSubjectChanged += FormControl_SubjectChange;
-            //if (_packetForm.FormHeaderControl != null)
-            //{
-            //    _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
-            //    _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
-            //}
         }
 
         private static string ValidateSubject(string subject)

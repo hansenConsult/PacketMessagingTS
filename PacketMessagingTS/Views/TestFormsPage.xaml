@@ -17,6 +17,7 @@
                RelativePanel.AlignRightWithPanel="True"
 			   RelativePanel.Above="ButtomCommandBar"
                FontFamily="Bahnschrift"
+               SelectionChanged="TestFormsViewModel.FormsPagePivot_SelectionChanged"
                SelectedIndex="{x:Bind TestFormsViewModel.TestFormsPagePivotSelectedIndex, Mode=TwoWay}"/>
 
         <CommandBar x:Name="ButtomCommandBar"
