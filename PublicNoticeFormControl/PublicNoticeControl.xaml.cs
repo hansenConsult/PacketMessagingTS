@@ -21,8 +21,8 @@ namespace PublicNoticeFormControl
     [FormControl(
         FormControlName = "PublicNotice",
         FormControlMenuName = "Public Notice",
-        FormControlType = FormControlAttribute.FormType.TestForm,
-        FormControlMenuIndex = 0)
+        FormControlType = FormControlAttribute.FormType.TestForm
+        )
     ]
 
     public sealed partial class PublicNoticeControl : FormControlBase

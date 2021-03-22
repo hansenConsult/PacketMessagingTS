@@ -5,6 +5,7 @@ using MetroLog;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
@@ -46,9 +47,11 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList = SharedData.FormControlAttributeHospitalList;
             }
             int indexCount = _formControlAttributeList.Count;
-            PublicData.FormControlAttributesInMenuOrderHospital = new FormControlAttributes[indexCount];
+            //PublicData.FormControlAttributesInMenuOrderHospital = new FormControlAttributes[indexCount];
 
-            PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderHospital);
+            //PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderHospital);
+            PopulateFormsPagePivot(SharedData.FormControlAttributeHospitalList, FormMenuIndexDefinitions.Instance.HospitalFormsMenuNames);
+
 
             HospitalFormsViewModel.FormsPage = this;
             ViewModel = HospitalFormsViewModel;

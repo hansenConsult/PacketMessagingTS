@@ -5,6 +5,7 @@ using MetroLog;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
@@ -45,9 +46,10 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList = SharedData.FormControlAttributeTestList;
             }
             int indexCount = _formControlAttributeList.Count;
-            PublicData.FormControlAttributesInMenuOrderOther = new FormControlAttributes[indexCount];
+            //PublicData.FormControlAttributesInMenuOrderOther = new FormControlAttributes[indexCount];
 
-            PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderOther);
+            //PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderOther);
+            PopulateFormsPagePivot(SharedData.FormControlAttributeTestList, FormMenuIndexDefinitions.Instance.OtherFormsMenuNames);
 
             TestFormsViewModel.FormsPage = this;
             ViewModel = TestFormsViewModel;

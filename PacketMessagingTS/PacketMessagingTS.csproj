@@ -182,6 +182,7 @@
     <Compile Include="Models\CustomFoldersArray.cs" />
     <Compile Include="Models\distributionlists.cs" />
     <Compile Include="Models\Emailaccounts.cs" />
+    <Compile Include="Models\FormMenuIndices.cs" />
     <Compile Include="Models\GroupInfoList.cs" />
     <Compile Include="Models\printconfig.cs" />
     <Compile Include="Models\Profiles.cs" />

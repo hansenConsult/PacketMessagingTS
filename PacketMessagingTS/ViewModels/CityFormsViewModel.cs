@@ -1,4 +1,6 @@
 ﻿
+using PacketMessagingTS.Models;
+
 using SharedCode.Helpers;
 
 namespace PacketMessagingTS.ViewModels
@@ -13,7 +15,8 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref cityFormsPagePivotSelectedIndex);
-                if (index >= PublicData.FormControlAttributesInMenuOrderCity.Length || index < 0)
+                //if (index >= PublicData.FormControlAttributesInMenuOrderCity.Length || index < 0)
+                if (index >= FormMenuIndexDefinitions.Instance.CityFormsMenuNames.Length || index < 0)
                     index = 0;
                 return index;
             }

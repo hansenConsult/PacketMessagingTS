@@ -7,6 +7,7 @@ using MetroLog;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
 using SharedCode;
@@ -45,9 +46,10 @@ namespace PacketMessagingTS.Views
                 _formControlAttributeList = SharedData.FormControlAttributeCountyList;
             }
             int indexCount = _formControlAttributeList.Count;
-            PublicData.FormControlAttributesInMenuOrderCounty = new FormControlAttributes[indexCount];
+            //PublicData.FormControlAttributesInMenuOrderCounty = new FormControlAttributes[indexCount];
 
-            PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderCounty);
+            //PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderCounty);
+            PopulateFormsPagePivot(SharedData.FormControlAttributeCountyList, FormMenuIndexDefinitions.Instance.CountyFormsMenuNames);
 
             CountyFormsViewModel.FormsPage = this;
             ViewModel = CountyFormsViewModel;

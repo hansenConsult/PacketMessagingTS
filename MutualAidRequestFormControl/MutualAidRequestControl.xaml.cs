@@ -21,8 +21,8 @@ namespace MutualAidRequestFormControl
     [FormControl(
         FormControlName = "form-oa-mutual-aid-request-v2",
         FormControlMenuName = "RACES Mutual Aid Request",
-        FormControlType = FormControlAttribute.FormType.CountyForm,
-        FormControlMenuIndex = 6)
+        FormControlType = FormControlAttribute.FormType.CountyForm
+        )
     ]
 
 

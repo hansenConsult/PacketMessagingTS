@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FormMenuIndexDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CountyFormsMenuNames>
+    <string>Simple Message</string>
+    <string>ICS-213 Message</string>
+    <string>EOC Resource Request</string>
+    <string>OA Municipal Status</string>
+    <string>OA Shelter Status</string>
+    <string>Allied Health Facility status</string>
+    <string>RACES Mutual Aid Request</string>
+  </CountyFormsMenuNames>
+  <CityFormsMenuNames>
+    <string>MTV 213 CERT DA Summary</string>
+  </CityFormsMenuNames>
+  <HospitalFormsMenuNames>
+    <string>XSC HAvBed Report</string>
+    <string>XSC Medical Facility Status</string>
+    <string>XSC Medical Resource Request</string>
+    <string>Hospital RollCall</string>
+  </HospitalFormsMenuNames>
+  <OtherFormsMenuNames>
+    <string>Public Notice</string>
+  </OtherFormsMenuNames>
+</FormMenuIndexDefinitions>

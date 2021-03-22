@@ -1,6 +1,7 @@
 ﻿using System;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 
 using SharedCode.Helpers;
 
@@ -24,7 +25,7 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref countyFormsPagePivotSelectedIndex);
-                if (index >= PublicData.FormControlAttributesInMenuOrderCounty.Length || index < 0)
+                if (index >= FormMenuIndexDefinitions.Instance.CountyFormsMenuNames.Length || index < 0)
                     index = 0;
                 return index;
             }

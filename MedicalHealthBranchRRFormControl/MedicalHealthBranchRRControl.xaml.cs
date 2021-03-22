@@ -21,8 +21,8 @@ namespace MedicalHealthBranchRRFormControl
     [FormControl(
         FormControlName = "form-medical-resource-request",
         FormControlMenuName = "XSC Medical Resource Request",
-        FormControlType = FormControlAttribute.FormType.HospitalForm,
-        FormControlMenuIndex = 2)
+        FormControlType = FormControlAttribute.FormType.HospitalForm
+        )
     ]
 
     /// <summary>

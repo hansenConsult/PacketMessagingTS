@@ -26,8 +26,8 @@ namespace MedicalFacilityStatusFormControl
     [FormControl(
         FormControlName = "form-medical-facility-status-v2",
         FormControlMenuName = "XSC Medical Facility Status",
-        FormControlType = FormControlAttribute.FormType.HospitalForm,
-        FormControlMenuIndex = 1)
+        FormControlType = FormControlAttribute.FormType.HospitalForm
+        )
     ]
 
     /// <summary>

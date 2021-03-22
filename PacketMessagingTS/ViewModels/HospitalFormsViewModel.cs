@@ -10,6 +10,7 @@
 //*********************************************************
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 
 using SharedCode.Helpers;
 
@@ -31,7 +32,7 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref hospitalFormsPagePivotSelectedIndex);
-                if (index >= PublicData.FormControlAttributesInMenuOrderHospital.Length || index < 0)
+                if (index >= FormMenuIndexDefinitions.Instance.HospitalFormsMenuNames.Length || index < 0)
                     index = 0;
                 return index;
             }

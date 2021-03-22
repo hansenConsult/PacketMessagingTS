@@ -133,8 +133,9 @@ namespace PacketMessagingTS
                 UserAddressArray.Instance.OpenAsync(),
                 DistributionListArray.Instance.OpenAsync(),
                 HospitalRollCall.Instance.OpenAsync(),
-                CustomFoldersArray.OpenAsync()
-            };
+                CustomFoldersArray.OpenAsync(),
+                FormMenuIndexDefinitions.Instance.OpenAsync(),
+        };
             while (tasks.Count > 0)
             {
                 Task finishedTask = await Task.WhenAny(tasks);

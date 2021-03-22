@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using PacketMessagingTS.Helpers;
+using PacketMessagingTS.Models;
 
 using SharedCode.Helpers;
 
@@ -27,7 +28,7 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref _testFormsPagePivotSelectedIndex);
-                if (index >= PublicData.FormControlAttributesInMenuOrderOther.Length || index < 0)
+                if (index >= FormMenuIndexDefinitions.Instance.OtherFormsMenuNames.Length || index < 0)
                     index = 0;
                 return index;
             }

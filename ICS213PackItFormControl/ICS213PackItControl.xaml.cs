@@ -21,8 +21,8 @@ namespace ICS213PackItFormControl
     [FormControl(
 		FormControlName = "form-ics213",
 		FormControlMenuName = "ICS-213 Message",
-		FormControlType = FormControlAttribute.FormType.CountyForm,
-        FormControlMenuIndex = 1)
+		FormControlType = FormControlAttribute.FormType.CountyForm
+        )
     ]
 
 	public partial class ICS213PackItControl : FormControlBase

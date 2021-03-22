@@ -30,6 +30,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 using PacketMessagingTS.ViewModels;
+using PacketMessagingTS.Models;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -229,30 +230,46 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        protected virtual void PopulateFormsPagePivot(FormControlAttributes[] formControlAttributesInMenuOrder)
+        protected virtual void PopulateFormsPagePivot(List<FormControlAttributes> formControlAttributes, string[] formControlMenuNames)
         {
-            // Create an array in menu index order
-            foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
+            //FormControlAttributes[] formControlAttributesInMenuOrder = new FormControlAttributes[formControlMenuNames.Length];
+            for (int i = 0; i < formControlMenuNames.Length; i++)
             {
-                if (formControlAttribute.FormControlMenuIndex < 0)
+                foreach (FormControlAttributes formControlAttribute in formControlAttributes)
                 {
-                    _logHelper.Log(LogLevel.Warn, $"Menu index is undefined for {formControlAttribute.FormControlName}");
-                    continue;
+                    if (formControlMenuNames[i] == formControlAttribute.FormControlMenuName)
+                    {
+                        PivotItem pivotItem = CreatePivotItem(formControlAttribute);
+                        _formsPagePivot.Items.Add(pivotItem);
+                    }
                 }
-                formControlAttributesInMenuOrder[formControlAttribute.FormControlMenuIndex] = formControlAttribute;
-            }
-
-            for (int i = 0; i < formControlAttributesInMenuOrder.Length; i++)
-            {
-                if (string.IsNullOrEmpty(formControlAttributesInMenuOrder[i].FormControlMenuName))
-                {
-                    _logHelper.Log(LogLevel.Warn, $"Menu name is undefined for {formControlAttributesInMenuOrder[i].FormControlName}");
-                    continue;
-                }
-                PivotItem pivotItem = CreatePivotItem(formControlAttributesInMenuOrder[i]);
-                _formsPagePivot.Items.Add(pivotItem);
             }
         }
+
+        //protected virtual void PopulateFormsPagePivot(FormControlAttributes[] formControlAttributesInMenuOrder)
+        //{
+        //    // Create an array in menu index order
+        //    foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
+        //    {
+        //        if (formControlAttribute.FormControlMenuIndex < 0)
+        //        {
+        //            _logHelper.Log(LogLevel.Warn, $"Menu index is undefined for {formControlAttribute.FormControlName}");
+        //            continue;
+        //        }
+        //        formControlAttributesInMenuOrder[formControlAttribute.FormControlMenuIndex] = formControlAttribute;
+        //    }
+
+        //    for (int i = 0; i < formControlAttributesInMenuOrder.Length; i++)
+        //    {
+        //        if (string.IsNullOrEmpty(formControlAttributesInMenuOrder[i].FormControlMenuName))
+        //        {
+        //            _logHelper.Log(LogLevel.Warn, $"Menu name is undefined for {formControlAttributesInMenuOrder[i].FormControlName}");
+        //            continue;
+        //        }
+        //        PivotItem pivotItem = CreatePivotItem(formControlAttributesInMenuOrder[i]);
+        //        _formsPagePivot.Items.Add(pivotItem);
+        //    }
+        //}
 
         public virtual void ScanFormAttributes(FormControlAttribute.FormType[] formTypes)
         {
@@ -307,14 +324,14 @@ namespace PacketMessagingTS.Helpers
                                 {
                                     formControlMenuName = arg.TypedValue.Value as string;
                                 }
-                                else if (arg.MemberName == "FormControlMenuIndex")
-                                {
-                                    formControlMenuIndex = (int)arg.TypedValue.Value;
-                                }
+                                //else if (arg.MemberName == "FormControlMenuIndex")
+                                //{
+                                //    formControlMenuIndex = (int)arg.TypedValue.Value;
+                                //}
                             }
                             if (formControlTypeFound)
                             {
-                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, formControlMenuIndex);
+                                FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType);
                                 _formControlAttributeList.Add(formControlAttributes);
                             }
                         }

@@ -55,15 +55,13 @@ namespace SharedCode.Helpers
             get => _FormControlMenuName;
             set => _FormControlMenuName = value;
         }
-        //public string FormControlMenuName { get; set; }    // 
 
         // Menu index
-        protected int _FormControlMenuIndex = -1;
-        public int FormControlMenuIndex
-        {
-            get => _FormControlMenuIndex;
-            set => _FormControlMenuIndex = value;
-        }
-        //public int FormControlMenuIndex { get; set; }
+        //protected int _FormControlMenuIndex = -1;
+        //public int FormControlMenuIndex
+        //{
+        //    get => _FormControlMenuIndex;
+        //    set => _FormControlMenuIndex = value;
+        //}
     }
 }

@@ -22,8 +22,8 @@ namespace MessageFormControl
     [FormControl(
         FormControlName = "SimpleMessage",
         FormControlMenuName = "Simple Message",
-        FormControlType = FormControlAttribute.FormType.None,
-        FormControlMenuIndex = 0)
+        FormControlType = FormControlAttribute.FormType.None
+        )
     ]
 
     public partial class MessageControl : FormControlBase
