@@ -33,13 +33,6 @@ namespace SharedCode.Helpers
             set => _FormControlMenuName = value; 
         }
 
-        //protected int _FormControlMenuIndex = -1;
-        //public int FormControlMenuIndex
-        //{
-        //    get => _FormControlMenuIndex;
-        //    set => _FormControlMenuIndex = value;
-        //}
-
         protected FormControlAttribute.FormType _FormControlType;
         public FormControlAttribute.FormType FormControlType
         { 
@@ -49,22 +42,11 @@ namespace SharedCode.Helpers
 
         public static int AttributesCount => 3;
 
-        //public FormControlAttributes(string formControlName, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex)
         public FormControlAttributes(string formControlName, string formControlMenuName, FormControlAttribute.FormType formType)
         {
             _FormControlName = formControlName;
             _FormControlMenuName = formControlMenuName;
-            //_FormControlMenuIndex = formControlMenuIndex;
             _FormControlType = formType;
         }
-
-        //public FormControlAttributes(string formControlType, string formControlMenuName, FormControlAttribute.FormType formType, int formControlMenuIndex, StorageFile formControlFile)
-        //{
-        //    FormControlName = formControlType;
-        //    FormControlMenuName = formControlMenuName;
-        //    FormControlMenuIndex = formControlMenuIndex;
-        //    FormControlType = formType;
-        //    FormControlFile = formControlFile;
-        //}
     }
 }

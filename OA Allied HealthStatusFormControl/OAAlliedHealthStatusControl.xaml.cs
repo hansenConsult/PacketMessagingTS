@@ -6,6 +6,7 @@ using FormUserControl;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
@@ -70,6 +71,12 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override void AppendDrillTraffic()
         { }
+
+        public override void SetPracticeField(string practiceField)
+        {
+            facilityName.Text = practiceField;
+            //UpdateFormFieldsRequiredColors();
+        }
 
         public override Panel CanvasContainer => container;
 
@@ -224,35 +231,35 @@ namespace OAAlliedHealthStatus201802FormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public override void FillFormFromFormFields(FormField[] formFields)
-        {
-            bool found1 = false;
-            foreach (FormField formField in formFields)
-            {
-                FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
-                FrameworkElement control = formControl?.InputControl;
-                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
-                    continue;
+        //public override void FillFormFromFormFields(FormField[] formFields)
+        //{
+        //    bool found1 = false;
+        //    foreach (FormField formField in formFields)
+        //    {
+        //        FormControl formControl = _formControlsList.Find(x => x.InputControl.Name == formField.ControlName);
+        //        FrameworkElement control = formControl?.InputControl;
+        //        if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+        //            continue;
 
-                if (control is TextBox textBox)
-                {
-                    switch (control.Name)
-                    {
-                        case "facilityName":        // Needed for Practice subject
-                            FacilityName = formField.ControlContent;
-                            found1 = true;
-                            break;
-                        case null:
-                            continue;
-                    }
-                }
-                if (found1)
-                    break;
-            }
-            base.FillFormFromFormFields(formFields);
+        //        if (control is TextBox textBox)
+        //        {
+        //            switch (control.Name)
+        //            {
+        //                case "facilityName":        // Needed for Practice subject
+        //                    FacilityName = formField.ControlContent;
+        //                    found1 = true;
+        //                    break;
+        //                case null:
+        //                    continue;
+        //            }
+        //        }
+        //        if (found1)
+        //            break;
+        //    }
+        //    base.FillFormFromFormFields(formFields);
 
-            UpdateFormFieldsRequiredColors();
-        }
+        //    UpdateFormFieldsRequiredColors();
+        //}
 
         public override void MsgTimeChanged(string msgTime)
         {

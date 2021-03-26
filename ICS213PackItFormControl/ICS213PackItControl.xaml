@@ -442,10 +442,11 @@
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Text="10. Subject:" Style="{StaticResource LabelFontTNR14B}" Margin="4,0,0,0"/>
                                 <TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" 
-                                          Text="{x:Bind Subject, Mode=TwoWay}"
+                                          
                                           Tag="10.,required,Enter a Subject." 
                                           TextChanged="Subject_Changed"                                           
                                           Margin="4,2,4,2" IsSpellCheckEnabled="True" Grid.ColumnSpan="2" />
+                                <!--Text="{x:Bind Subject, Mode=TwoWay}"-->
                                 <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" 
                                         BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="11. Reference:" 

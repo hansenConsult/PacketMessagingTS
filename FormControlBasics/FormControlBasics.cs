@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 using SharedCode;
+using SharedCode.Models;
 
 using ToggleButtonGroupControl;
 

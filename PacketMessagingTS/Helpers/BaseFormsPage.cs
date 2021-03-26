@@ -30,7 +30,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 using PacketMessagingTS.ViewModels;
-using PacketMessagingTS.Models;
 
 namespace PacketMessagingTS.Helpers
 {
@@ -184,8 +183,6 @@ namespace PacketMessagingTS.Helpers
         public FormsViewModel ViewModel
         { get; set; }
 
-        //public MessageOrigin MessageOrigin => _messageOrigin;
-
 
         //public BaseFormsPage()
         //{
@@ -217,18 +214,18 @@ namespace PacketMessagingTS.Helpers
             return pivotItem;
         }
 
-        protected virtual void PopulateFormsPagePivot()
-        {
-            foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
-            {
-                if (string.IsNullOrEmpty(formControlAttribute.FormControlMenuName))
-                {
-                    continue;
-                }
-                PivotItem pivotItem = CreatePivotItem(formControlAttribute);
-                _formsPagePivot.Items.Add(pivotItem);
-            }
-        }
+        //protected virtual void PopulateFormsPagePivot()
+        //{
+        //    foreach (FormControlAttributes formControlAttribute in _formControlAttributeList)
+        //    {
+        //        if (string.IsNullOrEmpty(formControlAttribute.FormControlMenuName))
+        //        {
+        //            continue;
+        //        }
+        //        PivotItem pivotItem = CreatePivotItem(formControlAttribute);
+        //        _formsPagePivot.Items.Add(pivotItem);
+        //    }
+        //}
 
         protected virtual void PopulateFormsPagePivot(List<FormControlAttributes> formControlAttributes, string[] formControlMenuNames)
         {
@@ -301,7 +298,6 @@ namespace PacketMessagingTS.Helpers
                             string formControlName = "";
                             FormControlAttribute.FormType formControlType = FormControlAttribute.FormType.Undefined;
                             string formControlMenuName = "";
-                            int formControlMenuIndex = 0;
                             foreach (CustomAttributeNamedArgument arg in namedArguments)
                             {
                                 if (arg.MemberName == "FormControlName")
@@ -324,10 +320,6 @@ namespace PacketMessagingTS.Helpers
                                 {
                                     formControlMenuName = arg.TypedValue.Value as string;
                                 }
-                                //else if (arg.MemberName == "FormControlMenuIndex")
-                                //{
-                                //    formControlMenuIndex = (int)arg.TypedValue.Value;
-                                //}
                             }
                             if (formControlTypeFound)
                             {

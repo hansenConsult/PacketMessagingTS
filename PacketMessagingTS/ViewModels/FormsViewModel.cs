@@ -26,14 +26,16 @@ using Microsoft.Toolkit.Mvvm.Input;
 
 using MetroLog;
 
+using OA_Allied_HealthStatusFormControl;
+
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 using PacketMessagingTS.Services.CommunicationsService;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Models;
 
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
@@ -228,9 +230,6 @@ namespace PacketMessagingTS.ViewModels
         {
             //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
             FormControlBase formControl = null;
-            //IReadOnlyList<StorageFile> files = SharedData.FilesInInstalledLocation;
-            //if (files is null)
-            //    return null;
 
             Type foundType = null;
             //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
@@ -283,6 +282,61 @@ namespace PacketMessagingTS.ViewModels
                 }
                 if (foundType != null)
                     break;
+            }
+
+            if (foundType != null)
+            {
+                try
+                {
+                    formControl = (FormControlBase)Activator.CreateInstance(foundType);
+                    //object[] parameters = new object[] { messageState };
+                    //formControl = (FormControlBase)Activator.CreateInstance(foundType, parameters);
+                }
+                catch (Exception e)
+                {
+                    _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
+                }
+            }
+            return formControl;
+        }
+
+        public static FormControlBase CreateUserControlInstance(Type userControlType)
+        {
+            //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
+            FormControlBase formControl = null;
+
+            Type foundType = null;
+            //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
+            foreach (Assembly assembly in SharedData.Assemblies)
+            {
+                try
+                {
+                    //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
+                    foreach (Type classType in assembly.GetTypes())
+                    {
+                        var attrib = classType.GetTypeInfo();
+                        //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
+                        foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+                        {
+                            if (customAttribute.AttributeType != typeof(FormControlAttribute))
+                                continue;
+
+
+                            //    var formControlType = namedArguments[0].TypedValue.Value as string;
+                            //    if (formControlType == formControlName)
+                            //    {
+                            //        foundType = classType;
+                            //        break;
+                            //    }
+                            //}
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
+                    continue;
+                }
             }
 
             if (foundType != null)
@@ -381,17 +435,21 @@ namespace PacketMessagingTS.ViewModels
         public void FillFormFromPacketMessage()
         {
             //_packetForm.FormProvider = _packetMessage.FormProvider;
-            _packetAddressForm.MessageBBS = _packetMessage.BBSName;
-            _packetAddressForm.MessageTNC = _packetMessage.TNCName;
+            //_packetAddressForm.MessageBBS = _packetMessage.BBSName;
+            SendFormDataControlViewModel.Instance.MessageBBS = _packetMessage.BBSName;
+            SendFormDataControlViewModel.Instance.MessageTNC = _packetMessage.TNCName;
             if (_packetMessage.MessageState == MessageState.Locked)
             {
                 _packetForm.LockForm();
                 _packetAddressForm.LockForm();
             }
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
-            _packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
-            _packetAddressForm.MessageTo = _packetMessage.MessageTo;
-            _packetAddressForm.MessageSubject = _packetMessage.Subject;
+            SendFormDataControlViewModel.Instance.MessageFrom = _packetMessage.MessageFrom;
+            //_packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
+            //_packetAddressForm.MessageTo = _packetMessage.MessageTo;
+            SendFormDataControlViewModel.Instance.MessageTo = _packetMessage.MessageTo;
+            //_packetAddressForm.MessageSubject = _packetMessage.Subject;
+            SendFormDataControlViewModel.Instance.MessageSubject = _packetMessage.Subject;
 
             //string opcall = _packetForm.OperatorCallsign;//test
             // Special handling for SimpleMessage
@@ -432,21 +490,21 @@ namespace PacketMessagingTS.ViewModels
         {
             if (e?.SubjectLine?.Length > 0) // Why this test?
             {
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+                SendFormDataControlViewModel.Instance.MessageSubject = _packetForm.CreateSubject();
                 if (_packetMessage != null)
                 {
-                    _packetMessage.Subject = _packetAddressForm.MessageSubject;
+                    _packetMessage.Subject = SendFormDataControlViewModel.Instance.MessageSubject;
                 }
             }
         }
 
         void SimpleMessage_SubjectChange(object sender, FormEventArgs e)
         {
-            _packetAddressForm.MessageSubject = $"{MessageNo}_R_{e?.SubjectLine}";
+            SendFormDataControlViewModel.Instance.MessageSubject = $"{MessageNo}_R_{e?.SubjectLine}";
             
             if (_packetMessage != null)
             {
-                _packetMessage.Subject = _packetAddressForm.MessageSubject;
+                _packetMessage.Subject = SendFormDataControlViewModel.Instance.MessageSubject;
             }
         }
 
@@ -480,6 +538,7 @@ namespace PacketMessagingTS.ViewModels
             }
 
             _packetAddressForm = new SendFormDataControl
+            //_packetAddressForm = CreateUserControlInstance(typeof(AddressFormControl))
             {
                 FormPacketMessage = _packetMessage
             };
@@ -554,7 +613,7 @@ namespace PacketMessagingTS.ViewModels
                 stackPanel.Children.Insert(0, _packetForm);
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
-                _packetAddressForm.MessageSubject = _packetForm.CreateSubject();
+                SendFormDataControlViewModel.Instance.MessageSubject = _packetForm.CreateSubject();
             }
 
             if (!LoadMessage)
@@ -570,29 +629,36 @@ namespace PacketMessagingTS.ViewModels
                     _packetForm.TacticalCallsign = IdentityViewModel.Instance.TacticalCallsign;
                 }
 
-                if (_packetAddressForm.MessageTo.Contains("PKTMON") || _packetAddressForm.MessageTo.Contains("PKTTUE"))
+                if (SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTMON")
+                        || SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTTUE"))
                 {
                     HandlingOrder = "routine";
                     MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
-                    switch (_packetForm.PacFormType)
-                    {
-                        case "ICS213":
-                            _packetForm.Severity = "other";
-                            _packetForm.Subject = practiceSubject;
-                            break;
-                        case "XSC_EOC_213RR":
-                            _packetForm.IncidentName = practiceSubject;
-                            break;
-                        case "OA Municipal Status":
-                            // Use Jurisdiction Name
-                            break;
-                        case "OAShelterStat":
-                            _packetForm.ShelterName = practiceSubject;
-                            break;
-                        case "Allied_Health_Status":
-                            _packetForm.FacilityName = practiceSubject;
-                            break;
-                    }
+
+                    _packetForm.SetPracticeField(practiceSubject);
+
+                    //switch (_packetForm.PacFormType)
+                    //{
+                        //case "ICS213":
+                        //    _packetForm.Severity = "other";
+                        //    //_packetForm.Subject = practiceSubject;
+                        //    _packetForm.SetPracticeField(practiceSubject);
+                        //    break;
+                        //case "XSC_EOC_213RR":
+                        //    //_packetForm.IncidentName = practiceSubject;
+                        //    _packetForm.SetPracticeField(practiceSubject);
+                        //    break;
+                        //case "OA Municipal Status":
+                        //    // Use Jurisdiction Name
+                        //    break;
+                        //case "OAShelterStat":
+                        //    _packetForm.ShelterName = practiceSubject;
+                        //    break;
+                    //    case "Allied_Health_Status":
+                    //        //_packetForm.FacilityName = practiceSubject;
+                    //        OAAlliedHealthStatusControlViewModel.Instance.FacilityName = practiceSubject;
+                    //        break;
+                    //}
                 }
                 IsAppBarSendEnabled = true;
             }
@@ -658,14 +724,17 @@ namespace PacketMessagingTS.ViewModels
             _packetMessage = new PacketMessage()
             {
                 FormControlType = PacketForm.FormControlType,
-                BBSName = PacketAddressForm.MessageBBS,
-                TNCName = PacketAddressForm.MessageTNC,
+                //BBSName = PacketAddressForm.MessageBBS,
+                BBSName = SendFormDataControlViewModel.Instance.MessageBBS,
+                TNCName = SendFormDataControlViewModel.Instance.MessageTNC,
                 FormFieldArray = PacketForm.CreateFormFieldsInXML(),
                 FormProvider = PacketForm.FormProvider,
                 PacFormName = PacketForm.GetPacFormName(),
                 PacFormType = PacketForm.PacFormType,
-                MessageFrom = PacketAddressForm.MessageFrom,
-                MessageTo = PacketAddressForm.MessageTo,
+                //MessageFrom = PacketAddressForm.MessageFrom,
+                MessageFrom = SendFormDataControlViewModel.Instance.MessageFrom,
+                //MessageTo = PacketAddressForm.MessageTo,
+                MessageTo = SendFormDataControlViewModel.Instance.MessageTo,
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
             };
@@ -676,7 +745,7 @@ namespace PacketMessagingTS.ViewModels
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
             string subject = _packetForm.CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
-            _packetMessage.Subject = subject ?? PacketAddressForm.MessageSubject;
+            _packetMessage.Subject = subject ?? SendFormDataControlViewModel.Instance.MessageSubject;
             if (!_packetMessage.CreateFileName())
             {
                 throw new Exception();
@@ -715,7 +784,7 @@ namespace PacketMessagingTS.ViewModels
 
             string subject = _packetForm.CreateSubject();
             // subject is "null" for Simple Message, otherwise use the form generated subject line
-            packetMessage.Subject = (subject ?? PacketAddressForm.MessageSubject);
+            packetMessage.Subject = (subject ?? SendFormDataControlViewModel.Instance.MessageSubject);
             packetMessage.MessageBody = PacketForm.CreateOutpostData(ref packetMessage);
 
             string messageText = $"{packetMessage.Subject}\r\n\r\n{packetMessage.MessageBody}";

@@ -453,13 +453,10 @@ namespace PacketMessagingTS.Views
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
-        //public ToolsViewModel _toolsViewModel { get; } = new ToolsViewModel();
         private ToolsViewModel _toolsViewModel = ToolsViewModel.Instance;
-        //public ICS309ViewModel Ics309ViewModel { get; } = Singleton<ICS309ViewModel>.Instance;
         private ICS309ViewModel Ics309ViewModel = ICS309ViewModel.Instance;
 
         StorageFile _selectedFile;
-        //private int _selectedTestFileIndex;
         PivotItem _currentPivotItem;
 
         private PrintHelper _printHelper;

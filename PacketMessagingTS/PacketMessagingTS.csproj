@@ -150,6 +150,7 @@
     <Compile Include="Controls\NewTabContentDialog.xaml.cs">
       <DependentUpon>NewTabContentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SendFormDataControlViewModel.cs" />
     <Compile Include="Controls\SendFormDataControl.xaml.cs">
       <DependentUpon>SendFormDataControl.xaml</DependentUpon>
     </Compile>
@@ -176,18 +177,15 @@
     <Compile Include="Helpers\SharedData.cs" />
     <Compile Include="Helpers\TimeConverter.cs" />
     <Compile Include="Helpers\Utilities.cs" />
-    <Compile Include="Models\AddressBook.cs" />
     <Compile Include="Models\BBSData.cs" />
     <Compile Include="Models\CommLog.cs" />
     <Compile Include="Models\CustomFoldersArray.cs" />
     <Compile Include="Models\distributionlists.cs" />
     <Compile Include="Models\Emailaccounts.cs" />
     <Compile Include="Models\FormMenuIndices.cs" />
-    <Compile Include="Models\GroupInfoList.cs" />
     <Compile Include="Models\printconfig.cs" />
     <Compile Include="Models\Profiles.cs" />
     <Compile Include="Models\TNCDevices.cs" />
-    <Compile Include="Models\UserAddressBook.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTransfer.cs" />
@@ -392,6 +390,10 @@
     <Compile Include="Helpers\ResourceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormControlBaseMvvm\FormControlBaseMvvm.csproj">
+      <Project>{bb21a7f7-05fb-4fa2-b9a5-8e8a8176cdaf}</Project>
+      <Name>FormControlBaseMvvm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FormControlBase\FormControlBase.csproj">
       <Project>{54cd4d6d-9d4f-4270-907a-d6b5eba3518f}</Project>
       <Name>FormControlBase</Name>
@@ -512,6 +514,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\ViewModels\" />
     <Folder Include="Converters\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

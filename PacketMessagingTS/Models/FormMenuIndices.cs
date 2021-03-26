@@ -44,7 +44,7 @@ namespace PacketMessagingTS.Models
 
         public static FormMenuIndexDefinitions Instance { get; private set; } = new FormMenuIndexDefinitions();
 
-        public static string FormMenuIndexDefinitionsFileName = "FormMenuIndices.xml";
+        public static string FormMenuIndexDefinitionsFileName = "FormMenuOrder.xml";
 
 
         private string[] countyFormsMenuNamesField;
@@ -111,7 +111,6 @@ namespace PacketMessagingTS.Models
             foreach (Assembly assembly in SharedData.Assemblies)
             {
                 Type[] expTypes = assembly.GetExportedTypes();
-                //Type[] types = assembly.GetTypes();
                 foreach (Type classType in expTypes)
                 {
                     //_logHelper.Log(LogLevel.Info, $"Type: {classType.Name}");
@@ -127,7 +126,6 @@ namespace PacketMessagingTS.Models
                             string formControlName = "";
                             FormControlAttribute.FormType formControlType = FormControlAttribute.FormType.Undefined;
                             string formControlMenuName = "";
-                            //int formControlMenuIndex = 0;
                             foreach (CustomAttributeNamedArgument arg in namedArguments)
                             {
                                 if (arg.MemberName == "FormControlName")
@@ -142,10 +140,6 @@ namespace PacketMessagingTS.Models
                                 {
                                     formControlMenuName = arg.TypedValue.Value as string;
                                 }
-                                //else if (arg.MemberName == "FormControlMenuIndex")
-                                //{
-                                //    formControlMenuIndex = (int)arg.TypedValue.Value;
-                                //}
                             }
                             FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType);
                             formControlAttributeList.Add(formControlAttributes);
@@ -167,42 +161,51 @@ namespace PacketMessagingTS.Models
             }
             if (storageItem is null || size == 0)
             {
-                // Create a new file
-                List<string> countyFormsList = new List<string>();
-                List<string> cityFormsList = new List<string>();
-                List<string> hospitalFormsList = new List<string>();
-                List<string> otherFormsList = new List<string>();
-
-                List<FormControlAttributes> formControlAttributeList = ScanFormAttributes();
-                foreach (FormControlAttributes formControlAttribute in formControlAttributeList)
+                var assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                StorageFile menuOrderDataFile = await assetsFolder.GetFileAsync(FormMenuIndexDefinitionsFileName);
+                if (menuOrderDataFile != null)
                 {
-                    switch (formControlAttribute.FormControlType)
-                    {
-                        case FormControlAttribute.FormType.Undefined:
-                            break;
-                        case FormControlAttribute.FormType.None:
-                            countyFormsList.Add(formControlAttribute.FormControlMenuName);
-                            break;
-                        case FormControlAttribute.FormType.CountyForm:
-                            countyFormsList.Add(formControlAttribute.FormControlMenuName);
-                            break;
-                        case FormControlAttribute.FormType.CityForm:
-                            cityFormsList.Add(formControlAttribute.FormControlMenuName);
-                            break;
-                        case FormControlAttribute.FormType.HospitalForm:
-                            hospitalFormsList.Add(formControlAttribute.FormControlMenuName);
-                            break;
-                        case FormControlAttribute.FormType.TestForm:
-                            otherFormsList.Add(formControlAttribute.FormControlMenuName);
-                            break;
-                    }
+                    await menuOrderDataFile.CopyAsync(localFolder, FormMenuIndexDefinitionsFileName, NameCollisionOption.ReplaceExisting);
                 }
-                CountyFormsMenuNames = countyFormsList.ToArray();
-                CityFormsMenuNames = cityFormsList.ToArray();
-                HospitalFormsMenuNames = hospitalFormsList.ToArray();
-                OtherFormsMenuNames = otherFormsList.ToArray();
+                else
+                {
+                    // Create a new file. Only used in special cases, normally copy from Assets
+                    List<string> countyFormsList = new List<string>();
+                    List<string> cityFormsList = new List<string>();
+                    List<string> hospitalFormsList = new List<string>();
+                    List<string> otherFormsList = new List<string>();
 
-                SaveAsync();
+                    List<FormControlAttributes> formControlAttributeList = ScanFormAttributes();
+                    foreach (FormControlAttributes formControlAttribute in formControlAttributeList)
+                    {
+                        switch (formControlAttribute.FormControlType)
+                        {
+                            case FormControlAttribute.FormType.Undefined:
+                                break;
+                            case FormControlAttribute.FormType.None:
+                                countyFormsList.Add(formControlAttribute.FormControlMenuName);
+                                break;
+                            case FormControlAttribute.FormType.CountyForm:
+                                countyFormsList.Add(formControlAttribute.FormControlMenuName);
+                                break;
+                            case FormControlAttribute.FormType.CityForm:
+                                cityFormsList.Add(formControlAttribute.FormControlMenuName);
+                                break;
+                            case FormControlAttribute.FormType.HospitalForm:
+                                hospitalFormsList.Add(formControlAttribute.FormControlMenuName);
+                                break;
+                            case FormControlAttribute.FormType.TestForm:
+                                otherFormsList.Add(formControlAttribute.FormControlMenuName);
+                                break;
+                        }
+                    }
+                    CountyFormsMenuNames = countyFormsList.ToArray();
+                    CityFormsMenuNames = cityFormsList.ToArray();
+                    HospitalFormsMenuNames = hospitalFormsList.ToArray();
+                    OtherFormsMenuNames = otherFormsList.ToArray();
+
+                    SaveAsync();
+                }
             }
 
             try

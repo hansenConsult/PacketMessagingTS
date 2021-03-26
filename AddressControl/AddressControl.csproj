@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA1E4573-9165-4F4E-973F-54A8DF18F1A8}</ProjectGuid>
+    <ProjectGuid>{DD75FC81-CCD2-4D77-8FA4-D1C6E5AD738B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FormControlBasics</RootNamespace>
-    <AssemblyName>FormControlBasics</AssemblyName>
+    <RootNamespace>AddressControl</RootNamespace>
+    <AssemblyName>AddressControl</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -120,26 +120,35 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FormControlBasics.cs" />
+    <Compile Include="AddressControl.xaml.cs">
+      <DependentUpon>AddressControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddressControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\FormControlBasics.rd.xml" />
+    <EmbeddedResource Include="Properties\AddressControl.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.12</Version>
+      <Version>6.2.11</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Mvvm">
       <Version>7.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedCode\SharedCode.csproj">
-      <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
-      <Name>SharedCode</Name>
+    <Page Include="AddressControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FormControlBasics\FormControlBasics.csproj">
+      <Project>{aa1e4573-9165-4f4e-973f-54a8df18f1a8}</Project>
+      <Name>FormControlBasics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToggleButtonGroupControl\ToggleButtonGroupControl.csproj">
-      <Project>{b448e071-59c5-4198-908f-ee3120bf4f7b}</Project>
-      <Name>ToggleButtonGroupControl</Name>
+    <ProjectReference Include="..\SharedCode\SharedCode.csproj">
+      <Project>{03326178-E925-46C1-B4C7-EA5700C30102}</Project>
+      <Name>SharedCode</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

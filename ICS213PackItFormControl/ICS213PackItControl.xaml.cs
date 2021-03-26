@@ -73,6 +73,12 @@ namespace ICS213PackItFormControl
             message.Text += DrillTraffic;
         }
 
+        public override void SetPracticeField(string practiceField)
+        {
+            subject.Text = practiceField;
+            UpdateFormFieldsRequiredColors();       // TODO check this
+        }
+
         public override Panel DirectPrintContainer => directPrintContainer;
 
         public override Panel CanvasContainer => container;
@@ -236,33 +242,33 @@ namespace ICS213PackItFormControl
         //    return CreateOutpostMessageBody(_outpostData);
         //}
 
-        public override void FillFormFromFormFields(FormField[] formFields)
-        {
-            bool found1 = false;
-            foreach (FormField formField in formFields)
-            {
-                FrameworkElement control = GetFrameworkElement(formField);
+        //public override void FillFormFromFormFields(FormField[] formFields)
+        //{
+        //    bool found1 = false;
+        //    foreach (FormField formField in formFields)
+        //    {
+        //        FrameworkElement control = GetFrameworkElement(formField);
 
-                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
-                    continue;
+        //        if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+        //            continue;
 
-                if (control is TextBox textBox)
-                {
-                    switch (control.Name)
-                    {
-                        case "subject":
-                            Subject = formField.ControlContent;
-                            found1 = true;
-                            break;
-                        case null:
-                            continue;
-                    }
-                }
-                if (found1)
-                    break;
-            }
-            base.FillFormFromFormFields(formFields);
-        }
+        //        if (control is TextBox textBox)
+        //        {
+        //            switch (control.Name)
+        //            {
+        //                case "subject":
+        //                    Subject = formField.ControlContent;
+        //                    found1 = true;
+        //                    break;
+        //                case null:
+        //                    continue;
+        //            }
+        //        }
+        //        if (found1)
+        //            break;
+        //    }
+        //    base.FillFormFromFormFields(formFields);
+        //}
 
 
         //private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject

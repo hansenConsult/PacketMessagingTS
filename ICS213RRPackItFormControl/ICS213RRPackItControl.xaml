@@ -51,11 +51,11 @@
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBox Grid.Row="0" Grid.Column="0" Name="incidentName" Margin="2" AcceptsReturn="True" 
-                                    Text="{x:Bind IncidentName, Mode=TwoWay}"
                                     TextChanged="Subject_Changed" 
 									Tag="21.,required,Enter the Incident Name."
                                     HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
                                     Header="1. Incident Name:"/>
+                            <!--Text="{x:Bind IncidentName, Mode=TwoWay}"-->
                             <Grid Grid.Row="0" Grid.Column="1" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -64,13 +64,13 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                                 <TextBox Grid.Column="0" Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
-                                        Text="{x:Bind InitiatedDate, Mode=TwoWay}"
+                                        
                                         Style="{StaticResource MuniStatusDateTextBox}"                                             
                                         TextChanged="TextBox_DateChanged"
                                         Tag="22.,required,Enter the Date Initialized."
                                         HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
                                         Header="2. Date Initiated:"/>
-
+                                <!--Text="{x:Bind InitiatedDate, Mode=TwoWay}"-->
                                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                                 <TextBox Grid.Column="1" Name="initiatedTime" PlaceholderText="hh:mm" 
                                         Style="{StaticResource MuniStatusTimeTextBox}"                                         

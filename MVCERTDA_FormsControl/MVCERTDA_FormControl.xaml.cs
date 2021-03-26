@@ -49,7 +49,8 @@ namespace MVCERTDA_FormsControl
             //autoSuggestBoxToICSPosition.Text = "Planning";
             comboBoxToICSPosition.SelectedItem = "Planning";
             comboBoxFromICSPosition.SelectedItem = "Planning";
-            ToLocation = "Mountain View EOC";
+            //ToLocation = "Mountain View EOC";
+            textBoxToLocation.Text = "Mountain View EOC";
             ReceivedOrSent = "sent";
             HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
@@ -124,12 +125,13 @@ namespace MVCERTDA_FormsControl
             set => SetProperty(ref toICSPosition, value);
         }
 
-        private string toLocation;
-        public string ToLocation
-        {
-            get => toLocation;
-            set => SetProperty(ref toLocation, value);
-        }
+        //private string toLocation;
+        //public string ToLocation
+        //{
+        //    get => toLocation;
+        //    //set => SetProperty(ref toLocation, value);
+        //    set => textBoxToLocation.Text = value;
+        //}
 
         private string fromLocation;
         public string FromLocation

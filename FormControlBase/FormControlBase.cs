@@ -12,6 +12,7 @@ using FormUserControl;
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Helpers.PrintHelpers;
+using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -300,8 +301,8 @@ namespace FormControlBaseClass
             set => SetProperty(ref _IncidentName, value);
         }
 
-        public virtual string FacilityName      // Required for setting Practice
-        { get; set; }
+        //public virtual string FacilityName      // Required for setting Practice Using local ViewModel for now
+        //{ get; set; }
 
         // Implemented this way to facilitate synchronizing two name fields and required for setting Practice 
         private string _shelterName;
@@ -1126,9 +1127,6 @@ namespace FormControlBaseClass
                         {
                             RadioOperatorUserControl radioOperatorControl = formControl.UserControl as RadioOperatorUserControl;
 
-                            //var formCtrl = radioOperatorControl.FormControlsList.Find(x => GetTagIndex(x.InputControl) == formField.ControlIndex);
-                            //(formCtrl.InputControl as TextBox).Text = textBox.Text;
-
                             switch (control.Name)
                             {
                                 case "operatorCallsign":
@@ -1295,6 +1293,8 @@ namespace FormControlBaseClass
 
 			return convertedLine;
 		}
+
+        public virtual void SetPracticeField(string practiceField)  {  }
 
         protected virtual void UpdateRequiredFields(bool required)
         {

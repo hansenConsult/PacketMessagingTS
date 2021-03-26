@@ -1,7 +1,6 @@
 ﻿using MetroLog;
 
 using SharedCode;
-using SharedCode.Models;
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ using System.Xml.Serialization;
 
 using Windows.Storage;
 
-namespace PacketMessagingTS.Models
+namespace SharedCode.Models
 {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
     //[System.SerializableAttribute()]

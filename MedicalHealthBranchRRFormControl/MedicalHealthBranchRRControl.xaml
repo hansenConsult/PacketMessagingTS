@@ -324,7 +324,7 @@
                                       Tag="26.,required"/>
                             <!--DisplayMemberPath="Item"-->
 
-                            <TextBox x:Name="priorityTextBox" Width="150"
+                            <TextBox x:Name="ReqPriorityTextBox" Width="150"
                                      Visibility="Collapsed" />
                         </StackPanel>
                         <StackPanel Grid.Row="6" BorderBrush="Black" BorderThickness="1,0,1,0">

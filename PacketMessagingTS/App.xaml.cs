@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using MetroLog;
 using MetroLog.Targets;
 
-using PacketMessagingTS.Core.Helpers;
-
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Services;
@@ -112,6 +110,20 @@ namespace PacketMessagingTS
             SharedData.UnsentMessagesFolder = await localFolder.CreateFolderAsync("UnsentMessages", CreationCollisionOption.OpenIfExists);
             SharedData.PrintMessagesFolder = await localFolder.CreateFolderAsync("PrintMessages", CreationCollisionOption.OpenIfExists);
 
+            //// Moved here for FormMenuIndexDefinitions.Instance.OpenAsync()
+            //SharedData.Assemblies = new List<Assembly>();
+            //AppDomain currentDomain = AppDomain.CurrentDomain;
+            //Assembly[] assemblies = currentDomain.GetAssemblies();
+            //foreach (Assembly assembly in assemblies)
+            //{
+            //    if (!assembly.FullName.Contains("FormControl"))
+            //        continue;
+
+            //    //_logHelper.Log(LogLevel.Info, $"Assembly: {assembly}");
+            //    SharedData.Assemblies.Add(assembly);
+            //}
+            ////_logHelper.Log(LogLevel.Info, $"Assembly count: {SharedData.Assemblies.Count}");
+
             foreach (TacticalCallsignData tacticalCallsignType in TacticalCallsigns._TacticalCallsignDataList)
             {
                 //Task<TacticalCallsigns> taskFinished = TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
@@ -135,7 +147,7 @@ namespace PacketMessagingTS
                 HospitalRollCall.Instance.OpenAsync(),
                 CustomFoldersArray.OpenAsync(),
                 FormMenuIndexDefinitions.Instance.OpenAsync(),
-        };
+            };
             while (tasks.Count > 0)
             {
                 Task finishedTask = await Task.WhenAny(tasks);

@@ -382,9 +382,10 @@
                                                          Style="{StaticResource ToFromTextBox}"
                                                          HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                          Header="9a.) Location:"
-                                                         Text="{x:Bind ToLocation, Mode=TwoWay}"
+                                                         
                                                          TextChanged="TextBox_TextChanged"
                                                          Tag="26,required,Enter a To Location."/>
+                                                <!--Text="{x:Bind ToLocation, Mode=TwoWay}"-->
                                             </StackPanel>
                                         </Border>
                                         <Border BorderBrush="Black" BorderThickness="0,0,0,1">

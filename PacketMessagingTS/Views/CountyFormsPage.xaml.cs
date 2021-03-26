@@ -45,7 +45,7 @@ namespace PacketMessagingTS.Views
             {
                 _formControlAttributeList = SharedData.FormControlAttributeCountyList;
             }
-            int indexCount = _formControlAttributeList.Count;
+            //int indexCount = _formControlAttributeList.Count;
             //PublicData.FormControlAttributesInMenuOrderCounty = new FormControlAttributes[indexCount];
 
             //PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderCounty);

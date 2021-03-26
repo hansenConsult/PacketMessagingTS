@@ -133,6 +133,11 @@ namespace OAShelterStatusFormControl
         public override void AppendDrillTraffic()
         { }
 
+        public override void SetPracticeField(string practiceField) 
+        {
+            shelterName.Text = practiceField;
+        }
+
         public override Panel CanvasContainer => container;
 
         public override Panel DirectPrintContainer => directPrintContainer;
@@ -230,10 +235,10 @@ namespace OAShelterStatusFormControl
                 {
                     switch (control.Name)
                     {
-                        case "shelterName":
-                            ShelterName = formField.ControlContent;
-                            found1 = true;
-                            break;
+                        //case "shelterName":
+                        //    ShelterName = formField.ControlContent;
+                        //    found1 = true;
+                        //    break;
                         case "capacity":
                             capacity.Text = formField.ControlContent;
                             UpdateAvailability();

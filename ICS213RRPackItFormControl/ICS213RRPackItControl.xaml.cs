@@ -105,21 +105,27 @@ namespace ICS213RRPackItFormControl
             get => _msgDate;
             set
             {
-                InitiatedDate = value;
+                initiatedDate.Text = value;
                 SetProperty(ref _msgDate, value);
             }
         }
 
-        private string _initiatedDate;
-        public string InitiatedDate
-        {
-            get => _initiatedDate;
-            set => SetProperty(ref _initiatedDate, value);
-        }
+        //private string _initiatedDate;
+        //public string InitiatedDate
+        //{
+        //    get => _initiatedDate;
+        //    set => SetProperty(ref _initiatedDate, value);
+        //}
 
         public override void AppendDrillTraffic()
         {
             specialInstructions.Text += DrillTraffic;
+        }
+
+        public override void SetPracticeField(string practiceField)
+        {
+            incidentName.Text = practiceField;
+            UpdateFormFieldsRequiredColors();       // TODO check this
         }
 
         public override Panel CanvasContainer => container;
@@ -180,37 +186,37 @@ namespace ICS213RRPackItFormControl
             TextBox_TextChanged(textBox, null);
         }
 
-        public override void FillFormFromFormFields(FormField[] formFields)
-        {
-            bool found1 = false, found2 = false;
-            foreach (FormField formField in formFields)
-            {
-                FrameworkElement control = GetFrameworkElement(formField);
+        //public override void FillFormFromFormFields(FormField[] formFields)
+        //{
+        //    bool found1 = false, found2 = true;
+        //    foreach (FormField formField in formFields)
+        //    {
+        //        FrameworkElement control = GetFrameworkElement(formField);
 
-                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
-                    continue;
+        //        if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+        //            continue;
 
-                if (control is TextBox textBox)
-                {
-                    switch (control.Name)
-                    {
-                        case "initiatedDate":
-                            InitiatedDate = formField.ControlContent;
-                            found1 = true;
-                            break;
-                        case "incidentName":
-                            IncidentName = formField.ControlContent;
-                            found2 = true;
-                            break;
-                        case null:
-                            continue;
-                    }
-                }
-                if (found1 && found2)
-                    break;
-            }
-            base.FillFormFromFormFields(formFields);
-        }
+        //        if (control is TextBox textBox)
+        //        {
+        //            switch (control.Name)
+        //            {
+        //                case "initiatedDate":
+        //                    InitiatedDate = formField.ControlContent;
+        //                    found1 = true;
+        //                    break;
+        //                //case "incidentName":
+        //                //    IncidentName = formField.ControlContent;
+        //                //    found2 = true;
+        //                //    break;
+        //                case null:
+        //                    continue;
+        //            }
+        //        }
+        //        if (found1 && found2)
+        //            break;
+        //    }
+        //    base.FillFormFromFormFields(formFields);
+        //}
 
         //private void resourceInfoPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{

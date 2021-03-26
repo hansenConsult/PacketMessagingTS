@@ -24,7 +24,6 @@ namespace SharedCode.Helpers
         //{
         //    _FormControlName = formControlName;
         //    _FormControlMenuName = formControlMenuName;
-        //    _FormControlMenuIndex = formControlMenuIndex;
         //    _FormControlType = formType;
         //}
 
@@ -36,9 +35,6 @@ namespace SharedCode.Helpers
             set => _FormControlName = value;
         }
 
-        // Form file name
-        //public string FormControlName { get; set; }    // 
-
         // Form type (County, Hospital etc.)
         protected FormControlAttribute.FormType _FormControlType;
         public FormControlAttribute.FormType FormControlType
@@ -46,7 +42,6 @@ namespace SharedCode.Helpers
             get => _FormControlType;
             set => _FormControlType = value;
         }
-        //public FormType FormControlType { get; set; }
 
         // Menu text
         protected string _FormControlMenuName;
@@ -55,13 +50,5 @@ namespace SharedCode.Helpers
             get => _FormControlMenuName;
             set => _FormControlMenuName = value;
         }
-
-        // Menu index
-        //protected int _FormControlMenuIndex = -1;
-        //public int FormControlMenuIndex
-        //{
-        //    get => _FormControlMenuIndex;
-        //    set => _FormControlMenuIndex = value;
-        //}
     }
 }

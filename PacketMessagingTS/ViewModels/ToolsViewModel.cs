@@ -22,7 +22,6 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 int index = GetProperty(ref toolsPivotSelectedIndex);
-                //if (index >= PublicData.FormControlAttributesInMenuOrderOther.Length || index < 0)
                 if ( index >= ToolsPagePivot.Items.Count || index < 0)
                     index = 0;
                 return index;

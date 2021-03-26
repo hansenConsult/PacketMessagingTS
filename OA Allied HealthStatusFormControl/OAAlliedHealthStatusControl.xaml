@@ -386,9 +386,10 @@
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Header="Facility Name:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"  
-                                     Text="{x:Bind FacilityName, Mode=TwoWay}"
+                                     
                                      Tag="13,required,Enter the Facility Name." 
                                      TextChanged="Subject_Changed" />
+                            <!--Text="{x:Bind OAAlliedHealthStatusControlViewModel.FacilityName, Mode=TwoWay}"-->
                             <Grid Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>

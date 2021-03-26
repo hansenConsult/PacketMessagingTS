@@ -45,7 +45,7 @@ namespace PacketMessagingTS.Views
             {
                 _formControlAttributeList = SharedData.FormControlAttributeTestList;
             }
-            int indexCount = _formControlAttributeList.Count;
+            //int indexCount = _formControlAttributeList.Count;
             //PublicData.FormControlAttributesInMenuOrderOther = new FormControlAttributes[indexCount];
 
             //PopulateFormsPagePivot(PublicData.FormControlAttributesInMenuOrderOther);
