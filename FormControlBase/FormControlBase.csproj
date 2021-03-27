@@ -130,6 +130,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormControlBaseMvvm\FormControlBaseMvvm.csproj">
+      <Project>{bb21a7f7-05fb-4fa2-b9a5-8e8a8176cdaf}</Project>
+      <Name>FormControlBaseMvvm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FormControlBasics\FormControlBasics.csproj">
       <Project>{aa1e4573-9165-4f4e-973f-54a8df18f1a8}</Project>
       <Name>FormControlBasics</Name>

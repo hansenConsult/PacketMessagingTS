@@ -136,6 +136,7 @@ namespace OAShelterStatusFormControl
         public override void SetPracticeField(string practiceField) 
         {
             shelterName.Text = practiceField;
+            shelterDetailsName.Text = practiceField;
         }
 
         public override Panel CanvasContainer => container;
@@ -223,7 +224,7 @@ namespace OAShelterStatusFormControl
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
-            bool found1 = false, found2 = false, found3 = false;
+            bool found1 = true, found2 = false, found3 = false;
             foreach (FormField formField in formFields)
             {
                 FrameworkElement control = GetFrameworkElement(formField);
@@ -236,8 +237,9 @@ namespace OAShelterStatusFormControl
                     switch (control.Name)
                     {
                         //case "shelterName":
-                        //    ShelterName = formField.ControlContent;
-                        //    found1 = true;
+                        //    shelterDetailsName.Text = formField.ControlContent;
+                        //    //    ShelterName = formField.ControlContent;
+                        //        found1 = true;
                         //    break;
                         case "capacity":
                             capacity.Text = formField.ControlContent;
@@ -257,6 +259,14 @@ namespace OAShelterStatusFormControl
                     break;
             }
             base.FillFormFromFormFields(formFields);
+        }
+
+        void ShelterName_Changed(object sender, RoutedEventArgs e)
+        {
+            TextBox shelterName = sender as TextBox;
+            shelterDetailsName.Text = shelterName.Text;
+
+            Subject_Changed(sender, e);
         }
 
         //protected override void ComboBox_Loaded(object sender, RoutedEventArgs e)

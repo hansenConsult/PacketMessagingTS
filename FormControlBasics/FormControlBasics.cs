@@ -5,6 +5,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+using FormControlBaseMvvmNameSpace;
+
+using FormControlBaseMvvmNameSpace;
+
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 using SharedCode;
@@ -36,8 +40,8 @@ namespace FormControlBasicsNamespace
     }
 
 
-    public partial class FormControlBasics : UserControl, INotifyPropertyChanged
-    //public partial class FormControlBasics : UserControl
+    //public partial class FormControlBasics : UserControl, INotifyPropertyChanged
+    public partial class FormControlBasics : FormControlBaseMvvm, INotifyPropertyChanged
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
 
@@ -111,7 +115,8 @@ namespace FormControlBasicsNamespace
         public virtual string PIF
         {
             get => _pif;
-            set => SetProperty(ref _pif, value);
+            //set => SetProperty(ref _pif, value);
+            set => _pif = value;
         }
 
         //private string headerPIF;

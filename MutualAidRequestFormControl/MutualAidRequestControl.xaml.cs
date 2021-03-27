@@ -78,45 +78,47 @@ namespace MutualAidRequestFormControl
             get => _msgDate;
             set
             {
-                SignedDate = value;
+                //SignedDate = value;
                 SetProperty(ref _msgDate, value);
+                signedDate.Text = value;
+                UpdateFormFieldsRequiredColors();
             }
         }
 
-        private string _SignedDate;
-        public string SignedDate
-        {
-            get => _SignedDate;
-            set => SetProperty(ref _SignedDate, value);
-        }
+        //private string _SignedDate;
+        //public string SignedDate
+        //{
+        //    get => _SignedDate;
+        //    set => SetProperty(ref _SignedDate, value);
+        //}
 
-        public override void FillFormFromFormFields(FormField[] formFields)
-        {
-            bool found1 = false;
-            foreach (FormField formField in formFields)
-            {
-                FrameworkElement control = GetFrameworkElement(formField);
+        //public override void FillFormFromFormFields(FormField[] formFields)
+        //{
+        //    bool found1 = false;
+        //    foreach (FormField formField in formFields)
+        //    {
+        //        FrameworkElement control = GetFrameworkElement(formField);
 
-                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
-                    continue;
+        //        if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+        //            continue;
 
-                if (control is TextBox textBox)
-                {
-                    switch (control.Name)
-                    {
-                        case "signedDate":
-                            SignedDate = formField.ControlContent;
-                            found1 = true;
-                            break;
-                        case null:
-                            continue;
-                    }
-                }
-                if (found1)
-                    break;
-            }
-            base.FillFormFromFormFields(formFields);
-        }
+        //        if (control is TextBox textBox)
+        //        {
+        //            switch (control.Name)
+        //            {
+        //                case "signedDate":
+        //                    SignedDate = formField.ControlContent;
+        //                    found1 = true;
+        //                    break;
+        //                case null:
+        //                    continue;
+        //            }
+        //        }
+        //        if (found1)
+        //            break;
+        //    }
+        //    base.FillFormFromFormFields(formFields);
+        //}
 
     }
 }

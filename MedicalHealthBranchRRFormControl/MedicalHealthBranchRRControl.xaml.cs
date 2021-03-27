@@ -66,18 +66,19 @@ namespace MedicalHealthBranchRRFormControl
             get => _msgDate;
             set
             {
-                RequestMsgDate = value;
+                //RequestMsgDate = value;
+                requestDate.Text = value;
                 SetProperty(ref _msgDate, value);
-                
+                UpdateFormFieldsRequiredColors();
             }
         }
 
-        private string requestMsgDate;
-        public string RequestMsgDate
-        {
-            get => requestMsgDate;
-            set => SetProperty(ref requestMsgDate, value);
-        }
+        //private string requestMsgDate;
+        //public string RequestMsgDate
+        //{
+        //    get => requestMsgDate;
+        //    set => SetProperty(ref requestMsgDate, value);
+        //}
 
         public override string PIF => "3.1";
 
@@ -124,7 +125,7 @@ namespace MedicalHealthBranchRRFormControl
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
-                bool found1 = false, found2 = false;
+                bool found1 = false, found2 = true;
                 if (control is TextBox textBox)
                 {
                     switch (control.Name)
@@ -133,10 +134,10 @@ namespace MedicalHealthBranchRRFormControl
                             found1 = true;
                             MsgDate = formField.ControlContent;
                             break;
-                        case "requestDate":
-                            found2 = true;
-                            RequestMsgDate = formField.ControlContent;
-                            break;
+                        //case "requestDate":
+                        //    found2 = true;
+                        //    RequestMsgDate = formField.ControlContent;
+                        //    break;
                         //case "subject":
                         //    Subject = textBox.Text;
                         //    break;

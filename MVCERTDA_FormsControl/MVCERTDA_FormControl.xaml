@@ -6,6 +6,7 @@
     xmlns:local="using:MVCERTDA_FormsControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
   	xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
 
@@ -514,8 +515,11 @@
                                         <RowDefinition Height="20"/>
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,0,1,0">
-                                        <TextBlock  Text="Fire and Hazard" Style="{StaticResource LabelFontTNR12B}" HorizontalAlignment="Center" />
+                                    <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <TextBlock  Text="Fire" Style="{StaticResource LabelFontTNR12B}" HorizontalAlignment="Center" />
+                                    </Border>
+                                    <Border Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <TextBlock  Text="Hazard" Style="{StaticResource LabelFontTNR12B}" HorizontalAlignment="Center" />
                                     </Border>
                                     <Border Grid.Row="0"  Grid.Column="5" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,0,1,1">
                                         <TextBlock Text="Building" Style="{StaticResource LabelFontTNR12B}" HorizontalAlignment="Center" />
@@ -533,23 +537,23 @@
                                     <Border Grid.Row="0" Grid.Column="15" BorderBrush="Black" BorderThickness="0,0,1,1">
                                         <TextBlock Text="Neighborhood" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center" />
                                     </Border>
-                                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1"/>
                                     <TextBlock Grid.Row="1" Grid.Column="0"  Style="{StaticResource LabelFontTNR9B}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Underline>F</Underline>ires
                                     </TextBlock>
-                                    <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                    <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,1"/>
                                     <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
                                         <Underline>G</Underline>as Leak
                                     </TextBlock>
-                                    <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                    <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,1"/>
                                     <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
                                         <Underline>W</Underline>ater Leak
                                     </TextBlock>
-                                    <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                    <Border Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,1"/>
                                     <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource LabelFontTNR12}" HorizontalAlignment="Center">
                                         <Underline>E</Underline>lectrical
                                     </TextBlock>
-                                    <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="0,1,1,1"/>
+                                    <Border Grid.Row="1" Grid.Column="4" BorderBrush="Black" BorderThickness="0,0,1,1"/>
                                     <TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource LabelFontTNR12}">
                                         <Underline>C</Underline>hemical
                                     </TextBlock>
@@ -596,50 +600,81 @@
                                     </TextBlock>
                                     <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="0" x:Name="fires" 
-                                             Style="{StaticResource TextBoxDA}" Tag="38"/>
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
+                                             Style="{StaticResource TextBoxDA}" 
+                                             Tag="38"/>
                                     <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="1" x:Name="gasLeak" 
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="39"/>
                                     <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="2" x:Name="waterLeak" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="40"/>
                                     <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="3" x:Name="electrical" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="41"/>
                                     <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="4" x:Name="chemical" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="42" />
                                     <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="5" x:Name="light" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="43" />
                                     <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="6" x:Name="mod" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="44" />
                                     <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="7" x:Name="heavy" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="45" />
                                     <Border Grid.Row="2" Grid.Column="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="8" x:Name="peopleImmediate" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="46" />
                                     <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="9" x:Name="delayed" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="47"/>
                                     <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="10" x:Name="trapped" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="48"/>
                                     <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="11" x:Name="morgue" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="49" />
                                     <Border Grid.Row="2" Grid.Column="12" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="12" x:Name="access" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="50" />
                                     <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="13" x:Name="noAccess" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="51" />
                                     <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="14" x:Name="messageOther" 
                                              Style="{StaticResource TextBoxDA}" Tag="52"/>
                                     <TextBox Grid.Row="2" Grid.Column="15" x:Name="surveyed" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" Tag="53" />
                                 </Grid>
                                 <TextBlock Margin="8" 

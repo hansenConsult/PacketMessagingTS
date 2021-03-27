@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:MutualAidRequestFormControl"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"
@@ -77,7 +78,9 @@
                             </Grid.ColumnDefinitions>
                             <Border  Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Name:" />
-                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="agencyName" Margin="2"  Tag="15.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="agencyName" Margin="2"  
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="15.,Required" />
                         </Grid>
                         <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelCenterSemiBold}" Text="Event / Incident" />
@@ -91,14 +94,19 @@
                             <Border  Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Name:" />
                             <Border  Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2"  Tag="15.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2" x:Name="eventName" 
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="15.,Required" />
                             <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelCenter}" Text="Number:" />
-                            <TextBox Grid.Row="0" Grid.Column="3" Margin="2"  Tag="16b." />
+                            <TextBox Grid.Row="0" Grid.Column="3" Margin="2" x:Name="eventNumber"  Tag="16b." />
                         </Grid>
                         <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}" Text="Assignment" />
                         <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                        <TextBox Grid.Row="3" Grid.Column="1" Margin="2" PlaceholderText="Duties, conditions, equipment, shift times"  Tag="16b.,Required" />
+                        <TextBox Grid.Row="3" Grid.Column="1" Margin="2" x:Name="assignment"
+                                 PlaceholderText="Duties, conditions, equipment, shift times"  
+                                 TextChanged="TextBox_TextChanged"
+                                 Tag="16b.,Required" />
                         <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}"  Text="Amateur Radio "  />
                         <Grid Grid.Row="4" Grid.Column="1">
@@ -123,34 +131,51 @@
                             <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,2,0" Text="Qty" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             <TextBlock Grid.Row="0" Grid.Column="1" Margin="2,0,0,0" Text="Role/Position" VerticalAlignment="Center"/>
                             <TextBlock Grid.Row="0" Grid.Column="2" Margin="2,0,0,0" Text="Preferred Type" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Row="0" Grid.Column="3" Margin="2,0,0,0" Text="Preferred Type" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Margin="2,0,0,0" Text="Minimum Type" VerticalAlignment="Center"/>
                             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                            <TextBox Grid.Row="1" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="18.1a.,Required" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="4,2,4,2" Tag="18.1b.,Required" />
-                            <TextBox Grid.Row="1" Grid.Column="2" Margin="4,2,4,2" Tag="18.1c.,Required" />
-                            <TextBox Grid.Row="1" Grid.Column="3" Margin="4,2,4,2" Tag="18.1d.,Required" />
+                            <TextBox Grid.Row="1" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right" x:Name="radioQty"
+                                     ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                     ui:TextBoxExtensions.ValidationType="Number"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="18.1a.,Required" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="4,2,4,2" x:Name="radioRple"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="18.1b.,Required" />
+                            <TextBox Grid.Row="1" Grid.Column="2" Margin="4,2,4,2" x:Name="radioPrefType"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="18.1c.,Required" />
+                            <TextBox Grid.Row="1" Grid.Column="3" Margin="4,2,4,2" x:Name="radioMinType"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="18.1d.,Required" />
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="2" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="18.2a." />
+                                     ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                     ui:TextBoxExtensions.ValidationType="Number" 
+                                     Tag="18.2a." />
                             <TextBox Grid.Row="2" Grid.Column="1" Margin="4,2,4,2" Tag="18.2b." />
                             <TextBox Grid.Row="2" Grid.Column="2" Margin="4,2,4,2" Tag="18.2c." />
                             <TextBox Grid.Row="2" Grid.Column="3" Margin="4,2,4,2" Tag="18.2d." />
                             <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="3" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="18.3a." />
+                                     ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                     ui:TextBoxExtensions.ValidationType="Number"
+                                     Tag="18.3a." />
                             <TextBox Grid.Row="3" Grid.Column="1" Margin="4,2,4,2" Tag="18.3b." />
                             <TextBox Grid.Row="3" Grid.Column="2" Margin="4,2,4,2" Tag="18.3c." />
                             <TextBox Grid.Row="3" Grid.Column="3" Margin="4,2,4,2" Tag="18.3d." />
                             <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="4" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="18.4a." />
+                                     ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                     ui:TextBoxExtensions.ValidationType="Number"
+                                     Tag="18.4a." />
                             <TextBox Grid.Row="4" Grid.Column="1" Margin="4,2,4,2" Tag="18.4b." />
                             <TextBox Grid.Row="4" Grid.Column="2" Margin="4,2,4,2" Tag="18.4c." />
                             <TextBox Grid.Row="4" Grid.Column="3" Margin="4,2,4,2" Tag="18.4d." />
                             <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="5" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown" Tag="18.5a." />
+                                     ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                     ui:TextBoxExtensions.ValidationType="Number"
+                                     Tag="18.5a." />
                             <TextBox Grid.Row="5" Grid.Column="1" Margin="4,2,4,2" Tag="18.5b." />
                             <TextBox Grid.Row="5" Grid.Column="2" Margin="4,2,4,2" Tag="18.5c." />
                             <TextBox Grid.Row="5" Grid.Column="3" Margin="4,2,4,2" Tag="18.5d." />
@@ -167,9 +192,13 @@
                             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Date(s):" />
                             <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2"  Tag="19a.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2" x:Name="reqArrivalDate" 
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="19a.,Required" />
                             <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelCenter}" Text="Time(s):" />
-                            <TextBox Grid.Row="0" Grid.Column="3" Margin="2"  Tag="19b.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="3" Margin="2" x:Name="reqArrivalTime" 
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="19b.,Required" />
                         </Grid>
                         <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource LabelCenterSemiBold}" Text="Needed Until" />
@@ -183,22 +212,35 @@
                             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Date(s):" />
                             <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2"  Tag="20a.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2" x:Name="neededUntilDate"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="20a.,Required" />
                             <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelCenter}" Text="Time(s):" />
-                            <TextBox Grid.Row="0" Grid.Column="3" Margin="2"  Tag="20b.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="3" Margin="2" x:Name="neededUntilTime"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="20b.,Required" />
                         </Grid>
                         <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="7" Grid.Column="0" Style="{StaticResource LabelCenterSemiBold}" Text="Reporting Location" />
                         <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                        <TextBox Grid.Row="7" Grid.Column="1" Margin="2" PlaceholderText="Street Address, Parking, Entry, Instructions"  Tag="21.,Required" />
+                        <TextBox Grid.Row="7" Grid.Column="1" Margin="2" x:Name="reportingLoc"
+                                 PlaceholderText="Street Address, Parking, Entry, Instructions"  
+                                 TextChanged="TextBox_TextChanged"
+                                 Tag="21.,Required" />
                         <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource LabelCenterSemiBold}" Text="Contact on Arrival" />
                         <Border Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                        <TextBox Grid.Row="8" Grid.Column="1" Margin="2" PlaceholderText="Name/Position and contact info"  Tag="22.,Required" />
+                        <TextBox Grid.Row="8" Grid.Column="1" Margin="2" x:Name="contactOnArrival"
+                                 PlaceholderText="Name/Position and contact info"  
+                                 TextChanged="TextBox_TextChanged"
+                                 Tag="22.,Required" />
                         <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource LabelCenterSemiBold}" Text="Travel Info" />
                         <Border Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                        <TextBox Grid.Row="9" Grid.Column="1" Margin="2" PlaceholderText="Routes, Hazards, Lodging"  Tag="23.,Required" />
+                        <TextBox Grid.Row="9" Grid.Column="1" Margin="2" x:Name="travelInfo"
+                                 PlaceholderText="Routes, Hazards, Lodging"  
+                                 TextChanged="TextBox_TextChanged"
+                                 Tag="23.,Required" />
                         <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="10" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}" Text="Requested By" />
                         <Grid Grid.Row="10" Grid.Column="1">
@@ -215,13 +257,19 @@
                             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Name:" />
                             <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2" Tag="24a.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2" x:Name="reqName"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="24a.,Required" />
                             <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelCenter}" Text="Title:" />
-                            <TextBox Grid.Row="0" Grid.Column="3" Tag="24b.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="3" x:Name="reqTitle"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="24b.,Required" />
                             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Contact:" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="2"
-                                     PlaceholderText="E-mail, phone, frequency"  Tag="24a.,Required" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" x:Name="reqContact"
+                                     PlaceholderText="E-mail, phone, frequency"  
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="24a.,Required" />
                         </Grid>
                         <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="11" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}" Text="Approved By" />
@@ -240,13 +288,19 @@
                             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Name:" />
                             <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2" Tag="25a.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,4,2" x:Name="approvedName"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="25a.,Required" />
                             <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelCenter}" Text="Title:" />
-                            <TextBox Grid.Row="0" Grid.Column="3" Tag="25b.,Required" />
+                            <TextBox Grid.Row="0" Grid.Column="3" x:Name="approvedTitle"
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="25b.,Required" />
                             <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelCenter}" Text="Contact:" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" 
-                                     PlaceholderText="E-mail, phone, frequency" Tag="24a.,Required" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="2" x:Name="approvedContact"
+                                     PlaceholderText="E-mail, phone, frequency" 
+                                     TextChanged="TextBox_TextChanged"
+                                     Tag="24a.,Required" />
                             <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelTop}" Margin="4,0,0,0" Text="Signature:" />
                             <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
@@ -263,10 +317,13 @@
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,0" />
                                 <TextBox Grid.Column="2" PlaceholderText="mm/dd/yyyy" x:Name="signedDate"
                                          Margin="2,2,4,2" VerticalAlignment="Center" 
-                                         Text="{x:Bind SignedDate, Mode=TwoWay}"
                                          TextChanged="TextBox_DateChanged" Tag="26a.,Required" />
+                                <!--Text="{x:Bind SignedDate, Mode=TwoWay}"-->
                                 <TextBlock Grid.Column="3" Style="{StaticResource LabelCenter}" Text="Time:" />
-                                <TextBox Grid.Column="4" PlaceholderText="hh:mm" Margin="2" VerticalAlignment="Center" Tag="26b.,Required" />
+                                <TextBox Grid.Column="4" PlaceholderText="hh:mm" Margin="2" VerticalAlignment="Center" 
+                                         x:Name="signedTime"
+                                         TextChanged="TextBox_TextChanged"
+                                         Tag="26b.,Required" />
                             </Grid>
                         </Grid>
 

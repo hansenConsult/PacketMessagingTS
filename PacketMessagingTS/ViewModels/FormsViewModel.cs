@@ -620,7 +620,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 DateTime now = DateTime.Now;
                 MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
-                //HandlingOrder = null;
                 //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
                 OperatorName = IdentityViewModel.Instance.UserName;
                 OperatorCallsign = IdentityViewModel.Instance.UserCallsign;

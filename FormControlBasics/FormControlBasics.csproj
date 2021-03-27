@@ -133,6 +133,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormControlBaseMvvm\FormControlBaseMvvm.csproj">
+      <Project>{bb21a7f7-05fb-4fa2-b9a5-8e8a8176cdaf}</Project>
+      <Name>FormControlBaseMvvm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharedCode\SharedCode.csproj">
       <Project>{03326178-e925-46c1-b4c7-ea5700c30102}</Project>
       <Name>SharedCode</Name>

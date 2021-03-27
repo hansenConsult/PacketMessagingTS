@@ -294,47 +294,49 @@ namespace FormControlBaseClass
         public virtual string HowReceivedSent
         { get; set; }
 
-        private string _IncidentName;
-        public virtual string IncidentName      // Required for setting Practice
-        {
-            get => _IncidentName;
-            set => SetProperty(ref _IncidentName, value);
-        }
+        //private string _IncidentName;
+        //public virtual string IncidentName      // Required for setting Practice
+        //{
+        //    get => _IncidentName;
+        //    set => SetProperty(ref _IncidentName, value);
+        //}
 
         //public virtual string FacilityName      // Required for setting Practice Using local ViewModel for now
         //{ get; set; }
 
-        // Implemented this way to facilitate synchronizing two name fields and required for setting Practice 
-        private string _shelterName;
-        public virtual string ShelterName
-        {
-            get => _shelterName;
-            set => SetProperty(ref _shelterName, value);
-        }
+        //// Implemented this way to facilitate synchronizing two name fields and required for setting Practice 
+        //private string _shelterName;
+        //public virtual string ShelterName
+        //{
+        //    get => _shelterName;
+        //    set => SetProperty(ref _shelterName, value);
+        //}
 
-        public virtual string Subject       // Required for setting Practice
-        { get; set; }
+        //public virtual string Subject       // Required for setting Practice
+        //{ get; set; }
 
-        private string _ReportType;
-        public virtual string ReportType
-        { 
-            get => _ReportType; 
-            set => SetProperty(ref _ReportType, value); 
-        }
+        //private string _ReportType;
+        //public virtual string ReportType
+        //{ 
+        //    get => _ReportType; 
+        //    set => SetProperty(ref _ReportType, value); 
+        //}
 
         private DateTime? messageReceivedTime = null;
         public virtual DateTime? MessageReceivedTime
-        {
-            get => messageReceivedTime;
-            set => SetProperty(ref messageReceivedTime, value);
-        }
+        { get; set; }
+        //    get => messageReceivedTime;
+        //    //set => SetProperty(ref messageReceivedTime, value);
+        //    set => messageReceivedTime = value;
+        //}
 
         private DateTime? messageSentTime = null;
         public virtual DateTime? MessageSentTime
-        {
-            get => messageSentTime;
-            set => SetProperty(ref messageSentTime, value);
-        }
+        { get; set; }
+        //    get => messageSentTime;
+        //    //set => SetProperty(ref messageSentTime, value);
+        //    set => messageSentTime = value;
+        //}
 
         //private FormControlAttribute.FormType _FormControlType;
         public virtual FormControlAttribute.FormType FormControlType
@@ -1588,12 +1590,12 @@ namespace FormControlBaseClass
         public abstract List<Panel> PrintPanels
         { get; }
 
-        protected bool printFooterVisibility = false;
-        public virtual bool PrintFooterVisibility
-        {
-            get => printFooterVisibility;
-            set => SetProperty(ref printFooterVisibility, value);
-        }
+        //protected bool printFooterVisibility = false;
+        //public virtual bool PrintFooterVisibility
+        //{
+        //    get => printFooterVisibility;
+        //    set => SetProperty(ref printFooterVisibility, value);
+        //}
 
         protected void AddFooter()
         {

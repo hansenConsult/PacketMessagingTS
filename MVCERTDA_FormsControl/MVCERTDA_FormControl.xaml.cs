@@ -38,9 +38,6 @@ namespace MVCERTDA_FormsControl
 
             InitializeToggleButtonGroups();
 
-            //TacticalCall currentTacticalCallsign = GetSelectedMTVTactical();
-            //CERTLocation = currentTacticalCallsign;
-
             Severity = "other";
             HandlingOrder = "priority";
             actionNo.IsChecked = true;
@@ -90,7 +87,7 @@ namespace MVCERTDA_FormsControl
                     agencyName = GetAgencyNameFromPacketMessage();
                     tacticalCallsign = GetTacticalcallsignFromAgencyName(agencyName);
                 }
-                Subject = _subjectText + agencyName;
+                //Subject = _subjectText + agencyName;
             }
         }
 
