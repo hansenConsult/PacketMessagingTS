@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 using FormControlBasicsNamespace;
 using Windows.UI.Xaml.Media;
 using System.Drawing;
+using FormControlBaseMvvmNameSpace;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -120,7 +121,7 @@ namespace OAShelterStatusFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-    public override FormControlBasics RootPanel => rootPanel;
+    public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

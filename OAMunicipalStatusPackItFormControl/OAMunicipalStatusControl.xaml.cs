@@ -12,6 +12,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using ToggleButtonGroupControl;
+using FormControlBaseMvvmNameSpace;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -153,7 +154,7 @@ namespace OAMunicipalStatusPackItFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

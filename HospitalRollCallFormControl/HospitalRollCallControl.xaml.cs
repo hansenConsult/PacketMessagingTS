@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using FormControlBaseClass;
 
+using FormControlBaseMvvmNameSpace;
+
 using FormControlBasicsNamespace;
 
 using SharedCode;
@@ -36,7 +38,7 @@ namespace HospitalRollCallFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

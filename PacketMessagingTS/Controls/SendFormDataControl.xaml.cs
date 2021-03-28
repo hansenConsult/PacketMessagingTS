@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using FormControlBaseClass;
 
 using FormControlBaseMvvmNameSpace;
-using FormControlBasicsNamespace;
+//using FormControlBasicsNamespace;
 
 using PacketMessagingTS.Core.Helpers;
 
@@ -24,8 +24,8 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Controls
 {
-    //public partial class SendFormDataControl : FormControlBaseMvvm
-    public partial class SendFormDataControl : FormControlBasics
+    public partial class SendFormDataControl : FormControlBaseMvvm
+    //public partial class SendFormDataControl : FormControlBasics
     {
         public static readonly DependencyProperty MessageSubjectProperty =
                 DependencyProperty.Register(
@@ -53,7 +53,8 @@ namespace PacketMessagingTS.Controls
             SendFormDataControlViewModel.MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        //public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         //private string messageSubject;
         //public string MessageSubject

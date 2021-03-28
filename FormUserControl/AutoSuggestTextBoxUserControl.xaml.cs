@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
+using FormControlBaseMvvmNameSpace;
+
 using FormControlBasicsNamespace;
 using SharedCode;
 using SharedCode.Helpers;
@@ -46,7 +48,7 @@ namespace FormUserControl
 
         public DependencyObject Panel => autoSuggestTextBoxUserControl;
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
 
         public AutoSuggestTextBoxUserControl()

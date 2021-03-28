@@ -2,6 +2,8 @@
 
 using FormControlBaseClass;
 
+using FormControlBaseMvvmNameSpace;
+
 using FormControlBasicsNamespace;
 
 using FormUserControl;
@@ -51,7 +53,7 @@ namespace MedicalHealthBranchRRFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

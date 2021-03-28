@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 using FormControlBaseClass;
+
+using FormControlBaseMvvmNameSpace;
+
 using FormControlBasicsNamespace;
 
 using SharedCode;
@@ -171,7 +174,7 @@ namespace MessageFormControl
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 

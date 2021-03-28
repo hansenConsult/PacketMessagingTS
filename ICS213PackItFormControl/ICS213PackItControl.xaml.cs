@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 //using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
 using FormControlBasicsNamespace;
+using FormControlBaseMvvmNameSpace;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -48,7 +49,7 @@ namespace ICS213PackItFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

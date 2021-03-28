@@ -12,6 +12,7 @@ using SharedCode.Models;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
+using FormControlBaseMvvmNameSpace;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -137,7 +138,7 @@ namespace MVCERTDA_FormsControl
             set => SetProperty(ref fromLocation, value);
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 

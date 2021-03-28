@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.System;
 using Windows.UI.Xaml;
+using FormControlBaseMvvmNameSpace;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -48,7 +49,7 @@ namespace OAAlliedHealthStatus201802FormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
+using FormControlBaseMvvmNameSpace;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -42,7 +43,7 @@ namespace MutualAidRequestFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 

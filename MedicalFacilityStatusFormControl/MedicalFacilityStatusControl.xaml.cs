@@ -3,6 +3,8 @@ using System.Linq;
 
 using FormControlBaseClass;
 
+using FormControlBaseMvvmNameSpace;
+
 using FormControlBasicsNamespace;
 
 using FormUserControl;
@@ -142,7 +144,7 @@ namespace MedicalFacilityStatusFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 

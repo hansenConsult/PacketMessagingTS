@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using FormControlBaseMvvmNameSpace;
+
 using FormControlBasicsNamespace;
 
 using SharedCode;
@@ -21,7 +23,7 @@ namespace FormUserControl
         public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
      
 
         public FormHeaderUserControl()

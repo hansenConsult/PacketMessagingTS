@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using FormControlBaseMvvmNameSpace;
+
 using FormControlBasicsNamespace;
 
 using SharedCode.Models;
@@ -23,7 +25,7 @@ namespace FormUserControl
 
         public DependencyObject Panel => radioOperatorOnly;
 
-        public override FormControlBasics RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
     }
 }
