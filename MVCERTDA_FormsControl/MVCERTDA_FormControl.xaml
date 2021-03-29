@@ -794,7 +794,7 @@
                                     <StackPanel Orientation="Horizontal" Height="34">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Call Sign:" VerticalAlignment="Center" Margin="5"/>
                                         <TextBox x:Name="operatorCallsign"  
-                                                 Text="{x:Bind OperatorCallsign, Mode=TwoWay}" 
+                                                 Text="{x:Bind ViewModel.OperatorCallsign, Mode=TwoWay}" 
                                                  BorderBrush="White" 
                                                  Margin="5,4,0,4" Width="auto" Tag="71" />
                                     </StackPanel>
@@ -803,7 +803,7 @@
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Operator Name:"  VerticalAlignment="Center" Margin="5"/>
                                         <TextBox x:Name="operatorName" 
-                                                 Text="{x:Bind OperatorName}"
+                                                 Text="{x:Bind ViewModel.OperatorName}"
                                                  BorderBrush="White" Margin="5,4,0,4" Width="auto" Tag="72"/>
                                     </StackPanel>
                                 </Border>
@@ -832,7 +832,7 @@
                         </Grid>
                         <TextBlock FontSize="11" FontWeight="Bold" FontFamily="Helvetica"
                                Margin="0,12,4,0" HorizontalAlignment="Right" >
-                            <Underline>FORM 213 MTV CERT Summary (Ver. MV/PR-4.7-3.6.2)</Underline>, 01/24/21
+                            <Underline>FORM 213 MTV CERT Summary (Ver. MV/PR-4.7-3.6)</Underline>, 03/23/21
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>

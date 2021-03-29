@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using FormControlBaseClass;
-using FormControlBasicsNamespace;
 
 using SharedCode;
 using SharedCode.Helpers;
@@ -13,6 +12,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using Windows.UI.Xaml.Controls;
 using FormControlBaseMvvmNameSpace;
+using MVCERTDA_FormControl;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -27,6 +27,8 @@ namespace MVCERTDA_FormsControl
 
     public sealed partial class MVCERTDAControl : FormControlBase
     {
+        public MVCERTDAControlViewModel ViewModel = MVCERTDAControlViewModel.Instance;
+
         readonly string _subjectText = "Damage Summary for ";
 
         private List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
@@ -57,6 +59,8 @@ namespace MVCERTDA_FormsControl
             {
                 GetFormDataFromAttribute(GetType());
             }
+
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }

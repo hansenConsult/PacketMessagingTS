@@ -657,7 +657,7 @@
                                 <TextBlock Style="{StaticResource ReceivedSentLabelFont}" Text="Operator Call Sign:" 
                                            Margin="8,0,0,0" VerticalAlignment="Center" />
                                 <TextBox x:Name="operatorCallsign"  
-                                         Text="{x:Bind OperatorCallsign, Mode=TwoWay}" 
+                                         Text="{x:Bind ViewModel.OperatorCallsign, Mode=TwoWay}" 
                                          BorderBrush="White" 
                                          Margin="5,2,0,2" Width="auto" Tag="OpCall" />
                             </StackPanel>
@@ -665,7 +665,7 @@
                                 <TextBlock Style="{StaticResource ReceivedSentLabelFont}" Text="Operator Name:"  
                                            Margin="8,0,0,0" />
                                 <TextBox x:Name="operatorName" 
-                                         Text="{x:Bind OperatorName, Mode=TwoWay}" 
+                                         Text="{x:Bind ViewModel.OperatorName, Mode=TwoWay}" 
                                          BorderBrush="White" Margin="5,2,0,2" Width="auto" Tag="OpName"/>
                             </StackPanel>
                             <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" IsTabStop="False"

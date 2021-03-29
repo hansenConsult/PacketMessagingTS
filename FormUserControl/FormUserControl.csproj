@@ -130,6 +130,7 @@
     <Compile Include="RadioOperatorUserControl.xaml.cs">
       <DependentUpon>RadioOperatorUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RadioOperatorUserControlViewModel.cs" />
     <EmbeddedResource Include="Properties\FormUserControl.rd.xml" />
   </ItemGroup>
   <ItemGroup>

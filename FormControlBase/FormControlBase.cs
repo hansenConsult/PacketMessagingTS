@@ -85,7 +85,7 @@ namespace FormControlBaseClass
         };
 
 
-        private static readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
+        //private static readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
         //static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
         public static string DrillTraffic = "\rDrill Traffic\r";
@@ -231,6 +231,9 @@ namespace FormControlBaseClass
         //public static readonly DependencyProperty OperatorCallsignProperty =
         //	DependencyProperty.Register("OperatorCallsign", typeof(string), typeof(FormControlBase), null);
 
+        public virtual UserControlViewModelBase ViewModelBase
+        { get; set; }
+
         public virtual string TacticalCallsign
         { get; set; }
     
@@ -322,7 +325,7 @@ namespace FormControlBaseClass
         //    set => SetProperty(ref _ReportType, value); 
         //}
 
-        private DateTime? messageReceivedTime = null;
+        //private DateTime? messageReceivedTime = null;
         public virtual DateTime? MessageReceivedTime
         { get; set; }
         //    get => messageReceivedTime;
@@ -330,7 +333,7 @@ namespace FormControlBaseClass
         //    set => messageReceivedTime = value;
         //}
 
-        private DateTime? messageSentTime = null;
+        //private DateTime? messageSentTime = null;
         public virtual DateTime? MessageSentTime
         { get; set; }
         //    get => messageSentTime;
@@ -1110,10 +1113,10 @@ namespace FormControlBaseClass
                                 MsgDate = textBox.Text;
                                 break;
                             case "operatorCallsign":
-                                OperatorCallsign = textBox.Text;
+                                ViewModelBase.OperatorCallsign = textBox.Text;
                                 break;
                             case "operatorName":
-                                OperatorName = textBox.Text;
+                                ViewModelBase.OperatorName = textBox.Text;
                                 break;
 
                             //case "messageNo":
@@ -1132,10 +1135,10 @@ namespace FormControlBaseClass
                             switch (control.Name)
                             {
                                 case "operatorCallsign":
-                                    radioOperatorControl.OperatorCallsign = textBox.Text;
+                                    radioOperatorControl.RadioOperatorUserControlViewModel.OperatorCallsign = textBox.Text;
                                     break;
                                 case "operatorName":
-                                    radioOperatorControl.OperatorName = textBox.Text;
+                                    radioOperatorControl.RadioOperatorUserControlViewModel.OperatorName = textBox.Text;
                                     break;
                                 case null:
                                     continue;

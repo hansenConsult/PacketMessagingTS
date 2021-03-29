@@ -7,10 +7,6 @@ using System.Text.RegularExpressions;
 
 using FormControlBaseMvvmNameSpace;
 
-using FormControlBaseMvvmNameSpace;
-
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-
 using SharedCode;
 using SharedCode.Models;
 
@@ -103,12 +99,6 @@ namespace FormControlBasicsNamespace
         { get; set; }
 
         public virtual string HandlingOrder
-        { get; set; }
-
-        public virtual string OperatorName
-        { get; set; }
-
-        public virtual string OperatorCallsign
         { get; set; }
 
         protected string _pif = "2.1";

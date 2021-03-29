@@ -1,19 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using FormControlBaseMvvmNameSpace;
 
-using FormControlBasicsNamespace;
+//using FormControlBasicsNamespace;
 
+using SharedCode;
 using SharedCode.Models;
 
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+
+
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace FormUserControl
 {
-    public sealed partial class RadioOperatorUserControl : FormControlBasics
+    //public sealed partial class RadioOperatorUserControl : FormControlBasics
+    public sealed partial class RadioOperatorUserControl : FormControlBaseMvvm
     {
+        public RadioOperatorUserControlViewModel RadioOperatorUserControlViewModel = RadioOperatorUserControlViewModel.Instance;
+
+
         public RadioOperatorUserControl()
         {
             InitializeComponent();

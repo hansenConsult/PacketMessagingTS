@@ -122,6 +122,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MVCERTDAControlViewModel.cs" />
     <Compile Include="MVCERTDA_FormControl.xaml.cs">
       <DependentUpon>MVCERTDA_FormControl.xaml</DependentUpon>
     </Compile>

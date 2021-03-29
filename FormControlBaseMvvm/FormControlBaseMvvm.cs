@@ -60,15 +60,8 @@ namespace FormControlBaseMvvmNameSpace
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
                     {
-                        //if (textBox.IsReadOnly)
-                        //{
-                        //    formControl.BaseBorderColor = WhiteBrush;
-                        //}
-                        //else
-                        //{
                         BaseBorderColor = textBox.BorderBrush
                     };
-                    //}
                     _formControlsList.Add(formControl);
                 }
                 else if (control is ComboBox comboBox)
@@ -92,12 +85,12 @@ namespace FormControlBaseMvvmNameSpace
                     };
                     _formControlsList.Add(formControl);
                 }
-                else if (control is RadioButton)
+                else if (control is RadioButton button)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     _formControlsList.Add(formControl);
 
-                    _radioButtonsList.Add((RadioButton)control);
+                    _radioButtonsList.Add(button);
                 }
                 else if (control is ToggleSwitch)
                 {

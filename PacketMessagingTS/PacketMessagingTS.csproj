@@ -122,7 +122,7 @@
     </PackageReference>
     <!-- Nuget package references -->
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +189,6 @@
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
     <Compile Include="Services\BackgroundTransfer.cs" />
-    <Compile Include="Services\CommunicationsService\BluetoothManager.cs" />
     <Compile Include="Services\CommunicationsService\CommunicationsService.cs" />
     <Compile Include="Services\CommunicationsService\TNCInterface.cs" />
     <Compile Include="Services\DevicewatcherService.cs" />

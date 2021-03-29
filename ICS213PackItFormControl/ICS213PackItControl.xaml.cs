@@ -28,6 +28,10 @@ namespace ICS213PackItFormControl
 
 	public partial class ICS213PackItControl : FormControlBase
 	{
+        public ICS213PackItControlViewModel ViewModel = ICS213PackItControlViewModel.Instance;
+        
+        
+
         double _messageBoxHeight;
 
         public ICS213PackItControl()
@@ -45,6 +49,8 @@ namespace ICS213PackItFormControl
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
 
             _messageBoxHeight = message.Height;
+
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }

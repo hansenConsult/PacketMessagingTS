@@ -1,4 +1,4 @@
-﻿<MyBaseNamespace:FormControlBasics
+﻿<MyBaseNamespace:FormControlBaseMvvm
     x:Name="rootPanel"
     x:Class="FormUserControl.RadioOperatorUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,7 +6,7 @@
     xmlns:local="using:FormUserControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:MyBaseNamespace="using:FormControlBasicsNamespace"
+    xmlns:MyBaseNamespace="using:FormControlBaseMvvmNameSpace"
     mc:Ignorable="d"
     d:DesignWidth="816" Height="101">
 
@@ -80,11 +80,11 @@
             <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource LabelFontTNR14B}" 
                        Margin="8,0,7,0"  />
             <TextBox Grid.Column="1" Name="operatorName" 
-                     Text="{x:Bind OperatorName}"
+                     Text="{x:Bind RadioOperatorUserControlViewModel.OperatorName}"
                      Margin="1,0,73,1" BorderBrush="White" VerticalContentAlignment="Center" Tag="OpName" Grid.ColumnSpan="2" />
             <TextBlock Grid.Column="2" Text="Call Sign:" Style="{StaticResource LabelFontTNR14B}" Margin="6,0,7,0" />
             <TextBox Grid.Column="3" Name="operatorCallsign" 
-                     Text="{x:Bind OperatorCallsign, Mode=TwoWay}"
+                     Text="{x:Bind RadioOperatorUserControlViewModel.OperatorCallsign, Mode=TwoWay}"
                      Margin="1,0,47,1"  BorderBrush="White" Tag="OpCall" Grid.ColumnSpan="2" />
             <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource LabelFontTNR14B}" Margin="6,0,7,0"  />
             <TextBox Grid.Column="5" Name="operatorDate" 
@@ -96,4 +96,4 @@
                      Margin="1,0,1,0" Tag="OpTime"  />
         </Grid>
     </StackPanel>
-</MyBaseNamespace:FormControlBasics>
+</MyBaseNamespace:FormControlBaseMvvm>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using FormControlBaseClass;
 
+using FormUserControl;
+
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
@@ -57,6 +59,8 @@ namespace PublicNoticeFormControl
 
         private Panel _printPanel;
         public override List<Panel> PrintPanels => new List<Panel> { _printPanel };
+
+        public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
         public override void AppendDrillTraffic()
         {

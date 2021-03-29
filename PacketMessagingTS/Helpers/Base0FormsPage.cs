@@ -107,69 +107,6 @@ namespace PacketMessagingTS.Helpers
             }
         }
 
-        //public string HandlingOrder
-        //{
-        //    get
-        //    {
-        //        if (_packetForm.FormHeaderControl != null)
-        //            return _packetForm.FormHeaderControl.HandlingOrder;
-        //        else
-        //            return _packetForm.HandlingOrder;
-        //    }
-        //    set
-        //    {
-        //        if (_packetForm.FormHeaderControl != null)
-        //            _packetForm.FormHeaderControl.HandlingOrder = value;
-        //        else
-        //            _packetForm.HandlingOrder = value;
-        //    }
-        //}
-
-        //public string MsgDate
-        //{
-        //    get
-        //    {
-        //        if (_packetForm.FormHeaderControl != null)
-        //            return _packetForm.FormHeaderControl.MsgDate;
-        //        else
-        //            return _packetForm.MsgDate;
-        //    }
-        //    set
-        //    {
-        //        if (_packetForm.FormHeaderControl != null)
-        //        {
-        //            _packetForm.FormHeaderControl.MsgDate = value;
-        //            _packetForm.MsgDate = value;
-        //        }
-        //        else
-        //            _packetForm.MsgDate = value;
-        //    }
-        //}
-
-        //public string OperatorName
-        //{
-        //    get => IdentityViewModel.Instance.UserName;
-        //    set
-        //    {
-        //        if (_packetForm.RadioOperatorControl != null)
-        //            _packetForm.RadioOperatorControl.OperatorName = value;
-        //        else
-        //            _packetForm.OperatorName = value;
-        //    }
-        //}
-
-        //public string OperatorCallsign
-        //{
-        //    get => IdentityViewModel.Instance.UserCallsign;
-        //    set
-        //    {
-        //        if (_packetForm.RadioOperatorControl != null)
-        //            _packetForm.RadioOperatorControl.OperatorCallsign = value;
-        //        else
-        //            _packetForm.OperatorCallsign = value;
-        //    }
-        //}
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

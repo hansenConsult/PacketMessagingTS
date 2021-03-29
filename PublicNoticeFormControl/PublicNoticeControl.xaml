@@ -226,7 +226,8 @@
                             <TextBox x:Name="signed" MinWidth="300" Width="auto" Margin="8,0,0,0" 
                                      Text="{x:Bind Signed, Mode=TwoWay}" Tag="18"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="7" x:Name="radioOperatorOnly">
+                        <src:RadioOperatorUserControl Grid.Row="7" x:Name="radioOperatorControl"/>
+                        <!--<StackPanel Grid.Row="7" x:Name="radioOperatorOnly">
                             <Border BorderBrush="Black" BorderThickness="1,1,1,1" Background="LightGray" Height="32">
                                 <TextBlock Text="Radio Operators Only:" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                        Margin="8,0,0,0" FontWeight="Bold"/>
@@ -282,8 +283,7 @@
                                          IsReadOnly="True"
                                          Margin="1,0,1,0" BorderBrush="White" Tag="26"  />
                             </Grid>
-                        </StackPanel>
-
+                        </StackPanel>-->
                     </Grid>
                     <Grid x:Name="noticePage" Visibility="{x:Bind NoticeVisibility, Mode=OneWay}" >
                         <Grid.RowDefinitions>
