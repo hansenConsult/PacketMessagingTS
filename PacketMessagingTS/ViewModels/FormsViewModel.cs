@@ -56,8 +56,8 @@ namespace PacketMessagingTS.ViewModels
         protected FormControlBase _packetForm;
         protected SimpleMessagePivot _simpleMessagePivot;
 
-        public bool FirstTimeFormOpened
-        { get; set; }
+        //public bool FirstTimeFormOpened
+        //{ get; set; }
 
         public string MessageNo
         {
@@ -121,19 +121,20 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.MsgDate;
+                    return _packetForm.FormHeaderControl.ViewModelBase.MsgDate;
                 else
-                    return _packetForm.MsgDate;
+                    return _packetForm.ViewModelBase.MsgDate;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
                 {
-                    _packetForm.FormHeaderControl.MsgDate = value;
-                    _packetForm.MsgDate = value;
+                    _packetForm.FormHeaderControl.ViewModelBase.MsgDate = value;
+                    if (_packetForm.ViewModelBase != null)
+                        _packetForm.ViewModelBase.MsgDate = value;
                 }
                 else
-                    _packetForm.MsgDate = value;
+                    _packetForm.ViewModelBase.MsgDate = value;
             }
         }
 
@@ -184,16 +185,16 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.HandlingOrder;
+                    return _packetForm.FormHeaderControl.ViewModelBase.HandlingOrder;
                 else
-                    return _packetForm.HandlingOrder;
+                    return _packetForm.ViewModelBase.HandlingOrder;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.HandlingOrder = value;
+                    _packetForm.FormHeaderControl.ViewModelBase.HandlingOrder = value;
                 else
-                    _packetForm.HandlingOrder = value;
+                    _packetForm.ViewModelBase.HandlingOrder = value;
             }
         }
 
@@ -391,7 +392,7 @@ namespace PacketMessagingTS.ViewModels
             if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.Received)
             {
                 _packetForm.MessageSentTime = _packetMessage.JNOSDate;
-                _packetForm.ReceivedOrSent = "Receiver";
+                _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
                 if (_packetForm.FormProvider == FormProvidersHelper.FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                 {
                     MessageNo = _packetMessage.MessageNumber;
@@ -408,7 +409,7 @@ namespace PacketMessagingTS.ViewModels
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
                 DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
                 OriginMsgNo = _packetMessage.MessageNumber;
-                _packetForm.ReceivedOrSent = "Sender";
+                _packetForm.ViewModelBase.ReceivedOrSent = "Sender";
             }
             else if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.New)
             {
@@ -506,13 +507,13 @@ namespace PacketMessagingTS.ViewModels
                     switch (_packetMessage.MessageOrigin)
                     {
                         case MessageOriginHelper.MessageOrigin.Received:
-                            (_packetForm as MessageControl).InBoxHeaderVisibility = true;
+                            (_packetForm as MessageControl).ViewModelBase.InBoxHeaderVisibility = true;
                             break;
                         case MessageOriginHelper.MessageOrigin.Sent:
-                            (_packetForm as MessageControl).SentHeaderVisibility = true;
+                            (_packetForm as MessageControl).ViewModelBase.SentHeaderVisibility = true;
                             break;
                         default:
-                            (_packetForm as MessageControl).NewHeaderVisibility = true;
+                            (_packetForm as MessageControl).ViewModelBase.NewHeaderVisibility = true;
                             break;
                     }
                 }
@@ -525,7 +526,7 @@ namespace PacketMessagingTS.ViewModels
                     stackPanel.Children.Insert(1, _packetAddressForm);
                     stackPanel.Children.Insert(2, _packetForm);
 
-                    (_packetForm as MessageControl).NewHeaderVisibility = true;
+                    (_packetForm as MessageControl).ViewModelBase.NewHeaderVisibility = true;
 
                     _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
                     _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
@@ -553,17 +554,21 @@ namespace PacketMessagingTS.ViewModels
                 DateTime now = DateTime.Now;
                 MsgDate = $"{now.Month:d2}/{now.Day:d2}/{now.Year:d4}";
                 //_packetForm.MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+                //HandlingOrder = null;
                 OperatorName = IdentityViewModel.Instance.UserName;
                 OperatorCallsign = IdentityViewModel.Instance.UserCallsign;
                 if (IdentityViewModel.Instance.UseTacticalCallsign)
                 {
-                    _packetForm.TacticalCallsign = IdentityViewModel.Instance.TacticalCallsign;
+                    _packetForm.ViewModelBase.TacticalCallsign = IdentityViewModel.Instance.TacticalCallsign;
+                }
+                else
+                {
+                    _packetForm.ViewModelBase.TacticalCallsign = null;
                 }
 
                 if (SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTMON")
                         || SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTTUE"))
                 {
-                    HandlingOrder = "routine";
                     MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
 
                     _packetForm.SetPracticeField(practiceSubject);

@@ -124,6 +124,7 @@
       <DependentUpon>MutualAidRequestControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MutualAidRequestControlViewModel.cs" />
     <EmbeddedResource Include="Properties\MutualAidRequestFormControl.rd.xml" />
   </ItemGroup>
   <ItemGroup>

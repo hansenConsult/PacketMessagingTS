@@ -133,7 +133,7 @@
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                     <TextBox Grid.Column="1" x:Name="msgDate"
                                  Style="{StaticResource DateTextBox}"
-                                 Text="{x:Bind MsgDate, Mode=TwoWay}" 
+                                 Text="{x:Bind ViewModel.MsgDate, Mode=TwoWay}" 
                                  Tag="1a.,required"
                                  TextChanged="TextBox_DateChanged"/>
                     <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
@@ -146,7 +146,7 @@
                     <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
                     <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
-                                                   CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                                   CheckedControlName ="{x:Bind ViewModelBase.HandlingOrder, Mode=TwoWay}" 
                                                    Tag="5.,required,Indicate Msg. Handling Order."/>
                     <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
                                  Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0" 

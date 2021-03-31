@@ -13,6 +13,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
 using FormControlBaseMvvmNameSpace;
 using MVCERTDA_FormControl;
+using Windows.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -27,11 +28,12 @@ namespace MVCERTDA_FormsControl
 
     public sealed partial class MVCERTDAControl : FormControlBase
     {
-        public MVCERTDAControlViewModel ViewModel = MVCERTDAControlViewModel.Instance;
+        //public MVCERTDAControlViewModel ViewModel = MVCERTDAControlViewModel.Instance;
+        public MVCERTDAControlViewModel ViewModel = new MVCERTDAControlViewModel();
 
         readonly string _subjectText = "Damage Summary for ";
 
-        private List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
+        //private List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
 
         public MVCERTDAControl()
         {
@@ -42,7 +44,7 @@ namespace MVCERTDA_FormsControl
             InitializeToggleButtonGroups();
 
             Severity = "other";
-            HandlingOrder = "priority";
+            ViewModel.HandlingOrder = "priority";
             actionNo.IsChecked = true;
             replyNo.IsChecked = true;
             forInfo.IsChecked = true;
@@ -51,8 +53,8 @@ namespace MVCERTDA_FormsControl
             comboBoxFromICSPosition.SelectedItem = "Planning";
             //ToLocation = "Mountain View EOC";
             textBoxToLocation.Text = "Mountain View EOC";
-            ReceivedOrSent = "sent";
-            HowReceivedSent = "otherRecvdType";
+            ViewModel.ReceivedOrSent = "sent";
+            ViewModel.HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
 
             if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
@@ -65,67 +67,13 @@ namespace MVCERTDA_FormsControl
             UpdateFormFieldsRequiredColors();
         }
 
-        private string tacticalCallsign;
-        public string CERTLocationValue
-        {
-            get
-            {
-                if (tacticalCallsign is null)
-                {
-                    CERTLocationValue = GetSelectedMTVTactical()?.TacticalCallsign;
-                }
-                return tacticalCallsign;
-            }
-            set
-            {
-                string agencyName;
-                if (FormPacketMessage == null)
-                {
-                    // New form
-                    SetProperty(ref tacticalCallsign, value);
-                    agencyName = GetSelectedMTVTactical()?.AgencyName.Replace(" CERT", "");
-                    
-                }
-                else
-                {
-                    // Display filled form
-                    agencyName = GetAgencyNameFromPacketMessage();
-                    tacticalCallsign = GetTacticalcallsignFromAgencyName(agencyName);
-                }
-                //Subject = _subjectText + agencyName;
-            }
-        }
 
-        public override string TacticalCallsign
-        {
-            get => CERTLocationValue;
-            set => CERTLocationValue = value;
-        }
-
-        //private TacticalCall certLocation;
-        //public TacticalCall CERTLocation
+        //private string toICSPosition;
+        //public string ToICSPosition
         //{
-        //    get
-        //    {
-        //        if (certLocation is null)
-        //        {
-        //            CERTLocation = GetSelectedMTVTactical();
-        //        }
-        //        return certLocation;
-        //    }
-        //    set
-        //    {
-        //        Set(ref certLocation, value);
-        //        subject.Text = subjectText + certLocation?.AgencyName;
-        //    }
+        //    get => toICSPosition;
+        //    set => SetProperty(ref toICSPosition, value);
         //}
-
-        private string toICSPosition;
-        public string ToICSPosition
-        {
-            get => toICSPosition;
-            set => SetProperty(ref toICSPosition, value);
-        }
 
         //private string toLocation;
         //public string ToLocation
@@ -135,12 +83,12 @@ namespace MVCERTDA_FormsControl
         //    set => textBoxToLocation.Text = value;
         //}
 
-        private string fromLocation;
-        public string FromLocation
-        {
-            get => fromLocation;
-            set => SetProperty(ref fromLocation, value);
-        }
+        //private string fromLocation;
+        //public string FromLocation
+        //{
+        //    get => fromLocation;
+        //    set => SetProperty(ref fromLocation, value);
+        //}
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
@@ -171,7 +119,7 @@ namespace MVCERTDA_FormsControl
         public override string CreateSubject()
         {
             //return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
-            return $"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_MTV213-CERT_{subject.Text}";
+            return $"{messageNo.Text}_{ViewModelBase.HandlingOrder?.ToUpper()[0]}_MTV213-CERT_{subject.Text}";
         }
 
         public override void AppendDrillTraffic()
@@ -286,39 +234,39 @@ namespace MVCERTDA_FormsControl
             messageField.ControlContent = message;
         }
 
-        private TacticalCall GetSelectedMTVTactical()
-        {
-            // Find Mountain View Tactical Call signs
-            TacticalCallsignData mtvTacticalCallsigns = null;
-            foreach (TacticalCallsignData data in TacticalCallsigns.TacticalCallsignDataDictionary.Values)
-            {
-                if (data.AreaName == "Local Mountain View")
-                {
-                    mtvTacticalCallsigns = data;
-                    break;
-                }
-            }
-            int index = mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArraySelectedIndex;
-            if (index < 0)
-            {
-                return null;
-            }
-            else
-            {
-                return mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArray[index];
-            }
-        }
+        //private TacticalCall GetSelectedMTVTactical()
+        //{
+        //    // Find Mountain View Tactical Call signs
+        //    TacticalCallsignData mtvTacticalCallsigns = null;
+        //    foreach (TacticalCallsignData data in TacticalCallsigns.TacticalCallsignDataDictionary.Values)
+        //    {
+        //        if (data.AreaName == "Local Mountain View")
+        //        {
+        //            mtvTacticalCallsigns = data;
+        //            break;
+        //        }
+        //    }
+        //    int index = mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArraySelectedIndex;
+        //    if (index < 0)
+        //    {
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        return mtvTacticalCallsigns.TacticalCallsigns.TacticalCallsignsArray[index];
+        //    }
+        //}
 
-        private string GetAgencyNameFromPacketMessage()
-        {
-            FormField agencyNameField = FormPacketMessage.FormFieldArray.Where(formField => formField.ControlName == "textBoxFromLocation").FirstOrDefault();
-            return agencyNameField.ControlContent;
-        }
+        //private string GetAgencyNameFromPacketMessage()
+        //{
+        //    FormField agencyNameField = FormPacketMessage.FormFieldArray.Where(formField => formField.ControlName == "textBoxFromLocation").FirstOrDefault();
+        //    return agencyNameField.ControlContent;
+        //}
 
         private string GetTacticalcallsignFromAgencyName(string agencyName)
         {
             //List<TacticalCall> CERTLocationTacticalCalls
-            foreach (TacticalCall tacticalCall in CERTLocationTacticalCalls)
+            foreach (TacticalCall tacticalCall in ViewModel.CERTLocationTacticalCalls)
             {
                 if (tacticalCall.AgencyName == agencyName)
                 {
@@ -326,6 +274,52 @@ namespace MVCERTDA_FormsControl
                 }
             }
             return "";
+        }
+
+        public override void FillFormFromFormFields(FormField[] formFields)
+        {
+            bool found1 = false, found2 = false;
+            foreach (FormField formField in formFields)
+            {
+                FrameworkElement control = GetFrameworkElement(formField);
+
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
+
+                if (control is TextBox)
+                {
+                    switch (control.Name)
+                    {
+                        case "textBoxFromLocation234234234":
+                            string tacticalCallsign = GetTacticalcallsignFromAgencyName(formField.ControlContent);
+                            ViewModel.TacticalCallsign = tacticalCallsign;
+                            found1 = true;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
+
+                if (control is ComboBox)
+                {
+                    switch (control.Name)
+                    {
+                        case "comboBoxFromLocation":
+                            // Filter out the selected index
+                            int index = formField.ControlContent.LastIndexOf(',');
+                            string location = formField.ControlContent.Substring(0, index);
+                            string tacticalCallsign = GetTacticalcallsignFromAgencyName(location);
+                            ViewModel.TacticalCallsign = tacticalCallsign;
+                            found2 = true;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
+                if (found1 || found2)
+                    break;
+            }
+            base.FillFormFromFormFields(formFields);
         }
 
         //private void DamageAccessmentRequired_TextChanged(object sender, TextChangedEventArgs e)

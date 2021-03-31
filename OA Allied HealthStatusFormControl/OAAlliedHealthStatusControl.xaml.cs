@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.System;
 using Windows.UI.Xaml;
 using FormControlBaseMvvmNameSpace;
+using OA_Allied_HealthStatusFormControl;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -30,6 +31,9 @@ namespace OAAlliedHealthStatus201802FormControl
 
     public sealed partial class OAAlliedHealthStatusControl : FormControlBase
     {
+        public OAAlliedHealthStatusControlViewModel ViewModel = OAAlliedHealthStatusControlViewModel.Instance;
+
+
         public OAAlliedHealthStatusControl()
         {
             InitializeComponent();
@@ -41,10 +45,12 @@ namespace OAAlliedHealthStatus201802FormControl
             //panelName = radioOperatorControl.Panel;
             //ScanControls(panelName, radioOperatorControl);
 
-            FormHeaderControl.HeaderString1 = "Allied Health Status Report Short Form";
-            FormHeaderControl.HeaderString2 = "(DEOC-9)";
-            FormHeaderControl.HeaderSubstring = "Version: February 2018";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "Allied Health Status Report Short Form";
+            FormHeaderControl.ViewModelBase.HeaderString2 = "(DEOC-9)";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version: February 2018";
             FormHeaderControl.PIF = "2.2";
+
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -60,15 +66,15 @@ namespace OAAlliedHealthStatus201802FormControl
         public override string PacFormType => "Allied_Health_Status";
 
 
-        public override string MsgDate
-        {
-            get => _msgDate;
-            set
-            {
-                SetProperty(ref _msgDate, value);
-                facilityDate.Text = value;
-            }
-        }
+        //public override string MsgDate
+        //{
+        //    get => _msgDate;
+        //    set
+        //    {
+        //        SetProperty(ref _msgDate, value);
+        //        facilityDate.Text = value;
+        //    }
+        //}
 
         public override void AppendDrillTraffic()
         { }
@@ -123,7 +129,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.MessageNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
+            return $"{formHeaderControl.MessageNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

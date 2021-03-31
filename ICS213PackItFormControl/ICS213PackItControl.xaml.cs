@@ -42,8 +42,8 @@ namespace ICS213PackItFormControl
 
             InitializeToggleButtonGroups();
 
-            ReceivedOrSent = "sender";
-            HowReceivedSent = "otherRecvdType";
+            ViewModel.ReceivedOrSent = "sent";
+            ViewModel.HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
@@ -82,6 +82,7 @@ namespace ICS213PackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
+            ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
             UpdateFormFieldsRequiredColors();       // TODO check this
         }
@@ -188,7 +189,7 @@ namespace ICS213PackItFormControl
 
         public override string CreateSubject()
 		{
-            return $"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}";
+            return $"{messageNo.Text}_{ViewModelBase.HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}";
         }
 
         protected override string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)

@@ -123,6 +123,7 @@
     <Compile Include="HavBedReportControl.xaml.cs">
       <DependentUpon>HavBedReportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HavBedReportControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\HavBedReportFormControl.rd.xml" />
   </ItemGroup>

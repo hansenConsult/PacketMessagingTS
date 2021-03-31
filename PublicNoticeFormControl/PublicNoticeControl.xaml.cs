@@ -29,6 +29,9 @@ namespace PublicNoticeFormControl
 
     public sealed partial class PublicNoticeControl : FormControlBase
     {
+        //public PublicNoticeControlViewModel ViewModel = PublicNoticeControlViewModel.Instance;
+        public PublicNoticeControlViewModel ViewModel = new PublicNoticeControlViewModel();
+
         public PublicNoticeControl()
         {
             this.InitializeComponent();
@@ -41,8 +44,11 @@ namespace PublicNoticeFormControl
 
             _printPanel = printPage1;
 
-            PageVisibility = true;
-            NoticeVisibility = false;
+            ViewModel.PageVisibility = true;
+            ViewModel.NoticeVisibility = false;
+            ViewModel.HandlingOrder = null;
+
+            ViewModelBase = ViewModel;
         }
 
         public override FormProviders FormProvider => FormProviders.PacForm;
@@ -67,82 +73,82 @@ namespace PublicNoticeFormControl
             notice.Text += DrillTraffic;
         }
 
-        private bool _pageVisibility = true;
-        public bool PageVisibility
-        {
-            get => _pageVisibility;
-            set => SetProperty(ref _pageVisibility, value);
-        }
+        //private bool _pageVisibility = true;
+        //public bool PageVisibility
+        //{
+        //    get => _pageVisibility;
+        //    set => SetProperty(ref _pageVisibility, value);
+        //}
 
-        private bool _noticeVisibility = false;
-        public bool NoticeVisibility
-        {
-            get => _noticeVisibility;
-            set => SetProperty(ref _noticeVisibility, value);
-        }
+        //private bool _noticeVisibility = false;
+        //public bool NoticeVisibility
+        //{
+        //    get => _noticeVisibility;
+        //    set => SetProperty(ref _noticeVisibility, value);
+        //}
 
-        private string _noticeType;
-        public string NoticeType
-        {
-            get => _noticeType;
-            set => SetProperty(ref _noticeType, value);
-        }
+        //private string _noticeType;
+        //public string NoticeType
+        //{
+        //    get => _noticeType;
+        //    set => SetProperty(ref _noticeType, value);
+        //}
 
-        private int _typeFontSize = 50;
-        public int TypeFontSize
-        {
-            get => _typeFontSize;
-            set => SetProperty(ref _typeFontSize, value);
-        }
+        //private int _typeFontSize = 50;
+        //public int TypeFontSize
+        //{
+        //    get => _typeFontSize;
+        //    set => SetProperty(ref _typeFontSize, value);
+        //}
 
-        private string _topic;
-        public string Topic
-        {
-            get => _topic;
-            set => SetProperty(ref _topic, value);
-        }
+        //private string _topic;
+        //public string Topic
+        //{
+        //    get => _topic;
+        //    set => SetProperty(ref _topic, value);
+        //}
 
-        private int _topicFontSize = 35;
-        public int TopicFontSize
-        {
-            get => _topicFontSize;
-            set => SetProperty(ref _topicFontSize, value);
-        }
+        //private int _topicFontSize = 35;
+        //public int TopicFontSize
+        //{
+        //    get => _topicFontSize;
+        //    set => SetProperty(ref _topicFontSize, value);
+        //}
 
-        private string _issuedBy;
-        public string IssuedBy
-        {
-            get => _issuedBy;
-            set => SetProperty(ref _issuedBy, value);
-        }
+        //private string _issuedBy;
+        //public string IssuedBy
+        //{
+        //    get => _issuedBy;
+        //    set => SetProperty(ref _issuedBy, value);
+        //}
 
-        private string _effectiveDate;
-        public string EffectiveDate
-        {
-            get => _effectiveDate;
-            set => SetProperty(ref _effectiveDate, value);
-        }
+        //private string _effectiveDate;
+        //public string EffectiveDate
+        //{
+        //    get => _effectiveDate;
+        //    set => SetProperty(ref _effectiveDate, value);
+        //}
 
-        private string _expires;
-        public string Expires
-        {
-            get => _expires;
-            set => SetProperty(ref _expires, value);
-        }
+        //private string _expires;
+        //public string Expires
+        //{
+        //    get => _expires;
+        //    set => SetProperty(ref _expires, value);
+        //}
 
-        private string _notice;
-        public string Notice
-        {
-            get => _notice;
-            set => SetProperty(ref _notice, value);
-        }
+        //private string _notice;
+        //public string Notice
+        //{
+        //    get => _notice;
+        //    set => SetProperty(ref _notice, value);
+        //}
 
-        private string _signed;
-        public string Signed
-        {
-            get => _signed;
-            set => SetProperty(ref _signed, value);
-        }
+        //private string _signed;
+        //public string Signed
+        //{
+        //    get => _signed;
+        //    set => SetProperty(ref _signed, value);
+        //}
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
@@ -160,20 +166,20 @@ namespace PublicNoticeFormControl
 
         public override string CreateSubject()
         {
-            return ($"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_PubNotice_");
+            return ($"{messageNo.Text}_{ViewModelBase.HandlingOrder?.ToUpper()[0]}_PubNotice_");
         }
 
         private void PublishButton_Click(object sender, RoutedEventArgs e)
         {
-            PageVisibility = false;
-            NoticeVisibility = true;
+            ViewModel.PageVisibility = false;
+            ViewModel.NoticeVisibility = true;
 
             _printPanel = noticePage;
         }
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
-            bool found1 = false, found2 = false;
+            bool found1 = false, found2 = false, found3 = false, found4 = false, found5 = false, found6 = false, found7 = false, found8 = false;
             foreach (FormField formField in formFields)
             {
                 FrameworkElement control = GetFrameworkElement(formField);
@@ -186,35 +192,42 @@ namespace PublicNoticeFormControl
                     switch (control.Name)
                     {
                         case "typeFontSize":
-                            TypeFontSize = Convert.ToInt32(formField.ControlContent);
+                            ViewModel.TypeFontSize = Convert.ToInt32(formField.ControlContent);
                             found1 = true;
                             break;
                         case "topic":
-                            Topic = formField.ControlContent;
+                            ViewModel.Topic = formField.ControlContent;
+                            found2 = true;
                             break;
                         case "topicFontSize":
-                            TopicFontSize = Convert.ToInt32(formField.ControlContent);
+                            ViewModel.TopicFontSize = Convert.ToInt32(formField.ControlContent);
+                            found3 = true;
                             break;
                         case "issuedBy":
-                            IssuedBy = formField.ControlContent;
+                            ViewModel.IssuedBy = formField.ControlContent;
+                            found4 = true;
                             break;
                         case "effectiveDate":
-                            EffectiveDate = formField.ControlContent;
+                            ViewModel.EffectiveDate = formField.ControlContent;
+                            found5 = true;
                             break;
                         case "expires":
-                            Expires = formField.ControlContent;
+                            ViewModel.Expires = formField.ControlContent;
+                            found6 = true;
                             break;
                         case "notice":
-                            Notice = formField.ControlContent;
+                            ViewModel.Notice = formField.ControlContent;
+                            found7 = true;
                             break;
                         case "signed":
-                            Signed = formField.ControlContent;
+                            ViewModel.Signed = formField.ControlContent;
+                            found8 = true;
                             break;
                         case null:
                             continue;
                     }
                 }
-                if (found1 && found2)
+                if (found1 && found2 && found3 && found4 && found5 && found6 && found7 && found8)
                     break;
             }
             base.FillFormFromFormFields(formFields);
@@ -253,7 +266,7 @@ namespace PublicNoticeFormControl
         {
             if (e.AddedItems.Count == 1)
             {
-                NoticeType = (string)(e.AddedItems[0] as ComboBoxItem).Content;
+                ViewModel.NoticeType = (string)(e.AddedItems[0] as ComboBoxItem).Content;
             }
         }
 

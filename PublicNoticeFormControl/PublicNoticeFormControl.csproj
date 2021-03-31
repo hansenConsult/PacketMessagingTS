@@ -124,6 +124,7 @@
     <Compile Include="PublicNoticeControl.xaml.cs">
       <DependentUpon>PublicNoticeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PublicNoticeControlViewModel.cs" />
     <EmbeddedResource Include="Properties\PublicNoticeFormControl.rd.xml" />
   </ItemGroup>
   <ItemGroup>

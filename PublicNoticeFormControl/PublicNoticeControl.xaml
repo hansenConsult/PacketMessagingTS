@@ -49,7 +49,7 @@
             <StackPanel>
                 <Grid x:Name="container" Opacity="0" />
                 <StackPanel x:Name="directPrintContainer"  >
-                    <Grid x:Name="printPage1" Visibility="{x:Bind PageVisibility, Mode=OneWay}">
+                    <Grid x:Name="printPage1" Visibility="{x:Bind ViewModel.PageVisibility, Mode=OneWay}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -114,7 +114,7 @@
                                        VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <TextBox Grid.Column="1" x:Name="msgDate"
                                      Style="{StaticResource MuniStatusDateTextBox}"
-                                     Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
+                                     Text="{x:Bind ViewModel.MsgDate, Mode=TwoWay}" 
                                      Tag="2,required"
                                      TextChanged="TextBox_DateChanged"/>
                             <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
@@ -127,7 +127,7 @@
                             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                            Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
-                                                           CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                                           CheckedControlName ="{x:Bind ViewModelBase.HandlingOrder, Mode=TwoWay}" 
                                                            Tag=",required,Indicate Msg. Handling Order."/>
                             <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
                                          Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0" 
@@ -187,30 +187,30 @@
                                        Style="{StaticResource MediumLabel}" Margin="8,0,0,0"/>
                             <TextBox Grid.Row="0" Grid.Column="3" x:Name="typeFontSize" Width="64" 
                                      Style="{StaticResource NoticeTextBox}" 
-                                     Text="{x:Bind TypeFontSize, Mode=TwoWay}" HorizontalAlignment="Left" Tag="11"/>
+                                     Text="{x:Bind ViewModel.TypeFontSize, Mode=TwoWay}" HorizontalAlignment="Left" Tag="11"/>
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Topic:" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="1" Grid.Column="1" x:Name="topic" 
                                      Style="{StaticResource NoticeTextBox}" 
-                                     Text="{x:Bind Topic, Mode=TwoWay}"
+                                     Text="{x:Bind ViewModel.Topic, Mode=TwoWay}"
                                      Tag="12"/>
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="Font Size (pt):" Margin="8,0,8,0" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="1" Grid.Column="3" x:Name="topicFontSize" Width="64" 
-                                     Text="{x:Bind TopicFontSize, Mode=TwoWay}" 
+                                     Text="{x:Bind ViewModel.TopicFontSize, Mode=TwoWay}" 
                                      HorizontalAlignment="Left" Tag="13"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Issued By:" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="2" Grid.Column="1" x:Name="issuedBy"
                                      Style="{StaticResource NoticeTextBox}"
-                                     Text="{x:Bind IssuedBy, Mode=TwoWay}" Tag="14"/>
+                                     Text="{x:Bind ViewModel.IssuedBy, Mode=TwoWay}" Tag="14"/>
                             <!--<src:EditBoxMemory Grid.Row="2" Grid.Column="1" x:Name="editBoxMemory" 
                                                Margin="0,2,2,2"/>-->
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Effective Date:" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="3" Grid.Column="1" x:Name="effectiveDate" 
                                      Style="{StaticResource NoticeTextBox}"
-                                     Text="{x:Bind EffectiveDate, Mode=TwoWay}" Tag="15"/>
+                                     Text="{x:Bind ViewModel.EffectiveDate, Mode=TwoWay}" Tag="15"/>
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Expires:" Style="{StaticResource MediumLabel}"/>
                             <TextBox Grid.Row="4" Grid.Column="1" x:Name="expires" 
                                      Style="{StaticResource NoticeTextBox}"
-                                     Text="{x:Bind Expires, Mode=TwoWay}" Tag="16"/>
+                                     Text="{x:Bind ViewModel.Expires, Mode=TwoWay}" Tag="16"/>
                         </Grid>
                         <TextBlock Grid.Row="4" Margin="4,12,0,0" FontWeight="Bold" 
                                    Text="Notice Details  (Note: Use a blank line to separate paragraphs):" 
@@ -218,13 +218,13 @@
                         <TextBox Grid.Row="5" x:Name="notice" TextWrapping="Wrap"  
                                  AcceptsReturn="True" Height="300" Width="540" 
                                  HorizontalAlignment="Left" 
-                                 Text="{x:Bind Notice, Mode=TwoWay}" 
+                                 Text="{x:Bind ViewModel.Notice, Mode=TwoWay}" 
                                  Tag="17">
                         </TextBox>
                         <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,12">
                             <TextBlock Text="Signed:" Width="auto" Style="{StaticResource MediumLabel}"/>
                             <TextBox x:Name="signed" MinWidth="300" Width="auto" Margin="8,0,0,0" 
-                                     Text="{x:Bind Signed, Mode=TwoWay}" Tag="18"/>
+                                     Text="{x:Bind ViewModel.Signed, Mode=TwoWay}" Tag="18"/>
                         </StackPanel>
                         <src:RadioOperatorUserControl Grid.Row="7" x:Name="radioOperatorControl"/>
                         <!--<StackPanel Grid.Row="7" x:Name="radioOperatorOnly">
@@ -285,7 +285,7 @@
                             </Grid>
                         </StackPanel>-->
                     </Grid>
-                    <Grid x:Name="noticePage" Visibility="{x:Bind NoticeVisibility, Mode=OneWay}" >
+                    <Grid x:Name="noticePage" Visibility="{x:Bind ViewModel.NoticeVisibility, Mode=OneWay}" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -302,8 +302,8 @@
                                        FontFamily="Segoe UI" 
                                        >
                             <!--OverflowContentTarget="{Binding ElementName=FirstLinkedContainer}"-->
-                            <Paragraph FontSize="{x:Bind TypeFontSize, Mode=OneWay}">
-                                <Run Text="{x:Bind NoticeType, Mode=OneWay}" FontSize="{x:Bind TypeFontSize, Mode=OneWay}" 
+                            <Paragraph FontSize="{x:Bind ViewModel.TypeFontSize, Mode=OneWay}">
+                                <Run Text="{x:Bind ViewModel.NoticeType, Mode=OneWay}" FontSize="{x:Bind ViewModel.TypeFontSize, Mode=OneWay}" 
                                      FontWeight="Bold"/>
                             </Paragraph>
                         </RichTextBlock>
@@ -311,21 +311,21 @@
                                        HorizontalAlignment="Center"
                                        FontFamily="Segoe UI" >
                         <Paragraph >
-                                <Run Text="{x:Bind Topic, Mode=OneWay}" FontSize="{x:Bind TopicFontSize, Mode=OneWay}" 
+                                <Run Text="{x:Bind ViewModel.Topic, Mode=OneWay}" FontSize="{x:Bind ViewModel.TopicFontSize, Mode=OneWay}" 
                                      FontWeight="Bold"/>
                             </Paragraph>
                         </RichTextBlock>
                         <RichTextBlock Grid.Row="2" FontFamily="Segoe UI" Margin="0,12">
                         <Paragraph >
                                 <Run Text="Issued By:" FontSize="20" FontWeight="Bold"/>
-                                <Run Text="{x:Bind IssuedBy, Mode=OneWay}" FontSize="18"
+                                <Run Text="{x:Bind ViewModel.IssuedBy, Mode=OneWay}" FontSize="18"
                                      FontWeight="Normal"/>
                             </Paragraph>
                         </RichTextBlock>
                         <RichTextBlock Grid.Row="3" FontFamily="Segoe UI" Margin="0,12">
                             <Paragraph>
                                 <Run Text="Effective Date:" FontSize="20" FontWeight="Bold"/>
-                                <Run Text="{x:Bind EffectiveDate, Mode=OneWay}"  FontSize="18" 
+                                <Run Text="{x:Bind ViewModel.EffectiveDate, Mode=OneWay}"  FontSize="18" 
                                      FontWeight="Normal"/>
                             </Paragraph>
                         </RichTextBlock>
@@ -333,14 +333,14 @@
                         <RichTextBlock Grid.Row="4" FontFamily="Segoe UI" Margin="0,12">
                             <Paragraph>
                                 <Run Text="Expires:" FontSize="20" FontWeight="Bold"/>
-                                <Run Text="{x:Bind Expires, Mode=OneWay}"  FontSize="18" 
+                                <Run Text="{x:Bind ViewModel.Expires, Mode=OneWay}"  FontSize="18" 
                                      FontWeight="Normal"/>
                             </Paragraph>
                         </RichTextBlock>
 
                         <RichTextBlock Grid.Row="5" FontFamily="Segoe UI" Margin="0,12">
                             <Paragraph>
-                                <Run Text="{x:Bind Notice, Mode=OneWay}"  FontSize="18" 
+                                <Run Text="{x:Bind ViewModel.Notice, Mode=OneWay}"  FontSize="18" 
                                      FontWeight="Normal"/>
                             </Paragraph>
                         </RichTextBlock>
@@ -348,7 +348,7 @@
                         <RichTextBlock Grid.Row="6" FontFamily="Segoe UI">
                             <Paragraph>
                                 <Run Text="Signed:" FontSize="20" FontWeight="Bold"/>
-                                <Run Text="{x:Bind Signed, Mode=OneWay}"  FontSize="18"
+                                <Run Text="{x:Bind ViewModel.Signed, Mode=OneWay}"  FontSize="18"
                                      FontWeight="Normal"/>
                             </Paragraph>
                         </RichTextBlock>
@@ -358,6 +358,6 @@
             </StackPanel>
         </Border>
         <TextBlock Text="SCCo Public Notice Generator (PR-4.7-1.2, 02/27/20)" HorizontalAlignment="Center" Margin="0,12"
-                   Visibility="{x:Bind PageVisibility, Mode=OneWay}"/>
+                   Visibility="{x:Bind ViewModel.PageVisibility, Mode=OneWay}"/>
     </StackPanel>
 </MyBaseNamespace:FormControlBase>

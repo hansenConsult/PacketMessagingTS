@@ -135,7 +135,7 @@
                                     <TextBox x:Name="msgDate" PlaceholderText="mm/dd/yyyy"
                                              HeaderTemplate="{StaticResource HeaderTemplate}"
                                              Header="1a. Date:"                                                                                                                                                   
-                                             Text="{x:Bind MsgDate, Mode=TwoWay}"
+                                             Text="{x:Bind ViewModel.MsgDate, Mode=TwoWay}"
                                              TextAlignment="Center" BorderBrush="White" 
                                              TextChanged="TextBox_DateChanged"
                                              Margin="2" Height="50" Tag="1a.,required"/>
@@ -174,7 +174,7 @@
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="5. Msg. Handling Order" Margin="8"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
-                                                                       CheckedControlName="{x:Bind HandlingOrder, Mode=TwoWay}"
+                                                                       CheckedControlName="{x:Bind ViewModel.HandlingOrder, Mode=TwoWay}"
                                                                        Tag="5.,required,Indicate Msg. Handling Order."/>
                                         <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
                                                      Margin="10, 4" Padding="4" Content="IMMEDIATE" Checked="Subject_Changed"
@@ -646,7 +646,7 @@
                                 <TextBlock Style="{StaticResource ReceivedSentLabelFont}" Text="How received" 
                                                VerticalAlignment="Center" Margin="8,0,5,0" />
                                 <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
-                                                                   CheckedControlName="{x:Bind ReceivedOrSent}" Tag="Rec-Sent"/>
+                                                                   CheckedControlName="{x:Bind ViewModel.ReceivedOrSent}" Tag="Rec-Sent"/>
                                 <RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
                                                      Content="" Padding="5" Tag=""/>
                                 <RadioButton x:Name="sent" GroupName="receivedOrSent" 
@@ -669,7 +669,7 @@
                                          BorderBrush="White" Margin="5,2,0,2" Width="auto" Tag="OpName"/>
                             </StackPanel>
                             <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" IsTabStop="False"
-                                                               CheckedControlName="{x:Bind HowReceivedSent, Mode=TwoWay}"
+                                                               CheckedControlName="{x:Bind ViewModel.HowReceivedSent, Mode=TwoWay}"
                                                                Tag="Method"/>
                             <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" GroupName="howRecevedSent" x:Name="telephone" 
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="Telephone" 

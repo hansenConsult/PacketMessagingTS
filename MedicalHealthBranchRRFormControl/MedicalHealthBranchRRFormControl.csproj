@@ -123,6 +123,7 @@
     <Compile Include="MedicalHealthBranchRRControl.xaml.cs">
       <DependentUpon>MedicalHealthBranchRRControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MedicalHealthBranchRRControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\MedicalHealthBranchRRFormControl.rd.xml" />
   </ItemGroup>

@@ -31,18 +31,12 @@ namespace MessageFormControl
 
     public partial class MessageControl : FormControlBase
     {
-        enum HeaderVisibility
-        {
-            None,
-            InboxHeader,
-            SentHeader,
-            NewHeader,
-            PrintHeader,
-            FixedContent,
-        }
 
-        private HeaderVisibility _visibleHeader = HeaderVisibility.None;
-        private HeaderVisibility _previousVisibleHeader = HeaderVisibility.None;
+        MessageFormControlViewModel ViewModel = MessageFormControlViewModel.Instance;
+        //MessageFormControlViewModel ViewModel = new MessageFormControlViewModel();
+
+        //private HeaderVisibility _visibleHeader = HeaderVisibility.None;
+        //private HeaderVisibility _previousVisibleHeader = HeaderVisibility.None;
 
         private new PrintHelper _printHelper;
 
@@ -55,122 +49,124 @@ namespace MessageFormControl
 
             InitializeToggleButtonGroups();
 
+            ViewModelBase = ViewModel;
+
             UpdateFormFieldsRequiredColors();
         }
 
 
-        private bool inBoxHeaderVisibility;
-        public bool InBoxHeaderVisibility
-        {
-            get => inBoxHeaderVisibility;
-            set
-            {
-                SetProperty(ref inBoxHeaderVisibility, value);
-                if (value)
-                {
-                    _visibleHeader = HeaderVisibility.InboxHeader;
-                    FixedContentVisibility = true;
-                    SentHeaderVisibility = false;
-                    NewHeaderVisibility = false;
-                    PrintHeaderVisibility = false;
-                }
-            }
-        }
+        //private bool inBoxHeaderVisibility;
+        //public bool InBoxHeaderVisibility
+        //{
+        //    get => inBoxHeaderVisibility;
+        //    set
+        //    {
+        //        SetProperty(ref inBoxHeaderVisibility, value);
+        //        if (value)
+        //        {
+        //            _visibleHeader = HeaderVisibility.InboxHeader;
+        //            FixedContentVisibility = true;
+        //            SentHeaderVisibility = false;
+        //            NewHeaderVisibility = false;
+        //            PrintHeaderVisibility = false;
+        //        }
+        //    }
+        //}
 
-        private bool sentHeaderVisibility;
-        public bool SentHeaderVisibility
-        {
-            get => sentHeaderVisibility;
-            set
-            {
-                SetProperty(ref sentHeaderVisibility, value);
-                if (value)
-                {
-                    _visibleHeader = HeaderVisibility.SentHeader;
-                    FixedContentVisibility = true;
-                    InBoxHeaderVisibility = false;
-                    NewHeaderVisibility = false;
-                    PrintHeaderVisibility = false;
-                }
-            }
-        }
+        //private bool sentHeaderVisibility;
+        //public bool SentHeaderVisibility
+        //{
+        //    get => sentHeaderVisibility;
+        //    set
+        //    {
+        //        SetProperty(ref sentHeaderVisibility, value);
+        //        if (value)
+        //        {
+        //            _visibleHeader = HeaderVisibility.SentHeader;
+        //            FixedContentVisibility = true;
+        //            InBoxHeaderVisibility = false;
+        //            NewHeaderVisibility = false;
+        //            PrintHeaderVisibility = false;
+        //        }
+        //    }
+        //}
 
-        private bool newHeaderVisibility;
-        public bool NewHeaderVisibility
-        {
-            get => newHeaderVisibility;
-            set
-            {
-                SetProperty(ref newHeaderVisibility, value);
-                if (value)
-                {
-                    _visibleHeader = HeaderVisibility.NewHeader;
-                    FixedContentVisibility = false;
-                    InBoxHeaderVisibility = false;
-                    SentHeaderVisibility = false;
-                    PrintHeaderVisibility = false;
-                }
-            }
-        }
+        //private bool newHeaderVisibility;
+        //public bool NewHeaderVisibility
+        //{
+        //    get => newHeaderVisibility;
+        //    set
+        //    {
+        //        SetProperty(ref newHeaderVisibility, value);
+        //        if (value)
+        //        {
+        //            _visibleHeader = HeaderVisibility.NewHeader;
+        //            FixedContentVisibility = false;
+        //            InBoxHeaderVisibility = false;
+        //            SentHeaderVisibility = false;
+        //            PrintHeaderVisibility = false;
+        //        }
+        //    }
+        //}
 
-        private bool printHeaderVisibility;
-        public bool PrintHeaderVisibility
-        {
-            get => printHeaderVisibility;
-            set
-            {
-                SetProperty(ref printHeaderVisibility, value);
-                if (value)
-                {
-                    _visibleHeader = HeaderVisibility.PrintHeader;
-                    FixedContentVisibility = true;
-                    NewHeaderVisibility = false;
-                    InBoxHeaderVisibility = false;
-                    SentHeaderVisibility = false;
-                }
-            }
-        }
+        //private bool printHeaderVisibility;
+        //public bool PrintHeaderVisibility
+        //{
+        //    get => printHeaderVisibility;
+        //    set
+        //    {
+        //        SetProperty(ref printHeaderVisibility, value);
+        //        if (value)
+        //        {
+        //            _visibleHeader = HeaderVisibility.PrintHeader;
+        //            FixedContentVisibility = true;
+        //            NewHeaderVisibility = false;
+        //            InBoxHeaderVisibility = false;
+        //            SentHeaderVisibility = false;
+        //        }
+        //    }
+        //}
 
-        private bool fixedContentVisibility;
-        public bool FixedContentVisibility
-        {
-            get => fixedContentVisibility;
-            set 
-            {
-                SetProperty(ref fixedContentVisibility, value);
-            }
-        }
+        //private bool fixedContentVisibility;
+        //public bool FixedContentVisibility
+        //{
+        //    get => fixedContentVisibility;
+        //    set 
+        //    {
+        //        SetProperty(ref fixedContentVisibility, value);
+        //    }
+        //}
 
-        private void SetHeaderVisibility()
-        {
-            switch (_visibleHeader)
-            {
-                case HeaderVisibility.None:
-                    break;
-                case HeaderVisibility.InboxHeader:
-                    InBoxHeaderVisibility = true;
-                    break;
-                case HeaderVisibility.SentHeader:
-                    SentHeaderVisibility = true;
-                    break;
-                case HeaderVisibility.NewHeader:
-                    NewHeaderVisibility = true;
-                    break;
-                case HeaderVisibility.PrintHeader:
-                    PrintHeaderVisibility = true;
-                    break;
-                //case HeaderVisibility.FixedContent:
-                //    FixedContentVisibility = true;
-                //    break;
-            }
-        }
+        //private void SetHeaderVisibility()
+        //{
+        //    switch (_visibleHeader)
+        //    {
+        //        case HeaderVisibility.None:
+        //            break;
+        //        case HeaderVisibility.InboxHeader:
+        //            InBoxHeaderVisibility = true;
+        //            break;
+        //        case HeaderVisibility.SentHeader:
+        //            SentHeaderVisibility = true;
+        //            break;
+        //        case HeaderVisibility.NewHeader:
+        //            NewHeaderVisibility = true;
+        //            break;
+        //        case HeaderVisibility.PrintHeader:
+        //            PrintHeaderVisibility = true;
+        //            break;
+        //        //case HeaderVisibility.FixedContent:
+        //        //    FixedContentVisibility = true;
+        //        //    break;
+        //    }
+        //}
 
-        private string _messageBody;
-        public override string MessageBody
-        {
-            get => _messageBody;
-            set => SetProperty(ref _messageBody, value);
-        }
+        //private string _messageBody;
+        //public override string MessageBody
+        //{
+        //    get => _messageBody;
+        //    set => SetProperty(ref _messageBody, value);
+        //}
 
         public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
 
@@ -195,9 +191,9 @@ namespace MessageFormControl
         {
             get
             {
-                _previousVisibleHeader = _visibleHeader;
-                _visibleHeader = HeaderVisibility.PrintHeader;
-                SetHeaderVisibility();
+                ViewModel._previousVisibleHeader = ViewModel._visibleHeader;
+                ViewModel._visibleHeader = MessageFormControlViewModel.HeaderVisibility.PrintHeader;
+                ViewModel.SetHeaderVisibility();
 
                 List<Panel> printPages = new List<Panel>();
 
@@ -272,8 +268,8 @@ namespace MessageFormControl
                 }
             }
 
-            _visibleHeader = _previousVisibleHeader;
-            SetHeaderVisibility();
+            ViewModel._visibleHeader = ViewModel._previousVisibleHeader;
+            ViewModel.SetHeaderVisibility();
         }
 
         protected override void CreateOutpostDataFromFormFields(ref PacketMessage packetMessage, ref List<string> outpostData)
@@ -368,7 +364,7 @@ namespace MessageFormControl
                     switch (control.Name)
                     {
                         case "messageBody":
-                            MessageBody = formField.ControlContent;
+                            ViewModel.MessageBody = formField.ControlContent;
                             found1 = true;
                             break;
                         case null:
@@ -385,7 +381,7 @@ namespace MessageFormControl
 
         public override void MessageChanged(string message)
         {
-            MessageBody = message ?? "";
+            ViewModel.MessageBody = message ?? "";
 
             if (string.IsNullOrEmpty(message))
                 return;

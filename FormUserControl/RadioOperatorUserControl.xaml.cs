@@ -20,7 +20,6 @@ using Windows.UI.Xaml.Media;
 
 namespace FormUserControl
 {
-    //public sealed partial class RadioOperatorUserControl : FormControlBasics
     public sealed partial class RadioOperatorUserControl : FormControlBaseMvvm
     {
         public RadioOperatorUserControlViewModel RadioOperatorUserControlViewModel = RadioOperatorUserControlViewModel.Instance;

@@ -10,8 +10,53 @@ namespace SharedCode.Helpers
 {
     public class UserControlViewModelBase : ObservableRecipient
     {
+
         protected ObservableRecipient UserControlViewModel
         { get; set; }
+
+        private bool namePanel1Visibility = true;
+        public bool NamePanel1Visibility
+        {
+            get => namePanel1Visibility;
+            set => SetProperty(ref namePanel1Visibility, value);
+        }
+
+        public bool NamePanel2Visibility => !NamePanel1Visibility;
+
+        private string headerString1;
+        public string HeaderString1
+        {
+            get => headerString1;
+            set => SetProperty(ref headerString1, value);
+        }
+
+        private string headerString2;
+        public string HeaderString2
+        {
+            get => headerString2;
+            set => SetProperty(ref headerString2, $" {value}");
+        }
+
+        private string headerSubstring;
+        public string HeaderSubstring
+        {
+            get => headerSubstring;
+            set => SetProperty(ref headerSubstring, value);
+        }
+
+        protected string _msgDate;
+        public virtual string MsgDate
+        {
+            get => _msgDate;
+            set => SetProperty(ref _msgDate, value);
+        }
+
+        private string handlingOrder;
+        public string HandlingOrder
+        {
+            get => handlingOrder;
+            set => SetProperty(ref handlingOrder, value == "" ? null : value);
+        }
 
         private string operatorName;
         public string OperatorName
@@ -26,6 +71,32 @@ namespace SharedCode.Helpers
             get => operatorCallsign;
             set => SetProperty(ref operatorCallsign, value);
         }
+
+        private string receivedOrSent;
+        public string ReceivedOrSent
+        {
+            get => receivedOrSent;
+            set => SetProperty(ref receivedOrSent, value);
+        }
+
+        public virtual string TacticalCallsign
+        { get; set; }
+
+        public virtual string MessageBody
+        { get; set; }
+
+        protected bool inBoxHeaderVisibility;
+        public virtual bool InBoxHeaderVisibility
+        { get; set; }
+
+        protected bool sentHeaderVisibility;
+        public virtual bool SentHeaderVisibility
+        { get; set; }
+
+        protected bool newHeaderVisibility;
+        public virtual bool NewHeaderVisibility
+        { get; set; }
+
 
     }
 }

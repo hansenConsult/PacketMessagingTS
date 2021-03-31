@@ -126,6 +126,7 @@
     <Compile Include="FormHeaderUserControl.xaml.cs">
       <DependentUpon>FormHeaderUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FormHeaderUserControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioOperatorUserControl.xaml.cs">
       <DependentUpon>RadioOperatorUserControl.xaml</DependentUpon>

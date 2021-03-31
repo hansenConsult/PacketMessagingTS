@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using FormControlBaseMvvmNameSpace;
 
 using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using ToggleButtonGroupControl;
@@ -37,7 +38,7 @@ namespace FormControlBasicsNamespace
 
 
     //public partial class FormControlBasics : UserControl, INotifyPropertyChanged
-    public partial class FormControlBasics : FormControlBaseMvvm, INotifyPropertyChanged
+    public partial class FormControlBasics : FormControlBaseMvvm//, INotifyPropertyChanged
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
 
@@ -82,6 +83,9 @@ namespace FormControlBasicsNamespace
         //public virtual FormControlBasics RootPanel
         //{ get; set; }
 
+        //public virtual UserControlViewModelBase ViewModelBase
+        //{ get; set; }
+
         public virtual string MessageNo
         { get; set; }
 
@@ -91,15 +95,15 @@ namespace FormControlBasicsNamespace
         public virtual string OriginMsgNo
         { get; set; }
 
-        protected string _msgDate;
-        public virtual string MsgDate
-        { get; set; }
+        //protected string _msgDate;
+        //public virtual string MsgDate
+        //{ get; set; }
 
         public virtual string MsgTime
         { get; set; }
 
-        public virtual string HandlingOrder
-        { get; set; }
+        //public virtual string HandlingOrder
+        //{ get; set; }
 
         protected string _pif = "2.1";
         public virtual string PIF
@@ -115,16 +119,16 @@ namespace FormControlBasicsNamespace
             get => $"PIF: {_pif}";
         }
 
-        protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
+        //protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        //{
+        //    if (Equals(storage, value))
+        //    {
+        //        return;
+        //    }
 
-            storage = value;
-            OnPropertyChanged(propertyName);
-        }
+        //    storage = value;
+        //    OnPropertyChanged(propertyName);
+        //}
 
         //protected void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         //{
@@ -137,8 +141,8 @@ namespace FormControlBasicsNamespace
         //    OnPropertyChanged(propertyName);
         //}
 
-        protected void OnPropertyChanged(string propertyName) =>
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //protected void OnPropertyChanged(string propertyName) =>
+        //            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         //protected virtual void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         //{
@@ -735,7 +739,7 @@ namespace FormControlBasicsNamespace
                         //toggleButtonGroup.CheckedControlName = radioButton.Name;
                         if (toggleButtonGroup.Name == "handlingOrder")
                         {
-                            HandlingOrder = radioButton.Name;
+                            ViewModelBase.HandlingOrder = radioButton.Name;
                         }
                         if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
                         {

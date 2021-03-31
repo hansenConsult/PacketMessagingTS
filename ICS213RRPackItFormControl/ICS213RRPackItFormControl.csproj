@@ -125,6 +125,7 @@
     <Compile Include="ICS213RRPackItControl.xaml.cs">
       <DependentUpon>ICS213RRPackItControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ICS213RRPackItControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\ICS213RRPackItFormControl.rd.xml" />
   </ItemGroup>

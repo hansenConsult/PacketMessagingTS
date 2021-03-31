@@ -32,6 +32,8 @@ namespace MedicalHealthBranchRRFormControl
     /// </summary>
     public sealed partial class MedicalHealthBranchRRControl : FormControlBase
     {
+        MedicalHealthBranchRRControlViewModel ViewModel = MedicalHealthBranchRRControlViewModel.Instance;
+
         public MedicalHealthBranchRRControl()
         {
             InitializeComponent();
@@ -40,15 +42,16 @@ namespace MedicalHealthBranchRRFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.NamePanel1Visibility = false;
-            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
-            FormHeaderControl.HeaderSubstring = "Version: September 2009";
+            FormHeaderControl.ViewModelBase.NamePanel1Visibility = false;
+            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version: September 2009";
             FormHeaderControl.PIF = PIF;
 
             if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
             {
                 GetFormDataFromAttribute(GetType());
             }
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -63,17 +66,17 @@ namespace MedicalHealthBranchRRFormControl
 
         public override string PacFormType => "XSC_MedicalResourceRequest";
 
-        public override string MsgDate
-        {
-            get => _msgDate;
-            set
-            {
-                //RequestMsgDate = value;
-                requestDate.Text = value;
-                SetProperty(ref _msgDate, value);
-                UpdateFormFieldsRequiredColors();
-            }
-        }
+        //public override string MsgDate
+        //{
+        //    get => _msgDate;
+        //    set
+        //    {
+        //        //RequestMsgDate = value;
+        //        requestDate.Text = value;
+        //        SetProperty(ref _msgDate, value);
+        //        UpdateFormFieldsRequiredColors();
+        //    }
+        //}
 
         //private string requestMsgDate;
         //public string RequestMsgDate
@@ -102,7 +105,7 @@ namespace MedicalHealthBranchRRFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -127,22 +130,19 @@ namespace MedicalHealthBranchRRFormControl
                 if (control is null || string.IsNullOrEmpty(formField.ControlContent))
                     continue;
 
-                bool found1 = false, found2 = true;
+                bool found1 = true, found2 = false;
                 if (control is TextBox textBox)
                 {
                     switch (control.Name)
                     {
-                        case "msgDate":
-                            found1 = true;
-                            MsgDate = formField.ControlContent;
+                        //case "msgDate":
+                        //    found1 = true;
+                        //    MsgDate = formField.ControlContent;
+                        //    break;
+                        case "requestDate":
+                            found2 = true;
+                            ViewModel.RequestMsgDate = formField.ControlContent;
                             break;
-                        //case "requestDate":
-                        //    found2 = true;
-                        //    RequestMsgDate = formField.ControlContent;
-                        //    break;
-                        //case "subject":
-                        //    Subject = textBox.Text;
-                        //    break;
                         case null:
                             continue;
                     }

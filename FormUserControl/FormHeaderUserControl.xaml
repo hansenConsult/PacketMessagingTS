@@ -685,26 +685,26 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal" 
-                            Visibility="{x:Bind NamePanel1Visibility}" >
+                            Visibility="{x:Bind ViewModel.NamePanel1Visibility}" >
                     <TextBlock FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                                Foreground="Black" Margin="8,0"
                                VerticalAlignment="Center" 
-                               Text="{x:Bind HeaderString1, Mode=OneWay}"/>
+                               Text="{x:Bind ViewModel.HeaderString1, Mode=OneWay}"/>
                     <TextBlock FontSize="10" FontFamily="Arial Black" FontWeight="Bold" 
                                Foreground="Black" 
                                VerticalAlignment="Center" Margin="0,4,0,0"
-                               Text="{x:Bind HeaderString2, Mode=OneWay}"/>
+                               Text="{x:Bind ViewModel.HeaderString2, Mode=OneWay}"/>
                 </StackPanel>
                 <TextBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" 
                            FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                            Margin="8,-8" IsReadOnly="True" AcceptsReturn="True"
-                           VerticalAlignment="Top" Visibility="{x:Bind NamePanel2Visibility}" 
-                           Text="{x:Bind HeaderString1, Mode=OneWay}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind HeaderSubstring, Mode=OneWay}" 
-                           Visibility="{x:Bind NamePanel2Visibility}" HorizontalAlignment="Right" 
+                           VerticalAlignment="Top" Visibility="{x:Bind ViewModel.NamePanel2Visibility}" 
+                           Text="{x:Bind ViewModel.HeaderString1, Mode=OneWay}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind ViewModel.HeaderSubstring, Mode=OneWay}" 
+                           Visibility="{x:Bind ViewModel.NamePanel2Visibility}" HorizontalAlignment="Right" 
                            Margin="8,6"/>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Bind HeaderSubstring, Mode=OneWay}" 
-                           Visibility="{x:Bind NamePanel1Visibility}" HorizontalAlignment="Left" Margin="8,2"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Bind ViewModel.HeaderSubstring, Mode=OneWay}" 
+                           Visibility="{x:Bind ViewModel.NamePanel1Visibility}" HorizontalAlignment="Left" Margin="8,2"/>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind HeaderPIF, Mode=OneWay}" 
                            HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8,2"/>
             </Grid>
@@ -744,7 +744,7 @@
                        VerticalAlignment="Center" Margin="8,0,0,0"/>
             <TextBox Grid.Column="1" x:Name="msgDate"
                      Style="{StaticResource DateTextBox}"
-                     Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
+                     Text="{x:Bind ViewModel.MsgDate, Mode=TwoWay}" 
                      Tag="1a.,required"
                      TextChanged="TextBox_DateChanged"/>
             <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
@@ -759,7 +759,7 @@
             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                            Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
             <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
-                                           CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                           CheckedControlName ="{x:Bind ViewModel.HandlingOrder, Mode=TwoWay}" 
                                            Tag="5.,required,Indicate Msg. Handling Order."/>
             <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
                          Style="{StaticResource HandlingOrderRadioButtonStyle}" 

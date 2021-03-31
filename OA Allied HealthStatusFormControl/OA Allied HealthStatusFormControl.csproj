@@ -123,6 +123,7 @@
     <Compile Include="OAAlliedHealthStatusControl.xaml.cs">
       <DependentUpon>OAAlliedHealthStatusControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OAAlliedHealthStatusControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\OA_Allied_HealthStatusFormControl.rd.xml" />
   </ItemGroup>

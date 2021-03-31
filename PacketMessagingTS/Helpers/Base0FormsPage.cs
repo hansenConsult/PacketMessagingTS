@@ -124,7 +124,7 @@ namespace PacketMessagingTS.Helpers
             if (_packetMessage.MessageOrigin == MessageOrigin.Received)
             {
                 _packetForm.MessageSentTime = _packetMessage.JNOSDate;
-                _packetForm.ReceivedOrSent = "Receiver";
+                _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
                 if (_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                 {
                     MessageNo = _packetMessage.MessageNumber;
@@ -141,7 +141,7 @@ namespace PacketMessagingTS.Helpers
                 _packetForm.MessageSentTime = _packetMessage.SentTime;
                 DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
                 OriginMsgNo = _packetMessage.MessageNumber;
-                _packetForm.ReceivedOrSent = "Sender";
+                _packetForm.ViewModelBase.ReceivedOrSent = "Sender";
 
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.New)

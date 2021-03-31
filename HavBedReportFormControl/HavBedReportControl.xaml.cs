@@ -54,6 +54,9 @@ namespace HavBedReportFormControl
             new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
         };
 
+        HavBedReportControlViewModel ViewModel = HavBedReportControlViewModel.Instance;
+
+
 
         public HavBedReportControl()
         {
@@ -63,8 +66,10 @@ namespace HavBedReportFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
-            FormHeaderControl.HeaderSubstring = "EMResource: c190320";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "EMResource: c190320";
+
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -77,8 +82,8 @@ namespace HavBedReportFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
-            FormHeaderControl.HeaderSubstring = "EMResource: c190320";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "EMResource: c190320";
 
             if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
             {
@@ -115,7 +120,7 @@ namespace HavBedReportFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_HAvBed_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_HAvBed_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         //public override string CreateOutpostData(ref PacketMessage packetMessage)

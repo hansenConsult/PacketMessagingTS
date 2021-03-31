@@ -6,6 +6,7 @@ using FormControlBaseMvvmNameSpace;
 using FormControlBasicsNamespace;
 
 using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using ToggleButtonGroupControl;
@@ -22,6 +23,8 @@ namespace FormUserControl
     {
         public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
+        FormHeaderUserControlViewModel ViewModel = FormHeaderUserControlViewModel.Instance;
+
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
      
@@ -33,7 +36,9 @@ namespace FormUserControl
             ScanControls(formHeaderUserControl);
 
             InitializeToggleButtonGroups();
+            ViewModel.HandlingOrder = null;
 
+            ViewModelBase = ViewModel;
             //UpdateFormFieldsRequiredColors();
         }
 
@@ -201,35 +206,35 @@ namespace FormUserControl
 
         public DependencyObject Panel => formHeaderUserControl;
 
-        private bool namePanel1Visibility = true;
-        public bool NamePanel1Visibility
-        { 
-            get => namePanel1Visibility; 
-            set => SetProperty(ref namePanel1Visibility, value);
-        }
+        //private bool namePanel1Visibility = true;
+        //public bool NamePanel1Visibility
+        //{ 
+        //    get => namePanel1Visibility; 
+        //    set => SetProperty(ref namePanel1Visibility, value);
+        //}
 
-        public bool NamePanel2Visibility => !NamePanel1Visibility;
+        //public bool NamePanel2Visibility => !NamePanel1Visibility;
 
-        private string headerString1;
-        public string HeaderString1
-        {
-            get => headerString1;
-            set => SetProperty(ref headerString1, value);
-        }
+        //private string headerString1;
+        //public string HeaderString1
+        //{
+        //    get => headerString1;
+        //    set => SetProperty(ref headerString1, value);
+        //}
 
-        private string headerString2;
-        public string HeaderString2
-        {
-            get => headerString2;
-            set => SetProperty(ref headerString2, $" {value}");
-        }
+        //private string headerString2;
+        //public string HeaderString2
+        //{
+        //    get => headerString2;
+        //    set => SetProperty(ref headerString2, $" {value}");
+        //}
 
-        private string headerSubstring;
-        public string HeaderSubstring
-        {
-            get => headerSubstring;
-            set => SetProperty(ref headerSubstring, value);
-        }
+        //private string headerSubstring;
+        //public string HeaderSubstring
+        //{
+        //    get => headerSubstring;
+        //    set => SetProperty(ref headerSubstring, value);
+        //}
 
         public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
         {

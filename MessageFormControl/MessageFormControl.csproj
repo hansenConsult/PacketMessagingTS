@@ -111,6 +111,7 @@
     <Compile Include="ContinuationPage.xaml.cs">
       <DependentUpon>ContinuationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MessageFormControlViewModel.cs" />
     <Compile Include="MessageFormControl.xaml.cs">
       <DependentUpon>MessageFormControl.xaml</DependentUpon>
     </Compile>

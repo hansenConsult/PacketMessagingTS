@@ -123,6 +123,7 @@
     <Compile Include="HospitalRollCallControl.xaml.cs">
       <DependentUpon>HospitalRollCallControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HospitalRollCallControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\HospitalRollCallFormControl.rd.xml" />
   </ItemGroup>

@@ -14,6 +14,13 @@ namespace ICS213PackItFormControl
     {
         public static ICS213PackItControlViewModel Instance { get; } = new ICS213PackItControlViewModel();
 
+        
+        private string howReceivedSent;
+        public string HowReceivedSent
+        {
+            get => howReceivedSent;
+            set => SetProperty(ref howReceivedSent, value);
+        }
 
     }
 }

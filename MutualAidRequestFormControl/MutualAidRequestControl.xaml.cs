@@ -29,6 +29,10 @@ namespace MutualAidRequestFormControl
 
     public sealed partial class MutualAidRequestControl : FormControlBase
     {
+        MutualAidRequestControlViewModel ViewModel = MutualAidRequestControlViewModel.Instance;
+        
+
+
         public MutualAidRequestControl()
         {
             InitializeComponent();
@@ -37,8 +41,10 @@ namespace MutualAidRequestFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
-            FormHeaderControl.HeaderSubstring = "Version: 190614";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version: 190614";
+
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -65,7 +71,7 @@ namespace MutualAidRequestFormControl
         // PEH-1316P_R_RACES-MAR_Agency
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_RACES-MAR_{agencyName.Text}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_RACES-MAR_{agencyName.Text}";
         }
 
         public override string GetPacFormName() => "form-oa-mutual-aid-request-v2";
@@ -74,17 +80,17 @@ namespace MutualAidRequestFormControl
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
-        public override string MsgDate
-        {
-            get => _msgDate;
-            set
-            {
-                //SignedDate = value;
-                SetProperty(ref _msgDate, value);
-                signedDate.Text = value;
-                UpdateFormFieldsRequiredColors();
-            }
-        }
+        //public override string MsgDate
+        //{
+        //    get => _msgDate;
+        //    set
+        //    {
+        //        //SignedDate = value;
+        //        SetProperty(ref _msgDate, value);
+        //        signedDate.Text = value;
+        //        UpdateFormFieldsRequiredColors();
+        //    }
+        //}
 
         //private string _SignedDate;
         //public string SignedDate

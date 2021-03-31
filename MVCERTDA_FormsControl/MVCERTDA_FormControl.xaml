@@ -266,7 +266,7 @@
                                                          HeaderTemplate="{StaticResource smallHeaderTemplate}"
                                                          Header="1a.) Date:"
                                                          PlaceholderText="mm/dd/yy"
-                                                         Text="{x:Bind MsgDate, Mode=TwoWay}"
+                                                         Text="{x:Bind ViewModel.MsgDate, Mode=TwoWay}"
                                                          TextAlignment="Center" BorderBrush="White" 
                                                          Margin="2,0,2,2" Tag="6,required"
                                                          TextChanged="TextBox_TextChanged"/>
@@ -307,7 +307,7 @@
                                         <StackPanel>
                                             <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="5.) Msg. Handling Order" Margin="8"/>
                                             <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
-                                                                           CheckedControlName="{x:Bind HandlingOrder, Mode=TwoWay}"
+                                                                           CheckedControlName="{x:Bind ViewModel.HandlingOrder, Mode=TwoWay}"
                                                                            Tag="required,Indicate Msg. Handling Order."/>
                                             <RadioButton x:Name="immediate" GroupName="handlingOrder" Style="{StaticResource RadioButtonTNR12B}" 
                                                          Margin="10, 4" Padding="4" Content="IMMEDIATE" Tag="10" Checked="Subject_Changed"
@@ -363,13 +363,14 @@
                                                           ItemsSource="{x:Bind ICSPosition}"
                                                           HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                           Header="7.) ICS Position:"
-                                                          Text="{x:Bind ToICSPosition, Mode=TwoWay}"
+                                                          
                                                           PlaceholderText="Choose one or type a position"
 												          HorizontalAlignment="Stretch" IsEditable="True"
 												          BorderThickness="2" 
                                                           Tag="22,required,Enter a To position."  
                                                           SelectionChanged="ICSPosition_SelectionChanged" VerticalAlignment="Top"
                                                           />
+                                                <!--Text="{x:Bind ToICSPosition, Mode=TwoWay}"-->
                                                 <TextBox x:Name="comboBoxToICSPositionTextBox"
                                                          Style="{StaticResource ToFromTextBox}"
                                                          Visibility="Collapsed"
@@ -431,12 +432,12 @@
                                             <StackPanel >
                                                 <TextBox  x:Name="textBoxFromLocation" Visibility="Collapsed" Tag="28" />
                                                 <ComboBox x:Name="comboBoxFromLocation"
-                                                          ItemsSource="{x:Bind CERTLocationTacticalCalls, Mode=OneWay}" 
+                                                          ItemsSource="{x:Bind ViewModel.CERTLocationTacticalCalls, Mode=OneWay}" 
                                                           HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                           Header="9b.) Location:"
                                                           DisplayMemberPath="AgencyName"
                                                           SelectedValuePath = "TacticalCallsign"
-                                                          SelectedValue="{x:Bind CERTLocationValue, Mode=TwoWay}"
+                                                          SelectedValue="{x:Bind ViewModel.CERTLocationValue, Mode=TwoWay}"
                                                           
                                                           SelectionChanged="ComboBoxFromLocation_SelectionChanged"
                                                           Margin="2,0,2,2" IsEditable="True"
@@ -736,15 +737,17 @@
                                 <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,1" >
                                     <StackPanel Orientation="Horizontal" Height="34">
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="How received" VerticalAlignment="Center" Margin="5,0,5,0" />
-                                        <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" CheckedControlName="{x:Bind ReceivedOrSent}"/>
-                                        <RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=RadioButtonTNR12B}" 
+                                        <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
+                                                                       CheckedControlName="{x:Bind ViewModel.ReceivedOrSent}"/>
+                                        <RadioButton x:Name="received" GroupName="receivedOrSent" 
+                                                     Style="{StaticResource ResourceKey=RadioButtonTNR12B}" 
                                                      Content="" Padding="5" Tag="61"/>
                                         <RadioButton x:Name="sent" GroupName="receivedOrSent" 
                                                      Style="{StaticResource ResourceKey=RadioButtonTNR12B}"
                                                      Content="or sent" Margin="-30,0,0,0" Padding="-68,5,5,5" Tag="62"/>
                                     </StackPanel>
                                 </Border>
-                                <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" CheckedControlName="{x:Bind HowReceivedSent}"/>
+                                <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" CheckedControlName="{x:Bind ViewModel.HowReceivedSent}"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="140*" />

@@ -101,6 +101,8 @@ namespace OAMunicipalStatusPackItFormControl
                 new ComboBoxItem() {Content = "Early Out", Background = WhiteBrush },
         };
 
+        public OAMunicipalStatusControlViewModel ViewModel = OAMunicipalStatusControlViewModel.Instance;
+
         //List<ComboBoxItem> Communications = new List<ComboBoxItem>();
         List<ComboBoxItem> Debris = new List<ComboBoxItem>(); 
         List<ComboBoxItem> Flooding = new List<ComboBoxItem>();
@@ -126,8 +128,8 @@ namespace OAMunicipalStatusPackItFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "Santa Clara OA Jurisdiction Status";
-            FormHeaderControl.HeaderSubstring = "WebEOC: 20190327";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "Santa Clara OA Jurisdiction Status";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "WebEOC: 20190327";
 
             //CreateComboBoxList(Communications, CurrentSituation);
             CreateComboBoxList(Debris, Communications);
@@ -151,6 +153,8 @@ namespace OAMunicipalStatusPackItFormControl
                 GetFormDataFromAttribute(GetType());
             }
 
+            ViewModelBase = ViewModel;
+
             UpdateFormFieldsRequiredColors();
         }
 
@@ -167,6 +171,13 @@ namespace OAMunicipalStatusPackItFormControl
         public override void AppendDrillTraffic()
         { }
 
+        public override void SetPracticeField(string practiceField)
+        {
+            FormHeaderControl.ViewModelBase.HandlingOrder = "Routine";
+            update.IsChecked = true;
+            jurisdictionName.SelectedIndex = 9;
+        }
+
         public override Panel CanvasContainer => container;
 
         public override Panel DirectPrintContainer => directPrintContainer;
@@ -179,7 +190,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MuniStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MuniStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         /// <summary>

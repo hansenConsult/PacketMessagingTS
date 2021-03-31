@@ -129,8 +129,8 @@ namespace MedicalFacilityStatusFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "Medical facility Status";
-            FormHeaderControl.HeaderSubstring = "WebEOC: 20160101";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "Medical facility Status";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "WebEOC: 20160101";
             FormHeaderControl.PIF = PIF;
 
             CreateComboBoxList(Status, Staffing);
@@ -177,7 +177,7 @@ namespace MedicalFacilityStatusFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

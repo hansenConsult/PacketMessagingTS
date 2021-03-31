@@ -64,7 +64,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                                 <TextBox Grid.Column="0" Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
-                                        
+                                        Text="{x:Bind ViewModel.InitiatedDate, Mode=TwoWay}"
                                         Style="{StaticResource MuniStatusDateTextBox}"                                             
                                         TextChanged="TextBox_DateChanged"
                                         Tag="22.,required,Enter the Date Initialized."

@@ -34,7 +34,7 @@
     </MyBaseNamespace:FormControlBase.Resources>
 
     <StackPanel x:Name="PrintableArea" Height="auto" RequestedTheme="Light" Margin="0,12,0,0">
-        <Grid x:Name="inBoxHeader" Visibility="{x:Bind InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
+        <Grid x:Name="inBoxHeader" Visibility="{x:Bind ViewModel.InBoxHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="88" />
                 <ColumnDefinition Width="*" />
@@ -50,7 +50,7 @@
             <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
             <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
         </Grid>
-        <Grid x:Name="sentHeader" Visibility="{x:Bind SentHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
+        <Grid x:Name="sentHeader" Visibility="{x:Bind ViewModel.SentHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="52" />
                 <ColumnDefinition Width="*" />
@@ -64,7 +64,7 @@
             <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
             <TextBlock Grid.Column="5" Text="{x:Bind MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
         </Grid>
-        <Grid x:Name="newHeader" Visibility="{x:Bind NewHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
+        <Grid x:Name="newHeader" Visibility="{x:Bind ViewModel.NewHeaderVisibility, Mode=OneWay}" BorderBrush="Black" BorderThickness="1,1,1,1" Padding="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="108" />
                 <ColumnDefinition Width="*" />
@@ -88,7 +88,7 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Visibility="{x:Bind PrintHeaderVisibility, Mode=OneWay}">
+                <Grid Grid.Row="0" Visibility="{x:Bind ViewModel.PrintHeaderVisibility, Mode=OneWay}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -123,7 +123,7 @@
 				             Tag="0,required,Please write a message"/>-->
                 </Grid>
                 <TextBox Grid.Row="1" x:Name="messageBody" AcceptsReturn="True" IsTapEnabled="True" TextWrapping="Wrap" 
-                         Visibility="{x:Bind newHeaderVisibility, Mode=OneWay}"
+                         Visibility="{x:Bind ViewModel.NewHeaderVisibility, Mode=OneWay}"
                          BorderThickness="0" Margin="0,20,0,0"
                          FontFamily="Courier New" FontSize="14"
                          Text="{x:Bind MessageBody, Mode=TwoWay}"
@@ -134,7 +134,7 @@
                 <RichTextBlock Grid.Row="1" x:Name="richTextMessageBody" 
                                FontFamily="Courier New" FontSize="14"
                                OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}"
-                               Visibility="{x:Bind FixedContentVisibility, Mode=OneWay}"
+                               Visibility="{x:Bind ViewModel.FixedContentVisibility, Mode=OneWay}"
                                IsTextSelectionEnabled="True" TextWrapping="Wrap" 
                                Margin="0,20,0,0"
                                Tag="" >
@@ -144,7 +144,7 @@
                 </RichTextBlock>
                 <TextBlock Grid.Row="3" x:Name="footer" Margin="0,20,0,0"
                            Text="Page " 
-                           Visibility="{x:Bind PrintHeaderVisibility, Mode=OneWay}"/>
+                           Visibility="{x:Bind ViewModel.PrintHeaderVisibility, Mode=OneWay}"/>
                 <RichTextBlockOverflow x:Name="ContinuationPageLinkedContainer" Grid.Row="2" />
             </Grid>
             <!--<TextBox x:Name="messageBody2" 

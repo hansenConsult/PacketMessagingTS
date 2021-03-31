@@ -115,8 +115,8 @@ namespace OAShelterStatusFormControl
 
             state.Text = "California";
 
-            FormHeaderControl.HeaderString1 = "Santa Clara OA Shelter Status";
-            FormHeaderControl.HeaderSubstring = "WebEOC: 20130814";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "Santa Clara OA Shelter Status";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "WebEOC: 20130814";
 
             UpdateFormFieldsRequiredColors();
         }
@@ -153,7 +153,7 @@ namespace OAShelterStatusFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
         }
 
         //public override string CreateOutpostData(ref PacketMessage packetMessage)

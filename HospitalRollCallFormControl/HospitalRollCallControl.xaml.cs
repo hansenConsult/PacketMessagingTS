@@ -27,11 +27,15 @@ namespace HospitalRollCallFormControl
 
     public sealed partial class HospitalRollCallControl : FormControlBase
     {
+        HospitalRollCallControlViewModel ViewModel = HospitalRollCallControlViewModel.Instance;
+
         public HospitalRollCallControl()
         {
             InitializeComponent();
 
             ScanControls(PrintableArea);
+
+            ViewModelBase = ViewModel;
 
             InitializeToggleButtonGroups();
         }
@@ -69,7 +73,8 @@ namespace HospitalRollCallFormControl
         public override string CreateSubject()
         {
             //return $"{messageNo.Text}_{HandlingOrder?.ToUpper()[0]}_ICS213_{subject.Text}";
-            return $"_{HandlingOrder?.ToUpper()[0]}_ICS213_";
+            //return $"_{ViewModelBase.HandlingOrder?.ToUpper()[0]}_ICS213_";
+            return "";
         }
 
         //public ObservableCollection<Hospital> DataGridSource => new ObservableCollection<Hospital>(HospitalRollCall.Instance.HospitalList);

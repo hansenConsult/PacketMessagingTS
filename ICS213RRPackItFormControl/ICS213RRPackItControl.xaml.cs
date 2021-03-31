@@ -16,6 +16,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FormControlBaseMvvmNameSpace;
+using SharedCode.Models;
 
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -39,6 +40,9 @@ namespace ICS213RRPackItFormControl
 
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {
+        ICS213RRPackItControlViewModel ViewModel = ICS213RRPackItControlViewModel.Instance;
+
+
         public ICS213RRPackItControl()
         {
             InitializeComponent();
@@ -47,15 +51,15 @@ namespace ICS213RRPackItFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
-            FormHeaderControl.HeaderSubstring = "Version 8/17";
+            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
+            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version 8/17";
 
             if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
             {
                 //GetFormDataFromAttribute(typeof(ICS213RRPackItControl));
                 GetFormDataFromAttribute(GetType());
             }
-
+            ViewModelBase = ViewModel;
             UpdateFormFieldsRequiredColors();
         }
 
@@ -101,15 +105,15 @@ namespace ICS213RRPackItFormControl
 
         public override string PacFormType => "XSC_EOC_213RR";
 
-        public override string MsgDate
-        {
-            get => _msgDate;
-            set
-            {
-                initiatedDate.Text = value;
-                SetProperty(ref _msgDate, value);
-            }
-        }
+        //public override string MsgDate
+        //{
+        //    get => _msgDate;
+        //    set
+        //    {
+        //        ViewModel.InitiatedDate = value;
+        //        SetProperty(ref _msgDate, value);
+        //    }
+        //}
 
         //private string _initiatedDate;
         //public string InitiatedDate
@@ -125,6 +129,7 @@ namespace ICS213RRPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
+            FormHeaderControl.ViewModelBase.HandlingOrder = "Routine";
             incidentName.Text = practiceField;
             UpdateFormFieldsRequiredColors();       // TODO check this
         }
@@ -143,7 +148,7 @@ namespace ICS213RRPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
+            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
         }
 
         //public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -187,37 +192,37 @@ namespace ICS213RRPackItFormControl
             TextBox_TextChanged(textBox, null);
         }
 
-        //public override void FillFormFromFormFields(FormField[] formFields)
-        //{
-        //    bool found1 = false, found2 = true;
-        //    foreach (FormField formField in formFields)
-        //    {
-        //        FrameworkElement control = GetFrameworkElement(formField);
+        public override void FillFormFromFormFields(FormField[] formFields)
+        {
+            bool found1 = false, found2 = true;
+            foreach (FormField formField in formFields)
+            {
+                FrameworkElement control = GetFrameworkElement(formField);
 
-        //        if (control is null || string.IsNullOrEmpty(formField.ControlContent))
-        //            continue;
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
 
-        //        if (control is TextBox textBox)
-        //        {
-        //            switch (control.Name)
-        //            {
-        //                case "initiatedDate":
-        //                    InitiatedDate = formField.ControlContent;
-        //                    found1 = true;
-        //                    break;
-        //                //case "incidentName":
-        //                //    IncidentName = formField.ControlContent;
-        //                //    found2 = true;
-        //                //    break;
-        //                case null:
-        //                    continue;
-        //            }
-        //        }
-        //        if (found1 && found2)
-        //            break;
-        //    }
-        //    base.FillFormFromFormFields(formFields);
-        //}
+                if (control is TextBox textBox)
+                {
+                    switch (control.Name)
+                    {
+                        case "initiatedDate":
+                            ViewModel.InitiatedDate = formField.ControlContent;
+                            found1 = true;
+                            break;
+                        //case "incidentName":
+                        //    IncidentName = formField.ControlContent;
+                        //    found2 = true;
+                        //    break;
+                        case null:
+                            continue;
+                    }
+                }
+                if (found1 && found2)
+                    break;
+            }
+            base.FillFormFromFormFields(formFields);
+        }
 
         //private void resourceInfoPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
@@ -250,7 +255,7 @@ namespace ICS213RRPackItFormControl
         //        }
         //    }
         //}
-       
+
         public override void MsgTimeChanged(string msgTime)
         {
             if (string.IsNullOrEmpty(initiatedTime.Text))

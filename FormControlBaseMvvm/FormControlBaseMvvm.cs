@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using ToggleButtonGroupControl;
@@ -36,6 +37,8 @@ namespace FormControlBaseMvvmNameSpace
         protected string _validationResultMessage;
 
 
+        public virtual UserControlViewModelBase ViewModelBase
+        { get; set; }
 
         public PacketMessage FormPacketMessage
         { get; set; }

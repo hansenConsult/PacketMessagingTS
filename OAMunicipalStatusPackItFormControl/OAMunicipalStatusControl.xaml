@@ -54,7 +54,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
                             <MyNamespace:ToggleButtonGroup x:Name="reportType" 
-                                                           
+                                                           CheckedControlName ="ReportType"
                                                            Tag="19.,required,Select Report Type"/>
                             <!--CheckedControlName ="{x:Bind ReportType, Mode=TwoWay}"-->
                             <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"

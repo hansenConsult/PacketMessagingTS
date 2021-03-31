@@ -123,6 +123,7 @@
     <Compile Include="OAMunicipalStatusControl.xaml.cs">
       <DependentUpon>OAMunicipalStatusControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OAMunicipalStatusControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\OAMunicipalStatusPackItFormControl.rd.xml" />
   </ItemGroup>

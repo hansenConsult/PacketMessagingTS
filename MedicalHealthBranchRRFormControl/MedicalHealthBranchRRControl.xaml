@@ -133,10 +133,9 @@
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBox Grid.Column="1"  x:Name="requestDate"
                                      Style="{StaticResource MuniStatusDateTextBox}"
-                                     
+                                     Text="{x:Bind ViewModel.RequestMsgDate, Mode=TwoWay}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="20a.,required"/>
-                            <!--Text="{x:Bind Mode=TwoWay, Path=RequestMsgDate}"-->
                             <TextBlock Grid.Column="2" Text="Time of Request:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <TextBox Grid.Column="3" x:Name="requestTime" 
                                      Style="{StaticResource MuniStatusTimeTextBox}"
@@ -196,7 +195,7 @@
                                            HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold"/>
                                 <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <MyNamespace:ToggleButtonGroup x:Name="nature" Visibility="Collapsed"
-                                                               CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                                               CheckedControlName ="Nature" 
                                                                Tag="23.,required,Select Nature."/>
                                 <RadioButton Grid.Row="1" Grid.Column="0" Margin="8,0" 
                                              x:Name="natureSupply" GroupName="nature"
@@ -239,7 +238,7 @@
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="FACILITY TYPE" HorizontalAlignment="Center" 
                                            FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 <MyNamespace:ToggleButtonGroup x:Name="facilityType" Visibility="Collapsed"
-                                                               CheckedControlName ="{x:Bind Mode=TwoWay, Path=HandlingOrder}" 
+                                                               CheckedControlName ="Facilitype" 
                                                                Tag="24.,required,Select Facility Type."/>
                                 <RadioButton Grid.Row="1" x:Name="facilitypeCity" GroupName="facilityType"
                                              Style="{StaticResource RadioButtonTNR12}" 

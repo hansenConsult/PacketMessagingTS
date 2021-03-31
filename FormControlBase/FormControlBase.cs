@@ -231,8 +231,8 @@ namespace FormControlBaseClass
         //public static readonly DependencyProperty OperatorCallsignProperty =
         //	DependencyProperty.Register("OperatorCallsign", typeof(string), typeof(FormControlBase), null);
 
-        public virtual UserControlViewModelBase ViewModelBase
-        { get; set; }
+        //public virtual UserControlViewModelBase ViewModelBase
+        //{ get; set; }
 
         public virtual string TacticalCallsign
         { get; set; }
@@ -291,11 +291,11 @@ namespace FormControlBaseClass
         public virtual string Severity
         { get; set; }
 
-        public virtual string ReceivedOrSent
-        { get; set; }
+        //public virtual string ReceivedOrSent
+        //{ get; set; }
 
-        public virtual string HowReceivedSent
-        { get; set; }
+        //public virtual string HowReceivedSent
+        //{ get; set; }
 
         //private string _IncidentName;
         //public virtual string IncidentName      // Required for setting Practice
@@ -1110,7 +1110,7 @@ namespace FormControlBaseClass
                         switch (control.Name)
                         {
                             case "msgDate":
-                                MsgDate = textBox.Text;
+                                ViewModelBase.MsgDate = textBox.Text;
                                 break;
                             case "operatorCallsign":
                                 ViewModelBase.OperatorCallsign = textBox.Text;
@@ -1157,7 +1157,7 @@ namespace FormControlBaseClass
                                     formHeaderControl.DestinationMsgNo = textBox.Text;
                                     break;
                                 case "msgDate":
-                                    formHeaderControl.MsgDate = textBox.Text;
+                                    formHeaderControl.ViewModelBase.MsgDate = textBox.Text;
                                     break;
                                 case "msgTime":
                                     formHeaderControl.MsgTime = textBox.Text;
@@ -1198,7 +1198,7 @@ namespace FormControlBaseClass
                         FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
                         if (control.Name == "handlingOrder")
                         {
-                            formHeaderControl.HandlingOrder = formField.ControlContent;
+                            formHeaderControl.ViewModelBase.HandlingOrder = formField.ControlContent;
                             toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
                         }
                     }
