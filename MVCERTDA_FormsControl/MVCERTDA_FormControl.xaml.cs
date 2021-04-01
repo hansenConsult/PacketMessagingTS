@@ -106,7 +106,7 @@ namespace MVCERTDA_FormsControl
             set
             {
                 base.MessageNo = value;
-                OriginMsgNo = value;
+                ViewModel.OriginMsgNo = value;
             }
         }
 

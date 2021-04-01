@@ -1151,16 +1151,16 @@ namespace FormControlBaseClass
                             switch (control.Name)
                             {
                                 case "messageNo":
-                                    formHeaderControl.OriginMsgNo = textBox.Text;
+                                    formHeaderControl.ViewModelBase.OriginMsgNo = textBox.Text;
                                     break;
                                 case "destinationMsgNo":
-                                    formHeaderControl.DestinationMsgNo = textBox.Text;
+                                    formHeaderControl.ViewModelBase.DestinationMsgNo = textBox.Text;
                                     break;
                                 case "msgDate":
                                     formHeaderControl.ViewModelBase.MsgDate = textBox.Text;
                                     break;
                                 case "msgTime":
-                                    formHeaderControl.MsgTime = textBox.Text;
+                                    formHeaderControl.ViewModelBase.MsgTime = textBox.Text;
                                     break;
                                 case null:
                                     continue;

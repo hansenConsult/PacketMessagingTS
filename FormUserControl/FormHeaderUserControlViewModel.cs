@@ -10,7 +10,7 @@ namespace FormUserControl
 {
     public class FormHeaderUserControlViewModel : UserControlViewModelBase
     {
-        public static FormHeaderUserControlViewModel Instance { get; } = new FormHeaderUserControlViewModel();
+        //public static FormHeaderUserControlViewModel Instance { get; } = new FormHeaderUserControlViewModel();
 
 
 

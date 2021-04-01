@@ -12,7 +12,7 @@ namespace ICS213PackItFormControl
 {
     public class ICS213PackItControlViewModel : UserControlViewModelBase
     {
-        public static ICS213PackItControlViewModel Instance { get; } = new ICS213PackItControlViewModel();
+        //public static ICS213PackItControlViewModel Instance { get; } = new ICS213PackItControlViewModel();
 
         
         private string howReceivedSent;

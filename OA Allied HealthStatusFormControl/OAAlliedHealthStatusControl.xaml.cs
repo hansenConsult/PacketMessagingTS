@@ -31,7 +31,8 @@ namespace OAAlliedHealthStatus201802FormControl
 
     public sealed partial class OAAlliedHealthStatusControl : FormControlBase
     {
-        public OAAlliedHealthStatusControlViewModel ViewModel = OAAlliedHealthStatusControlViewModel.Instance;
+        //public OAAlliedHealthStatusControlViewModel ViewModel = OAAlliedHealthStatusControlViewModel.Instance;
+        OAAlliedHealthStatusControlViewModel ViewModel = new OAAlliedHealthStatusControlViewModel();
 
 
         public OAAlliedHealthStatusControl()

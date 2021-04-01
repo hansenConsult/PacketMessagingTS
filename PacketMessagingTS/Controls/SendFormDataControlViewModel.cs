@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace PacketMessagingTS.Controls
 {
-    class SendFormDataControlViewModel : ObservableRecipient
+    class SendFormDataControlViewModel : UserControlViewModelBase
     {
         public static SendFormDataControlViewModel Instance { get; } = new SendFormDataControlViewModel();
 

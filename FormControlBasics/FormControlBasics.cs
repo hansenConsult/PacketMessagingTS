@@ -54,7 +54,7 @@ namespace FormControlBasicsNamespace
         //public static SolidColorBrush YellowBrush = new SolidColorBrush(Colors.Yellow);
         //public static SolidColorBrush OrangeBrush = new SolidColorBrush(Colors.Orange);
 
-        protected string[] ICSPosition = new string[] {
+        protected readonly string[] ICSPosition = new string[] {
                 "Incident Commander",
                 "Operations",
                 "Planning",
@@ -72,7 +72,7 @@ namespace FormControlBasicsNamespace
 
         //protected string _validationResultMessage;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         //public PacketMessage FormPacketMessage
         //{ get; set; }
@@ -89,18 +89,18 @@ namespace FormControlBasicsNamespace
         public virtual string MessageNo
         { get; set; }
 
-        public virtual string DestinationMsgNo
-        { get; set; }
+        //public virtual string DestinationMsgNo
+        //{ get; set; }
 
-        public virtual string OriginMsgNo
-        { get; set; }
+        //public virtual string OriginMsgNo
+        //{ get; set; }
 
         //protected string _msgDate;
         //public virtual string MsgDate
         //{ get; set; }
 
-        public virtual string MsgTime
-        { get; set; }
+        //public virtual string MsgTime
+        //{ get; set; }
 
         //public virtual string HandlingOrder
         //{ get; set; }

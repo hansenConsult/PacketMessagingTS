@@ -10,7 +10,7 @@ namespace OAMunicipalStatusPackItFormControl
 {
     public class OAMunicipalStatusControlViewModel : UserControlViewModelBase
     {
-        public static OAMunicipalStatusControlViewModel Instance { get; } = new OAMunicipalStatusControlViewModel();
+        //public static OAMunicipalStatusControlViewModel Instance { get; } = new OAMunicipalStatusControlViewModel();
 
 
     }

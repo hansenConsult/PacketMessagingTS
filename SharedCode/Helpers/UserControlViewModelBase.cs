@@ -44,12 +44,29 @@ namespace SharedCode.Helpers
             set => SetProperty(ref headerSubstring, value);
         }
 
+        private string originMsgNo;
+        public virtual string OriginMsgNo
+        {
+            get => originMsgNo;
+            set => SetProperty(ref originMsgNo, value);
+        }
+
+        private string destinationMsgNo;
+        public virtual string DestinationMsgNo
+        {
+            get => destinationMsgNo;
+            set => SetProperty(ref destinationMsgNo, value);
+        }
+
         protected string _msgDate;
         public virtual string MsgDate
         {
             get => _msgDate;
             set => SetProperty(ref _msgDate, value);
         }
+
+        public virtual string MsgTime
+        { get; set; }
 
         private string handlingOrder;
         public string HandlingOrder

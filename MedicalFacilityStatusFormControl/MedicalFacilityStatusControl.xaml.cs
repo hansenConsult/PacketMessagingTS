@@ -177,7 +177,7 @@ namespace MedicalFacilityStatusFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
+            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)

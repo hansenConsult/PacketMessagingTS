@@ -85,7 +85,7 @@
                             </StackPanel>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                             <TextBox Grid.Column="1" x:Name="messageNo"  
-                                     Text="{x:Bind Mode=TwoWay, Path=OriginMsgNo}"
+                                     Text="{x:Bind Mode=TwoWay, Path=ViewModel.OriginMsgNo}"
 					                 TextAlignment="Center" BorderBrush="White" Margin="10,0,10,2"  
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Origin:"
@@ -95,7 +95,7 @@
                             <TextBox Grid.Column="2" x:Name="destinationMsgNo" 
                                      TextAlignment="Center" BorderBrush="White" 
                                      Margin="10,0,10,2" Tag="1"
-                                     Text="{x:Bind Path=DestinationMsgNo}"
+                                     Text="{x:Bind Path=ViewModelBase.DestinationMsgNo}"
                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                      Header="Destination:"/>
                         </Grid>

@@ -32,8 +32,8 @@ namespace MessageFormControl
     public partial class MessageControl : FormControlBase
     {
 
-        MessageFormControlViewModel ViewModel = MessageFormControlViewModel.Instance;
-        //MessageFormControlViewModel ViewModel = new MessageFormControlViewModel();
+        //MessageFormControlViewModel ViewModel = MessageFormControlViewModel.Instance;
+        MessageFormControlViewModel ViewModel = new MessageFormControlViewModel();
 
         //private HeaderVisibility _visibleHeader = HeaderVisibility.None;
         //private HeaderVisibility _previousVisibleHeader = HeaderVisibility.None;

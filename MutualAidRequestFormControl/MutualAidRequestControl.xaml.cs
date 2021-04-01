@@ -71,7 +71,7 @@ namespace MutualAidRequestFormControl
         // PEH-1316P_R_RACES-MAR_Agency
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_RACES-MAR_{agencyName.Text}";
+            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_RACES-MAR_{agencyName.Text}";
         }
 
         public override string GetPacFormName() => "form-oa-mutual-aid-request-v2";

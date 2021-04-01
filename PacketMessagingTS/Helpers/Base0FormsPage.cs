@@ -76,16 +76,16 @@ namespace PacketMessagingTS.Helpers
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.DestinationMsgNo;
+                    return _packetForm.FormHeaderControl.ViewModelBase.DestinationMsgNo;
                 else
-                    return _packetForm.DestinationMsgNo;
+                    return _packetForm.ViewModelBase.DestinationMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.DestinationMsgNo = value;
+                    _packetForm.FormHeaderControl.ViewModelBase.DestinationMsgNo = value;
                 else
-                    _packetForm.DestinationMsgNo = value;
+                    _packetForm.ViewModelBase.DestinationMsgNo = value;
             }
         }
 
@@ -94,16 +94,16 @@ namespace PacketMessagingTS.Helpers
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.OriginMsgNo;
+                    return _packetForm.FormHeaderControl.ViewModelBase.OriginMsgNo;
                 else
-                    return _packetForm.OriginMsgNo;
+                    return _packetForm.ViewModelBase.OriginMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.OriginMsgNo = value;
+                    _packetForm.FormHeaderControl.ViewModelBase.OriginMsgNo = value;
                 else
-                    _packetForm.OriginMsgNo = value;
+                    _packetForm.ViewModelBase.OriginMsgNo = value;
             }
         }
 

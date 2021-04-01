@@ -40,7 +40,8 @@ namespace ICS213RRPackItFormControl
 
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {
-        ICS213RRPackItControlViewModel ViewModel = ICS213RRPackItControlViewModel.Instance;
+        //ICS213RRPackItControlViewModel ViewModel = ICS213RRPackItControlViewModel.Instance;
+        ICS213RRPackItControlViewModel ViewModel = new ICS213RRPackItControlViewModel();
 
 
         public ICS213RRPackItControl()
@@ -148,7 +149,7 @@ namespace ICS213RRPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
+            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
         }
 
         //public override string CreateOutpostData(ref PacketMessage packetMessage)

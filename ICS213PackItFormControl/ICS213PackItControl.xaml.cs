@@ -28,9 +28,10 @@ namespace ICS213PackItFormControl
 
 	public partial class ICS213PackItControl : FormControlBase
 	{
-        public ICS213PackItControlViewModel ViewModel = ICS213PackItControlViewModel.Instance;
-        
-        
+        //public ICS213PackItControlViewModel ViewModel = ICS213PackItControlViewModel.Instance;
+        ICS213PackItControlViewModel ViewModel = new ICS213PackItControlViewModel();
+
+
 
         double _messageBoxHeight;
 
@@ -71,7 +72,7 @@ namespace ICS213PackItFormControl
             set
             {
                 base.MessageNo = value;
-                OriginMsgNo = value;
+                ViewModel.OriginMsgNo = value;
             }
         }
 

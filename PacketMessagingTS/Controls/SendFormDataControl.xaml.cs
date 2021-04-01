@@ -14,7 +14,7 @@ using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
-using SharedCode;
+using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.UI.Xaml;
@@ -34,7 +34,8 @@ namespace PacketMessagingTS.Controls
                 typeof(SendFormDataControl),
                 null);
 
-        SendFormDataControlViewModel SendFormDataControlViewModel =  SendFormDataControlViewModel.Instance;
+        SendFormDataControlViewModel ViewModel =  SendFormDataControlViewModel.Instance;
+        //SendFormDataControlViewModel ViewModel = new SendFormDataControlViewModel();
 
         public SendFormDataControl()
         {
@@ -44,13 +45,15 @@ namespace PacketMessagingTS.Controls
 
             //(string bbs, string tnc, string from) = Utilities.GetProfileDataBBSStatusChecked();
             //SendFormDataControlViewModel.MessageBBS = bbs; //Utilities.GetBBSName(out string from, out string tnc);
-            SendFormDataControlViewModel.MessageBBS = Utilities.GetSenderBBSStatusChecked();
+            ViewModel.MessageBBS = Utilities.GetSenderBBSStatusChecked();
             //AddressBook.Instance.UserBBS = MessageBBS;
-            SendFormDataControlViewModel.MessageTNC = PacketSettingsViewModel.Instance.CurrentProfile.TNC;
-            SendFormDataControlViewModel.MessageTo = PacketSettingsViewModel.Instance.CurrentProfile.SendTo;
+            ViewModel.MessageTNC = PacketSettingsViewModel.Instance.CurrentProfile.TNC;
+            ViewModel.MessageTo = PacketSettingsViewModel.Instance.CurrentProfile.SendTo;
             //SendFormDataControlViewModel.MessageFrom = from;
             IdentityViewModel instance = IdentityViewModel.Instance;
-            SendFormDataControlViewModel.MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+            ViewModel.MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
+
+            ViewModelBase = ViewModel;
         }
 
         //public override FormControlBasics RootPanel => rootPanel;

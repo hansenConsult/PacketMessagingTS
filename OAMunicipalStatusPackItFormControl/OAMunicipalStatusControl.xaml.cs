@@ -101,7 +101,8 @@ namespace OAMunicipalStatusPackItFormControl
                 new ComboBoxItem() {Content = "Early Out", Background = WhiteBrush },
         };
 
-        public OAMunicipalStatusControlViewModel ViewModel = OAMunicipalStatusControlViewModel.Instance;
+        //public OAMunicipalStatusControlViewModel ViewModel = OAMunicipalStatusControlViewModel.Instance;
+        public OAMunicipalStatusControlViewModel ViewModel = new OAMunicipalStatusControlViewModel();
 
         //List<ComboBoxItem> Communications = new List<ComboBoxItem>();
         List<ComboBoxItem> Debris = new List<ComboBoxItem>(); 
@@ -190,7 +191,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MuniStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
+            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MuniStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         /// <summary>
@@ -310,18 +311,18 @@ namespace OAMunicipalStatusPackItFormControl
         //    return ValidationResultMessage;
         //}
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>
-            {
-                "!SCCoPIFO!",
-                "#T: form-oa-muni-status.html",
-                $"#V: {PackItFormVersion}-{PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+        //public override string CreateOutpostData(ref PacketMessage packetMessage)
+        //{
+        //    _outpostData = new List<string>
+        //    {
+        //        "!SCCoPIFO!",
+        //        "#T: form-oa-muni-status.html",
+        //        $"#V: {PackItFormVersion}-{PIF}",
+        //    };
+        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(_outpostData);
-        }
+        //    return CreateOutpostMessageBody(_outpostData);
+        //}
 
         //public override void FillFormFromFormFields(FormField[] formFields)
         //{

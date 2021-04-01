@@ -10,7 +10,7 @@ namespace OA_Allied_HealthStatusFormControl
 {
     public class OAAlliedHealthStatusControlViewModel : UserControlViewModelBase
     {
-        public static OAAlliedHealthStatusControlViewModel Instance { get; } = new OAAlliedHealthStatusControlViewModel();
+        //public static OAAlliedHealthStatusControlViewModel Instance { get; } = new OAAlliedHealthStatusControlViewModel();
 
 
         public override string MsgDate

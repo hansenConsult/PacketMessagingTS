@@ -56,7 +56,7 @@ namespace HospitalRollCallFormControl
             set
             {
                 base.MessageNo = value;
-                OriginMsgNo = value;
+                ViewModel.OriginMsgNo = value;
             }
         }
 
