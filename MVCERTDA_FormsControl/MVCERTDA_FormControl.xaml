@@ -236,7 +236,7 @@
                                 <StackPanel Grid.Column="2">
                                     <TextBlock  FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Text="Message #:"/>
                                     <TextBox x:Name="messageNo"  
-                                             Text="{x:Bind MessageNo, Mode=TwoWay}"
+                                             Text="{x:Bind ViewModel.MessageNo, Mode=TwoWay}"
 										     TextAlignment="Center" BorderBrush="White" Margin="2,0,2,2"  
                                              Tag="4,required,Enter a Message Number." TextChanged="Subject_Changed"/>
                                 </StackPanel>
@@ -290,8 +290,9 @@
                                         <StackPanel>
                                             <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4.) Situation Severity" Margin="8"/>
                                             <MyNamespace:ToggleButtonGroup x:Name="severity" 
-                                                                           CheckedControlName="{x:Bind Severity, Mode=TwoWay}" 
+                                                                           CheckedControlName="Severity" 
                                                                            Tag=""/>
+                                            <!--CheckedControlName="{x:Bind Severity, Mode=TwoWay}"-->
                                             <RadioButton x:Name="emergency" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                          Margin="10, 4" Padding="4" Content="EMERGENCY" Tag="7," Checked="Subject_Changed" 
 										                 ToolTipService.ToolTip="Life threat" FontFamily="Times New Roman"/>
@@ -368,7 +369,9 @@
 												          HorizontalAlignment="Stretch" IsEditable="True"
 												          BorderThickness="2" 
                                                           Tag="22,required,Enter a To position."  
-                                                          SelectionChanged="ICSPosition_SelectionChanged" VerticalAlignment="Top"
+                                                          Loaded="ComboBox_Loaded"
+                                                          SelectionChanged="ICSPosition_SelectionChanged" 
+                                                          VerticalAlignment="Top"
                                                           />
                                                 <!--Text="{x:Bind ToICSPosition, Mode=TwoWay}"-->
                                                 <TextBox x:Name="comboBoxToICSPositionTextBox"
@@ -601,96 +604,128 @@
                                     </TextBlock>
                                     <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="0" x:Name="fires" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
                                              Style="{StaticResource TextBoxDA}" 
-                                             Tag="38"/>
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="38,required,One DA summery field must be filled"/>
                                     <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="1" x:Name="gasLeak" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="39"/>
+                                             ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                             ui:TextBoxExtensions.ValidationType="Number" 
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="39,required,One DA summery field must be filled"/>
                                     <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="2" x:Name="waterLeak" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="40"/>
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="40,required"/>
                                     <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="3" x:Name="electrical" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="41"/>
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="41,required"/>
                                     <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="4" x:Name="chemical" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="42" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="42,required" />
                                     <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="5" x:Name="light" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="43" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="43,required" />
                                     <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="6" x:Name="mod" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="44" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="44,required" />
                                     <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="7" x:Name="heavy" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="45" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="45,required" />
                                     <Border Grid.Row="2" Grid.Column="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="8" x:Name="peopleImmediate" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="46" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="46,required" />
                                     <Border Grid.Row="2" Grid.Column="9" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="9" x:Name="delayed" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="47"/>
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="47,required"/>
                                     <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="10" x:Name="trapped" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="48"/>
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="48,required"/>
                                     <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="11" x:Name="morgue" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="49" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="49,required" />
                                     <Border Grid.Row="2" Grid.Column="12" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="12" x:Name="access" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="50" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="50,required" />
                                     <Border Grid.Row="2" Grid.Column="13" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="13" x:Name="noAccess" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="51" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="51,required" />
                                     <Border Grid.Row="2" Grid.Column="14" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                                     <TextBox Grid.Row="2" Grid.Column="14" x:Name="messageOther" 
-                                             Style="{StaticResource TextBoxDA}" Tag="52"/>
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="52,required"/>
                                     <TextBox Grid.Row="2" Grid.Column="15" x:Name="surveyed" 
                                              ui:TextBoxExtensions.ValidationMode="Dynamic"
                                              ui:TextBoxExtensions.ValidationType="Number" 
-                                             Style="{StaticResource TextBoxDA}" Tag="53" />
+                                             Style="{StaticResource TextBoxDA}" 
+                                             TextChanged="DASummery_TextChanged"
+                                             Tag="53,required" />
                                 </Grid>
                                 <TextBlock Margin="8" 
                                     Text="12b.) Other Info:   (Top 1 or 2 incidents with locations and situation details.) "/>
                                 <TextBox x:Name="message" ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                         AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="2,0,2,2" Tag="54" 
+                                         AcceptsReturn="True" TextWrapping="Wrap" Height="104" Margin="2,0,2,2" 
                                          PlaceholderText="Type message here." IsSpellCheckEnabled="True"
-                                         TextChanged="TextBox_TextChanged"/>
+                                         TextChanged="TextBox_TextChanged"
+                                         Tag="54,conditionallyrequired" />
                             </StackPanel>
                         </Border>
                         <Border Background="LightGray" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <TextBlock Style="{StaticResource LabelFontTNR14B}" Text="13.) ACTION TAKEN:" Margin="6"/>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="1">
-                            <TextBox x:Name="ActionTaken1" Height="60" Style="{StaticResource TypedText}" 
+                            <TextBox x:Name="ActionTaken1" Height="40" Style="{StaticResource TypedText}" 
                                          Margin="5,2,5,2" Tag="55"/>
                         </Border>
                         <Border BorderBrush="Black" BorderThickness="1,0,1,1">

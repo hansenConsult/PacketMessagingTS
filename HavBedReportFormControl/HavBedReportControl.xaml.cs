@@ -54,7 +54,8 @@ namespace HavBedReportFormControl
             new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
         };
 
-        HavBedReportControlViewModel ViewModel = HavBedReportControlViewModel.Instance;
+        //HavBedReportControlViewModel ViewModel = HavBedReportControlViewModel.Instance;
+        HavBedReportControlViewModel ViewModel = new HavBedReportControlViewModel();
 
 
 
@@ -66,29 +67,10 @@ namespace HavBedReportFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "EMResource: c190320";
+            FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
+            FormHeaderControl.ViewModel.HeaderSubstring = "EMResource: c190320";
 
             ViewModelBase = ViewModel;
-
-            UpdateFormFieldsRequiredColors();
-        }
-
-        public HavBedReportControl(MessageState messageState)
-        {
-            InitializeComponent();
-
-            ScanControls(PrintableArea);
-
-            InitializeToggleButtonGroups();
-
-            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "EMResource: c190320";
-
-            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
-            {
-                GetFormDataFromAttribute(GetType());
-            }
 
             UpdateFormFieldsRequiredColors();
         }

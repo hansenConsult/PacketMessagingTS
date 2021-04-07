@@ -41,8 +41,10 @@ namespace MutualAidRequestFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.ViewModelBase.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version: 190614";
+            FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
+            FormHeaderControl.ViewModel.HeaderSubstring = "Version: 190614";
+
+            GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
 
@@ -51,7 +53,7 @@ namespace MutualAidRequestFormControl
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
@@ -74,7 +76,7 @@ namespace MutualAidRequestFormControl
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_RACES-MAR_{agencyName.Text}";
         }
 
-        public override string GetPacFormName() => "form-oa-mutual-aid-request-v2";
+        //public override string GetPacFormName() => "form-oa-mutual-aid-request-v2";
 
         public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
 

@@ -705,7 +705,7 @@
                            Margin="8,6"/>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Bind ViewModel.HeaderSubstring, Mode=OneWay}" 
                            Visibility="{x:Bind ViewModel.NamePanel1Visibility}" HorizontalAlignment="Left" Margin="8,2"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind HeaderPIF, Mode=OneWay}" 
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind ViewModel.HeaderPIF, Mode=OneWay}" 
                            HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8,2"/>
             </Grid>
 

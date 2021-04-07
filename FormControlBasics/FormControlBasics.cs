@@ -86,8 +86,8 @@ namespace FormControlBasicsNamespace
         //public virtual UserControlViewModelBase ViewModelBase
         //{ get; set; }
 
-        public virtual string MessageNo
-        { get; set; }
+        //public virtual string MessageNo
+        //{ get; set; }
 
         //public virtual string DestinationMsgNo
         //{ get; set; }
@@ -105,19 +105,19 @@ namespace FormControlBasicsNamespace
         //public virtual string HandlingOrder
         //{ get; set; }
 
-        protected string _pif = "2.1";
-        public virtual string PIF
-        {
-            get => _pif;
-            //set => SetProperty(ref _pif, value);
-            set => _pif = value;
-        }
+        //protected string _pif = "2.1";
+        //public virtual string PIF
+        //{
+        //    get => _pif;
+        //    //set => SetProperty(ref _pif, value);
+        //    set => _pif = value;
+        //}
 
-        //private string headerPIF;
-        public string HeaderPIF
-        {
-            get => $"PIF: {_pif}";
-        }
+        ////private string headerPIF;
+        //public string HeaderPIF
+        //{
+        //    get => $"PIF: {_pif}";
+        //}
 
         //protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         //{
@@ -781,7 +781,7 @@ namespace FormControlBasicsNamespace
                 }
             }
             EventHandler<FormEventArgs> OnSubjectChange = EventSubjectChanged;
-            FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = MessageNo };
+            FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = "1234" };
             OnSubjectChange?.Invoke(this, formEventArgs);
         }
 

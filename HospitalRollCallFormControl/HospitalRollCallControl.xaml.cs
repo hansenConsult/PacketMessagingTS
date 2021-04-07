@@ -35,30 +35,34 @@ namespace HospitalRollCallFormControl
 
             ScanControls(PrintableArea);
 
+            GetFormDataFromAttribute(GetType());
+
+            GetFormDataFromAttribute(GetType());
+
             ViewModelBase = ViewModel;
 
             InitializeToggleButtonGroups();
         }
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override string GetPacFormName() => "hospital_roll_call";
+        //public override string GetPacFormName() => "hospital_roll_call";
 
         public override string PacFormType => "ICS-213 Test";
 
-        public override string MessageNo
-        {
-            get => base.MessageNo;
-            set
-            {
-                base.MessageNo = value;
-                ViewModel.OriginMsgNo = value;
-            }
-        }
+        //public override string MessageNo
+        //{
+        //    get => base.MessageNo;
+        //    set
+        //    {
+        //        base.MessageNo = value;
+        //        ViewModel.OriginMsgNo = value;
+        //    }
+        //}
 
         public override Panel CanvasContainer => container;
 

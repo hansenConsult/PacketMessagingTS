@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-
 using FormControlBasicsNamespace;
 
 using FormUserControl;
@@ -26,6 +24,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Input;
+using System.Linq;
 
 namespace FormControlBaseClass
 {
@@ -69,13 +68,6 @@ namespace FormControlBaseClass
             new ComboBoxItem() { Content = "Valley Medical Center" },
         };
 
-        //protected List<ComboBoxPackItItem> Priority = new List<ComboBoxPackItItem>
-        //{
-        //    new ComboBoxPackItItem("Now", "Now", 0),
-        //    new ComboBoxPackItItem("High (0-4 hrs.)", "High", 1),
-        //    new ComboBoxPackItItem("Medium (5-12 hrs.)", "Medium", 2),
-        //    new ComboBoxPackItItem("Low (12+ hrs.)", "Low", 3),
-        //};
         protected List<ComboBoxItem> Priority = new List<ComboBoxItem>
         {
             new ComboBoxItem() { Content = "Now", Tag = "Now"},
@@ -85,58 +77,12 @@ namespace FormControlBaseClass
         };
 
 
-        //private static readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
-        //static Dictionary<string, bool> _propertyFirstTime = new Dictionary<string, bool>();
 
         public static string DrillTraffic = "\rDrill Traffic\r";
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
 
-        //protected static T GetProperty<T>(ref T backingStore, [CallerMemberName]string propertyName = "")
-        //{
-        //    if (_properties != null && _properties.ContainsKey(propertyName))
-        //    {
-        //        // Retrieve value from dictionary
-        //        object o = _properties[propertyName];
-        //        backingStore = (T)o;
-        //        return (T)o;
-        //    }
-        //    else
-        //        return backingStore;
-        //}
-
-        //protected bool SetProperty<T>(ref T backingStore, T value, bool persist = false, bool forceUpdate = false,
-        //            [CallerMemberName] string propertyName = "", Action onChanged = null)
-        //{
-        //    bool firstTime = false;
-        //    if (_propertyFirstTime.ContainsKey(propertyName))
-        //    {
-        //        firstTime = _propertyFirstTime[propertyName];
-        //    }
-        //    else
-        //    {
-        //        firstTime = true;
-        //    }
-        //    _propertyFirstTime[propertyName] = false;
-        //    //Do not update displayed value if not changed or not first time or not forced
-        //    if (Equals(backingStore, value) && !firstTime && !forceUpdate)
-        //    {
-        //        return false;
-        //    }
-        //    //_propertyFirstTime[propertyName] = false;
-
-        //    if (persist)
-        //    {
-        //        // store value
-        //        _properties[propertyName] = value;
-        //    }
-
-        //    backingStore = value;
-        //    onChanged?.Invoke();
-        //    OnPropertyChanged(propertyName);
-        //    return true;
-        //}
 
         public virtual void UpdateFormFieldsRequiredColors()
         {
@@ -147,7 +93,6 @@ namespace FormControlBaseClass
             ToggleButtonGroup reportType = FindName("reportType") as ToggleButtonGroup;
             string reportTypestring = reportType?.CheckedControlName;
             string checkedReportType = reportType?.GetRadioButtonCheckedState();
-            //if (reportType != null && string.IsNullOrEmpty(reportType.CheckedControlName))
             if (reportType != null && string.IsNullOrEmpty(checkedReportType))
             {
                 isReportTypeSelected = false;
@@ -169,12 +114,6 @@ namespace FormControlBaseClass
                         textBox.BorderBrush = formControl.BaseBorderColor;
                         textBox.BorderThickness = new Thickness(1);
                     }
-                    //if (textBox.IsReadOnly)    // Noeffect
-                    //{
-                    //    textBox.FocusVisualPrimaryBrush = WhiteBrush;
-                    //    textBox.BorderBrush = WhiteBrush;
-                    //    textBox.BorderThickness = new Thickness(0);
-                    //}
                 }
                 else if (control is AutoSuggestBox autoSuggestBox)
                 {
@@ -234,8 +173,8 @@ namespace FormControlBaseClass
         //public virtual UserControlViewModelBase ViewModelBase
         //{ get; set; }
 
-        public virtual string TacticalCallsign
-        { get; set; }
+        //public virtual string TacticalCallsign
+        //{ get; set; }
     
         public virtual FormHeaderUserControl FormHeaderControl
         { get; set; }
@@ -243,11 +182,11 @@ namespace FormControlBaseClass
         public virtual RadioOperatorUserControl RadioOperatorControl
         { get; set; }
 
-        public virtual string SenderMsgNo
-        { get; set; }
+        //public virtual string SenderMsgNo
+        //{ get; set; }
 
-        public virtual string MessageBody
-        { get; set; }
+        //public virtual string MessageBody
+        //{ get; set; }
 
         //public virtual string ReceiverMsgNo
         //{ get; set; }
@@ -282,14 +221,14 @@ namespace FormControlBaseClass
         //    }
         //}
 
-        public virtual string Action
-        { get; set; }
+        //public virtual string Action
+        //{ get; set; }
 
-        public virtual string Reply
-        { get; set; }
+        //public virtual string Reply
+        //{ get; set; }
 
-        public virtual string Severity
-        { get; set; }
+        //public virtual string Severity
+        //{ get; set; }
 
         //public virtual string ReceivedOrSent
         //{ get; set; }
@@ -325,33 +264,12 @@ namespace FormControlBaseClass
         //    set => SetProperty(ref _ReportType, value); 
         //}
 
-        //private DateTime? messageReceivedTime = null;
-        public virtual DateTime? MessageReceivedTime
-        { get; set; }
-        //    get => messageReceivedTime;
-        //    //set => SetProperty(ref messageReceivedTime, value);
-        //    set => messageReceivedTime = value;
-        //}
-
-        //private DateTime? messageSentTime = null;
-        public virtual DateTime? MessageSentTime
-        { get; set; }
-        //    get => messageSentTime;
-        //    //set => SetProperty(ref messageSentTime, value);
-        //    set => messageSentTime = value;
-        //}
-
         //private FormControlAttribute.FormType _FormControlType;
         public virtual FormControlAttribute.FormType FormControlType
         { get; set; }
 
         public abstract FormProviders FormProvider
         { get; }
-
-        public virtual string GetPacFormName()
-        {
-            return FormControlName;
-        }
 
         public virtual string FormControlName
         { get; set; }
@@ -365,7 +283,7 @@ namespace FormControlBaseClass
 
         public abstract void AppendDrillTraffic();
 
-        public virtual string PackItFormVersion => "3.2";
+        //public virtual string PackItFormVersion => "3.2";
 
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
@@ -478,8 +396,8 @@ namespace FormControlBaseClass
             _outpostData = new List<string>
             {
                 "!SCCoPIFO!",
-                $"#T: {GetPacFormName()}.html",
-                $"#V: {PackItFormVersion}-{PIF}",
+                $"#T: {FormControlName}.html",
+                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
@@ -761,7 +679,9 @@ namespace FormControlBaseClass
                         }
                         else
                         {
-                            return $"{id}: [{data[0]}}}{data[1]}]";
+                            int index = Convert.ToInt32(data[1]);
+                            return $"{id}: [{data[0]}}}{index + 1}]";
+                            //return $"{id}: [{data[0]}}}{data[1]}]";
                         }
                     }
                     else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
@@ -1022,6 +942,9 @@ namespace FormControlBaseClass
 
         protected virtual void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
         {
+            if (comboBox.Items.Count == 0)
+                return;     // ComboBox is not loaded
+
             var data = formField.ControlContent.Split(new char[] { ',' });
             if (data.Length == 2)
             {
@@ -1045,7 +968,7 @@ namespace FormControlBaseClass
 
                 // Received forms neds to have their ControlComboxContent updated
                 var items = comboBox.Items;
-                var number = comboBox.Items.Count;
+                
                 var selectedItem = comboBox.Items[0];
                 var itemSource = comboBox.ItemsSource;
 
@@ -1135,10 +1058,10 @@ namespace FormControlBaseClass
                             switch (control.Name)
                             {
                                 case "operatorCallsign":
-                                    radioOperatorControl.RadioOperatorUserControlViewModel.OperatorCallsign = textBox.Text;
+                                    radioOperatorControl.ViewModel.OperatorCallsign = textBox.Text;
                                     break;
                                 case "operatorName":
-                                    radioOperatorControl.RadioOperatorUserControlViewModel.OperatorName = textBox.Text;
+                                    radioOperatorControl.ViewModel.OperatorName = textBox.Text;
                                     break;
                                 case null:
                                     continue;
@@ -1342,67 +1265,82 @@ namespace FormControlBaseClass
 
         protected void GetFormDataFromAttribute(Type formType)
         {
-            Type clsType = formType;
-            Assembly assembly = clsType.Assembly;
-            //Assembly assembly = formType.Assembly;
-
-            Type[] expTypes = assembly.GetExportedTypes();
-            //Type[] types = assembly.GetTypes();
-            foreach (Type classType in expTypes)
+            if (string.IsNullOrEmpty(FormControlName) 
+                || string.IsNullOrEmpty(FormControlName) 
+                || FormControlType == FormControlAttribute.FormType.Undefined)
             {
-                var attrib = classType.GetTypeInfo();
-                //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
-                foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+                //Type clsType = formType;
+                Assembly assembly = formType.Assembly;
+
+                Type[] exportedTypes = assembly.GetExportedTypes();
+                foreach (Type classType in exportedTypes)
                 {
-                    //Type formControlAttributeType = typeof(FormControlAttribute);
-                    //Type customAttributeType = customAttribute.AttributeType;
-                    if (customAttribute.AttributeType != typeof(FormControlAttribute))
-                        continue;
-                    IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
-                    FormControlAttribute.FormType formControlType = FormControlAttribute.FormType.Undefined;
-                    foreach (CustomAttributeNamedArgument arg in namedArguments)
+                    var attrib = classType.GetTypeInfo();
+                    //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
+                    foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
                     {
-                        if (arg.MemberName == "FormControlName")
+                        if (customAttribute.AttributeType != typeof(FormControlAttribute))
+                            continue;
+                        IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
+                        string formControlMenuName;
+                        bool formControlNameFound = false;
+                        bool formControlTypeFound = false;
+                        bool formControlMenuNameFound = false;
+                        bool attributeFound = false;
+                        foreach (CustomAttributeNamedArgument arg in namedArguments)
                         {
-                            FormControlName = arg.TypedValue.Value as string;
-                        }
-                        else if (arg.MemberName == "FormControlType")
-                        {
-                            FormControlAttribute.FormType[] formTypes = new FormControlAttribute.FormType[] {
-                                FormControlAttribute.FormType.None, FormControlAttribute.FormType.CountyForm,
-                                FormControlAttribute.FormType.CityForm, FormControlAttribute.FormType.HospitalForm,
-                                FormControlAttribute.FormType.TestForm, FormControlAttribute.FormType.Undefined,
-                            };
-                            bool formControlTypeFound = false;
-                            formControlType = (FormControlAttribute.FormType)Enum.Parse(typeof(FormControlAttribute.FormType), arg.TypedValue.Value.ToString());
-                            for (int i = 0; i < formTypes.Length; i++)
+                            switch (arg.MemberName)
                             {
-                                if (formControlType == formTypes[i])
-                                {
+                                case "FormControlName":
+                                    FormControlName = arg.TypedValue.Value as string;
+                                    formControlNameFound = true;
+                                        break;
+                                case "FormControlType":
+                                    FormControlAttribute.FormType formControlType = (FormControlAttribute.FormType)Enum.Parse(typeof(FormControlAttribute.FormType), arg.TypedValue.Value.ToString());
+                                    switch (formControlType)
+                                    {
+                                        case FormControlAttribute.FormType.None:
+                                            FormControlType = formControlType;
+                                            break;
+                                        case FormControlAttribute.FormType.CountyForm:
+                                            FormControlType = formControlType;
+                                            break;
+                                        case FormControlAttribute.FormType.CityForm:
+                                            FormControlType = formControlType;
+                                            break;
+                                        case FormControlAttribute.FormType.HospitalForm:
+                                            FormControlType = formControlType;
+                                            break;
+                                        case FormControlAttribute.FormType.TestForm:
+                                            FormControlType = formControlType;
+                                            break;
+                                        case FormControlAttribute.FormType.Undefined:
+                                            FormControlType = formControlType;
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                     formControlTypeFound = true;
                                     break;
-                                }
+                                case "FormControlMenuName":
+                                    formControlMenuName = arg.TypedValue.Value as string;
+                                    formControlMenuNameFound = true;
+                                    break;
                             }
-                            if (formControlTypeFound)
+                            if (formControlNameFound && formControlTypeFound && formControlMenuNameFound)
                             {
-                                FormControlType = formControlType;
+                                attributeFound = true;
+                                break;
                             }
                         }
-                        //else if (arg.MemberName == "FormControlMenuName")
-                        //{
-                        //    formControlMenuName = arg.TypedValue.Value as string;
-                        //}
-                        //else if (arg.MemberName == "FormControlMenuIndex")
-                        //{
-                        //    formControlMenuIndex = (int)arg.TypedValue.Value;
-                        //}
+                        if (attributeFound)
+                        {
+                            //FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType);
+                            //_formControlAttributeList.Add(formControlAttributes);
+                            return;
+                        }
+                        break;
                     }
-                    break;
-                    //if (formControlTypeFound)
-                    //{
-                    //    //FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType, formControlMenuIndex);
-                    //    //_formControlAttributeList.Add(formControlAttributes);
-                    //}
                 }
             }
         }
@@ -1517,6 +1455,18 @@ namespace FormControlBaseClass
                     }
                 }
             }
+            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is string[])
+            {
+                foreach (FormField formField in FormPacketMessage.FormFieldArray)
+                {
+                    if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
+                    {
+                        FillComboBoxFromFormFields(formField, comboBox);
+                        break;
+                    }
+                }
+                UpdateFormFieldsRequiredColors();
+            }
         }
 
         //protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
@@ -1556,15 +1506,15 @@ namespace FormControlBaseClass
         //}
 
         // This is for filtering non number keys for a number key only field
-        protected void TextBoxResource_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (!((e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Number9) || (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.NumberPad9)
-                || e.Key == VirtualKey.Delete || e.Key == VirtualKey.End || e.Key == VirtualKey.Left || e.Key == VirtualKey.Right
-                || e.Key == VirtualKey.Back))
-            {
-                e.Handled = true;
-            }
-        }
+        //protected void TextBoxResource_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        //{
+        //    if (!((e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Number9) || (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.NumberPad9)
+        //        || e.Key == VirtualKey.Delete || e.Key == VirtualKey.End || e.Key == VirtualKey.Left || e.Key == VirtualKey.Right
+        //        || e.Key == VirtualKey.Back))
+        //    {
+        //        e.Handled = true;
+        //    }
+        //}
 
         protected static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
         {
@@ -1604,12 +1554,14 @@ namespace FormControlBaseClass
         {
             //PrintFooterVisibility = true;
 
-            //for (int i = 0; i < _printPanels.Count; i++)
-            //{
-            //    TextBlock footer = _printPanels[i].FindName("footer") as TextBlock;
-            //    if (footer != null)
-            //        return;
-            //}
+        //<Grid >
+        //    <Grid.ColumnDefinitions >
+        //        <ColumnDefinition />
+        //        <ColumnDefinition />
+        //    </Grid.ColumnDefinitions >
+        //    <TextBlock Grid.Column = "0" Margin = "8, 12" Text = "6DM-123P" />     
+        //    <TextBlock Grid.Column = "1" Margin = "8, 12" TextAlignment = "Right" Text = "Page 1 of 1" />            
+        //</ Grid >
 
             for (int i = 0; i < _printPanels.Count; i++)
             {
@@ -1625,25 +1577,49 @@ namespace FormControlBaseClass
 
                 if (!footerFound)
                 {
-                    string footerText = $"Page {i + 1} of {_printPanels.Count}, Message Number: {MessageNo}";
-                    TextBlock footer = new TextBlock
+                    TextBlock footerLeft = new TextBlock
                     {
-                        //Name = "footer", Only one name "footer" allowed
-                        Text = footerText,
+                        Text = $"{ViewModelBase.MessageNo}",
                         Margin = new Thickness(0, 16, 0, 0),
-                        HorizontalAlignment = HorizontalAlignment.Center
                     };
+
+                    TextBlock footerRight = new TextBlock
+                    {
+                        Text = $"Page {i + 1} of {_printPanels.Count}",
+                        Margin = new Thickness(0, 16, 0, 0),
+                        TextAlignment = TextAlignment.Right,
+                    };
+
+                    Grid footerGrid = new Grid();
+                    ColumnDefinition column0 = new ColumnDefinition();
+                    footerGrid.ColumnDefinitions.Add(column0);
+                    ColumnDefinition column1 = new ColumnDefinition();
+                    footerGrid.ColumnDefinitions.Add(column1);
+                    footerGrid.Children.Add(footerLeft);
+                    footerGrid.Children.Add(footerRight);
+                    Grid.SetColumn(footerLeft, 0);
+                    Grid.SetColumn(footerRight, 1);
+
+                    //string footerText = $"{ViewModelBase.MessageNo} Page {i + 1} of {_printPanels.Count}";
+                    //TextBlock footer = new TextBlock
+                    //{
+                    //    //Name = "footer", Only one name "footer" allowed
+                    //    Text = footerText,
+                    //    //Text = $"Page { i + 1 } of { _printPanels.Count }",
+                    //    Margin = new Thickness(0, 16, 0, 0),
+                    //    HorizontalAlignment = HorizontalAlignment.Center,
+                    //};
                     if (_printPanels[i].GetType() == typeof(Grid))
                     {
                         Grid grid = _printPanels[i] as Grid;
                         grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-                        Grid.SetRow(footer, grid.RowDefinitions.Count - 1);
-                        grid.Children.Add(footer);
+                        Grid.SetRow(footerGrid, grid.RowDefinitions.Count - 1);
+                        grid.Children.Add(footerGrid);
 
                     }
                     else
                     {
-                        _printPanels[i].Children.Add(footer);
+                        _printPanels[i].Children.Add(footerGrid);
                     }
                 }
             }
@@ -1743,7 +1719,7 @@ namespace FormControlBaseClass
 
         }
 
-#endregion Print
+        #endregion Print
 
     }
 }

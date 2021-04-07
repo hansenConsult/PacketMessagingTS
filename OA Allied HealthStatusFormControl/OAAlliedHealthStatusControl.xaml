@@ -1384,27 +1384,32 @@ to Public Health/Medical Health Branch"
                                 <Border Grid.Row="1" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="40a.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="40b.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="40c.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="40d.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="40e.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Assisted Living"
@@ -1412,27 +1417,32 @@ to Public Health/Medical Health Branch"
                                 <Border Grid.Row="2" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="41a.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="41b.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="41c.,conditionallyrequired,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="41d.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="41e.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -1441,27 +1451,32 @@ to Public Health/Medical Health Branch"
                                 <Border Grid.Row="3" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="42a.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="42b.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="42c.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="42d.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="42e.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -1471,30 +1486,35 @@ to Public Health/Medical Health Branch"
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="43a.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="2" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="43b.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="43c.,conditionallyrequired,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="43d.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="43e.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -1504,31 +1524,36 @@ to Public Health/Medical Health Branch"
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="44a.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="44b.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="44c.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="44d.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="44e.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -1538,31 +1563,36 @@ to Public Health/Medical Health Branch"
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="1" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="45a.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="45b.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="45c.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="45d.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="45e.,conditionallyrequired"/>
                                 <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">
                                     <Grid.RowDefinitions>
@@ -1585,31 +1615,36 @@ to Public Health/Medical Health Branch"
                                             Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                     <TextBox Grid.Row="0" Grid.Column="1" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="46a.,conditionallyrequired"/>
                                     <Border Grid.Row="0" Grid.Column="2" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                     <TextBox Grid.Row="0" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="46b.,conditionallyrequired"/>
                                     <Border Grid.Row="0" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                     <TextBox Grid.Row="0" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="46c.,conditionallyrequired"/>
                                     <Border Grid.Row="0" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                     <TextBox Grid.Row="0" Grid.Column="4" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="46d.,conditionallyrequired"/>
                                     <Border Grid.Row="0" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                     <TextBox Grid.Row="0" Grid.Column="5" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                     PreviewKeyDown="TextBoxResource_PreviewKeyDown"
+                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
+                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="46e.,conditionallyrequired"/>
                                     <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                     <TextBlock  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Margin="8,0,0,2"

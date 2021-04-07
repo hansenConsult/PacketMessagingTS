@@ -49,6 +49,8 @@ namespace MessageFormControl
 
             InitializeToggleButtonGroups();
 
+            GetFormDataFromAttribute(GetType());
+
             ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
@@ -168,13 +170,13 @@ namespace MessageFormControl
         //    set => SetProperty(ref _messageBody, value);
         //}
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.None;
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 
-        public override string GetPacFormName() => "SimpleMessage";
+        //public override string GetPacFormName() => "SimpleMessage";
 
         public override string PacFormType => "SimpleMessage";
 

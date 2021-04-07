@@ -22,7 +22,7 @@ namespace FormUserControl
 {
     public sealed partial class RadioOperatorUserControl : FormControlBaseMvvm
     {
-        public RadioOperatorUserControlViewModel RadioOperatorUserControlViewModel = RadioOperatorUserControlViewModel.Instance;
+        public RadioOperatorUserControlViewModel ViewModel = RadioOperatorUserControlViewModel.Instance;
 
 
         public RadioOperatorUserControl()

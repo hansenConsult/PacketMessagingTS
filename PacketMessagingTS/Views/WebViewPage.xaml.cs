@@ -203,7 +203,8 @@ namespace PacketMessagingTS.Views
                     break;
                 }
             }
-            pktMsg.PacFormName = formControl.GetPacFormName();
+            //pktMsg.PacFormName = formControl.GetPacFormName();
+            pktMsg.PacFormName = formControl.FormControlName;
             pktMsg.PacFormType = formControl.PacFormType;       // Added line
             pktMsg.FormControlType = formControl.FormControlType;
             pktMsg.FormFieldArray = formControl.ConvertFromOutpost(pktMsg.MessageNumber, ref msgLines, FormProviders.PacForm);

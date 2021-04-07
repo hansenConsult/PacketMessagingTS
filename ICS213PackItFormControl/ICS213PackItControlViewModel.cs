@@ -22,5 +22,8 @@ namespace ICS213PackItFormControl
             set => SetProperty(ref howReceivedSent, value);
         }
 
+        public virtual string SenderMsgNo
+        { get; set; }
+
     }
 }

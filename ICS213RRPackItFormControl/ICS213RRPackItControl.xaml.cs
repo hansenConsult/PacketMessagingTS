@@ -52,33 +52,16 @@ namespace ICS213RRPackItFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version 8/17";
+            FormHeaderControl.ViewModel.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
+            FormHeaderControl.ViewModel.HeaderSubstring = "Version 8/17";
+            FormHeaderControl.ViewModel.PIF = "2.3";
 
-            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
-            {
-                //GetFormDataFromAttribute(typeof(ICS213RRPackItControl));
-                GetFormDataFromAttribute(GetType());
-            }
+            GetFormDataFromAttribute(GetType());
+            
             ViewModelBase = ViewModel;
+
             UpdateFormFieldsRequiredColors();
         }
-
-        //public ICS213RRPackItControl(MessageState messageState)
-        //{
-        //    Messagestate = messageState;
-
-        //     InitializeComponent();
-
-        //    ScanControls(PrintableArea);
-
-        //    InitializeToggleButtonGroups();
-
-        //    FormHeaderControl.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
-        //    FormHeaderControl.HeaderSubstring = "Version 8/17";
-
-        //    UpdateFormFieldsRequiredColors();
-        //}
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
@@ -106,23 +89,6 @@ namespace ICS213RRPackItFormControl
 
         public override string PacFormType => "XSC_EOC_213RR";
 
-        //public override string MsgDate
-        //{
-        //    get => _msgDate;
-        //    set
-        //    {
-        //        ViewModel.InitiatedDate = value;
-        //        SetProperty(ref _msgDate, value);
-        //    }
-        //}
-
-        //private string _initiatedDate;
-        //public string InitiatedDate
-        //{
-        //    get => _initiatedDate;
-        //    set => SetProperty(ref _initiatedDate, value);
-        //}
-
         public override void AppendDrillTraffic()
         {
             specialInstructions.Text += DrillTraffic;
@@ -145,7 +111,7 @@ namespace ICS213RRPackItFormControl
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
-        public override string PIF => "2.3";
+        //public override string PIF => "2.3";
 
         public override string CreateSubject()
         {

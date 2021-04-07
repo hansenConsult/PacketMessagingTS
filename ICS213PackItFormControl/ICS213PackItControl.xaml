@@ -87,7 +87,7 @@
                                    Text="Message Form" />
                                 <Grid>
                                     <TextBlock FontSize="12" Text="SCCo ICS Form 213 (05/29/2019)" HorizontalAlignment="Left" />
-                                    <TextBlock  FontSize="12" Text="{x:Bind HeaderPIF, Mode=OneWay}" HorizontalAlignment="Right" />
+                                    <TextBlock  FontSize="12" Text="{x:Bind ViewModel.HeaderPIF, Mode=OneWay}" HorizontalAlignment="Right" />
                                 </Grid>
                             </StackPanel>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
@@ -95,7 +95,7 @@
                                     <TextBlock FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" 
                                            HorizontalAlignment="Center" Text="2.) Sender's msg #:"/>
                                     <TextBox x:Name="senderMsgNo"  
-                                         Text="{x:Bind SenderMsgNo, Mode=TwoWay}"
+                                         Text="{x:Bind ViewModel.SenderMsgNo, Mode=TwoWay}"
 										 TextAlignment="Center" BorderBrush="White" Margin="2,0,2,2" Tag="1" />
                                 </StackPanel>
                             </Border>
@@ -103,7 +103,7 @@
                                 <StackPanel Grid.Column="2">
                                     <TextBlock  FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Text="Message #:"/>
                                     <TextBox x:Name="messageNo" 
-                                         Text="{x:Bind MessageNo, Mode=TwoWay}"
+                                         Text="{x:Bind ViewModel.MessageNo, Mode=TwoWay}"
 										 TextAlignment="Center" BorderBrush="White" Margin="2,0,2,2"  
                                          Tag="MsgNo,required,Enter a Message Number." TextChanged="Subject_Changed"/>
                                 </StackPanel>
@@ -154,11 +154,12 @@
                                     <StackPanel>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4. Situation Severity" Margin="8"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="severity" IsTabStop="False"
-                                                                       CheckedControlName="{x:Bind Severity, Mode=TwoWay}" 
+                                                                       CheckedControlName="Severity" 
                                                                        Tag="4.,required" />
                                         <RadioButton x:Name="EMERGENCY" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                      Margin="10, 4" Padding="4" Content="EMERGENCY" Checked="Required_Checked"
 						    				         ToolTipService.ToolTip="Life threat" Tag="EMERGENCY">
+                                            <!--CheckedControlName="{x:Bind Severity, Mode=TwoWay}"-->
                                         </RadioButton>
                                         <RadioButton x:Name="urgent" GroupName="severity" Style="{StaticResource RadioButtonTNR12B}" 
                                                      Margin="10, 4" Padding="4" Content="URGENT" Checked="Required_Checked"
@@ -192,7 +193,8 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="6. Message requests you to:" Margin="8"/>
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Take action" Margin="10,0,0,0"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="action" IsTabStop="False"
-                                                                       CheckedControlName="{x:Bind Action, Mode=TwoWay}" Tag="6a."/>
+                                                                       CheckedControlName="Action"
+                                                                       Tag="6a."/>
                                         <StackPanel Orientation="Horizontal">
                                             <RadioButton x:Name="actionYes" GroupName="action" 
                                                          Style="{StaticResource RadioButtonTNR12B}" 
@@ -204,7 +206,7 @@
                                         <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,4,0,0" />
                                         <StackPanel Orientation="Horizontal">
                                             <MyNamespace:ToggleButtonGroup x:Name="reply" IsTabStop="False"
-                                                                           CheckedControlName="{x:Bind Reply, Mode=TwoWay}" Tag="6b."/>
+                                                                           CheckedControlName="Reply" Tag="6b."/>
                                             <RadioButton x:Name="replyYes" GroupName="reply" 
                                                          Style="{StaticResource RadioButtonTNR12B}" 
                                                          Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="50" Tag="Yes"/>
@@ -729,5 +731,13 @@
                 </StackPanel>
             </StackPanel>
         </Border>
+        <!--<Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="8, 12" Text="6DM-123P"/>
+            <TextBlock Grid.Column="1" Margin="8, 12" TextAlignment="Right" Text="Page 1 of 1" />
+        </Grid>-->
     </StackPanel>
 </MyBaseNamespace:FormControlBase>

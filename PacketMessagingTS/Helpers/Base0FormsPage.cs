@@ -4,6 +4,8 @@ using System.Reflection;
 
 using FormControlBaseClass;
 
+using MessageFormControl;
+
 using MetroLog;
 
 using PacketMessagingTS.Core.Helpers;
@@ -55,19 +57,19 @@ namespace PacketMessagingTS.Helpers
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.MessageNo;
+                    return _packetForm.FormHeaderControl.ViewModel.MessageNo;
                 else
-                    return _packetForm.MessageNo;
+                    return _packetForm.ViewModelBase.MessageNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
                 {
-                    _packetForm.FormHeaderControl.MessageNo = value;
-                    _packetForm.MessageNo = value;
+                    _packetForm.FormHeaderControl.ViewModel.MessageNo = value;
+                    _packetForm.ViewModelBase.MessageNo = value;
                 }
                 else
-                    _packetForm.MessageNo = value;
+                    _packetForm.ViewModelBase.MessageNo = value;
             }
         }
 
@@ -76,14 +78,14 @@ namespace PacketMessagingTS.Helpers
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModelBase.DestinationMsgNo;
+                    return _packetForm.FormHeaderControl.ViewModel.DestinationMsgNo;
                 else
                     return _packetForm.ViewModelBase.DestinationMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.ViewModelBase.DestinationMsgNo = value;
+                    _packetForm.FormHeaderControl.ViewModel.DestinationMsgNo = value;
                 else
                     _packetForm.ViewModelBase.DestinationMsgNo = value;
             }
@@ -94,14 +96,14 @@ namespace PacketMessagingTS.Helpers
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModelBase.OriginMsgNo;
+                    return _packetForm.FormHeaderControl.ViewModel.OriginMsgNo;
                 else
                     return _packetForm.ViewModelBase.OriginMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.ViewModelBase.OriginMsgNo = value;
+                    _packetForm.FormHeaderControl.ViewModel.OriginMsgNo = value;
                 else
                     _packetForm.ViewModelBase.OriginMsgNo = value;
             }
@@ -120,15 +122,20 @@ namespace PacketMessagingTS.Helpers
             // Special handling for SimpleMessage
             //_packetForm.MessageNo = _packetMessage.MessageNumber;
             MessageNo = _packetMessage.MessageNumber;
-            _packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
+            if (_packetForm.PacFormType == "SimpleMessage")
+            {
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = _packetMessage.ReceivedTime;
+            }
+            //_packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
             if (_packetMessage.MessageOrigin == MessageOrigin.Received)
             {
-                _packetForm.MessageSentTime = _packetMessage.JNOSDate;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.JNOSDate;
                 _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
-                if (_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
+                if ((_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
+                    || (_packetForm.FormProvider == FormProviders.PacForm && _packetForm.PacFormType == "MVCERTSummary"))
                 {
                     MessageNo = _packetMessage.MessageNumber;
-                    _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
+                    _packetForm.ViewModelBase.SenderMsgNo = _packetMessage.SenderMessageNumber;
                 }
                 else
                 {
@@ -138,7 +145,7 @@ namespace PacketMessagingTS.Helpers
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.Sent)
             {
-                _packetForm.MessageSentTime = _packetMessage.SentTime;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.SentTime;
                 DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
                 OriginMsgNo = _packetMessage.MessageNumber;
                 _packetForm.ViewModelBase.ReceivedOrSent = "Sender";
@@ -146,8 +153,8 @@ namespace PacketMessagingTS.Helpers
             }
             else if (_packetMessage.MessageOrigin == MessageOrigin.New)
             {
-                _packetForm.MessageSentTime = null;
-                _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = null;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = null;// _packetMessage.CreateTime;
                 OriginMsgNo = _packetMessage.MessageNumber;
             }
         }

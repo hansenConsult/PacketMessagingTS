@@ -24,7 +24,7 @@ namespace FormUserControl
         public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
         //FormHeaderUserControlViewModel ViewModel = FormHeaderUserControlViewModel.Instance;
-        FormHeaderUserControlViewModel ViewModel = new FormHeaderUserControlViewModel();
+        public FormHeaderUserControlViewModel ViewModel = new FormHeaderUserControlViewModel();
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
      

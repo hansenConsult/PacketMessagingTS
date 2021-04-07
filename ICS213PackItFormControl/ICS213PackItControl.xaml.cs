@@ -51,6 +51,8 @@ namespace ICS213PackItFormControl
 
             _messageBoxHeight = message.Height;
 
+            GetFormDataFromAttribute(GetType());
+
             ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
@@ -60,21 +62,21 @@ namespace ICS213PackItFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string GetPacFormName() => "form-ics213";	// Used in CreateFileName() 
+        //public override string GetPacFormName() => "form-ics213";	// Used in CreateFileName() 
 
         public override string PacFormType => "ICS213";
 
-        public override string MessageNo
-        {
-            get => base.MessageNo;
-            set
-            {
-                base.MessageNo = value;
-                ViewModel.OriginMsgNo = value;
-            }
-        }
+        //public override string MessageNo
+        //{
+        //    get => base.MessageNo;
+        //    set
+        //    {
+        //        base.MessageNo = value;
+        //        ViewModel.OriginMsgNo = value;
+        //    }
+        //}
 
         public override void AppendDrillTraffic()
         {
@@ -85,7 +87,7 @@ namespace ICS213PackItFormControl
         {
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
-            UpdateFormFieldsRequiredColors();       // TODO check this
+            //UpdateFormFieldsRequiredColors();       // TODO check this
         }
 
         public override Panel DirectPrintContainer => directPrintContainer;
@@ -120,7 +122,7 @@ namespace ICS213PackItFormControl
                                 //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 
                                 // Header
-                                TextBlock header = new TextBlock { Text = $"ICS 213 Message, message number: {MessageNo}", Margin = new Thickness(0, 0, 0, 20) };
+                                TextBlock header = new TextBlock { Text = $"ICS 213 Message, message number: {ViewModelBase.MessageNo}", Margin = new Thickness(0, 0, 0, 20) };
                                 Grid.SetRow(header, 0);
                                 grid.Children.Add(header);
 

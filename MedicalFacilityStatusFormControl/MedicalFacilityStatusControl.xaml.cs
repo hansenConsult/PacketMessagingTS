@@ -38,6 +38,9 @@ namespace MedicalFacilityStatusFormControl
     /// </summary>
     public sealed partial class MedicalFacilityStatusControl : FormControlBase
     {
+        MedicalFacilityStatusControlViewModel ViewModel = new MedicalFacilityStatusControlViewModel();
+
+
         readonly List<ComboBoxItem> DiversionStatus = new List<ComboBoxItem>
         {
             new ComboBoxItem() { Content = null, Tag = "" },
@@ -129,17 +132,16 @@ namespace MedicalFacilityStatusFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.ViewModelBase.HeaderString1 = "Medical facility Status";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "WebEOC: 20160101";
-            FormHeaderControl.PIF = PIF;
+            FormHeaderControl.ViewModel.HeaderString1 = "Medical facility Status";
+            FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20160101";
+            FormHeaderControl.ViewModelBase.PIF = "3.2";
 
             CreateComboBoxList(Status, Staffing);
             CreateComboBoxList(ClinicalSupplies, Staffing);
 
-            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
-            {
-                GetFormDataFromAttribute(GetType());
-            }
+            GetFormDataFromAttribute(GetType());
+
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -173,25 +175,25 @@ namespace MedicalFacilityStatusFormControl
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
-        public override string PIF => "3.2";
+        //public override string PIF => "3.2";
 
         public override string CreateSubject()
         {
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>
-            {
-                "!SCCoPIFO!",
-                "#T: form-medical-facility-status-v2.html",
-                $"#V: {PackItFormVersion}-{PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+        //public override string CreateOutpostData(ref PacketMessage packetMessage)
+        //{
+        //    _outpostData = new List<string>
+        //    {
+        //        "!SCCoPIFO!",
+        //        "#T: form-medical-facility-status-v2.html",
+        //        $"#V: {PackItFormVersion}-{ViewModelBase.PIF}",
+        //    };
+        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(_outpostData);
-        }
+        //    return CreateOutpostMessageBody(_outpostData);
+        //}
 
         protected override void UpdateRequiredFields(bool required)
         {

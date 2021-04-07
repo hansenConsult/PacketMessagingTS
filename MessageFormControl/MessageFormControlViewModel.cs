@@ -26,8 +26,8 @@ namespace MessageFormControl
         public HeaderVisibility _previousVisibleHeader = HeaderVisibility.None;
 
 
-        //private bool inBoxHeaderVisibility;
-        public override bool InBoxHeaderVisibility
+        private bool inBoxHeaderVisibility;
+        public bool InBoxHeaderVisibility
         {
             get => inBoxHeaderVisibility;
             set
@@ -44,8 +44,8 @@ namespace MessageFormControl
             }
         }
 
-        //private bool sentHeaderVisibility;
-        public override bool SentHeaderVisibility
+        private bool sentHeaderVisibility;
+        public bool SentHeaderVisibility
         {
             get => sentHeaderVisibility;
             set
@@ -62,8 +62,8 @@ namespace MessageFormControl
             }
         }
 
-        //private bool newHeaderVisibility;
-        public override bool NewHeaderVisibility
+        private bool newHeaderVisibility;
+        public  bool NewHeaderVisibility
         {
             get => newHeaderVisibility;
             set
@@ -133,10 +133,26 @@ namespace MessageFormControl
         }
 
         private string _messageBody;
-        public override string MessageBody
+        public  string MessageBody
         {
             get => _messageBody;
             set => SetProperty(ref _messageBody, value);
+        }
+
+        private DateTime? messageReceivedTime;
+        public DateTime? MessageReceivedTime
+        {
+            get => messageReceivedTime;
+            set => SetProperty(ref messageReceivedTime, value);
+            //set => messageReceivedTime = value;
+        }
+
+        private DateTime? messageSentTime = null;
+        public DateTime? MessageSentTime
+        {
+            get => messageSentTime;
+            set => SetProperty(ref messageSentTime, value);
+            //set => messageSentTime = value;
         }
 
     }

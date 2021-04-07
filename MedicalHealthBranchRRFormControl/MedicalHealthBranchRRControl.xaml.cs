@@ -32,7 +32,8 @@ namespace MedicalHealthBranchRRFormControl
     /// </summary>
     public sealed partial class MedicalHealthBranchRRControl : FormControlBase
     {
-        MedicalHealthBranchRRControlViewModel ViewModel = MedicalHealthBranchRRControlViewModel.Instance;
+        //MedicalHealthBranchRRControlViewModel ViewModel = MedicalHealthBranchRRControlViewModel.Instance;
+        MedicalHealthBranchRRControlViewModel ViewModel = new MedicalHealthBranchRRControlViewModel();
 
         public MedicalHealthBranchRRControl()
         {
@@ -42,15 +43,13 @@ namespace MedicalHealthBranchRRFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.ViewModelBase.NamePanel1Visibility = false;
-            FormHeaderControl.ViewModelBase.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version: September 2009";
-            FormHeaderControl.PIF = PIF;
+            FormHeaderControl.ViewModel.NamePanel1Visibility = false;
+            FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
+            FormHeaderControl.ViewModel.HeaderSubstring = "Version: September 2009";
+            FormHeaderControl.ViewModelBase.PIF = "3.1";
 
-            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
-            {
-                GetFormDataFromAttribute(GetType());
-            }
+            GetFormDataFromAttribute(GetType());
+
             ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
@@ -85,7 +84,7 @@ namespace MedicalHealthBranchRRFormControl
         //    set => SetProperty(ref requestMsgDate, value);
         //}
 
-        public override string PIF => "3.1";
+        //public override string PIF => "3.1";
 
         public override void AppendDrillTraffic()
         {
@@ -114,7 +113,7 @@ namespace MedicalHealthBranchRRFormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-medical-resource-request.html",
-                $"#V: {PackItFormVersion}-{PIF}",
+                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 

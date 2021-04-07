@@ -123,6 +123,7 @@
     <Compile Include="MedicalFacilityStatusControl.xaml.cs">
       <DependentUpon>MedicalFacilityStatusControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MedicalFacilityStatusControlViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\MedicalFacilityStatusFormControl.rd.xml" />
   </ItemGroup>

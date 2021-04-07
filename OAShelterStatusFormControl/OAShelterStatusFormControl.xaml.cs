@@ -30,6 +30,7 @@ namespace OAShelterStatusFormControl
 
     public sealed partial class OAShelterStatusControl : FormControlBase
     {
+        OAShelterStatusFormControlViewModel ViewModel = new OAShelterStatusFormControlViewModel();
         readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = "Campbell" },
@@ -115,8 +116,12 @@ namespace OAShelterStatusFormControl
 
             state.Text = "California";
 
-            FormHeaderControl.ViewModelBase.HeaderString1 = "Santa Clara OA Shelter Status";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "WebEOC: 20130814";
+            FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Shelter Status";
+            FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20130814";
+
+            GetFormDataFromAttribute(GetType());
+
+            ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();
         }
@@ -125,9 +130,9 @@ namespace OAShelterStatusFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string GetPacFormName() => "form-oa-shelter-status";
+        //public override string GetPacFormName() => "form-oa-shelter-status";
 
         public override string PacFormType => "OAShelterStat";
 

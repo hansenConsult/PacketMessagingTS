@@ -43,7 +43,7 @@ namespace MVCERTDA_FormsControl
 
             InitializeToggleButtonGroups();
 
-            Severity = "other";
+            other.IsChecked = true;
             ViewModel.HandlingOrder = "priority";
             actionNo.IsChecked = true;
             replyNo.IsChecked = true;
@@ -57,10 +57,7 @@ namespace MVCERTDA_FormsControl
             ViewModel.HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
 
-            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
-            {
-                GetFormDataFromAttribute(GetType());
-            }
+            GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
 
@@ -100,15 +97,15 @@ namespace MVCERTDA_FormsControl
 
         public override string PacFormType => "MVCERTSummary";
 
-        public override string MessageNo 
-        { 
-            get => base.MessageNo;
-            set
-            {
-                base.MessageNo = value;
-                ViewModel.OriginMsgNo = value;
-            }
-        }
+        //public override string MessageNo 
+        //{ 
+        //    get => base.MessageNo;
+        //    set
+        //    {
+        //        base.MessageNo = value;
+        //        ViewModel.OriginMsgNo = value;
+        //    }
+        //}
 
         public override Panel CanvasContainer => container;
 
@@ -119,7 +116,7 @@ namespace MVCERTDA_FormsControl
         public override string CreateSubject()
         {
             //return (messageNo.Text + "_" + Severity?.ToUpper()[0] + "/" + HandlingOrder?.ToUpper()[0] + "_MTV213-CERT_" + subject.Text + comments.Text);
-            return $"{messageNo.Text}_{ViewModelBase.HandlingOrder?.ToUpper()[0]}_MTV213-CERT_{subject.Text}";
+            return $"{messageNo.Text}_{ViewModel.HandlingOrder?.ToUpper()[0]}_MTV213-CERT_{subject.Text}";
         }
 
         public override void AppendDrillTraffic()
@@ -140,8 +137,8 @@ namespace MVCERTDA_FormsControl
                 {
                     //if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
                     //{
-                        int index = Convert.ToInt32(data[1]);
-                        return $"{id}: [{data[0]}}}{index + 1}]";
+                    int index = Convert.ToInt32(data[1]);
+                    return $"{id}: [{data[0]}}}{index + 1}]";
                     //}
                     //else
                     //{
@@ -278,7 +275,7 @@ namespace MVCERTDA_FormsControl
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
-            bool found1 = false, found2 = false;
+            bool found1 = true, found2 = false;
             foreach (FormField formField in formFields)
             {
                 FrameworkElement control = GetFrameworkElement(formField);
@@ -320,6 +317,8 @@ namespace MVCERTDA_FormsControl
                     break;
             }
             base.FillFormFromFormFields(formFields);
+
+            UpdateDASummeryFields();
         }
 
         //private void DamageAccessmentRequired_TextChanged(object sender, TextChangedEventArgs e)
@@ -376,7 +375,63 @@ namespace MVCERTDA_FormsControl
                     textBoxFromICSPosition.Text = comboBoxFromICSPosition.SelectedItem.ToString();
                 }
             }
-            ComboBox_SelectionChanged(sender, e);
+            UpdateFormFieldsRequiredColors();
+            //ComboBox_SelectionChanged(sender, e);
+        }
+
+        public void UpdateDASummeryFields()
+        {
+            List<TextBox> daSummeryList = new List<TextBox>();
+            bool listStart = false;
+            bool daSummeryFilled = false;
+            foreach (FormControl formControl in _formControlsList)
+            {
+                Control control = formControl.InputControl as Control;
+                if (control is TextBox textBox)
+                {
+                    if (textBox.Name == "fires")
+                        listStart = true;
+
+                    if (listStart)
+                    {
+                        daSummeryList.Add(textBox);
+                        if (!string.IsNullOrEmpty(textBox.Text))
+                            daSummeryFilled = true;
+                    }
+                    if (textBox.Name == "messageOther")
+                    {
+                        FormControl msgFormControl = _formControlsList.Find(x => x.InputControl.Name == "message");
+                        TextBox messageControl = msgFormControl.InputControl as TextBox;
+                        if (string.IsNullOrEmpty(textBox.Text))
+                        {
+                            messageControl.Tag = (messageControl.Tag as string).Replace(",required", ",conditionallyrequired");
+                        }
+                        else
+                        {
+                            messageControl.Tag = (messageControl.Tag as string).Replace(",conditionallyrequired", ",required");
+                        }
+                    }
+                    if (textBox.Name == "surveyed")
+                        break;
+                }
+            }
+            foreach (TextBox textBox in daSummeryList)
+            {
+                if (daSummeryFilled)
+                {
+                    textBox.Tag = (textBox.Tag as string).Replace(",required", ",conditionallyrequired");
+                }
+                else
+                {
+                    textBox.Tag = (textBox.Tag as string).Replace(",conditionallyrequired", ",required");
+                }
+            }
+        }
+
+        private void DASummery_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateDASummeryFields();
+            UpdateFormFieldsRequiredColors();
         }
 
         //private void ComboBoxFromLocation_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)

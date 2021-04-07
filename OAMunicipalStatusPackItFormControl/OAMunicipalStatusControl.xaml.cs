@@ -129,8 +129,8 @@ namespace OAMunicipalStatusPackItFormControl
 
             InitializeToggleButtonGroups();
 
-            FormHeaderControl.ViewModelBase.HeaderString1 = "Santa Clara OA Jurisdiction Status";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "WebEOC: 20190327";
+            FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Jurisdiction Status";
+            FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20190327";
 
             //CreateComboBoxList(Communications, CurrentSituation);
             CreateComboBoxList(Debris, Communications);
@@ -149,10 +149,7 @@ namespace OAMunicipalStatusPackItFormControl
             CreateComboBoxList(CivilUnrest, Communications);
             CreateComboBoxList(AnimalIssues, Communications);
 
-            if (string.IsNullOrEmpty(FormControlName) || FormControlType == FormControlAttribute.FormType.Undefined)
-            {
-                GetFormDataFromAttribute(GetType());
-            }
+            GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
 

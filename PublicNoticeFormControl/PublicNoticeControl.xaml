@@ -127,7 +127,7 @@
                             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                            Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" 
-                                                           CheckedControlName ="{x:Bind ViewModelBase.HandlingOrder, Mode=TwoWay}" 
+                                                           CheckedControlName ="HandlingOrder" 
                                                            Tag=",required,Indicate Msg. Handling Order."/>
                             <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
                                          Style="{StaticResource RadioButtonTNR12B}" Margin="8,0,0,0" 
@@ -177,7 +177,7 @@
                             <TextBox Grid.Row="0" Grid.Column="0" x:Name="textBoxNoticeType" Visibility="Collapsed" />
                             <ComboBox Grid.Row="0" Grid.Column="1" x:Name="comboBoxNoticeType" IsEditable="True" 
                                       PlaceholderText="Choose One" Margin="0,2" 
-                                      SelectionChanged="ComboBoxNoticeType_SelectionChanged"
+                                      SelectionChanged="ComboBox_SelectionChanged"
                                       Tag="9">
                                 <ComboBoxItem Content="NOTICE"/>
                                 <ComboBoxItem Content="WARNING"/>

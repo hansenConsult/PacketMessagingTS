@@ -10,7 +10,7 @@ namespace HavBedReportFormControl
 {
     public class HavBedReportControlViewModel : UserControlViewModelBase
     {
-        public static HavBedReportControlViewModel Instance { get; } = new HavBedReportControlViewModel();
+        //public static HavBedReportControlViewModel Instance { get; } = new HavBedReportControlViewModel();
 
 
     }

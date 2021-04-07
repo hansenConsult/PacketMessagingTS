@@ -14,35 +14,37 @@ namespace SharedCode.Helpers
         protected ObservableRecipient UserControlViewModel
         { get; set; }
 
-        private bool namePanel1Visibility = true;
-        public bool NamePanel1Visibility
+
+        //private string headerString1;
+        //public string HeaderString1
+        //{
+        //    get => headerString1;
+        //    set => SetProperty(ref headerString1, value);
+        //}
+
+
+        public virtual string PackItFormVersion => "3.2";
+
+        protected string _pif = "2.1";
+        public virtual string PIF
         {
-            get => namePanel1Visibility;
-            set => SetProperty(ref namePanel1Visibility, value);
+            get => _pif;
+            set
+            {
+                _pif = value;
+                HeaderPIF = $"PIF: {_pif}";
+            }
         }
 
-        public bool NamePanel2Visibility => !NamePanel1Visibility;
-
-        private string headerString1;
-        public string HeaderString1
+        private string headerPIF;
+        public string HeaderPIF
         {
-            get => headerString1;
-            set => SetProperty(ref headerString1, value);
+            get => $"PIF: {_pif}";
+            set => SetProperty(ref headerPIF, value);
         }
 
-        private string headerString2;
-        public string HeaderString2
-        {
-            get => headerString2;
-            set => SetProperty(ref headerString2, $" {value}");
-        }
-
-        private string headerSubstring;
-        public string HeaderSubstring
-        {
-            get => headerSubstring;
-            set => SetProperty(ref headerSubstring, value);
-        }
+        public virtual string MessageNo
+        { get; set; }
 
         private string originMsgNo;
         public virtual string OriginMsgNo
@@ -56,6 +58,13 @@ namespace SharedCode.Helpers
         {
             get => destinationMsgNo;
             set => SetProperty(ref destinationMsgNo, value);
+        }
+
+        private string senderMsgNo;
+        public virtual string SenderMsgNo
+        { 
+            get => senderMsgNo; 
+            set => SetProperty(ref senderMsgNo, value);
         }
 
         protected string _msgDate;
@@ -99,20 +108,8 @@ namespace SharedCode.Helpers
         public virtual string TacticalCallsign
         { get; set; }
 
-        public virtual string MessageBody
-        { get; set; }
-
-        protected bool inBoxHeaderVisibility;
-        public virtual bool InBoxHeaderVisibility
-        { get; set; }
-
-        protected bool sentHeaderVisibility;
-        public virtual bool SentHeaderVisibility
-        { get; set; }
-
-        protected bool newHeaderVisibility;
-        public virtual bool NewHeaderVisibility
-        { get; set; }
+        //public virtual string MessageBody
+        //{ get; set; }
 
 
     }

@@ -120,6 +120,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="OAShelterStatusFormControlViewModel.cs" />
     <Compile Include="OAShelterStatusFormControl.xaml.cs">
       <DependentUpon>OAShelterStatusFormControl.xaml</DependentUpon>
     </Compile>

@@ -56,27 +56,25 @@ namespace PacketMessagingTS.ViewModels
         protected FormControlBase _packetForm;
         protected SimpleMessagePivot _simpleMessagePivot;
 
-        //public bool FirstTimeFormOpened
-        //{ get; set; }
 
         public string MessageNo
         {
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.MessageNo;
+                    return _packetForm.FormHeaderControl.ViewModel.MessageNo;
                 else
-                    return _packetForm.MessageNo;
+                    return _packetForm.ViewModelBase.MessageNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
                 {
-                    _packetForm.FormHeaderControl.MessageNo = value;
-                    _packetForm.MessageNo = value;
+                    _packetForm.FormHeaderControl.ViewModel.MessageNo = value;
+                    _packetForm.ViewModelBase.MessageNo = value;
                 }
                 else
-                    _packetForm.MessageNo = value;
+                    _packetForm.ViewModelBase.MessageNo = value;
             }
         }
 
@@ -85,14 +83,14 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModelBase.DestinationMsgNo;
+                    return _packetForm.FormHeaderControl.ViewModel.DestinationMsgNo;
                 else
                     return _packetForm.ViewModelBase.DestinationMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.ViewModelBase.DestinationMsgNo = value;
+                    _packetForm.FormHeaderControl.ViewModel.DestinationMsgNo = value;
                 else
                     _packetForm.ViewModelBase.DestinationMsgNo = value;
             }
@@ -103,14 +101,14 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModelBase.OriginMsgNo;
+                    return _packetForm.FormHeaderControl.ViewModel.OriginMsgNo;
                 else
                     return _packetForm.ViewModelBase.OriginMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.ViewModelBase.OriginMsgNo = value;
+                    _packetForm.FormHeaderControl.ViewModel.OriginMsgNo = value;
                 else
                     _packetForm.ViewModelBase.OriginMsgNo = value;
             }
@@ -121,7 +119,7 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModelBase.MsgDate;
+                    return _packetForm.FormHeaderControl.ViewModel.MsgDate;
                 else
                     return _packetForm.ViewModelBase.MsgDate;
             }
@@ -129,7 +127,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (_packetForm.FormHeaderControl != null)
                 {
-                    _packetForm.FormHeaderControl.ViewModelBase.MsgDate = value;
+                    _packetForm.FormHeaderControl.ViewModel.MsgDate = value;
                     if (_packetForm.ViewModelBase != null)
                         _packetForm.ViewModelBase.MsgDate = value;
                 }
@@ -143,14 +141,14 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModelBase.MsgTime;
+                    return _packetForm.FormHeaderControl.ViewModel.MsgTime;
                 else
                     return _packetForm.ViewModelBase.MsgTime;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.ViewModelBase.MsgTime = value;
+                    _packetForm.FormHeaderControl.ViewModel.MsgTime = value;
                 else
                     _packetForm.ViewModelBase.MsgTime = value;
             }
@@ -162,7 +160,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 if (_packetForm.RadioOperatorControl != null)
-                    _packetForm.RadioOperatorControl.RadioOperatorUserControlViewModel.OperatorName = value;
+                    _packetForm.RadioOperatorControl.ViewModel.OperatorName = value;
                 else
                     _packetForm.ViewModelBase.OperatorName = value;
             }
@@ -174,7 +172,7 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 if (_packetForm.RadioOperatorControl != null)
-                    _packetForm.RadioOperatorControl.RadioOperatorUserControlViewModel.OperatorCallsign = value;
+                    _packetForm.RadioOperatorControl.ViewModel.OperatorCallsign = value;
                 else
                     _packetForm.ViewModelBase.OperatorCallsign = value;
             }
@@ -185,14 +183,14 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModelBase.HandlingOrder;
+                    return _packetForm.FormHeaderControl.ViewModel.HandlingOrder;
                 else
                     return _packetForm.ViewModelBase.HandlingOrder;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
-                    _packetForm.FormHeaderControl.ViewModelBase.HandlingOrder = value;
+                    _packetForm.FormHeaderControl.ViewModel.HandlingOrder = value;
                 else
                     _packetForm.ViewModelBase.HandlingOrder = value;
             }
@@ -302,67 +300,66 @@ namespace PacketMessagingTS.ViewModels
             return formControl;
         }
 
-        public static FormControlBase CreateUserControlInstance(Type userControlType)
-        {
-            //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
-            FormControlBase formControl = null;
+        //public static FormControlBase CreateUserControlInstance(Type userControlType)
+        //{
+        //    //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
+        //    FormControlBase formControl = null;
 
-            Type foundType = null;
-            //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
-            foreach (Assembly assembly in SharedData.Assemblies)
-            {
-                try
-                {
-                    //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
-                    foreach (Type classType in assembly.GetTypes())
-                    {
-                        var attrib = classType.GetTypeInfo();
-                        //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
-                        foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
-                        {
-                            if (customAttribute.AttributeType != typeof(FormControlAttribute))
-                                continue;
+        //    Type foundType = null;
+        //    //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
+        //    foreach (Assembly assembly in SharedData.Assemblies)
+        //    {
+        //        try
+        //        {
+        //            //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
+        //            foreach (Type classType in assembly.GetTypes())
+        //            {
+        //                var attrib = classType.GetTypeInfo();
+        //                //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
+        //                foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+        //                {
+        //                    if (customAttribute.AttributeType != typeof(FormControlAttribute))
+        //                        continue;
 
 
-                            //    var formControlType = namedArguments[0].TypedValue.Value as string;
-                            //    if (formControlType == formControlName)
-                            //    {
-                            //        foundType = classType;
-                            //        break;
-                            //    }
-                            //}
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
-                    continue;
-                }
-            }
+        //                    //    var formControlType = namedArguments[0].TypedValue.Value as string;
+        //                    //    if (formControlType == formControlName)
+        //                    //    {
+        //                    //        foundType = classType;
+        //                    //        break;
+        //                    //    }
+        //                    //}
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
+        //            continue;
+        //        }
+        //    }
 
-            if (foundType != null)
-            {
-                try
-                {
-                    formControl = (FormControlBase)Activator.CreateInstance(foundType);
-                    //object[] parameters = new object[] { messageState };
-                    //formControl = (FormControlBase)Activator.CreateInstance(foundType, parameters);
-                }
-                catch (Exception e)
-                {
-                    _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
-                }
-            }
-            return formControl;
-        }
+        //    if (foundType != null)
+        //    {
+        //        try
+        //        {
+        //            formControl = (FormControlBase)Activator.CreateInstance(foundType);
+        //            //object[] parameters = new object[] { messageState };
+        //            //formControl = (FormControlBase)Activator.CreateInstance(foundType, parameters);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
+        //        }
+        //    }
+        //    return formControl;
+        //}
 
         public async void InitializeFormControlAsync()
         {
             LoadMessage = false;
             await ShowPacketFormAsync();
             return;
-
         }
 
         public void FillFormFromPacketMessage()
@@ -388,15 +385,19 @@ namespace PacketMessagingTS.ViewModels
             // Special handling for SimpleMessage
             //_packetForm.MessageNo = _packetMessage.MessageNumber;
             MessageNo = _packetMessage.MessageNumber;
-            _packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
+            if (_packetForm.PacFormType == "SimpleMessage")
+            {
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = _packetMessage.ReceivedTime;
+            }
+            //_packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
             if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.Received)
             {
-                _packetForm.MessageSentTime = _packetMessage.JNOSDate;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.JNOSDate;
                 _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
                 if (_packetForm.FormProvider == FormProvidersHelper.FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                 {
                     MessageNo = _packetMessage.MessageNumber;
-                    _packetForm.SenderMsgNo = _packetMessage.SenderMessageNumber;
+                    _packetForm.ViewModelBase.SenderMsgNo = _packetMessage.SenderMessageNumber;
                 }
                 else
                 {
@@ -406,15 +407,18 @@ namespace PacketMessagingTS.ViewModels
             }
             else if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.Sent)
             {
-                _packetForm.MessageSentTime = _packetMessage.SentTime;
+                if (_packetForm.PacFormType == "SimpleMessage")
+                {
+                    (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.SentTime;
+                }
                 DestinationMsgNo = _packetMessage.ReceiverMessageNumber;
                 OriginMsgNo = _packetMessage.MessageNumber;
                 _packetForm.ViewModelBase.ReceivedOrSent = "Sender";
             }
             else if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.New)
             {
-                _packetForm.MessageSentTime = null;
-                _packetForm.MessageReceivedTime = _packetMessage.CreateTime;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = null;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = _packetMessage.ReceivedTime;
                 OriginMsgNo = _packetMessage.MessageNumber;
             }
         }
@@ -507,13 +511,13 @@ namespace PacketMessagingTS.ViewModels
                     switch (_packetMessage.MessageOrigin)
                     {
                         case MessageOriginHelper.MessageOrigin.Received:
-                            (_packetForm as MessageControl).ViewModelBase.InBoxHeaderVisibility = true;
+                            (_packetForm.ViewModelBase as MessageFormControlViewModel).InBoxHeaderVisibility = true;
                             break;
                         case MessageOriginHelper.MessageOrigin.Sent:
-                            (_packetForm as MessageControl).ViewModelBase.SentHeaderVisibility = true;
+                            (_packetForm.ViewModelBase as MessageFormControlViewModel).SentHeaderVisibility = true;
                             break;
                         default:
-                            (_packetForm as MessageControl).ViewModelBase.NewHeaderVisibility = true;
+                            (_packetForm.ViewModelBase as MessageFormControlViewModel).NewHeaderVisibility = true;
                             break;
                     }
                 }
@@ -526,7 +530,8 @@ namespace PacketMessagingTS.ViewModels
                     stackPanel.Children.Insert(1, _packetAddressForm);
                     stackPanel.Children.Insert(2, _packetForm);
 
-                    (_packetForm as MessageControl).ViewModelBase.NewHeaderVisibility = true;
+                    (_packetForm.ViewModelBase as MessageFormControlViewModel).NewHeaderVisibility = true;
+                    (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;     // Is inserted in the Created time field
 
                     _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
                     _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
@@ -539,7 +544,7 @@ namespace PacketMessagingTS.ViewModels
                 //    _packetAddressForm.MessageSubject += practiceSubject;
                 //    //_packetForm.MessageBody = PacketSettingsViewModel>.Instance.DefaultMessage;
                 //}
-                _packetForm.MessageReceivedTime = DateTime.Now;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;
             }
             else
             {
@@ -654,7 +659,6 @@ namespace PacketMessagingTS.ViewModels
         //    return ValidateSubject(_packetForm.CreateSubject());
         //}
 
-        //private void CreatePacketMessage(MessageState messageState = MessageState.Locked, FormProvidersHelper.FormProviders formProvider = FormProvidersHelper.FormProviders.PacItForm)
         private void CreatePacketMessage(MessageState messageState = MessageState.None)
         {
             _packetMessage = new PacketMessage()
@@ -665,7 +669,8 @@ namespace PacketMessagingTS.ViewModels
                 TNCName = SendFormDataControlViewModel.Instance.MessageTNC,
                 FormFieldArray = PacketForm.CreateFormFieldsInXML(),
                 FormProvider = PacketForm.FormProvider,
-                PacFormName = PacketForm.GetPacFormName(),
+                //PacFormName = PacketForm.GetPacFormName(),
+                PacFormName = PacketForm.FormControlName,
                 PacFormType = PacketForm.PacFormType,
                 //MessageFrom = PacketAddressForm.MessageFrom,
                 MessageFrom = SendFormDataControlViewModel.Instance.MessageFrom,
@@ -675,7 +680,7 @@ namespace PacketMessagingTS.ViewModels
                 MessageState = messageState,
             };
 
-            _packetMessage.MessageNumber = PacketForm.MessageNo;
+            _packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
 
             UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
@@ -703,9 +708,9 @@ namespace PacketMessagingTS.ViewModels
             {
                 FormFieldArray = PacketForm.CreateFormFieldsInXML(),
                 FormProvider = PacketForm.FormProvider,
-                PacFormName = PacketForm.GetPacFormName(),
+                PacFormName = PacketForm.FormControlName,
                 PacFormType = PacketForm.PacFormType,
-                MessageNumber = PacketForm.MessageNo,
+                MessageNumber = PacketForm.ViewModelBase.MessageNo,
                 CreateTime = DateTime.Now,
             };
             DateTime now = DateTime.Now;

@@ -46,10 +46,12 @@ namespace OAAlliedHealthStatus201802FormControl
             //panelName = radioOperatorControl.Panel;
             //ScanControls(panelName, radioOperatorControl);
 
-            FormHeaderControl.ViewModelBase.HeaderString1 = "Allied Health Status Report Short Form";
-            FormHeaderControl.ViewModelBase.HeaderString2 = "(DEOC-9)";
-            FormHeaderControl.ViewModelBase.HeaderSubstring = "Version: February 2018";
-            FormHeaderControl.PIF = "2.2";
+            FormHeaderControl.ViewModel.HeaderString1 = "Allied Health Status Report Short Form";
+            FormHeaderControl.ViewModel.HeaderString2 = "(DEOC-9)";
+            FormHeaderControl.ViewModel.HeaderSubstring = "Version: February 2018";
+            FormHeaderControl.ViewModelBase.PIF = "2.2";
+
+            GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
 
@@ -60,9 +62,9 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
-        public override string GetPacFormName() => "form-allied-health-facility-status";
+        //public override string GetPacFormName() => "form-allied-health-facility-status";
 
         public override string PacFormType => "Allied_Health_Status";
 
@@ -130,7 +132,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.MessageNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
+            return $"{formHeaderControl.ViewModelBase.MessageNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
         }
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
@@ -139,7 +141,7 @@ namespace OAAlliedHealthStatus201802FormControl
             {
                 "!SCCoPIFO!",
                 "#T: form-allied-health-facility-status.html",
-                $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
+                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
@@ -225,13 +227,6 @@ namespace OAAlliedHealthStatus201802FormControl
         private void TextBoxResource_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-
-            //string pattern = @"\b[0-9]+\b";
-            //bool match = Regex.IsMatch(textBox.Text, pattern);
-            //if (!match)
-            //{
-            //    textBox.Text = textBox.Text.Substring(0, textBox.Text.Length - 1);
-            //}
 
             string tagId = textBox.Tag.ToString().Substring(0, 2);
             UpdateRequiredResourceFields(tagId);

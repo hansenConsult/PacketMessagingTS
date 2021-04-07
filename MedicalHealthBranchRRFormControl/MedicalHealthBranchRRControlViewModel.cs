@@ -10,7 +10,7 @@ namespace MedicalHealthBranchRRFormControl
 {
     public class MedicalHealthBranchRRControlViewModel : UserControlViewModelBase
     {
-        public static MedicalHealthBranchRRControlViewModel Instance { get; } = new MedicalHealthBranchRRControlViewModel();
+        //public static MedicalHealthBranchRRControlViewModel Instance { get; } = new MedicalHealthBranchRRControlViewModel();
 
         public override string MsgDate
         {

@@ -67,13 +67,13 @@ namespace PacketMessagingTS.Helpers
                 switch (_packetMessage.MessageOrigin)
                 {
                     case MessageOrigin.Received:
-                        (_packetForm as MessageControl).ViewModelBase.InBoxHeaderVisibility = true;
+                        (_packetForm.ViewModelBase as MessageFormControlViewModel).InBoxHeaderVisibility = true;
                         break;
                     case MessageOrigin.Sent:
-                        (_packetForm as MessageControl).ViewModelBase.SentHeaderVisibility = true;
+                        (_packetForm.ViewModelBase as MessageFormControlViewModel).SentHeaderVisibility = true;
                         break;
                     default:
-                        (_packetForm as MessageControl).ViewModelBase.NewHeaderVisibility = true;
+                        (_packetForm.ViewModelBase as MessageFormControlViewModel).NewHeaderVisibility = true;
                         break;
                 }
             }

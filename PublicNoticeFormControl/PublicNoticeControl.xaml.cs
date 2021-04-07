@@ -10,6 +10,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 
 using SharedCode;
 using SharedCode.Helpers;
+using SharedCode.Helpers.PrintHelpers;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -48,14 +49,16 @@ namespace PublicNoticeFormControl
             ViewModel.NoticeVisibility = false;
             ViewModel.HandlingOrder = null;
 
+            GetFormDataFromAttribute(GetType());
+
             ViewModelBase = ViewModel;
         }
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 
-        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
+        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.TestForm;
 
-        public override string GetPacFormName() => "PublicNotice";
+        //public override string GetPacFormName() => "PublicNotice";
 
         public override string PacFormType => "PublicNoticeForm";
 
@@ -235,32 +238,32 @@ namespace PublicNoticeFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        //public override async void PrintForm()
-        //{
-        //    if (CanvasContainer is null || DirectPrintContainer is null)
-        //        return;
+        public override async void PrintForm()
+        {
+            if (CanvasContainer is null || DirectPrintContainer is null)
+                return;
 
-        //    _printPanels = PrintPanels;
-        //    if (_printPanels is null || _printPanels.Count == 0)
-        //        return;
+            _printPanels = PrintPanels;
+            if (_printPanels is null || _printPanels.Count == 0)
+                return;
 
-        //    _printHelper = new PrintHelper(CanvasContainer);
+            _printHelper = new PrintHelper(CanvasContainer);
 
-        //    DirectPrintContainer.Children.Remove(_printPanels[0]);
+            DirectPrintContainer.Children.Remove(_printPanels[0]);
 
-        //    AddFooter();
+            AddFooter();
 
-        //    for (int i = 0; i < _printPanels.Count; i++)
-        //    {
-        //        _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
-        //    }
+            for (int i = 0; i < _printPanels.Count; i++)
+            {
+                _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
+            }
 
-        //    _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
-        //    _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
-        //    _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
+            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
+            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
+            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
 
-        //    await _printHelper.ShowPrintUIAsync("  ");
-        //}
+            await _printHelper.ShowPrintUIAsync("  ");
+        }
 
         private void ComboBoxNoticeType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
