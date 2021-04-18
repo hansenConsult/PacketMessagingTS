@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-
+﻿
 using SharedCode.Helpers;
 
 namespace ICS213PackItFormControl
 {
     public class ICS213PackItControlViewModel : UserControlViewModelBase
-    {
-        //public static ICS213PackItControlViewModel Instance { get; } = new ICS213PackItControlViewModel();
-
-        
+    {        
         private string howReceivedSent;
         public string HowReceivedSent
         {
@@ -22,8 +12,8 @@ namespace ICS213PackItFormControl
             set => SetProperty(ref howReceivedSent, value);
         }
 
-        public virtual string SenderMsgNo
-        { get; set; }
+        //public override string SenderMsgNo
+        //{ get; set; }
 
     }
 }

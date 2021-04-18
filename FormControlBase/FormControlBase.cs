@@ -277,13 +277,10 @@ namespace FormControlBaseClass
         public abstract string PacFormType
         { get; }
 
-
         
         public abstract string CreateSubject();
 
         public abstract void AppendDrillTraffic();
-
-        //public virtual string PackItFormVersion => "3.2";
 
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
@@ -1074,16 +1071,16 @@ namespace FormControlBaseClass
                             switch (control.Name)
                             {
                                 case "messageNo":
-                                    formHeaderControl.ViewModelBase.OriginMsgNo = textBox.Text;
+                                    formHeaderControl.ViewModel.OriginMsgNo = textBox.Text;
                                     break;
                                 case "destinationMsgNo":
-                                    formHeaderControl.ViewModelBase.DestinationMsgNo = textBox.Text;
+                                    formHeaderControl.ViewModel.DestinationMsgNo = textBox.Text;
                                     break;
                                 case "msgDate":
-                                    formHeaderControl.ViewModelBase.MsgDate = textBox.Text;
+                                    formHeaderControl.ViewModel.MsgDate = textBox.Text;
                                     break;
                                 case "msgTime":
-                                    formHeaderControl.ViewModelBase.MsgTime = textBox.Text;
+                                    formHeaderControl.ViewModel.MsgTime = textBox.Text;
                                     break;
                                 case null:
                                     continue;
@@ -1235,20 +1232,6 @@ namespace FormControlBaseClass
             UpdateFormFieldsRequiredColors();
         }
 
-        //protected void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxPackItItem> comboBoxPackItList)
-        //{
-        //    for (int i = 0; i < comboBoxPackItList.Count; i++)
-        //    {
-        //        ComboBoxItem comboBoxItem = new ComboBoxItem()
-        //        {
-        //            Content = comboBoxPackItList[i].Item,
-        //            Background = comboBoxPackItList[i].BackgroundBrush,
-        //            Tag = comboBoxPackItList[i].PacketData,
-        //        };
-        //        comboBoxList.Add(comboBoxItem);
-        //    }
-        //}
-
         protected static void CreateComboBoxList(List<ComboBoxItem> comboBoxList, List<ComboBoxItem> comboBoxRefList)
         {
             for (int i = 0; i < comboBoxRefList.Count; i++)
@@ -1364,11 +1347,43 @@ namespace FormControlBaseClass
 
         protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
+            if (FormPacketMessage == null)
+                return;
+
             ComboBox comboBox = sender as ComboBox;
 
             TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
 
-            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
+            if (FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxItem>)
+            {
+                FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
+                if (!string.IsNullOrEmpty(formField.ControlContent))
+                {
+                    ComboBoxItem comboBoxItem = (comboBox.ItemsSource as List<ComboBoxItem>).FirstOrDefault
+                            (c => (c.Tag as string) == formField.ControlContent 
+                               || (c.Content as string) == formField.ControlContent);
+                    if (FormPacketMessage.MessageState == MessageState.Locked)
+                    {
+                         textBox.Background = comboBoxItem.Background;
+                         textBox.Text = comboBoxItem.Content as string;
+                    }
+                    comboBox.SelectedItem = comboBoxItem;
+                }
+
+            }
+            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is string[])
+            {
+                foreach (FormField formField in FormPacketMessage.FormFieldArray)
+                {
+                    if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
+                    {
+                        FillComboBoxFromFormFields(formField, comboBox);
+                        break;
+                    }
+                }
+                UpdateFormFieldsRequiredColors();
+            }
+            if (FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
             {
                 if (FormPacketMessage.MessageState != MessageState.Locked)
                     return;
@@ -1398,74 +1413,6 @@ namespace FormControlBaseClass
                         break;
                     }
                 }
-            }
-            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxItem>)
-            {
-                //if (FormPacketMessage.MessageState != MessageState.Locked)
-                //    return;
-
-                foreach (FormField formField in FormPacketMessage.FormFieldArray)
-                {
-                    if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
-                    {
-                        var co = comboBox.Items.Count;
-                        bool tagFnd = false;
-                        bool backgroundColorFound = false;
-                        foreach (ComboBoxItem comboBoxItem in comboBox.Items)
-                        {
-                            if ((comboBoxItem.Tag as string) == formField.ControlContent)
-                            {
-                                tagFnd = true;
-                                if (FormPacketMessage.MessageState == MessageState.Locked)
-                                {
-                                    //comboBox.SelectedItem = comboBoxItem;
-                                    textBox.Text = comboBoxItem.Content as string;
-                                    if (comboBoxItem.Background != null)
-                                    {
-                                        backgroundColorFound = true;
-                                        textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
-                                        break;
-                                    }
-                                }
-                                //else 
-                                //{
-                                //    comboBox.SelectedItem = comboBoxItem;
-                                //}
-                                comboBox.SelectedItem = comboBoxItem;
-                            }
-                            if ((comboBoxItem.Content as string) == formField.ControlContent)
-                            {
-                                if (comboBoxItem.Background != null)
-                                {
-                                    backgroundColorFound = true;
-                                    comboBox.SelectedItem = comboBoxItem;
-                                    if (FormPacketMessage.MessageState == MessageState.Locked)
-                                    {
-                                        textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
-                                    }
-                                    //break;
-                                }
-                            }
-                        }
-                        if (!tagFnd && !backgroundColorFound)
-                        {
-                            comboBox.SelectedValue = formField.ControlContent;
-                        }
-                        break;
-                    }
-                }
-            }
-            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is string[])
-            {
-                foreach (FormField formField in FormPacketMessage.FormFieldArray)
-                {
-                    if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
-                    {
-                        FillComboBoxFromFormFields(formField, comboBox);
-                        break;
-                    }
-                }
-                UpdateFormFieldsRequiredColors();
             }
         }
 
@@ -1579,7 +1526,10 @@ namespace FormControlBaseClass
                 {
                     TextBlock footerLeft = new TextBlock
                     {
-                        Text = $"{ViewModelBase.MessageNo}",
+                        Text = FormHeaderControl != null
+                            ? FormHeaderControl.ViewModel.OriginMsgNo
+                            : ViewModelBase.OriginMsgNo,
+                        //Text = $"{ViewModelBase.MessageNo}",
                         Margin = new Thickness(0, 16, 0, 0),
                     };
 
@@ -1600,15 +1550,6 @@ namespace FormControlBaseClass
                     Grid.SetColumn(footerLeft, 0);
                     Grid.SetColumn(footerRight, 1);
 
-                    //string footerText = $"{ViewModelBase.MessageNo} Page {i + 1} of {_printPanels.Count}";
-                    //TextBlock footer = new TextBlock
-                    //{
-                    //    //Name = "footer", Only one name "footer" allowed
-                    //    Text = footerText,
-                    //    //Text = $"Page { i + 1 } of { _printPanels.Count }",
-                    //    Margin = new Thickness(0, 16, 0, 0),
-                    //    HorizontalAlignment = HorizontalAlignment.Center,
-                    //};
                     if (_printPanels[i].GetType() == typeof(Grid))
                     {
                         Grid grid = _printPanels[i] as Grid;

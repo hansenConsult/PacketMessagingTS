@@ -32,7 +32,7 @@ namespace OAMunicipalStatusPackItFormControl
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
-        List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
+        readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = "Campbell"},
                 new ComboBoxItem() {Content = "Cupertino"},
@@ -51,24 +51,21 @@ namespace OAMunicipalStatusPackItFormControl
                 new ComboBoxItem() {Content = "Sunnyvale"},
                 new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
         };
-
-        List<ComboBoxItem> OfficeStatus = new List<ComboBoxItem>
+        readonly List<ComboBoxItem> OfficeStatus = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = null, Tag = "" },
                 new ComboBoxItem() {Content = "Unknown", Background = LightGrayBrush},
                 new ComboBoxItem() {Content = "Open", Background = LightGreenBrush},
                 new ComboBoxItem() {Content = "Closed", Background = PinkBrush},
         };
-
-        List<ComboBoxItem> UnknownYesNo = new List<ComboBoxItem>
+        readonly List<ComboBoxItem> UnknownYesNo = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = null, Tag = "" },
                 new ComboBoxItem() {Content = "Unknown", Background = LightGrayBrush },
                 new ComboBoxItem() {Content = "Yes", Background = PinkBrush },
                 new ComboBoxItem() {Content = "No", Background = LightGreenBrush },
         };
-
-        List<ComboBoxItem> ActivationLevel = new List<ComboBoxItem>
+        readonly List<ComboBoxItem> ActivationLevel = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = null, Tag = ""},
                 new ComboBoxItem() {Content = "Normal", Background = LightGreenBrush},
@@ -89,7 +86,7 @@ namespace OAMunicipalStatusPackItFormControl
         //        new ComboBoxPackItItem("Closed", WhiteBrush),
         //        new ComboBoxPackItItem("Early Out", WhiteBrush),
         //};
-        List<ComboBoxItem> Communications = new List<ComboBoxItem>
+        readonly List<ComboBoxItem> Communications = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = null, Tag = "" },
                 new ComboBoxItem() {Content = "Unknown", Background = LightGrayBrush },
@@ -103,23 +100,21 @@ namespace OAMunicipalStatusPackItFormControl
 
         //public OAMunicipalStatusControlViewModel ViewModel = OAMunicipalStatusControlViewModel.Instance;
         public OAMunicipalStatusControlViewModel ViewModel = new OAMunicipalStatusControlViewModel();
-
-        //List<ComboBoxItem> Communications = new List<ComboBoxItem>();
-        List<ComboBoxItem> Debris = new List<ComboBoxItem>(); 
-        List<ComboBoxItem> Flooding = new List<ComboBoxItem>();
-        List<ComboBoxItem> Hazmat = new List<ComboBoxItem>();
-        List<ComboBoxItem> EmergencyServices = new List<ComboBoxItem>();
-        List<ComboBoxItem> Casualties = new List<ComboBoxItem>();
-        List<ComboBoxItem> UtilitiesGas = new List<ComboBoxItem>();
-        List<ComboBoxItem> UtilitiesElectric = new List<ComboBoxItem>();
-        List<ComboBoxItem> InfrastructurePower = new List<ComboBoxItem>();
-        List<ComboBoxItem> InfrastructureWater = new List<ComboBoxItem>();
-        List<ComboBoxItem> InfrastructureSewer = new List<ComboBoxItem>();
-        List<ComboBoxItem> SearchAndRescue = new List<ComboBoxItem>();
-        List<ComboBoxItem> TransportationsRoads = new List<ComboBoxItem>();
-        List<ComboBoxItem> TransportationsBridges = new List<ComboBoxItem>();
-        List<ComboBoxItem> CivilUnrest = new List<ComboBoxItem>();
-        List<ComboBoxItem> AnimalIssues = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> Debris = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> Flooding = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> Hazmat = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> EmergencyServices = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> Casualties = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> UtilitiesGas = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> UtilitiesElectric = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> InfrastructurePower = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> InfrastructureWater = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> InfrastructureSewer = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> SearchAndRescue = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> TransportationsRoads = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> TransportationsBridges = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> CivilUnrest = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> AnimalIssues = new List<ComboBoxItem>();
 
         public OAMunicipalStatusControl()
         {
@@ -132,7 +127,6 @@ namespace OAMunicipalStatusPackItFormControl
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20190327";
 
-            //CreateComboBoxList(Communications, CurrentSituation);
             CreateComboBoxList(Debris, Communications);
             CreateComboBoxList(Flooding, Communications);
             CreateComboBoxList(Hazmat, Communications);
@@ -159,10 +153,6 @@ namespace OAMunicipalStatusPackItFormControl
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
-
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
-
-        //public override string GetPacFormName() => "form-oa-muni-status";
 
         public override string PacFormType => "OA Municipal Status";
 
@@ -438,7 +428,9 @@ namespace OAMunicipalStatusPackItFormControl
             if (e == null || e.AddedItems.Count == 0)
                 return;
 
-            if ((e.AddedItems[0] as ComboBoxPackItItem).Item == "Yes" || (bool)complete.IsChecked)
+            if (((e.AddedItems[0] is ComboBoxPackItItem) && ((e.AddedItems[0] as ComboBoxPackItItem).Item == "Yes")) 
+                || ((e.AddedItems[0] is ComboBoxItem) && (((e.AddedItems[0] as ComboBoxItem).Content as string) == "Yes"))
+                || (bool)complete.IsChecked)
             {
                 howSent.Tag = (howSent.Tag as string).Replace(",conditionallyrequired", ",required");
             }

@@ -24,7 +24,7 @@ namespace PacketMessagingTS.Helpers
     public class Base0FormsPage : Page
     {
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<Base0FormsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         protected PacketMessage _packetMessage;
         protected FormControlBase _packetForm;
@@ -129,7 +129,10 @@ namespace PacketMessagingTS.Helpers
             //_packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
             if (_packetMessage.MessageOrigin == MessageOrigin.Received)
             {
-                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.JNOSDate;
+                if (_packetForm.PacFormType == "SimpleMessage")
+                {
+                    (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.JNOSDate;
+                }
                 _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
                 if ((_packetForm.FormProvider == FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                     || (_packetForm.FormProvider == FormProviders.PacForm && _packetForm.PacFormType == "MVCERTSummary"))

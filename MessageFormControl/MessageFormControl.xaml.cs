@@ -33,7 +33,7 @@ namespace MessageFormControl
     {
 
         //MessageFormControlViewModel ViewModel = MessageFormControlViewModel.Instance;
-        MessageFormControlViewModel ViewModel = new MessageFormControlViewModel();
+        readonly MessageFormControlViewModel ViewModel = new MessageFormControlViewModel();
 
         //private HeaderVisibility _visibleHeader = HeaderVisibility.None;
         //private HeaderVisibility _previousVisibleHeader = HeaderVisibility.None;
@@ -52,6 +52,8 @@ namespace MessageFormControl
             GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
+
+            ViewModel.MessageFormControl = this;
 
             UpdateFormFieldsRequiredColors();
         }

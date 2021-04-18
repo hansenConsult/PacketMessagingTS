@@ -385,7 +385,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="medicalFacilitySuppliesStatus" Width="150"
-                                          ItemsSource="{x:Bind Status, Mode=OneWay}"
+                                          ItemsSource="{x:Bind Status}"
                                           SelectedValuePath="Content"
                                           Style="{StaticResource MuniStatusComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"

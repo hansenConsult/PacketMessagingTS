@@ -186,10 +186,12 @@ namespace FormControlBaseMvvmNameSpace
                         comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
                         FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
-                        if (formField != null && formField.ControlContent != null)
-                        {
-                            comboBoxAsTextBox.Text = formField.ControlContent;
-                        }
+                        //if (formField != null && formField.ControlContent != null)
+                        // Text is filled during load of ConmboBox
+                        //if (!string.IsNullOrEmpty(formField?.ControlContent))
+                        //{
+                        //    comboBoxAsTextBox.Text = formField.ControlContent;
+                        //}
                     }
                 }
                 else if (control is RadioButton radioButton)

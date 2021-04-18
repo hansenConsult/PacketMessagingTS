@@ -116,7 +116,7 @@
                             <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Row="1" Grid.Column="1" x:Name="hospitalName" Width="300"
                                       Style="{StaticResource MuniStatusComboBox}"  
-                                      ItemsSource="{x:Bind Hospitals, Mode=OneWay}"
+                                      ItemsSource="{x:Bind Hospitals}"
                                       SelectionChanged="Subject_Changed" 
                                       Loaded="ComboBox_Loaded"
                                       Tag="20.,required" />
@@ -130,7 +130,7 @@
                             <ComboBox Grid.Row="2" Grid.Column="1" x:Name="commandCenterStatus" Width="200"
                                       DisplayMemberPath="Item"
                                       Style="{StaticResource MuniStatusComboBox}"                              
-                                      ItemsSource="{x:Bind CommandCenterStatus, Mode=OneWay}"
+                                      ItemsSource="{x:Bind CommandCenterStatus}"
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"                                      
                                       Tag="22.,required" />

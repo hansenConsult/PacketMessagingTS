@@ -3,7 +3,7 @@
   <RevisionTime>2020-06-11T12:28:40</RevisionTime>
   <BBS Name="W1XSC" ConnectName="W1XSC-1" Description="San Jose" Frequency1="145.750" Frequency2="223.620" Frequency3="433.570" />
   <BBS Name="W2XSC" ConnectName="W2XSC-1" Description="Crystal Peak (South County)" Frequency1="145.730" Frequency2="223.560" Frequency3="433.590" />
-  <BBS Name="W3XSC" ConnectName="W3XSC-1" Description="Palo Alto" Frequency1="144.310" Frequency2="223.540" />
+  <BBS Name="W3XSC" ConnectName="W3XSC-1" Description="Palo Alto" Frequency1="144.310" Frequency2="223.540" Frequency3="433.450"/>
   <BBS Name="W4XSC" ConnectName="W4XSC-1" Description="Frazier Peak (East of Milpitas)" Frequency1="145.690" Frequency2="223.600" Frequency3="433.550" />
   <BBS Name="W5XSC" ConnectName="W5XSC-1" Description="Used for training and testing" Frequency1="144.910" Frequency3="433.450" />
 </BBSDefinitions>

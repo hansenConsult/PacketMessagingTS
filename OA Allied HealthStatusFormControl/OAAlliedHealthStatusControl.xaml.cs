@@ -31,7 +31,6 @@ namespace OAAlliedHealthStatus201802FormControl
 
     public sealed partial class OAAlliedHealthStatusControl : FormControlBase
     {
-        //public OAAlliedHealthStatusControlViewModel ViewModel = OAAlliedHealthStatusControlViewModel.Instance;
         OAAlliedHealthStatusControlViewModel ViewModel = new OAAlliedHealthStatusControlViewModel();
 
 
@@ -62,22 +61,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
-
-        //public override string GetPacFormName() => "form-allied-health-facility-status";
-
         public override string PacFormType => "Allied_Health_Status";
-
-
-        //public override string MsgDate
-        //{
-        //    get => _msgDate;
-        //    set
-        //    {
-        //        SetProperty(ref _msgDate, value);
-        //        facilityDate.Text = value;
-        //    }
-        //}
 
         public override void AppendDrillTraffic()
         { }

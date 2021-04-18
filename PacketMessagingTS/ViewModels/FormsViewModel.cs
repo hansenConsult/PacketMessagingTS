@@ -26,8 +26,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 
 using MetroLog;
 
-using OA_Allied_HealthStatusFormControl;
-
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
@@ -40,7 +38,7 @@ using SharedCode.Models;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using ICS213PackItFormControl;
+using System.Collections.Generic;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -226,134 +224,96 @@ namespace PacketMessagingTS.ViewModels
         public virtual int FormsPagePivotSelectedIndex
         { get; set; }
 
-        public static FormControlBase CreateFormControlInstance(string formControlName, MessageState messageState)
+        public static FormControlBase CreateFormControlInstance(string formControlName)
         {
-            //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
             FormControlBase formControl = null;
 
-            Type foundType = null;
-            //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
             foreach (Assembly assembly in SharedData.Assemblies)
             {
                 try
                 {
-                    //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
                     foreach (Type classType in assembly.GetTypes())
                     {
                         var attrib = classType.GetTypeInfo();
-                        //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
-                        foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+
+                        CustomAttributeData customAttribute = attrib.CustomAttributes.FirstOrDefault(c => c.AttributeType == typeof(FormControlAttribute));
+                        if (customAttribute == null)
+                            continue;
+
+                        CustomAttributeNamedArgument arg = customAttribute.NamedArguments.FirstOrDefault(a => a.MemberName == "FormControlName");
+                        if (formControlName == arg.TypedValue.Value as string)
                         {
-                            if (customAttribute.AttributeType != typeof(FormControlAttribute))
-                                continue;
-
-                            var namedArguments = customAttribute.NamedArguments;
-                            if (namedArguments.Count == FormControlAttributes.AttributesCount)
-                            {
-                                foreach (CustomAttributeNamedArgument arg in namedArguments)
-                                {
-                                    if (arg.MemberName == "FormControlName")
-                                    {
-                                        if (formControlName == arg.TypedValue.Value as string)
-                                        {
-                                            foundType = classType;
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                //    var formControlType = namedArguments[0].TypedValue.Value as string;
-                                //    if (formControlType == formControlName)
-                                //    {
-                                //        foundType = classType;
-                                //        break;
-                                //    }
-                                //}
-                            }
-                            if (foundType != null)
-                                break;
+                            formControl = (FormControlBase)Activator.CreateInstance(classType);
+                            return formControl;
                         }
+                        continue;
                     }
                 }
                 catch (Exception ex)
                 {
                     _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
-                    continue;
-                }
-                if (foundType != null)
-                    break;
-            }
-
-            if (foundType != null)
-            {
-                try
-                {
-                    formControl = (FormControlBase)Activator.CreateInstance(foundType);
-                    //object[] parameters = new object[] { messageState };
-                    //formControl = (FormControlBase)Activator.CreateInstance(foundType, parameters);
-                }
-                catch (Exception e)
-                {
-                    _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
                 }
             }
             return formControl;
+
+                //    //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
+                //    foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+                //    {
+                //        if (customAttribute.AttributeType != typeof(FormControlAttribute))
+                //            continue;
+
+                //        var namedArguments = customAttribute.NamedArguments;
+                //        if (namedArguments.Count == FormControlAttributes.AttributesCount)
+                //        {
+                //            foreach (CustomAttributeNamedArgument arg in namedArguments)
+                //            {
+                //                if (arg.MemberName == "FormControlName")
+                //                {
+                //                    if (formControlName == arg.TypedValue.Value as string)
+                //                    {
+                //                        foundType = classType;
+                //                        break;
+                //                    }
+                //                }
+                //            }
+
+                //            //    var formControlType = namedArguments[0].TypedValue.Value as string;
+                //            //    if (formControlType == formControlName)
+                //            //    {
+                //            //        foundType = classType;
+                //            //        break;
+                //            //    }
+                //            //}
+                //        }
+                //        if (foundType != null)
+                //            break;
+                //    }
+                //}
+            //}
+            //    catch (Exception ex)
+            //    {
+            //        _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
+            //        continue;
+            //    }
+            //    if (foundType != null)
+            //        break;
+            //}
+
+            //if (foundType != null)
+            //{
+            //    try
+            //    {
+            //        formControl = (FormControlBase)Activator.CreateInstance(foundType);
+            //        //object[] parameters = new object[] { messageState };
+            //        //formControl = (FormControlBase)Activator.CreateInstance(foundType, parameters);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
+            //    }
+            //}
+            //return formControl;
         }
-
-        //public static FormControlBase CreateUserControlInstance(Type userControlType)
-        //{
-        //    //_logHelper.Log(LogLevel.Info, $"Control Name: {formControlName}");
-        //    FormControlBase formControl = null;
-
-        //    Type foundType = null;
-        //    //foreach (var file in files.Where(file => file.FileType == ".dll" && file.Name.Contains("FormControl.dll")))
-        //    foreach (Assembly assembly in SharedData.Assemblies)
-        //    {
-        //        try
-        //        {
-        //            //Assembly assembly = Assembly.Load(new AssemblyName(file.DisplayName));
-        //            foreach (Type classType in assembly.GetTypes())
-        //            {
-        //                var attrib = classType.GetTypeInfo();
-        //                //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
-        //                foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
-        //                {
-        //                    if (customAttribute.AttributeType != typeof(FormControlAttribute))
-        //                        continue;
-
-
-        //                    //    var formControlType = namedArguments[0].TypedValue.Value as string;
-        //                    //    if (formControlType == formControlName)
-        //                    //    {
-        //                    //        foundType = classType;
-        //                    //        break;
-        //                    //    }
-        //                    //}
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            _logHelper.Log(LogLevel.Info, $"Exception: {ex.Message}");
-        //            continue;
-        //        }
-        //    }
-
-        //    if (foundType != null)
-        //    {
-        //        try
-        //        {
-        //            formControl = (FormControlBase)Activator.CreateInstance(foundType);
-        //            //object[] parameters = new object[] { messageState };
-        //            //formControl = (FormControlBase)Activator.CreateInstance(foundType, parameters);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            _logHelper.Log(LogLevel.Info, $"Exception: {e.Message}");
-        //        }
-        //    }
-        //    return formControl;
-        //}
 
         public async void InitializeFormControlAsync()
         {
@@ -392,7 +352,10 @@ namespace PacketMessagingTS.ViewModels
             //_packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
             if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.Received)
             {
-                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.JNOSDate;
+                if (_packetForm.PacFormType == "SimpleMessage")
+                {
+                    (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.JNOSDate;
+                }
                 _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
                 if (_packetForm.FormProvider == FormProvidersHelper.FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
                 {
@@ -475,7 +438,6 @@ namespace PacketMessagingTS.ViewModels
             }
 
             _packetAddressForm = new SendFormDataControl
-            //_packetAddressForm = CreateUserControlInstance(typeof(AddressFormControl))
             {
                 FormPacketMessage = _packetMessage
             };
@@ -483,7 +445,7 @@ namespace PacketMessagingTS.ViewModels
             string practiceSubject = PacketSettingsViewModel.Instance.DefaultSubject;
 
             string pivotItemName = _pivotItem.Name;
-            _packetForm = CreateFormControlInstance(pivotItemName, messageState); // Should be PacketFormName, since there may be multiple files with same name
+            _packetForm = CreateFormControlInstance(pivotItemName); // Should be PacketFormName, since there may be multiple files with same name
             if (_packetForm is null)
             {
                 await ContentDialogs.ShowSingleButtonContentDialogAsync("Failed to find packet form.", "Close", "Packet Messaging Error");
@@ -610,7 +572,6 @@ namespace PacketMessagingTS.ViewModels
                 LoadMessage = false;
 
                 //_MessageFormFilled = true;
-                //selectedIndex = -1; // Possible this is called twice on double click on message? Seems to fix the problem that an empty form is loaded
             }
             // Moved here in case state is edit message. The form needs to be filled first otherwise the subject is incomplete
             _packetForm.EventSubjectChanged += FormControl_SubjectChange;

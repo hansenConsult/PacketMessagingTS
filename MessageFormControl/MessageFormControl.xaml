@@ -103,15 +103,15 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="From:" />
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind FormPacketMessage.MessageFrom, Mode=OneWay}" />
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind ViewModel.MessageFrom, Mode=OneWay}" />
                     <TextBlock Grid.Column="0" Grid.Row="1" Text="To:" />
-                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind FormPacketMessage.MessageTo, Mode=OneWay}" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind ViewModel.MessageTo, Mode=OneWay}" />
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Sent:" />
                     <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Bind ViewModel.MessageSentTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" />
                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Received:" />
                     <TextBlock Grid.Column="1" Grid.Row="3" Text="{x:Bind ViewModel.MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" />
                     <TextBlock Grid.Column="0" Grid.Row="4" Text="Subject:" />
-                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{x:Bind FormPacketMessage.Subject, Mode=OneWay}" />
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{x:Bind ViewModel.Subject, Mode=OneWay}" />
                     <TextBlock Grid.Column="0" Grid.Row="5" Text="Local Msg ID:" />
                     <TextBlock Grid.Column="1" Grid.Row="5" Text="{x:Bind ViewModel.MessageNo, Mode=OneWay}" />
                     <!--<TextBox Grid.Column="1" Grid.Row="6" x:Name="messageBody" 

@@ -144,7 +144,6 @@ namespace MessageFormControl
         {
             get => messageReceivedTime;
             set => SetProperty(ref messageReceivedTime, value);
-            //set => messageReceivedTime = value;
         }
 
         private DateTime? messageSentTime = null;
@@ -152,7 +151,34 @@ namespace MessageFormControl
         {
             get => messageSentTime;
             set => SetProperty(ref messageSentTime, value);
-            //set => messageSentTime = value;
+        }
+
+        private MessageControl messageFormControl;
+        public MessageControl MessageFormControl
+        {
+            get => messageFormControl;
+            set => messageFormControl = value;
+        }
+
+        private string messageFrom;
+        public string MessageFrom
+        {
+            get => MessageFormControl.FormPacketMessage?.MessageFrom;
+            set => SetProperty(ref messageFrom, value);
+        }
+
+        private string messageTo;
+        public string MessageTo
+        {
+            get => MessageFormControl.FormPacketMessage?.MessageTo;
+            set => SetProperty(ref messageTo, value);
+        }
+
+        private string subject;
+        public string Subject
+        {
+            get => MessageFormControl.FormPacketMessage?.Subject;
+            set => SetProperty(ref subject, value);
         }
 
     }

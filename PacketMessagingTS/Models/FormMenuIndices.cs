@@ -218,7 +218,7 @@ namespace PacketMessagingTS.Models
                     Instance = (FormMenuIndexDefinitions)serializer.Deserialize(reader);
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException )
             {
                 _logHelper.Log(LogLevel.Error, $"File not found: {FormMenuIndexDefinitionsFileName}");
             }

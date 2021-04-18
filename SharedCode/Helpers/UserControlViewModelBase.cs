@@ -11,16 +11,8 @@ namespace SharedCode.Helpers
     public class UserControlViewModelBase : ObservableRecipient
     {
 
-        protected ObservableRecipient UserControlViewModel
-        { get; set; }
-
-
-        //private string headerString1;
-        //public string HeaderString1
-        //{
-        //    get => headerString1;
-        //    set => SetProperty(ref headerString1, value);
-        //}
+        //protected ObservableRecipient UserControlViewModel
+        //{ get; set; }
 
 
         public virtual string PackItFormVersion => "3.2";
