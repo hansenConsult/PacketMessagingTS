@@ -66,8 +66,12 @@ namespace SharedCode.Helpers
             set => SetProperty(ref _msgDate, value);
         }
 
+        protected string _msgTime;
         public virtual string MsgTime
-        { get; set; }
+        { 
+            get => _msgTime;
+            set => SetProperty(ref _msgTime, value); 
+        }
 
         private string handlingOrder;
         public string HandlingOrder

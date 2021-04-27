@@ -93,7 +93,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 _properties[propertyName] = value;
             }
-            return SetProperty(ref backingStore, value, propertyName);
+            return SetProperty(ref backingStore, value);
         }
 
         public virtual void ResetChangedProperty()

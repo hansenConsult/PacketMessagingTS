@@ -1032,6 +1032,9 @@ namespace FormControlBaseClass
                             case "msgDate":
                                 ViewModelBase.MsgDate = textBox.Text;
                                 break;
+                            case "msgTime":
+                                ViewModelBase.MsgTime = textBox.Text;
+                                break;
                             case "operatorCallsign":
                                 ViewModelBase.OperatorCallsign = textBox.Text;
                                 break;

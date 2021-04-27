@@ -62,10 +62,6 @@ namespace ICS213PackItFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
-
-        //public override string GetPacFormName() => "form-ics213";	// Used in CreateFileName() 
-
         public override string PacFormType => "ICS213";
 
         //public override string MessageNo
@@ -85,9 +81,10 @@ namespace ICS213PackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
+            severity.CheckedControlName = "other";
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
-            //UpdateFormFieldsRequiredColors();       // TODO check this
+            UpdateFormFieldsRequiredColors();       // TODO check this
         }
 
         public override Panel DirectPrintContainer => directPrintContainer;

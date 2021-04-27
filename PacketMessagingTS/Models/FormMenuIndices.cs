@@ -157,54 +157,61 @@ namespace PacketMessagingTS.Models
             if (storageItem != null)
             {
                 BasicProperties basicProperties = await storageItem.GetBasicPropertiesAsync();
-                size = basicProperties.Size;
+                size = basicProperties.Size;   
             }
             if (storageItem is null || size == 0)
             {
-                var assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-                StorageFile menuOrderDataFile = await assetsFolder.GetFileAsync(FormMenuIndexDefinitionsFileName);
-                if (menuOrderDataFile != null)
+                try
                 {
-                    await menuOrderDataFile.CopyAsync(localFolder, FormMenuIndexDefinitionsFileName, NameCollisionOption.ReplaceExisting);
-                }
-                else
-                {
-                    // Create a new file. Only used in special cases, normally copy from Assets
-                    List<string> countyFormsList = new List<string>();
-                    List<string> cityFormsList = new List<string>();
-                    List<string> hospitalFormsList = new List<string>();
-                    List<string> otherFormsList = new List<string>();
-
-                    List<FormControlAttributes> formControlAttributeList = ScanFormAttributes();
-                    foreach (FormControlAttributes formControlAttribute in formControlAttributeList)
+                    var assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                    StorageFile menuOrderDataFile = await assetsFolder.GetFileAsync(FormMenuIndexDefinitionsFileName);
+                    if (menuOrderDataFile != null)
                     {
-                        switch (formControlAttribute.FormControlType)
-                        {
-                            case FormControlAttribute.FormType.Undefined:
-                                break;
-                            case FormControlAttribute.FormType.None:
-                                countyFormsList.Add(formControlAttribute.FormControlMenuName);
-                                break;
-                            case FormControlAttribute.FormType.CountyForm:
-                                countyFormsList.Add(formControlAttribute.FormControlMenuName);
-                                break;
-                            case FormControlAttribute.FormType.CityForm:
-                                cityFormsList.Add(formControlAttribute.FormControlMenuName);
-                                break;
-                            case FormControlAttribute.FormType.HospitalForm:
-                                hospitalFormsList.Add(formControlAttribute.FormControlMenuName);
-                                break;
-                            case FormControlAttribute.FormType.TestForm:
-                                otherFormsList.Add(formControlAttribute.FormControlMenuName);
-                                break;
-                        }
+                        StorageFile file = await menuOrderDataFile.CopyAsync(localFolder);
                     }
-                    CountyFormsMenuNames = countyFormsList.ToArray();
-                    CityFormsMenuNames = cityFormsList.ToArray();
-                    HospitalFormsMenuNames = hospitalFormsList.ToArray();
-                    OtherFormsMenuNames = otherFormsList.ToArray();
+                    else
+                    {
+                        // Create a new file. Only used in special cases, normally copy from Assets
+                        List<string> countyFormsList = new List<string>();
+                        List<string> cityFormsList = new List<string>();
+                        List<string> hospitalFormsList = new List<string>();
+                        List<string> otherFormsList = new List<string>();
 
-                    SaveAsync();
+                        List<FormControlAttributes> formControlAttributeList = ScanFormAttributes();
+                        foreach (FormControlAttributes formControlAttribute in formControlAttributeList)
+                        {
+                            switch (formControlAttribute.FormControlType)
+                            {
+                                case FormControlAttribute.FormType.Undefined:
+                                    break;
+                                case FormControlAttribute.FormType.None:
+                                    countyFormsList.Add(formControlAttribute.FormControlMenuName);
+                                    break;
+                                case FormControlAttribute.FormType.CountyForm:
+                                    countyFormsList.Add(formControlAttribute.FormControlMenuName);
+                                    break;
+                                case FormControlAttribute.FormType.CityForm:
+                                    cityFormsList.Add(formControlAttribute.FormControlMenuName);
+                                    break;
+                                case FormControlAttribute.FormType.HospitalForm:
+                                    hospitalFormsList.Add(formControlAttribute.FormControlMenuName);
+                                    break;
+                                case FormControlAttribute.FormType.TestForm:
+                                    otherFormsList.Add(formControlAttribute.FormControlMenuName);
+                                    break;
+                            }
+                        }
+                        CountyFormsMenuNames = countyFormsList.ToArray();
+                        CityFormsMenuNames = cityFormsList.ToArray();
+                        HospitalFormsMenuNames = hospitalFormsList.ToArray();
+                        OtherFormsMenuNames = otherFormsList.ToArray();
+
+                        SaveAsync();
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logHelper.Log(LogLevel.Error, $"Error opening {e.Message} {e}");
                 }
             }
 

@@ -223,6 +223,7 @@
                                 </Border>
                                 <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <TextBox x:Name="msgTime" PlaceholderText="hh:mm"
+                                             Text="{x:Bind ViewModelBase.MsgTime, Mode=TwoWay}"
                                              HeaderTemplate="{StaticResource HeaderTemplate}"
                                              Header="1b. Time:"                                                                                                                                                   
                                              TextAlignment="Center" BorderBrush="White" 

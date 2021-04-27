@@ -533,15 +533,17 @@ namespace PacketMessagingTS.ViewModels
                 //    _packetForm.ViewModelBase.TacticalCallsign = null;
                 //}
 
-                if (SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTMON")
-                        || SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTTUE"))
+                if (!string.IsNullOrEmpty(SendFormDataControlViewModel.Instance.MessageTo))
                 {
-                    MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
+                    if (SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTMON")
+                            || SendFormDataControlViewModel.Instance.MessageTo.Contains("PKTTUE"))
+                    {
+                        MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
 
-                    _packetForm.SetPracticeField(practiceSubject);
+                        _packetForm.SetPracticeField(practiceSubject);
 
-                    //switch (_packetForm.PacFormType)
-                    //{
+                        //switch (_packetForm.PacFormType)
+                        //{
                         //case "ICS213":
                         //    _packetForm.Severity = "other";
                         //    //_packetForm.Subject = practiceSubject;
@@ -557,11 +559,12 @@ namespace PacketMessagingTS.ViewModels
                         //case "OAShelterStat":
                         //    _packetForm.ShelterName = practiceSubject;
                         //    break;
-                    //    case "Allied_Health_Status":
-                    //        //_packetForm.FacilityName = practiceSubject;
-                    //        OAAlliedHealthStatusControlViewModel.Instance.FacilityName = practiceSubject;
-                    //        break;
-                    //}
+                        //    case "Allied_Health_Status":
+                        //        //_packetForm.FacilityName = practiceSubject;
+                        //        OAAlliedHealthStatusControlViewModel.Instance.FacilityName = practiceSubject;
+                        //        break;
+                        //}
+                    }
                 }
                 IsAppBarSendEnabled = true;
             }
