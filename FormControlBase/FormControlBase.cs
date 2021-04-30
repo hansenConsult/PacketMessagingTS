@@ -130,7 +130,9 @@ namespace FormControlBaseClass
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    if (comboBox.SelectedIndex < 0 && IsFieldRequired(control) && isReportTypeSelected)
+                    if (((comboBox.SelectedIndex < 0 && IsFieldRequired(control) && !comboBox.IsEditable)
+                        || (comboBox.SelectedIndex < 0 && IsFieldRequired(control) && comboBox.IsEditable && string.IsNullOrEmpty(comboBox.Text)))
+                        && isReportTypeSelected)
                     {
                         comboBox.BorderBrush = formControl.RequiredBorderBrush;
                         comboBox.BorderThickness = new Thickness(2);
@@ -890,7 +892,7 @@ namespace FormControlBaseClass
                     if (FormProvider == FormProviders.PacForm)
                     {
                         // Note the Item Type must have a ToString() method
-                        formField.ControlContent = $"{comboBox.SelectedItem?.ToString()},{comboBox.SelectedIndex}";
+                        formField.ControlContent = $"{comboBox.SelectedItem?.ToString()}}}{comboBox.SelectedIndex}";
                     }
                     else if (FormProvider == FormProviders.PacItForm)
                     {
@@ -942,30 +944,48 @@ namespace FormControlBaseClass
             if (comboBox.Items.Count == 0)
                 return;     // ComboBox is not loaded
 
-            var data = formField.ControlContent.Split(new char[] { ',' });
-            if (data.Length == 2)
+            //if (comboBox.IsEditable)
+            //{
+            //    comboBox.Text = formField.ControlContent;
+            //}
+
+            if (FormPacketMessage.FormProvider == FormProviders.PacForm)
             {
-                // This is a PacForm ComboBox
-                int index = Convert.ToInt32(data[1]);
-                if (index < 0 && comboBox.IsEditable)
+                var data = formField.ControlContent.Split(new char[] { '}' });
+                if (data.Length == 2)
                 {
-                    comboBox.Text = data[0];
-                    //comboBox.SelectedIndex = index;
-                    //comboBox.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    comboBox.SelectedIndex = index;
-                    //comboBox.Text = data[0];
+                    // This is a PacForm ComboBox
+                    int index = Convert.ToInt32(data[1]);
+                    if (index < 0 && comboBox.IsEditable) 
+                    {
+                        comboBox.Text = data[0];
+                        //comboBox.SelectedIndex = index;
+                        //comboBox.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        //List<TacticalCall> tacticalCalls = TacticalCallsigns.CreateMountainViewCERTList();
+                        //int i = 0;
+                        //for (; i < tacticalCalls.Count; i++)
+                        //{
+                        //    if (tacticalCalls[i].AgencyName == data[0])
+                        //    {
+                        //        break;
+                        //    }
+                        //}
+                        //comboBox.SelectedIndex = i;
+                        comboBox.SelectedIndex = index - 1; // Phil's index start with 1
+                        //comboBox.Text = data[0]; // Only works if ComboBox is loaded
+                    }
                 }
             }
-            else
+            else if (FormPacketMessage.FormProvider == FormProviders.PacItForm)
             {
                 // Does not work for ComBoxItem. Use ComBox_Loaded
 
                 // Received forms neds to have their ControlComboxContent updated
                 var items = comboBox.Items;
-                
+
                 var selectedItem = comboBox.Items[0];
                 var itemSource = comboBox.ItemsSource;
 
@@ -1374,7 +1394,7 @@ namespace FormControlBaseClass
                 }
 
             }
-            if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is string[])
+            else if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is string[])
             {
                 foreach (FormField formField in FormPacketMessage.FormFieldArray)
                 {
@@ -1386,7 +1406,18 @@ namespace FormControlBaseClass
                 }
                 UpdateFormFieldsRequiredColors();
             }
-            if (FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
+            else if (FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<TacticalCall>)
+            {
+                foreach (FormField formField in FormPacketMessage.FormFieldArray)
+                {
+                    if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
+                    {
+                        FillComboBoxFromFormFields(formField, comboBox);
+                        break;
+                    }
+                }
+            }
+            else if (FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
             {
                 if (FormPacketMessage.MessageState != MessageState.Locked)
                     return;

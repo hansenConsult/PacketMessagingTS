@@ -20,7 +20,7 @@ using Windows.UI.Xaml;
 namespace MVCERTDA_FormsControl
 {
     [FormControl(
-        FormControlName = "MV_CERT_DA_Summary",
+        FormControlName = "MTV_213_CERT_Summary-v210124",
         FormControlMenuName = "MTV 213 CERT DA Summary",
         FormControlType = FormControlAttribute.FormType.CityForm
         )
@@ -91,10 +91,6 @@ namespace MVCERTDA_FormsControl
 
         public override FormProviders FormProvider => FormProviders.PacForm;
 
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CityForm;
-
-        //public override string GetPacFormName() => "MV_CERT_DA_Summary";	// Used in CreateFileName() 
-
         public override string PacFormType => "MVCERTSummary";
 
         //public override string MessageNo 
@@ -126,7 +122,7 @@ namespace MVCERTDA_FormsControl
 
         protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
         {
-            string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] data = formField.ControlContent.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
             if (data.Length == 2)
             {
                 if (data[1] == (-1).ToString() || string.IsNullOrEmpty(data[1]))
@@ -260,22 +256,22 @@ namespace MVCERTDA_FormsControl
         //    return agencyNameField.ControlContent;
         //}
 
-        private string GetTacticalcallsignFromAgencyName(string agencyName)
-        {
-            //List<TacticalCall> CERTLocationTacticalCalls
-            foreach (TacticalCall tacticalCall in ViewModel.CERTLocationTacticalCalls)
-            {
-                if (tacticalCall.AgencyName == agencyName)
-                {
-                    return tacticalCall.TacticalCallsign;
-                }
-            }
-            return "";
-        }
+        //private string GetTacticalcallsignFromAgencyName(string agencyName)
+        //{
+        //    //List<TacticalCall> CERTLocationTacticalCalls
+        //    foreach (TacticalCall tacticalCall in ViewModel.CERTLocationTacticalCalls)
+        //    {
+        //        if (tacticalCall.AgencyName == agencyName)
+        //        {
+        //            return tacticalCall.TacticalCallsign;
+        //        }
+        //    }
+        //    return "";
+        //}
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
-            bool found1 = true, found2 = false;
+            bool found1 = false, found2 = false;
             foreach (FormField formField in formFields)
             {
                 FrameworkElement control = GetFrameworkElement(formField);
@@ -287,9 +283,11 @@ namespace MVCERTDA_FormsControl
                 {
                     switch (control.Name)
                     {
-                        case "textBoxFromLocation234234234":
-                            string tacticalCallsign = GetTacticalcallsignFromAgencyName(formField.ControlContent);
-                            ViewModel.TacticalCallsign = tacticalCallsign;
+                        case "comboBoxFromLocationTextBox":
+                            //string tacticalCallsign = GetTacticalcallsignFromAgencyName(formField.ControlContent);
+                            //ViewModel.TacticalCallsign = tacticalCallsign;
+                            ViewModel.TacticalCallsign = formField.ControlContent;
+                            //comboBoxFromLocation.Text = formField.ControlContent;
                             found1 = true;
                             break;
                         case null:
@@ -302,18 +300,19 @@ namespace MVCERTDA_FormsControl
                     switch (control.Name)
                     {
                         case "comboBoxFromLocation":
-                            // Filter out the selected index
-                            int index = formField.ControlContent.LastIndexOf(',');
-                            string location = formField.ControlContent.Substring(0, index);
-                            string tacticalCallsign = GetTacticalcallsignFromAgencyName(location);
-                            ViewModel.TacticalCallsign = tacticalCallsign;
                             found2 = true;
+                            // Filter out the selected index
+                            int index = formField.ControlContent.LastIndexOf('}');
+                            string location = formField.ControlContent.Substring(0, index);
+                            //string tacticalCallsign = GetTacticalcallsignFromAgencyName(location);
+                            //ViewModel.TacticalCallsign = tacticalCallsign;
+                            ViewModel.TacticalCallsign = location;
                             break;
                         case null:
                             continue;
                     }
                 }
-                if (found1 || found2)
+                if (found1 && found2)
                     break;
             }
             base.FillFormFromFormFields(formFields);
@@ -336,16 +335,20 @@ namespace MVCERTDA_FormsControl
             }
 
             subject.Text = _subjectText + e.AddedItems[0].ToString();
-
-            if ((sender as ComboBox).Name == "comboBoxFromLocation")
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox.Name == "comboBoxFromLocation")
             {
                 if (comboBoxFromLocation.SelectedIndex < 0 && comboBoxFromLocation.IsEditable)
                 {
-                    textBoxFromLocation.Text = comboBoxFromLocation.Text;
+                    comboBoxFromLocationTextBox.Text = comboBoxFromLocation.Text;
+                    //comboBox.Visibility = Visibility.Collapsed;
+                    //comboBoxFromLocationTextBox.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    textBoxFromLocation.Text = comboBoxFromLocation.SelectedItem.ToString();
+                    comboBoxFromLocationTextBox.Text = comboBoxFromLocation.SelectedItem.ToString();
+                    //comboBoxFromLocationTextBox.Visibility = Visibility.Collapsed;
+                    //comboBox.Visibility = Visibility.Visible;
                 }
             }
             ComboBox_SelectionChanged(sender, e);
@@ -357,22 +360,22 @@ namespace MVCERTDA_FormsControl
             {
                 if (comboBoxToICSPosition.SelectedIndex < 0 && comboBoxToICSPosition.IsEditable)
                 {
-                    textBoxToICSPosition.Text = comboBoxToICSPosition.Text;
+                    comboBoxToICSPositionTextBox.Text = comboBoxToICSPosition.Text;
                 }
                 else
                 {
-                    textBoxToICSPosition.Text = comboBoxToICSPosition.SelectedItem.ToString();
+                    comboBoxToICSPositionTextBox.Text = comboBoxToICSPosition.SelectedItem.ToString();
                 }
             }
             else if ((sender as ComboBox).Name == "comboBoxFromICSPosition")
             {
                 if (comboBoxFromICSPosition.SelectedIndex < 0 && comboBoxFromICSPosition.IsEditable)
                 {
-                    textBoxFromICSPosition.Text = comboBoxFromICSPosition.Text;
+                    comboBoxFromICSPositionTextBox.Text = comboBoxFromICSPosition.Text;
                 }
                 else
                 {
-                    textBoxFromICSPosition.Text = comboBoxFromICSPosition.SelectedItem.ToString();
+                    comboBoxFromICSPositionTextBox.Text = comboBoxFromICSPosition.SelectedItem.ToString();
                 }
             }
             UpdateFormFieldsRequiredColors();
@@ -434,11 +437,11 @@ namespace MVCERTDA_FormsControl
             UpdateFormFieldsRequiredColors();
         }
 
-        //private void ComboBoxFromLocation_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
-        //{
-        //    subject.Text = _subjectText + args.Text;
-        //    textBoxFromLocation.Text = args.Text;
-        //}
+        private void ComboBoxFromLocation_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
+        {
+            //subject.Text = _subjectText + args.Text;
+            comboBoxFromLocationTextBox.Text = args.Text;
+        }
 
     }
 }

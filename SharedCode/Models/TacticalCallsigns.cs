@@ -1137,7 +1137,7 @@ namespace SharedCode.Models
                     }
                 }
             }
-            mtvCERTTacticalCallsigns.Sort();
+            //mtvCERTTacticalCallsigns.Sort();
             mtvCERTTacticalCallsigns.Add(LAHSDist);
             mtvCERTTacticalCallsigns.Add(WSDist);
             return mtvCERTTacticalCallsigns;

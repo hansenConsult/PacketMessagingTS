@@ -628,7 +628,6 @@ namespace PacketMessagingTS.ViewModels
             _packetMessage = new PacketMessage()
             {
                 FormControlType = PacketForm.FormControlType,
-                //BBSName = PacketAddressForm.MessageBBS,
                 BBSName = SendFormDataControlViewModel.Instance.MessageBBS,
                 TNCName = SendFormDataControlViewModel.Instance.MessageTNC,
                 FormFieldArray = PacketForm.CreateFormFieldsInXML(),
@@ -636,9 +635,7 @@ namespace PacketMessagingTS.ViewModels
                 //PacFormName = PacketForm.GetPacFormName(),
                 PacFormName = PacketForm.FormControlName,
                 PacFormType = PacketForm.PacFormType,
-                //MessageFrom = PacketAddressForm.MessageFrom,
                 MessageFrom = SendFormDataControlViewModel.Instance.MessageFrom,
-                //MessageTo = PacketAddressForm.MessageTo,
                 MessageTo = SendFormDataControlViewModel.Instance.MessageTo,
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
