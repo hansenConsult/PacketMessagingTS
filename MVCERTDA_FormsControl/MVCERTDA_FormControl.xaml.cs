@@ -120,37 +120,37 @@ namespace MVCERTDA_FormsControl
             message.Text += DrillTraffic;
         }
 
-        protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
-        {
-            string[] data = formField.ControlContent.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-            if (data.Length == 2)
-            {
-                if (data[1] == (-1).ToString() || string.IsNullOrEmpty(data[1]))
-                {
-                    return $"{id}: [ }}0]";
-                }
-                else
-                {
-                    //if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
-                    //{
-                    int index = Convert.ToInt32(data[1]);
-                    return $"{id}: [{data[0]}}}{index + 1}]";
-                    //}
-                    //else
-                    //{
-                    //    return $"{id}: [{data[0]}}}{data[1]}]";
-                    //}
-                }
-            }
-            else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
-            {
-                return $"{id}: [ }}0]";
-            }
-            else
-            {
-                return "";
-            }
-        }
+        //protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
+        //{
+        //    string[] data = formField.ControlContent.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
+        //    if (data.Length == 2)
+        //    {
+        //        if (data[1] == (-1).ToString() || string.IsNullOrEmpty(data[1]))
+        //        {
+        //            return $"{id}: [}}0]";
+        //        }
+        //        else
+        //        {
+        //            //if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
+        //            //{
+        //            int index = Convert.ToInt32(data[1]);
+        //            return $"{id}: [{data[0]}}}{index + 1}]";
+        //            //}
+        //            //else
+        //            //{
+        //            //    return $"{id}: [{data[0]}}}{data[1]}]";
+        //            //}
+        //        }
+        //    }
+        //    else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
+        //    {
+        //        return $"{id}: [}}0]";
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
 
         public override string CreateOutpostData(ref PacketMessage packetMessage)
         {
@@ -303,7 +303,11 @@ namespace MVCERTDA_FormsControl
                             found2 = true;
                             // Filter out the selected index
                             int index = formField.ControlContent.LastIndexOf('}');
-                            string location = formField.ControlContent.Substring(0, index);
+                            string location = "";
+                            if (index > 0)
+                            {
+                                location = formField.ControlContent.Substring(0, index);
+                            }
                             //string tacticalCallsign = GetTacticalcallsignFromAgencyName(location);
                             //ViewModel.TacticalCallsign = tacticalCallsign;
                             ViewModel.TacticalCallsign = location;

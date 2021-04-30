@@ -539,7 +539,9 @@ namespace FormControlBaseClass
                     }
                     else if (control is ComboBox)
                     {
-                        formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
+                        //formField.ControlContent = ConvertComboBoxFromOutpost(id, ref msgLines);
+                        formField.ControlContent = GetOutpostValue(id, ref msgLines);   // Modified to save the whole message
+                        //string comboBoxData = GetOutpostValue(id, ref msgLines);
                     }
                     else if (control is TextBox || control is AutoSuggestBox)
                     {
@@ -668,13 +670,13 @@ namespace FormControlBaseClass
             switch (FormProvider)
             {
                 case FormProviders.PacForm:
-                    string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] data = formField.ControlContent.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (data.Length == 2)
                     {
                         if (data[1] == (-1).ToString() || string.IsNullOrEmpty(data[1]))
                         {
-                            return $"{id}: [ }}0]";
+                            return $"{id}: [}}0]";
                         }
                         else
                         {
@@ -685,7 +687,7 @@ namespace FormControlBaseClass
                     }
                     else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
                     {
-                        return $"{id}: [ }}0]";
+                        return $"{id}: [}}0]";
                     }
                     break;
                 case FormProviders.PacItForm:
@@ -944,11 +946,6 @@ namespace FormControlBaseClass
             if (comboBox.Items.Count == 0)
                 return;     // ComboBox is not loaded
 
-            //if (comboBox.IsEditable)
-            //{
-            //    comboBox.Text = formField.ControlContent;
-            //}
-
             if (FormPacketMessage.FormProvider == FormProviders.PacForm)
             {
                 var data = formField.ControlContent.Split(new char[] { '}' });
@@ -956,7 +953,8 @@ namespace FormControlBaseClass
                 {
                     // This is a PacForm ComboBox
                     int index = Convert.ToInt32(data[1]);
-                    if (index < 0 && comboBox.IsEditable) 
+                    //if (index < 0 && comboBox.IsEditable) 
+                    if (!string.IsNullOrEmpty(data[0]) && comboBox.IsEditable)
                     {
                         comboBox.Text = data[0];
                         //comboBox.SelectedIndex = index;
@@ -1416,6 +1414,7 @@ namespace FormControlBaseClass
                         break;
                     }
                 }
+                UpdateFormFieldsRequiredColors();
             }
             else if (FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
             {
