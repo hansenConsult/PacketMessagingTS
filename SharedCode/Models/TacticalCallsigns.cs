@@ -129,7 +129,7 @@ namespace SharedCode.Models
         private static string HospitalsTacticalCallsignsFileName = "HospitalsTacticalCallsigns.xml";
 
         public static Dictionary<string, TacticalCallsignData> TacticalCallsignDataDictionary;
-        public static List<TacticalCallsignData> _TacticalCallsignDataList;
+        public static List<TacticalCallsignData> TacticalCallsignDataList;
 
 
         private TacticalCall[] tacticalCallsignsArrayField;
@@ -225,74 +225,76 @@ namespace SharedCode.Models
             TacticalCallsigns tacticalCallsigns = null;
             try
             {
-                    TacticalCallsignData tacticalCallsignData = TacticalCallsignDataDictionary[fileName];
-
-                    StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-                    var tacticalCallFile = await localFolder.TryGetItemAsync(fileName);
-                    FileInfo fileInfo = null;
-                    if (tacticalCallFile != null)
-                    {
-                        fileInfo = new FileInfo(tacticalCallFile.Path);
-                    }
-                    if (tacticalCallFile is null || fileInfo?.Length == 0)
-                    {
-                        if (tacticalCallsignData.RawDataFileName == "Tactical_Calls.txt")
-                        {
-                            tacticalCallsigns = await GetTacticalCallsfromMasterFile(tacticalCallsignData);
-                        }
-                        else
-                        {
-                            tacticalCallsigns = null;// await CreateFromBulletinAsync(tacticalCallsignData); Exception here
-                        }
-                        if (tacticalCallsigns is null)
-                        {
-                            // Copy from data folder
-                            tacticalCallFile = await localFolder.TryGetItemAsync(tacticalCallsignData.FileName);
-                            if (tacticalCallFile is null)
-                            {
-                                // Copy the file from the install folder to the local folder
-                                var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-                                var storageFile = await folder.TryGetItemAsync(tacticalCallsignData.FileName);
-                                if (storageFile != null)
-                                {
-                                    await ((StorageFile)storageFile).CopyAsync(localFolder, tacticalCallsignData.FileName, Windows.Storage.NameCollisionOption.FailIfExists);
-                                }
-                                else
-                                {
-                                    return null; // Reinstall
-                                }
-                            }
-                        }
-                        else
-                        {
-                            tacticalCallsigns.SaveAsync(fileName);
-                        }
-                    }
+                TacticalCallsignData tacticalCallsignData = TacticalCallsignDataDictionary[fileName];
+                
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                var tacticalCallFile = await localFolder.TryGetItemAsync(fileName);
+                FileInfo fileInfo = null;
+                if (tacticalCallFile != null)
+                {
+                    fileInfo = new FileInfo(tacticalCallFile.Path);
+                }
+                if (tacticalCallFile is null || fileInfo?.Length == 0)
+                {
                     if (tacticalCallsignData.RawDataFileName == "Tactical_Calls.txt")
                     {
-                        tacticalCallFile = await localFolder.TryGetItemAsync(fileName) as StorageFile;
-                        fileInfo = new FileInfo(tacticalCallFile.Path);
-                        // Check file creation times
-                        var storageFile = await localFolder.TryGetItemAsync(TactiCallsMasterFileName);
-                        FileInfo masterFileInfo = new FileInfo(storageFile.Path);
-                        fileInfo.Refresh();     // If file was recreated
-                        if (fileInfo.LastWriteTime < masterFileInfo.LastWriteTime)
-                        {
-                            tacticalCallsigns = await GetTacticalCallsfromMasterFile(tacticalCallsignData);
-                            tacticalCallsigns.SaveAsync(fileName);
-                        }
+                        tacticalCallsigns = await GetTacticalCallsfromMasterFile(tacticalCallsignData);
                     }
-
-                    tacticalCallFile = await localFolder.GetFileAsync(fileName);
-
-                    using (FileStream stream = new FileStream(tacticalCallFile.Path, FileMode.Open))
+                    else
                     {
-                        using (StreamReader reader = new StreamReader(stream))
+                        tacticalCallsigns = null;// await CreateFromBulletinAsync(tacticalCallsignData); Exception here
+                    }
+                    if (tacticalCallsigns is null)
+                    {
+                        // Copy from data folder
+                        tacticalCallFile = await localFolder.TryGetItemAsync(tacticalCallsignData.FileName);
+                        if (tacticalCallFile is null)
                         {
-                            XmlSerializer serializer = new XmlSerializer(typeof(TacticalCallsigns));
-                            tacticalCallsigns = (TacticalCallsigns)serializer.Deserialize(reader);
+                            // Copy the file from the install folder to the local folder
+                            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                            var storageFile = await folder.TryGetItemAsync(tacticalCallsignData.FileName);
+                            if (storageFile != null)
+                            {
+                                await ((StorageFile)storageFile).CopyAsync(localFolder, tacticalCallsignData.FileName, Windows.Storage.NameCollisionOption.FailIfExists);
+                            }
+                            else
+                            {
+                                return null; // Reinstall
+                            }
                         }
                     }
+                    else
+                    {
+                        tacticalCallsigns.SaveAsync(fileName);
+                    }
+                }
+                if (tacticalCallsignData.RawDataFileName == "Tactical_Calls.txt")
+                {
+                    tacticalCallFile = await localFolder.TryGetItemAsync(fileName) as StorageFile;
+                    if (tacticalCallFile is null)
+                        return null;
+                    fileInfo = new FileInfo(tacticalCallFile.Path);
+                    // Check file creation times
+                    var storageFile = await localFolder.TryGetItemAsync(TactiCallsMasterFileName);
+                    FileInfo masterFileInfo = new FileInfo(storageFile.Path);
+                    fileInfo.Refresh();     // If file was recreated
+                    if (fileInfo.LastWriteTime < masterFileInfo.LastWriteTime)
+                    {
+                        tacticalCallsigns = await GetTacticalCallsfromMasterFile(tacticalCallsignData);
+                        tacticalCallsigns.SaveAsync(fileName);
+                    }
+                }
+
+                tacticalCallFile = await localFolder.GetFileAsync(fileName);
+
+                using (FileStream stream = new FileStream(tacticalCallFile.Path, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof(TacticalCallsigns));
+                        tacticalCallsigns = (TacticalCallsigns)serializer.Deserialize(reader);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -1023,7 +1025,7 @@ namespace SharedCode.Models
         public static void CreateTacticalCallsignsData()
         {
             TacticalCallsignDataDictionary = new Dictionary<string, TacticalCallsignData>();
-            _TacticalCallsignDataList = new List<TacticalCallsignData>();
+            TacticalCallsignDataList = new List<TacticalCallsignData>();
 
             TacticalCallsignData tacticalCallsignData = new TacticalCallsignData()
             {
@@ -1033,7 +1035,7 @@ namespace SharedCode.Models
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
             TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
+            TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -1043,7 +1045,7 @@ namespace SharedCode.Models
                 BulletinFileName = "SCCo Packet Tactical Calls"
             };
             TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
+            TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -1055,7 +1057,7 @@ namespace SharedCode.Models
                 RawDataFileName = "Tactical_Calls.txt"
             };
             TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
+            TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -1067,7 +1069,7 @@ namespace SharedCode.Models
                 RawDataFileName = "Tactical_Calls.txt"
             };
             TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
+            TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -1079,7 +1081,7 @@ namespace SharedCode.Models
                 RawDataFileName = "Tactical_Calls.txt"
             };
             TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
+            TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {
@@ -1089,7 +1091,7 @@ namespace SharedCode.Models
                 BulletinFileName = "https://scc-ares-races.org/activities/showtacticalcalls.php"
             };
             TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
-            _TacticalCallsignDataList.Add(tacticalCallsignData);
+            TacticalCallsignDataList.Add(tacticalCallsignData);
 
             tacticalCallsignData = new TacticalCallsignData()
             {

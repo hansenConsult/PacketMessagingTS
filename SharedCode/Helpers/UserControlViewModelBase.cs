@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace SharedCode.Helpers
 {
-    public class UserControlViewModelBase : ObservableRecipient
+    public class UserControlViewModelBase : ObservableObject
     {
-
-        //protected ObservableRecipient UserControlViewModel
-        //{ get; set; }
-
-
         public virtual string PackItFormVersion => "3.2";
 
         protected string _pif = "2.1";

@@ -146,7 +146,7 @@ namespace PacketMessagingTS.ViewModels
 
         public ObservableCollection<TacticalCallsignData> TacticalCallsignsAreaSource
         {
-            get => new ObservableCollection<TacticalCallsignData>(TacticalCallsigns._TacticalCallsignDataList);
+            get => new ObservableCollection<TacticalCallsignData>(TacticalCallsigns.TacticalCallsignDataList);
         }
 
         private ObservableCollection<TacticalCall> tacticalCallsignsSource;
@@ -183,7 +183,7 @@ namespace PacketMessagingTS.ViewModels
                     //return GetProperty(ref tacticalSelectedIndexArray);
                     if (GetProperty(ref tacticalSelectedIndexArray) is null)
                     {
-                        tacticalSelectedIndexArray = new int[TacticalCallsigns._TacticalCallsignDataList.Count];
+                        tacticalSelectedIndexArray = new int[TacticalCallsigns.TacticalCallsignDataList.Count];
                         for (int i = 0; i < tacticalSelectedIndexArray.Length; i++)
                         {
                             tacticalSelectedIndexArray[i] = 0;

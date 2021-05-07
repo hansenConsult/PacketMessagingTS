@@ -84,7 +84,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w1XSCStatusUp);
             set
             {
-                if (SetProperty(ref w1XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref w1XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W1XSC", w1XSCStatusUp);
                     Utilities.SetApplicationTitle();
@@ -98,7 +98,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w2XSCStatusUp);
             set
             {
-                if (SetProperty(ref w2XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref w2XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W2XSC", w2XSCStatusUp);
                     Utilities.SetApplicationTitle();
@@ -112,7 +112,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w3XSCStatusUp);
             set
             {
-                if (SetProperty(ref w3XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref w3XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W3XSC", W3XSCStatusUp);
                     Utilities.SetApplicationTitle();
@@ -126,7 +126,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w4XSCStatusUp);
             set
             {
-                if (SetProperty(ref w4XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref w4XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W4XSC", W4XSCStatusUp);
                     Utilities.SetApplicationTitle();
@@ -139,7 +139,7 @@ namespace PacketMessagingTS.ViewModels
             get => GetProperty(ref w5XSCStatusUp);
             set
             {
-                if (SetProperty(ref w5XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref w5XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W5XSC", W5XSCStatusUp);
                     Utilities.SetApplicationTitle();

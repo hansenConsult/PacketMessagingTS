@@ -124,7 +124,7 @@ namespace PacketMessagingTS
             //}
             ////_logHelper.Log(LogLevel.Info, $"Assembly count: {SharedData.Assemblies.Count}");
 
-            foreach (TacticalCallsignData tacticalCallsignType in TacticalCallsigns._TacticalCallsignDataList)
+            foreach (TacticalCallsignData tacticalCallsignType in TacticalCallsigns.TacticalCallsignDataList)
             {
                 //Task<TacticalCallsigns> taskFinished = TacticalCallsigns.OpenAsync(tacticalCallsignType.FileName);
 

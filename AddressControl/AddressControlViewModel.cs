@@ -9,7 +9,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace AddressControl
 {
-    class AddressControlViewModel : ObservableRecipient
+    class AddressControlViewModel : ObservableObject
     {
         public static AddressControlViewModel Instance { get; } = new AddressControlViewModel();
 

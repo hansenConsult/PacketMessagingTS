@@ -253,10 +253,10 @@ namespace PacketMessagingTS.ViewModels
 
                 DataGridSource = new ObservableCollection<PacketMessage>(_messagesInFolder);
 
+                UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
+
                 if (_messagesInFolder.Count == 0)
                     return;
-
-                UpdateHeaderMessageCount(MainPagePivotSelectedItem, _messagesInFolder.Count);
 
                 if (PageDataGrid is null)
                 {

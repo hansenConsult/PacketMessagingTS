@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PacketMessagingTS")]
 [assembly: AssemblyDescription("Santa Clara County Packet Messaging")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Hansen Consulting")]
 [assembly: AssemblyProduct("PacketMessagingTS")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]

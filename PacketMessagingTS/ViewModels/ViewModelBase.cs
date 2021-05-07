@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace PacketMessagingTS.ViewModels
 {
-    public class ViewModelBase : ObservableRecipient
+    public class ViewModelBase : ObservableObject
     {
         Dictionary<string, bool> SaveEnabledDictionary = new Dictionary<string, bool>();
         Dictionary<string, object> _properties = App.Properties;

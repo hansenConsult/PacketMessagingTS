@@ -150,7 +150,7 @@ namespace SharedCode.Models
         public void CreateAddressBook()
         {
             _addressDictionary = new Dictionary<string, AddressBookEntry>();
-            foreach (var tacticalCallsignData in TacticalCallsigns._TacticalCallsignDataList)
+            foreach (var tacticalCallsignData in TacticalCallsigns.TacticalCallsignDataList)
             {
                 if (tacticalCallsignData.TacticalCallsigns is null)
                     continue;

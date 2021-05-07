@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TacticalCallsigns xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Area="Local Cupertino" BulletinCreationTime="2021-04-26T18:31:34.4416442-07:00" TacticalCallsignsArraySelectedIndex="-1">
+  <TacticalCallsignsArray>
+    <TacticalCalls TacticalCallsign="CUPCCC" AgencyName="Cupertino Citizen Corps" Prefix="CCC" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPDPW" AgencyName="Cupertino Corp Yard" Prefix="DPW" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPEOC" AgencyName="Cupertino EOC" Prefix="CUP" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPOPS" AgencyName="Field Ops" Prefix="OPS" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPBBF" AgencyName="Cupertino Blackberry Farm" Prefix="BBF" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPCRE" AgencyName="Creekside Park" Prefix="CRE" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPJOL" AgencyName="Jollyman Park" Prefix="JOL" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPMEM" AgencyName="Memorial Park" Prefix="MEM" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPPOR" AgencyName="Portal Park" Prefix="POR" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPQLN" AgencyName="Quinlan Center/Shelter" Prefix="QLN" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPSEN" AgencyName="Senior Center" Prefix="SEN" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPDZA" AgencyName="DeAnza College Ark" Prefix="DZA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPGGA" AgencyName="Garden Gate Ark" Prefix="GGA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPHYA" AgencyName="Hyde Middle School Ark" Prefix="HYA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPLSA" AgencyName="Lawson School Ark" Prefix="LSA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPMBA" AgencyName="Montebello Ridge Ark" Prefix="MBA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPMVA" AgencyName="Monta Vista Ark" Prefix="MVA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPRSA" AgencyName="Regnart School Ark" Prefix="RSA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPSCA" AgencyName="Stevens Canyon Ark" Prefix="SCA" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPCSO" AgencyName="County SO West Side Station" Prefix="CSO" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPMED" AgencyName="Cupertino Medical Center" Prefix="MED" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPSAN" AgencyName="Cupertino Sanitary District (MOU)" Prefix="SAN" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+    <TacticalCalls TacticalCallsign="CUPWVS" AgencyName="West Valley Service Center" Prefix="WVS" PrimaryBBS="W1XSC" IsPrimaryBBSActive="true" SecondaryBBS="W4XSC" />
+  </TacticalCallsignsArray>
+</TacticalCallsigns>
