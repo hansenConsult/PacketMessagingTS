@@ -164,7 +164,8 @@ namespace PacketMessagingTS.Models
                 try
                 {
                     var assetsFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-                    StorageFile menuOrderDataFile = await assetsFolder.GetFileAsync(FormMenuIndexDefinitionsFileName);
+                    //StorageFile menuOrderDataFile = await assetsFolder.GetFileAsync(FormMenuIndexDefinitionsFileName);
+                    StorageFile menuOrderDataFile = await assetsFolder.TryGetItemAsync(FormMenuIndexDefinitionsFileName)as StorageFile;
                     if (menuOrderDataFile != null)
                     {
                         StorageFile file = await menuOrderDataFile.CopyAsync(localFolder);
