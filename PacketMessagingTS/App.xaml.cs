@@ -146,7 +146,6 @@ namespace PacketMessagingTS
                 DistributionListArray.Instance.OpenAsync(),
                 HospitalRollCall.Instance.OpenAsync(),
                 CustomFoldersArray.OpenAsync(),
-                FormMenuIndexDefinitions.Instance.OpenAsync(),
             };
             while (tasks.Count > 0)
             {
@@ -195,6 +194,8 @@ namespace PacketMessagingTS
                 //_logHelper.Log(LogLevel.Info, $"Assembly: {assembly}");
                 SharedData.Assemblies.Add(assembly);
             }
+
+            await FormMenuIndexDefinitions.Instance.OpenAsync();    // Depends on SharedData.Assemblies
             //_logHelper.Log(LogLevel.Info, $"Assembly count: {SharedData.Assemblies.Count}");
         }
 

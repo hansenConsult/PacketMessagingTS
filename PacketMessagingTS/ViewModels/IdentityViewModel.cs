@@ -167,7 +167,10 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 SetPropertyPrivate(ref tacticalCallsignAreaSelectedIndex, value, true);
-                TacticalCallsignsSource = new ObservableCollection<TacticalCall>(TacticalCallsignsAreaSource[value].TacticalCallsigns?.TacticalCallsignsArray);
+                if (TacticalCallsignsAreaSource[value].TacticalCallsigns != null)
+                {
+                    TacticalCallsignsSource = new ObservableCollection<TacticalCall>(TacticalCallsignsAreaSource[value].TacticalCallsigns?.TacticalCallsignsArray);
+                }
             }
         }
 

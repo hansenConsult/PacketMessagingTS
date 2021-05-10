@@ -556,6 +556,71 @@ namespace SharedCode.Models
             tacticalCallsigns.TacticalCallsignsArray = tacticalList.ToArray();
         }
 
+        private static void ParseCupertino(ref TacticalCallsigns tacticalCallsigns, string cupertinoString)
+        {
+            string cupString = cupertinoString;
+
+            List<TacticalCall> tacticalList = new List<TacticalCall>();
+
+            (string primaryBBS, string secondaryBBS) = FindCountyPrimSecBBS("CUPEOC");
+
+            var callsigns = cupString.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in callsigns)
+            {
+                int index = line.IndexOf("CUP");
+                int index2 = line.IndexOf(@"\t");
+                if (index < 0 || index2 < 0)
+                    continue;
+
+
+                TacticalCall tacticalCall = new TacticalCall()
+                {
+                    TacticalCallsign = line.Substring(0, 6),
+                    Prefix = line.Substring(3, 3) == "EOC" ? line.Substring(0, 3) : line.Substring(3, 3),
+                    AgencyName = line.Substring(8),
+                    PrimaryBBS = primaryBBS,
+                    IsPrimaryBBSActive = true,
+                    SecondaryBBS = secondaryBBS,
+                };
+                string prefix = FindCountyPrefix(tacticalCall.TacticalCallsign);
+                if (!string.IsNullOrEmpty(prefix))
+                {
+                    tacticalCall.Prefix = prefix;
+                }
+                tacticalList.Add(tacticalCall);
+            }
+            for (int i = 1; i < 10; i++)
+            {
+                string prefix = "CUP";
+                TacticalCall tacticalCall = new TacticalCall()
+                {
+                    TacticalCallsign = prefix + $"{i:d3}",
+                    Prefix = $"{i:d3}",
+                    AgencyName = "Extra",
+                    PrimaryBBS = primaryBBS,
+                    IsPrimaryBBSActive = true,
+                    SecondaryBBS = secondaryBBS,
+                };
+                tacticalList.Add(tacticalCall);
+            }
+            string searchString = "emergency_plan_";
+            // Find revision time
+            foreach (var line in callsigns)
+            {
+                if (line.Contains(searchString))
+                {
+                    int startIndex = line.IndexOf(searchString) + searchString.Length;
+                    int endIndex = line.IndexOf(@"\t");
+                    string revisionTime = line.Substring(startIndex, endIndex - startIndex);
+                    DateTime revisionDate = DateTime.Parse(revisionTime);
+                    tacticalCallsigns.BulletinCreationTime = revisionDate;
+                    break;
+                }
+            }
+            tacticalCallsigns.Area = "Local Cupertino";
+            tacticalCallsigns.TacticalCallsignsArray = tacticalList.ToArray();
+        }
+
         private static void ParseMountainView(ref TacticalCallsigns tacticalCallsigns, string mountainViewString)
         {
             string mtvString = mountainViewString;
@@ -803,8 +868,17 @@ namespace SharedCode.Models
                     TacticalCallsigns tacticalCallsigns = new TacticalCallsigns();
                     PdfDocument pdfDocument = await PdfDocument.LoadFromFileAsync(file);
 
+                    // Local Cupertino
+                    if (tacticalCallsignData.AreaName == "Local Cupertino" && tacticalCallsignData.BulletinFileName.ToLower().Contains(file.Name.ToLower()))
+                    {
+                        string pdfText = await ConvertPDFToTextAsync(pdfDocument, 15, 15);
+
+                        ParseCupertino(ref tacticalCallsigns, pdfText);
+                        latestFound = true;
+                    }
+
                     // Local Mountain View
-                    if (tacticalCallsignData.AreaName == "Local Mountain View" && tacticalCallsignData.BulletinFileName.ToLower().Contains(file.Name.ToLower()))
+                    else if (tacticalCallsignData.AreaName == "Local Mountain View" && tacticalCallsignData.BulletinFileName.ToLower().Contains(file.Name.ToLower()))
                     {
                         string pdfText = await ConvertPDFToTextAsync(pdfDocument, 15, 15);
 
@@ -1064,8 +1138,8 @@ namespace SharedCode.Models
                 AreaName = "Local Cupertino",
                 FileName = "CUPTacticalCallsigns.xml",
                 TacticallWithBBS = "CUPEOC",
-                StartString = "# Cupertino OES",
-                StopString = "# City of Palo Alto",
+                StartString = "# Cupertino Tactical Calls",
+                StopString = "# Tactical calls for ARC - American Red Cross",
                 RawDataFileName = "Tactical_Calls.txt"
             };
             TacticalCallsignDataDictionary.Add(tacticalCallsignData.FileName, tacticalCallsignData);
