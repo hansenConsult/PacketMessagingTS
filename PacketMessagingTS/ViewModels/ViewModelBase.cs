@@ -10,7 +10,7 @@ namespace PacketMessagingTS.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {
-        Dictionary<string, bool> SaveEnabledDictionary = new Dictionary<string, bool>();
+        readonly Dictionary<string, bool> SaveEnabledDictionary = new Dictionary<string, bool>();
         Dictionary<string, object> _properties = App.Properties;
 
         protected bool SaveEnabled(bool propertyChanged, [CallerMemberName] string propertyName = "")

@@ -70,6 +70,8 @@ namespace HavBedReportFormControl
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
             FormHeaderControl.ViewModel.HeaderSubstring = "EMResource: c190320";
 
+            GetFormDataFromAttribute(GetType());
+
             ViewModelBase = ViewModel;
 
             UpdateFormFieldsRequiredColors();

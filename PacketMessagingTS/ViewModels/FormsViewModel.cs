@@ -196,7 +196,16 @@ namespace PacketMessagingTS.ViewModels
 
         public override bool IsAppBarSendEnabled
         {
-            get => isAppBarSendEnabled;
+            //get => isAppBarSendEnabled;
+            get
+            {
+                if (_packetMessage is null)
+                    IsAppBarSendEnabled = true;
+                else
+                    IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
+
+                return isAppBarSendEnabled;
+            }
             set => SetProperty(ref isAppBarSendEnabled, value);
         }
         
@@ -528,10 +537,6 @@ namespace PacketMessagingTS.ViewModels
                 {
                     _packetForm.ViewModelBase.TacticalCallsign = IdentityViewModel.Instance.TacticalCallsign;
                 }
-                //else
-                //{
-                //    _packetForm.ViewModelBase.TacticalCallsign = null;
-                //}
 
                 if (!string.IsNullOrEmpty(SendFormDataControlViewModel.Instance.MessageTo))
                 {
@@ -541,40 +546,13 @@ namespace PacketMessagingTS.ViewModels
                         MsgTime = $"{now.Hour:d2}:{now.Minute:d2}";
 
                         _packetForm.SetPracticeField(practiceSubject);
-
-                        //switch (_packetForm.PacFormType)
-                        //{
-                        //case "ICS213":
-                        //    _packetForm.Severity = "other";
-                        //    //_packetForm.Subject = practiceSubject;
-                        //    _packetForm.SetPracticeField(practiceSubject);
-                        //    break;
-                        //case "XSC_EOC_213RR":
-                        //    //_packetForm.IncidentName = practiceSubject;
-                        //    _packetForm.SetPracticeField(practiceSubject);
-                        //    break;
-                        //case "OA Municipal Status":
-                        //    // Use Jurisdiction Name
-                        //    break;
-                        //case "OAShelterStat":
-                        //    _packetForm.ShelterName = practiceSubject;
-                        //    break;
-                        //    case "Allied_Health_Status":
-                        //        //_packetForm.FacilityName = practiceSubject;
-                        //        OAAlliedHealthStatusControlViewModel.Instance.FacilityName = practiceSubject;
-                        //        break;
-                        //}
                     }
                 }
-                IsAppBarSendEnabled = true;
             }
             else
             {
                 FillFormFromPacketMessage();
-                IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
                 LoadMessage = false;
-
-                //_MessageFormFilled = true;
             }
             // Moved here in case state is edit message. The form needs to be filled first otherwise the subject is incomplete
             _packetForm.EventSubjectChanged += FormControl_SubjectChange;

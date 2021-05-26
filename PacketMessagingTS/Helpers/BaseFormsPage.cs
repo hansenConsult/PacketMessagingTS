@@ -404,7 +404,6 @@ namespace PacketMessagingTS.Helpers
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //_logHelper.Log(LogLevel.Trace, "Entering OnNavigatedTo in BaseFormsPage");
-            //ViewModel.FirstTimeFormOpened = true;
             if (e.Parameter is null)
             {
                 PacketMessage = null;

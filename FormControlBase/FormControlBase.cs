@@ -1270,7 +1270,7 @@ namespace FormControlBaseClass
         protected void GetFormDataFromAttribute(Type formType)
         {
             if (string.IsNullOrEmpty(FormControlName) 
-                || string.IsNullOrEmpty(FormControlName) 
+                //|| string.IsNullOrEmpty(FormControlName) 
                 || FormControlType == FormControlAttribute.FormType.Undefined)
             {
                 //Type clsType = formType;
