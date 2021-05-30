@@ -91,7 +91,7 @@ namespace FormControlBaseClass
 
             bool isReportTypeSelected = true;
             ToggleButtonGroup reportType = FindName("reportType") as ToggleButtonGroup;
-            string reportTypestring = reportType?.CheckedControlName;
+            //string reportTypestring = reportType?.CheckedControlName;
             string checkedReportType = reportType?.GetRadioButtonCheckedState();
             if (reportType != null && string.IsNullOrEmpty(checkedReportType))
             {
@@ -292,68 +292,145 @@ namespace FormControlBaseClass
             {
                 DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
 
-                if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
+                switch (control)
                 {
-                    ScanControls(control, formUserControl);
-                }
-                else if (control is TextBox textBox)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    if (textBox.IsReadOnly)
-                    {
-                        formControl.BaseBorderColor = textBox.Background;
-                    }
-                    else
-                    {
-                        formControl.BaseBorderColor = textBox.BorderBrush;
-                    }
-                    _formControlsList.Add(formControl);
-                }
-                else if (control is ComboBox comboBox)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
-                    {
-                        BaseBorderColor = comboBox.BorderBrush
-                    };
-                    _formControlsList.Add(formControl);
-                }
-                else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    _formControlsList.Add(formControl);
-                }
-                else if (control is AutoSuggestBox autoSuggestBox)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
-                    {
-                        BaseBorderColor = TextBoxBorderBrush
-                    };
-                    if (formControl.UserControl is AutoSuggestTextBoxUserControl)
-                    {
-                        autoSuggestBox.Name = formControl.UserControl.Name;
-                        autoSuggestBox.Tag = formControl.UserControl.Tag;
-                    }
-                    _formControlsList.Add(formControl);
-                }
-                else if (control is RadioButton)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    _formControlsList.Add(formControl);
+                    case StackPanel _:
+                    case Grid _:
+                    case Border _:
+                    case RelativePanel _:
+                        ScanControls(control, formUserControl);
+                        break;
+                    case TextBox textBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            if (textBox.IsReadOnly)
+                            {
+                                formControl.BaseBorderColor = textBox.Background;
+                            }
+                            else
+                            {
+                                formControl.BaseBorderColor = textBox.BorderBrush;
+                            }
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
 
-                    _radioButtonsList.Add((RadioButton)control);
+                    case ComboBox comboBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                            {
+                                BaseBorderColor = comboBox.BorderBrush
+                            };
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case CheckBox _:
+                    case ToggleButtonGroup _:
+                    case RichTextBlock _:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case AutoSuggestBox autoSuggestBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                            {
+                                BaseBorderColor = TextBoxBorderBrush
+                            };
+                            if (formControl.UserControl is AutoSuggestTextBoxUserControl)
+                            {
+                                autoSuggestBox.Name = formControl.UserControl.Name;
+                                autoSuggestBox.Tag = formControl.UserControl.Tag;
+                            }
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case RadioButton button:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+
+                            _radioButtonsList.Add(button);
+                            break;
+                        }
+
+                    case AutoSuggestTextBoxUserControl _:
+                        ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
+                        break;
+                    case FormHeaderUserControl _:
+                        ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
+                        break;
+                    case RadioOperatorUserControl _:
+                        ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
+                        break;
                 }
-                else if (control is AutoSuggestTextBoxUserControl)
-                {
-                    ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
-                }
-                else if (control is FormHeaderUserControl)
-                {
-                    ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
-                }
-                else if (control is RadioOperatorUserControl)
-                {
-                    ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
-                }
+
+                //if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
+                //{
+                //    ScanControls(control, formUserControl);
+                //}
+                //else if (control is TextBox textBox)
+                //{
+                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                //    if (textBox.IsReadOnly)
+                //    {
+                //        formControl.BaseBorderColor = textBox.Background;
+                //    }
+                //    else
+                //    {
+                //        formControl.BaseBorderColor = textBox.BorderBrush;
+                //    }
+                //    _formControlsList.Add(formControl);
+                //}
+                //else if (control is ComboBox comboBox)
+                //{
+                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                //    {
+                //        BaseBorderColor = comboBox.BorderBrush
+                //    };
+                //    _formControlsList.Add(formControl);
+                //}
+                //else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
+                //{
+                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                //    _formControlsList.Add(formControl);
+                //}
+                //else if (control is AutoSuggestBox autoSuggestBox)
+                //{
+                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                //    {
+                //        BaseBorderColor = TextBoxBorderBrush
+                //    };
+                //    if (formControl.UserControl is AutoSuggestTextBoxUserControl)
+                //    {
+                //        autoSuggestBox.Name = formControl.UserControl.Name;
+                //        autoSuggestBox.Tag = formControl.UserControl.Tag;
+                //    }
+                //    _formControlsList.Add(formControl);
+                //}
+                //else if (control is RadioButton button)
+                //{
+                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                //    _formControlsList.Add(formControl);
+
+                //    _radioButtonsList.Add(button);
+                //}
+                //else if (control is AutoSuggestTextBoxUserControl)
+                //{
+                //    ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
+                //}
+                //else if (control is FormHeaderUserControl)
+                //{
+                //    ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
+                //}
+                //else if (control is RadioOperatorUserControl)
+                //{
+                //    ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
+                //}
             }
         }
 
@@ -1270,81 +1347,71 @@ namespace FormControlBaseClass
         protected void GetFormDataFromAttribute(Type formType)
         {
             if (string.IsNullOrEmpty(FormControlName) 
-                //|| string.IsNullOrEmpty(FormControlName) 
                 || FormControlType == FormControlAttribute.FormType.Undefined)
             {
-                //Type clsType = formType;
                 Assembly assembly = formType.Assembly;
 
                 Type[] exportedTypes = assembly.GetExportedTypes();
                 foreach (Type classType in exportedTypes)
                 {
                     var attrib = classType.GetTypeInfo();
-                    //foreach (CustomAttributeData customAttribute in attrib.CustomAttributes.Where(customAttribute => customAttribute.GetType() == typeof(CustomAttributeData)))
-                    foreach (CustomAttributeData customAttribute in attrib.CustomAttributes)
+                    CustomAttributeData customAttribute = attrib.CustomAttributes.FirstOrDefault(attribute => attribute.AttributeType == typeof(FormControlAttribute));
+                    if (customAttribute is null)
                     {
-                        if (customAttribute.AttributeType != typeof(FormControlAttribute))
-                            continue;
-                        IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
-                        string formControlMenuName;
-                        bool formControlNameFound = false;
-                        bool formControlTypeFound = false;
-                        bool formControlMenuNameFound = false;
-                        bool attributeFound = false;
-                        foreach (CustomAttributeNamedArgument arg in namedArguments)
+                        continue;
+                    }
+                    IList<CustomAttributeNamedArgument> namedArguments = customAttribute.NamedArguments;
+                    string formControlMenuName;
+                    bool formControlNameFound = false;
+                    bool formControlTypeFound = false;
+                    bool formControlMenuNameFound = false;
+                    foreach (CustomAttributeNamedArgument arg in namedArguments)
+                    {
+                        switch (arg.MemberName)
                         {
-                            switch (arg.MemberName)
-                            {
-                                case "FormControlName":
-                                    FormControlName = arg.TypedValue.Value as string;
-                                    formControlNameFound = true;
-                                        break;
-                                case "FormControlType":
-                                    FormControlAttribute.FormType formControlType = (FormControlAttribute.FormType)Enum.Parse(typeof(FormControlAttribute.FormType), arg.TypedValue.Value.ToString());
-                                    switch (formControlType)
-                                    {
-                                        case FormControlAttribute.FormType.None:
-                                            FormControlType = formControlType;
-                                            break;
-                                        case FormControlAttribute.FormType.CountyForm:
-                                            FormControlType = formControlType;
-                                            break;
-                                        case FormControlAttribute.FormType.CityForm:
-                                            FormControlType = formControlType;
-                                            break;
-                                        case FormControlAttribute.FormType.HospitalForm:
-                                            FormControlType = formControlType;
-                                            break;
-                                        case FormControlAttribute.FormType.TestForm:
-                                            FormControlType = formControlType;
-                                            break;
-                                        case FormControlAttribute.FormType.Undefined:
-                                            FormControlType = formControlType;
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                    formControlTypeFound = true;
-                                    break;
-                                case "FormControlMenuName":
-                                    formControlMenuName = arg.TypedValue.Value as string;
-                                    formControlMenuNameFound = true;
-                                    break;
-                            }
-                            if (formControlNameFound && formControlTypeFound && formControlMenuNameFound)
-                            {
-                                attributeFound = true;
+                            case "FormControlName":
+                                FormControlName = arg.TypedValue.Value as string;
+                                formControlNameFound = true;
                                 break;
-                            }
+                            case "FormControlType":
+                                FormControlAttribute.FormType formControlType = (FormControlAttribute.FormType)Enum.Parse(typeof(FormControlAttribute.FormType), arg.TypedValue.Value.ToString());
+                                FormControlType = formControlType;
+                                //switch (formControlType)
+                                //{
+                                //    case FormControlAttribute.FormType.None:
+                                //        FormControlType = formControlType;
+                                //        break;
+                                //    case FormControlAttribute.FormType.CountyForm:
+                                //        FormControlType = formControlType;
+                                //        break;
+                                //    case FormControlAttribute.FormType.CityForm:
+                                //        FormControlType = formControlType;
+                                //        break;
+                                //    case FormControlAttribute.FormType.HospitalForm:
+                                //        FormControlType = formControlType;
+                                //        break;
+                                //    case FormControlAttribute.FormType.TestForm:
+                                //        FormControlType = formControlType;
+                                //        break;
+                                //    case FormControlAttribute.FormType.Undefined:
+                                //        FormControlType = formControlType;
+                                //        break;
+                                //    default:
+                                //        break;
+                                //}
+                                formControlTypeFound = true;
+                                break;
+                            case "FormControlMenuName":
+                                formControlMenuName = arg.TypedValue.Value as string;
+                                formControlMenuNameFound = true;
+                                break;
                         }
-                        if (attributeFound)
+                        if (formControlNameFound && formControlTypeFound && formControlMenuNameFound)
                         {
-                            //FormControlAttributes formControlAttributes = new FormControlAttributes(formControlName, formControlMenuName, formControlType);
-                            //_formControlAttributeList.Add(formControlAttributes);
                             return;
                         }
-                        break;
                     }
+                    break;
                 }
             }
         }

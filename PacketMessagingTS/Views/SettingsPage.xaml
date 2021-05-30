@@ -305,8 +305,8 @@
                                        RelativePanel.AlignVerticalCenterWith="textBoxUserPrefix"										   Text="Message ID Prefix:" />
                         </RelativePanel>
                         <ToggleSwitch x:Name="toggleUseTacticalCallsign"									  
-  									  Header="Use Tactical Call-sign" 
-									  IsOn="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+  									  Header="Use Tactical Call" 
+									  IsOn="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=TwoWay}"
 									  Margin="0,30"/>
                         <Grid >
                             <Grid.ColumnDefinitions>
@@ -330,7 +330,7 @@
 									  ItemsSource="{x:Bind IdentityViewModel.TacticalCallsignsAreaSource, Mode=OneTime}"
 									  DisplayMemberPath = "AreaName"
 									  VerticalContentAlignment="Center"
-									  IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
+									  IsEnabled="{x:Bind IdentityViewModel.TacticalCallsignAreaEnabled, Mode=OneWay}"
 									  SelectedIndex="{x:Bind IdentityViewModel.TacticalCallsignAreaSelectedIndex, Mode=TwoWay}"
 									  Margin="5,1,0,1" Background="White" 
                                       Width="220" BorderThickness="2" >
@@ -340,13 +340,12 @@
 									   Text="Tactical Call-sign:" />
                             <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" x:Name="comboBoxTacticalCallsign"  
 									  ItemsSource="{x:Bind IdentityViewModel.TacticalCallsignsSource, Mode=OneWay}" 									
-									  IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
+									  IsEnabled="{x:Bind IdentityViewModel.TacticalCallsignEnabled, Mode=OneWay}"
 									  DisplayMemberPath="TacticalCallsign" IsEditable="True"
 									  SelectedIndex="{x:Bind IdentityViewModel.TacticalCallsignSelectedIndex, Mode=TwoWay}"
                                       VerticalContentAlignment="Center"  
 									  Width="133" 
 									  BorderThickness="2" Margin="5,1,0,1"
-                                      Windows10version1809:Text="{x:Bind IdentityViewModel.TacticalCallsignOther, Mode=TwoWay}"
                                       />
                             <!--Windows10version1809:Text="{x:Bind IdentityViewModel.TacticalCallsignOther, Mode=TwoWay}"-->
                             <!--Windows10version1809:TextSubmitted="ComboBoxTacticalCallsign_TextSubmitted"-->
@@ -367,7 +366,7 @@
                                       SelectedValuePath="AgencyName"
                                       SelectedIndex="{x:Bind IdentityViewModel.TacticalAgencyNameSelectedIndex, Mode=TwoWay}"
                                       Windows10version1809:Text="{x:Bind IdentityViewModel.TacticalAgencyName, Mode=TwoWay}"
-                                      IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
+                                      IsEnabled="{x:Bind IdentityViewModel.AdditionalTextEnabled, Mode=OneWay}"
 									  VerticalContentAlignment="Center" Width="220" IsEditable="True"
 									  Margin="5,1,0,1" BorderThickness="2" />
                             <TextBlock Grid.Column="0" Grid.Row="3" x:Name="labelTacticalPrefix" 
@@ -375,7 +374,7 @@
 									   VerticalAlignment="Center"  />
                             <TextBox Grid.Column="1" Grid.Row="3" x:Name="textBoxTacticalPrefix" 
 									 Text="{x:Bind IdentityViewModel.TacticalMsgPrefix, Mode=OneWay}" 									
-								 	 IsEnabled="{x:Bind IdentityViewModel.UseTacticalCallsign, Mode=OneWay}"
+								 	 IsEnabled="{x:Bind IdentityViewModel.TacticalPrefixEnabled, Mode=OneWay}"
 									 HorizontalAlignment="Left"
 									 VerticalAlignment="Stretch" 
 									 BorderThickness="2" 

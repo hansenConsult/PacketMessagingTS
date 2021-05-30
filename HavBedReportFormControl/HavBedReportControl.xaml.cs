@@ -54,7 +54,6 @@ namespace HavBedReportFormControl
             new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
         };
 
-        //HavBedReportControlViewModel ViewModel = HavBedReportControlViewModel.Instance;
         HavBedReportControlViewModel ViewModel = new HavBedReportControlViewModel();
 
 
@@ -80,10 +79,6 @@ namespace HavBedReportFormControl
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
-
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
-
-        //public override string GetPacFormName() => "form-mhoc-beds-status";
 
         public override string PacFormType => "HAVBEDSTATUS";
 

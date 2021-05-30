@@ -134,7 +134,19 @@ namespace PacketMessagingTS.ViewModels
         private bool useTacticalCallsign;
         public bool UseTacticalCallsign
         {
-            get => GetProperty(ref useTacticalCallsign);
+            get
+            {
+                bool temp = useTacticalCallsign;
+                if (temp != GetProperty(ref useTacticalCallsign))
+                {
+                    SetProperty(ref useTacticalCallsign, useTacticalCallsign);
+                }
+                TacticalCallsignAreaEnabled = useTacticalCallsign;
+                TacticalCallsignEnabled = useTacticalCallsign;
+                AdditionalTextEnabled = useTacticalCallsign;
+                TacticalPrefixEnabled = useTacticalCallsign;
+                return useTacticalCallsign;
+            }
             set
             {
                 if (SetPropertyPrivate(ref useTacticalCallsign, value, true))
@@ -142,6 +154,34 @@ namespace PacketMessagingTS.ViewModels
                     Utilities.SetApplicationTitle();
                 }
             }
+        }
+
+        private bool tacticalCallsignAreaEnabled;
+        public bool TacticalCallsignAreaEnabled
+        {
+            get => tacticalCallsignAreaEnabled;
+            set => SetProperty(ref tacticalCallsignAreaEnabled, value);
+        }
+        
+        private bool tacticalCallsignEnabled;
+        public bool TacticalCallsignEnabled
+        {
+            get => tacticalCallsignEnabled;
+            set => SetProperty(ref tacticalCallsignEnabled, value);
+        }
+        
+        private bool additionalTextEnabled;
+        public bool AdditionalTextEnabled
+        {
+            get => additionalTextEnabled;
+            set => SetProperty(ref additionalTextEnabled, value);
+        }
+        
+        private bool tacticalPrefixEnabled;
+        public bool TacticalPrefixEnabled
+        {
+            get => tacticalPrefixEnabled;
+            set => SetProperty(ref tacticalPrefixEnabled, value);
         }
 
         public ObservableCollection<TacticalCallsignData> TacticalCallsignsAreaSource
