@@ -49,39 +49,39 @@ namespace PacketMessagingTS.ViewModels
         //    set => SetProperty(ref incidentNameActivationNumber, value);
         //}
 
-        private string incidentName;
+        private string _incidentName;
         public string IncidentName
         {
-            get => incidentName;
-            set => SetProperty(ref incidentName, value);
+            get => _incidentName;
+            set => SetProperty(ref _incidentName, value);
         }
 
-        private string activationNumber;
+        private string _activationNumber;
         public string ActivationNumber
         {
-            get => activationNumber;
-            set => SetProperty(ref activationNumber, value);
+            get => _activationNumber;
+            set => SetProperty(ref _activationNumber, value);
         }
 
-        private DateTime operationalPeriodStart;
+        private DateTime _operationalPeriodStart;
         public DateTime OperationalPeriodStart
         {
-            get => operationalPeriodStart;
-            set => operationalPeriodStart = value;
+            get => _operationalPeriodStart;
+            set => _operationalPeriodStart = value;
         }
 
-        private string radioNetName;
+        private string _radioNetName;
         public string RadioNetName
         {
-            get => radioNetName;
-            set => SetProperty(ref radioNetName, value);
+            get => _radioNetName;
+            set => SetProperty(ref _radioNetName, value);
         }
 
-        private DateTime operationalPeriodEnd;
+        private DateTime _operationalPeriodEnd;
         public DateTime OperationalPeriodEnd
         {
-            get => operationalPeriodEnd;
-            set => operationalPeriodEnd = value;
+            get => _operationalPeriodEnd;
+            set => _operationalPeriodEnd = value;
         }
 
         private async void OperationalPeriod_TextChangedAsync(string operationalPeriod)
@@ -105,8 +105,7 @@ namespace PacketMessagingTS.ViewModels
 
             string dateTime = startStop[0] + " " + startStop[1];
 
-            DateTime operationalPeriodStart;
-            if (!DateTime.TryParse(dateTime, out operationalPeriodStart))
+            if (!DateTime.TryParse(dateTime, out DateTime operationalPeriodStart))
                 return;
 
             if (startStop.Count() == 3)
@@ -118,8 +117,7 @@ namespace PacketMessagingTS.ViewModels
                 dateTime = startStop[2] + " " + startStop[endTimeIndex];
             }
 
-            DateTime operationalPeriodEnd;
-            if (!DateTime.TryParse(dateTime, out operationalPeriodEnd))
+            if (!DateTime.TryParse(dateTime, out DateTime operationalPeriodEnd))
                 return;
 
             if (operationalPeriodEnd < operationalPeriodStart)
@@ -134,17 +132,17 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private string operationalPeriod;
+        private string _operationalPeriod;
         public string OperationalPeriod
         {
-            get => operationalPeriod;
+            get => _operationalPeriod;
             set
             {
                 if (!_fromOpenFile)
                 {
                     OperationalPeriod_TextChangedAsync(value);
                 }
-                SetProperty(ref operationalPeriod, $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}");
+                SetProperty(ref _operationalPeriod, $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}");
             }
         }
 
@@ -162,49 +160,49 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref _DateTimePrepared, value);
         }
 
-        private int totalPages;
+        private int _totalPages;
         public int TotalPages
         {
-            get => totalPages;
+            get => _totalPages;
             set
             {
-                SetProperty(ref totalPages, value);
+                SetProperty(ref _totalPages, value);
             }
         }
 
-        private int pageNo;
+        private int _pageNo;
         public int PageNo
         {
-            get => pageNo;
+            get => _pageNo;
             set
             {
-                SetProperty(ref pageNo, value);
+                SetProperty(ref _pageNo, value);
                 PageNoAsString = PageNo.ToString();
             }
         }
 
-        private string pageNoAsString;
+        private string _pageNoAsString;
         public string PageNoAsString
         {
-            get => pageNoAsString;
+            get => _pageNoAsString;
             set
             {
-                pageNoAsString = $"Page {value} of {TotalPages.ToString()}";
+                _pageNoAsString = $"Page {value} of {TotalPages}";
             }
         }
 
-        private bool ics309PrintButtonVisible;
+        private bool _ics309PrintButtonVisible;
         public bool ICS309PrintButtonVisible
         {
-            get => ics309PrintButtonVisible;
-            set => SetProperty(ref ics309PrintButtonVisible, value);
+            get => _ics309PrintButtonVisible;
+            set => SetProperty(ref _ics309PrintButtonVisible, value);
         }
 
-        private ObservableCollection<CommLogEntry> commLogEntryCollection;
+        private ObservableCollection<CommLogEntry> _commLogEntryCollection;
         public ObservableCollection<CommLogEntry> CommLogEntryCollection
         {
-            get => commLogEntryCollection ?? (commLogEntryCollection = new ObservableCollection<CommLogEntry>());
-            set => SetProperty(ref commLogEntryCollection, value);
+            get => _commLogEntryCollection ?? (_commLogEntryCollection = new ObservableCollection<CommLogEntry>());
+            set => SetProperty(ref _commLogEntryCollection, value);
         }
 
         public object GetDynamicSortProperty(object item, string propName)

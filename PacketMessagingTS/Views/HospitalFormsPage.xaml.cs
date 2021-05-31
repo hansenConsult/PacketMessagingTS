@@ -21,8 +21,8 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class HospitalFormsPage : BaseFormsPage
     {
-        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<HospitalFormsPage>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        //private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<HospitalFormsPage>();
+        //private static readonly LogHelper _logHelper = new LogHelper(log);
 
         private readonly HospitalFormsViewModel HospitalFormsViewModel = HospitalFormsViewModel.Instance;
 

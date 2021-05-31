@@ -18,35 +18,35 @@ namespace SharedCode.Helpers
             }
         }
 
-        private string headerPIF;
+        private string _headerPIF;
         public string HeaderPIF
         {
             get => $"PIF: {_pif}";
-            set => SetProperty(ref headerPIF, value);
+            set => SetProperty(ref _headerPIF, value);
         }
 
         public virtual string MessageNo
         { get; set; }
 
-        private string originMsgNo;
+        private string _originMsgNo;
         public virtual string OriginMsgNo
         {
-            get => originMsgNo;
-            set => SetProperty(ref originMsgNo, value);
+            get => _originMsgNo;
+            set => SetProperty(ref _originMsgNo, value);
         }
 
-        private string destinationMsgNo;
+        private string _destinationMsgNo;
         public virtual string DestinationMsgNo
         {
-            get => destinationMsgNo;
-            set => SetProperty(ref destinationMsgNo, value);
+            get => _destinationMsgNo;
+            set => SetProperty(ref _destinationMsgNo, value);
         }
 
-        private string senderMsgNo;
+        private string _senderMsgNo;
         public virtual string SenderMsgNo
         { 
-            get => senderMsgNo; 
-            set => SetProperty(ref senderMsgNo, value);
+            get => _senderMsgNo; 
+            set => SetProperty(ref _senderMsgNo, value);
         }
 
         protected string _msgDate;
@@ -63,32 +63,32 @@ namespace SharedCode.Helpers
             set => SetProperty(ref _msgTime, value); 
         }
 
-        private string handlingOrder;
+        private string _handlingOrder;
         public string HandlingOrder
         {
-            get => handlingOrder;
-            set => SetProperty(ref handlingOrder, value == "" ? null : value);
+            get => _handlingOrder;
+            set => SetProperty(ref _handlingOrder, value == "" ? null : value);
         }
 
-        private string operatorName;
+        private string _operatorName;
         public string OperatorName
         {
-            get => operatorName;
-            set => SetProperty(ref operatorName, value);
+            get => _operatorName;
+            set => SetProperty(ref _operatorName, value);
         }
 
-        private string operatorCallsign;
+        private string _operatorCallsign;
         public string OperatorCallsign
         {
-            get => operatorCallsign;
-            set => SetProperty(ref operatorCallsign, value);
+            get => _operatorCallsign;
+            set => SetProperty(ref _operatorCallsign, value);
         }
 
-        private string receivedOrSent;
+        private string _receivedOrSent;
         public string ReceivedOrSent
         {
-            get => receivedOrSent;
-            set => SetProperty(ref receivedOrSent, value);
+            get => _receivedOrSent;
+            set => SetProperty(ref _receivedOrSent, value);
         }
 
         public virtual string TacticalCallsign

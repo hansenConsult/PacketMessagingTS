@@ -16,11 +16,11 @@ namespace PacketMessagingTS.ViewModels
     {
         public static SettingsViewModel Instance { get; } = new SettingsViewModel();
 
-        private int settingsPivotSelectedIndex;
+        private int _settingsPivotSelectedIndex;
         public int SettingsPivotSelectedIndex
         {
-            get => GetProperty(ref settingsPivotSelectedIndex);
-            set => SetPropertyPrivate(ref settingsPivotSelectedIndex, value, true);
+            get => GetProperty(ref _settingsPivotSelectedIndex);
+            set => SetPropertyPrivate(ref _settingsPivotSelectedIndex, value, true);
         }
 
         private ElementTheme _elementTheme = ThemeSelectorService.Theme;
@@ -78,41 +78,41 @@ namespace PacketMessagingTS.ViewModels
             return $"{appName} - {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
         }
 
-        private bool w1XSCStatusUp = true;
+        private bool _w1XSCStatusUp = true;
         public bool W1XSCStatusUp
         {
-            get => GetProperty(ref w1XSCStatusUp);
+            get => GetProperty(ref _w1XSCStatusUp);
             set
             {
-                if (SetPropertyPrivate(ref w1XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref _w1XSCStatusUp, value, true))
                 {
-                    AddressBook.Instance.UpdateForBBSStatusChange("W1XSC", w1XSCStatusUp);
+                    AddressBook.Instance.UpdateForBBSStatusChange("W1XSC", _w1XSCStatusUp);
                     Utilities.SetApplicationTitle();
                 }
             }
         }
 
-        public bool w2XSCStatusUp = true;
+        public bool _w2XSCStatusUp = true;
         public bool W2XSCStatusUp
         {
-            get => GetProperty(ref w2XSCStatusUp);
+            get => GetProperty(ref _w2XSCStatusUp);
             set
             {
-                if (SetPropertyPrivate(ref w2XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref _w2XSCStatusUp, value, true))
                 {
-                    AddressBook.Instance.UpdateForBBSStatusChange("W2XSC", w2XSCStatusUp);
+                    AddressBook.Instance.UpdateForBBSStatusChange("W2XSC", _w2XSCStatusUp);
                     Utilities.SetApplicationTitle();
                 }
             }
         }
 
-        public bool w3XSCStatusUp = true;
+        public bool _w3XSCStatusUp = true;
         public bool W3XSCStatusUp
         {
-            get => GetProperty(ref w3XSCStatusUp);
+            get => GetProperty(ref _w3XSCStatusUp);
             set
             {
-                if (SetPropertyPrivate(ref w3XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref _w3XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W3XSC", W3XSCStatusUp);
                     Utilities.SetApplicationTitle();
@@ -120,26 +120,26 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        public bool w4XSCStatusUp = true;
+        public bool _w4XSCStatusUp = true;
         public bool W4XSCStatusUp
         {
-            get => GetProperty(ref w4XSCStatusUp);
+            get => GetProperty(ref _w4XSCStatusUp);
             set
             {
-                if (SetPropertyPrivate(ref w4XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref _w4XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W4XSC", W4XSCStatusUp);
                     Utilities.SetApplicationTitle();
                 }
             }
         }
-        public bool w5XSCStatusUp = false;
+        public bool _w5XSCStatusUp = false;
         public bool W5XSCStatusUp
         {
-            get => GetProperty(ref w5XSCStatusUp);
+            get => GetProperty(ref _w5XSCStatusUp);
             set
             {
-                if (SetPropertyPrivate(ref w5XSCStatusUp, value, true))
+                if (SetPropertyPrivate(ref _w5XSCStatusUp, value, true))
                 {
                     AddressBook.Instance.UpdateForBBSStatusChange("W5XSC", W5XSCStatusUp);
                     Utilities.SetApplicationTitle();
@@ -156,23 +156,23 @@ namespace PacketMessagingTS.ViewModels
                 switch (bbs.ToLower())
                 {
                     case "w1xsc":
-                        if (w1XSCStatusUp)
+                        if (_w1XSCStatusUp)
                             statusUp = true;
                         break;
                     case "w2xsc":
-                        if (w2XSCStatusUp)
+                        if (_w2XSCStatusUp)
                             statusUp = true;
                         break;
                     case "w3xsc":
-                        if (w3XSCStatusUp)
+                        if (_w3XSCStatusUp)
                             statusUp = true;
                         break;
                     case "w4xsc":
-                        if (w4XSCStatusUp)
+                        if (_w4XSCStatusUp)
                             statusUp = true;
                         break;
                     case "w5xsc":
-                        if (w5XSCStatusUp)
+                        if (_w5XSCStatusUp)
                             statusUp = true;
                         break;
                 }
@@ -207,29 +207,29 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private string[] receivedCopyNamesArray;
+        private string[] _receivedCopyNamesArray;
         public string[] ReceivedCopyNamesArray
         {
             get
             {
-                if (receivedCopyNamesArray is null)
+                if (_receivedCopyNamesArray is null)
                 {
-                    GetProperty(ref receivedCopyNamesArray);
-                    if (receivedCopyNamesArray is null)
+                    GetProperty(ref _receivedCopyNamesArray);
+                    if (_receivedCopyNamesArray is null)
                     {
-                        receivedCopyNamesArray = new string[10];
-                        for (int i = 0; i < receivedCopyNamesArray.Length; i++)
+                        _receivedCopyNamesArray = new string[10];
+                        for (int i = 0; i < _receivedCopyNamesArray.Length; i++)
                         {
-                            receivedCopyNamesArray[i] = "";
+                            _receivedCopyNamesArray[i] = "";
                         }
                     }
                 }
-                return receivedCopyNamesArray;
+                return _receivedCopyNamesArray;
             }
-            set => SetPropertyPrivate(ref receivedCopyNamesArray, value, true);
+            set => SetPropertyPrivate(ref _receivedCopyNamesArray, value, true);
         }
 
-        private string receivedCopyNames;
+        private string _receivedCopyNames;
         public string ReceivedCopyNames
         {
             get => ReceivedCopyNamesArray[ReceivedCopyCount];
@@ -248,14 +248,14 @@ namespace PacketMessagingTS.ViewModels
                             break;
                         newValue = newValue.Substring(0, lastIndex);
                     }
-                    receivedCopyNames = value;  // To make sure an update happens
+                    _receivedCopyNames = value;  // To make sure an update happens
                 }
                 string[] copyNamesArray = new string[10];
                 ReceivedCopyNamesArray.CopyTo(copyNamesArray, 0);
                 copyNamesArray[ReceivedCopyCount] = newValue;
                 ReceivedCopyNamesArray = copyNamesArray;
 
-                SetProperty(ref receivedCopyNames, newValue);
+                SetProperty(ref _receivedCopyNames, newValue);
             }
         }
 
@@ -280,29 +280,29 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private string[] sentCopyNamesArray;
+        private string[] _sentCopyNamesArray;
         public string[] SentCopyNamesArray
         {
             get
             {
-                if (sentCopyNamesArray is null)
+                if (_sentCopyNamesArray is null)
                 {
-                    GetProperty(ref sentCopyNamesArray);
-                    if (sentCopyNamesArray is null)
+                    GetProperty(ref _sentCopyNamesArray);
+                    if (_sentCopyNamesArray is null)
                     {
-                        sentCopyNamesArray = new string[10];
-                        for (int i = 0; i < sentCopyNamesArray.Length; i++)
+                        _sentCopyNamesArray = new string[10];
+                        for (int i = 0; i < _sentCopyNamesArray.Length; i++)
                         {
-                            sentCopyNamesArray[i] = "";
+                            _sentCopyNamesArray[i] = "";
                         }
                     }
                 }
-                return sentCopyNamesArray;
+                return _sentCopyNamesArray;
             }
-            set => SetPropertyPrivate(ref sentCopyNamesArray, value, true);
+            set => SetPropertyPrivate(ref _sentCopyNamesArray, value, true);
         }
 
-        private string sentCopyNames;
+        private string _sentCopyNames;
         public string SentCopyNames
         {
             get => SentCopyNamesArray[SentCopyCount];
@@ -319,14 +319,14 @@ namespace PacketMessagingTS.ViewModels
                         lastIndex = newValue.LastIndexOf('\r');
                         newValue = newValue.Substring(0, lastIndex);
                     }
-                    sentCopyNames = value;  // To make sure an update happens
+                    _sentCopyNames = value;  // To make sure an update happens
                 }
                 string[] copyNamesArray = new string[10];
                 SentCopyNamesArray.CopyTo(copyNamesArray, 0);
                 copyNamesArray[SentCopyCount] = newValue;
                 SentCopyNamesArray = copyNamesArray;
 
-                SetProperty(ref sentCopyNames, newValue);
+                SetProperty(ref _sentCopyNames, newValue);
             }
         }
 

@@ -9,17 +9,17 @@ namespace PacketMessagingTS.ViewModels
     {
         public static CityFormsViewModel Instance { get; } = new CityFormsViewModel();
 
-        private int cityFormsPagePivotSelectedIndex = -1;
+        private int _cityFormsPagePivotSelectedIndex = -1;
         public int CityFormsPagePivotSelectedIndex
         {
             get
             {
-                int index = GetProperty(ref cityFormsPagePivotSelectedIndex);
+                int index = GetProperty(ref _cityFormsPagePivotSelectedIndex);
                 if (index >= FormMenuIndexDefinitions.Instance.CityFormsMenuNames.Length || index < 0)
                     index = 0;
                 return index;
             }
-            set => SetPropertyPrivate(ref cityFormsPagePivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref _cityFormsPagePivotSelectedIndex, value, true);
         }
 
         public override int FormsPagePivotSelectedIndex

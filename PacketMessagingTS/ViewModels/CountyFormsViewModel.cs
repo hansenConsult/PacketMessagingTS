@@ -19,17 +19,17 @@ namespace PacketMessagingTS.ViewModels
             set => CountyFormsPagePivotSelectedIndex = value;
         }
 
-        private int countyFormsPagePivotSelectedIndex = -1;
+        private int _countyFormsPagePivotSelectedIndex = -1;
         public int CountyFormsPagePivotSelectedIndex
         {
             get
             {
-                int index = GetProperty(ref countyFormsPagePivotSelectedIndex);
+                int index = GetProperty(ref _countyFormsPagePivotSelectedIndex);
                 if (index >= FormMenuIndexDefinitions.Instance.CountyFormsMenuNames.Length || index < 0)
                     index = 0;
                 return index;
             }
-            set => SetPropertyPrivate(ref countyFormsPagePivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref _countyFormsPagePivotSelectedIndex, value, true);
         }
 
 

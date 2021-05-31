@@ -139,9 +139,13 @@ namespace PacketMessagingTS.ViewModels
             get
             {
                 if (_packetForm.FormHeaderControl != null)
+                {
                     return _packetForm.FormHeaderControl.ViewModel.MsgTime;
+                }
                 else
+                {
                     return _packetForm.ViewModelBase.MsgTime;
+                }
             }
             set
             {
@@ -204,9 +208,9 @@ namespace PacketMessagingTS.ViewModels
                 else
                     IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
 
-                return isAppBarSendEnabled;
+                return _isAppBarSendEnabled;
             }
-            set => SetProperty(ref isAppBarSendEnabled, value);
+            set => SetProperty(ref _isAppBarSendEnabled, value);
         }
         
         public BaseFormsPage FormsPage
@@ -247,7 +251,9 @@ namespace PacketMessagingTS.ViewModels
 
                         CustomAttributeData customAttribute = attrib.CustomAttributes.FirstOrDefault(c => c.AttributeType == typeof(FormControlAttribute));
                         if (customAttribute == null)
+                        {
                             continue;
+                        }
 
                         CustomAttributeNamedArgument arg = customAttribute.NamedArguments.FirstOrDefault(a => a.MemberName == "FormControlName");
                         if (formControlName == arg.TypedValue.Value as string)

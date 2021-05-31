@@ -2,16 +2,23 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
+using MetroLog;
+
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 using Newtonsoft.Json;
+
+using SharedCode;
 
 namespace PacketMessagingTS.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {
-        readonly Dictionary<string, bool> SaveEnabledDictionary = new Dictionary<string, bool>();
-        Dictionary<string, object> _properties = App.Properties;
+        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<ViewModelBase>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
+
+        private readonly Dictionary<string, bool> SaveEnabledDictionary = new Dictionary<string, bool>();
+        private readonly Dictionary<string, object> _properties = App.Properties;
 
         protected bool SaveEnabled(bool propertyChanged, [CallerMemberName] string propertyName = "")
         {
@@ -24,18 +31,18 @@ namespace PacketMessagingTS.ViewModels
             return saveEnabled;
         }
 
-        protected bool isAppBarSaveEnabled;
+        protected bool _isAppBarSaveEnabled;
         public bool IsAppBarSaveEnabled
         {
-            get => isAppBarSaveEnabled;
-            set => SetProperty(ref isAppBarSaveEnabled, value);
+            get => _isAppBarSaveEnabled;
+            set => SetProperty(ref _isAppBarSaveEnabled, value);
         }
 
-        protected bool isAppBarSendEnabled = false;
+        protected bool _isAppBarSendEnabled = false;
         public virtual bool IsAppBarSendEnabled
         {
-            get => isAppBarSendEnabled;
-            set => SetProperty(ref isAppBarSendEnabled, value);
+            get => _isAppBarSendEnabled;
+            set => SetProperty(ref _isAppBarSendEnabled, value);
         }
 
 
@@ -45,7 +52,6 @@ namespace PacketMessagingTS.ViewModels
             {
                 // Retrieve value from dictionary
                 object o = _properties[propertyName];
-                //int property = Convert.ToInt32(o);
                 backingStore = Convert.ToInt32(o);
             }
             return backingStore;
@@ -62,7 +68,7 @@ namespace PacketMessagingTS.ViewModels
                 }
                 catch (Exception e)
                 {
-                    string msg = e.Message;
+                    _logHelper.Log(LogLevel.Error, e.Message);
                     return backingStore;
                 }
             }
@@ -80,7 +86,7 @@ namespace PacketMessagingTS.ViewModels
                 }
                 catch (Exception e)
                 {
-                    string msg = e.Message;
+                    _logHelper.Log(LogLevel.Error, e.Message);
                     return backingStore;
                 }
             }

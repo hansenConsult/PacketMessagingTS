@@ -6,13 +6,12 @@ using MetroLog;
 
 using Microsoft.Toolkit.Mvvm.Input;
 
-using PacketMessagingTS.Core.Helpers;
-
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 
 using SharedCode;
 using SharedCode.Helpers;
+
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -79,15 +78,15 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref _NewProfileName, value);
         }
 
-        private int profileSelectedIndex;
+        private int _profileSelectedIndex;
         public int ProfileSelectedIndex
         {
-            get => GetProperty(ref profileSelectedIndex);
+            get => GetProperty(ref _profileSelectedIndex);
             set
             {
                 if (ProfileArray.Instance.ProfileList is null)
                 {
-                    SetPropertyPrivate(ref profileSelectedIndex, -1, true);
+                    SetPropertyPrivate(ref _profileSelectedIndex, -1, true);
                     return;
                 }
                 if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
@@ -101,14 +100,14 @@ namespace PacketMessagingTS.ViewModels
 
                 if (value >= 0 && value < ProfileArray.Instance.ProfileList.Count)
                 {
-                    SetPropertyPrivate(ref profileSelectedIndex, value, true);
+                    SetPropertyPrivate(ref _profileSelectedIndex, value, true);
                 }
                 else
                 {
                     _logHelper.Log(LogLevel.Error, $"ProfileSelectedIndex = {value}");
-                    SetPropertyPrivate(ref profileSelectedIndex, 0, true);
+                    SetPropertyPrivate(ref _profileSelectedIndex, 0, true);
                 }
-                CurrentProfile = ProfileArray.Instance.ProfileList[profileSelectedIndex];
+                CurrentProfile = ProfileArray.Instance.ProfileList[_profileSelectedIndex];
             }
         }
 
@@ -157,28 +156,28 @@ namespace PacketMessagingTS.ViewModels
             return date;
         }
 
-        private Profile currentProfile;
+        private Profile _currentProfile;
         public Profile CurrentProfile
         {
             get
             {
-                if (currentProfile is null)
+                if (_currentProfile is null)
                 {
                     ProfileSelectedIndex = Utilities.GetProperty(nameof(ProfileSelectedIndex));
                 }
-                return currentProfile;
+                return _currentProfile;
             }
             set
             {
-                currentProfile = value;
+                _currentProfile = value;
 
-                TNCFromSelectedProfile = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == currentProfile.TNC).FirstOrDefault();
-                BBSFromSelectedProfile = BBSDefinitions.Instance.BBSDataArray.Where(bbs => bbs.Name == currentProfile.BBS).FirstOrDefault();
+                TNCFromSelectedProfile = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name == _currentProfile.TNC).FirstOrDefault();
+                BBSFromSelectedProfile = BBSDefinitions.Instance.BBSDataArray.Where(bbs => bbs.Name == _currentProfile.BBS).FirstOrDefault();
                 //Name = currentProfile.Name;
-                TNC = currentProfile.TNC;
-                BBS = currentProfile.BBS;
-                DefaultTo = currentProfile.SendTo;
-                if (currentProfile.TNC.Contains(PublicData.EMail))
+                TNC = _currentProfile.TNC;
+                BBS = _currentProfile.BBS;
+                DefaultTo = _currentProfile.SendTo;
+                if (_currentProfile.TNC.Contains(PublicData.EMail))
                 {
                     // Update SMTP data if using Email for sending
                     TNCDevice tncDevice = TNCDeviceArray.Instance.TNCDeviceList.Where(tnc => tnc.Name.Contains(PublicData.EMail)).FirstOrDefault();
@@ -243,18 +242,18 @@ namespace PacketMessagingTS.ViewModels
         //    set => Set(ref _ProfileName, value);
         //}
 
-        private string tnc;
+        private string _tnc;
         public string TNC
         {
-            get => tnc;
+            get => _tnc;
             set
             {
                 if (value is null)
                     return;
 
-                SetProperty(ref tnc, value);
+                SetProperty(ref _tnc, value);
 
-                if (tnc.Contains(PublicData.EMail))
+                if (_tnc.Contains(PublicData.EMail))
                 {
                     BBS = "";
                 }
@@ -262,26 +261,26 @@ namespace PacketMessagingTS.ViewModels
                 {
                     BBS = CurrentProfile?.BBS;
                 }
-                UpdateProfileSaveButton(_SavedProfile.TNC, tnc);
+                UpdateProfileSaveButton(_SavedProfile.TNC, _tnc);
             }
         }
 
-        private TNCDevice currentTNC;
+        private TNCDevice _currentTNC;
         public TNCDevice TNCFromSelectedProfile
         {
             get
             {
-                if (currentTNC is null)
+                if (_currentTNC is null)
                 {
                     ProfileSelectedIndex = Utilities.GetProperty(nameof(ProfileSelectedIndex));
                 }
-                return currentTNC;
+                return _currentTNC;
             }
             set
             {
                 //Set(ref currentTNC, value);
-                currentTNC = value;
-                if (currentTNC != null && currentTNC.Name.Contains(PublicData.EMail))
+                _currentTNC = value;
+                if (_currentTNC != null && _currentTNC.Name.Contains(PublicData.EMail))
                 {
                     BBS = "";
                 }
@@ -318,114 +317,114 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private BBSData currentBBS;
+        private BBSData _currentBBS;
         public BBSData BBSFromSelectedProfile
         {
-            get => currentBBS;
+            get => _currentBBS;
             set
             {
-                SetProperty(ref currentBBS, value);
-                BBSDescription = currentBBS?.Description;
-                BBSFrequency1 = currentBBS?.Frequency1;
-                BBSFrequency2 = currentBBS?.Frequency2;
-                BBSFrequency3 = currentBBS?.Frequency3;
+                SetProperty(ref _currentBBS, value);
+                BBSDescription = _currentBBS?.Description;
+                BBSFrequency1 = _currentBBS?.Frequency1;
+                BBSFrequency2 = _currentBBS?.Frequency2;
+                BBSFrequency3 = _currentBBS?.Frequency3;
 
-                bool changed = BBSFromSelectedProfile?.Name != currentProfile?.BBS;            
+                bool changed = BBSFromSelectedProfile?.Name != _currentProfile?.BBS;            
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
 
-        private string bbsDescription;
+        private string _bbsDescription;
         public string BBSDescription
         {
-            get => bbsDescription;
-            set => SetProperty(ref bbsDescription, value);
+            get => _bbsDescription;
+            set => SetProperty(ref _bbsDescription, value);
         }
         
-        private string bbsFrequency1;
+        private string _bbsFrequency1;
         public string BBSFrequency1
         {
-            get => bbsFrequency1;
-            set => SetProperty(ref bbsFrequency1, value);
+            get => _bbsFrequency1;
+            set => SetProperty(ref _bbsFrequency1, value);
         }
 
-        private string bbsFrequency2;
+        private string _bbsFrequency2;
         public string BBSFrequency2
         {
-            get => bbsFrequency2;
-            set => SetProperty(ref bbsFrequency2, value);
+            get => _bbsFrequency2;
+            set => SetProperty(ref _bbsFrequency2, value);
         }
 
-        private string bbsFrequency3;
+        private string _bbsFrequency3;
         public string BBSFrequency3
         {
-            get => bbsFrequency3;
-            set => SetProperty(ref bbsFrequency3, value);
+            get => _bbsFrequency3;
+            set => SetProperty(ref _bbsFrequency3, value);
         }
 
-        private string defaultTo;
+        private string _defaultTo;
         public string DefaultTo
         {
-            get => defaultTo;
+            get => _defaultTo;
             set
             {
-                SetProperty(ref defaultTo, value);
+                SetProperty(ref _defaultTo, value);
 
-                bool changed = CurrentProfile.SendTo != defaultTo;
+                bool changed = CurrentProfile.SendTo != _defaultTo;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
             }
         }
 
-        private string defaultSubject;
+        private string _defaultSubject;
         public string DefaultSubject
         {
-            get => defaultSubject;
+            get => _defaultSubject;
             set
             {
-                SetProperty(ref defaultSubject, value);
+                SetProperty(ref _defaultSubject, value);
 
-                UpdateProfileSaveButton(_SavedProfile.Subject, defaultSubject);
+                UpdateProfileSaveButton(_SavedProfile.Subject, _defaultSubject);
             }
         }
 
-        private string defaultMessage;
+        private string _defaultMessage;
         public string DefaultMessage
         {
-            get => defaultMessage;
+            get => _defaultMessage;
             set
             {
-                SetProperty(ref defaultMessage, value);
+                SetProperty(ref _defaultMessage, value);
 
                 //bool changed = CurrentProfile.Message != defaultMessage;
                 //IsAppBarSaveEnabled = SaveEnabled(changed);
-                UpdateProfileSaveButton(_SavedProfile.Message, defaultMessage);
+                UpdateProfileSaveButton(_SavedProfile.Message, _defaultMessage);
             }
         }
     
-        private bool displayProfileOnStart;
+        private bool _displayProfileOnStart;
         public bool DisplayProfileOnStart
         {
-            get => GetProperty(ref displayProfileOnStart);
-            set => SetPropertyPrivate(ref displayProfileOnStart, value, true);
+            get => GetProperty(ref _displayProfileOnStart);
+            set => SetPropertyPrivate(ref _displayProfileOnStart, value, true);
         }
 
-        private bool isDrillTraffic = false;
+        private bool _isDrillTraffic = false;
         public bool IsDrillTraffic
         {
-            get => isDrillTraffic;
-            set => SetProperty(ref isDrillTraffic, value);
+            get => _isDrillTraffic;
+            set => SetProperty(ref _isDrillTraffic, value);
         }
 
-        private int firstMessageNumber;
+        private int _firstMessageNumber;
         public int FirstMessageNumber
         {
             get
             {
-                GetProperty(ref firstMessageNumber);
+                GetProperty(ref _firstMessageNumber);
                 int messageNo = Utilities.FindHighestUsedMesageNumber();
-                if (messageNo > firstMessageNumber)
+                if (messageNo > _firstMessageNumber)
                 {
-                    firstMessageNumber = messageNo + 1;
+                    _firstMessageNumber = messageNo + 1;
                 }
                 //bool found = App.Properties.TryGetValue("MessageNumber", out object first);
                 //if (!found)
@@ -434,34 +433,34 @@ namespace PacketMessagingTS.ViewModels
                 //    FirstMessageNumber = Utilities.FindHighestUsedMesageNumber() + 1;
                 //}
                 //firstMessageNumber = Convert.ToInt32(App.Properties["MessageNumber"]);
-                return firstMessageNumber;
+                return _firstMessageNumber;
             }
             set
             {
                 //Utilities.MarkMessageNumberAsUsed(value);
-                SetPropertyPrivate(ref firstMessageNumber, value, true);
+                SetPropertyPrivate(ref _firstMessageNumber, value, true);
             }
         }
 
-        private string areaString = "XSCPERM, XSCEVENT";
+        private string _areaString = "XSCPERM, XSCEVENT";
         public string AreaString
         {
-            get => GetProperty(ref areaString);
-            set => SetPropertyPrivate(ref areaString, value, true);
+            get => GetProperty(ref _areaString);
+            set => SetPropertyPrivate(ref _areaString, value, true);
         }
 
-        private bool sendReceipt;
+        private bool _sendReceipt;
         public bool SendReceipt
         {
-            get => GetProperty(ref sendReceipt);
-            set => SetPropertyPrivate(ref sendReceipt, value, true);
+            get => GetProperty(ref _sendReceipt);
+            set => SetPropertyPrivate(ref _sendReceipt, value, true);
         }
 
-        private bool forceReadBulletins;
+        private bool _forceReadBulletins;
         public bool ForceReadBulletins
         {
-            get => forceReadBulletins;
-            set => SetProperty(ref forceReadBulletins, value);
+            get => _forceReadBulletins;
+            set => SetProperty(ref _forceReadBulletins, value);
         }
 
         private RelayCommand _ProfileSettingsAddCommand;

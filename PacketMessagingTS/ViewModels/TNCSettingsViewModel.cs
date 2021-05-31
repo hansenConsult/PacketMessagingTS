@@ -54,45 +54,45 @@ namespace PacketMessagingTS.ViewModels
 
         public TNCState State { get; set; }
 
-        private Visibility pivotTNCVisibility;
+        private Visibility _pivotTNCVisibility;
         public Visibility PivotTNCVisibility
         {
-            get => pivotTNCVisibility;
-            set => SetProperty(ref pivotTNCVisibility, value);
+            get => _pivotTNCVisibility;
+            set => SetProperty(ref _pivotTNCVisibility, value);
         }
 
-        private int pivotTNCSelectedIndex;
+        private int _pivotTNCSelectedIndex;
         public int PivotTNCSelectedIndex
         {
-            get => GetProperty(ref pivotTNCSelectedIndex);
-            set => SetPropertyPrivate(ref pivotTNCSelectedIndex, value, true);
+            get => GetProperty(ref _pivotTNCSelectedIndex);
+            set => SetPropertyPrivate(ref _pivotTNCSelectedIndex, value, true);
         }
 
-        private Visibility deviceListBoxVisibility = Visibility.Visible;
+        private Visibility _deviceListBoxVisibility = Visibility.Visible;
         public Visibility DeviceListBoxVisibility
         {
-            get => deviceListBoxVisibility;
-            set => SetProperty(ref deviceListBoxVisibility, value);
+            get => _deviceListBoxVisibility;
+            set => SetProperty(ref _deviceListBoxVisibility, value);
         }
 
-        private Visibility newTNCDeviceNameVisibility = Visibility.Collapsed;
+        private Visibility _newTNCDeviceNameVisibility = Visibility.Collapsed;
         public Visibility NewTNCDeviceNameVisibility
         {
-            get => newTNCDeviceNameVisibility;
-            set => SetProperty(ref newTNCDeviceNameVisibility, value);
+            get => _newTNCDeviceNameVisibility;
+            set => SetProperty(ref _newTNCDeviceNameVisibility, value);
         }
 
-        private int tncDeviceSelectedIndex;
+        private int _tncDeviceSelectedIndex;
         public int TNCDeviceSelectedIndex
         {
             get
             {
-                GetProperty(ref tncDeviceSelectedIndex);
+                GetProperty(ref _tncDeviceSelectedIndex);
                 if (CurrentTNCDevice == null)
                 {
-                    CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
+                    CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[_tncDeviceSelectedIndex];
                 }
-                return tncDeviceSelectedIndex;
+                return _tncDeviceSelectedIndex;
             }
             set
             {
@@ -105,34 +105,34 @@ namespace PacketMessagingTS.ViewModels
                     _SavedTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[0];
                 }
 
-                if (value == tncDeviceSelectedIndex && !(currentTNCDevice is null))
+                if (value == _tncDeviceSelectedIndex && !(_currentTNCDevice is null))
                     return;
 
                 //SaveChanges(tncDeviceSelectedIndex, State);
 
                 //_logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after SaveChanges(): {value}, {tncDeviceSelectedIndex}");
 
-                bool setPropertySuccess = false;
+                bool setPropertySuccess;
                 if (value < 0)
                 {
-                    SetProperty(ref tncDeviceSelectedIndex, value);
-                    _logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after -1: {value}, {tncDeviceSelectedIndex}");
+                    SetProperty(ref _tncDeviceSelectedIndex, value);
+                    _logHelper.Log(LogLevel.Trace, $"Set TNCDevice Sel Index after -1: {value}, {_tncDeviceSelectedIndex}");
                     return;
                 }
                 else if (value >= TNCDeviceArray.Instance.TNCDeviceList.Count)
                 {
-                    setPropertySuccess = SetPropertyPrivate(ref tncDeviceSelectedIndex, 0, true);
+                    setPropertySuccess = SetPropertyPrivate(ref _tncDeviceSelectedIndex, 0, true);
                 }
                 else
                 {
-                    setPropertySuccess = SetPropertyPrivate(ref tncDeviceSelectedIndex, value, true);
+                    setPropertySuccess = SetPropertyPrivate(ref _tncDeviceSelectedIndex, value, true);
                 }
                 if (setPropertySuccess)
                 {
-                    SaveChanges(tncDeviceSelectedIndex, State);
+                    SaveChanges(_tncDeviceSelectedIndex, State);
                     // Utilities.SetApplicationTitle();
                 }
-                CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[tncDeviceSelectedIndex];
+                CurrentTNCDevice = TNCDeviceArray.Instance.TNCDeviceList[_tncDeviceSelectedIndex];
                 if (CurrentTNCDevice.Name.Contains(PublicData.EMail))
                 {
                     UpdateMailState(TNCState.EMail);
@@ -211,25 +211,25 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private TNCDevice currentTNCDevice;
+        private TNCDevice _currentTNCDevice;
         public TNCDevice CurrentTNCDevice
         {
             get
             {
-                if (currentTNCDevice is null)
+                if (_currentTNCDevice is null)
                 {
                     TNCDeviceSelectedIndex = Utilities.GetProperty(nameof(TNCDeviceSelectedIndex));
                 }
                 
-                return currentTNCDevice;
+                return _currentTNCDevice;
             }
             set
             {
                 ResetChangedProperty();
 
-                currentTNCDevice = value;
+                _currentTNCDevice = value;
 
-                if (!string.IsNullOrEmpty(currentTNCDevice.Name) && currentTNCDevice.Name.Contains(PublicData.EMail))
+                if (!string.IsNullOrEmpty(_currentTNCDevice.Name) && _currentTNCDevice.Name.Contains(PublicData.EMail))
                 {
                     //// Update email account index
                     //string mailPreample = PublicData.EMailPreample;
@@ -256,51 +256,51 @@ namespace PacketMessagingTS.ViewModels
                 {
                     //_logHelper.Log(LogLevel.Trace, $"Current device, Comport: {currentTNCDevice.CommPort.Comport}");
 
-                    TNCInitCommandsPre = currentTNCDevice.InitCommands.Precommands;
-                    TNCInitCommandsPost = currentTNCDevice.InitCommands.Postcommands;
-                    IsToggleSwitchOn = currentTNCDevice.CommPort.IsBluetooth;
-                    TNCComPort = currentTNCDevice.CommPort.Comport;
-                    TNCComName = currentTNCDevice.CommPort.BluetoothName;
-                    TNCComBaudRate = currentTNCDevice.CommPort.Baudrate;
-                    TNCComDatabits = currentTNCDevice.CommPort.Databits;
-                    TNCComStopbits = currentTNCDevice.CommPort.Stopbits;
-                    TNCComParity = currentTNCDevice.CommPort.Parity;
-                    TNCComHandshake = currentTNCDevice.CommPort.Flowcontrol;
-                    TNCCommandsMyCall = currentTNCDevice.Commands.MyCall;
-                    TNCCommandsConnect = currentTNCDevice.Commands.Connect;
-                    TNCCommandsRetry = currentTNCDevice.Commands.Retry;
-                    TNCCommandsConversMode = currentTNCDevice.Commands.Conversmode;
-                    TNCCommandsDateTime = currentTNCDevice.Commands.Datetime;
-                    TNCPromptsCommand = currentTNCDevice.Prompts.Command;
-                    TNCPromptsTimeout = currentTNCDevice.Prompts.Timeout;
-                    TNCPromptsConnected = currentTNCDevice.Prompts.Connected;
-                    TNCPromptsDisconnected = currentTNCDevice.Prompts.Disconnected;
+                    TNCInitCommandsPre = _currentTNCDevice.InitCommands.Precommands;
+                    TNCInitCommandsPost = _currentTNCDevice.InitCommands.Postcommands;
+                    IsToggleSwitchOn = _currentTNCDevice.CommPort.IsBluetooth;
+                    TNCComPort = _currentTNCDevice.CommPort.Comport;
+                    TNCComName = _currentTNCDevice.CommPort.BluetoothName;
+                    TNCComBaudRate = _currentTNCDevice.CommPort.Baudrate;
+                    TNCComDatabits = _currentTNCDevice.CommPort.Databits;
+                    TNCComStopbits = _currentTNCDevice.CommPort.Stopbits;
+                    TNCComParity = _currentTNCDevice.CommPort.Parity;
+                    TNCComHandshake = _currentTNCDevice.CommPort.Flowcontrol;
+                    TNCCommandsMyCall = _currentTNCDevice.Commands.MyCall;
+                    TNCCommandsConnect = _currentTNCDevice.Commands.Connect;
+                    TNCCommandsRetry = _currentTNCDevice.Commands.Retry;
+                    TNCCommandsConversMode = _currentTNCDevice.Commands.Conversmode;
+                    TNCCommandsDateTime = _currentTNCDevice.Commands.Datetime;
+                    TNCPromptsCommand = _currentTNCDevice.Prompts.Command;
+                    TNCPromptsTimeout = _currentTNCDevice.Prompts.Timeout;
+                    TNCPromptsConnected = _currentTNCDevice.Prompts.Connected;
+                    TNCPromptsDisconnected = _currentTNCDevice.Prompts.Disconnected;
                 }
                 //ResetChangedProperty();
             }
         }
 
-        private string tncInitCommandsPre;
+        private string _tncInitCommandsPre;
         public string TNCInitCommandsPre
         {
-            get => tncInitCommandsPre;
+            get => _tncInitCommandsPre;
             set
             {
-                SetProperty(ref tncInitCommandsPre, value);
+                SetProperty(ref _tncInitCommandsPre, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Precommands, tncInitCommandsPre);
+                UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Precommands, _tncInitCommandsPre);
             }
         }
 
-        private string tncInitCommandsPost;
+        private string _tncInitCommandsPost;
         public string TNCInitCommandsPost
         {
-            get => tncInitCommandsPost;
+            get => _tncInitCommandsPost;
             set
             {
-                SetProperty(ref tncInitCommandsPost, value);
+                SetProperty(ref _tncInitCommandsPost, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Postcommands, tncInitCommandsPost);
+                UpdateTNCStateAndButtons(_SavedTNCDevice.InitCommands.Postcommands, _tncInitCommandsPost);
             }
         }
 
@@ -336,15 +336,15 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //}
 
-        private bool isToggleSwitchOn;
+        private bool _isToggleSwitchOn;
         public bool IsToggleSwitchOn
         {
-            get => isToggleSwitchOn;
+            get => _isToggleSwitchOn;
             set
             {
-                SetProperty(ref isToggleSwitchOn, value);
+                SetProperty(ref _isToggleSwitchOn, value);
 
-                if (isToggleSwitchOn)
+                if (_isToggleSwitchOn)
                 {
                     TNCComPortVisible = Visibility.Collapsed;
                     TNCComNameVisible = Visibility.Visible;
@@ -359,10 +359,10 @@ namespace PacketMessagingTS.ViewModels
 
         public List<string> ListOfSerialPorts = new List<string>();
 
-        private ObservableCollection<string> collectionOfSerialDevices;
+        private ObservableCollection<string> _collectionOfSerialDevices;
         public ObservableCollection<string> CollectionOfSerialDevices
         {
-            get => collectionOfSerialDevices;
+            get => _collectionOfSerialDevices;
             //get
             //{
             //    //if (collectionOfSerialDevices is null)
@@ -373,13 +373,13 @@ namespace PacketMessagingTS.ViewModels
             //    //_logHelper.Log(LogLevel.Info, $"Serial Port count: {ListOfSerialPorts.Count}");
             //    //return new ObservableCollection<string>(ListOfSerialPorts);
             //}
-            set => SetProperty(ref collectionOfSerialDevices, value);
+            set => SetProperty(ref _collectionOfSerialDevices, value);
         }
 
-        private string tncComPort;
+        private string _tncComPort;
         public string TNCComPort
         {
-            get => tncComPort;
+            get => _tncComPort;
             set
             {
                 //_logHelper.Log(LogLevel.Trace, $"Comport: {value}");
@@ -387,19 +387,19 @@ namespace PacketMessagingTS.ViewModels
                 if (value is null || CollectionOfSerialDevices is null || CollectionOfSerialDevices.Count == 0)
                     return;
 
-                SetProperty(ref tncComPort, value);
+                SetProperty(ref _tncComPort, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Comport, tncComPort);
+                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.Comport, _tncComPort);
             }
         }
 
-        private Visibility tncComPortVisible;
+        private Visibility _tncComPortVisible;
         public Visibility TNCComPortVisible
         {
-            get => tncComPortVisible;
+            get => _tncComPortVisible;
             set
             {
-                SetProperty(ref tncComPortVisible, value);
+                SetProperty(ref _tncComPortVisible, value);
             }
         }
 
@@ -429,25 +429,25 @@ namespace PacketMessagingTS.ViewModels
                     .Cast<Handshake>();
             }
         }
-        private string tncComName;
+        private string _tncComName;
         public string TNCComName
         {
-            get => tncComName;
+            get => _tncComName;
             set
             {
-                SetProperty(ref tncComName, value);
+                SetProperty(ref _tncComName, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.BluetoothName, tncComName);
+                UpdateTNCStateAndButtons(_SavedTNCDevice.CommPort.BluetoothName, _tncComName);
             }
         }
 
-        private Visibility tncComNameVisible;
+        private Visibility _tncComNameVisible;
         public Visibility TNCComNameVisible
         {
-            get => tncComNameVisible;
+            get => _tncComNameVisible;
             set
             {
-                SetProperty(ref tncComNameVisible, value);
+                SetProperty(ref _tncComNameVisible, value);
             }
         }
 
@@ -466,15 +466,15 @@ namespace PacketMessagingTS.ViewModels
             get => CreateBaudRatesCollection();
         }
 
-        private ushort tncComBaudRate;
+        private ushort _tncComBaudRate;
         public ushort TNCComBaudRate
         {
-            get => tncComBaudRate;
+            get => _tncComBaudRate;
             set
             {
-                SetProperty(ref tncComBaudRate, value);
+                SetProperty(ref _tncComBaudRate, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Baudrate, tncComBaudRate);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Baudrate, _tncComBaudRate);
             }
         }
 
@@ -483,172 +483,172 @@ namespace PacketMessagingTS.ViewModels
             get => new ObservableCollection<ushort>() { 7, 8 };
         }
 
-        private ushort tncComDatabits;
+        private ushort _tncComDatabits;
         public ushort TNCComDatabits
         {
-            get => tncComDatabits;
+            get => _tncComDatabits;
             set
             {
-                SetProperty(ref tncComDatabits, value);
+                SetProperty(ref _tncComDatabits, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Databits, tncComDatabits);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Databits, _tncComDatabits);
             }
         }
 
-        private StopBits tncComStopbits;
+        private StopBits _tncComStopbits;
         public StopBits TNCComStopbits
         {
-            get => tncComStopbits;
+            get => _tncComStopbits;
             set
             {
-                SetProperty(ref tncComStopbits, value);
+                SetProperty(ref _tncComStopbits, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Stopbits, tncComStopbits);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Stopbits, _tncComStopbits);
             }
         }
 
-        private Parity tncComParity;
+        private Parity _tncComParity;
         public Parity TNCComParity
         {
-            get => tncComParity;
+            get => _tncComParity;
             set
             {
-                SetProperty(ref tncComParity, value);
+                SetProperty(ref _tncComParity, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Parity, tncComParity);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Parity, _tncComParity);
             }
         }
 
-        private Handshake tncComHandshake;
+        private Handshake _tncComHandshake;
         public Handshake TNCComHandshake
         {
-            get { return tncComHandshake; }
+            get { return _tncComHandshake; }
             set
             {
-                SetProperty(ref tncComHandshake, value);
+                SetProperty(ref _tncComHandshake, value);
 
                 if (TNCDeviceSelectedIndex < 0)
                     return;
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Flowcontrol, tncComHandshake);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.CommPort?.Flowcontrol, _tncComHandshake);
 
             }
         }
 
-        private string tncCommandsMyCall;
+        private string _tncCommandsMyCall;
         public string TNCCommandsMyCall
         {
-            get => tncCommandsMyCall;
+            get => _tncCommandsMyCall;
             set
             {
-                SetProperty(ref tncCommandsMyCall, value);
+                SetProperty(ref _tncCommandsMyCall, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.MyCall, tncCommandsMyCall);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.MyCall, _tncCommandsMyCall);
             }
         }
 
-        private string tncCommandsConnect;
+        private string _tncCommandsConnect;
         public string TNCCommandsConnect
         {
-            get => tncCommandsConnect;
+            get => _tncCommandsConnect;
             set
             {
-                SetProperty(ref tncCommandsConnect, value);
+                SetProperty(ref _tncCommandsConnect, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Connect, tncCommandsConnect);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Connect, _tncCommandsConnect);
             }
         }
 
-        private string tncCommandsRetry;
+        private string _tncCommandsRetry;
         public string TNCCommandsRetry
         {
-            get => tncCommandsRetry;
+            get => _tncCommandsRetry;
             set
             {
-                SetProperty(ref tncCommandsRetry, value);
+                SetProperty(ref _tncCommandsRetry, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Retry, tncCommandsRetry);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Retry, _tncCommandsRetry);
             }
         }
 
-        private string tncCommandsConversMode;
+        private string _tncCommandsConversMode;
         public string TNCCommandsConversMode
         {
-            get => tncCommandsConversMode;
+            get => _tncCommandsConversMode;
             set
             {
-                SetProperty(ref tncCommandsConversMode, value);
+                SetProperty(ref _tncCommandsConversMode, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Conversmode, tncCommandsConversMode);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Conversmode, _tncCommandsConversMode);
             }
         }
 
-        private string tncCommandsDateTime;
+        private string _tncCommandsDateTime;
         public string TNCCommandsDateTime
         {
-            get => tncCommandsDateTime;
+            get => _tncCommandsDateTime;
             set
             {
-                SetProperty(ref tncCommandsDateTime, value);
+                SetProperty(ref _tncCommandsDateTime, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Datetime, tncCommandsDateTime);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Commands?.Datetime, _tncCommandsDateTime);
             }
         }
 
-        private string tncPromptsCommand;
+        private string _tncPromptsCommand;
         public string TNCPromptsCommand
         {
-            get => GetProperty(ref tncPromptsCommand);
+            get => GetProperty(ref _tncPromptsCommand);
             set
             {
-                SetProperty(ref tncPromptsCommand, value);
+                SetProperty(ref _tncPromptsCommand, value);
 
                 //bool changed = CurrentTNCDevice.Prompts.Command != tncPromptsCommand;
                 //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Command != tncPromptsCommand;
                 //UpdateTNCStateAndButtons(changed);
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Command, tncPromptsCommand);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Command, _tncPromptsCommand);
             }
         }
 
-        private string tncPromptsTimeout;
+        private string _tncPromptsTimeout;
         public string TNCPromptsTimeout
         {
-            get => GetProperty(ref tncPromptsTimeout);
+            get => GetProperty(ref _tncPromptsTimeout);
             set
             {
-                SetProperty(ref tncPromptsTimeout, value);
+                SetProperty(ref _tncPromptsTimeout, value);
 
                 //bool changed = CurrentTNCDevice.Prompts.Timeout != tncPromptsTimeout;
                 //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Timeout != tncPromptsTimeout;
                 //UpdateTNCStateAndButtons(changed);
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Timeout, tncPromptsTimeout);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Timeout, _tncPromptsTimeout);
             }
         }
 
-        private string tncPromptsConnected;
+        private string _tncPromptsConnected;
         public string TNCPromptsConnected
         {
-            get => GetProperty(ref tncPromptsConnected);
+            get => GetProperty(ref _tncPromptsConnected);
             set
             {
-                SetProperty(ref tncPromptsConnected, value);
+                SetProperty(ref _tncPromptsConnected, value);
 
                 //bool changed = CurrentTNCDevice.Prompts.Connected != tncPromptsConnected;
                 //bool changed = TNCDeviceArray.Instance.TNCDeviceList[TNCDeviceSelectedIndex].Prompts.Connected != tncPromptsConnected;
                 //UpdateTNCStateAndButtons(changed);
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Connected, tncPromptsConnected);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Connected, _tncPromptsConnected);
             }
         }
 
-        private string tncPromptsDisconnected;
+        private string _tncPromptsDisconnected;
         public string TNCPromptsDisconnected
         {
-            get => GetProperty(ref tncPromptsDisconnected);
+            get => GetProperty(ref _tncPromptsDisconnected);
             set
             {
-                SetProperty(ref tncPromptsDisconnected, value);
+                SetProperty(ref _tncPromptsDisconnected, value);
 
-                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Disconnected, tncPromptsDisconnected);
+                UpdateTNCStateAndButtons(_SavedTNCDevice?.Prompts?.Disconnected, _tncPromptsDisconnected);
             }
         }
 
@@ -704,7 +704,7 @@ namespace PacketMessagingTS.ViewModels
              || tncState == TNCState.EMailEdit
              || tncState == TNCState.EMailAdd)
             {
-                SaveEmailAccounts(selectedIndex, tncState);
+                SaveEmailAccounts(selectedIndex);
             }
             else
             {
@@ -764,25 +764,25 @@ namespace PacketMessagingTS.ViewModels
         }
 
 #region Mail Settings
-        private Visibility eMailSettingsVisibility;
+        private Visibility _eMailSettingsVisibility;
         public Visibility EMailSettingsVisibility
         {
-            get => eMailSettingsVisibility;
-            set => SetProperty(ref eMailSettingsVisibility, value);
+            get => _eMailSettingsVisibility;
+            set => SetProperty(ref _eMailSettingsVisibility, value);
         }
 
-        private int mailAccountSelectedIndex;
+        private int _mailAccountSelectedIndex;
         public int MailAccountSelectedIndex
         {
             get
             {
-                GetProperty(ref mailAccountSelectedIndex);
+                GetProperty(ref _mailAccountSelectedIndex);
 
                 //if (mailAccountSelectedIndex >= 0)
                 //{
                 //    CurrentMailAccount = EmailAccountArray.Instance.EmailAccounts[mailAccountSelectedIndex];
                 //}
-                return mailAccountSelectedIndex;
+                return _mailAccountSelectedIndex;
             }
             set
             {
@@ -792,20 +792,20 @@ namespace PacketMessagingTS.ViewModels
                 if (value < 0)
                 {
                     //    SetProperty(ref mailAccountSelectedIndex, 0, true);
-                    SetPropertyPrivate(ref mailAccountSelectedIndex, value, true);
+                    SetPropertyPrivate(ref _mailAccountSelectedIndex, value, true);
                     return;
                 }
                 if (value >= EmailAccountArray.Instance.EmailAccountList.Count)
                 {
-                    SetPropertyPrivate(ref mailAccountSelectedIndex, EmailAccountArray.Instance.EmailAccountList.Count - 1, true);
+                    SetPropertyPrivate(ref _mailAccountSelectedIndex, EmailAccountArray.Instance.EmailAccountList.Count - 1, true);
                     //CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
                 }
                 else
                 {
-                    SetPropertyPrivate(ref mailAccountSelectedIndex, value, true);
+                    SetPropertyPrivate(ref _mailAccountSelectedIndex, value, true);
                 }
 
-                CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[mailAccountSelectedIndex];
+                CurrentMailAccount = EmailAccountArray.Instance.EmailAccountList[_mailAccountSelectedIndex];
 
                 bool changed = CurrentTNCDevice.MailUserName != CurrentMailAccount.MailUserName;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
@@ -835,63 +835,63 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private EmailAccount currentMailAccount;
+        private EmailAccount _currentMailAccount;
         public EmailAccount CurrentMailAccount
         {
-            get => currentMailAccount;
+            get => _currentMailAccount;
             set
             {
-                currentMailAccount = value;
+                _currentMailAccount = value;
 
-                MailServer = currentMailAccount.MailServer;
-                MailServerPort = currentMailAccount.MailServerPort;
-                IsMailSSL = currentMailAccount.MailIsSSLField;
-                MailUserName = currentMailAccount.MailUserName;
-                MailPassword = currentMailAccount.MailPassword;
+                MailServer = _currentMailAccount.MailServer;
+                MailServerPort = _currentMailAccount.MailServerPort;
+                IsMailSSL = _currentMailAccount.MailIsSSLField;
+                MailUserName = _currentMailAccount.MailUserName;
+                MailPassword = _currentMailAccount.MailPassword;
 
                 //ResetChangedProperty();
             }
         }
 
-        private bool isMailServerEnabled;
+        private bool _isMailServerEnabled;
         public bool IsMailServerEnabled
         {
-            get => isMailServerEnabled;
-            set => SetProperty(ref isMailServerEnabled, value);
+            get => _isMailServerEnabled;
+            set => SetProperty(ref _isMailServerEnabled, value);
         }
 
-        private string mailServer;
+        private string _mailServer;
         public string MailServer
         {
-            get => GetProperty(ref mailServer);
+            get => GetProperty(ref _mailServer);
             set
             {
-                SetProperty(ref mailServer, value);
-                bool changed = CurrentMailAccount?.MailServer != mailServer;
+                SetProperty(ref _mailServer, value);
+                bool changed = CurrentMailAccount?.MailServer != _mailServer;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.Server = MailServer;
             }
         }
 
-        private bool isMailServerPortEnabled;
+        private bool _isMailServerPortEnabled;
         public bool IsMailServerPortEnabled
         {
-            get => isMailServerPortEnabled;
-            set => SetProperty(ref isMailServerPortEnabled, value);
+            get => _isMailServerPortEnabled;
+            set => SetProperty(ref _isMailServerPortEnabled, value);
         }
 
-        private ushort eMailServerPort;
+        private ushort _eMailServerPort;
         public ushort MailServerPort
         {
-            get => eMailServerPort;
+            get => _eMailServerPort;
             set
             {
-                SetProperty(ref eMailServerPort, value);
+                SetProperty(ref _eMailServerPort, value);
 
                 if (CurrentMailAccount != null)
                 {
-                    bool changed = CurrentMailAccount.MailServerPort != eMailServerPort;
+                    bool changed = CurrentMailAccount.MailServerPort != _eMailServerPort;
                     IsAppBarSaveEnabled = SaveEnabled(changed);
                 }
 
@@ -899,24 +899,24 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private Visibility isEMailServerSSLVisible;
+        private Visibility _isEMailServerSSLVisible;
         public Visibility IsMailServerSSLVisible
         {
-            get => isEMailServerSSLVisible;
-            set => SetProperty(ref isEMailServerSSLVisible, value);
+            get => _isEMailServerSSLVisible;
+            set => SetProperty(ref _isEMailServerSSLVisible, value);
         }
 
-        bool isMailSSL;
+        private bool _isMailSSL;
         public bool IsMailSSL
         {
-            get => isMailSSL;
+            get => _isMailSSL;
             set
             {
-                SetProperty(ref isMailSSL, value);
+                SetProperty(ref _isMailSSL, value);
 
                 if (CurrentMailAccount != null)
                 {
-                    bool changed = CurrentMailAccount.MailIsSSLField != isMailSSL;
+                    bool changed = CurrentMailAccount.MailIsSSLField != _isMailSSL;
                     IsAppBarSaveEnabled = SaveEnabled(changed);
                 }
 
@@ -924,47 +924,47 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private bool isEMailUserNameEnabled;
+        private bool _isEMailUserNameEnabled;
         public bool IsEMailUserNameEnabled
         {
-            get => isEMailUserNameEnabled;
-            set => SetProperty(ref isEMailUserNameEnabled, value);
+            get => _isEMailUserNameEnabled;
+            set => SetProperty(ref _isEMailUserNameEnabled, value);
         }
 
-        private string mailUserName;
+        private string _mailUserName;
         public string MailUserName
         {
-            get => mailUserName;
+            get => _mailUserName;
             set
             {
                 //if (State == TNCState.EMailAdd)
                 //    return;
 
-                SetProperty(ref mailUserName, value);
+                SetProperty(ref _mailUserName, value);
 
-                bool changed = CurrentMailAccount?.MailUserName != mailUserName;
+                bool changed = CurrentMailAccount?.MailUserName != _mailUserName;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.UserName = MailUserName;
             }
         }
 
-        private bool isEMailPasswordEnabled;
+        private bool _isEMailPasswordEnabled;
         public bool IsMailPasswordEnabled
         {
-            get => isEMailPasswordEnabled;
-            set => SetProperty(ref isEMailPasswordEnabled, value);
+            get => _isEMailPasswordEnabled;
+            set => SetProperty(ref _isEMailPasswordEnabled, value);
         }
 
-        private string mailPassword;
+        private string _mailPassword;
         public string MailPassword
         {
-            get => mailPassword;
+            get => _mailPassword;
             set
             {
-                SetProperty(ref mailPassword, value);
+                SetProperty(ref _mailPassword, value);
 
-                bool changed = CurrentMailAccount?.MailPassword != mailPassword;
+                bool changed = CurrentMailAccount?.MailPassword != _mailPassword;
                 IsAppBarSaveEnabled = SaveEnabled(changed);
 
                 Services.SMTPClient.SmtpClient.Instance.Password = MailPassword;
@@ -1038,7 +1038,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private async void SaveEmailAccounts(int selectedIndex, TNCState tncState)
+        private async void SaveEmailAccounts(int selectedIndex)
         {
             if (State == TNCState.EMail)
             {
@@ -1107,33 +1107,33 @@ namespace PacketMessagingTS.ViewModels
         }
 
 #endregion Mail Settings
-        private bool isAppBarAddEnabled = true;
+        private bool _isAppBarAddEnabled = true;
         public bool IsAppBarAddEnabled
         {
-            get => isAppBarAddEnabled;
-            set => SetProperty(ref isAppBarAddEnabled, value);
+            get => _isAppBarAddEnabled;
+            set => SetProperty(ref _isAppBarAddEnabled, value);
         }
 
-        private bool isAppBarDeleteEnabled = true;
+        private bool _isAppBarDeleteEnabled = true;
         public bool IsAppBarDeleteEnabled
         {
-            get => isAppBarDeleteEnabled;
-            set => SetProperty(ref isAppBarDeleteEnabled, value);
+            get => _isAppBarDeleteEnabled;
+            set => SetProperty(ref _isAppBarDeleteEnabled, value);
         }
 
-        private bool isAppBarEditEnabled = true;
+        private bool _isAppBarEditEnabled = true;
         public bool IsAppBarEditEnabled
         {
-            get => isAppBarEditEnabled;
-            set => SetProperty(ref isAppBarEditEnabled, value);
+            get => _isAppBarEditEnabled;
+            set => SetProperty(ref _isAppBarEditEnabled, value);
         }
 
-        private new bool isAppBarSaveEnabled;
-        public new bool IsAppBarSaveEnabled
-        {
-            get => isAppBarSaveEnabled;
-            set => SetProperty(ref isAppBarSaveEnabled, value);
-        }
+        //private bool _isAppBarSaveEnabled;
+        //public override bool IsAppBarSaveEnabled
+        //{
+        //    get => _isAppBarSaveEnabled;
+        //    set => SetProperty(ref _isAppBarSaveEnabled, value);
+        //}
 
         private void NewTNCDevice()
         {
@@ -1246,8 +1246,7 @@ namespace PacketMessagingTS.ViewModels
         {
             if (State == TNCState.TNCAdd)
             {
-                TNCDevice tncDevice = new TNCDevice();
-                tncDevice = TNCDeviceFromUI;
+                TNCDevice tncDevice = TNCDeviceFromUI;
                 TNCDeviceArray.Instance.TNCDeviceList.Add(tncDevice);
                 TNCDeviceListSource = new ObservableCollection<TNCDevice>(TNCDeviceArray.Instance.TNCDeviceList);
                 CurrentTNCDevice = tncDevice;

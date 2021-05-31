@@ -24,12 +24,12 @@ namespace PacketMessagingTS.Views
 {
     public sealed partial class MainPage : Page
     {
-        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
-        private static readonly LogHelper _logHelper = new LogHelper(log);
+        //private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainPage>();
+        //private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
         //public MainViewModel MainViewModel { get; } = Singleton<MainViewModel>.Instance;
-        private MainViewModel MainViewModel = MainViewModel.Instance;
+        private readonly MainViewModel MainViewModel = MainViewModel.Instance;
 
         public static MainPage Current;
 

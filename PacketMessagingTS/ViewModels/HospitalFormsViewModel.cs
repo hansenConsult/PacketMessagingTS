@@ -26,17 +26,17 @@ namespace PacketMessagingTS.ViewModels
             set => HospitalFormsPagePivotSelectedIndex = value;
         }
 
-        private int hospitalFormsPagePivotSelectedIndex = -1;
+        private int _hospitalFormsPagePivotSelectedIndex = -1;
         public int HospitalFormsPagePivotSelectedIndex
         {
             get
             {
-                int index = GetProperty(ref hospitalFormsPagePivotSelectedIndex);
+                int index = GetProperty(ref _hospitalFormsPagePivotSelectedIndex);
                 if (index >= FormMenuIndexDefinitions.Instance.HospitalFormsMenuNames.Length || index < 0)
                     index = 0;
                 return index;
             }
-            set => SetPropertyPrivate(ref hospitalFormsPagePivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref _hospitalFormsPagePivotSelectedIndex, value, true);
         }
     }
 }

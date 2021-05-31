@@ -27,7 +27,7 @@ namespace PacketMessagingTS.ViewModels
     public class CustomFoldersViewModel : MessageDataGridViewModel
     {
         private static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CustomFoldersViewModel>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         public static CustomFoldersViewModel Instance { get; } = new CustomFoldersViewModel();
 
@@ -36,21 +36,21 @@ namespace PacketMessagingTS.ViewModels
 
         public CustomFoldersPage CustomFoldersPage { get; set; }
 
-        private int selectedTabIndex;
+        private int _selectedTabIndex;
         public int SelectedTabIndex
         {
             get
             {
-                GetProperty(ref selectedTabIndex);
-                if (selectedTabIndex < 0 || selectedTabIndex >= Tabs.Count)
+                GetProperty(ref _selectedTabIndex);
+                if (_selectedTabIndex < 0 || _selectedTabIndex >= Tabs.Count)
                 {
                     SelectedTabIndex = 0;
                 }
-                return selectedTabIndex;
+                return _selectedTabIndex;
             }
             set
             {
-                SetPropertyPrivate(ref selectedTabIndex, value, true);
+                SetPropertyPrivate(ref _selectedTabIndex, value, true);
                 //FillMoveLocations();
             }
         }
@@ -62,7 +62,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (_selectedTab == null)
                 {
-                    _selectedTab = _customFoldersInstance.CustomFolderDataList[selectedTabIndex];
+                    _selectedTab = _customFoldersInstance.CustomFolderDataList[_selectedTabIndex];
                     RefreshDataGridAsync();
                 }
                 FillMoveLocations();
@@ -153,7 +153,7 @@ namespace PacketMessagingTS.ViewModels
             int i = 0;
             for (; i < _customFoldersInstance.CustomFolderDataList.Count; i++)
             {
-                if (_customFoldersInstance.CustomFolderDataList[i].Header == Tabs[selectedTabIndex].Header)
+                if (_customFoldersInstance.CustomFolderDataList[i].Header == Tabs[_selectedTabIndex].Header)
                 {
                     break;
                 }

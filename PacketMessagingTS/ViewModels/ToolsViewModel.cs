@@ -16,17 +16,17 @@ namespace PacketMessagingTS.ViewModels
 
         public Pivot ToolsPagePivot { get; set; }
 
-        private int toolsPivotSelectedIndex = -1;
+        private int _toolsPivotSelectedIndex = -1;
         public int ToolsPivotSelectedIndex
         {
             get
             {
-                int index = GetProperty(ref toolsPivotSelectedIndex);
+                int index = GetProperty(ref _toolsPivotSelectedIndex);
                 if ( index >= ToolsPagePivot.Items.Count || index < 0)
                     index = 0;
                 return index;
             }
-            set => SetPropertyPrivate(ref toolsPivotSelectedIndex, value, true);
+            set => SetPropertyPrivate(ref _toolsPivotSelectedIndex, value, true);
         }
 
     }

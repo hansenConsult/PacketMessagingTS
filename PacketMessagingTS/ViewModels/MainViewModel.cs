@@ -86,10 +86,10 @@ namespace PacketMessagingTS.ViewModels
         //    set => SetProperty(ref source, value);
         //}
 
-        private int mainPagePivotSelectedIndex;
+        private int _mainPagePivotSelectedIndex;
         public int MainPagePivotSelectedIndex
         {
-            get => GetProperty(ref mainPagePivotSelectedIndex);
+            get => GetProperty(ref _mainPagePivotSelectedIndex);
             //{
             //    GetProperty(ref mainPagePivotSelectedIndex);
             //    MainPagePivotSelectedItem = MainPagePivot.Items[mainPagePivotSelectedIndex] as PivotItem;
@@ -98,7 +98,7 @@ namespace PacketMessagingTS.ViewModels
             //}
             set
             {
-                bool indexChanged = SetPropertyPrivate(ref mainPagePivotSelectedIndex, value, true);
+                bool indexChanged = SetPropertyPrivate(ref _mainPagePivotSelectedIndex, value, true);
 
                 if (indexChanged)
                 {
@@ -115,7 +115,7 @@ namespace PacketMessagingTS.ViewModels
             {
                 if (_MainPagePivotSelectedItem is null)
                 {
-                    _MainPagePivotSelectedItem = (PivotItem)MainPagePivot.Items[mainPagePivotSelectedIndex];
+                    _MainPagePivotSelectedItem = (PivotItem)MainPagePivot.Items[_mainPagePivotSelectedIndex];
                     RefreshDataGridAsync();
                 }
                 //FillMoveLocations();

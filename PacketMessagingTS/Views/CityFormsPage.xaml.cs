@@ -21,10 +21,10 @@ namespace PacketMessagingTS.Views
     /// </summary>
     public sealed partial class CityFormsPage : BaseFormsPage
     {
-        private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CityFormsPage>();
-        private static readonly LogHelper _logHelper = new LogHelper(log);
+        //private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<CityFormsPage>();
+        //private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        CityFormsViewModel CityFormsViewModel = CityFormsViewModel.Instance;
+        private readonly CityFormsViewModel CityFormsViewModel = CityFormsViewModel.Instance;
 
         public CityFormsPage()
         {
