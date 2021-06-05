@@ -335,6 +335,7 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="3*"/>
                                                     <ColumnDefinition Width="2*"/>
+                                                    <ColumnDefinition Width="2*"/>
                                                     <ColumnDefinition Width="1*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
@@ -344,12 +345,18 @@
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
                                                 </Border>
                                                 <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
+                                                    <TextBox x:Name="signature"  BorderBrush="White"
+                                                             
+                                                             Header="6A. Signature" 
+                                                             HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+                                                </Border>
+                                                <Border  Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0">
                                                     <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
                                                              Text="{x:Bind Ics309ViewModel.DateTimePrepared, Mode=TwoWay}"
                                                              Header="7. Date $ Time Prepared" 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
                                                 </Border>
-                                                <Border Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,0,0">
+                                                <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0">
                                                     <TextBox x:Name="pageNoOf" BorderBrush="White" 
                                                              Text="{x:Bind Ics309ViewModel.PageNoAsString, Mode=OneWay}"
                                                              Header="8."

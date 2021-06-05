@@ -28,7 +28,6 @@ namespace PacketMessagingTS.Views
         //private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
-        //public MainViewModel MainViewModel { get; } = Singleton<MainViewModel>.Instance;
         private readonly MainViewModel MainViewModel = MainViewModel.Instance;
 
         public static MainPage Current;
@@ -82,7 +81,7 @@ namespace PacketMessagingTS.Views
                         sortDirection = null;   // No default sorting
                         break;
                 }
-                bool success = DataGridSortData.DataGridSortDataDictionary.TryAdd(item.Name, new DataGridSortData(item.Name, sortColumn, sortDirection));
+                DataGridSortData.DataGridSortDataDictionary.TryAdd(item.Name, new DataGridSortData(item.Name, sortColumn, sortDirection));
             }
         }
 
