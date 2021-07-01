@@ -12,7 +12,6 @@ using MessageFormControl;
 
 using MetroLog;
 
-using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Helpers.PrintHelpers;
 using PacketMessagingTS.Models;
@@ -310,7 +309,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             }
         }
 
-        public async void ProcessReceivedMessagesAsync()
+        public async Task ProcessReceivedMessagesAsync()
 		{
 			if (_packetMessagesReceived.Count() > 0)
 			{
@@ -633,14 +632,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return sendMailSuccess;
         }
 
-        //private CoreDispatcher _dispatcher;
-        //public void BBSConnectAsync2(CoreDispatcher dispatcher)
-        //{
-        //    _dispatcher = dispatcher;
-        //    BBSConnectAsync2();
-        //}
-
-        public async void BBSConnectAsync2()
+        public async Task BBSConnectAsync2()
         {
             (string bbsName, string tncName, string MessageFrom) = Utilities.GetProfileDataBBSStatusChecked();
             //BBSData bbs = PacketSettingsViewModel.Instance.BBSFromSelectedProfile;
@@ -863,7 +855,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 }
                 _packetMessagesReceived = _tncInterface.PacketMessagesReceived;
-                ProcessReceivedMessagesAsync();
+                await ProcessReceivedMessagesAsync();
 
                 /*
                 ApplicationTrigger trigger = new ApplicationTrigger();

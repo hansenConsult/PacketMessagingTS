@@ -19,7 +19,10 @@ namespace PacketMessagingTS.Helpers
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            if ((string)value == "")
+                return null;
+            else
+                return DateTime.Parse((string)value);
         }
     }
 }

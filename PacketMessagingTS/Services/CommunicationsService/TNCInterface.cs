@@ -10,8 +10,6 @@ using MessageFormControl;
 
 using MetroLog;
 
-using PacketMessagingTS.Core.Helpers;
-
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 using PacketMessagingTS.Views;
@@ -19,14 +17,13 @@ using PacketMessagingTS.ViewModels;
 
 using SharedCode;
 using SharedCode.Helpers;
-using SharedCode.Models;
 
 namespace PacketMessagingTS.Services.CommunicationsService
 {
     public class TNCInterface
     {
         protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<TNCInterface>();
-        private static LogHelper _logHelper = new LogHelper(log);
+        private static readonly LogHelper _logHelper = new LogHelper(log);
 
         enum ConnectState
         {
@@ -40,8 +37,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             ConverseMode
         }
         ConnectState _connectState;
-        private List<PacketMessage> _packetMessagesSent = new List<PacketMessage>();
-        List<PacketMessage> _packetMessagesToSend;
+        private readonly List<PacketMessage> _packetMessagesSent = new List<PacketMessage>();
+        readonly List<PacketMessage> _packetMessagesToSend;
 
         string _bbsConnectName = "";
         bool _forceReadBulletins = false;
@@ -49,11 +46,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
         TNCDevice _TncDevice = null;
         SerialPort _serialPort = null;
 
-        const string _BBSPrompt = ") >";
-        const string _BBSPromptC = ") >\r";
+        //const string _BBSPrompt = ") >";
+        //const string _BBSPromptC = ") >\r";
         const string _BBSPromptRN = ") >\r\n";
         const string NewLine = "\r\n";
-        string _TNCPrompt = "cmd:";
+        //string _TNCPrompt = "cmd:";
+        string _TNCPrompt;
 
         private bool _error = false;        // Disconnect if an error is detected
 
@@ -96,7 +94,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
         }
 
         private List<PacketMessage> _packetMessagesReceived = new List<PacketMessage>();
-        public List<PacketMessage> PacketMessagesReceived { get => _packetMessagesReceived; set => _packetMessagesReceived = value; }
+        public List<PacketMessage> PacketMessagesReceived
+        {
+            get => _packetMessagesReceived;
+            set => _packetMessagesReceived = value;
+        }
 
         private string KPC3Plus()
         {
@@ -111,63 +113,33 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             cmdResult = ReadTo(_TNCPrompt);
 
-            _serialPort.Write("D\r");
-            readText = ReadLine();
+            TNCCommand("D");
 
-            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
+            TNCCommand("b");
 
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
-
-            cmdResult = ReadTo(_TNCPrompt);
-
-            _serialPort.Write("b\r");
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
-
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
-
-            cmdResult = ReadTo(_TNCPrompt);
-
-            _serialPort.Write("Echo on\r");
-
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
-
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
-
-            cmdResult = ReadTo(_TNCPrompt);
+            TNCCommand("Echo on");
 
             if (IdentityViewModel.Instance.UseTacticalCallsign)
             {
                 _serialPort.Write($"my {IdentityViewModel.Instance.TacticalCallsign}\r");
+                //TNCCommandNoResponse("my " + IdentityViewModel.Instance.TacticalCallsign);
             }
             else
             {
                 _serialPort.Write($"my {IdentityViewModel.Instance.UserCallsign}\r");
             }
             readText = ReadLine();       // Read command
-            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
+            _logHelper.Log(LogLevel.Info, _TNCPrompt + " " + readText);
 
             cmdResult = ReadTo(_TNCPrompt);
 
-            _serialPort.Write("Mon off\r");
-
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
-
-            readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
-
-            cmdResult = ReadTo(_TNCPrompt);
+            TNCCommand("Mon off");
 
             DateTime dateTime = DateTime.Now;
             string dayTime = $"{dateTime.Year - 2000:d2}{dateTime.Month:d2}{dateTime.Day:d2}{dateTime.Hour:d2}{dateTime.Minute:d2}{dateTime.Second:d2}";
             _serialPort.Write($"daytime {dayTime}\r");
             readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, cmdResult + " " + readText);
+            _logHelper.Log(LogLevel.Info, _TNCPrompt + " " + readText);
 
             cmdResult = ReadTo(_TNCPrompt);
 
@@ -522,19 +494,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return readText;
         }
 
-        private void WriteToBBS(string text)
-        {
-            _serialPort.Write(text);
-            string readText = ReadTo(_BBSPromptRN);      // read response eg R 1 plus message
-            _logHelper.Log(LogLevel.Info, readText);
-        }
+        //private void WriteToBBS(string text)
+        //{
+        //    _serialPort.Write(text);
+        //    string readText = ReadTo(_BBSPromptRN);      // read response eg R 1 plus message
+        //    _logHelper.Log(LogLevel.Info, readText);
+        //}
 
-        private void WriteToTNC(string text)
-        {
-            _serialPort.Write(text + "\r");
-            string readText = ReadLine();
-            _logHelper.Log(LogLevel.Info, readText);
-        }
+        //private void WriteToTNC(string text)
+        //{
+        //    _serialPort.Write(text + "\r");
+        //    string readText = ReadLine();
+        //    _logHelper.Log(LogLevel.Info, readText);
+        //}
 
         private void TNCCommand(string text)
         {
@@ -547,6 +519,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
             ReadTo(_TNCPrompt);
         }
+
+        private void TNCCommandNoResponse(string text)
+        {
+            _serialPort.Write(text + "\r");
+            string readText = ReadLine();
+            _logHelper.Log(LogLevel.Info, _TNCPrompt + " " + readText);
+
+            //readText = ReadLine();
+            //_logHelper.Log(LogLevel.Info, readText);
+
+            ReadTo(_TNCPrompt);
+        }
+
 
         // Returns the string including readTo, as opposed to SerialPort.ReadTo()
         //private string ReadTo(string readTo)
@@ -696,20 +681,24 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                         FormField[] formFields = new FormField[2];
 
-                        FormField formField = new FormField();
-                        formField.ControlName = "messageBody";
+                        FormField formField = new FormField
+                        {
+                            ControlName = "messageBody"
+                        };
                         StringBuilder controlContent = new StringBuilder();
                         controlContent.AppendLine($"!LMI!{pktMsg.MessageNumber}!DR!{DateTime.Now.ToString()}");
                         controlContent.AppendLine("Your Message");
                         controlContent.AppendLine($"To: {pktMsg.MessageTo}");
                         controlContent.AppendLine($"Subject: {pktMsg.Subject}");
-                        controlContent.AppendLine($"was delivered on {DateTime.Now.ToString()}"); // 7/10/2017 6:35:51 PM
+                        controlContent.AppendLine($"was delivered on {DateTime.Now}"); // 7/10/2017 6:35:51 PM
                         controlContent.AppendLine($"Recipient's Local Message ID: {pktMsg.MessageNumber}");
                         formField.ControlContent = controlContent.ToString();
                         formFields[0] = formField;
-                        formField = new FormField();
-                        formField.ControlName = "richTextMessageBody";
-                        formField.ControlContent = controlContent.ToString();
+                        formField = new FormField
+                        {
+                            ControlName = "richTextMessageBody",
+                            ControlContent = controlContent.ToString()
+                        };
                         formFields[1] = formField;
 
                         receiptMessage.FormFieldArray = formFields;
@@ -883,7 +872,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         async void OnSerialPortErrorReceivedAsync(object sender, SerialErrorReceivedEventArgs e)
         {
-            _logHelper.Log(LogLevel.Fatal, $"SerialPort Error: {e.EventType.ToString()}");
+            _logHelper.Log(LogLevel.Fatal, $"SerialPort Error: {e.EventType}");
             try
             {
                 _error = true;
@@ -925,16 +914,18 @@ namespace PacketMessagingTS.Services.CommunicationsService
             ushort dataBits = _TncDevice.CommPort.Databits;
             StopBits stopBits = _TncDevice.CommPort.Stopbits;
             _serialPort = new SerialPort(_TncDevice.CommPort.Comport, _TncDevice.CommPort.Baudrate,
-                parity, dataBits, stopBits);
-            _serialPort.RtsEnable = _TncDevice.CommPort.Flowcontrol == Handshake.RequestToSend ? true : false;
-            _serialPort.Handshake = _TncDevice.CommPort.Flowcontrol;
-            _serialPort.WriteTimeout = 50000;
-            _serialPort.ReadTimeout = 5000;
-            _serialPort.ReadBufferSize = 8192;
-            _serialPort.WriteBufferSize = 4096;
+                parity, dataBits, stopBits)
+            {
+                RtsEnable = _TncDevice.CommPort.Flowcontrol == Handshake.RequestToSend ? true : false,
+                Handshake = _TncDevice.CommPort.Flowcontrol,
+                WriteTimeout = 50000,
+                ReadTimeout = 5000,
+                ReadBufferSize = 8192,
+                WriteBufferSize = 4096
+            };
             _serialPort.ErrorReceived += new SerialErrorReceivedEventHandler(OnSerialPortErrorReceivedAsync);
             _logHelper.Log(LogLevel.Info, "");
-            _logHelper.Log(LogLevel.Info, $"{DateTime.Now.ToString()}");
+            _logHelper.Log(LogLevel.Info, $"{DateTime.Now}");
             _logHelper.Log(LogLevel.Info, $"{_TncDevice.Name}: {_TncDevice.CommPort.Comport}, {_TncDevice.CommPort.Baudrate}, {_TncDevice.CommPort.Databits}, {_TncDevice.CommPort.Stopbits}, {_TncDevice.CommPort.Parity}, {_TncDevice.CommPort.Flowcontrol}");
             string readText = "";
             string readCmdText = "";
@@ -1000,8 +991,6 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 exitedBeforeConnect = false;
                 _connectState = ConnectState.BBSConnected;
-
-                //_serialPort.ReadTimeout = readTimeout;
 
                 _serialPort.Write("XM 0\r");
 

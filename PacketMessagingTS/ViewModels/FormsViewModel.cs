@@ -740,7 +740,7 @@ namespace PacketMessagingTS.ViewModels
 
             CommunicationsService communicationsService = new CommunicationsService();
             //Services.CommunicationsService.CommunicationsService communicationsService = Services.CommunicationsService.CommunicationsService.CreateInstance();
-            communicationsService.BBSConnectAsync2();
+            await communicationsService.BBSConnectAsync2();
 
             // Create an empty form
             InitializeFormControlAsync();

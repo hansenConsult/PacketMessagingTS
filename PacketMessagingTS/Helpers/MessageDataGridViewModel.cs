@@ -152,10 +152,10 @@ namespace PacketMessagingTS.Helpers
         private ICommand _SendReceiveCommand;
         public ICommand SendReceiveCommand => _SendReceiveCommand ?? (_SendReceiveCommand = new RelayCommand(SendReceive));
 
-        public void SendReceive()
+        public async void SendReceive()
         {
             CommunicationsService communicationsService = new CommunicationsService();
-            communicationsService.BBSConnectAsync2();
+            await communicationsService.BBSConnectAsync2();
             RefreshDataGridAsync();
         }
 

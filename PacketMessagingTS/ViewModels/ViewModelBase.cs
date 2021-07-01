@@ -75,6 +75,24 @@ namespace PacketMessagingTS.ViewModels
             return backingStore;
         }
 
+        protected string[] GetProperty(ref string[] backingStore, [CallerMemberName] string propertyName = "")
+        {
+            if (_properties != null && _properties.ContainsKey(propertyName))
+            {
+                try
+                {
+                    var o = _properties[propertyName];
+                    backingStore = JsonConvert.DeserializeObject<string[]>(_properties[propertyName].ToString());
+                }
+                catch (Exception e)
+                {
+                    _logHelper.Log(LogLevel.Error, e.Message);
+                    return backingStore;
+                }
+            }
+            return backingStore;
+        }
+
         protected T GetProperty<T>(ref T backingStore, [CallerMemberName] string propertyName = "")
         {
             if (_properties != null && _properties.ContainsKey(propertyName))
@@ -93,7 +111,7 @@ namespace PacketMessagingTS.ViewModels
             return backingStore;
         }
 
-        protected bool SetPropertyPrivate<T>(ref T backingStore, T value, bool persist = false, [CallerMemberName] string propertyName = "")
+        protected bool SetPropertyPrivate<T>(ref T backingStore, T value, bool persist = true, [CallerMemberName] string propertyName = "")
         {
             if (persist)
             {
