@@ -473,7 +473,7 @@ namespace FormControlBaseClass
             {
                 "!SCCoPIFO!",
                 $"#T: {FormControlName}.html",
-                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
+                $"#V: {ViewModelBase.PackItFormVersion}-{FormHeaderControl.ViewModelBase.PIF}",
             };
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
@@ -527,12 +527,12 @@ namespace FormControlBaseClass
                 (string id, FrameworkElement control) = GetTagIndex(formField);
                 formField.ControlIndex = id;
 
-                if (control is ToggleButtonGroup)
+                if (control is ToggleButtonGroup toggleButtonGroup)
                 {
                     string outpostValue = GetOutpostValue(id, ref msgLines);
                     if (!string.IsNullOrEmpty(outpostValue))
                     {
-                        foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
+                        foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
                         {
                             if (outpostValue == radioButton.Tag as string)
                             {
@@ -599,9 +599,9 @@ namespace FormControlBaseClass
                 {
                     (string id, FrameworkElement control) = GetTagIndex(formField);
                     formField.ControlIndex = id;    
-                    if (control is ToggleButtonGroup)
+                    if (control is ToggleButtonGroup toggleButtonGroup)
                     {
-                        foreach (RadioButton radioButton in ((ToggleButtonGroup)control).RadioButtonGroup)
+                        foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
                         {
                             string radioButtonIndex = GetTagIndex(radioButton);
                             if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
@@ -793,11 +793,11 @@ namespace FormControlBaseClass
             if (string.IsNullOrEmpty(id))
                 return "";
 
-            if (control is TextBox)
+            if (control is TextBox textBox)
             {
                 if (formProvider == FormProviders.PacForm)
                 {
-                    if (((TextBox)control).AcceptsReturn)
+                    if (textBox.AcceptsReturn)
                     {
                         return $"{id}: [\\n{formField.ControlContent}]";
                     }

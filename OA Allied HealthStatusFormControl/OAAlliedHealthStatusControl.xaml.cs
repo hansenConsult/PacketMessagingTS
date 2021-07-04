@@ -31,7 +31,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
     public sealed partial class OAAlliedHealthStatusControl : FormControlBase
     {
-        OAAlliedHealthStatusControlViewModel ViewModel = new OAAlliedHealthStatusControlViewModel();
+        readonly OAAlliedHealthStatusControlViewModel ViewModel = new OAAlliedHealthStatusControlViewModel();
 
 
         public OAAlliedHealthStatusControl()
@@ -41,9 +41,6 @@ namespace OAAlliedHealthStatus201802FormControl
             ScanControls(PrintableArea);
 
             InitializeToggleButtonGroups();
-
-            //panelName = radioOperatorControl.Panel;
-            //ScanControls(panelName, radioOperatorControl);
 
             FormHeaderControl.ViewModel.HeaderString1 = "Allied Health Status Report Short Form";
             FormHeaderControl.ViewModel.HeaderString2 = "(DEOC-9)";
@@ -119,18 +116,18 @@ namespace OAAlliedHealthStatus201802FormControl
             return $"{formHeaderControl.ViewModelBase.MessageNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
         }
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>
-            {
-                "!SCCoPIFO!",
-                "#T: form-allied-health-facility-status.html",
-                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+        //public override string CreateOutpostData(ref PacketMessage packetMessage)
+        //{
+        //    _outpostData = new List<string>
+        //    {
+        //        "!SCCoPIFO!",
+        //        "#T: form-allied-health-facility-status.html",
+        //        $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
+        //    };
+        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(_outpostData);
-        }
+        //    return CreateOutpostMessageBody(_outpostData);
+        //}
 
         protected override void UpdateRequiredFields(bool required)
         {

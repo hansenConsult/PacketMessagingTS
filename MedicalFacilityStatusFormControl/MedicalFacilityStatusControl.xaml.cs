@@ -38,7 +38,7 @@ namespace MedicalFacilityStatusFormControl
     /// </summary>
     public sealed partial class MedicalFacilityStatusControl : FormControlBase
     {
-        MedicalFacilityStatusControlViewModel ViewModel = new MedicalFacilityStatusControlViewModel();
+        readonly MedicalFacilityStatusControlViewModel ViewModel = new MedicalFacilityStatusControlViewModel();
 
 
         readonly List<ComboBoxItem> DiversionStatus = new List<ComboBoxItem>
@@ -110,18 +110,15 @@ namespace MedicalFacilityStatusFormControl
             new ComboBoxItem() { Content = "Restricted Access", Background = OrangeBrush },
             new ComboBoxItem() { Content = "Lockdown", Background = PinkBrush },
         };
-
-
-         List<ComboBoxItem> Staffing = new List<ComboBoxItem>
+        readonly List<ComboBoxItem> Staffing = new List<ComboBoxItem>
         {
             new ComboBoxItem() { Content = null, Tag = "" },
             new ComboBoxItem() { Content = "Unknown" },
             new ComboBoxItem() { Content = "Adequate", Background = LightGreenBrush },
             new ComboBoxItem() { Content = "Insufficient", Background = PinkBrush },
         };
-
-        List<ComboBoxItem> Status = new List<ComboBoxItem>();
-        List<ComboBoxItem> ClinicalSupplies = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> Status = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> ClinicalSupplies = new List<ComboBoxItem>();
 
 
     public MedicalFacilityStatusControl()
@@ -150,10 +147,6 @@ namespace MedicalFacilityStatusFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
-
-        //public override string GetPacFormName() => "form-medical-facility-status-v2";
-
         public override string PacFormType => "XSC_MedicalCacilityStatus";
 
         public string CardiologyService
@@ -175,25 +168,10 @@ namespace MedicalFacilityStatusFormControl
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
-        //public override string PIF => "3.2";
-
         public override string CreateSubject()
         {
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MedFacStat_{(hospitalName.SelectedValue as ComboBoxItem)?.Content}";
         }
-
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    _outpostData = new List<string>
-        //    {
-        //        "!SCCoPIFO!",
-        //        "#T: form-medical-facility-status-v2.html",
-        //        $"#V: {PackItFormVersion}-{ViewModelBase.PIF}",
-        //    };
-        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-        //    return CreateOutpostMessageBody(_outpostData);
-        //}
 
         protected override void UpdateRequiredFields(bool required)
         {
@@ -255,7 +233,7 @@ namespace MedicalFacilityStatusFormControl
             RadioButton radioButton = sender as RadioButton;
 
             string tag = "";
-            ToggleButtonGroup toggleButtonGroupYN = null;
+            ToggleButtonGroup toggleButtonGroupYN;
             foreach (FormControl formControl in _formControlsList)
             {
                 if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)

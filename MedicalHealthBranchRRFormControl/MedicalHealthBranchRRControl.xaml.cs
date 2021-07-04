@@ -32,8 +32,7 @@ namespace MedicalHealthBranchRRFormControl
     /// </summary>
     public sealed partial class MedicalHealthBranchRRControl : FormControlBase
     {
-        //MedicalHealthBranchRRControlViewModel ViewModel = MedicalHealthBranchRRControlViewModel.Instance;
-        MedicalHealthBranchRRControlViewModel ViewModel = new MedicalHealthBranchRRControlViewModel();
+        readonly MedicalHealthBranchRRControlViewModel ViewModel = new MedicalHealthBranchRRControlViewModel();
 
         public MedicalHealthBranchRRControl()
         {
@@ -58,10 +57,6 @@ namespace MedicalHealthBranchRRFormControl
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
-
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.HospitalForm;
-
-        //public override string GetPacFormName() => "form-medical-resource-request";
 
         public override string PacFormType => "XSC_MedicalResourceRequest";
 
@@ -107,19 +102,6 @@ namespace MedicalHealthBranchRRFormControl
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MedResReq_{requestingFacility.Text}";
         }
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>
-            {
-                "!SCCoPIFO!",
-                "#T: form-medical-resource-request.html",
-                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-            return CreateOutpostMessageBody(_outpostData);
-        }
-
         public override void FillFormFromFormFields(FormField[] formFields)
         {
             foreach (FormField formField in formFields)
@@ -130,7 +112,7 @@ namespace MedicalHealthBranchRRFormControl
                     continue;
 
                 bool found1 = true, found2 = false;
-                if (control is TextBox textBox)
+                if (control is TextBox)
                 {
                     switch (control.Name)
                     {

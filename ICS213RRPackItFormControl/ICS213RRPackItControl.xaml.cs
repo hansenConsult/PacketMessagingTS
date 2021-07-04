@@ -41,7 +41,7 @@ namespace ICS213RRPackItFormControl
     public sealed partial class ICS213RRPackItControl : FormControlBase
     {
         //ICS213RRPackItControlViewModel ViewModel = ICS213RRPackItControlViewModel.Instance;
-        ICS213RRPackItControlViewModel ViewModel = new ICS213RRPackItControlViewModel();
+        readonly ICS213RRPackItControlViewModel ViewModel = new ICS213RRPackItControlViewModel();
 
 
         public ICS213RRPackItControl()
@@ -111,25 +111,10 @@ namespace ICS213RRPackItFormControl
 
         public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
-        //public override string PIF => "2.3";
-
         public override string CreateSubject()
         {
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
         }
-
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    _outpostData = new List<string>
-        //    {
-        //        "!SCCoPIFO!",
-        //        $"#T: {GetPacFormName()}.html",
-        //        $"#V: {PackItFormVersion}-{PIF}",
-        //    };
-        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-        //    return CreateOutpostMessageBody(_outpostData);
-        //}
 
         private void SuppReqFuel_Checked(object sender, RoutedEventArgs e)
         {

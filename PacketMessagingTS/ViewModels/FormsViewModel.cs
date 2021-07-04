@@ -616,7 +616,6 @@ namespace PacketMessagingTS.ViewModels
                 TNCName = SendFormDataControlViewModel.Instance.MessageTNC,
                 FormFieldArray = PacketForm.CreateFormFieldsInXML(),
                 FormProvider = PacketForm.FormProvider,
-                //PacFormName = PacketForm.GetPacFormName(),
                 PacFormName = PacketForm.FormControlName,
                 PacFormType = PacketForm.PacFormType,
                 MessageFrom = SendFormDataControlViewModel.Instance.MessageFrom,
