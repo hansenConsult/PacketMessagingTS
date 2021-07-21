@@ -15,6 +15,8 @@ using PacketMessagingTS.Models;
 using PacketMessagingTS.Views;
 using PacketMessagingTS.ViewModels;
 
+using PacketMessagingTS.Core.Helpers;
+
 using SharedCode;
 using SharedCode.Helpers;
 

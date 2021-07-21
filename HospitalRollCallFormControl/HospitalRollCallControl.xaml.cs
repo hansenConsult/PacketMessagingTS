@@ -7,6 +7,8 @@ using FormControlBaseMvvmNameSpace;
 
 using FormControlBasicsNamespace;
 
+using PacketMessagingTS.Core.Helpers;
+
 using SharedCode;
 using SharedCode.Helpers;
 

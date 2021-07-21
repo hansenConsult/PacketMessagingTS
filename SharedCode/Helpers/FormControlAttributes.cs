@@ -10,6 +10,8 @@
 //*********************************************************
 
 
+using PacketMessagingTS.Core.Helpers;
+
 using SharedCode.Helpers;
 
 using Windows.Storage;

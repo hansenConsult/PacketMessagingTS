@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
+using PacketMessagingTS.Core.Helpers;
+
 using SharedCode.Helpers;
 
 using Windows.Storage;

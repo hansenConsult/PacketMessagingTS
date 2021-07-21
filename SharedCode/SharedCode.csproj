@@ -109,15 +109,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DateTimeConverter.cs" />
-    <Compile Include="Helpers\FormControlAttribute.cs" />
-    <Compile Include="Helpers\FormControlAttributes.cs" />
-    <Compile Include="Helpers\MessageOriginHelper.cs" />
     <Compile Include="Helpers\ContentDialogs.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelper.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelperOptions.cs" />
     <Compile Include="Helpers\PrintHelpers\PrintHelperStateBag.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
-    <Compile Include="Helpers\PublicData.cs" />
     <Compile Include="Helpers\UserControlViewModelBase.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Models\AddressBook.cs" />
@@ -138,10 +134,13 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.0.0</Version>
+      <Version>7.0.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>7.0.0</Version>
+      <Version>7.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.6.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

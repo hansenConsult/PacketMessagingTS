@@ -70,6 +70,7 @@ namespace FormUserControl
                             //textBox.BorderThickness = (Thickness)RootPanel.Resources["TextControlBorderThemeThickness"];
                             //textBox.BorderThickness = RootPanel.Resources["TextControlBorderThemeThickness"] as Thickness;
                             //formControl.BaseBorderColor = textBox.BorderBrush;
+                            CornerRadius cornerRadius = textBox.CornerRadius;
                         }
                         _formControlsList.Add(formControl);
                         break;

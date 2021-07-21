@@ -6,6 +6,7 @@ using MetroLog;
 
 using Microsoft.Toolkit.Mvvm.Input;
 
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Models;
 

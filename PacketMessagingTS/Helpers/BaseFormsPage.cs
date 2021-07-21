@@ -23,13 +23,14 @@ using PacketMessagingTS.Controls;
 
 using SharedCode;
 using SharedCode.Helpers;
-using static SharedCode.Helpers.MessageOriginHelper;
+using static PacketMessagingTS.Core.Helpers.MessageOriginHelper;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 using PacketMessagingTS.ViewModels;
+using PacketMessagingTS.Core.Helpers;
 
 namespace PacketMessagingTS.Helpers
 {

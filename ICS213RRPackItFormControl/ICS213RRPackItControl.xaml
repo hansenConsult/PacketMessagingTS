@@ -73,23 +73,25 @@
                                 <!--Text="{x:Bind InitiatedDate, Mode=TwoWay}"-->
                                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                                 <TextBox Grid.Column="1" Name="initiatedTime" PlaceholderText="hh:mm" 
-                                        Style="{StaticResource MuniStatusTimeTextBox}"                                         
-                                        TextChanged="TextBox_TimeChanged" Width="100"
-                                        Tag="23.,required,Enter the message time."
-                                        HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
-                                        Header="3. Time Initiated:" />
+                                         TextChanged="TextBox_TimeChanged" 
+                                         Width="100" Margin="2"
+                                         Tag="23.,required,Enter the message time."
+                                         HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
+                                         Header="3. Time Initiated:" />
+                                <!--Style="{StaticResource MuniStatusTimeTextBox}"-->
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                                 <TextBox Grid.Column="2" 
                                          Style="{StaticResource ReadOnlyTextBox}"
+                                         Text=""
                                          BorderThickness="0"
                                          Margin="2"
-                                         Padding="8,8,0,0" >
+                                         >
                                     <TextBox.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock FontSize="13" FontWeight="SemiBold" Margin="4,0,0,0">
                                                 <Run Text="4. Tracking Number"/>
-                                                <Run Text=" (Completed by OA EOC)" FontStyle="Italic" 
-                                                   FontWeight="Normal" Foreground="Black"/>
+                                                <Run Text=" (OA EOC)" 
+                                                     FontWeight="Normal" Foreground="Black"/>
                                             </TextBlock>
                                         </DataTemplate>
                                     </TextBox.HeaderTemplate>
@@ -220,11 +222,12 @@
                                 <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
                                 <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" 
                                           Tag="31.,required" Width="136"
-                                          Style="{StaticResource MuniStatusComboBox}"
+                                          Margin="2"
                                           ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
                                           Loaded="ComboBox_Loaded"                                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                                <!--Style="{StaticResource MuniStatusComboBox}"-->
                                 <!--DisplayMemberPath="Item"
                                           SelectedValuePath="Item"-->
 

@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls;
 using FormControlBaseMvvmNameSpace;
 using MVCERTDA_FormControl;
 using Windows.UI.Xaml;
+using PacketMessagingTS.Core.Helpers;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

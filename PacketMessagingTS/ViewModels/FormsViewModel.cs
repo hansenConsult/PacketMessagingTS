@@ -47,7 +47,6 @@ namespace PacketMessagingTS.ViewModels
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<BaseFormsPage>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
-        //public List<FormControlAttributes> _formControlAttributeList;
         protected PivotItem _pivotItem;
         protected PacketMessage _packetMessage;
         protected SendFormDataControl _packetAddressForm;
@@ -59,10 +58,9 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModel.MessageNo;
-                else
-                    return _packetForm.ViewModelBase.MessageNo;
+                return _packetForm.FormHeaderControl != null
+                    ? _packetForm.FormHeaderControl.ViewModel.MessageNo
+                    : _packetForm.ViewModelBase.MessageNo;
             }
             set
             {
@@ -80,17 +78,20 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModel.DestinationMsgNo;
-                else
-                    return _packetForm.ViewModelBase.DestinationMsgNo;
+                return _packetForm.FormHeaderControl != null
+                    ? _packetForm.FormHeaderControl.ViewModel.DestinationMsgNo
+                    : _packetForm.ViewModelBase.DestinationMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
+                {
                     _packetForm.FormHeaderControl.ViewModel.DestinationMsgNo = value;
+                }
                 else
+                {
                     _packetForm.ViewModelBase.DestinationMsgNo = value;
+                }
             }
         }
 
@@ -98,17 +99,20 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModel.OriginMsgNo;
-                else
-                    return _packetForm.ViewModelBase.OriginMsgNo;
+                return _packetForm.FormHeaderControl != null
+                    ? _packetForm.FormHeaderControl.ViewModel.OriginMsgNo
+                    : _packetForm.ViewModelBase.OriginMsgNo;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
+                {
                     _packetForm.FormHeaderControl.ViewModel.OriginMsgNo = value;
+                }
                 else
+                {
                     _packetForm.ViewModelBase.OriginMsgNo = value;
+                }
             }
         }
 
@@ -116,10 +120,9 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModel.MsgDate;
-                else
-                    return _packetForm.ViewModelBase.MsgDate;
+                return _packetForm.FormHeaderControl != null
+                    ? _packetForm.FormHeaderControl.ViewModel.MsgDate
+                    : _packetForm.ViewModelBase.MsgDate;
             }
             set
             {
@@ -127,10 +130,14 @@ namespace PacketMessagingTS.ViewModels
                 {
                     _packetForm.FormHeaderControl.ViewModel.MsgDate = value;
                     if (_packetForm.ViewModelBase != null)
+                    {
                         _packetForm.ViewModelBase.MsgDate = value;
+                    }
                 }
                 else
+                {
                     _packetForm.ViewModelBase.MsgDate = value;
+                }
             }
         }
 
@@ -138,21 +145,20 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_packetForm.FormHeaderControl != null)
-                {
-                    return _packetForm.FormHeaderControl.ViewModel.MsgTime;
-                }
-                else
-                {
-                    return _packetForm.ViewModelBase.MsgTime;
-                }
+                return _packetForm.FormHeaderControl != null
+                    ? _packetForm.FormHeaderControl.ViewModel.MsgTime
+                    : _packetForm.ViewModelBase.MsgTime;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
+                {
                     _packetForm.FormHeaderControl.ViewModel.MsgTime = value;
+                }
                 else
+                {
                     _packetForm.ViewModelBase.MsgTime = value;
+                }
             }
         }
 
@@ -162,9 +168,13 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 if (_packetForm.RadioOperatorControl != null)
+                {
                     _packetForm.RadioOperatorControl.ViewModel.OperatorName = value;
+                }
                 else
+                {
                     _packetForm.ViewModelBase.OperatorName = value;
+                }
             }
         }
 
@@ -174,9 +184,13 @@ namespace PacketMessagingTS.ViewModels
             set
             {
                 if (_packetForm.RadioOperatorControl != null)
+                {
                     _packetForm.RadioOperatorControl.ViewModel.OperatorCallsign = value;
+                }
                 else
+                {
                     _packetForm.ViewModelBase.OperatorCallsign = value;
+                }
             }
         }
 
@@ -184,17 +198,20 @@ namespace PacketMessagingTS.ViewModels
         {
             get
             {
-                if (_packetForm.FormHeaderControl != null)
-                    return _packetForm.FormHeaderControl.ViewModel.HandlingOrder;
-                else
-                    return _packetForm.ViewModelBase.HandlingOrder;
+                return _packetForm.FormHeaderControl != null
+                    ? _packetForm.FormHeaderControl.ViewModel.HandlingOrder
+                    : _packetForm.ViewModelBase.HandlingOrder;
             }
             set
             {
                 if (_packetForm.FormHeaderControl != null)
+                {
                     _packetForm.FormHeaderControl.ViewModel.HandlingOrder = value;
+                }
                 else
+                {
                     _packetForm.ViewModelBase.HandlingOrder = value;
+                }
             }
         }
 
@@ -203,10 +220,7 @@ namespace PacketMessagingTS.ViewModels
             //get => isAppBarSendEnabled;
             get
             {
-                if (_packetMessage is null)
-                    IsAppBarSendEnabled = true;
-                else
-                    IsAppBarSendEnabled = !(_packetMessage.MessageState == MessageState.Locked);
+                IsAppBarSendEnabled = _packetMessage is null ? true : !(_packetMessage.MessageState == MessageState.Locked);
 
                 return _isAppBarSendEnabled;
             }
@@ -216,12 +230,7 @@ namespace PacketMessagingTS.ViewModels
         public BaseFormsPage FormsPage
         { get; set; }
 
-        private bool _loadMessage;
-        public bool LoadMessage
-        {
-            get => _loadMessage;
-            set => _loadMessage = value;
-        }
+        public bool LoadMessage { get; set; }
 
         //private MessageOriginHelper.MessageOrigin _messageOrigin = MessageOriginHelper.MessageOrigin.New;
         //public MessageOriginHelper.MessageOrigin MessageOrigin
@@ -350,15 +359,11 @@ namespace PacketMessagingTS.ViewModels
             }
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
             SendFormDataControlViewModel.Instance.MessageFrom = _packetMessage.MessageFrom;
-            //_packetAddressForm.MessageFrom = _packetMessage.MessageFrom;
-            //_packetAddressForm.MessageTo = _packetMessage.MessageTo;
             SendFormDataControlViewModel.Instance.MessageTo = _packetMessage.MessageTo;
-            //_packetAddressForm.MessageSubject = _packetMessage.Subject;
             SendFormDataControlViewModel.Instance.MessageSubject = _packetMessage.Subject;
 
             //string opcall = _packetForm.OperatorCallsign;//test
             // Special handling for SimpleMessage
-            //_packetForm.MessageNo = _packetMessage.MessageNumber;
             MessageNo = _packetMessage.MessageNumber;
             if (_packetForm.PacFormType == "SimpleMessage")
             {

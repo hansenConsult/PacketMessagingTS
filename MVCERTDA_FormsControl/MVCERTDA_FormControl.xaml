@@ -39,6 +39,7 @@
                 <Setter Property="Width" Value="44"/>
                 <Setter Property="TextAlignment" Value="Right"/>
                 <Setter Property="Margin" Value="1,0,1,1"/>
+                <Setter Property="CornerRadius" Value="4"/>
             </Style>
             <!--<Style x:Key="TextBoxDA" TargetType="TextBox">
                 <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>

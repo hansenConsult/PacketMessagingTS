@@ -20,6 +20,7 @@ using SharedCode.Helpers;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using PacketMessagingTS.Core.Helpers;
 
 namespace PacketMessagingTS.Helpers
 {

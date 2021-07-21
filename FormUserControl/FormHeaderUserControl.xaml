@@ -26,11 +26,12 @@
                 <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
                 <Setter Property="Margin" Value="8,2,2,2"/>
             </Style>
-            <Style x:Key="LocalTextBox" TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}">
+            <!--<Style x:Key="LocalTextBox" TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}">-->
+            <Style x:Key="LocalTextBox" TargetType="TextBox" >
                 <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="FontSize" Value="12"/>
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="Foreground" Value="Black"/>
+                <!--<Setter Property="Background" Value="White"/>
+                <Setter Property="Foreground" Value="Black"/>-->
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -41,11 +42,13 @@
                 <Setter Property="Width" Value="102"/>
                 <Setter Property="PlaceholderText" Value="mm/dd/yyyy"/>
             </Style>
-            <Style x:Key="TimeTextBox" TargetType="TextBox" BasedOn="{StaticResource LocalTextBox}">
+            <!--<Style x:Key="TimeTextBox" TargetType="TextBox" BasedOn="{StaticResource LocalTextBox}">-->
+            <Style x:Key="TimeTextBox" TargetType="TextBox" >
                 <Setter Property="Width" Value="70"/>
                 <Setter Property="PlaceholderText" Value="hh:mm"/>
             </Style>
 
+            <!--C:\Program Files (x86)\Windows Kits\10\DesignTime\CommonConfiguration\Neutral\UAP\10.0.19041.0\Generic\generic.xaml-->
             <Style TargetType="TextBox" x:Key="AutoSuggestBoxTextBoxStyle">
                 <Setter Property="IsReadOnly" Value="{TemplateBinding IsReadOnly}" />
                 <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
@@ -751,10 +754,13 @@
             <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
                        VerticalAlignment="Center" Margin="8,0,0,0"/>
             <TextBox Grid.Column="3" x:Name="msgTime" 
-                     Style="{StaticResource TimeTextBox}"       
+                     PlaceholderText="hh:mm"
+                     Margin="2"
+                     Width="70"
                      Text="{x:Bind Mode=TwoWay, Path=ViewModel.MsgTime}"
                      TextChanged="TextBox_MsgTimeChanged"
                      Tag="1b.,required"/>
+            <!--Style="{StaticResource TimeTextBox}"-->
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
                                            Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
@@ -901,12 +907,13 @@
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="ICS Position:"  />
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="8,2,2,2"     
                                 PlaceholderText="Select ICS Position"
-                                Style="{StaticResource AutoSuggestICSPosition}"                                                    
                                 BorderBrush="Gray"
                                 BorderThickness="1"
+                                CornerRadius="4,4,4,4"
                                 TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                 SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                 Tag="7a.,required,Enter a To Position." />
+                <!--Style="{StaticResource AutoSuggestICSPosition}"-->
                 <TextBox  Grid.Column="1" x:Name="autoSuggestBoxToICSPositionTextBox"
                           Style="{StaticResource ToFromTextBox}"
                           Visibility="Collapsed" />
@@ -923,12 +930,13 @@
                            Text="ICS Position:"  />
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxFromICSPosition" Margin="8,2,2,2"     
                                 PlaceholderText="Select ICS Position"
-                                Style="{StaticResource AutoSuggestICSPosition}"                                                    
                                 BorderBrush="Gray"
                                 BorderThickness="1"
+                                CornerRadius="4,4,4,4"
                                 TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                 SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                 Tag="8a.,required,Enter a From Position." />
+                <!--Style="{StaticResource AutoSuggestICSPosition}"-->
                 <TextBox  Grid.Column="1" x:Name="autoSuggestBoxFromICSPositionTextBox"
                           Style="{StaticResource ToFromTextBox}"
                           Visibility="Collapsed" />
@@ -968,7 +976,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource BodyTextBlockStyle}"/>
+                <!--<TextBlock Style="{StaticResource BodyTextBlockStyle}"/>-->
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
                 <TextBox Grid.Column="1" x:Name="toName" 
                          Margin="8,2,2,2"
@@ -985,8 +993,8 @@
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="15*"/>
-                    <ColumnDefinition Width="53*"/>
+                    <!--<ColumnDefinition Width="60"/>-->
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="toContactInfo" 

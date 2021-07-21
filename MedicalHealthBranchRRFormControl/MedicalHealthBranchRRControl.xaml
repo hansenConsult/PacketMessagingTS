@@ -19,6 +19,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
@@ -132,18 +133,18 @@
                             <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0"/>
                             <TextBox Grid.Column="1"  x:Name="requestDate"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      Text="{x:Bind ViewModel.RequestMsgDate, Mode=TwoWay}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="20a.,required"/>
                             <TextBlock Grid.Column="2" Text="Time of Request:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <TextBox Grid.Column="3" x:Name="requestTime" 
-                                     Style="{StaticResource MuniStatusTimeTextBox}"
+                                     Style="{StaticResource FormsTimeTextBox}"
                                      TextChanged="TextBox_TimeChanged"
                                      Tag="20b.,required"/>
                             <TextBlock Grid.Column="4" Text="Requesting Facility:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <TextBox Grid.Column="5" x:Name="requestingFacility" 
-                                     Style="{StaticResource MedicalFacilityStatusCommentsText}"
+                                     Margin="2,2,8,2"
                                      TextChanged="Subject_Changed"
                                      Tag="21.,required" />
                         </Grid>
@@ -159,16 +160,15 @@
                             <TextBlock Grid.Column="0" Text="Contact:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0" />
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0" Margin="2,0,0,2"/>
                             <TextBox Grid.Column="1" x:Name="contact" Margin="4,2,6,4" 
-                                     Style="{StaticResource MedicalFacilityStatusCommentsText}" 
                                      TextChanged="TextBox_TextChanged"
                                      Tag="22.,required"/>
                             <TextBlock Grid.Column="2" Text="Phone:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="12,0,0,0"/>
                             <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,1,0" Margin="2,0,0,2"/>
-                            <TextBox Grid.Column="3" x:Name="contactPhone" Style="{StaticResource MuniStatusPhoneTextBox}" 
+                            <TextBox Grid.Column="3" x:Name="contactPhone" Style="{StaticResource FormsPhoneTextBox}" 
                                      TextChanged="TextBox_PhoneChanged"
                                      Tag="22p.,required" Margin="4,0,6,0"/>
                             <TextBlock Grid.Column="4" Text="Fax:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" Margin="10,0,2,0"/>
-                            <TextBox Grid.Column="5" x:Name="contactFax" Style="{StaticResource MuniStatusPhoneTextBox}" 
+                            <TextBox Grid.Column="5" x:Name="contactFax" Style="{StaticResource FormsPhoneTextBox}" 
                                      TextChanged="TextBox_PhoneChanged"
                                      Tag="22f." Margin="4,0,6,0"/>
                         </Grid>
@@ -217,7 +217,6 @@
                                              Content="Personnel"
                                              Checked="RadioButton_SelectionChanged" Tag="Personnel"/>
                                 <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="natureOtherComments" 
-                                         Style="{StaticResource MedicalFacilityStatusCommentsText}" 
                                          Tag="23o." Margin="2" BorderBrush="Black" BorderThickness="1"/>
                             </Grid>
                             <Grid Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,1,0">
@@ -296,7 +295,6 @@
                                     <TextBlock Text="Bill to:" Margin="8,4,0,0"
                                                Style="{StaticResource MedicalFacilityStatusLeftHeaderText}" />
                                     <TextBox Grid.Row="1" x:Name="billTo" Margin="2"
-                                             Style="{StaticResource MedicalFacilityStatusCommentsText}" 
                                              TextChanged="TextBox_TextChanged"
                                              Tag="25a.,required" />
                                 </Grid>
@@ -308,7 +306,6 @@
                                     <TextBlock Text="Organizational Authorization ID:" Margin="8,4,0,0"
                                                Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                     <TextBox Grid.Row="1" x:Name="iD" Margin="2"
-                                             Style="{StaticResource MedicalFacilityStatusCommentsText}"
                                              TextChanged="TextBox_TextChanged"
                                              Tag="25b.,required" />
                                 </Grid>
@@ -318,7 +315,7 @@
                             <TextBlock Text="Priority:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <ComboBox x:Name="ReqPriority" Width="150"
                                       ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="26.,required"/>
@@ -335,7 +332,6 @@
                             <TextBlock FontStyle="Italic" TextWrapping="WrapWholeWords" Margin="8,0,0,0"
                                        Text="Directions: Include quantity, need by, deliver location, duration, specifications, etc. Use one form per request."/>
                             <TextBox x:Name="resourceDescription" Height="92" Margin="2"
-                                     Style="{StaticResource MedicalFacilityStatusCommentsText}"
                                      TextChanged="TextBox_TextChanged"
                                      Tag="27.,required"/>
                             <Border Height="24" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,1">
@@ -355,14 +351,15 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="Name:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBox Grid.Column="1" x:Name="requestorName" 
-                                         Style="{StaticResource MedicalFacilityStatusCommentsText}"
+                                         Margin="2,2,8,2"
                                          TextChanged="TextBox_TextChanged"
                                          Tag="30.,required"/>
                                 <TextBlock Grid.Column="2" Text="Signed:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBlock Grid.Column="3"  Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBox Grid.Column="5" x:Name="requestorDate" 
-                                         Style="{StaticResource MuniStatusDateTextBox}"
+                                         Style="{StaticResource FormsDateTextBox}"
+                                         Margin="2,2,8,2"
                                          TextChanged="TextBox_DateChanged"
                                          Tag="30d.,required"/>
                             </Grid>

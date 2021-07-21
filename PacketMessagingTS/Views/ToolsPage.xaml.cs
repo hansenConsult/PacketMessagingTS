@@ -771,7 +771,7 @@ namespace PacketMessagingTS.Views
             }
         }
 
-        private void TestReceivedMessage_Click(object sender, RoutedEventArgs e)
+        private async void TestReceivedMessage_Click(object sender, RoutedEventArgs e)
         {
             bool TestWithoutConnecting = true;
             if (TestWithoutConnecting)
@@ -966,7 +966,7 @@ namespace PacketMessagingTS.Views
                 //";
                 CommunicationsService communicationsService = new CommunicationsService();
                 communicationsService._packetMessagesReceived.Add(packetMsg);
-                communicationsService.ProcessReceivedMessagesAsync();
+                await communicationsService.ProcessReceivedMessagesAsync();
             }
             else
             {

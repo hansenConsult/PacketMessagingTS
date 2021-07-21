@@ -351,13 +351,14 @@
                                                    FontWeight="Bold" Foreground="Black"
                                                    Text="7. ICS Position:" />
                                         <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="4,0,4,2"  
-                                                        PlaceholderText="Select ICS Position"
-                                                        Style="{StaticResource AutoSuggestICSPosition}"
+                                                        PlaceholderText="Select ICS Position"                                                        
                                                         BorderBrush="Gray"
                                                         BorderThickness="1"
+                                                        CornerRadius="4,4,4,4"
                                                         TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                         Tag="7.,required,Enter a To Position."/>
+                                        <!--Style="{StaticResource AutoSuggestICSPosition}"-->
                                         <TextBox x:Name="autoSuggestBoxToICSPositionTextBox" 
                                                  Visibility="Collapsed" Margin="4,0,4,2" />
                                     </StackPanel>
@@ -371,12 +372,13 @@
                                                        Text="8. ICS Position:" />
                                         <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="4,0,4,2"
                                                         PlaceholderText="Select ICS Position"
-                                                        Style="{StaticResource AutoSuggestICSPosition}"
                                                         BorderBrush="Gray"
                                                         BorderThickness="1"
+                                                        CornerRadius="4,4,4,4"
                                                         TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                                         SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                                         Tag="8.,required,Enter a From position." FontFamily="Times New Roman"/>
+                                        <!--Style="{StaticResource AutoSuggestICSPosition}"-->
                                         <TextBox x:Name="autoSuggestBoxFromICSPositionTextBox" 
                                                  Visibility="Collapsed" Margin="4,0,4,2" />
 

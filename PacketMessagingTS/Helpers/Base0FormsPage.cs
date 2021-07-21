@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
-using static SharedCode.Helpers.MessageOriginHelper;
+using static PacketMessagingTS.Core.Helpers.MessageOriginHelper;
 
 namespace PacketMessagingTS.Helpers
 {

@@ -25,6 +25,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using System.Linq;
+using PacketMessagingTS.Core.Helpers;
 
 namespace FormControlBaseClass
 {

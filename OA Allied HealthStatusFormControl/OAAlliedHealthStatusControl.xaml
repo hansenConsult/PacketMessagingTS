@@ -21,6 +21,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="TextControlThemeMinWidth">44</x:Double>
@@ -55,9 +56,10 @@
                 <!--<Setter Property="VerticalContentAlignment" Value="Center"/>-->
                 <Setter Property="Margin" Value="2"/>
                 <!--<Setter Property="Padding" Value="8,8,0,0"/>-->
+                <Setter Property="CornerRadius" Value="4"/>
             </Style>
 
-            <Style x:Key="AlliedPhoneTextBox" TargetType="TextBox" BasedOn="{StaticResource MuniStatusTextBox}">
+            <Style x:Key="AlliedPhoneTextBox" TargetType="TextBox" BasedOn="{StaticResource FormsTextBox}">
                 <Setter Property="Height" Value="32"/>
                 <Setter Property="PlaceholderText" Value="000-000-0000 x00"/>
                 <!--<Setter Property="Padding" Value="0"/>-->
@@ -73,6 +75,7 @@
                 <!--<Setter Property="VerticalContentAlignment" Value="Center"/>-->
                 <!--<Setter Property="Height" Value="24"/>-->
                 <Setter Property="Margin" Value="2"/>
+                <Setter Property="CornerRadius" Value="4"/>
             </Style>
 
             <Style x:Key="AlliedHeaderText" TargetType="TextBlock">
@@ -281,6 +284,7 @@
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2"/>
+                <Setter Property="CornerRadius" Value="4"/>
             </Style>
             <Style x:Key="TextBoxResourceAvail" TargetType="TextBox" >
                 <Setter Property="Background" Value="White"/>
@@ -288,7 +292,7 @@
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="2"/>
-
+                <Setter Property="CornerRadius" Value="4"/>
             </Style>
             <Style x:Key="TextBoxOAAlliedHealth" TargetType="TextBox" >
                 <Setter Property="Background" Value="White"/>
@@ -364,14 +368,14 @@
                                          Tag="21.,conditionallyrequired" />
                                 <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="1" x:Name="facilityDate"
-                                         Style="{StaticResource MuniStatusDateTextBox}"    
+                                         Style="{StaticResource FormsDateTextBox}"    
                                          Text="{x:Bind ViewModel.FacilityDate, Mode=OneWay}"
                                          HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22d.,required"
                                          Header="Date:"
                                          TextChanged="TextBox_DateChanged"/>
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="2" x:Name="facilityTime" Header="Time:"  
-                                         Style="{StaticResource MuniStatusTimeTextBox}"
+                                         Style="{StaticResource FormsTimeTextBox}"
                                          HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16,required" 
                                          PlaceholderText="hh:mm" TextChanged="TextBox_TimeChanged"/>
                             </Grid>
@@ -411,7 +415,7 @@
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}" 
                                      TextChanged="TextBox_TextChanged" Tag="25.,conditionallyrequired"/>
                                 <TextBox Grid.Column="1" x:Name="incidentDate"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      Header=" "
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"
                                      TextChanged="TextBox_DateChanged"
@@ -1383,10 +1387,10 @@ to Public Health/Medical Health Branch"
                                        Style="{StaticResource AlliedHeaderText}" />
                                 <Border Grid.Row="1" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
+                                         Style="{StaticResource TextBoxResourceAvail}" 
                                          ui:TextBoxExtensions.ValidationMode="Dynamic"
                                          ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40a.,conditionallyrequired"/>
+                                         TextChanged="TextBoxResource_TextChanged" Tag="40a.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="2" 
                                      Style="{StaticResource TextBoxResourceAvail}" 

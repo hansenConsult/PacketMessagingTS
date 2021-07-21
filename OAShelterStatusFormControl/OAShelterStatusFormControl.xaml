@@ -15,147 +15,9 @@
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <!--<Style TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItemRevealStyle}" />-->
-            <!--<Style TargetType="ComboBoxItem" x:Key="ComboBoxItemRevealStyle">
-                <Setter Property="Foreground" Value="{ThemeResource ComboBoxItemForeground}" />
-                <Setter Property="Background" Value="YellowBrush" />
-                <Setter Property="BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrush}" />
-                <Setter Property="BorderThickness" Value="{ThemeResource ComboBoxItemRevealBorderThemeThickness}" />
-                <Setter Property="TabNavigation" Value="Local" />
-                <Setter Property="Padding" Value="{ThemeResource ComboBoxItemRevealThemePadding}" />
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ComboBoxItem">
-                            <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" Control.IsTemplateFocusTarget="True">
-
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal">
-
-                                            <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
-                                            </Storyboard>
-                                        </VisualState>
-
-                                        <VisualState x:Name="PointerOver">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="PointerOver" />
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundPointerOver}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushPointerOver}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundPointerOver}" />
-                                            </VisualState.Setters>
-
-                                            <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
-                                            </Storyboard>
-                                        </VisualState>
-
-                                        <VisualState x:Name="Disabled">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundDisabled}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushDisabled}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundDisabled}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                        <VisualState x:Name="Pressed">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundPressed}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushPressed}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundPressed}" />
-                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="Pressed" />
-                                            </VisualState.Setters>
-
-                                            <Storyboard>
-                                                <PointerDownThemeAnimation Storyboard.TargetName="LayoutRoot" />
-                                            </Storyboard>
-                                        </VisualState>
-
-                                        <VisualState x:Name="Selected">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelected}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelected}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelected}" />
-                                            </VisualState.Setters>
-
-                                            <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="SelectedUnfocused">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedUnfocused}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedUnfocused}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedUnfocused}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="SelectedDisabled">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedDisabled}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedDisabled}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedDisabled}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="SelectedPointerOver">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedPointerOver}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedPointerOver}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedPointerOver}" />
-                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="PointerOver" />
-                                            </VisualState.Setters>
-
-                                            <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="SelectedPressed">
-                                            <VisualState.Setters>
-                                                <Setter Target="LayoutRoot.Background" Value="{ThemeResource ComboBoxItemRevealBackgroundSelectedPressed}" />
-                                                <Setter Target="LayoutRoot.BorderBrush" Value="{ThemeResource ComboBoxItemRevealBorderBrushSelectedPressed}" />
-                                                <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ComboBoxItemForegroundSelectedPressed}" />
-                                                <Setter Target="LayoutRoot.(RevealBrush.State)" Value="Pressed" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-                                    <VisualStateGroup x:Name="InputModeStates">
-                                        <VisualState x:Name="InputModeDefault" />
-                                        <VisualState x:Name="TouchInputMode">
-                                            <VisualState.Setters>
-                                                <Setter Target="ContentPresenter.Margin" Value="{ThemeResource ComboBoxItemRevealThemeTouchPadding}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="GameControllerInputMode">
-                                            <VisualState.Setters>
-                                                <Setter Target="ContentPresenter.Margin" Value="{ThemeResource ComboBoxItemRevealThemeGameControllerPadding}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-
-                                </VisualStateManager.VisualStateGroups>
-                                <ContentPresenter x:Name="ContentPresenter"
-                            Content="{TemplateBinding Content}"
-                            ContentTransitions="{TemplateBinding ContentTransitions}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Foreground="{TemplateBinding Foreground}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Margin="{TemplateBinding Padding}" />
-
-                            </Grid>
-
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>-->
-            <!--<Color x:Key="YellowBrush">#FF1F1F1F</Color>-->
-            <!--<SolidColorBrush x:Key="ComboBoxItemBackground" Color="{StaticResource YellowBrush}" />-->
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -222,7 +84,7 @@
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterType" 
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind ShelterTypes}" 
                                       SelectedValuePath="Content"
                                       Tag="30.,conditionallyrequired"
@@ -234,14 +96,14 @@
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Status:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <!--<ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       DisplayMemberPath="Item"                                      
                                       ItemsSource="{x:Bind ShelterStatuses}" 
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="31.,conditionallyrequired,Select shelter status" />-->
                             <ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind ShelterStatuses}" 
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
@@ -254,7 +116,8 @@
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Name:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="3" x:Name="shelterDetailsName"
-                                     Style="{StaticResource ReadOnlyTextBox}" Margin="2"
+                                     Style="{StaticResource ReadOnlyTextBox}" 
+                                     Margin="2"
                                      
                                      Tag=""/>
                             <!--Text="{x:Bind ShelterName, Mode=TwoWay}"-->
@@ -270,7 +133,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="City:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="5" x:Name="shelterCity" Width="180"
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind Municipalities}" 
                                       SelectedValuePath="Content"
                                       Tag="33b.,conditionallyrequired,Select a city name"
@@ -282,7 +145,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="State:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="6" x:Name="state"
-                                     Style="{StaticResource MuniStatusTextBox}" 
+                                     Style="{StaticResource FormsTextBox}" 
                                      TextChanged="TextBox_TextChanged"
                                      Tag="33c.,conditionallyrequired"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
@@ -290,16 +153,16 @@
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="7" x:Name="zip" Width="100"
                                      HorizontalAlignment="Left"
-                                     Style="{StaticResource MuniStatusTextBox}" Tag="33d."/>
+                                     Style="{StaticResource FormsTextBox}" Tag="33d."/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="Latitude:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <StackPanel Grid.Column="1" Grid.Row="8"  Orientation="Horizontal" >
                                 <TextBox PlaceholderText="d.ddd" Width="150" 
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="37a."/>
+                                         Style="{StaticResource FormsTextBox}" Tag="37a."/>
                                 <TextBlock Text="   Longitude:" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox PlaceholderText="d.ddd" Width="150" 
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="37b."/>
+                                         Style="{StaticResource FormsTextBox}" Tag="37b."/>
                             </StackPanel>
                         </Grid>
                         <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,0,1,0">
@@ -328,7 +191,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Capacity:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox x:Name="capacity" Grid.Column="1" Grid.Row="1" Margin="2"
-                                     Style="{StaticResource MuniStatusNumberTextBox}"
+                                     Style="{StaticResource FormsNumberTextBox}"
                                      Width="73" HorizontalAlignment="Left" Tag="40a.,conditionallyrequired"
                                      TextChanged="Capacity_TextChanged" VerticalAlignment="Center"/>
                             <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
@@ -336,32 +199,33 @@
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" BorderBrush="Black" BorderThickness="0,1,0,0">
                                 <TextBox x:Name="occupancy" Width="73" HorizontalAlignment="Left" 
-                                         Style="{StaticResource MuniStatusNumberTextBox}" Tag="40b.,conditionallyrequired"
+                                         Style="{StaticResource FormsNumberTextBox}" Tag="40b.,conditionallyrequired"
                                          TextChanged="Capacity_TextChanged" Margin="2" VerticalAlignment="Center"/>
                                 <TextBlock Text="       Availability:" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <TextBox x:Name="availablity" Width="66" HorizontalAlignment="Left"  
-                                         Style="{StaticResource ReadOnlyTextBox}" 
+                                         Style="{StaticResource FormsTextBox}" 
+                                         IsReadOnly="True"
                                          Tag="" Margin="2" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" Text="Meals Served (last 24 hours):" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="4" 
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource FormsTextBox}"
                                      HorizontalAlignment="Stretch" Tag="41." 
                                      Margin="2" VerticalAlignment="Center" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" Text="NSS Number:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="5" x:Name="nssNumber"
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource FormsTextBox}"
                                      HorizontalAlignment="Stretch" Tag="42." 
                                      Margin=" 2,1,2,1" VerticalAlignment="Center" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Pet Friendly:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="6" x:Name="petFriendly"
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentPet}" Tag="43a."
                                       SelectedValuePath="Content"
                                       Loaded="ComboBox_Loaded"/>
@@ -371,7 +235,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Basic Safety Inspection:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="7" x:Name="basicSafety"
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentSafety}" Tag="43b."
                                       SelectedValuePath="Content"
                                       Loaded="ComboBox_Loaded"/>
@@ -381,7 +245,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="ATC 20 Inspection:" 
                                    Style="{StaticResource ShelterStatusHeaderText}"/>
                             <ComboBox Grid.Column="1" Grid.Row="8" x:Name="act20Inspection"
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentArt20}" Tag="43c."
                                       SelectedValuePath="Content"
                                       Loaded="ComboBox_Loaded" Margin="3,2,0,0" VerticalAlignment="Top"/>
@@ -393,19 +257,19 @@
                             <TextBox Grid.Column="1" Grid.Row="9" x:Name="availableServices" Height="30"
                                      AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
                                      HorizontalAlignment="Stretch" Margin=" 2,1,2,1"
-                                     Style="{StaticResource MuniStatusTextBox}" Tag="44."/>
+                                     Style="{StaticResource FormsTextBox}" Tag="44."/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="10" Text="MOU:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="10" x:Name="mouTextBox" 
-                                     Style="{StaticResource MuniStatusTextBox}" Margin=" 2,1,2,1"
+                                     Style="{StaticResource FormsTextBox}" Margin=" 2,1,2,1"
                                      PlaceholderText="where/how sent"
                                      Tag="45." />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="11" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="11" Text="Floor Plan:" 
                                    Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="11"
-                                     Style="{StaticResource MuniStatusTextBox}" Margin=" 2,1,2,1"
+                                     Style="{StaticResource FormsTextBox}" Margin=" 2,1,2,1"
                                      PlaceholderText="where/how sent"
                                      Tag="46."/>
                         </Grid>
@@ -440,7 +304,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Managed By:" 
                                        Style="{StaticResource ShelterStatusHeaderText}" />
                             <ComboBox Grid.Column="1" Grid.Row="1" x:Name="managedBy" 
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=Managers}" 
                                       SelectedItem="American Red Cross" 
@@ -452,30 +316,30 @@
                             <TextBlock Grid.Column="0" Grid.Row="2" 
                                        Text="Managed By Detail:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="2" 
-                                     Style="{StaticResource MuniStatusTextBox}" Tag="50b." Margin="2"/>
+                                     Style="{StaticResource FormsTextBox}" Tag="50b." Margin="2"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" 
                                        Text="Primary Contact:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="3" x:Name="primaryContact"
-                                     Style="{StaticResource MuniStatusTextBox}" Tag="51a.,conditionallyrequired" Margin="2"/>
+                                     Style="{StaticResource FormsTextBox}" Tag="51a.,conditionallyrequired" Margin="2"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="4" 
                                        Text="Primary Contact Phone:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="4" x:Name="primaryContactPhone"
-                                     Style="{StaticResource MuniStatusPhoneTextBox}"                                     
+                                     Style="{StaticResource FormsPhoneTextBox}"                                     
                                      Tag="51b.,conditionallyrequired" Margin="2" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="5" 
                                        Text="Secondary Contact:" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="5" 
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource FormsTextBox}"
                                      Tag="52a." />
                             <TextBlock Grid.Column="0" Grid.Row="6" 
                                        Text="Secondary Phone:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Column="1" Grid.Row="6"
-                                     Style="{StaticResource MuniStatusPhoneTextBox}"
+                                     Style="{StaticResource FormsPhoneTextBox}"
                                      HorizontalAlignment="Left" Tag="52b." />
                         </Grid>
                         <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,0">
@@ -500,20 +364,20 @@
                                        Text="Tactical Call Sign:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="1" 
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource FormsTextBox}"
                                      Width="100" HorizontalAlignment="Left" Tag="60."/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Repeater Call Sign:" 
                                        Style="{StaticResource ShelterStatusHeaderText}" />
                             <TextBox Grid.Column="1" Grid.Row="2" 
-                                     Style="{StaticResource MuniStatusTextBox}"
+                                     Style="{StaticResource FormsTextBox}"
                                      Width="100" Tag="61." HorizontalAlignment="Left"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Repeater Input:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" >
                                 <TextBox Width="160" 
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="62a."/>
+                                         Style="{StaticResource FormsTextBox}" Tag="62a."/>
                                 <TextBlock Text="MHz" Margin="5,0,10,0" VerticalAlignment="Center"/>
                                 <Border BorderBrush="Black" BorderThickness="1,0,0,0"/>
                                 <TextBlock Text="Tone or Code:" Style="{StaticResource ShelterStatusHeaderText}" Margin="10,0,4,0"/>
@@ -524,7 +388,7 @@
                                        Style="{StaticResource ShelterStatusHeaderText}" />
                             <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" >
                                 <TextBox Width="160" 
-                                         Style="{StaticResource MuniStatusTextBox}" Tag="63a."/>
+                                         Style="{StaticResource FormsTextBox}" Tag="63a."/>
                                 <TextBlock Text="MHz" Margin="5,0,10,0" Style="{StaticResource ShelterStatusHeaderText}"/>
                                 <Border BorderBrush="Black" BorderThickness="1,0,0,0"/>
                                 <TextBlock Text="Tone or Code:" Style="{StaticResource ShelterStatusHeaderText}" Margin="10,0,4,0"/>
@@ -535,7 +399,7 @@
                                        Style="{StaticResource ShelterStatusHeaderText}" />
                             <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
                                 <TextBox  Width="160"  
-                                     Style="{StaticResource MuniStatusTextBox}" 
+                                     Style="{StaticResource FormsTextBox}" 
                                      Tag="62c."/>
                                 <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">MHz (or "+" or "-" for standard)</TextBlock>
                             </StackPanel>
@@ -558,7 +422,7 @@
                             <TextBox Grid.Column="1" Grid.Row="1" Height="74"
                                      AcceptsReturn="True" TextWrapping="Wrap" IsSpellCheckEnabled="True"
                                      PlaceholderText="Enter comments here" Tag="70." HorizontalAlignment="Stretch" 
-                                     Style="{StaticResource MuniStatusTextBox}" VerticalAlignment="Stretch"/>
+                                     Style="{StaticResource FormsTextBox}" VerticalAlignment="Stretch"/>
                         </Grid>
                         <StackPanel Grid.Row="3" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <TextBlock Text="Remove from List:" Style="{StaticResource ShelterStatusHeaderText}"/>

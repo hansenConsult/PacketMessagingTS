@@ -17,10 +17,10 @@ using System.Xml.Serialization;
 
 using MetroLog;
 
+using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -30,7 +30,7 @@ using Windows.Storage.FileProperties;
 // 
 
 namespace PacketMessagingTS.Models
-{ 
+{
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.4084.0")]
     [System.SerializableAttribute()]

@@ -16,6 +16,7 @@ using System.Xml.Serialization;
 
 using MetroLog;
 
+using static PacketMessagingTS.Core.Helpers.MessageOriginHelper;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
 using SharedCode.Helpers;
@@ -24,8 +25,8 @@ using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Xaml.Media;
 
-using static SharedCode.Helpers.MessageOriginHelper;
 using Windows.UI;
+using PacketMessagingTS.Core.Helpers;
 
 namespace SharedCode
 {

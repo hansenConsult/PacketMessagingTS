@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -11,7 +7,7 @@ using Windows.UI.Xaml.Media;
 
 namespace ToggleButtonGroupControl
 {
-    public sealed class ToggleButtonGroup : Control
+    public sealed class ToggleButtonGroup : UserControl
     {
         static SolidColorBrush _redBrush = new SolidColorBrush(Colors.Red);
         static SolidColorBrush _whiteBrush = new SolidColorBrush(Colors.White);

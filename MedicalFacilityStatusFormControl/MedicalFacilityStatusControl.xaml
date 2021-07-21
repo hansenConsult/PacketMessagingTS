@@ -18,7 +18,17 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="HAvBedNumberTextBox" TargetType="TextBox" BasedOn="{StaticResource FormsNumberTextBox}">
+                <Setter Property="Width" Value="72"/>
+            </Style>
+
+            <Style x:Key="MedicalFacilityStatusCommentsText" TargetType="TextBox" BasedOn="{StaticResource FormsTextBox}">
+                <Setter Property="Margin" Value="2,2,8,2"/>
+            </Style>
+
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -80,7 +90,7 @@
                             <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
                                    VerticalAlignment="Center" Margin="8,0,0,0"/>
                             <TextBox Grid.Column="1" x:Name="msgDate" 
-                                 Style="{StaticResource MuniStatusDateTextBox}"
+                                 Style="{StaticResource FormsDateTextBox}"
                                  Text="{x:Bind Mode=TwoWay, Path=MsgDate}" 
                                  Tag="1a.,required"
                                  TextChanged="TextBox_DateChanged"/>
@@ -130,7 +140,7 @@
                                                  Checked="ReportType_Checked" Tag="Complete"/>
                             <TextBlock Grid.Column="3" Text="Hospital Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
                             <ComboBox Grid.Column="4" x:Name="hospitalName" Width="300"
-                                      Style="{StaticResource MuniStatusComboBox}"  
+                                      Style="{StaticResource FormsComboBox}"  
                                       ItemsSource="{x:Bind Hospitals}"
                                       SelectionChanged="Subject_Changed" 
                                       Loaded="ComboBox_Loaded"
@@ -173,7 +183,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="diversionStatus" Width="150"
                                           ItemsSource="{x:Bind DiversionStatus}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.1.,conditionallyrequired"/>
@@ -200,7 +210,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="deconStatus" Width="150"                                          
                                           ItemsSource="{x:Bind DeconStatus}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.2.,conditionallyrequired"/>
@@ -226,7 +236,7 @@
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="commandCenterStatus" Width="150"
                                           ItemsSource="{x:Bind CommandCenterStatus}"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.3.,conditionallyrequired"/>
@@ -252,7 +262,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="morgueStatus" Width="150"
                                           ItemsSource="{x:Bind MorgueStatus}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.4.,conditionallyrequired"/>
@@ -278,7 +288,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" x:Name="powerStatus" Width="150"
                                           ItemsSource="{x:Bind PowerStatus}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.5.,conditionallyrequired"/>
@@ -310,7 +320,7 @@
                                 <ComboBox Grid.Column="0" Grid.ColumnSpan="3" x:Name="buildingStatus" Width="150"
                                           ItemsSource="{x:Bind BuildingStatus}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.6.,conditionallyrequired" Margin="2,0,0,0"/>
@@ -335,7 +345,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="securityStatus" Width="150"
                                           ItemsSource="{x:Bind SecurityStatus}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.7.,conditionallyrequired"/>
@@ -361,7 +371,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="staffingStatus" Width="150"
                                           ItemsSource="{x:Bind Staffing}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.8.,conditionallyrequired"/>
@@ -387,7 +397,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="medicalFacilitySuppliesStatus" Width="150"
                                           ItemsSource="{x:Bind Status}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.9.,conditionallyrequired"/>
@@ -413,7 +423,7 @@
                                 <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" x:Name="clinicalSuppliesStatus" Width="150"
                                           ItemsSource="{x:Bind ClinicalSupplies}"
                                           SelectedValuePath="Content"
-                                          Style="{StaticResource MuniStatusComboBox}"                              
+                                          Style="{StaticResource FormsComboBox}"                              
                                           SelectionChanged="ComboBox_SelectionChanged"
                                           Loaded="ComboBox_Loaded"
                                           Tag="12.10.,conditionallyrequired"/>
@@ -539,7 +549,7 @@
                                      Tag="15.1c."/>
                             <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="2" Grid.Column="3" x:Name="cardiologyServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.1d."/>
                             <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -562,7 +572,7 @@
                                      Tag="15.3c."/>
                             <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="3" Grid.Column="3" x:Name="dialysisServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.3d."/>
                             <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -585,7 +595,7 @@
                                      Tag="15.4c."/>
                             <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="4" Grid.Column="3" x:Name="emergencyDepartmentServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.4d."/>
                             <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -608,7 +618,7 @@
                                      Tag="15.5c."/>
                             <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="5" Grid.Column="3" x:Name="neurologyServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.5d."/>
                             <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -631,7 +641,7 @@
                                      Tag="15.7c."/>
                             <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="6" Grid.Column="3" x:Name="obstetricsServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.7d."/>
                             <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -654,7 +664,7 @@
                                      Tag="15.8c."/>
                             <Border Grid.Row="7" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="7" Grid.Column="3" x:Name="obstetricsLaborServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.8d."/>
                             <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -678,7 +688,7 @@
                                      Tag="15.9c."/>
                             <Border Grid.Row="8" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="8" Grid.Column="3" x:Name="ophthalmologyServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.9d."/>
                             <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -701,7 +711,7 @@
                                      Tag="15.10c."/>
                             <Border Grid.Row="9" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="9" Grid.Column="3" x:Name="orthopedicsServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.10d."/>
                             <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -724,7 +734,7 @@
                                      Tag="15.11c."/>
                             <Border Grid.Row="10" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="10" Grid.Column="3" x:Name="pediatricsServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.11d."/>
                             <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -747,7 +757,7 @@
                                      Tag="15.12c."/>
                             <Border Grid.Row="11" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="11" Grid.Column="3" x:Name="surgeryServiceReopening"
-                                     Style="{StaticResource MuniStatusDateTextBox}"
+                                     Style="{StaticResource FormsDateTextBox}"
                                      TextChanged="TextBox_DateChanged"
                                      Tag="15.12d."/>
                             <Border Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="4" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0"/>

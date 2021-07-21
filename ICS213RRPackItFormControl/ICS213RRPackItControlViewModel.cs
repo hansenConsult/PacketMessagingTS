@@ -10,8 +10,6 @@ namespace ICS213RRPackItFormControl
 {
     public class ICS213RRPackItControlViewModel : UserControlViewModelBase
     {
-        //public static ICS213RRPackItControlViewModel Instance { get; } = new ICS213RRPackItControlViewModel();
-
 
         public override string MsgDate
         {

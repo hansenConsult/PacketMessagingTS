@@ -4,6 +4,8 @@ using System.Text.RegularExpressions;
 
 using PacketMessagingTS.Models;
 
+using PacketMessagingTS.Core.Helpers;
+
 using SharedCode.Helpers;
 using SharedCode.Models;
 

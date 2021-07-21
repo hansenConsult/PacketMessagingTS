@@ -12,6 +12,8 @@ using MessageFormControl;
 
 using MetroLog;
 
+using PacketMessagingTS.Core.Helpers;
+
 using PacketMessagingTS.Helpers;
 using PacketMessagingTS.Helpers.PrintHelpers;
 using PacketMessagingTS.Models;

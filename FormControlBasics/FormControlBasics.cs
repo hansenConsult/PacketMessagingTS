@@ -38,7 +38,7 @@ namespace FormControlBasicsNamespace
 
 
     //public partial class FormControlBasics : UserControl, INotifyPropertyChanged
-    public partial class FormControlBasics : FormControlBaseMvvm//, INotifyPropertyChanged
+    public partial class FormControlBasics : FormControlBaseMvvm
     {
         public event EventHandler<FormEventArgs> EventSubjectChanged;
 

@@ -16,6 +16,7 @@ using FormControlBasicsNamespace;
 using Windows.UI.Xaml.Media;
 using System.Drawing;
 using FormControlBaseMvvmNameSpace;
+using PacketMessagingTS.Core.Helpers;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

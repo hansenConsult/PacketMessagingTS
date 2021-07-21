@@ -6,12 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Contracts\Services\IFileService.cs" />
     <Compile Remove="Helpers\DateTimeConverter.cs" />
     <Compile Remove="Helpers\LogHelper.cs" />
     <Compile Remove="Helpers\Singleton.cs" />
     <Compile Remove="Models\ComboBoxPackItItem.cs" />
     <Compile Remove="Models\PacketMessage.cs" />
     <Compile Remove="Models\TacticalCallsigns.cs" />
+    <Compile Remove="Services\PacketMessageFileService.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Contracts\Services\" />
     <Folder Include="Models\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

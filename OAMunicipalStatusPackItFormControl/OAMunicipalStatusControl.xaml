@@ -19,10 +19,16 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="TextBox" x:Key="MunicipalStatusTextBox" BasedOn="{StaticResource StandardTextBox}">
                 <Setter Property="Margin" Value="2" />
             </Style>
+            <Style x:Key="MuniStatusSituationComboBox" TargetType="ComboBox" BasedOn="{StaticResource FormsComboBox}">
+                <Setter Property="DisplayMemberPath" Value="Item"/>
+                <Setter Property="Margin" Value="5,2,4,2"/>
+            </Style>
+
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -64,7 +70,7 @@
                             <TextBlock Grid.Column="3" Text="Jurisdiction Name:" VerticalAlignment="Center" Margin="8,4,8,0" />
                             <ComboBox Grid.Column="4" Name="jurisdictionName" Width="250"
                                       ItemsSource="{x:Bind Municipalities}"
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       SelectionChanged="Subject_Changed" 
                                       Loaded="ComboBox_Loaded"
                                       Tag="21.,required,Select a Jurisdiction Name."  />
@@ -91,7 +97,7 @@
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="EOC Phone:" Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="1" Name="eocPhone" 
-                                     Style="{StaticResource MuniStatusPhoneTextBox}" InputScope="TelephoneNumber" 
+                                     Style="{StaticResource FormsPhoneTextBox}" InputScope="TelephoneNumber" 
                                      Tag="23.,conditionallyrequired,Enter an EOC Phone number"
                                      TextChanged="TextBox_PhoneChanged"/>
                             <Border Grid.Column="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -99,7 +105,7 @@
                                     Style="{StaticResource MuniStatusFieldTextRight}" />
                             <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="3" Grid.Row="1" Name="eocFax" 
-                                     Style="{StaticResource MuniStatusPhoneTextBox}" InputScope="TelephoneNumber" 
+                                     Style="{StaticResource FormsPhoneTextBox}" InputScope="TelephoneNumber" 
                                      Tag="24."
                                      TextChanged="TextBox_PhoneChanged"/>
                             <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,1,0"/>
@@ -107,7 +113,7 @@
                                        Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Name="primEMContactName" 
-                                     Style="{StaticResource MunicipalStatusTextBox}" 
+                                     Style="{StaticResource FormsTextBox}" 
                                      Tag="25.,conditionallyrequired,Enter the Primary EM Contact Name."
                                      TextChanged="TextBox_TextChanged"/>
                             <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -115,7 +121,7 @@
                                        Style="{StaticResource MuniStatusFieldTextRight}" />
                             <Border Grid.Column="3" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="3" Grid.Row="2" Name="primEMContactPhone" 
-                                     Style="{StaticResource MuniStatusPhoneTextBox}" 
+                                     Style="{StaticResource FormsPhoneTextBox}" 
                                      InputScope="TelephoneNumber" Tag="26.,conditionallyrequired,Enter the Primary EM Contact Phone No."
                                      TextChanged="TextBox_PhoneChanged"/>
                             <Border Grid.Column="0" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0"/>
@@ -123,14 +129,14 @@
                                        Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="3" Name="secEMContactName" 
-                                     Style="{StaticResource MuniStatusTextBox}" Tag="27."/>
+                                     Style="{StaticResource FormsTextBox}" Tag="27."/>
                             <Border Grid.Column="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Column="2" Grid.Row="3" Text="Secondary EM Contact Phone:" 
                                        Style="{StaticResource MuniStatusFieldTextRight}" />
                             <Border Grid.Column="3" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="3" Grid.Row="3" Name="secEMContactPhone"
                                      InputScope="TelephoneNumber"
-                                     Style="{StaticResource MuniStatusPhoneTextBox}" Tag="28."
+                                     Style="{StaticResource FormsPhoneTextBox}" Tag="28."
                                      TextChanged="TextBox_PhoneChanged"/>
                         </Grid>
                         <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -155,7 +161,7 @@
                             <ComboBox Grid.Column="1" Grid.Row="1" Name="officeStatus"  
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind OfficeStatus}"
-                                      Style="{StaticResource MuniStatusComboBox}"
+                                      Style="{StaticResource FormsComboBox}"
                                       Tag="29.,conditionallyrequired,Enter Office Status" HorizontalAlignment="Left"
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"/>
@@ -168,7 +174,7 @@
                                        Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Name="officeOpenDate" 
-                                     Style="{StaticResource MuniStatusDateTextBox}" Tag="30."
+                                     Style="{StaticResource FormsDateTextBox}" Tag="30."
                                      PlaceholderText="mm/dd/yyyy"
                                      TextChanged="TextBox_DateChanged"/>
                             <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -177,7 +183,7 @@
                             <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <Border Grid.Column="3" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="3" Grid.Row="2" Name="officeOpenTime" 
-                                     Style="{StaticResource MuniStatusTimeTextBox}" 
+                                     Style="{StaticResource FormsTimeTextBox}" 
                                      Tag="31."
                                      TextChanged="TextBox_TimeChanged"/>
                             <Border Grid.Column="0" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0"/>
@@ -185,7 +191,7 @@
                                        Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="3" Name="officeCloseDate" 
-                                     Style="{StaticResource MuniStatusDateTextBox}" Tag="32."
+                                     Style="{StaticResource FormsDateTextBox}" Tag="32."
                                      PlaceholderText="mm/dd/yyyy"
                                      TextChanged="TextBox_DateChanged"/>
                             <Border Grid.Column="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -193,7 +199,7 @@
                                        Style="{StaticResource MuniStatusFieldTextRight}" />
                             <Border Grid.Column="3" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="3" Grid.Row="3" Name="officeCloseTime" 
-                                     Style="{StaticResource MuniStatusTimeTextBox}" 
+                                     Style="{StaticResource FormsTimeTextBox}" 
                                      Tag="33."
                                      TextChanged="TextBox_TimeChanged"/>
                         </Grid>
@@ -218,7 +224,7 @@
                             <ComboBox Grid.Column="1" Grid.Row="1" Name="eocOpen" 
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind UnknownYesNo}"
-                                      Style="{StaticResource MuniStatusComboBox}" 
+                                      Style="{StaticResource FormsComboBox}" 
                                       Tag="34.,conditionallyrequired,Select EOC Open: Yes or No." 
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"/>
@@ -231,7 +237,7 @@
                             <ComboBox Grid.Column="3" Grid.Row="1" Name="activationLevel" 
                                       DisplayMemberPath="Item" Width="120"
                                       ItemsSource="{x:Bind ActivationLevel}"
-                                      Style="{StaticResource MuniStatusComboBox}" 
+                                      Style="{StaticResource FormsComboBox}" 
                                       Tag="35.,conditionallyrequired,Select an Activation Level." 
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"/>
@@ -244,14 +250,14 @@
                             <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Name="eocOpenDate" 
                                      PlaceholderText="mm/dd/yyyy" 
-                                     Style="{StaticResource MuniStatusDateTextBox}"  
+                                     Style="{StaticResource FormsDateTextBox}"  
                                      TextChanged="TextBox_DateChanged" Tag="36."/>
                             <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Column="2" Grid.Row="2" Text="Expected to Open Time:" 
                                        Style="{StaticResource MuniStatusFieldTextRight}" />
                             <Border Grid.Column="3" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="3" Grid.Row="2" Name="eocOpenTime" 
-                                     Style="{StaticResource MuniStatusTimeTextBox}" 
+                                     Style="{StaticResource FormsTimeTextBox}" 
                                      Tag="37."/>
                             <Border Grid.Column="0" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="Expected to Close Date:" 
@@ -259,14 +265,14 @@
                             <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="1" Grid.Row="3" Name="eocCloseDate" 
                                      PlaceholderText="mm/dd/yyyy" 
-                                     Style="{StaticResource MuniStatusDateTextBox}" 
+                                     Style="{StaticResource FormsDateTextBox}" 
                                      TextChanged="TextBox_DateChanged" Tag="38."/>
                             <Border Grid.Column="2" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Column="2" Grid.Row="3" Text="Expected to Close Time:" 
                                        Style="{StaticResource MuniStatusFieldTextRight}" />
                             <Border Grid.Column="3" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Column="3" Grid.Row="3" Name="eocCloseTime"
-                                     Style="{StaticResource MuniStatusTimeTextBox}" 
+                                     Style="{StaticResource FormsTimeTextBox}" 
                                      Tag="39."/>
                         </Grid>
                         <Grid Grid.Row="5" BorderBrush="Black" BorderThickness="0,0,0,0">
@@ -289,7 +295,7 @@
                             <ComboBox Grid.Column="1" Grid.Row="1" Name="stateOfEmergency" 
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind UnknownYesNo}"
-                                      Style="{StaticResource MuniStatusComboBox}" 
+                                      Style="{StaticResource FormsComboBox}" 
                                       Tag="40.,conditionallyrequired,Select the State of Emergency: Yes or No." 
                                       SelectionChanged="StateOfEmergency_SelectionChanged"
                                       Loaded="ComboBox_Loaded"/>
@@ -301,7 +307,7 @@
                                     Style="{StaticResource MuniStatusFieldText}"/>
                             <Border Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,1,1,1"/>
                             <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Name="howSent" 
-                                    Style="{StaticResource MuniStatusTextBox}"
+                                    Style="{StaticResource FormsTextBox}"
                                     Tag="99.,conditionallyrequired,Enter how the Proclammation is being sent or None."
                                     TextChanged="TextBox_TextChanged"/>
                         </Grid>
