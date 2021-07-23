@@ -8,8 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI;
 
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
@@ -165,14 +163,14 @@ namespace SharedCode.Helpers.PrintHelpers
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ShowPrintUIAsync(string printTaskName, bool directPrint = false)
         {
-            this._directPrint = directPrint;
+            _directPrint = directPrint;
 
             PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested += PrintTaskRequested;
 
             // Launch print process
             _printTaskName = printTaskName;
-            await PrintManager.ShowPrintUIAsync();
+            _ =  await PrintManager.ShowPrintUIAsync();
         }
 
         /// <summary>
@@ -501,7 +499,7 @@ namespace SharedCode.Helpers.PrintHelpers
 
             if (double.IsNaN(element.Width))// || double.isNaN(element.Height))
             {
-                var newHeight = page.Height - marginHeight;
+                double newHeight = page.Height - marginHeight;
 
                 element.Width = page.Width - marginWidth;// * (newHeight / element.Height);
                 element.Height = newHeight;

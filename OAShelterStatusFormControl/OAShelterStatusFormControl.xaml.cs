@@ -60,13 +60,6 @@ namespace OAShelterStatusFormControl
                 new ComboBoxItem() { Content = "Type 4" },
         };
 
-
-        //public IList<ComboBoxPackItItem> ShelterStatuses = new List<ComboBoxPackItItem>
-        //{
-        //        new ComboBoxPackItItem("Open", LightGreenBrush),
-        //        new ComboBoxPackItItem("Closed", PinkBrush),
-        //        new ComboBoxPackItItem("Full", YellowBrush),
-        //};
         readonly IList<ComboBoxItem> ShelterStatuses = new List<ComboBoxItem>
         {
                 new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },

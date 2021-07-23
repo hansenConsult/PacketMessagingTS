@@ -36,22 +36,6 @@ namespace FormControlBaseClass
 
         protected ScrollViewer _scrollViewer;
 
-        //readonly protected List<ComboBoxPackItItem> Hospitals = new List<ComboBoxPackItItem>
-        //{
-        //    new ComboBoxPackItItem("El Camino Hospital Los Gatos"),
-        //    new ComboBoxPackItItem("El Camino Hospital Mountain View"),
-        //    new ComboBoxPackItItem("Good Samaritan Hospital"),
-        //    new ComboBoxPackItItem("Kaiser Gan Jose Medical Center"),
-        //    new ComboBoxPackItItem("Kaiser Santa Clara Hospital"),
-        //    new ComboBoxPackItItem("Lucile Packard Children's Hospital"),
-        //    new ComboBoxPackItItem("O'Connor Hospital"),
-        //    new ComboBoxPackItItem("Palo Alto Veterans Hospital"),
-        //    new ComboBoxPackItItem("Regional San Jose Medical Center"),
-        //    new ComboBoxPackItItem("Saint Loise Regional Hospital"),
-        //    new ComboBoxPackItItem("Stanford Hospital"),
-        //    new ComboBoxPackItItem("Stanford School of Medicine"),
-        //    new ComboBoxPackItItem("Valley Medical Center"),
-        //};
         readonly protected List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
         {
             new ComboBoxItem() { Content = "El Camino Hospital Los Gatos" },
@@ -1589,7 +1573,7 @@ namespace FormControlBaseClass
         { get;  }
 
         public abstract List<Panel> PrintPanels
-        { get; }
+        { get;  }
 
         //protected bool printFooterVisibility = false;
         //public virtual bool PrintFooterVisibility
@@ -1630,7 +1614,6 @@ namespace FormControlBaseClass
                         Text = FormHeaderControl != null
                             ? FormHeaderControl.ViewModel.OriginMsgNo
                             : ViewModelBase.OriginMsgNo,
-                        //Text = $"{ViewModelBase.MessageNo}",
                         Margin = new Thickness(0, 16, 0, 0),
                     };
 
@@ -1677,6 +1660,7 @@ namespace FormControlBaseClass
             _printHelper = new PrintHelper(CanvasContainer);
 
             _printPanels = PrintPanels;
+
             if (_printPanels is null || _printPanels.Count == 0)
                 return;
 
@@ -1710,27 +1694,20 @@ namespace FormControlBaseClass
                 {
                     foreach (FrameworkElement child in _printPanels[i].Children)
                     {
-                        if (child is TextBlock textBlock && textBlock.Text.Contains($"Page {i + 1} of"))
-                            _printPanels[i].Children.Remove(child);
+                        if (child is Grid grid)
+                        {
+                            foreach (FrameworkElement gridChild in grid.Children)
+                            {
+                                if (gridChild is TextBlock textBlock && textBlock.Text.Contains($"Page {i + 1} of"))
+                                {
+                                    _printPanels[i].Children.Remove(grid);
+                                }
+                            }
+                        }
                     }
-
                     DirectPrintContainer.Children.Add(_printPanels[i]);
                 }
             }
-
-            //for (int i = 0; i < _printPanels.Count; i++)
-            //{
-            //    if (_printPanels[i] != null && !DirectPrintContainer.Children.Contains(_printPanels[i]))
-            //    {
-            //        TextBlock footer = _printPanels[i].FindName("footer") as TextBlock;
-            //        if (footer != null)
-            //        {
-            //            _printPanels[i].Children.Remove(footer);
-            //        }
-
-            //        DirectPrintContainer.Children.Add(_printPanels[i]);
-            //    }
-            //}
         }
 
         protected virtual void PrintHelper_OnPrintSucceeded()
