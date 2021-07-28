@@ -1,8 +1,21 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
 
-    <Style x:Key="LabelFont12SB" TargetType="TextBlock">
+    <Style x:Key="Label" TargetType="TextBlock">
+        <Setter Property="Padding" Value="8,0,8,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="LabelFont12B" TargetType="TextBlock" >
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="LabelFont12SB" TargetType="TextBlock" >
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
@@ -13,19 +26,31 @@
         <Setter Property="FontSize" Value="14"/>
     </Style>
 
-    <Style x:Key="FormsTextBox" TargetType="TextBox">
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="Black"/>
+    <Style x:Key="LabelFont14B" TargetType="TextBlock" BasedOn="{StaticResource LabelFont12SB}">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="FormsTextBox" TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}">
+        <!--<Setter Property="FontFamily" Value="Segoe UI"/>-->
+        <!--<Setter Property="FontSize" Value="12"/>-->
+        <!--<Setter Property="Background" Value="White"/>-->
+        <!--<Setter Property="Foreground" Value="Black"/>-->
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Margin" Value="2"/>
         <!--<Setter Property="Padding" Value="8,0,8,0"/>-->
-        <Setter Property="CornerRadius" Value="4"/>
+        <!--<Setter Property="CornerRadius" Value="4"/>-->
     </Style>
 
     <Style x:Key="FormsNumberTextBox" TargetType="TextBox" BasedOn="{StaticResource FormsTextBox}">
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+
+    <Style x:Key="FormsNumberTextBoxExtension" TargetType="TextBox" BasedOn="{StaticResource FormsTextBox}">
+        <Setter Property="ui:TextBoxExtensions.ValidationMode" Value="Dynamic" />
+        <Setter Property="ui:TextBoxExtensions.ValidationType" Value="Number"/>
         <Setter Property="TextAlignment" Value="Right"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
     </Style>
@@ -44,13 +69,14 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="PlaceholderText" Value="mm/dd/yyyy"/>
     </Style>
+    
     <Style x:Key="FormsTimeTextBox" TargetType="TextBox" BasedOn="{StaticResource FormsTextBox}">
         <Setter Property="Width" Value="70"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="PlaceholderText" Value="hh:mm"/>
     </Style>
 
-    <Style x:Key="FormsComboBox" TargetType="ComboBox">
+    <Style x:Key="FormsComboBox" TargetType="ComboBox" BasedOn="{StaticResource DefaultComboBoxStyle}">
         <Setter Property="FontFamily" Value="Ariel"/>
         <Setter Property="FontStyle" Value="Normal"/>
         <Setter Property="FontSize" Value="11"/>
@@ -60,8 +86,27 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Margin" Value="2"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <!--<Setter Property="CornerRadius" Value="4"/>-->
     </Style>
 
-    
+    <Style x:Key="FormsCheckBox" TargetType="CheckBox" BasedOn="{StaticResource DefaultCheckBoxStyle}">
+        <Setter Property="FontFamily" Value="Ariel"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="RadioButton12" TargetType="RadioButton">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="8,0,0,0"/>
+        <Setter Property="Padding" Value="5"/>
+    </Style>
+    <Style x:Key="RadioButton12B" TargetType="RadioButton" BasedOn="{StaticResource RadioButton12}">
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
 </ResourceDictionary>

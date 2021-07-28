@@ -4,14 +4,13 @@ using FormControlBaseClass;
 
 using FormControlBaseMvvmNameSpace;
 
-using FormControlBasicsNamespace;
-
 using FormUserControl;
+
+using Microsoft.Toolkit.Uwp.UI;
 
 using PacketMessagingTS.Core.Helpers;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -56,7 +55,7 @@ namespace HavBedReportFormControl
             new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
         };
 
-        HavBedReportControlViewModel ViewModel = new HavBedReportControlViewModel();
+        private readonly HavBedReportControlViewModel ViewModel = new HavBedReportControlViewModel();
 
 
 
@@ -66,7 +65,7 @@ namespace HavBedReportFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
             FormHeaderControl.ViewModel.HeaderSubstring = "EMResource: c190320";
@@ -137,5 +136,6 @@ namespace HavBedReportFormControl
                 }
             }
         }
+
     }
 }

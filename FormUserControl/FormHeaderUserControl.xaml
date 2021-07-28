@@ -17,6 +17,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <!--<ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Locked">
@@ -392,7 +393,6 @@
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="Black"/>-->
-
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBasics.Resources>
 
@@ -476,7 +476,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFontTNR14B}"
+            <TextBlock Grid.Column="0" Text="Date:" Style="{StaticResource LabelFont14SB}"
                        VerticalAlignment="Center" Margin="8,0,0,0"/>
             <TextBox Grid.Column="1" x:Name="msgDate"
                      Style="{StaticResource DateTextBox}"
@@ -484,7 +484,7 @@
                      Tag="1a.,required"
                      TextChanged="TextBox_DateChanged"/>
             <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-            <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFontTNR14B}"
+            <TextBlock Grid.Column="2" Text="Time:" Style="{StaticResource LabelFont14SB}"
                        VerticalAlignment="Center" Margin="8,0,0,0"/>
             <TextBox Grid.Column="3" x:Name="msgTime" 
                      PlaceholderText="hh:mm"
@@ -492,11 +492,11 @@
                      Width="70"
                      Text="{x:Bind Mode=TwoWay, Path=ViewModel.MsgTime}"
                      TextChanged="TextBox_MsgTimeChanged"
-                     Tag="1b.,required"/>
+                     Tag="1b.,required" Height="24"/>
             <!--Style="{StaticResource TimeTextBox}"-->
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
-            <TextBlock Grid.Column="4" Style="{StaticResource LabelFontTNR14B}" 
-                                           Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
+            <TextBlock Grid.Column="4" Style="{StaticResource LabelFont14SB}" 
+                       Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
             <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
                                            CheckedControlName ="{x:Bind ViewModel.HandlingOrder, Mode=TwoWay}" 
                                            Tag="5.,required,Indicate Msg. Handling Order."/>
@@ -637,7 +637,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="ICS Position:"  />
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Padding="5,0,0,0" Text="ICS Position:"  />
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="8,2,2,2"     
                                 PlaceholderText="Select ICS Position"
                                 BorderBrush="Gray"
@@ -659,7 +659,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0"  
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Padding="5,0,0,0"  
                            Text="ICS Position:"  />
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxFromICSPosition" Margin="8,2,2,2"     
                                 PlaceholderText="Select ICS Position"
@@ -679,7 +679,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:"  />
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Padding="5,0,0,0" Text="Location:"  />
                 <!--<TextBox Grid.Column="1" x:Name="toLocation" Style="{StaticResource ToFromTextBox}"
                          TextChanged="TextBox_TextChanged"
                          Tag="7b.,required,Enter a To Location."/>-->
@@ -694,7 +694,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Padding="5,0,0,0" Text="Location:"  />
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Padding="5,0,0,0" Text="Location:"  />
                 <!--<TextBox Grid.Column="1" x:Name="fromLocation" Margin="8,2,8,2" 
                          TextChanged="TextBox_TextChanged"
                          Tag="8b.,required,Enter a From Location." Grid.ColumnSpan="2"/>-->
@@ -710,7 +710,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <!--<TextBlock Style="{StaticResource BodyTextBlockStyle}"/>-->
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
+                <TextBlock Grid.Column="0" 
+                           Style="{StaticResource LabelFont14SB}" 
+                           Margin="5,0,0,0" Text="Name:" />
                 <TextBox Grid.Column="1" x:Name="toName" 
                          Margin="8,2,2,2"
                          Tag="7c."/>
@@ -720,7 +722,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Name:" />
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Margin="5,0,0,0" Text="Name:" />
                 <TextBox Grid.Column="1" x:Name="fromName" Margin="8,2,2,2" Tag="8c."/>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="1">
@@ -729,7 +731,7 @@
                     <!--<ColumnDefinition Width="60"/>-->
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="toContactInfo" 
                          Tag="7d." 
                          TextChanged="TextBox_PhoneChanged" Grid.ColumnSpan="2" Margin="8,2,2,2"/>
@@ -739,7 +741,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource LabelFontTNR14B}" Margin="5,0,0,0" Text="Contact Info:" />
+                <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Margin="5,0,0,0" Text="Contact Info:" />
                 <TextBox Grid.Column="1" x:Name="fromContactInfo" 
                          Margin="8,2,2,2"
                          Tag="8d." 

@@ -1065,6 +1065,7 @@
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <!--<Setter Property="CornerRadius" Value="4"/>-->
     </Style>
 
     <Style x:Key="HAvBedNumberTextBox" TargetType="TextBox">
@@ -1351,8 +1352,8 @@
     </DataTemplate>
 
     <DataTemplate x:Name="ToFromHeaderTemplate">
-        <TextBlock Text="{Binding}" FontSize="12" FontFamily="Times New Roman" 
-                   FontWeight="Bold" Foreground="Black" />
+        <TextBlock Text="{Binding}" FontSize="12" 
+                   FontWeight="SemiBold" Foreground="Black" />
     </DataTemplate>
 
 </ResourceDictionary>

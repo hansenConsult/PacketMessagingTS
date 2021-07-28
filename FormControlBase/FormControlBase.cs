@@ -7,6 +7,8 @@ using FormControlBasicsNamespace;
 
 using FormUserControl;
 
+using Microsoft.UI.Xaml.Controls;
+
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Helpers.PrintHelpers;
@@ -148,6 +150,20 @@ namespace FormControlBaseClass
                     else
                     {
                         toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                    }
+                }
+                else if (control is RadioButtons radioButtons)
+                {
+                    foreach (RadioButton radioButton in radioButtons.Items)
+                    {
+                        if (IsFieldRequired(control) && radioButtons.SelectedIndex == -1)
+                        {
+                            radioButton.Foreground = formControl.RequiredBorderBrush;
+                        }
+                        else
+                        {
+                            radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                        }
                     }
                 }
             }
@@ -342,6 +358,14 @@ namespace FormControlBaseClass
                             _radioButtonsList.Add(button);
                             break;
                         }
+
+                    case RadioButtons radioButtons:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
 
                     case AutoSuggestTextBoxUserControl _:
                         ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
@@ -826,6 +850,13 @@ namespace FormControlBaseClass
                     }
                 }
             }
+            else if (control is RadioButtons radioButtons)
+            {
+                if (formProvider == FormProviders.PacItForm)
+                {
+                    return $"{id}: [{formField.ControlContent}]";
+                }
+            }
             else if (control is CheckBox)
             {
                 if (formField.ControlContent == "True")
@@ -989,7 +1020,11 @@ namespace FormControlBaseClass
                 else if (_formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
                 {
 					formField.ControlContent = toggleButtonGroup.GetRadioButtonCheckedState();
-				}
+                }
+                else if (_formControlsList[i].InputControl is RadioButtons radioButtons)
+                {
+                    formField.ControlContent = (radioButtons.SelectedItem as RadioButton).Tag as string;
+                }
                 else if (_formControlsList[i].InputControl is CheckBox checkBox)
                 {
 					formField.ControlContent = checkBox.IsChecked.ToString();
@@ -1206,6 +1241,21 @@ namespace FormControlBaseClass
                         }
                     }
                 }
+                else if (control is RadioButtons radioButtons)
+                {
+                    if (formControl.UserControl == null)
+                    {
+                        int i = 0;
+                        foreach (RadioButton radioButton in radioButtons.Items)
+                        {
+                            if (formField.ControlContent == (string)radioButton.Tag)
+                            {
+                                radioButtons.SelectedIndex = i;
+                            }
+                            i++;
+                        }
+                    }
+                }
                 else if (control is CheckBox checkBox)
                 {
                     checkBox.IsChecked = formField.ControlContent == "True";
@@ -1215,11 +1265,11 @@ namespace FormControlBaseClass
         }
 
 		public static string GetOutpostFieldValue(string field)
-		{
-			int startIndex = field.IndexOf('[');
-			int endIndex = field.IndexOf(']');
-			if (startIndex != -1 && endIndex != -1)
-			{
+        {
+            int startIndex = field.IndexOf('[');
+            int endIndex = field.IndexOf(']');
+            if (startIndex != -1 && endIndex != -1)
+            {
                 if (field.Substring(startIndex + 1, endIndex - startIndex - 1).StartsWith("\\n"))   // For PacForms
                 {
                     return field.Substring(startIndex + 3, endIndex - startIndex - 3);
@@ -1228,12 +1278,12 @@ namespace FormControlBaseClass
                 {
                     return field.Substring(startIndex + 1, endIndex - startIndex - 1);
                 }
-			}
-			else
-			{
-				return "";
-			}
-		}
+            }
+            else
+            {
+                return "";
+            }
+        }
 
         public static string GetOutpostValue(string msgLine)
         {
@@ -1361,29 +1411,6 @@ namespace FormControlBaseClass
                             case "FormControlType":
                                 FormControlAttribute.FormType formControlType = (FormControlAttribute.FormType)Enum.Parse(typeof(FormControlAttribute.FormType), arg.TypedValue.Value.ToString());
                                 FormControlType = formControlType;
-                                //switch (formControlType)
-                                //{
-                                //    case FormControlAttribute.FormType.None:
-                                //        FormControlType = formControlType;
-                                //        break;
-                                //    case FormControlAttribute.FormType.CountyForm:
-                                //        FormControlType = formControlType;
-                                //        break;
-                                //    case FormControlAttribute.FormType.CityForm:
-                                //        FormControlType = formControlType;
-                                //        break;
-                                //    case FormControlAttribute.FormType.HospitalForm:
-                                //        FormControlType = formControlType;
-                                //        break;
-                                //    case FormControlAttribute.FormType.TestForm:
-                                //        FormControlType = formControlType;
-                                //        break;
-                                //    case FormControlAttribute.FormType.Undefined:
-                                //        FormControlType = formControlType;
-                                //        break;
-                                //    default:
-                                //        break;
-                                //}
                                 formControlTypeFound = true;
                                 break;
                             case "FormControlMenuName":
@@ -1573,28 +1600,11 @@ namespace FormControlBaseClass
         { get;  }
 
         public abstract List<Panel> PrintPanels
-        { get;  }
+        { get; }
 
-        //protected bool printFooterVisibility = false;
-        //public virtual bool PrintFooterVisibility
-        //{
-        //    get => printFooterVisibility;
-        //    set => SetProperty(ref printFooterVisibility, value);
-        //}
 
         protected void AddFooter()
         {
-            //PrintFooterVisibility = true;
-
-        //<Grid >
-        //    <Grid.ColumnDefinitions >
-        //        <ColumnDefinition />
-        //        <ColumnDefinition />
-        //    </Grid.ColumnDefinitions >
-        //    <TextBlock Grid.Column = "0" Margin = "8, 12" Text = "6DM-123P" />     
-        //    <TextBlock Grid.Column = "1" Margin = "8, 12" TextAlignment = "Right" Text = "Page 1 of 1" />            
-        //</ Grid >
-
             for (int i = 0; i < _printPanels.Count; i++)
             {
                 bool footerFound = false;

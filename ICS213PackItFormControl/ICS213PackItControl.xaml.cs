@@ -3,18 +3,20 @@ using System.Collections.Generic;
 
 using FormControlBaseClass;
 
+using Microsoft.UI.Xaml.Controls;
+
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Helpers.PrintHelpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
-using Windows.UI.Xaml.Controls;
-//using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
-using FormControlBasicsNamespace;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
+using Windows.UI;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -82,7 +84,7 @@ namespace ICS213PackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            severity.CheckedControlName = "other";
+            severity.SelectedIndex = 2;
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
             UpdateFormFieldsRequiredColors();       // TODO check this
@@ -145,6 +147,19 @@ namespace ICS213PackItFormControl
             }
         }
 
+        public override string CreateOutpostData(ref PacketMessage packetMessage)
+        {
+            _outpostData = new List<string>
+            {
+                "!SCCoPIFO!",
+                $"#T: {FormControlName}.html",
+                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
+            };
+            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+
+            return CreateOutpostMessageBody(_outpostData);
+        }
+
         public override async void PrintForm()
         {
             if (CanvasContainer is null || DirectPrintContainer is null)
@@ -200,6 +215,25 @@ namespace ICS213PackItFormControl
             //formField.ControlContent = comboBoxDataSet[0];
 
             return comboBoxDataSet[0];
+        }
+
+        private void Severity_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RadioButtons radioButtons = sender as RadioButtons;
+            int count = e.AddedItems.Count;
+            var item = e.AddedItems[0];
+
+            foreach (RadioButton radioButton in radioButtons.Items)
+            {
+                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
         }
 
         //protected override string CreateComboBoxOutpostDataString(FormField formField, string id)

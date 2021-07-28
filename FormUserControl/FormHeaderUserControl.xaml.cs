@@ -5,6 +5,8 @@ using FormControlBaseMvvmNameSpace;
 
 using FormControlBasicsNamespace;
 
+using Microsoft.UI.Xaml.Controls;
+
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Models;

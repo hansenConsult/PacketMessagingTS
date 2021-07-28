@@ -18,11 +18,19 @@
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Name="ICS213RRHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="13" Margin="4,0,0,0"
                            FontWeight="SemiBold" Foreground="Black" />
             </DataTemplate>
+            <Style x:Key="FormsCheckBox" TargetType="CheckBox" BasedOn="{StaticResource DefaultCheckBoxStyle}">
+                <Setter Property="FontFamily" Value="Ariel"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+
         </ResourceDictionary>
     </MyBaseNamespace:FormControlBase.Resources>
 
@@ -46,15 +54,16 @@
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition MaxHeight="54"/>
+                                <RowDefinition />
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0"/>
-                            <TextBox Grid.Row="0" Grid.Column="0" Name="incidentName" Margin="2" AcceptsReturn="True" 
-                                    TextChanged="Subject_Changed" 
-									Tag="21.,required,Enter the Incident Name."
-                                    HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
-                                    Header="1. Incident Name:"/>
+                            <TextBox Grid.Row="0" Grid.Column="0" Name="incidentName" AcceptsReturn="True" 
+                                     Style="{StaticResource FormsTextBox}"
+                                     TextChanged="Subject_Changed" 
+									 Tag="21.,required,Enter the Incident Name."
+                                     HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
+                                     Header="1. Incident Name:"/>
                             <!--Text="{x:Bind IncidentName, Mode=TwoWay}"-->
                             <Grid Grid.Row="0" Grid.Column="1" >
                                 <Grid.ColumnDefinitions>
@@ -65,7 +74,7 @@
                                 <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                                 <TextBox Grid.Column="0" Name="initiatedDate" PlaceholderText="mm/dd/yyyy" 
                                         Text="{x:Bind ViewModel.InitiatedDate, Mode=TwoWay}"
-                                        Style="{StaticResource MuniStatusDateTextBox}"                                             
+                                        Style="{StaticResource FormsDateTextBox}"                                             
                                         TextChanged="TextBox_DateChanged"
                                         Tag="22.,required,Enter the Date Initialized."
                                         HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
@@ -73,12 +82,13 @@
                                 <!--Text="{x:Bind InitiatedDate, Mode=TwoWay}"-->
                                 <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                                 <TextBox Grid.Column="1" Name="initiatedTime" PlaceholderText="hh:mm" 
+                                         Style="{StaticResource FormsTimeTextBox}"
                                          TextChanged="TextBox_TimeChanged" 
                                          Width="100" Margin="2"
                                          Tag="23.,required,Enter the message time."
                                          HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"
                                          Header="3. Time Initiated:" />
-                                <!--Style="{StaticResource MuniStatusTimeTextBox}"-->
+                                <!--Style="{StaticResource FormsTimeTextBox}"-->
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                                 <TextBox Grid.Column="2" 
                                          Style="{StaticResource ReadOnlyTextBox}"
@@ -98,8 +108,11 @@
                                 </TextBox>
                             </Grid>
                             <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <TextBox Grid.Column="0" Grid.Row="1" Name="requestedBy" FontFamily="Helvetica" FontSize="14"  
-                                     AcceptsReturn="True" Margin="2" 
+                            <TextBox Grid.Column="0" Grid.Row="1" Name="requestedBy" 
+                                     Style="{StaticResource FormsTextBox}"
+                                     VerticalAlignment="Stretch"
+                                     
+                                     AcceptsReturn="True" 
                                      TextChanged="TextBox_TextChanged"
                                      Tag="25.,required,Enter 5. Requested By." >
                                 <TextBox.HeaderTemplate>
@@ -192,8 +205,8 @@
                                     HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldHeader}" Height="16" />
                                 <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" 
                                     Style="{StaticResource EOC213RRFieldLabel}" Margin="10,0,0,0">
-                                <Run Text="9. Resource Description"/>
-                                <Run Text=" (Kind/Type if applicable)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
+                                        <Run Text="9. Resource Description"/>
+                                        <Run Text=" (Kind/Type if applicable)" FontSize="11" FontStyle="Italic" FontWeight="Normal" Foreground="Black"/>
                                 </TextBlock>
                                 <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" 
                                     Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0">
@@ -202,12 +215,13 @@
                                 </TextBlock>
                                 <TextBlock Grid.Column="3" Grid.Row="1" Text="11. Priority" HorizontalAlignment="Left" 
                                            Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
-                                <TextBlock Grid.Column="4" Grid.Row="1" Text="12. Est'd Cost" HorizontalAlignment="Left" Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
+                                <TextBlock Grid.Column="4" Grid.Row="1" Text="12. Est'd Cost" HorizontalAlignment="Left" 
+                                           Style="{StaticResource EOC213RRFieldLabel}" Margin="8,0,0,0"/>
                                 <TextBox Grid.Column="0" Grid.Row="2" Name="resourceInfoQuantity" Width="auto" 
-                                         Margin="2" Padding="0,6,8,0"
+                                         Margin="2,0,2,2" Padding="0,6,8,0"
                                          AcceptsReturn="True" TextAlignment="Right" 
                                          TextChanged="TextBox_TextChanged"
-                                         Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0" />
+                                         Tag="28.,required,Enter 8. Qty/Unit." MinWidth="0" Height="60" VerticalAlignment="Bottom" />
                                 <TextBox Grid.Column="1" Grid.Row="2" Name="resourceInfoDetailedResourceDesc1" 
                                          Margin="2" 
                                          AcceptsReturn="True" 
@@ -294,16 +308,16 @@
                                             <Run Text=" (Include details in #17)" FontSize="11" FontStyle="Italic" FontWeight="Normal" />
                                         </TextBlock>
                                         <CheckBox Grid.Column="0" Grid.Row="1" Name="suppReqEquipmentOperator" 
-                                                  Content="Equipment Operator" Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                  Content="Equipment Operator" Style="{StaticResource FormsCheckBox}" 
                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" 
                                                   Tag="36a." Height="30"/>
                                         <CheckBox Grid.Column="1" Grid.Row="1" Name="suppReqLodinng" Content="Lodging" 
-                                                  Style="{StaticResource EOC213RRFieldHeaderCB}" VerticalContentAlignment="Center" 
+                                                  Style="{StaticResource FormsCheckBox}"  VerticalContentAlignment="Center"
                                                   Margin="10,0,0,0" Tag="36b." Height="30"/>
 
                                         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
                                             <CheckBox  Name="suppReqFuel" Content="Fuel type" 
-                                                       Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                       Style="{StaticResource FormsCheckBox}" 
                                                        VerticalContentAlignment="Center" Margin="10,0,0,0" 
                                                        MinHeight="10" MinWidth="100" Tag="36c."
                                                        Checked="SuppReqFuel_Checked"
@@ -312,21 +326,21 @@
                                                      TextChanged="TextBox_TextChanged"/>
                                         </StackPanel>
                                         <CheckBox Grid.Column="1" Grid.Row="2" Name="suppReqPower" Content="Power" 
-                                                  Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                  Style="{StaticResource FormsCheckBox}" 
                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36e."/>
                                         <CheckBox Grid.Column="0" Grid.Row="3" Name="suppReqMeals" Content="Meals" 
-                                                  Style="{StaticResource EOC213RRFieldHeaderCB}"
+                                                  Style="{StaticResource FormsCheckBox}"
                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36f."/>
                                         <CheckBox Grid.Column="1" Grid.Row="3" Name="suppReqMaintenance" 
                                                   Content="Maintenance" 
-                                                  Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                  Style="{StaticResource FormsCheckBox}" 
                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36g."/>
                                         <CheckBox Grid.Column="0" Grid.Row="4" Name="suppReqWater" Content="Water" 
-                                                  Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                  Style="{StaticResource FormsCheckBox}" 
                                                   VerticalContentAlignment="Center" Margin="10,0,0,0" Tag="36h."/>
                                         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
                                             <CheckBox Name="suppReqOther" Content="Other " 
-                                                      Style="{StaticResource EOC213RRFieldHeaderCB}" 
+                                                      Style="{StaticResource FormsCheckBox}" 
                                                       VerticalContentAlignment="Center" Margin="10,0,0,0" 
                                                       Width="65" MinWidth="50" 
                                                       Unchecked="SuppReqOther_Checked"
@@ -337,8 +351,8 @@
                                     </Grid>
                                 </StackPanel>
                                 <!--<StackPanel Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="0,0,0,0">-->
-                                    <!--<TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>-->
-                                    <TextBox Grid.Column="1" Name="specialInstructions"  Margin="2" 
+                                <!--<TextBlock Text="17. Special Instructions" Style="{StaticResource EOC213RRFieldHeader}"/>-->
+                                <TextBox Grid.Column="1" Name="specialInstructions"  Margin="2" 
                                              AcceptsReturn="True" 
                                              TextChanged="TextBox_TextChanged"
                                              HeaderTemplate="{StaticResource ICS213RRHeaderTemplate}"

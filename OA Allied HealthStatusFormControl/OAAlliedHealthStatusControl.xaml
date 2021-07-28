@@ -279,20 +279,15 @@
                     </Setter.Value>
                 </Setter>
             </Style>-->
-            <Style x:Key="TextBoxFlowInformation" TargetType="TextBox" >
-                <Setter Property="TextAlignment" Value="Right"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="2"/>
-                <Setter Property="CornerRadius" Value="4"/>
+            <Style x:Key="TextBoxFlowInformation" TargetType="TextBox" BasedOn="{StaticResource FormsNumberTextBoxExtension}">
             </Style>
-            <Style x:Key="TextBoxResourceAvail" TargetType="TextBox" >
+            <Style x:Key="TextBoxResourceAvail" TargetType="TextBox" BasedOn="{StaticResource FormsNumberTextBoxExtension}">
                 <Setter Property="Background" Value="White"/>
-                <Setter Property="TextAlignment" Value="Right"/>
+                <!--<Setter Property="TextAlignment" Value="Right"/>-->
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="2"/>
-                <Setter Property="CornerRadius" Value="4"/>
+                <!--<Setter Property="Margin" Value="2"/>-->
+                <!--<Setter Property="CornerRadius" Value="4"/>-->
             </Style>
             <Style x:Key="TextBoxOAAlliedHealth" TargetType="TextBox" >
                 <Setter Property="Background" Value="White"/>
@@ -457,10 +452,12 @@
                                                            Tag="35.,conditionallyrequired,Select Facility Status"/>
                             <!--CheckedControlName ="{x:Bind FacilityStatus, Mode=TwoWay}"-->
                             <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,0" />
-                            <RadioButton Grid.Column="0"  Grid.Row="1" x:Name="facilityStatusGreen" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
-                                     Content="Green - Fully Functional" Tag="Fully Functional" />
+                            <RadioButton Grid.Column="0"  Grid.Row="1" x:Name="facilityStatusGreen" 
+                                         GroupName="facilityStatus" Margin="40,0,0,0" Padding="-200,6,0,0"
+                                         Content="Green - Fully Functional" Tag="Fully Functional" />
                             <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                            <RadioButton Grid.Column="0"  Grid.Row="2" x:Name="facilityStatusRed" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
+                            <RadioButton Grid.Column="0"  Grid.Row="2" x:Name="facilityStatusRed" 
+                                         GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
                                      Content="Red - Limited Services" Tag="Limited Services" />
                             <Border Grid.Column="0" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <RadioButton Grid.Column="0"  Grid.Row="3" x:Name="facilityStatusBlack" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
@@ -1388,100 +1385,71 @@ to Public Health/Medical Health Branch"
                                 <Border Grid.Row="1" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="1" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                         TextChanged="TextBoxResource_TextChanged" Tag="40a.,conditionallyrequired"/>
+                                         TextChanged="TextBoxResource_TextChanged" 
+                                         Tag="40a.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40b.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="40b.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="40c.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40d.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="40d.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="40e.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="40e.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Assisted Living"
                                        Style="{StaticResource AlliedHeaderText}" />
                                 <Border Grid.Row="2" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41a.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="41a.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41b.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="41b.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41c.,conditionallyrequired,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="41c.,conditionallyrequired,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41d.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="41d.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="41e.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="41e.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Sub-Acute"
                                        Style="{StaticResource AlliedHeaderText}" />
                                 <Border Grid.Row="3" Grid.Column="1" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42a.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="42a.,conditionallyrequired" Margin="0,4,0,0" VerticalAlignment="Top"/>
                                 <Border Grid.Row="3" Grid.Column="2" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42b.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="42b.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="3" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42c.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="42c.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="4" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42d.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="42d.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="42e.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="42e.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Alzeimers/Dementia"
@@ -1489,115 +1457,85 @@ to Public Health/Medical Health Branch"
                                 <Border Grid.Row="4" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43a.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="43a.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="2" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43b.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="43b.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43c.,conditionallyrequired,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="43c.,conditionallyrequired,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43d.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="43d.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="5" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="43e.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="43e.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Pediatric-Sub Acute"
-                                       Style="{StaticResource AlliedHeaderText}" />
+                                           Style="{StaticResource AlliedHeaderText}" />
                                 <Border Grid.Row="5" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44a.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="44a.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44b.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="44b.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44c.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="44c.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44d.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="44d.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="44e.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="44e.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="0" Background="LightYellow"
                                     BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Psychiatric"
-                                       Style="{StaticResource AlliedHeaderText}" />
+                                           Style="{StaticResource AlliedHeaderText}" />
                                 <Border Grid.Row="6" Grid.Column="1" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="1" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45a.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="45a.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="2" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45b.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="45b.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="3" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45c.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="45c.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45d.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="45d.,conditionallyrequired"/>
                                 <Border Grid.Row="6" Grid.Column="5" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="6" Grid.Column="5" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="45e.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="45e.,conditionallyrequired"/>
                                 <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -1704,9 +1642,7 @@ to Public Health/Medical Health Branch"
                                 <TextBlock Grid.Column="0" Text="Facility Patients to Evacuate" 
                                        Style="{StaticResource AlliedHeaderText}" Margin="2,0,2,0" />
                                 <TextBox Grid.Column="1" x:Name="patientsToEvacuate"
-                                         Style="{StaticResource TextBoxFlowInformation}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
+                                         Style="{StaticResource FormsNumberTextBoxExtension}" 
                                          Tag="31a." Margin="2,0,0,3" VerticalAlignment="Bottom" />
                                 <!--<muxc:NumberBox Grid.Column="1" x:Name="patientsToEvacuate" 
                                                 VerticalAlignment="Center" HorizontalAlignment="Left"
@@ -1724,9 +1660,7 @@ to Public Health/Medical Health Branch"
                                 <TextBlock Grid.Column="0" Text="Facility Patients Injured - Minor" 
                                        Style="{StaticResource AlliedHeaderText}" Margin="2,0,2,0" />
                                 <TextBox Grid.Column="1" x:Name="patientsInjured"
-                                         Style="{StaticResource TextBoxFlowInformation}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
+                                         Style="{StaticResource FormsNumberTextBoxExtension}" 
                                          Tag="31b." Grid.ColumnSpan="2" />
                             </Grid>
                             <Grid Grid.Column="0" Grid.Row="7" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -1739,9 +1673,7 @@ to Public Health/Medical Health Branch"
                                        Text="Facility Patients Transfered Out of County" 
                                        Style="{StaticResource AlliedHeaderText}" />
                                 <TextBox Grid.Column="1" x:Name="patientsTransferred"
-                                         Style="{StaticResource TextBoxFlowInformation}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
+                                         Style="{StaticResource FormsNumberTextBoxExtension}" 
                                          Tag="31c." />
                             </Grid>
                             <Grid Grid.Column="0" Grid.Row="8" BorderBrush="Black" BorderThickness="0,0,0,0">
@@ -1827,37 +1759,27 @@ to Public Health/Medical Health Branch"
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="1" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="50a.,conditionallyrequired" />
                                 <Border Grid.Row="1" Grid.Column="2" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="2" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="50b.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="3" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="50c.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="4" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="50d.,conditionallyrequired"/>
                                 <Border Grid.Row="1" Grid.Column="5" 
                                     Background="LightYellow" 
                                     BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="1" Grid.Column="5" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="50e.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="0" Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Surgical"
@@ -1866,36 +1788,26 @@ to Public Health/Medical Health Branch"
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="1" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="51a.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="2" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="2" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="51b.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="3" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="3" 
                                      Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                      TextChanged="TextBoxResource_TextChanged" Tag="51c.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="4" 
                                     Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="4" 
-                                     Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
-                                     TextChanged="TextBoxResource_TextChanged" Tag="51d.,conditionallyrequired"/>
+                                         Style="{StaticResource TextBoxResourceAvail}" 
+                                         TextChanged="TextBoxResource_TextChanged" Tag="51d.,conditionallyrequired"/>
                                 <Border Grid.Row="2" Grid.Column="5" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="2" Grid.Column="5" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="51e.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="0" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -1905,36 +1817,26 @@ to Public Health/Medical Health Branch"
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="1" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="52a.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="2" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="2" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="52b.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="3" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="3" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="52c.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="4" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="4" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="52d.,conditionallyrequired"/>
                                 <Border Grid.Row="3" Grid.Column="5" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="3" Grid.Column="5" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="52e.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="0" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -1944,36 +1846,26 @@ to Public Health/Medical Health Branch"
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="1" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="53a.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="2" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="2" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="53b.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="3" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="3" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="53c.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="4" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="4" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="53d.,conditionallyrequired"/>
                                 <Border Grid.Row="4" Grid.Column="5" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="4" Grid.Column="5" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="53e.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="0" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
@@ -1983,36 +1875,26 @@ to Public Health/Medical Health Branch"
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="1" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="54a.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="2" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="2" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="54b.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="3" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="3" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="54c.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="4" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="4" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="54d.,conditionallyrequired"/>
                                 <Border Grid.Row="5" Grid.Column="5" 
                                         Background="LightYellow" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <TextBox Grid.Row="5" Grid.Column="5" 
                                          Style="{StaticResource TextBoxResourceAvail}" 
-                                         ui:TextBoxExtensions.ValidationMode="Dynamic"
-                                         ui:TextBoxExtensions.ValidationType="Number" 
                                          TextChanged="TextBoxResource_TextChanged" Tag="54e.,conditionallyrequired"/>
                             </Grid>
 
