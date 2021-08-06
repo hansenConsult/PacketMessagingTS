@@ -3,10 +3,9 @@
     x:Class="MedicalHealthBranchRRFormControl.MedicalHealthBranchRRControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MedicalHealthBranchRRFormControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:MyNamespace="using:ToggleButtonGroupControl"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"
 
@@ -108,14 +107,43 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
+                                    <!--<ColumnDefinition Width="auto"/>-->
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0"/>
+                                <Border Grid.Row="0" Grid.Column="0"  Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,0"/>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="NATURE" 
                                            HorizontalAlignment="Center" VerticalAlignment="Center" 
                                            Margin="0,4,0,0" FontWeight="SemiBold"/>
                                 <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <MyNamespace:ToggleButtonGroup x:Name="nature" Visibility="Collapsed"
+                                <muxc:RadioButtons Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" MaxColumns="2"
+                                                   SelectionChanged="RadioButtons_SelectionChanged"
+                                                   Tag="23.,required,Select Nature.">
+                                    <RadioButton x:Name="natureSupply" 
+                                                 Style="{StaticResource RadioButtonTNR12}" 
+                                                 Margin="8,-8,0,0"
+                                                 Content="Supply" 
+                                                 Tag="Supply"/>
+                                    <RadioButton x:Name="natureMedicalGuidance" 
+                                                 Style="{StaticResource RadioButtonTNR12}" 
+                                                 Margin="8,-8,0,0"
+                                                 Content="Medical Guidance" 
+                                                 Tag="Medical Guidance"/>
+                                    <RadioButton x:Name="natureOther" 
+                                                 Style="{StaticResource RadioButtonTNR12}" 
+                                                 Margin="8,-8,0,0"
+                                                 Content="Other"
+                                                 Tag="Other"/>
+                                    <RadioButton x:Name="natureEquipment" 
+                                                 Style="{StaticResource RadioButtonTNR12}" 
+                                                 Margin="8,-8,0,0"
+                                                 Content="Equipment" 
+                                                 Tag="Equipment"/>
+                                    <RadioButton x:Name="naturePersonnel"
+                                                 Style="{StaticResource RadioButtonTNR12}" 
+                                                 Margin="8,-8,0,0"
+                                                 Content="Personnel"
+                                                 Tag="Personnel"/>
+                                </muxc:RadioButtons>
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="nature" Visibility="Collapsed"
                                                                CheckedControlName ="Nature" 
                                                                Tag="23.,required,Select Nature."/>
                                 <RadioButton Grid.Row="1" Grid.Column="0" Margin="8,0" 
@@ -136,7 +164,7 @@
                                 <RadioButton Grid.Row="2" Grid.Column="1" 
                                              x:Name="naturePersonnel" GroupName="nature"
                                              Content="Personnel"
-                                             Checked="RadioButton_SelectionChanged" Tag="Personnel"/>
+                                             Checked="RadioButton_SelectionChanged" Tag="Personnel"/>-->
                                 <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="natureOtherComments" 
                                          Tag="23o." Margin="2" BorderBrush="Black" BorderThickness="1"/>
                             </Grid>
@@ -157,7 +185,46 @@
                                 <Border Grid.Row="0" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="FACILITY TYPE" HorizontalAlignment="Center" 
                                            FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,4,0,0"/>
-                                <MyNamespace:ToggleButtonGroup x:Name="facilityType" Visibility="Collapsed"
+                                <muxc:RadioButtons Grid.Row="1" x:Name="facilityType" 
+                                                   SelectionChanged="RadioButtons_SelectionChanged"
+                                                   Tag="24.,required,Select Facility Type.">
+                                    <RadioButton x:Name="facilitypeCity" 
+                                             Style="{StaticResource RadioButtonTNR12}" 
+                                             Margin="8,-8,0,0" 
+                                             Content="City"  
+                                             Tag="City"/>
+                                    <RadioButton x:Name="facilityHospital" 
+                                             Style="{StaticResource RadioButtonTNR12}" 
+                                             Margin="8,-8,0,0" 
+                                             Content="Hospital"  
+                                             Tag="Hospital" />
+                                    <RadioButton x:Name="facilityAlliedHealthcare" 
+                                             Style="{StaticResource RadioButtonTNR12}" 
+                                             Margin="8,-8,0,0"  
+                                             Content="Allied Healthcare" 
+                                             Tag="Allied Healthcare"/>
+                                    <RadioButton x:Name="facilityPublicHealth" 
+                                             Style="{StaticResource RadioButtonTNR12}" 
+                                             Margin="8,-8,0,0" 
+                                             Content="Public Health" 
+                                             Tag="Public Health"/>
+                                    <RadioButton x:Name="facilityHHSDept" 
+                                             Style="{StaticResource RadioButtonTNR12}" 
+                                             Margin="8,-8,0,0" 
+                                             Content="HHS Dept."
+                                             Tag="HHS Dept."/>
+                                    <RadioButton x:Name="facilityDEOCRequest"
+                                             Style="{StaticResource RadioButtonTNR12}" 
+                                             Margin="8,-8,0,0" 
+                                             Content="DEOC Request"
+                                             Tag="DEOC Request" />
+                                    <RadioButton x:Name="facilityOther"
+                                             Style="{StaticResource RadioButtonTNR12}" 
+                                             Margin="8,-8,0,0" 
+                                             Content="Other"
+                                             Tag="Other"/>
+                                </muxc:RadioButtons>
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="facilityType" Visibility="Collapsed"
                                                                CheckedControlName ="Facilitype" 
                                                                Tag="24.,required,Select Facility Type."/>
                                 <RadioButton Grid.Row="1" x:Name="facilitypeCity" GroupName="facilityType"
@@ -194,7 +261,7 @@
                                              Style="{StaticResource RadioButtonTNR12}" 
                                              Margin="8,0" 
                                              Content="Other"
-                                             Checked="RadioButton_SelectionChanged" Tag="Other"/>
+                                             Checked="RadioButton_SelectionChanged" Tag="Other"/>-->
                             </Grid>
                             <Grid Grid.Row="0" Grid.Column="2">
                                 <Grid.RowDefinitions>

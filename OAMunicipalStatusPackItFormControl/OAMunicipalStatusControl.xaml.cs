@@ -11,7 +11,7 @@ using SharedCode.Models;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
-using ToggleButtonGroupControl;
+//using ToggleButtonGroupControl;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
 
@@ -76,17 +76,6 @@ namespace OAMunicipalStatusPackItFormControl
                 new ComboBoxItem() {Content = "Full", Background = PinkBrush}
         };
 
-        //List<ComboBoxPackItItem> CurrentSituation = new List<ComboBoxPackItItem>
-        //{
-        //        new ComboBoxPackItItem(null, ""),
-        //        new ComboBoxPackItItem("Unknown", LightGrayBrush),
-        //        new ComboBoxPackItItem("Normal", LightGreenBrush),
-        //        new ComboBoxPackItItem("Problem", YellowBrush),
-        //        new ComboBoxPackItItem("Failure", PinkBrush),
-        //        new ComboBoxPackItItem("Delayed", WhiteBrush),
-        //        new ComboBoxPackItItem("Closed", WhiteBrush),
-        //        new ComboBoxPackItItem("Early Out", WhiteBrush),
-        //};
         readonly List<ComboBoxItem> Communications = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = null, Tag = "" },

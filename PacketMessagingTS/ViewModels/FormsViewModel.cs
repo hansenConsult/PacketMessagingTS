@@ -352,15 +352,24 @@ namespace PacketMessagingTS.ViewModels
             //_packetAddressForm.MessageBBS = _packetMessage.BBSName;
             SendFormDataControlViewModel.Instance.MessageBBS = _packetMessage.BBSName;
             SendFormDataControlViewModel.Instance.MessageTNC = _packetMessage.TNCName;
-            if (_packetMessage.MessageState == MessageState.Locked)
+            if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.Received)
             {
-                _packetForm.LockForm();
-                _packetAddressForm.LockForm();
+                _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
+            }
+            else
+            {
+                _packetForm.ViewModelBase.ReceivedOrSent = "Sender";
             }
             _packetForm.FillFormFromFormFields(_packetMessage.FormFieldArray);
             SendFormDataControlViewModel.Instance.MessageFrom = _packetMessage.MessageFrom;
             SendFormDataControlViewModel.Instance.MessageTo = _packetMessage.MessageTo;
             SendFormDataControlViewModel.Instance.MessageSubject = _packetMessage.Subject;
+
+            //if (_packetMessage.MessageState == MessageState.Locked)
+            //{
+            //    _packetForm.LockForm();
+            //    _packetAddressForm.LockForm();
+            //}
 
             //string opcall = _packetForm.OperatorCallsign;//test
             // Special handling for SimpleMessage
@@ -404,6 +413,11 @@ namespace PacketMessagingTS.ViewModels
                 (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = _packetMessage.ReceivedTime;
                 OriginMsgNo = _packetMessage.MessageNumber;
             }
+            if (_packetMessage.MessageState == MessageState.Locked)
+            {
+                _packetForm.LockForm();
+                _packetAddressForm.LockForm();
+            }
         }
 
         void FormControl_SubjectChange(object sender, FormEventArgs e)
@@ -440,6 +454,10 @@ namespace PacketMessagingTS.ViewModels
 
         public void FormsPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            int addedCount = e.AddedItems.Count;
+            int removedCount = e.RemovedItems.Count;
+            var item = e.AddedItems[0];
+
             int index = FormsPagePivotSelectedIndex;
             FormsPagePivotSelectionChangedAsync(index);
         }

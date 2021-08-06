@@ -3,10 +3,9 @@
     x:Class="MedicalFacilityStatusFormControl.MedicalFacilityStatusControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MedicalFacilityStatusFormControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:MyNamespace="using:ToggleButtonGroupControl"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"
     mc:Ignorable="d"
@@ -130,14 +129,25 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                            <MyNamespace:ToggleButtonGroup x:Name="reportType" Visibility="Collapsed"
+                            <muxc:RadioButtons Grid.Column="1" x:Name="reportType"
+                                               MaxColumns="2"
+                                               SelectionChanged="ReportType_SelectionChanged"
+                                               Tag="19.,required,Select Report Type" >
+                                <RadioButton x:Name="update" Content="Update"
+                                             Margin="0,-6,0,0"
+                                             Tag="Update"/>
+                                <RadioButton x:Name="complete" Content="Complete"
+                                             Margin="0,-6,0,0"
+                                             Tag="Complete"/>
+                            </muxc:RadioButtons>
+                            <!--<MyNamespace:ToggleButtonGroup x:Name="reportType" Visibility="Collapsed"
                                                        
                                                        Tag="19.,required,Select Report Type"/>
-                            <!--CheckedControlName ="{x:Bind ReportType, Mode=TwoWay}"-->
+                            --><!--CheckedControlName ="{x:Bind ReportType, Mode=TwoWay}"--><!--
                             <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"
                                                  Checked="ReportType_Checked" Tag="Update"/>
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
-                                                 Checked="ReportType_Checked" Tag="Complete"/>
+                                                 Checked="ReportType_Checked" Tag="Complete"/>-->
                             <TextBlock Grid.Column="3" Text="Hospital Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
                             <ComboBox Grid.Column="4" x:Name="hospitalName" Width="300"
                                       Style="{StaticResource FormsComboBox}"  
@@ -533,7 +543,19 @@
                             <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Cardiology" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="2" Grid.Column="1" x:Name="cardiologyService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.1.,conditionallyrequired" >
+                                <RadioButton x:Name="cardiologyServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="cardiologyServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+                            <!--<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="cardiologyService" Visibility="Collapsed"                                                        
                                                                Tag="15.1.,conditionallyrequired"/>
                                 <RadioButton x:Name="cardiologyServiceYes"  GroupName="cardiologyService" Content="Yes"
@@ -542,7 +564,7 @@
                                 <RadioButton x:Name="cardiologyServiceNo" GroupName="cardiologyService" Content="No"
                                      Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="2" Grid.Column="2" x:Name="cardiologyServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -555,7 +577,19 @@
                             <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Dialysis" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="3" Grid.Column="1" x:Name="dialysisService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.3.,conditionallyrequired" >
+                                <RadioButton x:Name="dialysisServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="dialysisServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+                            <!--<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="dialysisService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.3.,conditionallyrequired"/>
@@ -565,7 +599,7 @@
                                 <RadioButton x:Name="dialysisServiceNo" GroupName="dialysisService" Content="No"
                                      Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                      Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="3" Grid.Column="2" x:Name="dialysisServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -578,7 +612,20 @@
                             <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Emergency Department" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="4" Grid.Column="1" x:Name="emergencyDepartmentService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.4.,conditionallyrequired" >
+                                <RadioButton x:Name="emergencyDepartmentServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="emergencyDepartmentServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="emergencyDepartmentService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.4.,conditionallyrequired"/>
@@ -588,7 +635,7 @@
                                 <RadioButton x:Name="emergencyDepartmentServiceNo" GroupName="emergencyDepartmentService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="4" Grid.Column="2" x:Name="emergencyDepartmentServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -601,7 +648,20 @@
                             <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="5" Grid.Column="0" Text="Neurology" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="5" Grid.Column="1" x:Name="neurologyService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.5.,conditionallyrequired" >
+                                <RadioButton x:Name="neurologyServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="neurologyServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="neurologyService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.5.,conditionallyrequired"/>
@@ -611,7 +671,7 @@
                                 <RadioButton x:Name="neurologyServiceNo" GroupName="neurologyService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="5" Grid.Column="2" x:Name="neurologyServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -624,7 +684,20 @@
                             <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="6" Grid.Column="0" Text="Obstetrics" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="6" Grid.Column="1" x:Name="obstetricsService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.7.,conditionallyrequired" >
+                                <RadioButton x:Name="obstetricsServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="obstetricsServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="obstetricsService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.7.,conditionallyrequired"/>
@@ -634,7 +707,7 @@
                                 <RadioButton x:Name="obstetricsServiceNo" GroupName="obstetricsService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="6" Grid.Column="2" x:Name="obstetricsServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -647,7 +720,20 @@
                             <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="7" Grid.Column="0" Text="Obstetrics: Labor &amp; Delivery" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="7" Grid.Column="1" x:Name="obstetricsLaborService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.8.,conditionallyrequired" >
+                                <RadioButton x:Name="obstetricsLaborServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="obstetricsLaborServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="obstetricsLaborService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.8.,conditionallyrequired"/>
@@ -657,7 +743,7 @@
                                 <RadioButton x:Name="obstetricsLaborServiceNo" GroupName="obstetricsLaborService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="7" Grid.Column="2" x:Name="obstetricsLaborServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -671,7 +757,20 @@
                             <TextBlock Grid.Row="8" Grid.Column="0" Text="Ophthalmology" 
                                        Style="{StaticResource ShelterStatusHeaderText}" />
                             <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="8" Grid.Column="1" x:Name="ophthalmologyService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.9.,conditionallyrequired" >
+                                <RadioButton x:Name="ophthalmologyServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="ophthalmologyServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="ophthalmologyService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.9.,conditionallyrequired"/>
@@ -681,7 +780,7 @@
                                 <RadioButton x:Name="ophthalmologyServiceNo" GroupName="ophthalmologyService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="8" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="8" Grid.Column="2" x:Name="ophthalmologyServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -694,7 +793,20 @@
                             <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="9" Grid.Column="0" Text="Orthopedics" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="9" Grid.Column="1" x:Name="orthopedicsService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.10.,conditionallyrequired" >
+                                <RadioButton x:Name="orthopedicsServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="orthopedicsServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="orthopedicsService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.10.,conditionallyrequired"/>
@@ -704,7 +816,7 @@
                                 <RadioButton x:Name="orthopedicsServiceNo" GroupName="orthopedicsService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="9" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="9" Grid.Column="2" x:Name="orthopedicsServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -717,7 +829,20 @@
                             <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="10" Grid.Column="0" Text="Pediatrics" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="10" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="10" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="10" Grid.Column="1" x:Name="pediatricsService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.11.,conditionallyrequired" >
+                                <RadioButton x:Name="pediatricsServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="pediatricsServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="10" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="pediatricsService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.11.,conditionallyrequired"/>
@@ -727,7 +852,7 @@
                                 <RadioButton x:Name="pediatricsServiceNo" GroupName="pediatricsService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="10" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="10" Grid.Column="2" x:Name="pediatricsServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -740,7 +865,20 @@
                             <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="11" Grid.Column="0" Text="Surgery" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="11" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="11" Grid.Column="1" x:Name="surgeryService" MaxColumns="2"
+                                               SelectionChanged="SpecialtyService_SelectionChanged"
+                                               Tag="15.12.,conditionallyrequired" >
+                                <RadioButton x:Name="surgeryServiceYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="Y"/>
+                                <RadioButton x:Name="surgeryServiceNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="N" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="surgeryService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="15.12.,conditionallyrequired"/>
@@ -750,7 +888,7 @@
                                 <RadioButton x:Name="surgeryServiceNo" GroupName="surgeryService" Content="No"
                                              Checked="SpecialtyService_Checked" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <Border Grid.Row="11" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="11" Grid.Column="2" x:Name="surgeryServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
@@ -766,7 +904,20 @@
                             <Border Grid.Row="13" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBlock Grid.Row="13" Grid.Column="0" Text="Hospital is Evacuating" Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <StackPanel Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                            <muxc:RadioButtons Grid.Row="13" Grid.Column="1" x:Name="evacuatingService" MaxColumns="2"
+                                               
+                                               Tag="16.,conditionallyrequired" >
+                                <RadioButton x:Name="evacuatingServiceNo"  Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,0,0,0" 
+                                             Tag="N"/>
+                                <RadioButton x:Name="evacuatingServiceYes" Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="10,0,0,0"
+                                             Tag="Y" />
+                            </muxc:RadioButtons>
+
+                            <!--<StackPanel Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
                                 <MyNamespace:ToggleButtonGroup x:Name="evacuatingService" Visibility="Collapsed"
                                                         CheckedControlName ="{x:Bind Mode=TwoWay, Path=CardiologyService}" 
                                                         Tag="16.,conditionallyrequired"/>
@@ -776,7 +927,7 @@
                                 <RadioButton x:Name="evacuatingServiceNo" GroupName="evacuatingService" Content="No"
                                              Checked="RadioButton_SelectionChanged" Margin="-52,0,0,0"
                                              Tag="N" />
-                            </StackPanel>
+                            </StackPanel>-->
                         </Grid>
                         <src:RadioOperatorUserControl Grid.Row="2" x:Name="radioOperatorControl" Margin="0,8,0,0"/>
                     </Grid>

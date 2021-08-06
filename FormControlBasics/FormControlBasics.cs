@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 
 using FormControlBaseMvvmNameSpace;
 
+using Microsoft.UI.Xaml.Controls;
+
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Models;
@@ -724,6 +726,29 @@ namespace FormControlBasicsNamespace
             }
         }
 
+        private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RadioButtons radioButtons = sender as RadioButtons;
+            int count = e.AddedItems.Count;
+            var item = e.AddedItems[0];
+
+            foreach (RadioButton radioButton in radioButtons.Items)
+            {
+                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
+            if (radioButtons.Name == "handlingOrder")
+            {
+                Subject_Changed(sender, null);
+            }
+        }
+
         protected void Subject_Changed(object sender, RoutedEventArgs e)
         {
             foreach (FormControl formControl in _formControlsList)
@@ -751,6 +776,21 @@ namespace FormControlBasicsNamespace
                         }
                         break;
                     }
+                }
+                if (sender is RadioButtons radioButtons && radioButtons.Name == formControl.InputControl.Name)
+                {
+                    radioButton = radioButtons.SelectedItem as RadioButton;
+                    if (radioButtons.Name == "handlingOrder" && radioButtons.SelectedIndex != -1)
+                    {
+                        ViewModelBase.HandlingOrder = (radioButtons.Items[radioButtons.SelectedIndex] as RadioButton)?.Name;
+                    }
+                    foreach (RadioButton radioBtn in radioButtons.Items)
+                    {
+                        radioBtn.Foreground = IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1
+                            ? new SolidColorBrush(Colors.Red)
+                            : new SolidColorBrush(Colors.Black);
+                    }
+                    break;
                 }
                 else if (sender is TextBox textBox && textBox.Name == formControl.InputControl.Name)
                 {

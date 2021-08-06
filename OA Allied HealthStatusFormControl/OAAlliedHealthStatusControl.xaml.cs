@@ -1,21 +1,17 @@
 ﻿using System.Collections.Generic;
 
 using FormControlBaseClass;
-using FormControlBasicsNamespace;
 using FormUserControl;
-
-using SharedCode;
-using SharedCode.Helpers;
 using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.System;
-using Windows.UI.Xaml;
 using FormControlBaseMvvmNameSpace;
 using OA_Allied_HealthStatusFormControl;
 using PacketMessagingTS.Core.Helpers;
+using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -147,6 +143,9 @@ namespace OAAlliedHealthStatus201802FormControl
                 altContact.Tag = (altContact.Tag as string).Replace(",required", ",conditionallyrequired");
                 altContactNumber.Tag = (altContactNumber.Tag as string).Replace(",required", ",conditionallyrequired");
                 altContactEmail.Tag = (altContactEmail.Tag as string).Replace(",required", ",conditionallyrequired");
+                facilityStatusGreen.Foreground = new SolidColorBrush(Colors.Black);
+                facilityStatusRed.Foreground = new SolidColorBrush(Colors.Black);
+                facilityStatusBlack.Foreground = new SolidColorBrush(Colors.Black);
             }
             else
             {
@@ -163,6 +162,10 @@ namespace OAAlliedHealthStatus201802FormControl
                 altContact.Tag = (altContact.Tag as string).Replace(",conditionallyrequired", ",required");
                 altContactNumber.Tag = (altContactNumber.Tag as string).Replace(",conditionallyrequired", ",required");
                 altContactEmail.Tag = (altContactEmail.Tag as string).Replace(",conditionallyrequired", ",required");
+                facilityStatusGreen.Foreground = new SolidColorBrush(Colors.Red);
+                facilityStatusRed.Foreground = new SolidColorBrush(Colors.Red);
+                facilityStatusBlack.Foreground = new SolidColorBrush(Colors.Red);
+
             }
             UpdateFormFieldsRequiredColors();
         }
@@ -251,6 +254,39 @@ namespace OAAlliedHealthStatus201802FormControl
             if (string.IsNullOrEmpty(facilityTime.Text))
             {
                 facilityTime.Text = msgTime;
+            }
+        }
+
+        protected override void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RadioButtons radioButtons = sender as RadioButtons;
+            if (radioButtons.Name != "facilityStatus")
+            {
+                base.RadioButtons_SelectionChanged(sender, e);
+            }
+
+            foreach (RadioButton radioButton in radioButtons.Items)
+            {
+                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
+            if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+            {
+                facilityStatusGreen.Foreground = new SolidColorBrush(Colors.Red);
+                facilityStatusRed.Foreground = new SolidColorBrush(Colors.Red);
+                facilityStatusBlack.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            else
+            {
+                facilityStatusGreen.Foreground = new SolidColorBrush(Colors.Black);
+                facilityStatusRed.Foreground = new SolidColorBrush(Colors.Black);
+                facilityStatusBlack.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
 

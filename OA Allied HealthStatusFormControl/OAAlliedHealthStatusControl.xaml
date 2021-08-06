@@ -3,11 +3,10 @@
     x:Class="OAAlliedHealthStatus201802FormControl.OAAlliedHealthStatusControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:OAAlliedHealthStatus201802FormControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
-    xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"   
 
@@ -321,15 +320,26 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="5,0,10,0"/>
-                            <MyNamespace:ToggleButtonGroup x:Name="reportType" 
+                            <TextBlock Grid.Column="0" Text="Report Type:" VerticalAlignment="Center" Margin="8,0,10,0"/>
+                            <muxc:RadioButtons Grid.Column="1" x:Name="reportType"
+                                               MaxColumns="2"
+                                               SelectionChanged="ReportType_SelectionChanged"
+                                               Tag="19.,required,Select Report Type" >
+                                <RadioButton x:Name="update" Content="Update"
+                                             Margin="0,-6,0,0"
+                                             Tag="Update"/>
+                                <RadioButton x:Name="complete" Content="Complete"
+                                             Margin="0,-6,0,0"
+                                             Tag="Complete"/>
+                            </muxc:RadioButtons>
+
+                            <!--<MyNamespace:ToggleButtonGroup x:Name="reportType" 
                                                            
                                                            Tag="19.,required,Select Report Type"/>
-                            <!--CheckedControlName ="{x:Bind ReportType, Mode=TwoWay}"-->
                             <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"
                                          Checked="ReportType_Checked" Tag="Update"/>
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
-                                         Checked="ReportType_Checked" Tag="Complete"/>
+                                         Checked="ReportType_Checked" Tag="Complete"/>-->
                         </Grid>
                         <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.RowDefinitions>
@@ -420,7 +430,7 @@
                         </Grid>
                         <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2.5*"/>
+                                <ColumnDefinition Width="2.3*"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -448,60 +458,59 @@
                             <Border Grid.Column="0" Grid.Row="0"  Background="LightGray" BorderBrush="Black" BorderThickness="0,0,0,1"/>
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Facility Status" 
                                        Style="{StaticResource AlliedHeaderTextBold}"/>
-                            <MyNamespace:ToggleButtonGroup x:Name="facilityStatus"                                                        
+                            <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,0,1" />
+                                <TextBlock Grid.Column="0" Grid.Row="0" x:Name="facilityStatusGreen"
+                                           Text="Green - Fully Functional"
+                                           VerticalAlignment="Center"
+                                           Margin="8,0,0,0" />
+                                <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,0,0,1" />
+                                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="facilityStatusRed"
+                                           Text="Red - Limited Services"
+                                           Style="{StaticResource Label}" Margin="2" />
+                                <TextBlock Grid.Column="0" Grid.Row="2" x:Name="facilityStatusBlack"
+                                           Text="Black - Impaired/Closed"
+                                           Style="{StaticResource Label}" Margin="2" />
+                                <muxc:RadioButtons Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" x:Name="facilityStatus"
+                                                   SelectionChanged="RadioButtons_SelectionChanged"
+                                                   Tag="35.,conditionallyrequired,Select Facility Status" >
+                                    <RadioButton 
+                                             Margin="8,-6,0,0" 
+                                             Tag="Fully Functional" />
+                                    <RadioButton 
+                                             Margin="8,-6,0,0" 
+                                             Tag="Limited Services" />
+                                    <RadioButton 
+                                             Margin="8,-6,0,0" 
+                                             Tag="Impaired/Closed" />
+
+                                </muxc:RadioButtons>
+                            </Grid>
+                            <!--<MyNamespace:ToggleButtonGroup x:Name="facilityStatus"                                                        
                                                            Tag="35.,conditionallyrequired,Select Facility Status"/>
-                            <!--CheckedControlName ="{x:Bind FacilityStatus, Mode=TwoWay}"-->
                             <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,0,0" />
                             <RadioButton Grid.Column="0"  Grid.Row="1" x:Name="facilityStatusGreen" 
                                          GroupName="facilityStatus" Margin="40,0,0,0" Padding="-200,6,0,0"
                                          Content="Green - Fully Functional" Tag="Fully Functional" />
-                            <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <RadioButton Grid.Column="0"  Grid.Row="2" x:Name="facilityStatusRed" 
                                          GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
                                      Content="Red - Limited Services" Tag="Limited Services" />
-                            <Border Grid.Column="0" Grid.Row="3" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <RadioButton Grid.Column="0"  Grid.Row="3" x:Name="facilityStatusBlack" GroupName="facilityStatus" Margin="186,0,0,0" Padding="-200,6,0,0"
-                                     Content="Black - Impaired/Closed" Tag="Impaired/Closed" />
+                                     Content="Black - Impaired/Closed" Tag="Impaired/Closed" />-->
 
-                            <Grid Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                <TextBlock Grid.Column="0" Text="NHICS/ICS Status Report Form - Standard" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                <MyNamespace:ToggleButtonGroup x:Name="repFormStd" 
-                                                           CheckedControlName ="{x:Bind RepFormStd, Mode=TwoWay}" 
-                                                           Tag="26c."/>
-                                <RadioButton Grid.Column="1" x:Name="statusRepFormYes" Content="Yes" GroupName="repFormStd"
-                                         HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
-                                         Width="30" Tag="Yes"/>
-                                <RadioButton Grid.Column="1" x:Name="statusRepFormNo" Content="No" GroupName="repFormStd"
-                                         HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
-                                         Width="30" Tag="No"/>
-                            </Grid>
                             <Border Grid.Row="4" Grid.Column="0" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Facility Contact Information" 
                                    Style="{StaticResource AlliedHeaderTextBold}" />
-                            <Grid Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                <TextBlock Grid.Column="0" Text="NHICS/ICS Incident Action Plan" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                <MyNamespace:ToggleButtonGroup x:Name="incidentActPlan" 
-                                                           CheckedControlName ="{x:Bind IncidentActPlan, Mode=TwoWay}" 
-                                                           Tag="26d."/>
-                                <RadioButton Grid.Column="1" x:Name="actionPlanYes" Content="Yes" GroupName="incidentActPlan"
-                                         HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
-                                         Width="30" Tag="Yes"/>
-                                <RadioButton Grid.Column="1" x:Name="actionPlanNo" Content="No" GroupName="incidentActPlan"
-                                         HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
-                                         Width="30" Tag="No"/>
-                            </Grid>
                             <Border Grid.Row="0" Grid.Column="1" Background="LightGray" BorderBrush="Black" BorderThickness="1,0,0,1"/>
                             <TextBlock Grid.Column="1" Grid.Row="0" Text="Additional Attachments Provided" 
                                    Style="{StaticResource AlliedHeaderTextBold}" />
@@ -512,11 +521,22 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="NHICS/ICS Organization Chart" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                <MyNamespace:ToggleButtonGroup x:Name="nhicsChart" 
-                                                               
+                                       Style="{StaticResource Label}" />
+                                <muxc:RadioButtons Grid.Row="9" Grid.Column="1" x:Name="nhicsChart" MaxColumns="2"
+                                                   Margin="0"
+                                               Tag="26a." >
+                                    <RadioButton x:Name="nhicsChartYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0" 
+                                             Tag="Yes"/>
+                                    <RadioButton x:Name="nhicsChartNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0"
+                                             Tag="No" />
+                                </muxc:RadioButtons>
+
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="nhicsChart" 
                                                                Tag="26a."/>
-                                <!--CheckedControlName ="{x:Bind NhicsChart, Mode=TwoWay}"-->
                                 <RadioButton Grid.Row="0" Grid.Column="1" x:Name="nhicsChartYes" Content="Yes"
                                          GroupName="nhicsChart"
                                          HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
@@ -524,7 +544,7 @@
                                 <RadioButton Grid.Row="0" Grid.Column="1" x:Name="nhicsChartNo" Content="No" 
                                          GroupName="nhicsChart"
                                          HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
-                                         Width="30" Tag="No"/>
+                                         Width="30" Tag="No"/>-->
                             </Grid>
                             <Grid Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,0">
                                 <Grid.ColumnDefinitions>
@@ -533,8 +553,22 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="DEOC-9A Resource Request Forms" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                <MyNamespace:ToggleButtonGroup x:Name="resReqForms" 
+                                       Style="{StaticResource Label}" />
+                                <muxc:RadioButtons Grid.Column="1" x:Name="resReqForms" MaxColumns="2"
+                                                   Margin="0"
+                                                   SelectionChanged="RadioButtons_SelectionChanged"
+                                                   Tag="26b.,conditionallyrequired,Select yes or no" >
+                                    <RadioButton x:Name="resourceReqFormsYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0" 
+                                             Tag="Yes"/>
+                                    <RadioButton x:Name="resourceReqFormsNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0"
+                                             Tag="No" />
+                                </muxc:RadioButtons>
+
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="resReqForms" 
                                                            CheckedControlName ="{x:Bind ResReqForms, Mode=TwoWay}" 
                                                            Tag="26b.,conditionallyrequired,Select yes or no"/>
                                 <RadioButton Grid.Column="1" x:Name="resourceReqFormsYes" Content="Yes" GroupName="resReqForms"
@@ -542,7 +576,104 @@
                                          Width="30" Tag="Yes"/>
                                 <RadioButton Grid.Column="1" x:Name="resourceReqFormsNo" Content="No" GroupName="resReqForms"
                                          HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" Width="30"
-                                         Tag="No"/>
+                                         Tag="No"/>-->
+                            </Grid>
+                            <Grid Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Text="NHICS/ICS Status Report Form - Standard" 
+                                           FontSize="12"
+                                           Style="{StaticResource Label}" />
+                                <muxc:RadioButtons  Grid.Column="1" x:Name="repFormStd" MaxColumns="2"
+                                                   Margin="0"
+                                               Tag="26c.,conditionallyrequired,Select yes or no" >
+                                    <RadioButton x:Name="statusRepFormYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0" 
+                                             Tag="Yes"/>
+                                    <RadioButton x:Name="statusRepFormNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0"
+                                             Tag="No" />
+                                </muxc:RadioButtons>
+
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="repFormStd" 
+                                                           CheckedControlName ="{x:Bind RepFormStd, Mode=TwoWay}" 
+                                                           Tag="26c."/>
+                                <RadioButton Grid.Column="1" x:Name="statusRepFormYes" Content="Yes" GroupName="repFormStd"
+                                         HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
+                                         Width="30" Tag="Yes"/>
+                                <RadioButton Grid.Column="1" x:Name="statusRepFormNo" Content="No" GroupName="repFormStd"
+                                         HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
+                                         Width="30" Tag="No"/>-->
+                            </Grid>
+                            <Grid Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Text="NHICS/ICS Incident Action Plan" 
+                                       Style="{StaticResource Label}" />
+                                <muxc:RadioButtons  Grid.Column="1" x:Name="incidentActPlan" MaxColumns="2"
+                                                   Margin="0"
+                                               Tag="26d.,conditionallyrequired,Select yes or no" >
+                                    <RadioButton x:Name="actionPlanYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0" 
+                                             Tag="Yes"/>
+                                    <RadioButton x:Name="actionPlanNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0"
+                                             Tag="No" />
+                                </muxc:RadioButtons>
+
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="incidentActPlan" 
+                                                           CheckedControlName ="{x:Bind IncidentActPlan, Mode=TwoWay}" 
+                                                           Tag="26d."/>
+                                <RadioButton Grid.Column="1" x:Name="actionPlanYes" Content="Yes" GroupName="incidentActPlan"
+                                         HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
+                                         Width="30" Tag="Yes"/>
+                                <RadioButton Grid.Column="1" x:Name="actionPlanNo" Content="No" GroupName="incidentActPlan"
+                                         HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
+                                         Width="30" Tag="No"/>-->
+                            </Grid>
+                            <Grid Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Phone/Communications Directory" 
+                                       Style="{StaticResource Label}" />
+                                <muxc:RadioButtons  Grid.Column="1" x:Name="comsDirectory" MaxColumns="2"
+                                                   Margin="0"
+                                               Tag="26e.,conditionallyrequired,Select yes or no" >
+                                    <RadioButton x:Name="comDirectoryYes"  Content="Yes"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0" 
+                                             Tag="Yes"/>
+                                    <RadioButton x:Name="comDirectoryNo" Content="No"
+                                             Width="50" MinWidth="50"
+                                             Margin="8,-6,0,0"
+                                             Tag="No" />
+                                </muxc:RadioButtons>
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="comsDirectory" 
+                                                           CheckedControlName ="{x:Bind ComsDirectory, Mode=TwoWay}" 
+                                                           Tag="26e."/>
+                                <RadioButton Grid.Column="1" x:Name="comDirectoryYes" Content="Yes" GroupName="comsDirectory"
+                                         HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
+                                         Width="30" Tag="Yes"/>
+                                <RadioButton Grid.Column="1" x:Name="comDirectoryNo" Content="No" GroupName="comsDirectory"
+                                         HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
+                                         Width="30"  Tag="No" RenderTransformOrigin="0.5,0.5">
+                                    <RadioButton.RenderTransform>
+                                        <CompositeTransform Rotation="1.13"/>
+                                    </RadioButton.RenderTransform>
+                                </RadioButton>-->
                             </Grid>
 
                             <Grid Grid.Column="0" Grid.Row="5" BorderBrush="Black" BorderThickness="0,1,0,0">
@@ -560,28 +691,6 @@
                                          Style="{StaticResource AlliedPhoneTextBox}" 
                                          TextChanged="TextBox_TextChanged"
                                          Tag="27p.,conditionallyrequired" />
-                            </Grid>
-                            <Grid Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="1,1,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,1,0" />
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Phone/Communications Directory" 
-                                       Style="{StaticResource AlliedHeaderText}" />
-                                <MyNamespace:ToggleButtonGroup x:Name="comsDirectory" 
-                                                           CheckedControlName ="{x:Bind ComsDirectory, Mode=TwoWay}" 
-                                                           Tag="26e."/>
-                                <RadioButton Grid.Column="1" x:Name="comDirectoryYes" Content="Yes" GroupName="comsDirectory"
-                                         HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" 
-                                         Width="30" Tag="Yes"/>
-                                <RadioButton Grid.Column="1" x:Name="comDirectoryNo" Content="No" GroupName="comsDirectory"
-                                         HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" 
-                                         Width="30"  Tag="No" RenderTransformOrigin="0.5,0.5">
-                                    <RadioButton.RenderTransform>
-                                        <CompositeTransform Rotation="1.13"/>
-                                    </RadioButton.RenderTransform>
-                                </RadioButton>
                             </Grid>
 
                             <Grid Grid.Column="0" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0">

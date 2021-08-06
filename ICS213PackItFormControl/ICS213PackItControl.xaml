@@ -22,6 +22,12 @@
                 <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <DataTemplate x:Name="MsgReqHeaderTemplate">
+                <TextBlock Text="{Binding}" FontSize="12" FontWeight="Bold" 
+                           Margin="8,4,0,0"
+                           Foreground="Black" HorizontalTextAlignment="Left" />
+            </DataTemplate>
+
             <DataTemplate x:Name="ToFromHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="12" FontWeight="Bold" 
                            Margin="8,8,0,0"
@@ -30,7 +36,20 @@
 
             <DataTemplate x:Name="HeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="12" 
-                           FontWeight="Bold" Foreground="Black" Margin="4,0,0,0"/>
+                           FontWeight="Bold" Foreground="Black" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="ReplyYesTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Yes, by" 
+                               FontSize="12" FontWeight="Bold"
+                               VerticalAlignment="Center" />
+                    <TextBox x:Name="replyBy"
+                             PlaceholderText="hh:mm" 
+                             Margin="2,0,0,0"
+                             TextChanged="TextBox_ReplyTimeChanged"
+                             Tag="6d."/>
+                </StackPanel>
             </DataTemplate>
 
             <Style x:Key="AutoSuggestTextBoxStyle" TargetType="AutoSuggestBox">
@@ -128,10 +147,10 @@
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="7*"/>
-                                    <ColumnDefinition Width="9*"/>
-                                    <ColumnDefinition Width="9*"/>
-                                    <ColumnDefinition Width="11*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="12*"/>
                                 </Grid.ColumnDefinitions>
                                 <!--<StackPanel Grid.Row="0" Grid.Column="0">-->
                                 <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -154,22 +173,22 @@
                                 <!--<TextBox Grid.Row="2" Grid.Column="0" Visibility="Visible" Text="" BorderThickness="0" />-->
                                 <!--</StackPanel>-->
                                 <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                    <muxc:RadioButtons x:Name="severity" 
+                                    <muxc:RadioButtons x:Name="severity" MaxColumns="1"
                                                        HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                        Header="4. Situation Severity"
-                                                       SelectionChanged="Severity_SelectionChanged"
+                                                       SelectionChanged="RadioButtons_SelectionChanged"
                                                        Tag="4.,required" >
                                         <RadioButton x:Name="EMERGENCY" 
                                                      Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10, 4" Padding="4" Content="EMERGENCY" 
+                                                     Margin="10,0"  Content="EMERGENCY" 
 						    				         ToolTipService.ToolTip="Life threat" Tag="EMERGENCY" />
                                         <RadioButton x:Name="urgent" 
                                                      Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10, 4" Padding="4" Content="URGENT" 
+                                                     Margin="10, 0" Content="URGENT" 
 								    		         ToolTipService.ToolTip="Property threat" Tag="URGENT"/>
                                         <RadioButton x:Name="other" 
                                                      Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10, 4" Padding="4" Content="OTHER" 
+                                                     Margin="10, 0" Content="OTHER" 
 										             ToolTipService.ToolTip="All other" Tag="OTHER"/>
                                     </muxc:RadioButtons>
                                     <!--<StackPanel>
@@ -195,7 +214,26 @@
                                     </StackPanel>-->
                                 </Border>
                                 <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
-                                    <StackPanel>
+                                    <muxc:RadioButtons x:Name="handlingOrder" 
+                                                       HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                       Header="5. Msg. Handling Order"
+                                                       SelectionChanged="Severity_SelectionChanged"
+                                                       Tag="5.,required,Indicate Msg. Handling Order." >
+                                        <RadioButton x:Name="immediate" 
+                                                     Style="{StaticResource RadioButton12B}" 
+                                                     Margin="10,0" Padding="4" Content="IMMEDIATE" 
+						    				         ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE" />
+                                        <RadioButton x:Name="priority" 
+                                                     Style="{StaticResource RadioButton12B}" 
+                                                     Margin="10, 0" Padding="4" Content="PRIORITY" 
+								    		         ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
+                                        <RadioButton x:Name="routine" 
+                                                     Style="{StaticResource RadioButton12B}" 
+                                                     Margin="10, 0" Padding="4" Content="ROUTINE" 
+										             ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
+                                    </muxc:RadioButtons>
+
+                                    <!--<StackPanel>
                                         <TextBlock Style="{StaticResource LabelFont12B}" Text="5. Msg. Handling Order" Margin="8"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
                                                                        CheckedControlName="{x:Bind ViewModel.HandlingOrder, Mode=TwoWay}"
@@ -212,12 +250,28 @@
                                                      Style="{StaticResource RadioButton12B}" 
                                                      Margin="10, 4" Padding="4" Content="ROUTINE" Checked="Subject_Changed"
                                                      ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
-                                    </StackPanel>
+                                    </StackPanel>-->
                                 </Border>
                                 <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="3" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <StackPanel x:Name="msgRequest" Grid.Column="3">
                                         <TextBlock Style="{StaticResource LabelFont12B}"  Text="6. Message requests you to:" Margin="8"/>
-                                        <TextBlock Style="{StaticResource LabelFont12B}" Text="Take action" Margin="10,0,0,0"/>
+                                        <muxc:RadioButtons x:Name="action" MaxColumns="2"
+                                                           HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
+                                                           Header="Take action"
+                                                           Tag="6a.">
+                                            <RadioButton x:Name="actionYes" 
+                                                         Style="{StaticResource RadioButton12B}"
+                                                         Margin="8,-4,0,0"
+                                                         Width="50" MinWidth="50"
+                                                         Content="Yes" Tag="Yes" />
+                                            <RadioButton x:Name="actionNo" 
+                                                         Style="{StaticResource RadioButton12B}"
+                                                         Margin="8,-4,0,0"
+                                                         Width="50" MinWidth="50"
+                                                         Content="No"   Tag="No" />
+
+                                        </muxc:RadioButtons>
+                                        <!--<TextBlock Style="{StaticResource LabelFont12B}" Text="Take action" Margin="10,0,0,0"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="action" IsTabStop="False"
                                                                        CheckedControlName="Action"
                                                                        Tag="6a."/>
@@ -226,22 +280,45 @@
                                                          Style="{StaticResource RadioButton12B}" 
                                                          Margin="10, 0" Padding="4" Content="Yes" Tag="Yes"/>
                                             <RadioButton x:Name="actionNo" GroupName="action" 
-                                                     Style="{StaticResource RadioButton12B}" 
-                                                     Content="No" Margin="-60,0,0,0"  Padding="4" Tag="No"/>
-                                        </StackPanel>
+                                                         Style="{StaticResource RadioButton12B}" 
+                                                         Content="No" Width="50" MinWidth="50"
+                                                         Margin="-60,0,0,0"  Padding="4" Tag="No"/>
+                                        </StackPanel>-->
+                                        <!--<muxc:RadioButtons x:Name="reply" MaxColumns="2" Width="310"
+                                                           Margin="-6,0,0,0"
+                                                           HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
+                                                           Header="Reply"
+                                                           Tag="6b.">
+                                            <RadioButton x:Name="replyYes" 
+                                                         ContentTemplate="{StaticResource ReplyYesTemplate}"
+                                                         Style="{StaticResource RadioButton12B}"
+                                                         Margin="8,-4,0,0"
+                                                         Width="130" MinWidth="100"
+                                                         Content="Yes" Tag="Yes" />
+                                            <RadioButton x:Name="replyNo" 
+                                                         Style="{StaticResource RadioButton12B}"
+                                                         Margin="0,-4,0,0"
+                                                         Width="50" MinWidth="50"
+                                                         Content="No"   Tag="No" />
+                                        </muxc:RadioButtons>-->
+
                                         <TextBlock Style="{StaticResource LabelFont12B}" Text="Reply" Margin="10,4,0,0" />
                                         <StackPanel Orientation="Horizontal">
                                             <MyNamespace:ToggleButtonGroup x:Name="reply" IsTabStop="False"
                                                                            CheckedControlName="Reply" Tag="6b."/>
                                             <RadioButton x:Name="replyYes" GroupName="reply" 
                                                          Style="{StaticResource RadioButton12B}" 
-                                                         Margin="10,0,0,0" Content="Yes, by" Padding="4" MinWidth="50" Tag="Yes"/>
+                                                         Content="Yes, by"
+                                                         Margin="10,0,0,0"  Padding="4" MinWidth="50" 
+                                                         Tag="Yes">
+                                            </RadioButton>
                                             <TextBox x:Name="replyBy"  HorizontalAlignment="Left" PlaceholderText="hh:mm" 
                                                      VerticalAlignment="Center" Tag="6d."
                                                      TextChanged="TextBox_TimeChanged"/>
                                             <RadioButton x:Name="replyNo" GroupName="reply" 
                                                          Style="{StaticResource RadioButton12B}" 
-                                                         Content="No" Width="50" Margin="10,0,0,0" Padding="4" MinWidth="50" Tag="No"/>
+                                                         Content="No" Width="50" Margin="10,0,0,0" Padding="4" 
+                                                         MinWidth="50" Tag="No"/>
                                         </StackPanel>
                                         <CheckBox x:Name="forInfo" Style="{StaticResource FormsCheckBox}" 
                                                   VerticalContentAlignment="Center"
@@ -674,17 +751,34 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" BorderThickness="0,0,1,0" BorderBrush="Black"/>
-                            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" 
+                                        HorizontalAlignment="Left"
+                                        >
                                 <TextBlock Style="{StaticResource ReceivedSentLabelFont}" Text="How Received" 
-                                               VerticalAlignment="Center" Margin="8,0,5,0" />
-                                <MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
+                                           VerticalAlignment="Center" Margin="8,0,5,0" />
+                                <muxc:RadioButtons x:Name="receivedOrSent" MaxColumns="2"
+                                                   SelectionChanged="Severity_SelectionChanged"
+                                                   Tag="Rec-Sent" >
+                                    <RadioButton x:Name="received" 
+                                                 Style="{StaticResource RadioButton12B}"
+                                                 Margin="8,-8,0,0"
+                                                 FontWeight="SemiBold"
+                                                 Content="or Sent" Tag="receiver"/>
+                                    <RadioButton x:Name="sent"
+                                                 Style="{StaticResource RadioButton12B}"
+                                                 Margin="-40,-8,0,0" 
+                                                 FontWeight="SemiBold"
+                                                 Content="" Tag="sender"/>
+                                </muxc:RadioButtons>
+                                <!--SelectedIndex="{x:Bind ViewModel.ReceivedOrSentIndex}"-->
+                                <!--<MyNamespace:ToggleButtonGroup x:Name="receivedOrSent" 
                                                                CheckedControlName="{x:Bind ViewModel.ReceivedOrSent}" 
                                                                Tag="Rec-Sent"/>
                                 <RadioButton x:Name="received" GroupName="receivedOrSent" Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
                                                      Content="" Padding="5" Tag=""/>
                                 <RadioButton x:Name="sent" GroupName="receivedOrSent" 
                                                      Style="{StaticResource ResourceKey=ReceivedSentRadioButton}"
-                                                     Content="or Sent" Margin="-30,0,0,0" Padding="-68,4,5,5" Tag="sender"/>
+                                                     Content="or Sent" Margin="-30,0,0,0" Padding="-68,4,5,5" Tag="sender"/>-->
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" Height="auto">
                                 <TextBlock Style="{StaticResource ReceivedSentLabelFont}" Text="Operator Call Sign:" 

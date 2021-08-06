@@ -6,7 +6,7 @@
     xmlns:local="using:FormUserControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:MyNamespace="using:ToggleButtonGroupControl"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:MyBaseNamespace="using:FormControlBasicsNamespace"
     mc:Ignorable="d"
     d:DesignHeight="300"
@@ -496,8 +496,27 @@
             <!--Style="{StaticResource TimeTextBox}"-->
             <Border Grid.Column="4" BorderBrush="Black" BorderThickness="1,0,0,0"/>
             <TextBlock Grid.Column="4" Style="{StaticResource LabelFont14SB}" 
-                       Text="Handling:" VerticalAlignment="Center" Margin="8,0,0,0"/>
-            <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
+                       Text="Handling:" VerticalAlignment="Center" Margin="8,0,8,0"/>
+            <muxc:RadioButtons Grid.Column="5" x:Name="handlingOrder" MaxColumns="3"
+                               SelectionChanged="Subject_Changed"
+                               Tag="5.,required,Indicate Msg. Handling Order.">
+                <RadioButton Grid.Column="5" x:Name="immediate" 
+                             Style="{StaticResource HandlingOrderRadioButtonStyle}" 
+                             Content="IMMEDIATE (ASAP)"
+                             Margin="0,-6,0,0"
+                             ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
+                <RadioButton Grid.Column="6" x:Name="priority" 
+                             Style="{StaticResource HandlingOrderRadioButtonStyle}" 
+                             Content="PRIORITY (&lt; 1 hr)" 
+                             Margin="0,-6,0,0"
+                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
+                <RadioButton Grid.Column="7" x:Name="routine" 
+                             Style="{StaticResource HandlingOrderRadioButtonStyle}" 
+                             Content="ROUTINE (&lt; 2 hrs)" 
+                             Margin="0,-6,0,0"
+                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
+            </muxc:RadioButtons>
+            <!--<MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
                                            CheckedControlName ="{x:Bind ViewModel.HandlingOrder, Mode=TwoWay}" 
                                            Tag="5.,required,Indicate Msg. Handling Order."/>
             <RadioButton Grid.Column="5" x:Name="immediate" GroupName="handlingOrder" 
@@ -511,7 +530,7 @@
             <RadioButton Grid.Column="7" x:Name="routine" GroupName="handlingOrder" 
                          Style="{StaticResource HandlingOrderRadioButtonStyle}" 
                          Content="ROUTINE (&lt; 2 hrs)" Checked="Subject_Changed"
-                         ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
+                         ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>-->
         </Grid>
         <!--<Grid Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
             <Grid.ColumnDefinitions>

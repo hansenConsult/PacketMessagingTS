@@ -74,13 +74,22 @@ namespace FormControlBaseClass
         public virtual void UpdateFormFieldsRequiredColors()
         {
             if (FormPacketMessage != null && FormPacketMessage.MessageState == MessageState.Locked)
+            {
                 return;
+            }
 
             bool isReportTypeSelected = true;
-            ToggleButtonGroup reportType = FindName("reportType") as ToggleButtonGroup;
-            //string reportTypestring = reportType?.CheckedControlName;
-            string checkedReportType = reportType?.GetRadioButtonCheckedState();
-            if (reportType != null && string.IsNullOrEmpty(checkedReportType))
+            //ToggleButtonGroup reportType = FindName("reportType") as ToggleButtonGroup;
+            //string checkedReportType = reportType?.GetRadioButtonCheckedState();
+            //if (reportType != null && string.IsNullOrEmpty(checkedReportType))
+            //{
+            //    isReportTypeSelected = false;
+            //}
+
+            RadioButtons reportTypeRadioButtons = FindName("reportType") as RadioButtons;
+            RadioButton radioBtn = reportTypeRadioButtons?.SelectedItem as RadioButton;
+            string checkedReportType = radioBtn?.Name;
+            if (reportTypeRadioButtons != null && string.IsNullOrEmpty(checkedReportType))
             {
                 isReportTypeSelected = false;
             }
@@ -132,8 +141,8 @@ namespace FormControlBaseClass
                 }
                 else if (control is ToggleButtonGroup toggleButtonGroup)
                 {
-                    if (toggleButtonGroup.Name != "reportType" && isReportTypeSelected)
-                    {
+                    //if (toggleButtonGroup.Name != "reportType" && isReportTypeSelected)
+                    //{
                         if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
@@ -142,25 +151,42 @@ namespace FormControlBaseClass
                         {
                             toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
                         }
-                    }
-                    else if (toggleButtonGroup.Name == "reportType" && !isReportTypeSelected)
-                    {
-                        toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                    }
+                    //}
+                    //else if (toggleButtonGroup.Name == "reportType" && !isReportTypeSelected)
+                    //{
+                    //    toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+                    //}
+                    //else
+                    //{
+                    //    toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                    //}
                 }
                 else if (control is RadioButtons radioButtons)
                 {
-                    foreach (RadioButton radioButton in radioButtons.Items)
+                    if (radioButtons.Name != "reportType" && isReportTypeSelected)
                     {
-                        if (IsFieldRequired(control) && radioButtons.SelectedIndex == -1)
+                        foreach (RadioButton radioButton in radioButtons.Items)
+                        {
+                            if (IsFieldRequired(control) && radioButtons.SelectedIndex == -1)
+                            {
+                                radioButton.Foreground = formControl.RequiredBorderBrush;
+                            }
+                            else
+                            {
+                                radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                            }
+                        }
+                    }
+                    else if (radioButtons.Name == "reportType" && !isReportTypeSelected)
+                    {
+                        foreach (RadioButton radioButton in radioButtons.Items)
                         {
                             radioButton.Foreground = formControl.RequiredBorderBrush;
                         }
-                        else
+                    }
+                    else
+                    {
+                        foreach (RadioButton radioButton in radioButtons.Items)
                         {
                             radioButton.Foreground = new SolidColorBrush(Colors.Black);
                         }
@@ -363,9 +389,12 @@ namespace FormControlBaseClass
                         {
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);
+                            //if (radioButtons.Name == "reply")
+                            //{
+                            //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            //}
                             break;
                         }
-
 
                     case AutoSuggestTextBoxUserControl _:
                         ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
@@ -558,6 +587,10 @@ namespace FormControlBaseClass
                         }
                     }
                 }
+                if (control is RadioButtons radioButtons)
+                {
+                    formField.ControlContent = GetOutpostValue(id, ref msgLines);
+                }
                 else if (control is CheckBox)
                 {
                     formField.ControlContent = (GetOutpostValue(id, ref msgLines) == "checked" ? "True" : "False");
@@ -618,6 +651,10 @@ namespace FormControlBaseClass
                                 formField.ControlContent = radioButton.Name;
                             }
                         }
+                    }
+                    if (control is RadioButtons radioButtons)
+                    {
+                        formField.ControlContent = GetOutpostValue(id, ref msgLines);
                     }
                     else if (control is CheckBox)
                     {
@@ -1023,7 +1060,7 @@ namespace FormControlBaseClass
                 }
                 else if (_formControlsList[i].InputControl is RadioButtons radioButtons)
                 {
-                    formField.ControlContent = (radioButtons.SelectedItem as RadioButton).Tag as string;
+                    formField.ControlContent = (radioButtons.SelectedItem as RadioButton)?.Tag as string;
                 }
                 else if (_formControlsList[i].InputControl is CheckBox checkBox)
                 {
@@ -1231,28 +1268,61 @@ namespace FormControlBaseClass
                     {
                         toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
                     }
+                    //else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
+                    //{
+                    //    FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
+                    //    if (control.Name == "handlingOrder")
+                    //    {
+                    //        formHeaderControl.ViewModelBase.HandlingOrder = formField.ControlContent;
+                    //        toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
+                    //    }
+                    //}
+                }
+                else if (control is RadioButtons radioButtons)
+                {
+                    if (formControl.UserControl == null)
+                    {
+                        if (formControl.InputControl.Name != "receivedOrSent")
+                        {
+                            int i = 0;
+                            foreach (RadioButton radioButton in radioButtons.Items)
+                            {
+                                if (formField.ControlContent.ToLower() == ((string)radioButton.Tag).ToLower())
+                                {
+                                    radioButtons.SelectedIndex = i;
+                                    break;
+                                }
+                                i++;
+                            }
+                        }
+                        else if (formControl.InputControl.Name == "receivedOrSent")
+                        {
+                            if (ViewModelBase.ReceivedOrSent == "Receiver")
+                            {
+                                radioButtons.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                radioButtons.SelectedIndex = 1;
+                            }
+                        }
+                    }
                     else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
                     {
                         FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
                         if (control.Name == "handlingOrder")
                         {
                             formHeaderControl.ViewModelBase.HandlingOrder = formField.ControlContent;
-                            toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
-                        }
-                    }
-                }
-                else if (control is RadioButtons radioButtons)
-                {
-                    if (formControl.UserControl == null)
-                    {
-                        int i = 0;
-                        foreach (RadioButton radioButton in radioButtons.Items)
-                        {
-                            if (formField.ControlContent == (string)radioButton.Tag)
+                            int i = 0;
+                            foreach (RadioButton radioButton in radioButtons.Items)
                             {
-                                radioButtons.SelectedIndex = i;
+                                if (formField.ControlContent.ToLower() == ((string)radioButton.Tag).ToLower())
+                                {
+                                    radioButtons.SelectedIndex = i;
+                                    break;
+                                }
+                                i++;
                             }
-                            i++;
                         }
                     }
                 }
@@ -1445,6 +1515,16 @@ namespace FormControlBaseClass
             UpdateRequiredFields(complete);
         }
 
+        protected virtual void ReportType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems[0] != null)
+            {
+                RadioButton radioButton = e.AddedItems[0] as RadioButton;
+                bool complete = radioButton.Name == "complete";
+                UpdateRequiredFields(complete);
+            }
+        }
+
         protected virtual void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             if (FormPacketMessage == null)
@@ -1590,6 +1670,23 @@ namespace FormControlBaseClass
                 }
             }
             return null;
+        }
+
+        protected virtual void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RadioButtons radioButtons = sender as RadioButtons;
+
+            foreach (RadioButton radioButton in radioButtons.Items)
+            {
+                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
         }
 
 #region Print

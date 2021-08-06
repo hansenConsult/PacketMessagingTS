@@ -8,11 +8,9 @@ using FormControlBasicsNamespace;
 using Microsoft.UI.Xaml.Controls;
 
 using SharedCode;
-using SharedCode.Helpers;
 using SharedCode.Models;
 
-using ToggleButtonGroupControl;
-
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -84,7 +82,8 @@ namespace FormUserControl
                         _formControlsList.Add(formControl);
                         break;
                     case CheckBox _:
-                    case ToggleButtonGroup _:
+                    //case ToggleButtonGroup _:
+                    case RadioButtons _:
                     case RichTextBlock _:
                         formControl = new FormControl((FrameworkElement)control, formUserControl);
                         _formControlsList.Add(formControl);
@@ -101,12 +100,12 @@ namespace FormUserControl
                         }
                         _formControlsList.Add(formControl);
                         break;
-                    case RadioButton _:
-                        formControl = new FormControl((FrameworkElement)control, formUserControl);
-                        _formControlsList.Add(formControl);
+                    //case RadioButton _:
+                    //    formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    //    _formControlsList.Add(formControl);
 
-                        _radioButtonsList.Add((RadioButton)control);
-                        break;
+                    //    _radioButtonsList.Add((RadioButton)control);
+                    //    break;
                     case AutoSuggestTextBoxUserControl _:
                         ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
                         break;
@@ -254,6 +253,29 @@ namespace FormUserControl
                 //EventHandler<FormEventArgs> OnMsgTimeChange = EventMsgTimeChanged;
                 FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
                 EventMsgTimeChanged?.Invoke(this, formEventArgs);
+            }
+        }
+
+        private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RadioButtons radioButtons = sender as RadioButtons;
+            int count = e.AddedItems.Count;
+            var item = e.AddedItems[0];
+
+            foreach (RadioButton radioButton in radioButtons.Items)
+            {
+                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                }
+            }
+            if (radioButtons.Name == "handlingOrder")
+            {
+                Subject_Changed(sender, null);
             }
         }
 

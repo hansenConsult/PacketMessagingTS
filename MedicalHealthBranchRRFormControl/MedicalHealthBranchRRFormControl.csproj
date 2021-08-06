@@ -166,10 +166,6 @@
       <Project>{03326178-E925-46C1-B4C7-EA5700C30102}</Project>
       <Name>SharedCode</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToggleButtonGroupControl\ToggleButtonGroupControl.csproj">
-      <Project>{b448e071-59c5-4198-908f-ee3120bf4f7b}</Project>
-      <Name>ToggleButtonGroupControl</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

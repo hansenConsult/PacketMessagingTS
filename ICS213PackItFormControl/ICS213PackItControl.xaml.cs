@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
 using Windows.UI;
+using SharedCode.Models;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -46,7 +47,8 @@ namespace ICS213PackItFormControl
 
             InitializeToggleButtonGroups();
 
-            ViewModel.ReceivedOrSent = "sent";
+            //ViewModel.ReceivedOrSentIndex = 1;
+            receivedOrSent.SelectedIndex = 1;
             ViewModel.HowReceivedSent = "otherRecvdType";
             otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
@@ -217,22 +219,22 @@ namespace ICS213PackItFormControl
             return comboBoxDataSet[0];
         }
 
-        private void Severity_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RadioButtons radioButtons = sender as RadioButtons;
-            int count = e.AddedItems.Count;
-            var item = e.AddedItems[0];
+        private void Severity_SelectionChanged(object sender, SelectionChangedEventArgs e) => Subject_Changed(sender, null);
 
-            foreach (RadioButton radioButton in radioButtons.Items)
+        protected virtual void TextBox_ReplyTimeChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
             {
-                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
-                {
-                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
-                }
+                FormControl formControl;
+                if (!string.IsNullOrEmpty(textBox.Name))
+                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
                 else
-                {
-                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
-                }
+                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
+
+                if (formControl == null)
+                    return;
+
+                CheckTimeFormat(formControl);
             }
         }
 

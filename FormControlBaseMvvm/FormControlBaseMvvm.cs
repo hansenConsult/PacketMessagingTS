@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.UI.Xaml.Controls;
+
 using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Models;
@@ -74,6 +76,11 @@ namespace FormControlBaseMvvmNameSpace
                     _formControlsList.Add(formControl);
                 }
                 else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
+                {
+                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    _formControlsList.Add(formControl);
+                }
+                else if (control is RadioButtons)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     _formControlsList.Add(formControl);
@@ -195,6 +202,10 @@ namespace FormControlBaseMvvmNameSpace
                 else if (control is RadioButton radioButton)
                 {
                     radioButton.IsEnabled = false;
+                }
+                else if (control is RadioButtons radioButtons)
+                {
+                    radioButtons.IsEnabled = false;
                 }
                 else if (control is CheckBox checkBox)
                 {

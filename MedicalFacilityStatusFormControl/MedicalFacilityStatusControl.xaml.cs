@@ -1,24 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using FormControlBaseClass;
 
 using FormControlBaseMvvmNameSpace;
 
-using FormControlBasicsNamespace;
-
 using FormUserControl;
+
+using Microsoft.UI.Xaml.Controls;
 
 using PacketMessagingTS.Core.Helpers;
 
-using SharedCode;
-using SharedCode.Helpers;
 using SharedCode.Models;
 
-using ToggleButtonGroupControl;
-
 using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -230,24 +224,11 @@ namespace MedicalFacilityStatusFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        private void SpecialtyService_Checked(object sender, RoutedEventArgs e)
+        private void SpecialtyService_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RadioButton radioButton = sender as RadioButton;
+            RadioButtons radioButtons = sender as RadioButtons;
 
-            string tag = "";
-            ToggleButtonGroup toggleButtonGroupYN;
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
-                {
-                    if (radioButton.GroupName == toggleButtonGroup.Name)
-                    {
-                        tag = GetTagIndex(toggleButtonGroup);
-                        toggleButtonGroupYN = toggleButtonGroup;
-                        toggleButtonGroupYN.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                    }
-                }
-            }
+            string tag = GetTagIndex(radioButtons);
 
             string commentsTag = tag.TrimEnd('.') + "c.";
             FormControl formControlComment = null;
@@ -270,21 +251,87 @@ namespace MedicalFacilityStatusFormControl
             TextBox textBoxComment = formControlComment?.InputControl as TextBox;
             TextBox textBoxDate = formControlDate?.InputControl as TextBox;
 
-            if ((radioButton.Tag as string).Contains("Y"))
+            for (int i = 0; i <radioButtons.Items.Count; i++) //RadioButton radioButton in radioButtons.Items
             {
-                textBoxComment.Text = "";
-                textBoxComment.IsReadOnly = true;
-                textBoxDate.IsReadOnly = true;
-                textBoxDate.Text = "";                
+                RadioButton radioButton = radioButtons.Items[i] as RadioButton;
+                radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                if (i == radioButtons.SelectedIndex)
+                {
+                    if ((radioButton.Tag as string).Contains("Y"))
+                    {
+                        textBoxComment.Text = "";
+                        textBoxComment.IsReadOnly = true;
+                        textBoxDate.IsReadOnly = true;
+                        textBoxDate.Text = "";
+                    }
+                    else if ((radioButton.Tag as string).Contains("N"))
+                    {
+                        textBoxComment.IsReadOnly = false;
+                        //textBoxComment.Text = "";
+                        textBoxDate.IsReadOnly = false;
+                        //textBoxDate.Text = "";
+                    }
+                }
             }
-            else if ((radioButton.Tag as string).Contains("N"))
-            {
-                textBoxComment.IsReadOnly = false;
-                //textBoxComment.Text = "";
-                textBoxDate.IsReadOnly = false;
-                //textBoxDate.Text = "";
-            }
+
+
         }
+
+        //private void SpecialtyService_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    RadioButton radioButton = sender as RadioButton;
+
+        //    string tag = "";
+        //    ToggleButtonGroup toggleButtonGroupYN;
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
+        //        {
+        //            if (radioButton.GroupName == toggleButtonGroup.Name)
+        //            {
+        //                tag = GetTagIndex(toggleButtonGroup);
+        //                toggleButtonGroupYN = toggleButtonGroup;
+        //                toggleButtonGroupYN.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+        //            }
+        //        }
+        //    }
+
+        //    string commentsTag = tag.TrimEnd('.') + "c.";
+        //    FormControl formControlComment = null;
+        //    string dateTag = tag.TrimEnd('.') + "d.";
+        //    FormControl formControlDate = null;
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (formControl.InputControl is TextBox textBox)
+        //        {
+        //            if (textBox.Tag as string == commentsTag)
+        //            {
+        //                formControlComment = formControl;
+        //            }
+        //            if (textBox.Tag as string == dateTag)
+        //            {
+        //                formControlDate = formControl;
+        //            }
+        //        }
+        //    }
+        //    TextBox textBoxComment = formControlComment?.InputControl as TextBox;
+        //    TextBox textBoxDate = formControlDate?.InputControl as TextBox;
+
+        //    if ((radioButton.Tag as string).Contains("Y"))
+        //    {
+        //        textBoxComment.Text = "";
+        //        textBoxComment.IsReadOnly = true;
+        //        textBoxDate.IsReadOnly = true;
+        //        textBoxDate.Text = "";                
+        //    }
+        //    else if ((radioButton.Tag as string).Contains("N"))
+        //    {
+        //        textBoxComment.IsReadOnly = false;
+        //        //textBoxComment.Text = "";
+        //        textBoxDate.IsReadOnly = false;
+        //        //textBoxDate.Text = "";
+        //    }
+        //}
 
     }
 }

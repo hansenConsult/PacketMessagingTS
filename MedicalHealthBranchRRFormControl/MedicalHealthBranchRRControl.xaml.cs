@@ -4,14 +4,11 @@ using FormControlBaseClass;
 
 using FormControlBaseMvvmNameSpace;
 
-using FormControlBasicsNamespace;
-
 using FormUserControl;
 
 using PacketMessagingTS.Core.Helpers;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

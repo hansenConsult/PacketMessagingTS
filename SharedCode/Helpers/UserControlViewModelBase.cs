@@ -1,6 +1,8 @@
 ﻿
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
+using Windows.UI.Xaml.Controls;
+
 namespace SharedCode.Helpers
 {
     public class UserControlViewModelBase : ObservableObject
@@ -88,8 +90,23 @@ namespace SharedCode.Helpers
         public string ReceivedOrSent
         {
             get => _receivedOrSent;
-            set => SetProperty(ref _receivedOrSent, value);
+            set
+            {
+                //if (value == "Sender")
+                //    ReceivedOrSentIndex = 1;
+                //else
+                //    ReceivedOrSentIndex = 0;
+
+                SetProperty(ref _receivedOrSent, value);
+            }
         }
+
+        //private int receivedOrSentIndex;
+        //public int ReceivedOrSentIndex
+        //{
+        //    get => receivedOrSentIndex;
+        //    set => SetProperty(ref receivedOrSentIndex, value);
+        //}
 
         public virtual string TacticalCallsign
         { get; set; }
