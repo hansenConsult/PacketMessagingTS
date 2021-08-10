@@ -233,12 +233,13 @@
                                          Tag="30.,required,Enter 10. Arrival Date/Time."/>
                                 <!--<StackPanel Grid.Column="3" Grid.Row="2" Margin="0,5" />-->
                                 <ComboBox Grid.Column="3" Grid.Row="2" Name="resourceInfoPriority" 
-                                          Tag="31.,required" Width="136"
+                                          Width="136"
                                           Margin="2"
                                           ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
                                           Loaded="ComboBox_Loaded"                                              
                                           SelectionChanged="ComboBox_SelectionChanged"
-                                          HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                          Tag="31.,required,Select 11. Priority"/>
                                 <!--Style="{StaticResource MuniStatusComboBox}"-->
                                 <!--DisplayMemberPath="Item"
                                           SelectedValuePath="Item"-->

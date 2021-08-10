@@ -230,7 +230,7 @@ namespace ICS213PackItFormControl
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);
 
-                            _radioButtonsList.Add(button);
+                            //_radioButtonsList.Add(button);
                             break;
                         }
 

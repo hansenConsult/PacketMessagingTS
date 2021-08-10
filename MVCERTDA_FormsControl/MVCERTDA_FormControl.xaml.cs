@@ -45,15 +45,10 @@ namespace MVCERTDA_FormsControl
 
             ScanControls(PrintableArea);
 
-            //InitializeToggleButtonGroups();
-
-            //other.IsChecked = true;
             severity.SelectedIndex = 2;
             handlingOrder.SelectedIndex = 1;
             ViewModel.HandlingOrder = "priority";
-            //actionNo.IsChecked = true;
             action.SelectedIndex = 1;
-            //replyNo.IsChecked = true;
             reply.SelectedIndex = 1;
             forInfo.IsChecked = true;
             //autoSuggestBoxToICSPosition.Text = "Planning";
@@ -62,8 +57,6 @@ namespace MVCERTDA_FormsControl
             //ToLocation = "Mountain View EOC";
             textBoxToLocation.Text = "Mountain View EOC";
             receivedOrSent.SelectedIndex = 1;
-            //ViewModel.ReceivedOrSent = "sent";
-            //ViewModel.HowReceivedSent = "otherRecvdType";
             ViewModel.HowReceivedSent = otherRecvdType;
             otherText.Text = "Packet";
 
@@ -247,7 +240,7 @@ namespace MVCERTDA_FormsControl
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);
 
-                            _radioButtonsList.Add(button);
+                            //_radioButtonsList.Add(button);
                             break;
                         }
 

@@ -39,8 +39,6 @@ namespace MedicalHealthBranchRRFormControl
 
             ScanControls(PrintableArea);
 
-            //InitializeToggleButtonGroups();
-
             FormHeaderControl.ViewModel.NamePanel1Visibility = false;
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: September 2009";

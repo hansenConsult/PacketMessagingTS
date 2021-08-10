@@ -115,6 +115,7 @@
                                            Margin="0,4,0,0" FontWeight="SemiBold"/>
                                 <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                                 <muxc:RadioButtons Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" MaxColumns="2"
+                                                   x:Name="nature"
                                                    SelectionChanged="RadioButtons_SelectionChanged"
                                                    Tag="23.,required,Select Nature.">
                                     <RadioButton x:Name="natureSupply" 

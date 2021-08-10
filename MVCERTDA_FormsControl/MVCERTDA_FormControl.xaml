@@ -289,22 +289,23 @@
                                     </StackPanel>
                                     <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                         <muxc:RadioButtons x:Name="severity" MaxColumns="1"
-                                                       HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                       Header="4. Situation Severity"
-                                                       SelectionChanged="RadioButtons_SelectionChanged"
-                                                       Tag="required" >
+                                                           Margin="8"
+                                                           HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                           Header="4. Situation Severity"
+                                                           SelectionChanged="RadioButtons_SelectionChanged"
+                                                           Tag="required" >
                                             <RadioButton x:Name="EMERGENCY" 
-                                                     Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10,0"  Content="EMERGENCY" 
-						    				         ToolTipService.ToolTip="Life threat" Tag="7" />
+                                                         Style="{StaticResource RadioButton12B}" 
+                                                         Margin="10,0"  Content="EMERGENCY" 
+						    				             ToolTipService.ToolTip="Life threat" Tag="7" />
                                             <RadioButton x:Name="urgent" 
-                                                     Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10, 0" Content="URGENT" 
-								    		         ToolTipService.ToolTip="Property threat" Tag="8"/>
+                                                         Style="{StaticResource RadioButton12B}" 
+                                                         Margin="10, 0" Content="URGENT" 
+								    		            ToolTipService.ToolTip="Property threat" Tag="8"/>
                                             <RadioButton x:Name="other" 
-                                                     Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10, 0" Content="OTHER" 
-										             ToolTipService.ToolTip="All other" Tag="9"/>
+                                                         Style="{StaticResource RadioButton12B}" 
+                                                         Margin="10, 0" Content="OTHER" 
+										                 ToolTipService.ToolTip="All other" Tag="9"/>
                                         </muxc:RadioButtons>
                                         <!--<StackPanel>
                                             <TextBlock Style="{StaticResource LabelFontTNR12B}" Text="4.) Situation Severity" Margin="8"/>
@@ -324,22 +325,23 @@
                                     </Border>
                                     <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
                                         <muxc:RadioButtons x:Name="handlingOrder" 
-                                                       HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                       Header="5. Msg. Handling Order"
-                                                       SelectionChanged="Severity_SelectionChanged"
-                                                       Tag="required,Indicate Msg. Handling Order." >
+                                                           Margin="8"
+                                                           HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
+                                                           Header="5. Msg. Handling Order"
+                                                           SelectionChanged="Severity_SelectionChanged"
+                                                           Tag="required,Indicate Msg. Handling Order." >
                                             <RadioButton x:Name="immediate" 
-                                                     Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10,0" Padding="4" Content="IMMEDIATE" 
-						    				         ToolTipService.ToolTip="As soon as possible" Tag="10" />
+                                                         Style="{StaticResource RadioButton12B}" 
+                                                         Margin="10,0" Padding="4" Content="IMMEDIATE" 
+						    				             ToolTipService.ToolTip="As soon as possible" Tag="10" />
                                             <RadioButton x:Name="priority" 
-                                                     Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10, 0" Padding="4" Content="PRIORITY" 
-								    		         ToolTipService.ToolTip="Less than one hour" Tag="11"/>
+                                                         Style="{StaticResource RadioButton12B}" 
+                                                         Margin="10, 0" Padding="4" Content="PRIORITY" 
+								    		             ToolTipService.ToolTip="Less than one hour" Tag="11"/>
                                             <RadioButton x:Name="routine" 
-                                                     Style="{StaticResource RadioButton12B}" 
-                                                     Margin="10, 0" Padding="4" Content="ROUTINE" 
-										             ToolTipService.ToolTip="More than one hour" Tag="12"/>
+                                                         Style="{StaticResource RadioButton12B}" 
+                                                         Margin="10, 0" Padding="4" Content="ROUTINE" 
+										                 ToolTipService.ToolTip="More than one hour" Tag="12"/>
                                         </muxc:RadioButtons>
 
                                         <!--<StackPanel>
@@ -362,14 +364,14 @@
                                         <StackPanel x:Name="msgRequest" Grid.Column="3">
                                             <TextBlock Style="{StaticResource LabelFontTNR12B}"  Text="6.) Message requests" Margin="8"/>
                                             <muxc:RadioButtons x:Name="action" MaxColumns="2"
-                                                           HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
-                                                           Header="Take action"
-                                                           Tag="6a.">
+                                                               HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
+                                                               Header="Take action"
+                                                               Tag="6a.">
                                                 <RadioButton x:Name="actionYes" 
-                                                         Style="{StaticResource RadioButton12B}"
-                                                         Margin="8,-4,0,0"
-                                                         Width="50" MinWidth="50"
-                                                         Content="Yes" Tag="13" />
+                                                             Style="{StaticResource RadioButton12B}"
+                                                             Margin="8,-4,0,0"
+                                                             Width="50" MinWidth="50"
+                                                             Content="Yes" Tag="13" />
                                                 <RadioButton x:Name="actionNo" 
                                                          Style="{StaticResource RadioButton12B}"
                                                          Margin="8,-4,0,0"
@@ -386,30 +388,30 @@
                                                              Content="No" Tag="14" Margin="-60,0,0,0"  Padding="4"/>
                                             </StackPanel>-->
                                             <muxc:RadioButtons x:Name="reply" MaxColumns="2" Width="310"
-                                                           Margin="-6,0,0,0"
-                                                           HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
-                                                           Header="Reply"
-                                                           Tag="6b.">
+                                                               Margin="-6,0,0,0"
+                                                               HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
+                                                               Header="Reply"
+                                                               Tag="6b.">
                                                 <RadioButton x:Name="replyYes" 
-                                                         Style="{StaticResource RadioButton12B}"
-                                                         Margin="8,-4,0,0"
-                                                         Width="130" MinWidth="100"
-                                                         Tag="15" >
+                                                             Style="{StaticResource RadioButton12B}"
+                                                             Margin="8,-4,0,0"
+                                                             Width="130" MinWidth="100"
+                                                             Tag="15" >
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="Yes, by" 
-                                                               FontSize="12" FontWeight="Bold"
-                                                               VerticalAlignment="Center" />
+                                                                   FontSize="12" FontWeight="Bold"
+                                                                   VerticalAlignment="Center" />
                                                         <TextBox x:Name="replyBy"
-                                                             PlaceholderText="hh:mm" 
-                                                             Margin="4,0,0,0"
-                                                             Tag="16"/>
+                                                                 PlaceholderText="hh:mm" 
+                                                                 Margin="4,0,0,0"
+                                                                 Tag="16"/>
                                                     </StackPanel>
                                                 </RadioButton>
                                                 <RadioButton x:Name="replyNo" 
-                                                         Style="{StaticResource RadioButton12B}"
-                                                         Margin="0,-4,0,0"
-                                                         Width="50" MinWidth="50"
-                                                         Content="No"   Tag="17" />
+                                                             Style="{StaticResource RadioButton12B}"
+                                                             Margin="0,-4,0,0"
+                                                             Width="50" MinWidth="50"
+                                                             Content="No"   Tag="17" />
                                             </muxc:RadioButtons>
 
                                             <!--<TextBlock Style="{StaticResource LabelFontTNR12B}" Text="Reply" Margin="10,2,0,0" />

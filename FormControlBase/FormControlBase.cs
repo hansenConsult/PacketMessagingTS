@@ -868,21 +868,21 @@ namespace FormControlBaseClass
             {
                 return $"{id}: [{formField.ControlContent}]";
             }
-            else if (control is RadioButton)
-            {
-                if (formProvider == FormProviders.PacForm)
-                {
+            //else if (control is RadioButton)
+            //{
+            //    if (formProvider == FormProviders.PacForm)
+            //    {
 
-                    if (formField.ControlContent == "True")
-                    {
-                        return $"{id}: [true]";
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                }
-            }
+            //        if (formField.ControlContent == "True")
+            //        {
+            //            return $"{id}: [true]";
+            //        }
+            //        else
+            //        {
+            //            return "";
+            //        }
+            //    }
+            //}
             else if (control is RadioButtons radioButtons)
             {
                 if (formProvider == FormProviders.PacItForm)
@@ -1075,10 +1075,10 @@ namespace FormControlBaseClass
                 {
 					formField.ControlContent = checkBox.IsChecked.ToString();
 				}
-                else if (_formControlsList[i].InputControl is RadioButton radioButton)
-                {
-                    formField.ControlContent = radioButton.IsChecked.ToString();
-                }
+                //else if (_formControlsList[i].InputControl is RadioButton radioButton)
+                //{
+                //    formField.ControlContent = radioButton.IsChecked.ToString();
+                //}
                 formFields.SetValue(formField, i);
 			}
 			return formFields;
@@ -1296,10 +1296,21 @@ namespace FormControlBaseClass
                             int i = 0;
                             foreach (RadioButton radioButton in radioButtons.Items)
                             {
-                                if (formField.ControlContent.ToLower() == ((string)radioButton.Tag)?.ToLower())
+                                if (FormPacketMessage.FormProvider == FormProviders.PacItForm)
                                 {
-                                    radioButtons.SelectedIndex = i;
-                                    break;
+                                    if (formField.ControlContent.ToLower() == ((string)radioButton.Tag)?.ToLower())
+                                    {
+                                        radioButtons.SelectedIndex = i;
+                                        break;
+                                    }
+                                }
+                                if (FormPacketMessage.FormProvider == FormProviders.PacForm)
+                                {
+                                    if (formField.ControlIndex == radioButton.Tag as string && formField.ControlContent == "true")
+                                    {
+                                        radioButtons.SelectedIndex = i;
+                                        break;
+                                    }
                                 }
                                 i++;
                             }
@@ -1513,16 +1524,16 @@ namespace FormControlBaseClass
         public virtual void MsgTimeChanged(string msgTime)      // Must be public, not protected
         { }
 
-        protected virtual void Required_Checked(object sender, RoutedEventArgs e)
-        {
-            UpdateFormFieldsRequiredColors();
-        }
+        //protected virtual void Required_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    UpdateFormFieldsRequiredColors();
+        //}
 
-        protected virtual void ReportType_Checked(object sender, RoutedEventArgs e)
-        {
-            bool complete = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
-            UpdateRequiredFields(complete);
-        }
+        //protected virtual void ReportType_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    bool complete = (bool)(sender as RadioButton).IsChecked && (sender as RadioButton).Name == "complete";
+        //    UpdateRequiredFields(complete);
+        //}
 
         protected virtual void ReportType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -170,7 +170,7 @@
                                                        HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
                                                        Header="4. Situation Severity"
                                                        SelectionChanged="RadioButtons_SelectionChanged"
-                                                       Tag="4.,required" >
+                                                       Tag="4.,required,Indicate Msg. Severity." >
                                         <RadioButton x:Name="EMERGENCY" 
                                                      Style="{StaticResource RadioButton12B}" 
                                                      Margin="10,0"  Content="EMERGENCY" 

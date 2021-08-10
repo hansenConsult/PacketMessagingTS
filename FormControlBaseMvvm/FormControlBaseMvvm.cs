@@ -32,7 +32,7 @@ namespace FormControlBaseMvvmNameSpace
         public static SolidColorBrush OrangeBrush = new SolidColorBrush(Colors.Orange);
 
         protected List<FormControl> _formControlsList = new List<FormControl>();
-        protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
+        //protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
 
         protected string _validationResultMessage;
 
@@ -99,7 +99,7 @@ namespace FormControlBaseMvvmNameSpace
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     _formControlsList.Add(formControl);
 
-                    _radioButtonsList.Add(button);
+                    //_radioButtonsList.Add(button);
                 }
                 else if (control is ToggleSwitch)
                 {
@@ -266,11 +266,6 @@ namespace FormControlBaseMvvmNameSpace
                         if (textBox.Text.Length == 0)
                         {
                             AddToErrorString(GetTagErrorMessage(textBox));
-                            textBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            textBox.BorderBrush = formControl.BaseBorderColor;
                         }
                     }
                     else if (control is AutoSuggestBox autoSuggestBox)
@@ -278,11 +273,6 @@ namespace FormControlBaseMvvmNameSpace
                         if (autoSuggestBox.Text.Length == 0)
                         {
                             AddToErrorString(GetTagErrorMessage(autoSuggestBox));
-                            autoSuggestBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            autoSuggestBox.BorderBrush = formControl.BaseBorderColor;
                         }
                     }
                     else if (control is ComboBox comboBox)
@@ -290,11 +280,6 @@ namespace FormControlBaseMvvmNameSpace
                         if (string.IsNullOrEmpty(comboBox.SelectionBoxItem?.ToString()))
                         {
                             AddToErrorString(GetTagErrorMessage(comboBox));
-                            comboBox.BorderBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            comboBox.BorderBrush = formControl.BaseBorderColor;
                         }
                     }
                     //else if (control is ToggleButtonGroup toggleButtonGroup)
@@ -306,10 +291,10 @@ namespace FormControlBaseMvvmNameSpace
                     //}
                     else if (control is RadioButtons radioButtons)
                     {
-                        //if (!toggleButtonGroup.Validate())
-                        //{
-                        //    AddToErrorString(GetTagErrorMessage(toggleButtonGroup));
-                        //}
+                        if (radioButtons.SelectedIndex == -1)
+                        {
+                            AddToErrorString(GetTagErrorMessage(radioButtons));
+                        }
                     }
 
                 }
