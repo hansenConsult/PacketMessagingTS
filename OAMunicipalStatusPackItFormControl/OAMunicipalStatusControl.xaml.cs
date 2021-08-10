@@ -112,7 +112,7 @@ namespace OAMunicipalStatusPackItFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20190327";
@@ -152,7 +152,7 @@ namespace OAMunicipalStatusPackItFormControl
         public override void SetPracticeField(string practiceField)
         {
             FormHeaderControl.ViewModelBase.HandlingOrder = "Routine";
-            update.IsChecked = true;
+            reportType.SelectedIndex = 0;
             jurisdictionName.SelectedIndex = 9;
         }
 

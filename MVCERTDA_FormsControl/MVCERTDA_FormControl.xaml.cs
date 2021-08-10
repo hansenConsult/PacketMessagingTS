@@ -15,6 +15,9 @@ using FormControlBaseMvvmNameSpace;
 using MVCERTDA_FormControl;
 using Windows.UI.Xaml;
 using PacketMessagingTS.Core.Helpers;
+using FormUserControl;
+using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -42,20 +45,26 @@ namespace MVCERTDA_FormsControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
-            other.IsChecked = true;
+            //other.IsChecked = true;
+            severity.SelectedIndex = 2;
+            handlingOrder.SelectedIndex = 1;
             ViewModel.HandlingOrder = "priority";
-            actionNo.IsChecked = true;
-            replyNo.IsChecked = true;
+            //actionNo.IsChecked = true;
+            action.SelectedIndex = 1;
+            //replyNo.IsChecked = true;
+            reply.SelectedIndex = 1;
             forInfo.IsChecked = true;
             //autoSuggestBoxToICSPosition.Text = "Planning";
             comboBoxToICSPosition.SelectedItem = "Planning";
             comboBoxFromICSPosition.SelectedItem = "Planning";
             //ToLocation = "Mountain View EOC";
             textBoxToLocation.Text = "Mountain View EOC";
-            ViewModel.ReceivedOrSent = "sent";
-            ViewModel.HowReceivedSent = "otherRecvdType";
+            receivedOrSent.SelectedIndex = 1;
+            //ViewModel.ReceivedOrSent = "sent";
+            //ViewModel.HowReceivedSent = "otherRecvdType";
+            ViewModel.HowReceivedSent = otherRecvdType;
             otherText.Text = "Packet";
 
             GetFormDataFromAttribute(GetType());
@@ -167,6 +176,116 @@ namespace MVCERTDA_FormsControl
             CreateOutpostDataFromFormFields(ref packetMessage, ref outpostData);
 
             return CreateOutpostMessageBody(outpostData);
+        }
+
+        protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(panelName);
+
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
+
+                switch (control)
+                {
+                    case StackPanel _:
+                    case Grid _:
+                    case Border _:
+                    case RelativePanel _:
+                        ScanControls(control, formUserControl);
+                        break;
+                    case TextBox textBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            if (textBox.IsReadOnly)
+                            {
+                                formControl.BaseBorderColor = textBox.Background;
+                            }
+                            else
+                            {
+                                formControl.BaseBorderColor = textBox.BorderBrush;
+                            }
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case ComboBox comboBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                            {
+                                BaseBorderColor = comboBox.BorderBrush
+                            };
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case CheckBox _:
+                    case RichTextBlock _:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case AutoSuggestBox autoSuggestBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                            {
+                                BaseBorderColor = TextBoxBorderBrush
+                            };
+                            if (formControl.UserControl is AutoSuggestTextBoxUserControl)
+                            {
+                                autoSuggestBox.Name = formControl.UserControl.Name;
+                                autoSuggestBox.Tag = formControl.UserControl.Tag;
+                            }
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case RadioButton button:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+
+                            _radioButtonsList.Add(button);
+                            break;
+                        }
+
+                    case RadioButtons radioButtons:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+                            if (radioButtons.Name == "reply")
+                            {
+                                if (FindName("replyBy") as TextBox != null)
+                                {
+                                    formControl = new FormControl(FindName("replyBy") as TextBox, formUserControl);
+                                    _formControlsList.Add(formControl);
+                                }
+                            }
+                            else if (radioButtons.Name == "howRecevedSent")
+                            {
+                                if (FindName("otherText") as TextBox != null)
+                                {
+                                    formControl = new FormControl(FindName("replyBy") as TextBox, formUserControl);
+                                    _formControlsList.Add(formControl);
+                                }
+                            }
+                            break;
+                        }
+
+                    case AutoSuggestTextBoxUserControl _:
+                        ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
+                        break;
+                    case FormHeaderUserControl _:
+                        ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
+                        break;
+                    case RadioOperatorUserControl _:
+                        ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
+                        break;
+                }
+
+            }
         }
 
         private void CreateDamageAssesmentMessage(ref PacketMessage packetMessage)
@@ -332,6 +451,8 @@ namespace MVCERTDA_FormsControl
         //     //TextBoxRequired_TextChanged(message, null);
         //}
 
+        private void Severity_SelectionChanged(object sender, SelectionChangedEventArgs e) => Subject_Changed(sender, null);
+
         private void ComboBoxFromLocation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count < 1)
@@ -435,6 +556,7 @@ namespace MVCERTDA_FormsControl
                 }
             }
         }
+
 
         private void DASummery_TextChanged(object sender, TextChangedEventArgs e)
         {

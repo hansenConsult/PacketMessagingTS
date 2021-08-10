@@ -37,7 +37,7 @@ namespace OAAlliedHealthStatus201802FormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             FormHeaderControl.ViewModel.HeaderString1 = "Allied Health Status Report Short Form";
             FormHeaderControl.ViewModel.HeaderString2 = "(DEOC-9)";

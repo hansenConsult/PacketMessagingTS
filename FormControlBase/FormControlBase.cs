@@ -139,28 +139,28 @@ namespace FormControlBaseClass
                         comboBox.BorderThickness = new Thickness(1);
                     }
                 }
-                else if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    //if (toggleButtonGroup.Name != "reportType" && isReportTypeSelected)
-                    //{
-                        if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                        }
-                    //}
-                    //else if (toggleButtonGroup.Name == "reportType" && !isReportTypeSelected)
-                    //{
-                    //    toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                    //}
-                    //else
-                    //{
-                    //    toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                    //}
-                }
+                //else if (control is ToggleButtonGroup toggleButtonGroup)
+                //{
+                //    //if (toggleButtonGroup.Name != "reportType" && isReportTypeSelected)
+                //    //{
+                //        if (IsFieldRequired(control) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+                //        {
+                //            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+                //        }
+                //        else
+                //        {
+                //            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                //        }
+                //    //}
+                //    //else if (toggleButtonGroup.Name == "reportType" && !isReportTypeSelected)
+                //    //{
+                //    //    toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+                //    //}
+                //    //else
+                //    //{
+                //    //    toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                //    //}
+                //}
                 else if (control is RadioButtons radioButtons)
                 {
                     if (radioButtons.Name != "reportType" && isReportTypeSelected)
@@ -353,7 +353,7 @@ namespace FormControlBaseClass
                         }
 
                     case CheckBox _:
-                    case ToggleButtonGroup _:
+                    //case ToggleButtonGroup _:
                     case RichTextBlock _:
                         {
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
@@ -381,7 +381,7 @@ namespace FormControlBaseClass
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);
 
-                            _radioButtonsList.Add(button);
+                            //_radioButtonsList.Add(button);
                             break;
                         }
 
@@ -389,10 +389,6 @@ namespace FormControlBaseClass
                         {
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);
-                            //if (radioButtons.Name == "reply")
-                            //{
-                            //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                            //}
                             break;
                         }
 
@@ -565,28 +561,28 @@ namespace FormControlBaseClass
                 (string id, FrameworkElement control) = GetTagIndex(formField);
                 formField.ControlIndex = id;
 
-                if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    string outpostValue = GetOutpostValue(id, ref msgLines);
-                    if (!string.IsNullOrEmpty(outpostValue))
-                    {
-                        foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
-                        {
-                            if (outpostValue == radioButton.Tag as string)
-                            {
-                                formField.ControlContent = radioButton.Name;
-                            }
-                            //if ((radioButton.Content as string).Contains(outpostValue))
-                            //{
-                            //    formField.ControlContent = radioButton.Name;
-                            //}
-                            //else if (radioButton.Name == outpostValue)
-                            //{
-                            //    formField.ControlContent = radioButton.Name;
-                            //}
-                        }
-                    }
-                }
+                //if (control is ToggleButtonGroup toggleButtonGroup)
+                //{
+                //    string outpostValue = GetOutpostValue(id, ref msgLines);
+                //    if (!string.IsNullOrEmpty(outpostValue))
+                //    {
+                //        foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
+                //        {
+                //            if (outpostValue == radioButton.Tag as string)
+                //            {
+                //                formField.ControlContent = radioButton.Name;
+                //            }
+                //            //if ((radioButton.Content as string).Contains(outpostValue))
+                //            //{
+                //            //    formField.ControlContent = radioButton.Name;
+                //            //}
+                //            //else if (radioButton.Name == outpostValue)
+                //            //{
+                //            //    formField.ControlContent = radioButton.Name;
+                //            //}
+                //        }
+                //    }
+                //}
                 if (control is RadioButtons radioButtons)
                 {
                     formField.ControlContent = GetOutpostValue(id, ref msgLines);
@@ -641,17 +637,17 @@ namespace FormControlBaseClass
                 {
                     (string id, FrameworkElement control) = GetTagIndex(formField);
                     formField.ControlIndex = id;    
-                    if (control is ToggleButtonGroup toggleButtonGroup)
-                    {
-                        foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
-                        {
-                            string radioButtonIndex = GetTagIndex(radioButton);
-                            if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
-                            {
-                                formField.ControlContent = radioButton.Name;
-                            }
-                        }
-                    }
+                    //if (control is ToggleButtonGroup toggleButtonGroup)
+                    //{
+                    //    foreach (RadioButton radioButton in toggleButtonGroup.RadioButtonGroup)
+                    //    {
+                    //        string radioButtonIndex = GetTagIndex(radioButton);
+                    //        if ((GetOutpostValue(radioButtonIndex, ref msgLines)?.ToLower()) == "true")
+                    //        {
+                    //            formField.ControlContent = radioButton.Name;
+                    //        }
+                    //    }
+                    //}
                     if (control is RadioButtons radioButtons)
                     {
                         formField.ControlContent = GetOutpostValue(id, ref msgLines);
@@ -893,6 +889,10 @@ namespace FormControlBaseClass
                 {
                     return $"{id}: [{formField.ControlContent}]";
                 }
+                else if (formProvider == FormProviders.PacForm)
+                {
+                    return $"{id}: [{formField.ControlContent}]";
+                }
             }
             else if (control is CheckBox)
             {
@@ -912,13 +912,13 @@ namespace FormControlBaseClass
                     return "";
                 }
                         }
-            else if (control is ToggleButtonGroup toggleButtonGroup)
-            {
-                if (formProvider == FormProviders.PacItForm)
-                {
-                    return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
-                }
-            }
+            //else if (control is ToggleButtonGroup toggleButtonGroup)
+            //{
+            //    if (formProvider == FormProviders.PacItForm)
+            //    {
+            //        return $"{id}: [{toggleButtonGroup.GetCheckedRadioButtonOutpostData(formField.ControlContent)}]";
+            //    }
+            //}
             else if (control is ComboBox)
             {
                 return CreateComboBoxOutpostDataString(formField, id);
@@ -953,13 +953,13 @@ namespace FormControlBaseClass
 
             }
             return formFields;
-		}
+        }
 
-		public FormField[] CreateFormFieldsInXML()
-		{
-			FormField[] formFields = new FormField[_formControlsList.Count];
+        public FormField[] CreateFormFieldsInXML()
+        {
+            FormField[] formFields = new FormField[_formControlsList.Count];
 
-			for (int i = 0; i < _formControlsList.Count; i++)
+        	for (int i = 0; i < _formControlsList.Count; i++)
 			{
                 FormField formField = new FormField()
                 {
@@ -1054,13 +1054,22 @@ namespace FormControlBaseClass
                         }
                     }
 				}
-                else if (_formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
-                {
-					formField.ControlContent = toggleButtonGroup.GetRadioButtonCheckedState();
-                }
+     //           else if (_formControlsList[i].InputControl is ToggleButtonGroup toggleButtonGroup)
+     //           {
+					//formField.ControlContent = toggleButtonGroup.GetRadioButtonCheckedState();
+     //           }
                 else if (_formControlsList[i].InputControl is RadioButtons radioButtons)
                 {
-                    formField.ControlContent = (radioButtons.SelectedItem as RadioButton)?.Tag as string;
+                    if (FormProvider == FormProviders.PacItForm)
+                    {
+                        formField.ControlContent = (radioButtons.SelectedItem as RadioButton)?.Tag as string;
+                    }
+                    else if (FormProvider == FormProviders.PacForm)
+                    {
+                        RadioButton radioButton = radioButtons.SelectedItem as RadioButton;
+                        formField.ControlIndex = GetTagIndex(radioButton);
+                        formField.ControlContent = "true";
+                    }
                 }
                 else if (_formControlsList[i].InputControl is CheckBox checkBox)
                 {
@@ -1262,22 +1271,22 @@ namespace FormControlBaseClass
                 {
                     FillComboBoxFromFormFields(formField, comboBox);
                 }
-                else if (control is ToggleButtonGroup toggleButtonGroup)
-                {
-                    if (formControl.UserControl == null)
-                    {
-                        toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
-                    }
-                    //else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
-                    //{
-                    //    FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
-                    //    if (control.Name == "handlingOrder")
-                    //    {
-                    //        formHeaderControl.ViewModelBase.HandlingOrder = formField.ControlContent;
-                    //        toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
-                    //    }
-                    //}
-                }
+                //else if (control is ToggleButtonGroup toggleButtonGroup)
+                //{
+                //    if (formControl.UserControl == null)
+                //    {
+                //        toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
+                //    }
+                //    //else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
+                //    //{
+                //    //    FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
+                //    //    if (control.Name == "handlingOrder")
+                //    //    {
+                //    //        formHeaderControl.ViewModelBase.HandlingOrder = formField.ControlContent;
+                //    //        toggleButtonGroup.SetRadioButtonCheckedState(formField.ControlContent);
+                //    //    }
+                //    //}
+                //}
                 else if (control is RadioButtons radioButtons)
                 {
                     if (formControl.UserControl == null)
@@ -1287,7 +1296,7 @@ namespace FormControlBaseClass
                             int i = 0;
                             foreach (RadioButton radioButton in radioButtons.Items)
                             {
-                                if (formField.ControlContent.ToLower() == ((string)radioButton.Tag).ToLower())
+                                if (formField.ControlContent.ToLower() == ((string)radioButton.Tag)?.ToLower())
                                 {
                                     radioButtons.SelectedIndex = i;
                                     break;

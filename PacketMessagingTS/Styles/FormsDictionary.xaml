@@ -3,6 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
 
+    <DataTemplate x:Name="MsgReqHeaderTemplate">
+        <TextBlock Text="{Binding}" FontSize="12" FontWeight="Bold" 
+                           Margin="8,4,0,0"
+                           Foreground="Black" HorizontalTextAlignment="Left" />
+    </DataTemplate>
+
     <Style x:Key="Label" TargetType="TextBlock">
         <Setter Property="Padding" Value="8,0,8,0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -96,6 +102,16 @@
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
+    <Style x:Key="RadioButton14" TargetType="RadioButton">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="8,0,0,0"/>
+        <Setter Property="Padding" Value="5"/>
+    </Style>
+
     <Style x:Key="RadioButton12" TargetType="RadioButton">
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="Black"/>
@@ -107,6 +123,33 @@
     </Style>
     <Style x:Key="RadioButton12B" TargetType="RadioButton" BasedOn="{StaticResource RadioButton12}">
         <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="HandlingOrderRadioButtonStyle" TargetType="RadioButton">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="8,0,0,0"/>
+        <Setter Property="Padding" Value="4"/>
+    </Style>
+    
+    <Style x:Key="ReceivedSentLabelFont" TargetType="TextBlock">
+        <!--<Setter Property="FontSize" Value="12"/>-->
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="ReceivedSentRadioButton" TargetType="RadioButton">
+        <!--<Setter Property="FontFamily" Value="Sans serif"/>-->
+        <!--<Setter Property="FontSize" Value="10"/>-->
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="8,-8,0,0"/>
+        <Setter Property="Padding" Value="6,-2,0,0"/>
     </Style>
 
 </ResourceDictionary>

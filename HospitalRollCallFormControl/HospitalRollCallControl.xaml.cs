@@ -43,7 +43,7 @@ namespace HospitalRollCallFormControl
 
             ViewModelBase = ViewModel;
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
         }
 
         //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;

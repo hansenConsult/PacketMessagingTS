@@ -41,7 +41,7 @@ namespace PublicNoticeFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             UpdateFormFieldsRequiredColors();
 

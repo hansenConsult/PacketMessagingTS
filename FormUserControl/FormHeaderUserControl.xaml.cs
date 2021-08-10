@@ -35,7 +35,7 @@ namespace FormUserControl
 
             ScanControls(formHeaderUserControl);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
             ViewModel.HandlingOrder = null;
 
             ViewModelBase = ViewModel;

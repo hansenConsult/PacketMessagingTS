@@ -134,9 +134,11 @@
                                                SelectionChanged="ReportType_SelectionChanged"
                                                Tag="19.,required,Select Report Type" >
                                 <RadioButton x:Name="update" Content="Update"
+                                             Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
                                              Tag="Update"/>
                                 <RadioButton x:Name="complete" Content="Complete"
+                                             Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
                                              Tag="Complete"/>
                             </muxc:RadioButtons>

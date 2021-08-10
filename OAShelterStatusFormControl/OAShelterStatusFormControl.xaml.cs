@@ -106,7 +106,7 @@ namespace OAShelterStatusFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             state.Text = "California";
 

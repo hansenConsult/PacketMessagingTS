@@ -8,6 +8,7 @@ using SharedCode.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using SharedCode.Models;
 using SharedCode;
+using Windows.UI.Xaml.Controls;
 
 namespace MVCERTDA_FormControl
 {
@@ -18,8 +19,15 @@ namespace MVCERTDA_FormControl
         public List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
 
 
-        private string howReceivedSent;
-        public string HowReceivedSent
+        //private string howReceivedSent;
+        //public string HowReceivedSent
+        //{
+        //    get => howReceivedSent;
+        //    set => SetProperty(ref howReceivedSent, value);
+        //}
+
+        private RadioButton howReceivedSent;
+        public RadioButton HowReceivedSent
         {
             get => howReceivedSent;
             set => SetProperty(ref howReceivedSent, value);

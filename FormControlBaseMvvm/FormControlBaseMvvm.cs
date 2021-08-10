@@ -75,7 +75,8 @@ namespace FormControlBaseMvvmNameSpace
                     };
                     _formControlsList.Add(formControl);
                 }
-                else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
+                //else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
+                else if (control is CheckBox || control is RichTextBlock)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                     _formControlsList.Add(formControl);
@@ -296,13 +297,21 @@ namespace FormControlBaseMvvmNameSpace
                             comboBox.BorderBrush = formControl.BaseBorderColor;
                         }
                     }
-                    else if (control is ToggleButtonGroup toggleButtonGroup)
+                    //else if (control is ToggleButtonGroup toggleButtonGroup)
+                    //{
+                    //    if (!toggleButtonGroup.Validate())
+                    //    {
+                    //        AddToErrorString(GetTagErrorMessage(toggleButtonGroup));
+                    //    }
+                    //}
+                    else if (control is RadioButtons radioButtons)
                     {
-                        if (!toggleButtonGroup.Validate())
-                        {
-                            AddToErrorString(GetTagErrorMessage(toggleButtonGroup));
-                        }
+                        //if (!toggleButtonGroup.Validate())
+                        //{
+                        //    AddToErrorString(GetTagErrorMessage(toggleButtonGroup));
+                        //}
                     }
+
                 }
             }
             return _validationResultMessage;

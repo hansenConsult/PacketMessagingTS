@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-	xmlns:MyNamespace="using:ToggleButtonGroupControl"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"
 
@@ -22,12 +21,6 @@
                 <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate x:Name="MsgReqHeaderTemplate">
-                <TextBlock Text="{Binding}" FontSize="12" FontWeight="Bold" 
-                           Margin="8,4,0,0"
-                           Foreground="Black" HorizontalTextAlignment="Left" />
-            </DataTemplate>
-
             <DataTemplate x:Name="ToFromHeaderTemplate">
                 <TextBlock Text="{Binding}" FontSize="12" FontWeight="Bold" 
                            Margin="8,8,0,0"
@@ -39,18 +32,18 @@
                            FontWeight="Bold" Foreground="Black" />
             </DataTemplate>
 
-            <DataTemplate x:Key="ReplyYesTemplate">
+            <!--<DataTemplate x:Key="ReplyYesTemplate">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Yes, by" 
                                FontSize="12" FontWeight="Bold"
                                VerticalAlignment="Center" />
                     <TextBox x:Name="replyBy"
                              PlaceholderText="hh:mm" 
-                             Margin="2,0,0,0"
+                             Margin="4,0,0,0"
                              TextChanged="TextBox_ReplyTimeChanged"
                              Tag="6d."/>
                 </StackPanel>
-            </DataTemplate>
+            </DataTemplate>-->
 
             <Style x:Key="AutoSuggestTextBoxStyle" TargetType="AutoSuggestBox">
                 <Setter Property="BorderBrush" Value="White"/>
@@ -71,8 +64,8 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="FontWeight" Value="SemiBold"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="8,0,0,0"/>
-                <Setter Property="Padding" Value="4"/>
+                <Setter Property="Margin" Value="8,-8,0,0"/>
+                <Setter Property="Padding" Value="6,-2,0,0"/>
             </Style>
 
         </ResourceDictionary>
@@ -232,7 +225,6 @@
                                                      Margin="10, 0" Padding="4" Content="ROUTINE" 
 										             ToolTipService.ToolTip="More than one hour" Tag="ROUTINE"/>
                                     </muxc:RadioButtons>
-
                                     <!--<StackPanel>
                                         <TextBlock Style="{StaticResource LabelFont12B}" Text="5. Msg. Handling Order" Margin="8"/>
                                         <MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
@@ -284,25 +276,35 @@
                                                          Content="No" Width="50" MinWidth="50"
                                                          Margin="-60,0,0,0"  Padding="4" Tag="No"/>
                                         </StackPanel>-->
-                                        <!--<muxc:RadioButtons x:Name="reply" MaxColumns="2" Width="310"
+                                        <muxc:RadioButtons x:Name="reply" MaxColumns="2" Width="310"
                                                            Margin="-6,0,0,0"
                                                            HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
                                                            Header="Reply"
                                                            Tag="6b.">
                                             <RadioButton x:Name="replyYes" 
-                                                         ContentTemplate="{StaticResource ReplyYesTemplate}"
                                                          Style="{StaticResource RadioButton12B}"
                                                          Margin="8,-4,0,0"
                                                          Width="130" MinWidth="100"
-                                                         Content="Yes" Tag="Yes" />
+                                                         Tag="Yes" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Yes, by" 
+                                                               FontSize="12" FontWeight="Bold"
+                                                               VerticalAlignment="Center" />
+                                                    <TextBox x:Name="replyBy"
+                                                             PlaceholderText="hh:mm" 
+                                                             Margin="4,0,0,0"
+                                                             TextChanged="TextBox_ReplyTimeChanged"
+                                                             Tag="6d."/>
+                                                </StackPanel>
+                                            </RadioButton>
                                             <RadioButton x:Name="replyNo" 
                                                          Style="{StaticResource RadioButton12B}"
                                                          Margin="0,-4,0,0"
                                                          Width="50" MinWidth="50"
                                                          Content="No"   Tag="No" />
-                                        </muxc:RadioButtons>-->
+                                        </muxc:RadioButtons>
 
-                                        <TextBlock Style="{StaticResource LabelFont12B}" Text="Reply" Margin="10,4,0,0" />
+                                        <!--<TextBlock Style="{StaticResource LabelFont12B}" Text="Reply" Margin="10,4,0,0" />
                                         <StackPanel Orientation="Horizontal">
                                             <MyNamespace:ToggleButtonGroup x:Name="reply" IsTabStop="False"
                                                                            CheckedControlName="Reply" Tag="6b."/>
@@ -319,7 +321,7 @@
                                                          Style="{StaticResource RadioButton12B}" 
                                                          Content="No" Width="50" Margin="10,0,0,0" Padding="4" 
                                                          MinWidth="50" Tag="No"/>
-                                        </StackPanel>
+                                        </StackPanel>-->
                                         <CheckBox x:Name="forInfo" Style="{StaticResource FormsCheckBox}" 
                                                   VerticalContentAlignment="Center"
                                                   Margin="10,4,4,4" Content="For your info (no action required)" Padding="4" Tag="6c."/>
@@ -550,11 +552,11 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Text="10. Subject:" Style="{StaticResource LabelFont14B}" Margin="4,0,0,0"/>
-                                <TextBox  Grid.Column="1" Grid.Row="0" x:Name="subject" 
+                                <TextBox  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="subject" 
                                           
                                           Tag="10.,required,Enter a Subject." 
                                           TextChanged="Subject_Changed"                                           
-                                          Margin="4,2,4,2" IsSpellCheckEnabled="True" Grid.ColumnSpan="2" />
+                                          Margin="4,2,4,2" IsSpellCheckEnabled="True" />
                                 <!--Text="{x:Bind Subject, Mode=TwoWay}"-->
                                 <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" 
                                         BorderBrush="Black" BorderThickness="0,1,0,0"/>
@@ -766,7 +768,7 @@
                                                  Content="or Sent" Tag="receiver"/>
                                     <RadioButton x:Name="sent"
                                                  Style="{StaticResource RadioButton12B}"
-                                                 Margin="-40,-8,0,0" 
+                                                 Margin="-48,-8,0,0" 
                                                  FontWeight="SemiBold"
                                                  Content="" Tag="sender"/>
                                 </muxc:RadioButtons>
@@ -795,7 +797,56 @@
                                          Text="{x:Bind ViewModel.OperatorName, Mode=TwoWay}" 
                                          BorderBrush="White" Margin="5,2,0,2" Width="auto" Tag="OpName"/>
                             </StackPanel>
-                            <MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" IsTabStop="False"
+                            <muxc:RadioButtons Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="3" 
+                                               x:Name="howRecevedSent"
+                                               MaxColumns="3"
+                                               SelectedItem="{x:Bind ViewModel.HowReceivedSent, Mode=TwoWay}"
+                                               Tag="Method">
+                                <RadioButton x:Name="telephone" 
+                                             Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                             Content="Telephone" 
+                                             Tag="Telephone" VerticalAlignment="Center"/>
+                                <RadioButton x:Name="eOCRadio"
+                                             Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                             Content="EOC Radio" 
+                                             Tag="EOC Radio"/>
+                                <RadioButton x:Name="amateurRadio" 
+                                             Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                             MinWidth="100" 
+                                             Content="Amateur Radio" 
+                                             Tag="Amateur Radio"/>
+                                <RadioButton x:Name="dispatchCenter"
+                                             Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                             Content="Dispatch Center" 
+                                             Tag="Dispatch Center"/>
+                                <RadioButton x:Name="fax"
+                                             Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                             Content="FAX" 
+                                             Tag="FAX"/>
+                                <RadioButton x:Name="otherRecvdType"
+                                             Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                             Tag="Other">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Other:" 
+                                                   FontSize="12" FontWeight="Bold"
+                                                   VerticalAlignment="Center" />
+                                        <TextBox x:Name="otherText"
+                                                 Width="54"
+                                                 Margin="4,0,0,0"
+                                                 Tag="Other"/>
+                                    </StackPanel>
+
+                                </RadioButton>
+                                <RadioButton Visibility="Collapsed"
+                                             />
+                                <RadioButton x:Name="courier"
+                                             Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" 
+                                             Content="Courier" 
+                                             Tag="Courier"/>
+                                <RadioButton Visibility="Collapsed"
+                                             />
+                            </muxc:RadioButtons>
+                            <!--<MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" IsTabStop="False"
                                                                CheckedControlName="{x:Bind ViewModel.HowReceivedSent, Mode=TwoWay}"
                                                                Tag="Method"/>
                             <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" GroupName="howRecevedSent" x:Name="telephone" 
@@ -814,13 +865,13 @@
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="Courier" 
                                          Width="auto" Tag="Courier"/>
                             <TextBlock Grid.Row="2" Grid.Column="3" Text=" "/>
-                            <!--<Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0" Grid.ColumnSpan="3"/>-->
+                            --><!--<Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0" Grid.ColumnSpan="3"/>--><!--
                             <RadioButton Grid.Row="3" Grid.Column="0" x:Name="amateurRadio" GroupName="howRecevedSent" 
                                          Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="Amateur Radio" 
                                          Padding="5" Tag="Amateur Radio"/>
-                            <!--<MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" 
+                            --><!--<MyNamespace:ToggleButtonGroup x:Name="howRecevedSent" 
                                                                CheckedControlName="{x:Bind HowReceivedSent, Mode=TwoWay}"
-                                                               Tag="Method"/>-->
+                                                               Tag="Method"/>--><!--
                             <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="2,0,0,0" >
                                 <RadioButton x:Name="otherRecvdType" GroupName="howRecevedSent" 
                                              Style="{StaticResource ResourceKey=ReceivedSentRadioButton}" Content="Other:" 
@@ -828,7 +879,7 @@
                                 <TextBox x:Name="otherText"  Margin="-48,0,0,0" VerticalContentAlignment="Center" 
                                          TextAlignment="Left" Width="120"  
                                          HorizontalAlignment="Left"  Tag="Other" Height="28"/>
-                            </StackPanel>
+                            </StackPanel>-->
                             <Grid Grid.Row="3" Grid.Column="3"  >
                                 <Grid.RowDefinitions>
                                     <RowDefinition />

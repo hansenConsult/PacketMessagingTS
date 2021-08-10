@@ -6,7 +6,6 @@ using FormControlBaseClass;
 using Microsoft.UI.Xaml.Controls;
 
 using SharedCode;
-using SharedCode.Helpers;
 using SharedCode.Helpers.PrintHelpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
@@ -16,8 +15,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
-using Windows.UI;
 using SharedCode.Models;
+using FormUserControl;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -33,7 +32,7 @@ namespace ICS213PackItFormControl
 	public partial class ICS213PackItControl : FormControlBase
 	{
         //public ICS213PackItControlViewModel ViewModel = ICS213PackItControlViewModel.Instance;
-        ICS213PackItControlViewModel ViewModel = new ICS213PackItControlViewModel();
+        private readonly ICS213PackItControlViewModel ViewModel = new ICS213PackItControlViewModel();
 
 
 
@@ -45,11 +44,10 @@ namespace ICS213PackItFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
-            //ViewModel.ReceivedOrSentIndex = 1;
             receivedOrSent.SelectedIndex = 1;
-            ViewModel.HowReceivedSent = "otherRecvdType";
+            ViewModel.HowReceivedSent = otherRecvdType;
             otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
@@ -87,6 +85,7 @@ namespace ICS213PackItFormControl
         public override void SetPracticeField(string practiceField)
         {
             severity.SelectedIndex = 2;
+            handlingOrder.SelectedIndex = 2;
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
             UpdateFormFieldsRequiredColors();       // TODO check this
@@ -160,6 +159,116 @@ namespace ICS213PackItFormControl
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
             return CreateOutpostMessageBody(_outpostData);
+        }
+
+        protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
+        {
+            int count = VisualTreeHelper.GetChildrenCount(panelName);
+
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject control = VisualTreeHelper.GetChild(panelName, i);
+
+                switch (control)
+                {
+                    case StackPanel _:
+                    case Grid _:
+                    case Border _:
+                    case RelativePanel _:
+                        ScanControls(control, formUserControl);
+                        break;
+                    case TextBox textBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            if (textBox.IsReadOnly)
+                            {
+                                formControl.BaseBorderColor = textBox.Background;
+                            }
+                            else
+                            {
+                                formControl.BaseBorderColor = textBox.BorderBrush;
+                            }
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case ComboBox comboBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                            {
+                                BaseBorderColor = comboBox.BorderBrush
+                            };
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case CheckBox _:
+                    case RichTextBlock _:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case AutoSuggestBox autoSuggestBox:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
+                            {
+                                BaseBorderColor = TextBoxBorderBrush
+                            };
+                            if (formControl.UserControl is AutoSuggestTextBoxUserControl)
+                            {
+                                autoSuggestBox.Name = formControl.UserControl.Name;
+                                autoSuggestBox.Tag = formControl.UserControl.Tag;
+                            }
+                            _formControlsList.Add(formControl);
+                            break;
+                        }
+
+                    case RadioButton button:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+
+                            _radioButtonsList.Add(button);
+                            break;
+                        }
+
+                    case RadioButtons radioButtons:
+                        {
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                            _formControlsList.Add(formControl);
+                            if (radioButtons.Name == "reply")
+                            {
+                                if (FindName("replyBy") as TextBox != null)
+                                {
+                                    formControl = new FormControl(FindName("replyBy") as TextBox, formUserControl);
+                                    _formControlsList.Add(formControl);
+                                }
+                            }
+                            else if (radioButtons.Name == "howRecevedSent")
+                            {
+                                if (FindName("otherText") as TextBox != null)
+                                {
+                                    formControl = new FormControl(FindName("replyBy") as TextBox, formUserControl);
+                                    _formControlsList.Add(formControl);
+                                }
+                            }
+                            break;
+                        }
+
+                    case AutoSuggestTextBoxUserControl _:
+                        ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
+                        break;
+                    case FormHeaderUserControl _:
+                        ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
+                        break;
+                    case RadioOperatorUserControl _:
+                        ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
+                        break;
+                }
+
+            }
         }
 
         public override async void PrintForm()

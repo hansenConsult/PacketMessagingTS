@@ -123,7 +123,7 @@ namespace MedicalFacilityStatusFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             FormHeaderControl.ViewModel.HeaderString1 = "Medical facility Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20160101";

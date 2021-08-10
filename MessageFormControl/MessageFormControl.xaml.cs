@@ -49,7 +49,7 @@ namespace MessageFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             GetFormDataFromAttribute(GetType());
 

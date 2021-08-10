@@ -51,7 +51,7 @@ namespace ICS213RRPackItFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version 8/17";

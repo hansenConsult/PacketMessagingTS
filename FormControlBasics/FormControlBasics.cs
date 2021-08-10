@@ -359,16 +359,16 @@ namespace FormControlBasicsNamespace
         //    }
         //}
 
-        public void InitializeToggleButtonGroups()
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
-                {
-                    toggleButtonGroup.Initialize(_radioButtonsList, formControl.InputControl.Name);
-                }
-            }
-        }
+        //public void InitializeToggleButtonGroups()
+        //{
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
+        //        {
+        //            toggleButtonGroup.Initialize(_radioButtonsList, formControl.InputControl.Name);
+        //        }
+        //    }
+        //}
 
      //   public virtual string ValidateForm(string errorText = "")
      //   {
@@ -704,27 +704,27 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        protected virtual void RadioButton_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            foreach (FormControl formControl in _formControlsList)
-            {
-                if (sender is RadioButton radioButton)
-                {
-                    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
-                    {
-                        toggleButtonGroup.CheckedControlName = radioButton.Name;
-                        if (IsFieldRequired(toggleButtonGroup) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                        }
-                    }
-                }
-            }
-        }
+        //protected virtual void RadioButton_SelectionChanged(object sender, RoutedEventArgs e)
+        //{
+        //    foreach (FormControl formControl in _formControlsList)
+        //    {
+        //        if (sender is RadioButton radioButton)
+        //        {
+        //            if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
+        //            {
+        //                toggleButtonGroup.CheckedControlName = radioButton.Name;
+        //                if (IsFieldRequired(toggleButtonGroup) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+        //                {
+        //                    toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+        //                }
+        //                else
+        //                {
+        //                    toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -759,23 +759,23 @@ namespace FormControlBasicsNamespace
                     //{
                     //    HandlingOrder = "immediate";
                     //}
-                    if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
-                    {
-                        //toggleButtonGroup.CheckedControlName = radioButton.Name;
-                        if (toggleButtonGroup.Name == "handlingOrder")
-                        {
-                            ViewModelBase.HandlingOrder = radioButton.Name;
-                        }
-                        if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                        }
-                        else
-                        {
-                            toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                        }
-                        break;
-                    }
+                    //if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
+                    //{
+                    //    //toggleButtonGroup.CheckedControlName = radioButton.Name;
+                    //    if (toggleButtonGroup.Name == "handlingOrder")
+                    //    {
+                    //        ViewModelBase.HandlingOrder = radioButton.Name;
+                    //    }
+                    //    if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
+                    //    {
+                    //        toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
+                    //    }
+                    //    else
+                    //    {
+                    //        toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
+                    //    }
+                    //    break;
+                    //}
                 }
                 if (sender is RadioButtons radioButtons && radioButtons.Name == formControl.InputControl.Name)
                 {

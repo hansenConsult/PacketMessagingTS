@@ -40,7 +40,7 @@ namespace MutualAidRequestFormControl
 
             ScanControls(PrintableArea);
 
-            InitializeToggleButtonGroups();
+            //InitializeToggleButtonGroups();
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: 190614";
