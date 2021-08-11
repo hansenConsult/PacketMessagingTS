@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Contracts\Services\IFileService.cs" />
     <Compile Remove="Helpers\DateTimeConverter.cs" />
     <Compile Remove="Helpers\LogHelper.cs" />
     <Compile Remove="Helpers\Singleton.cs" />
@@ -22,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Services\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
   </ItemGroup>

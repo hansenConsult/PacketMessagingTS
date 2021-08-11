@@ -8,8 +8,6 @@ using SharedCode;
 using SharedCode.Helpers;
 using SharedCode.Models;
 
-using ToggleButtonGroupControl;
-
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

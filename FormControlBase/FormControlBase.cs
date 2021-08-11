@@ -16,16 +16,12 @@ using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
-using ToggleButtonGroupControl;
-
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Documents;
 using Windows.Storage;
-using Windows.System;
-using Windows.UI.Xaml.Input;
 using System.Linq;
 using PacketMessagingTS.Core.Helpers;
 
