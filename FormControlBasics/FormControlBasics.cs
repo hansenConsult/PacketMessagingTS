@@ -63,7 +63,6 @@ namespace FormControlBasicsNamespace
         };
 
         //protected List<FormControl> _formControlsList = new List<FormControl>();
-        //protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
 
         protected List<string> _ICSPositionFiltered = new List<string>();
 
@@ -699,82 +698,37 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        //protected virtual void RadioButton_SelectionChanged(object sender, RoutedEventArgs e)
-        //{
-        //    foreach (FormControl formControl in _formControlsList)
-        //    {
-        //        if (sender is RadioButton radioButton)
-        //        {
-        //            if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
-        //            {
-        //                toggleButtonGroup.CheckedControlName = radioButton.Name;
-        //                if (IsFieldRequired(toggleButtonGroup) && string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-        //                {
-        //                    toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-        //                }
-        //                else
-        //                {
-        //                    toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
         private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RadioButtons radioButtons = sender as RadioButtons;
-            int count = e.AddedItems.Count;
-            var item = e.AddedItems[0];
 
-            foreach (RadioButton radioButton in radioButtons.Items)
-            {
-                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
-                {
-                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
-                }
-                else
-                {
-                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
-                }
-            }
             if (radioButtons.Name == "handlingOrder")
             {
                 Subject_Changed(sender, null);
             }
+            else
+            {
+                foreach (RadioButton radioButton in radioButtons.Items)
+                {
+                    if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+                    {
+                        radioButton.Foreground = new SolidColorBrush(Colors.Red);
+                    }
+                    else
+                    {
+                        radioButton.Foreground = new SolidColorBrush(Colors.Black);
+                    }
+                }
+            }
         }
 
         protected void Subject_Changed(object sender, RoutedEventArgs e)
-        {
+        {          
             foreach (FormControl formControl in _formControlsList)
             {
-                if (sender is RadioButton radioButton)
-                {
-                    //if (radioButton.Name == "emergency") No longer allowed
-                    //{
-                    //    HandlingOrder = "immediate";
-                    //}
-                    //if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup && toggleButtonGroup.Name == radioButton.GroupName)
-                    //{
-                    //    //toggleButtonGroup.CheckedControlName = radioButton.Name;
-                    //    if (toggleButtonGroup.Name == "handlingOrder")
-                    //    {
-                    //        ViewModelBase.HandlingOrder = radioButton.Name;
-                    //    }
-                    //    if (string.IsNullOrEmpty(toggleButtonGroup.GetRadioButtonCheckedState()))
-                    //    {
-                    //        toggleButtonGroup.ToggleButtonGroupBrush = formControl.RequiredBorderBrush;
-                    //    }
-                    //    else
-                    //    {
-                    //        toggleButtonGroup.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-                    //    }
-                    //    break;
-                    //}
-                }
                 if (sender is RadioButtons radioButtons && radioButtons.Name == formControl.InputControl.Name)
                 {
-                    radioButton = radioButtons.SelectedItem as RadioButton;
+                    RadioButton radioButton = radioButtons.SelectedItem as RadioButton;
                     if (radioButtons.Name == "handlingOrder" && radioButtons.SelectedIndex != -1)
                     {
                         ViewModelBase.HandlingOrder = (radioButtons.Items[radioButtons.SelectedIndex] as RadioButton)?.Name;

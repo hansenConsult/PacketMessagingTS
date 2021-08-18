@@ -23,7 +23,6 @@ namespace FormUserControl
     {
         public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
-        //FormHeaderUserControlViewModel ViewModel = FormHeaderUserControlViewModel.Instance;
         public FormHeaderUserControlViewModel ViewModel = new FormHeaderUserControlViewModel();
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
@@ -35,7 +34,6 @@ namespace FormUserControl
 
             ScanControls(formHeaderUserControl);
 
-            //InitializeToggleButtonGroups();
             ViewModel.HandlingOrder = null;
 
             ViewModelBase = ViewModel;
@@ -82,7 +80,6 @@ namespace FormUserControl
                         _formControlsList.Add(formControl);
                         break;
                     case CheckBox _:
-                    //case ToggleButtonGroup _:
                     case RadioButtons _:
                     case RichTextBlock _:
                         formControl = new FormControl((FrameworkElement)control, formUserControl);
@@ -100,70 +97,10 @@ namespace FormUserControl
                         }
                         _formControlsList.Add(formControl);
                         break;
-                    //case RadioButton _:
-                    //    formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    //    _formControlsList.Add(formControl);
-
-                    //    _radioButtonsList.Add((RadioButton)control);
-                    //    break;
                     case AutoSuggestTextBoxUserControl _:
                         ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
                         break;
                 }
-
-                //if (control is StackPanel || control is Grid || control is Border || control is RelativePanel)
-                //{
-                //    ScanControls(control, formUserControl);
-                //}
-                //else if (control is TextBox textBox)
-                //{
-                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                //    if (textBox.IsReadOnly)
-                //    {
-                //        formControl.BaseBorderColor = WhiteBrush;
-                //    }
-                //    else
-                //    {
-                //        formControl.BaseBorderColor = textBox.BorderBrush;
-                //    }
-                //    _formControlsList.Add(formControl);
-                //}
-                //else if (control is ComboBox comboBox)
-                //{
-                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                //    formControl.BaseBorderColor = comboBox.BorderBrush;
-                //    _formControlsList.Add(formControl);
-                //}
-                //else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
-                //{
-                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                //    _formControlsList.Add(formControl);
-                //}
-                //else if (control is AutoSuggestBox)
-                //{
-                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                //    formControl.BaseBorderColor = TextBoxBorderBrush;
-                //    _formControlsList.Add(formControl);
-                //}
-                //else if (control is RadioButton)
-                //{
-                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                //    _formControlsList.Add(formControl);
-
-                //    _radioButtonsList.Add((RadioButton)control);
-                //}
-                //else if (control is AutoSuggestTextBoxUserControl)
-                //{
-                //    ScanControls((control as AutoSuggestTextBoxUserControl).Panel, control as FrameworkElement);
-                //}
-                //else if (control is FormHeaderUserControl)
-                //{
-                //    ScanControls((control as FormHeaderUserControl).Panel, control as FrameworkElement);
-                //}
-                //else if (control is RadioOperatorUserControl)
-                //{
-                //    ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
-                //}
             }
         }
 
@@ -256,28 +193,28 @@ namespace FormUserControl
             }
         }
 
-        private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RadioButtons radioButtons = sender as RadioButtons;
-            int count = e.AddedItems.Count;
-            var item = e.AddedItems[0];
+        //private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    RadioButtons radioButtons = sender as RadioButtons;
+        //    int count = e.AddedItems.Count;
+        //    var item = e.AddedItems[0];
 
-            foreach (RadioButton radioButton in radioButtons.Items)
-            {
-                if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
-                {
-                    radioButton.Foreground = new SolidColorBrush(Colors.Red);
-                }
-                else
-                {
-                    radioButton.Foreground = new SolidColorBrush(Colors.Black);
-                }
-            }
-            if (radioButtons.Name == "handlingOrder")
-            {
-                Subject_Changed(sender, null);
-            }
-        }
+        //    foreach (RadioButton radioButton in radioButtons.Items)
+        //    {
+        //        if (IsFieldRequired(radioButtons) && radioButtons.SelectedIndex == -1)
+        //        {
+        //            radioButton.Foreground = new SolidColorBrush(Colors.Red);
+        //        }
+        //        else
+        //        {
+        //            radioButton.Foreground = new SolidColorBrush(Colors.Black);
+        //        }
+        //    }
+        //    if (radioButtons.Name == "handlingOrder")
+        //    {
+        //        Subject_Changed(sender, null);
+        //    }
+        //}
 
     }
 }

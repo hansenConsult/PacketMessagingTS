@@ -1,13 +1,13 @@
-﻿using MetroLog;
-
-using SharedCode;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
+using MetroLog;
+
+using SharedCode;
 
 using Windows.Storage;
 
@@ -95,14 +95,6 @@ namespace SharedCode.Models
                         _instance = (UserAddressArray)serializer.Deserialize(reader);
                     }
                 }
-
-
-
-                //using (FileStream reader = new FileStream(file.Path, FileMode.Open))
-                //{
-                //    XmlSerializer serializer = new XmlSerializer(typeof(UserAddressArray));
-                //    _instance = (UserAddressArray)serializer.Deserialize(reader);
-                //}
             }
             catch (FileNotFoundException e)
             {
@@ -228,5 +220,4 @@ namespace SharedCode.Models
         }
 
     }
-
 }

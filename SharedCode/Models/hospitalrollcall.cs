@@ -131,17 +131,17 @@ namespace SharedCode.Models
             }
         }
 
-        public static void Save()
-        {
-        }
+        //public static void Save()
+        //{
+        //}
 
-        public static void Clear()
-        {
-            //for (int i = 0; i < Hospitals.Length; i++)
-            //{
-            //    Hospitals[i].callSign = "";
-            //}
-        }
+        //public static void Clear()
+        //{
+        //    //for (int i = 0; i < Hospitals.Length; i++)
+        //    //{
+        //    //    Hospitals[i].callSign = "";
+        //    //}
+        //}
     }
 
     /// <remarks/>
@@ -152,7 +152,6 @@ namespace SharedCode.Models
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class Hospital
     {
-
         private string hospitalNameField;
 
         private string hospitalPacketAddressField;

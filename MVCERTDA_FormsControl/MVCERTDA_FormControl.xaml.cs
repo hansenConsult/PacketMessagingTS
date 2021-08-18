@@ -32,7 +32,6 @@ namespace MVCERTDA_FormsControl
 
     public sealed partial class MVCERTDAControl : FormControlBase
     {
-        //public MVCERTDAControlViewModel ViewModel = MVCERTDAControlViewModel.Instance;
         public MVCERTDAControlViewModel ViewModel = new MVCERTDAControlViewModel();
 
         readonly string _subjectText = "Damage Summary for ";
@@ -235,14 +234,14 @@ namespace MVCERTDA_FormsControl
                             break;
                         }
 
-                    case RadioButton button:
-                        {
-                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                            _formControlsList.Add(formControl);
+                    //case RadioButton button:
+                    //    {
+                    //        FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                    //        _formControlsList.Add(formControl);
 
-                            //_radioButtonsList.Add(button);
-                            break;
-                        }
+                    //        //_radioButtonsList.Add(button);
+                    //        break;
+                    //    }
 
                     case RadioButtons radioButtons:
                         {
@@ -549,7 +548,6 @@ namespace MVCERTDA_FormsControl
                 }
             }
         }
-
 
         private void DASummery_TextChanged(object sender, TextChangedEventArgs e)
         {

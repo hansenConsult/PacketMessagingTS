@@ -106,7 +106,7 @@
                                  TextChanged="TextBox_TextChanged"
                                  Tag="16b.,Required" />
                         <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}"  Text="Amateur Radio "  />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}"  Text="Amateur Radio &#10;Resources &#10;Requested "  />
                         <Grid Grid.Row="4" Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="24"/>
@@ -270,7 +270,7 @@
                                      Tag="24a.,Required" />
                         </Grid>
                         <Border Grid.Row="11" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                        <TextBlock Grid.Row="11" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}" Text="Approved By" />
+                        <TextBlock Grid.Row="11" Grid.Column="0" Style="{StaticResource LabelTopSemiBold}" Text="Approved By(Authorized agency official)" />
                         <Grid Grid.Row="11" Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>

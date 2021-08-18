@@ -25,7 +25,7 @@
             </Style>
 
             <Style x:Key="MedicalFacilityStatusCommentsText" TargetType="TextBox" BasedOn="{StaticResource FormsTextBox}">
-                <Setter Property="Margin" Value="2,2,8,2"/>
+                <Setter Property="Margin" Value="2,2,2,2"/>
             </Style>
 
         </ResourceDictionary>
@@ -396,7 +396,7 @@
                                  Tag="12.8c."/>
                             </Grid>
                             <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0"/>
-                            <TextBlock Grid.Row="9" Grid.Column="0" Text="Medical Facility &#10; Supplies" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
+                            <TextBlock Grid.Row="9" Grid.Column="0" Text="Medical Facility &#10;Supplies" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <Grid Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -584,7 +584,7 @@
                                                Tag="15.3.,conditionallyrequired" >
                                 <RadioButton x:Name="dialysisServiceYes"  Content="Yes"
                                              Width="50" MinWidth="50"
-                                             Margin="8,0,0,0" 
+                                             Margin="8,-3,0,0" 
                                              Tag="Y"/>
                                 <RadioButton x:Name="dialysisServiceNo" Content="No"
                                              Width="50" MinWidth="50"
@@ -641,7 +641,7 @@
                             <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <TextBox Grid.Row="4" Grid.Column="2" x:Name="emergencyDepartmentServiceComment"
                                      Style="{StaticResource MedicalFacilityStatusCommentsText}"
-                                     Tag="15.4c."/>
+                                     Tag="15.4c." />
                             <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBox Grid.Row="4" Grid.Column="3" x:Name="emergencyDepartmentServiceReopening"
                                      Style="{StaticResource FormsDateTextBox}"

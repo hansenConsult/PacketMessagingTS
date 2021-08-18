@@ -73,7 +73,6 @@ namespace FormControlBaseMvvmNameSpace
                     };
                     _formControlsList.Add(formControl);
                 }
-                //else if (control is CheckBox || control is ToggleButtonGroup || control is RichTextBlock)
                 else if (control is CheckBox || control is RichTextBlock)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
@@ -92,13 +91,13 @@ namespace FormControlBaseMvvmNameSpace
                     };
                     _formControlsList.Add(formControl);
                 }
-                else if (control is RadioButton button)
-                {
-                    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    _formControlsList.Add(formControl);
+                //else if (control is RadioButton button)
+                //{
+                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
+                //    _formControlsList.Add(formControl);
 
-                    //_radioButtonsList.Add(button);
-                }
+                //    //_radioButtonsList.Add(button);
+                //}
                 else if (control is ToggleSwitch)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
@@ -198,10 +197,10 @@ namespace FormControlBaseMvvmNameSpace
                         //}
                     }
                 }
-                else if (control is RadioButton radioButton)
-                {
-                    radioButton.IsEnabled = false;
-                }
+                //else if (control is RadioButton radioButton)
+                //{
+                //    radioButton.IsEnabled = false;
+                //}
                 else if (control is RadioButtons radioButtons)
                 {
                     radioButtons.IsEnabled = false;
@@ -280,13 +279,6 @@ namespace FormControlBaseMvvmNameSpace
                             AddToErrorString(GetTagErrorMessage(comboBox));
                         }
                     }
-                    //else if (control is ToggleButtonGroup toggleButtonGroup)
-                    //{
-                    //    if (!toggleButtonGroup.Validate())
-                    //    {
-                    //        AddToErrorString(GetTagErrorMessage(toggleButtonGroup));
-                    //    }
-                    //}
                     else if (control is RadioButtons radioButtons)
                     {
                         if (radioButtons.SelectedIndex == -1)

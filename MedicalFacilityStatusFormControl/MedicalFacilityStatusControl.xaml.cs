@@ -123,8 +123,6 @@ namespace MedicalFacilityStatusFormControl
 
             ScanControls(PrintableArea);
 
-            //InitializeToggleButtonGroups();
-
             FormHeaderControl.ViewModel.HeaderString1 = "Medical facility Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20160101";
             FormHeaderControl.ViewModelBase.PIF = "3.2";
@@ -262,19 +260,17 @@ namespace MedicalFacilityStatusFormControl
                         textBoxComment.Text = "";
                         textBoxComment.IsReadOnly = true;
                         textBoxDate.IsReadOnly = true;
+                        textBoxDate.PlaceholderText = "";
                         textBoxDate.Text = "";
                     }
                     else if ((radioButton.Tag as string).Contains("N"))
                     {
                         textBoxComment.IsReadOnly = false;
-                        //textBoxComment.Text = "";
                         textBoxDate.IsReadOnly = false;
-                        //textBoxDate.Text = "";
+                        textBoxDate.PlaceholderText = "mm/dd/yyyy";
                     }
                 }
             }
-
-
         }
 
         //private void SpecialtyService_Checked(object sender, RoutedEventArgs e)
