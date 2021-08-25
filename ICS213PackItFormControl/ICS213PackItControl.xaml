@@ -248,17 +248,18 @@
                                     <StackPanel x:Name="msgRequest" Grid.Column="3">
                                         <TextBlock Style="{StaticResource LabelFont12B}"  Text="6. Message requests you to:" Margin="8"/>
                                         <muxc:RadioButtons x:Name="action" MaxColumns="2"
+                                                           Margin="8,0,0,0"
                                                            HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
                                                            Header="Take action"
                                                            Tag="6a.">
                                             <RadioButton x:Name="actionYes" 
                                                          Style="{StaticResource RadioButton12B}"
-                                                         Margin="8,-4,0,0"
+                                                         Margin="0,-6,0,0"
                                                          Width="50" MinWidth="50"
                                                          Content="Yes" Tag="Yes" />
                                             <RadioButton x:Name="actionNo" 
                                                          Style="{StaticResource RadioButton12B}"
-                                                         Margin="8,-4,0,0"
+                                                         Margin="8,-6,0,0"
                                                          Width="50" MinWidth="50"
                                                          Content="No"   Tag="No" />
 
@@ -276,15 +277,15 @@
                                                          Content="No" Width="50" MinWidth="50"
                                                          Margin="-60,0,0,0"  Padding="4" Tag="No"/>
                                         </StackPanel>-->
-                                        <muxc:RadioButtons x:Name="reply" MaxColumns="2" Width="310"
-                                                           Margin="-6,0,0,0"
+                                        <muxc:RadioButtons x:Name="reply" MaxColumns="2" 
+                                                           Margin="8,0,0,0"
                                                            HeaderTemplate="{StaticResource MsgReqHeaderTemplate}"
                                                            Header="Reply"
                                                            Tag="6b.">
                                             <RadioButton x:Name="replyYes" 
                                                          Style="{StaticResource RadioButton12B}"
-                                                         Margin="8,-4,0,0"
-                                                         Width="130" MinWidth="100"
+                                                         Margin="0,-6,0,0"
+                                                         Width="100"
                                                          Tag="Yes" >
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="Yes, by" 
@@ -299,7 +300,7 @@
                                             </RadioButton>
                                             <RadioButton x:Name="replyNo" 
                                                          Style="{StaticResource RadioButton12B}"
-                                                         Margin="0,-4,0,0"
+                                                         Margin="0,-6,0,0"
                                                          Width="50" MinWidth="50"
                                                          Content="No"   Tag="No" />
                                         </muxc:RadioButtons>
@@ -324,7 +325,7 @@
                                         </StackPanel>-->
                                         <CheckBox x:Name="forInfo" Style="{StaticResource FormsCheckBox}" 
                                                   VerticalContentAlignment="Center"
-                                                  Margin="10,4,4,4" Content="For your info (no action required)" Padding="4" Tag="6c."/>
+                                                  Margin="8,2,2,2" Content="For your info (no action required)" Padding="4" Tag="6c."/>
                                     </StackPanel>
                                 </Border>
                                 <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1">
@@ -583,7 +584,7 @@
                             </TextBlock>
                         </Border>
                         <Border Grid.Row="3" BorderBrush="Black" BorderThickness="1">
-                            <TextBlock x:Name="ActionTaken" Height="72" />
+                            <TextBlock x:Name="ActionTaken" Height="68" />
                         </Border>
                         <Grid Grid.Row="4" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <Grid.ColumnDefinitions>
@@ -907,13 +908,5 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <!--<Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Margin="8, 12" Text="6DM-123P"/>
-            <TextBlock Grid.Column="1" Margin="8, 12" TextAlignment="Right" Text="Page 1 of 1" />
-        </Grid>-->
     </StackPanel>
 </MyBaseNamespace:FormControlBase>

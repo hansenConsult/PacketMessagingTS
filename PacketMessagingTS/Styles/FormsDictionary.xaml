@@ -5,7 +5,7 @@
 
     <DataTemplate x:Name="MsgReqHeaderTemplate">
         <TextBlock Text="{Binding}" FontSize="12" FontWeight="Bold" 
-                           Margin="8,4,0,0"
+                           Margin="0,2,0,0"
                            Foreground="Black" HorizontalTextAlignment="Left" />
     </DataTemplate>
 
