@@ -12,6 +12,7 @@ using PacketMessagingTS.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using Windows.UI.Xaml;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -207,6 +208,20 @@ namespace OAAlliedHealthStatus201802FormControl
                     control.Tag = (control.Tag as string).Replace(",conditionallyrequired", ",required");
                 }
             }
+        }
+
+        public override void PrintForm()
+        {
+            facilityStatusGrid.BorderThickness = new Thickness(1, 1, 1, 1);
+
+            base.PrintForm();
+        }
+
+        protected override void ReleasePrintHelper()
+        {
+            facilityStatusGrid.BorderThickness = new Thickness(1, 1, 1, 0);
+
+            base.ReleasePrintHelper();
         }
 
         private void TextBoxResource_TextChanged(object sender, TextChangedEventArgs e)

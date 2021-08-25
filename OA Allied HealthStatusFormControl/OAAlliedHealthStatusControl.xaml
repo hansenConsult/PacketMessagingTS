@@ -45,13 +45,13 @@
                 <Setter Property="Margin" Value="2"/>
             </Style>
             <Style x:Key="MuniStatusTextBox" TargetType="TextBox">
-                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <!--<Setter Property="FontFamily" Value="Segoe UI"/>-->
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="Foreground" Value="Black"/>
                 <!--<Setter Property="TextBox.FontWeight" Value="Bold"/>-->
                 <!--<Setter Property="HorizontalAlignment" Value="Left"/>-->
-                <Setter Property="VerticalAlignment" Value="Center"/>
+                <!--<Setter Property="VerticalAlignment" Value="Center"/>-->
                 <!--<Setter Property="VerticalContentAlignment" Value="Center"/>-->
                 <Setter Property="Margin" Value="2"/>
                 <!--<Setter Property="Padding" Value="8,8,0,0"/>-->
@@ -88,9 +88,9 @@
                 <!--<Setter Property="Width" Value="36"/>-->
             </Style>
             <Style x:Key="AlliedHeaderTextBold" TargetType="TextBlock">
-                <Setter Property="FontFamily" Value="Ariel"/>
+                <!--<Setter Property="FontFamily" Value="Ariel"/>-->
                 <Setter Property="FontStyle" Value="Normal"/>
-                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -430,7 +430,8 @@
                             </Grid>
 
                         </Grid>
-                        <Grid Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid Grid.Row="3" x:Name="facilityStatusGrid" BorderBrush="Black" BorderThickness="1,1,1,0" 
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2.3*"/>
                                 <ColumnDefinition Width="2*"/>
@@ -777,7 +778,7 @@ to Public Health/Medical Health Branch"
                                 <TextBox Grid.Column="1" x:Name="infoOfficerNumber" 
                                          Style="{StaticResource AlliedPhoneTextBox}" BorderThickness="1" Tag="29p." />
                             </Grid>
-                            <Grid Grid.Column="0" Grid.Row="11" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <Grid Grid.Column="0" Grid.Row="11" BorderBrush="Black" BorderThickness="0,0,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -1399,7 +1400,7 @@ to Public Health/Medical Health Branch"
                                 </Grid>-->
                         </Grid>
                     </Grid>
-                    <Grid x:Name="printPage2">
+                    <Grid x:Name="printPage2" BorderBrush="Black" BorderThickness="0,1,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -1441,7 +1442,7 @@ to Public Health/Medical Health Branch"
                                      Style="{StaticResource MuniStatusTextBox}" TextChanged="TextBox_TextChanged"
                                      Tag="30.,conditionallyrequired,Enter alternate contact" />
                             </Grid>
-                            <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="9" BorderBrush="Black" BorderThickness="1,1,0,0">
+                            <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="9" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition/>

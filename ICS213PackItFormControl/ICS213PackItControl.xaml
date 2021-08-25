@@ -569,7 +569,7 @@
                             <Border BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Style="{StaticResource LabelFont14B}" Text="12. Message:" Margin="4,4,0,0"/>
                             <TextBox x:Name="message"   ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                     AcceptsReturn="True" TextWrapping="Wrap" Height="140" Margin="4,4,4,2" 
+                                     AcceptsReturn="True" TextWrapping="Wrap" Height="120" Margin="4,4,4,2" 
                                      Tag="12.,required,You must include a Message." 
 							     	 ToolTipService.ToolTip="What, when, where needed; how long; contact name and phone number. Keep message brief" 
                                      PlaceholderText="Type message here." IsSpellCheckEnabled="True"

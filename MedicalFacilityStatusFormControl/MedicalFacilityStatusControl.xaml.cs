@@ -13,6 +13,7 @@ using PacketMessagingTS.Core.Helpers;
 using SharedCode.Models;
 
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -119,7 +120,7 @@ namespace MedicalFacilityStatusFormControl
 
     public MedicalFacilityStatusControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             ScanControls(PrintableArea);
 
@@ -143,8 +144,8 @@ namespace MedicalFacilityStatusFormControl
 
         public override string PacFormType => "XSC_MedicalCacilityStatus";
 
-        public string CardiologyService
-        { get; set; }
+        //public string CardiologyService
+        //{ get; set; }
 
 
         public override void AppendDrillTraffic()
@@ -273,61 +274,18 @@ namespace MedicalFacilityStatusFormControl
             }
         }
 
-        //private void SpecialtyService_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    RadioButton radioButton = sender as RadioButton;
+        public override void PrintForm()
+        {
+            medicalFacilityStatusGrid.BorderThickness = new Thickness(1,0,1,1);
 
-        //    string tag = "";
-        //    ToggleButtonGroup toggleButtonGroupYN;
-        //    foreach (FormControl formControl in _formControlsList)
-        //    {
-        //        if (formControl.InputControl is ToggleButtonGroup toggleButtonGroup)
-        //        {
-        //            if (radioButton.GroupName == toggleButtonGroup.Name)
-        //            {
-        //                tag = GetTagIndex(toggleButtonGroup);
-        //                toggleButtonGroupYN = toggleButtonGroup;
-        //                toggleButtonGroupYN.ToggleButtonGroupBrush = new SolidColorBrush(Colors.Black);
-        //            }
-        //        }
-        //    }
+            base.PrintForm();
+        }
 
-        //    string commentsTag = tag.TrimEnd('.') + "c.";
-        //    FormControl formControlComment = null;
-        //    string dateTag = tag.TrimEnd('.') + "d.";
-        //    FormControl formControlDate = null;
-        //    foreach (FormControl formControl in _formControlsList)
-        //    {
-        //        if (formControl.InputControl is TextBox textBox)
-        //        {
-        //            if (textBox.Tag as string == commentsTag)
-        //            {
-        //                formControlComment = formControl;
-        //            }
-        //            if (textBox.Tag as string == dateTag)
-        //            {
-        //                formControlDate = formControl;
-        //            }
-        //        }
-        //    }
-        //    TextBox textBoxComment = formControlComment?.InputControl as TextBox;
-        //    TextBox textBoxDate = formControlDate?.InputControl as TextBox;
+        protected override void ReleasePrintHelper()
+        {
+            medicalFacilityStatusGrid.BorderThickness = new Thickness(1, 0, 1, 0);
 
-        //    if ((radioButton.Tag as string).Contains("Y"))
-        //    {
-        //        textBoxComment.Text = "";
-        //        textBoxComment.IsReadOnly = true;
-        //        textBoxDate.IsReadOnly = true;
-        //        textBoxDate.Text = "";                
-        //    }
-        //    else if ((radioButton.Tag as string).Contains("N"))
-        //    {
-        //        textBoxComment.IsReadOnly = false;
-        //        //textBoxComment.Text = "";
-        //        textBoxDate.IsReadOnly = false;
-        //        //textBoxDate.Text = "";
-        //    }
-        //}
-
+            base.ReleasePrintHelper();
+        }
     }
 }

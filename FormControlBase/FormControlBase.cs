@@ -343,16 +343,7 @@ namespace FormControlBaseClass
                             break;
                         }
 
-                    //case RadioButton button:
-                    //    {
-                    //        FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    //        _formControlsList.Add(formControl);
-
-                    //        //_radioButtonsList.Add(button);
-                    //        break;
-                    //    }
-
-                    case RadioButtons radioButtons:
+                    case RadioButtons _:
                         {
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);

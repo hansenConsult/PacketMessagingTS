@@ -504,17 +504,17 @@
                              Style="{StaticResource HandlingOrderRadioButtonStyle}" 
                              Content="IMMEDIATE (ASAP)"
                              Margin="0,-6,0,0"
-                             ToolTipService.ToolTip="As soon as possible" Tag="IMMEDIATE"/>
+                             Tag="IMMEDIATE"/>
                 <RadioButton Grid.Column="6" x:Name="priority" 
                              Style="{StaticResource HandlingOrderRadioButtonStyle}" 
                              Content="PRIORITY (&lt; 1 hr)" 
                              Margin="0,-6,0,0"
-                             ToolTipService.ToolTip="Less than one hour" Tag="PRIORITY"/>
+                             Tag="PRIORITY"/>
                 <RadioButton Grid.Column="7" x:Name="routine" 
                              Style="{StaticResource HandlingOrderRadioButtonStyle}" 
                              Content="ROUTINE (&lt; 2 hrs)" 
                              Margin="0,-6,0,0"
-                             ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
+                             Tag="ROUTINE"/>
             </muxc:RadioButtons>
             <!--<MyNamespace:ToggleButtonGroup x:Name="handlingOrder" IsTabStop="False"
                                            CheckedControlName ="{x:Bind ViewModel.HandlingOrder, Mode=TwoWay}" 

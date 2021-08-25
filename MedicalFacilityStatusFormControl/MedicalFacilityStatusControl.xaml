@@ -16,6 +16,7 @@
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                 <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
                 <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -36,8 +37,14 @@
             <StackPanel>
                 <Grid x:Name="container" Opacity="0" />
                 <StackPanel x:Name="directPrintContainer">
-                    <StackPanel x:Name="printPage1">
-                        <src:FormHeaderUserControl  x:Name="formHeaderControl" />
+                    <Grid x:Name="printPage1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
                         <!--<Grid BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -120,7 +127,7 @@
                                              Content="Routine (&lt;2 hrs)" Checked="Subject_Changed"
                                              ToolTipService.ToolTip="Less than two hours" Tag="ROUTINE"/>
                         </Grid>-->
-                        <Grid BorderBrush="Black" BorderThickness="1,1,1,0">
+                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,1,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -160,7 +167,7 @@
                             <TextBox Grid.Column="4" x:Name="hospitalNameTextBox" Width="300"
                                      Visibility="Collapsed" />
                         </Grid>
-                        <Grid BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <Grid Grid.Row="2" x:Name="medicalFacilityStatusGrid" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition />
@@ -448,7 +455,7 @@
                                  Tag="12.10c." />
                             </Grid>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
                     <Grid x:Name="printPage2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
