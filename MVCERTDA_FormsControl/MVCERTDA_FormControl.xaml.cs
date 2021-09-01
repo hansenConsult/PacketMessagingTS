@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using FormControlBaseClass;
+using FormControlBaseMvvmNameSpace;
+
+using FormUserControl;
+
+using Microsoft.UI.Xaml.Controls;
+
+using MVCERTDA_FormControl;
+
+using PacketMessagingTS.Core.Helpers;
 
 using SharedCode;
-using SharedCode.Helpers;
 using SharedCode.Models;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
-using Windows.UI.Xaml.Controls;
-using FormControlBaseMvvmNameSpace;
-using MVCERTDA_FormControl;
 using Windows.UI.Xaml;
-using PacketMessagingTS.Core.Helpers;
-using FormUserControl;
-using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -94,16 +96,6 @@ namespace MVCERTDA_FormsControl
         public override FormProviders FormProvider => FormProviders.PacForm;
 
         public override string PacFormType => "MVCERTSummary";
-
-        //public override string MessageNo 
-        //{ 
-        //    get => base.MessageNo;
-        //    set
-        //    {
-        //        base.MessageNo = value;
-        //        ViewModel.OriginMsgNo = value;
-        //    }
-        //}
 
         public override Panel CanvasContainer => container;
 
@@ -234,19 +226,11 @@ namespace MVCERTDA_FormsControl
                             break;
                         }
 
-                    //case RadioButton button:
-                    //    {
-                    //        FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                    //        _formControlsList.Add(formControl);
-
-                    //        //_radioButtonsList.Add(button);
-                    //        break;
-                    //    }
-
                     case RadioButtons radioButtons:
                         {
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);
+
                             if (radioButtons.Name == "reply")
                             {
                                 if (FindName("replyBy") as TextBox != null)
@@ -259,7 +243,7 @@ namespace MVCERTDA_FormsControl
                             {
                                 if (FindName("otherText") as TextBox != null)
                                 {
-                                    formControl = new FormControl(FindName("replyBy") as TextBox, formUserControl);
+                                    formControl = new FormControl(FindName("otherText") as TextBox, formUserControl);
                                     _formControlsList.Add(formControl);
                                 }
                             }
@@ -426,6 +410,8 @@ namespace MVCERTDA_FormsControl
                             break;
                         case null:
                             continue;
+                        default:
+                            break;
                     }
                 }
                 if (found1 && found2)
@@ -456,18 +442,9 @@ namespace MVCERTDA_FormsControl
             ComboBox comboBox = sender as ComboBox;
             if (comboBox.Name == "comboBoxFromLocation")
             {
-                if (comboBoxFromLocation.SelectedIndex < 0 && comboBoxFromLocation.IsEditable)
-                {
-                    comboBoxFromLocationTextBox.Text = comboBoxFromLocation.Text;
-                    //comboBox.Visibility = Visibility.Collapsed;
-                    //comboBoxFromLocationTextBox.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    comboBoxFromLocationTextBox.Text = comboBoxFromLocation.SelectedItem.ToString();
-                    //comboBoxFromLocationTextBox.Visibility = Visibility.Collapsed;
-                    //comboBox.Visibility = Visibility.Visible;
-                }
+                comboBoxFromLocationTextBox.Text = comboBoxFromLocation.SelectedIndex < 0 && comboBoxFromLocation.IsEditable
+                    ? comboBoxFromLocation.Text
+                    : comboBoxFromLocation.SelectedItem.ToString();
             }
             ComboBox_SelectionChanged(sender, e);
         }
@@ -538,14 +515,9 @@ namespace MVCERTDA_FormsControl
             }
             foreach (TextBox textBox in daSummeryList)
             {
-                if (daSummeryFilled)
-                {
-                    textBox.Tag = (textBox.Tag as string).Replace(",required", ",conditionallyrequired");
-                }
-                else
-                {
-                    textBox.Tag = (textBox.Tag as string).Replace(",conditionallyrequired", ",required");
-                }
+                textBox.Tag = daSummeryFilled
+                    ? (textBox.Tag as string).Replace(",required", ",conditionallyrequired")
+                    : (textBox.Tag as string).Replace(",conditionallyrequired", ",required");
             }
         }
 

@@ -32,19 +32,6 @@
                            FontWeight="Bold" Foreground="Black" />
             </DataTemplate>
 
-            <!--<DataTemplate x:Key="ReplyYesTemplate">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Yes, by" 
-                               FontSize="12" FontWeight="Bold"
-                               VerticalAlignment="Center" />
-                    <TextBox x:Name="replyBy"
-                             PlaceholderText="hh:mm" 
-                             Margin="4,0,0,0"
-                             TextChanged="TextBox_ReplyTimeChanged"
-                             Tag="6d."/>
-                </StackPanel>
-            </DataTemplate>-->
-
             <Style x:Key="AutoSuggestTextBoxStyle" TargetType="AutoSuggestBox">
                 <Setter Property="BorderBrush" Value="White"/>
             </Style>
@@ -285,7 +272,7 @@
                                             <RadioButton x:Name="replyYes" 
                                                          Style="{StaticResource RadioButton12B}"
                                                          Margin="0,-6,0,0"
-                                                         Width="100"
+                                                         Width="100" MinWidth="124"
                                                          Tag="Yes" >
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="Yes, by" 
@@ -295,12 +282,12 @@
                                                              PlaceholderText="hh:mm" 
                                                              Margin="4,0,0,0"
                                                              TextChanged="TextBox_ReplyTimeChanged"
-                                                             Tag="6d."/>
+                                                             Tag="6d." />
                                                 </StackPanel>
                                             </RadioButton>
                                             <RadioButton x:Name="replyNo" 
                                                          Style="{StaticResource RadioButton12B}"
-                                                         Margin="0,-6,0,0"
+                                                         Margin="4,-6,0,0"
                                                          Width="50" MinWidth="50"
                                                          Content="No"   Tag="No" />
                                         </muxc:RadioButtons>

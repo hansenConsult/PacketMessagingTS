@@ -224,22 +224,6 @@ namespace FormControlBaseClass
         //public virtual string Reply
         //{ get; set; }
 
-        //public virtual string Severity
-        //{ get; set; }
-
-        //public virtual string ReceivedOrSent
-        //{ get; set; }
-
-        //public virtual string HowReceivedSent
-        //{ get; set; }
-
-        //private string _IncidentName;
-        //public virtual string IncidentName      // Required for setting Practice
-        //{
-        //    get => _IncidentName;
-        //    set => SetProperty(ref _IncidentName, value);
-        //}
-
         //public virtual string FacilityName      // Required for setting Practice Using local ViewModel for now
         //{ get; set; }
 
@@ -251,17 +235,6 @@ namespace FormControlBaseClass
         //    set => SetProperty(ref _shelterName, value);
         //}
 
-        //public virtual string Subject       // Required for setting Practice
-        //{ get; set; }
-
-        //private string _ReportType;
-        //public virtual string ReportType
-        //{ 
-        //    get => _ReportType; 
-        //    set => SetProperty(ref _ReportType, value); 
-        //}
-
-        //private FormControlAttribute.FormType _FormControlType;
         public virtual FormControlAttribute.FormType FormControlType
         { get; set; }
 

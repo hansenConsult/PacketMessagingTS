@@ -554,8 +554,7 @@ namespace FormControlBasicsNamespace
                             match = Regex.IsMatch(phoneNumber, phonePattern);
                         }
 
-                        //if (!match || (IsFieldRequired(textBox) && !match))
-                        if (match && IsFieldRequired(textBox) || !IsFieldRequired(textBox))
+                        if ((match && IsFieldRequired(textBox)) || !IsFieldRequired(textBox))
                         {
                             textBox.BorderThickness = new Thickness(1);
                             textBox.BorderBrush = formControl.BaseBorderColor;
@@ -575,12 +574,9 @@ namespace FormControlBasicsNamespace
         {
             if (sender is TextBox textBox)
             {
-                FormControl formControl;
-                if (!string.IsNullOrEmpty(textBox.Name))
-                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
-                else
-                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
-
+                FormControl formControl = !string.IsNullOrEmpty(textBox.Name)
+                    ? _formControlsList.Find(x => textBox.Name == x.InputControl.Name)
+                    : _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
                 string date = textBox.Text.Trim();
                 bool match = false;
                 if (!string.IsNullOrEmpty(date))
@@ -723,7 +719,7 @@ namespace FormControlBasicsNamespace
         }
 
         protected void Subject_Changed(object sender, RoutedEventArgs e)
-        {          
+        {
             foreach (FormControl formControl in _formControlsList)
             {
                 if (sender is RadioButtons radioButtons && radioButtons.Name == formControl.InputControl.Name)
@@ -757,15 +753,7 @@ namespace FormControlBasicsNamespace
                 }
                 else if (sender is ComboBox comboBox && comboBox.Name == formControl.InputControl.Name)
                 {
-                    if (comboBox.SelectedIndex < 0)
-                    {
-                        comboBox.BorderBrush = formControl.RequiredBorderBrush;
-                    }
-                    else
-                    {
-                        comboBox.BorderBrush = formControl.BaseBorderColor;
-                        //comboBox.BorderThickness = new Thickness(1);
-                    }
+                    comboBox.BorderBrush = comboBox.SelectedIndex < 0 ? formControl.RequiredBorderBrush : formControl.BaseBorderColor;
                     break;
                 }
             }

@@ -1,15 +1,15 @@
-﻿
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Microsoft.Toolkit.Uwp;
-
 using System.Threading.Tasks;
+
+//using Microsoft.Toolkit.Uwp;
+
+//using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -20,10 +20,10 @@ namespace SharedCode.Helpers.PrintHelpers
 {
     /// <summary>
     /// Helper class used to simplify document printing.
-    /// It allows you to render a framework element per page.
+    /// It allows you to render a framework element perpage.
     /// </summary>
     /// <remarks>Based on https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs</remarks>
-    public class PrintHelper : IDisposable
+    public sealed class PrintHelper : IDisposable
     {
         /// <summary>
         /// Occurs when a print was successful.
@@ -35,7 +35,7 @@ namespace SharedCode.Helpers.PrintHelpers
         /// </summary>
         public event Action OnPrintFailed;
 
-        /// <summary>
+        /// <summary
         /// Occurs when a print is canceled by the user.
         /// </summary>
         public event Action OnPrintCanceled;
@@ -73,22 +73,22 @@ namespace SharedCode.Helpers.PrintHelpers
         /// The list of elements used to store the print preview pages.
         /// This gives easy access to any desired preview page.
         /// </summary>
-        private List<FrameworkElement> _printPreviewPages;
+        private readonly List<FrameworkElement> _printPreviewPages;
 
         /// <summary>
         /// A hidden canvas used to hold pages we wish to print.
         /// </summary>
         private Canvas _printCanvas;
 
-        private Panel _canvasContainer;
+        private readonly Panel _canvasContainer;
         private string _printTaskName;
-        private Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
+        private readonly Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
         private bool _directPrint = false;
 
         /// <summary>
         /// The list of elements to print.
         /// </summary>
-        private List<FrameworkElement> _elementsToPrint;
+        private readonly List<FrameworkElement> _elementsToPrint;
 
         /// <summary>
         /// The options for the print dialog.
@@ -98,33 +98,22 @@ namespace SharedCode.Helpers.PrintHelpers
         /// <summary>
         /// The default options for the print dialog.
         /// </summary>
-        private PrintHelperOptions _defaultPrintHelperOptions;
-
-        /// <summary>
-        /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
-        /// </summary>
-        public DispatcherQueue DispatcherQueue { get; set; }
+        private readonly PrintHelperOptions _defaultPrintHelperOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
         /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
-        /// <param name="dispatcherQueue">The DispatcherQueue that should be used to dispatch UI updates, or null if this is being called from the UI thread.</param>
-        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null, DispatcherQueue dispatcherQueue = null)
+        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
         {
-            DispatcherQueue = dispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
-
-            if (canvasContainer == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             _printPreviewPages = new List<FrameworkElement>();
-            _printCanvas = new Canvas();
-            _printCanvas.Opacity = 0;
+            _printCanvas = new Canvas
+            {
+                Opacity = 0
+            };
 
-            _canvasContainer = canvasContainer;
+            _canvasContainer = canvasContainer ?? throw new ArgumentNullException();
             _canvasContainer.RequestedTheme = ElementTheme.Light;
 
             _elementsToPrint = new List<FrameworkElement>();
@@ -174,14 +163,14 @@ namespace SharedCode.Helpers.PrintHelpers
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ShowPrintUIAsync(string printTaskName, bool directPrint = false)
         {
-            this._directPrint = directPrint;
+            _directPrint = directPrint;
 
             PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested += PrintTaskRequested;
 
             // Launch print process
             _printTaskName = printTaskName;
-            await PrintManager.ShowPrintUIAsync();
+            _ =  await PrintManager.ShowPrintUIAsync();
         }
 
         /// <summary>
@@ -209,7 +198,9 @@ namespace SharedCode.Helpers.PrintHelpers
             }
 
             _printCanvas = null;
-            DispatcherQueue.EnqueueAsync(() =>
+            DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            dispatcherQueue.EnqueueAsync(() =>
+            //DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 _printDocument.Paginate -= CreatePrintPreviewPages;
                 _printDocument.GetPreviewPage -= GetPrintPreviewPage;
@@ -223,6 +214,7 @@ namespace SharedCode.Helpers.PrintHelpers
         private void RegisterForPrinting()
         {
             _printDocument = new PrintDocument();
+
             _printDocumentSource = _printDocument.DocumentSource;
             _printDocument.Paginate += CreatePrintPreviewPages;
             _printDocument.GetPreviewPage += GetPrintPreviewPage;
@@ -233,7 +225,9 @@ namespace SharedCode.Helpers.PrintHelpers
         {
             if (!_directPrint)
             {
-                await DispatcherQueue.EnqueueAsync(() =>
+                DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+                await dispatcherQueue.EnqueueAsync(() =>
+                //await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -266,35 +260,36 @@ namespace SharedCode.Helpers.PrintHelpers
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
-                    await DispatcherQueue.EnqueueAsync(
-                        async () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                    {
+                        foreach (var element in _stateBags.Keys)
                         {
-                            foreach (var element in _stateBags.Keys)
-                            {
-                                _stateBags[element].Restore(element);
-                            }
+                            _stateBags[element].Restore(element);
+                        }
+                        _stateBags.Clear();
+                        _canvasContainer.RequestedTheme = ElementTheme.Default;
+                        await DetachCanvas();
 
-                            _stateBags.Clear();
-                            _canvasContainer.RequestedTheme = ElementTheme.Default;
-                            await DetachCanvas();
-
-                            switch (args.Completion)
-                            {
-                                case PrintTaskCompletion.Failed:
+                        switch (args.Completion)
+                        {
+                            case PrintTaskCompletion.Failed:
+                                {
                                     OnPrintFailed?.Invoke();
                                     break;
-
-                                case PrintTaskCompletion.Canceled:
+                                }
+                            case PrintTaskCompletion.Canceled:
+                                {
                                     OnPrintCanceled?.Invoke();
                                     break;
-
-                                case PrintTaskCompletion.Submitted:
+                                }
+                            case PrintTaskCompletion.Submitted:
+                                {
                                     OnPrintSucceeded?.Invoke();
                                     break;
-                            }
-                        }, DispatcherQueuePriority.Normal);
+                                }
+                        }
+                    });
                 };
-
                 sourceRequested.SetSource(_printDocumentSource);
             });
         }
@@ -415,7 +410,7 @@ namespace SharedCode.Helpers.PrintHelpers
                 _printCanvas.Children.Clear();
 
                 var printPageTasks = new List<Task>();
-                foreach (var element in _elementsToPrint)
+                foreach (FrameworkElement element in _elementsToPrint)
                 {
                     printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
                 }
@@ -430,7 +425,8 @@ namespace SharedCode.Helpers.PrintHelpers
             // Report the number of preview pages created
             _printCanvas.UpdateLayout();
             printDoc.SetPreviewPageCount(_printPreviewPages.Count, PreviewPageCountType.Intermediate);
-            printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[_printPreviewPages.Count - 1]);
+            //printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[_printPreviewPages.Count - 1]);
+            printDoc.SetPreviewPage(1, _printPreviewPages[0]);
         }
 
         /// <summary>
@@ -484,7 +480,7 @@ namespace SharedCode.Helpers.PrintHelpers
             // Save state
             if (!_stateBags.ContainsKey(element))
             {
-                var stateBag = new PrintHelperStateBag(DispatcherQueue);
+                var stateBag = new PrintHelperStateBag();
                 stateBag.Capture(element);
                 _stateBags.Add(element, stateBag);
             }

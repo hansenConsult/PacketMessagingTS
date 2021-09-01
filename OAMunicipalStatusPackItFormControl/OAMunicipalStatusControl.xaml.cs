@@ -112,8 +112,6 @@ namespace OAMunicipalStatusPackItFormControl
 
             ScanControls(PrintableArea);
 
-            //InitializeToggleButtonGroups();
-
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20190327";
 

@@ -25,6 +25,7 @@ namespace PacketMessagingTS.ViewModels
 
         private CommLog _CommLog;
         private bool _fromOpenFile;
+        private int _linesPerPage = 23;
 
 
         public void Initialize()
@@ -38,7 +39,6 @@ namespace PacketMessagingTS.ViewModels
             RadioNetName = IdentityViewModel.Instance.UseTacticalCallsign ? $"{IdentityViewModel.Instance.TacticalCallsign}" : "";
             OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
             DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
-            TotalPages = 1;
             PageNo = 1;
         }
 
@@ -160,24 +160,26 @@ namespace PacketMessagingTS.ViewModels
             set => SetProperty(ref _DateTimePrepared, value);
         }
 
-        private int _totalPages;
+        private int _totalPages = 1;
         public int TotalPages
         {
             get => _totalPages;
             set
             {
-                SetProperty(ref _totalPages, value);
+                _totalPages = value;
+                PageNoAsString = PageNo.ToString();
             }
         }
 
+        // 1-based page number
         private int _pageNo;
         public int PageNo
         {
             get => _pageNo;
             set
             {
-                SetProperty(ref _pageNo, value);
-                PageNoAsString = PageNo.ToString();
+                _pageNo = value;
+                PageNoAsString = _pageNo.ToString();
             }
         }
 
@@ -187,7 +189,7 @@ namespace PacketMessagingTS.ViewModels
             get => _pageNoAsString;
             set
             {
-                _pageNoAsString = $"Page {value} of {TotalPages}";
+                SetProperty(ref _pageNoAsString, $"Page {value} of {TotalPages}");
             }
         }
 
@@ -239,6 +241,17 @@ namespace PacketMessagingTS.ViewModels
             _CommLog.CommLogEntryList = sortedList;
 
             CommLogEntryCollection = new ObservableCollection<CommLogEntry>(sortedList);
+
+            int commLogEntryCount = _CommLog.CommLogEntryList.Count;
+            TotalPages = (int)((commLogEntryCount / (double)_linesPerPage) + 1.0);
+        }
+
+        // pageNo is 0-based
+        public void GetCommLogEntriesByPage(int pageNo)
+        {
+            int startIndex = (_CommLog.CommLogEntryList.Count / TotalPages) * (pageNo);
+            List<CommLogEntry> CommLogEntriesByPage = _CommLog.CommLogEntryList.GetRange(startIndex, _linesPerPage);
+            CommLogEntryCollection = new ObservableCollection<CommLogEntry>(CommLogEntriesByPage);
         }
 
         private void FillFormFromCommLog()

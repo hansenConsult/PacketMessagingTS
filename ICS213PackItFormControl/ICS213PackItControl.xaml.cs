@@ -23,28 +23,22 @@ using FormUserControl;
 namespace ICS213PackItFormControl
 {
     [FormControl(
-		FormControlName = "form-ics213",
-		FormControlMenuName = "ICS-213 Message",
-		FormControlType = FormControlAttribute.FormType.CountyForm
+        FormControlName = "form-ics213",
+        FormControlMenuName = "ICS-213 Message",
+        FormControlType = FormControlAttribute.FormType.CountyForm
         )
     ]
 
-	public partial class ICS213PackItControl : FormControlBase
-	{
-        //public ICS213PackItControlViewModel ViewModel = ICS213PackItControlViewModel.Instance;
+    public partial class ICS213PackItControl : FormControlBase
+    {
         private readonly ICS213PackItControlViewModel ViewModel = new ICS213PackItControlViewModel();
-
-
-
-        double _messageBoxHeight;
+        private readonly double _messageBoxHeight;
 
         public ICS213PackItControl()
         {
             InitializeComponent();
 
             ScanControls(PrintableArea);
-
-            //InitializeToggleButtonGroups();
 
             receivedOrSent.SelectedIndex = 1;
             ViewModel.HowReceivedSent = otherRecvdType;
@@ -67,16 +61,6 @@ namespace ICS213PackItFormControl
 
         public override string PacFormType => "ICS213";
 
-        //public override string MessageNo
-        //{
-        //    get => base.MessageNo;
-        //    set
-        //    {
-        //        base.MessageNo = value;
-        //        ViewModel.OriginMsgNo = value;
-        //    }
-        //}
-
         public override void AppendDrillTraffic()
         {
             message.Text += DrillTraffic;
@@ -88,7 +72,7 @@ namespace ICS213PackItFormControl
             handlingOrder.SelectedIndex = 2;
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
-            UpdateFormFieldsRequiredColors();       // TODO check this
+            UpdateFormFieldsRequiredColors();       // TODO check this. Subject is red unless called.
         }
 
         public override Panel DirectPrintContainer => directPrintContainer;
@@ -116,11 +100,9 @@ namespace ICS213PackItFormControl
                             }
                             else
                             {
-                                var grid = new Grid();
+                                Grid grid = new Grid();
                                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                                 grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-                                //grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-                                //grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 
                                 // Header
                                 TextBlock header = new TextBlock { Text = $"ICS 213 Message, message number: {ViewModelBase.MessageNo}", Margin = new Thickness(0, 0, 0, 20) };
@@ -179,15 +161,10 @@ namespace ICS213PackItFormControl
                         break;
                     case TextBox textBox:
                         {
-                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                            if (textBox.IsReadOnly)
+                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl)
                             {
-                                formControl.BaseBorderColor = textBox.Background;
-                            }
-                            else
-                            {
-                                formControl.BaseBorderColor = textBox.BorderBrush;
-                            }
+                                BaseBorderColor = textBox.IsReadOnly ? textBox.Background : textBox.BorderBrush
+                            };
                             _formControlsList.Add(formControl);
                             break;
                         }
@@ -225,22 +202,14 @@ namespace ICS213PackItFormControl
                             break;
                         }
 
-                    case RadioButton button:
-                        {
-                            FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                            _formControlsList.Add(formControl);
-
-                            //_radioButtonsList.Add(button);
-                            break;
-                        }
-
                     case RadioButtons radioButtons:
                         {
                             FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
                             _formControlsList.Add(formControl);
+
                             if (radioButtons.Name == "reply")
                             {
-                                if (FindName("replyBy") as TextBox != null)
+                                if ((FindName("replyBy") as TextBox) != null)
                                 {
                                     formControl = new FormControl(FindName("replyBy") as TextBox, formUserControl);
                                     _formControlsList.Add(formControl);
@@ -248,9 +217,9 @@ namespace ICS213PackItFormControl
                             }
                             else if (radioButtons.Name == "howRecevedSent")
                             {
-                                if (FindName("otherText") as TextBox != null)
+                                if ((FindName("otherText") as TextBox) != null)
                                 {
-                                    formControl = new FormControl(FindName("replyBy") as TextBox, formUserControl);
+                                    formControl = new FormControl(FindName("otherText") as TextBox, formUserControl);
                                     _formControlsList.Add(formControl);
                                 }
                             }
@@ -266,51 +235,10 @@ namespace ICS213PackItFormControl
                     case RadioOperatorUserControl _:
                         ScanControls((control as RadioOperatorUserControl).Panel, control as FrameworkElement);
                         break;
+                    default:
+                        break;
                 }
 
-            }
-        }
-
-        public override async void PrintForm()
-        {
-            if (CanvasContainer is null || DirectPrintContainer is null)
-                return;
-
-            _printPanels = PrintPanels;
-            if (_printPanels is null || _printPanels.Count == 0)
-                return;
-
-            _printHelper = new PrintHelper(CanvasContainer);
-
-            DirectPrintContainer.Children.Remove(_printPanels[0]);
-
-            AddFooter();
-
-            for (int i = 0; i < _printPanels.Count; i++)
-            {
-                _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
-            }
-
-            _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
-            _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
-            _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
-
-            await _printHelper.ShowPrintUIAsync("  ");
-        }
-
-        protected override void ReleasePrintHelper()
-        {
-            _printHelper.Dispose();
-
-            if (_printPanels[0] != null && !DirectPrintContainer.Children.Contains(_printPanels[0]))
-            {
-                foreach (FrameworkElement child in _printPanels[0].Children)
-                {
-                    if (child is TextBlock textBlock && textBlock.Text.Contains($"page 1 of"))
-                        _printPanels[0].Children.Remove(child);
-                }
-
-                DirectPrintContainer.Children.Add(_printPanels[0]);
             }
         }
 
@@ -322,8 +250,7 @@ namespace ICS213PackItFormControl
         protected override string ConvertComboBoxFromOutpost(string id, ref string[] msgLines)
         {
             string comboBoxData = GetOutpostValue(id, ref msgLines);
-            var comboBoxDataSet = comboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
-            //formField.ControlContent = comboBoxDataSet[0];
+            string[] comboBoxDataSet = comboBoxData.Split(new char[] { '}' }, StringSplitOptions.RemoveEmptyEntries);
 
             return comboBoxDataSet[0];
         }
@@ -334,14 +261,14 @@ namespace ICS213PackItFormControl
         {
             if (sender is TextBox textBox)
             {
-                FormControl formControl;
-                if (!string.IsNullOrEmpty(textBox.Name))
-                    formControl = _formControlsList.Find(x => textBox.Name == x.InputControl.Name);
-                else
-                    formControl = _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
+                FormControl formControl = !string.IsNullOrEmpty(textBox.Name)
+                    ? _formControlsList.Find(x => textBox.Name == x.InputControl.Name)
+                    : _formControlsList.Find(x => GetTagIndex(x.InputControl) == GetTagIndex(textBox));
 
                 if (formControl == null)
+                {
                     return;
+                }
 
                 CheckTimeFormat(formControl);
             }

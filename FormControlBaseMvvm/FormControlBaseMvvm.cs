@@ -30,7 +30,6 @@ namespace FormControlBaseMvvmNameSpace
         public static SolidColorBrush OrangeBrush = new SolidColorBrush(Colors.Orange);
 
         protected List<FormControl> _formControlsList = new List<FormControl>();
-        //protected List<RadioButton> _radioButtonsList = new List<RadioButton>();
 
         protected string _validationResultMessage;
 
@@ -91,13 +90,6 @@ namespace FormControlBaseMvvmNameSpace
                     };
                     _formControlsList.Add(formControl);
                 }
-                //else if (control is RadioButton button)
-                //{
-                //    FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
-                //    _formControlsList.Add(formControl);
-
-                //    //_radioButtonsList.Add(button);
-                //}
                 else if (control is ToggleSwitch)
                 {
                     FormControl formControl = new FormControl((FrameworkElement)control, formUserControl);
@@ -188,7 +180,7 @@ namespace FormControlBaseMvvmNameSpace
                         comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
 
-                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
+                        //FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
                         //if (formField != null && formField.ControlContent != null)
                         // Text is filled during load of ConmboBox
                         //if (!string.IsNullOrEmpty(formField?.ControlContent))
@@ -197,10 +189,6 @@ namespace FormControlBaseMvvmNameSpace
                         //}
                     }
                 }
-                //else if (control is RadioButton radioButton)
-                //{
-                //    radioButton.IsEnabled = false;
-                //}
                 else if (control is RadioButtons radioButtons)
                 {
                     radioButtons.IsEnabled = false;

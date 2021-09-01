@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using FormControlBaseClass;
-
+﻿
 using FormControlBaseMvvmNameSpace;
-//using FormControlBasicsNamespace;
-
-using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
 
-using SharedCode.Helpers;
 using SharedCode.Models;
 
 using Windows.UI.Xaml;
@@ -25,17 +14,8 @@ using Windows.UI.Xaml.Controls;
 namespace PacketMessagingTS.Controls
 {
     public partial class SendFormDataControl : FormControlBaseMvvm
-    //public partial class SendFormDataControl : FormControlBasics
     {
-        public static readonly DependencyProperty MessageSubjectProperty =
-                DependencyProperty.Register(
-                "MessageSubject",
-                typeof(string),
-                typeof(SendFormDataControl),
-                null);
-
-        SendFormDataControlViewModel ViewModel =  SendFormDataControlViewModel.Instance;
-        //SendFormDataControlViewModel ViewModel = new SendFormDataControlViewModel();
+        private readonly SendFormDataControlViewModel ViewModel =  SendFormDataControlViewModel.Instance;
 
         public SendFormDataControl()
         {
@@ -44,19 +24,15 @@ namespace PacketMessagingTS.Controls
             ScanControls(messageInfo);
 
             //(string bbs, string tnc, string from) = Utilities.GetProfileDataBBSStatusChecked();
-            //SendFormDataControlViewModel.MessageBBS = bbs; //Utilities.GetBBSName(out string from, out string tnc);
             ViewModel.MessageBBS = Utilities.GetSenderBBSStatusChecked();
-            //AddressBook.Instance.UserBBS = MessageBBS;
             ViewModel.MessageTNC = PacketSettingsViewModel.Instance.CurrentProfile.TNC;
             ViewModel.MessageTo = PacketSettingsViewModel.Instance.CurrentProfile.SendTo;
-            //SendFormDataControlViewModel.MessageFrom = from;
             IdentityViewModel instance = IdentityViewModel.Instance;
             ViewModel.MessageFrom = instance.UseTacticalCallsign ? instance.TacticalCallsign : instance.UserCallsign;
 
             ViewModelBase = ViewModel;
         }
 
-        //public override FormControlBasics RootPanel => rootPanel;
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
         //private string messageSubject;

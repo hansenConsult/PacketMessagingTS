@@ -453,8 +453,8 @@ namespace PacketMessagingTS.Views
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
 
-        private ToolsViewModel _toolsViewModel = ToolsViewModel.Instance;
-        private ICS309ViewModel Ics309ViewModel = ICS309ViewModel.Instance;
+        private readonly ToolsViewModel _toolsViewModel = ToolsViewModel.Instance;
+        private readonly ICS309ViewModel Ics309ViewModel = ICS309ViewModel.Instance;
 
         StorageFile _selectedFile;
         PivotItem _currentPivotItem;
@@ -670,10 +670,43 @@ namespace PacketMessagingTS.Views
 
         private async void AppBarPrintICS309_ClickAsync(object sender, RoutedEventArgs e)
         {
-            DirectPrintContainer.Children.Remove(PrintableContent);
-
             _printHelper = new PrintHelper(Container);
-            _printHelper.AddFrameworkElementToPrint(PrintableContent);
+
+            //_printPanels = PrintPanels;
+
+            //if (_printPanels is null || _printPanels.Count == 0)
+            //    return;
+
+            //for (int i = 0; i < _printPanels.Count; i++)
+            //{
+            //    DirectPrintContainer.Children.Remove(_printPanels[i]);
+            //}
+
+            //AddFooter();
+
+            //for (int i = 0; i < _printPanels.Count; i++)
+            //{
+            //    _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
+            //}
+
+
+            //for (int i = 0; i < Ics309ViewModel.TotalPages; i++)
+            for (int i = 0; i < 1; i++)
+            {
+                //i = 3;
+
+                DirectPrintContainer.Children.Remove(PrintableContent);
+
+                Ics309ViewModel.GetCommLogEntriesByPage(i);
+
+                //_printHelper = new PrintHelper(Container);
+                _printHelper.AddFrameworkElementToPrint(PrintableContent);
+            }
+
+            //DirectPrintContainer.Children.Remove(PrintableContent);
+
+            //_printHelper = new PrintHelper(Container);
+            //_printHelper.AddFrameworkElementToPrint(PrintableContent);
 
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;

@@ -2,10 +2,21 @@
     x:Class="PacketMessagingTS.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:control="using:Microsoft.UI.Xaml.Controls">
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
 
     <Application.Resources>
-        <ResourceDictionary>
+        <controls:XamlControlsResources>
+            <controls:XamlControlsResources.MergedDictionaries>
+                <!-- Other app resources here -->
+                <ResourceDictionary Source="/Styles/_Colors.xaml"/>
+                <ResourceDictionary Source="/Styles/_FontSizes.xaml"/>
+                <ResourceDictionary Source="/Styles/_Thickness.xaml"/>
+                <ResourceDictionary Source="/Styles/TextBlock.xaml"/>
+                <ResourceDictionary Source="/Styles/Page.xaml"/>
+            </controls:XamlControlsResources.MergedDictionaries>
+        </controls:XamlControlsResources>
+
+        <!--<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
                 <ResourceDictionary Source="/Styles/_Colors.xaml"/>
@@ -14,7 +25,7 @@
                 <ResourceDictionary Source="/Styles/TextBlock.xaml"/>
                 <ResourceDictionary Source="/Styles/Page.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        </ResourceDictionary>-->
     </Application.Resources>
     <!--<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/> To be added as the first merged dictionary-->
 </Application>

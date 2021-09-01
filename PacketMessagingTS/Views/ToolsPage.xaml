@@ -234,7 +234,7 @@
                             <Grid x:Name="PrintableContent">
                                 <!--<Grid x:Name="XamlRoot" />-->
                                 <!--</Grid>-->
-                                <ScrollViewer x:Name="ICS309ScrollViewer"                                   
+                                <ScrollViewer                         
                                               RelativePanel.AlignTopWithPanel="True"
                                               VerticalScrollBarVisibility="Auto"  >
                                     <RelativePanel x:Name="PrintableArea"
@@ -265,7 +265,6 @@
                                                              Text="{x:Bind Ics309ViewModel.IncidentName, Mode=TwoWay}"
                                                              Header="1. Incident name " 
                                                              HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
-                                                        <!--TextChanged="IncidentName_TextChanged"/>-->
                                                     <TextBox Grid.Column="2" x:Name="activationNumber"  BorderBrush="White" Margin="2"
                                                              Text="{x:Bind Ics309ViewModel.ActivationNumber, Mode=TwoWay}"
                                                              Header="and Activation Number" 
@@ -276,7 +275,6 @@
                                                                  Text="{x:Bind Ics309ViewModel.OperationalPeriod, Mode=TwoWay}"
                                                                  Header="2. Operational Period (Date/Time)" 
                                                                  HeaderTemplate="{StaticResource isc309HeaderTemplate}"/>
-                                                        <!--TextChanged="OperationalPeriod_TextChangedAsync"/>-->
                                                     </Border>
                                                 </Grid>
                                             <Grid>
@@ -365,7 +363,7 @@
                                             </Grid>
                                         </StackPanel>
                                         <TextBlock RelativePanel.Below="ICS309MainForm"
-                                                   Text="ICS 309-SCCo ARES/RACES  (rev. 2014-Dec-18)"
+                                                   Text="ICS 309-SCCo ARES/RACES (Rev. 2021-Apr-08)"
                                                    FontSize="11" Foreground="Gray" Margin="10,16,0,8" />
                                     </RelativePanel>
                                 </ScrollViewer>
@@ -382,7 +380,7 @@
                         <AppBarButton x:Name="appBarOpenICS309" Label="Open" Icon="OpenFile" Command="{x:Bind Ics309ViewModel.OpenICS309Command}"/>
                         <AppBarButton x:Name="appBarSaveICS309" Label="Save" Icon="Save" Command="{x:Bind Ics309ViewModel.SaveICS309Command}" />
                         <AppBarButton x:Name="appBarPrintICS309" Label="Print" Icon="Print" Click="AppBarPrintICS309_ClickAsync"
-                                      Visibility="{Binding ICS309PrintButtonVisible, Mode=OneWay}"
+                                      Visibility="{Binding ICS309PrintButtonVisible}"
                                       HorizontalAlignment="Right" />
                         <!--<AppBarButton Label="Delete File" Icon="Delete" Click="AppBarButton_DeleteFileAsync" HorizontalAlignment="Right" />-->
                     </CommandBar>
