@@ -144,6 +144,14 @@
     <Compile Include="Controls\ContentDialogOpenICS309.xaml.cs">
       <DependentUpon>ContentDialogOpenICS309.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ICS309FooterControl.xaml.cs">
+      <DependentUpon>ICS309FooterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ICS309FooterViewModel.cs" />
+    <Compile Include="Controls\ICS309HeaderControl.xaml.cs">
+      <DependentUpon>ICS309HeaderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ICS309HeaderViewModel.cs" />
     <Compile Include="Controls\NewTabContentDialog.xaml.cs">
       <DependentUpon>NewTabContentDialog.xaml</DependentUpon>
     </Compile>
@@ -277,6 +285,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ContentDialogOpenICS309.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ICS309FooterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ICS309HeaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

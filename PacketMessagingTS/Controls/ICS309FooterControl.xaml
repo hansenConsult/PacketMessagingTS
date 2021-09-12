@@ -1,0 +1,51 @@
+﻿<UserControl
+    x:Class="PacketMessagingTS.Controls.ICS309FooterControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PacketMessagingTS.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignWidth="720" Height="72">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
+            <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
+                     Text="{x:Bind ics309FooterViewModel.OperatorNameCallsignFooter, Mode=TwoWay}"
+                     Header="6. Prepared By (Name, Call Sign)" 
+                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+        </Border>
+        <Border  Grid.Column="1" BorderBrush="Black" BorderThickness="0,1,1,0">
+            <TextBox x:Name="signature"  BorderBrush="White"
+                     Header="6A. Signature" 
+                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+        </Border>
+        <Border  Grid.Column="2" BorderBrush="Black" BorderThickness="0,1,1,0">
+            <TextBox x:Name="dateTimePrepared"  BorderBrush="White"
+                     Text="{x:Bind ics309FooterViewModel.DateTimePrepared, Mode=TwoWay}"
+                     Header="7. Date $ Time Prepared" 
+                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+        </Border>
+        <Border Grid.Column="3" BorderBrush="Black" BorderThickness="0,1,0,0">
+            <TextBox x:Name="pageNoOf" BorderBrush="White" 
+                     
+                     Header="8."
+                     HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
+            <!--Text="{x:Bind ics309FooterViewModel.PageNoAsString, Mode=OneWay}"-->
+        </Border>
+    </Grid>
+</UserControl>

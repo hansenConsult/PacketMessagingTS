@@ -152,4 +152,8 @@
         <Setter Property="Padding" Value="6,-2,0,0"/>
     </Style>
 
+    <DataTemplate x:Name="isc309HeaderTemplate">
+        <TextBlock Text="{Binding}" FontSize="9" FontFamily="Arial" FontWeight="Bold" Foreground="Black" Margin="4,0,0,0"/>
+    </DataTemplate>
+
 </ResourceDictionary>

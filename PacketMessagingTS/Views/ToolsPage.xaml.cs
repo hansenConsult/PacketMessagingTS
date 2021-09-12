@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 using MetroLog;
 
+using Microsoft.Toolkit.Uwp.UI.Controls;
+//using Microsoft.UI.Xaml.Data.Binding.Binding;
+
+using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
 
 using PacketMessagingTS.Helpers;
@@ -22,8 +26,11 @@ using SharedCode.Helpers.PrintHelpers;
 using Windows.Graphics.Printing;
 using Windows.Storage;
 using Windows.Storage.Search;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -662,7 +669,7 @@ namespace PacketMessagingTS.Views
             else if (_currentPivotItem.Name == "ics309")
             {
                 Ics309ViewModel.Initialize();
-                Ics309ViewModel.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
+                ICS309FooterViewModel.Instance.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
             }
         }
 
@@ -672,41 +679,82 @@ namespace PacketMessagingTS.Views
         {
             _printHelper = new PrintHelper(Container);
 
-            //_printPanels = PrintPanels;
-
-            //if (_printPanels is null || _printPanels.Count == 0)
-            //    return;
-
-            //for (int i = 0; i < _printPanels.Count; i++)
-            //{
-            //    DirectPrintContainer.Children.Remove(_printPanels[i]);
-            //}
-
-            //AddFooter();
-
-            //for (int i = 0; i < _printPanels.Count; i++)
-            //{
-            //    _printHelper.AddFrameworkElementToPrint(_printPanels[i]);
-            //}
-
-
-            //for (int i = 0; i < Ics309ViewModel.TotalPages; i++)
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < ICS309FooterViewModel.Instance.TotalPages; i++)
             {
-                //i = 3;
+                Grid grid = new Grid();
 
-                DirectPrintContainer.Children.Remove(PrintableContent);
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+                ICS309HeaderControl ics309HeaderControl = new ICS309HeaderControl();
+                Grid.SetRow(ics309HeaderControl, 0);
+                grid.Children.Add(ics309HeaderControl);
 
                 Ics309ViewModel.GetCommLogEntriesByPage(i);
 
-                //_printHelper = new PrintHelper(Container);
-                _printHelper.AddFrameworkElementToPrint(PrintableContent);
+                DataGrid ics309DataGrid = new DataGrid()
+                {
+                    Height = 788,
+                    ItemsSource = Ics309ViewModel.CommLogEntriesByPage,
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    GridLinesVisibility = DataGridGridLinesVisibility.Vertical,
+                    CanUserResizeColumns = true,
+                    IsReadOnly = true,
+                    SelectionMode = DataGridSelectionMode.Single,
+                    AutoGenerateColumns = false,
+                    CanUserSortColumns = false,
+                };
+
+                ics309DataGrid.Columns.Add(new DataGridTextColumn()
+                    { Header = "Time", Binding = new Binding() { Path = new PropertyPath("Time"),
+                        Converter = new DateTimeConverter() } });
+                ics309DataGrid.Columns.Add(new DataGridTextColumn()
+                    { Header = "From", Binding = new Binding() { Path = new PropertyPath("FromCallsign") } });
+                ics309DataGrid.Columns.Add(new DataGridTextColumn()
+                    { Header = "From Msg#", Binding = new Binding() { Path = new PropertyPath("FromMessageNumber") } });
+                ics309DataGrid.Columns.Add(new DataGridTextColumn()
+                    { Header = "To", Binding = new Binding() { Path = new PropertyPath("ToCallsign") } });
+                ics309DataGrid.Columns.Add(new DataGridTextColumn()
+                    { Header = "To Msg#", Binding = new Binding() { Path = new PropertyPath("ToMessageNumber") } });
+                ics309DataGrid.Columns.Add(new DataGridTextColumn()
+                    { Header = "Subject", Binding = new Binding() { Path = new PropertyPath("Message") } });
+
+                Grid.SetRow(ics309DataGrid, 1);
+                grid.Children.Add(ics309DataGrid);
+
+                //ICS309FooterControl ics309FooterControl = new ICS309FooterControl(i + 1);
+                ICS309FooterControl ics309FooterControl = new ICS309FooterControl();
+                ics309FooterControl.PageNoOf(i + 1);
+                //ICS309FooterViewModel.Instance.PageNoAsString = $"Page {i + 1} of {ICS309FooterViewModel.Instance.TotalPages}";
+                //ICS309FooterViewModel.Instance.PageNo = i + 1;
+                //var footer = new TextBlock { Text = string.Format("page {0}", i + 1), Margin = new Thickness(0, 20, 0, 0) };
+                Grid.SetRow(ics309FooterControl, 2);
+                grid.Children.Add(ics309FooterControl);
+
+                Border ics309Border = new Border()
+                {
+                    BorderThickness = new Thickness(2, 2, 2, 2),
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                };
+                Grid.SetRow(ics309Border, 0);
+                Grid.SetRowSpan(ics309Border, 3);
+                grid.Children.Add(ics309Border);
+
+                TextBlock version = new TextBlock
+                {
+                    Text = "ICS 309-SCCo ARES/RACES (Rev. 2021-Apr-08)",
+                    FontSize = 11,
+                    Foreground = new SolidColorBrush(Colors.Gray),
+                    Margin = new Thickness(10, 16, 0, 8)
+                };
+                Grid.SetRow(version, 3);
+                grid.Children.Add(version);
+
+                _printHelper.AddFrameworkElementToPrint(grid);
             }
-
-            //DirectPrintContainer.Children.Remove(PrintableContent);
-
-            //_printHelper = new PrintHelper(Container);
-            //_printHelper.AddFrameworkElementToPrint(PrintableContent);
 
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
             _printHelper.OnPrintFailed += PrintHelper_OnPrintFailed;
@@ -725,6 +773,8 @@ namespace PacketMessagingTS.Views
             {
                 DirectPrintContainer.Children.Add(PrintableContent);
             }
+            Ics309ViewModel.FillFormFromCommLog();
+            ics309DataGrid.ItemsSource = Ics309ViewModel.CommLogEntryCollection;
         }
 
         private void PrintHelper_OnPrintSucceeded()
@@ -736,7 +786,7 @@ namespace PacketMessagingTS.Views
         {
             ReleasePrintHelper();
 
-            _logHelper.Log(LogLevel.Error, $"Print failed. {Ics309ViewModel.OperationalPeriod}");
+            _logHelper.Log(LogLevel.Error, $"Print failed. {ICS309HeaderViewModel.Instance.OperationalPeriod}");
         }
 
         private void PrintHelper_OnPrintCanceled()
