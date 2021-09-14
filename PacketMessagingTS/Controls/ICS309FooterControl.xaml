@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignWidth="720" Height="72">
+    d:DesignWidth="720" d:Height="72">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -20,7 +20,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1.6*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">

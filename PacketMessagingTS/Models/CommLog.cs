@@ -208,7 +208,7 @@ namespace PacketMessagingTS.Models
             if (file.FileType != ".xml")
                 return null;
 
-            CommLog commLog;
+            CommLog commLog = new CommLog();
 			try
 			{
 				using (FileStream reader = new FileStream(file.Path, FileMode.Open))

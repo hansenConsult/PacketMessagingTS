@@ -30,14 +30,6 @@ namespace PacketMessagingTS.ViewModels
         public void Initialize()
         {
             FromOpenFile = false;
-            //_CommLog = new CommLog();
-            //ICS309HeaderViewModel.Instance.OperationalPeriodStart = DateTime.Today;
-            //ICS309HeaderViewModel.Instance.OperationalPeriodEnd = DateTime.Now;
-            //ICS309HeaderViewModel.Instance.OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
-            //ICS309HeaderViewModel.Instance.RadioNetName = IdentityViewModel.Instance.UseTacticalCallsign ? $"{IdentityViewModel.Instance.TacticalCallsign}" : "";
-            //ICS309HeaderViewModel.Instance.OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
-            //DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
-            //PageNo = 1;
         }
 
         //private string incidentNameActivationNumber;
@@ -147,53 +139,6 @@ namespace PacketMessagingTS.ViewModels
         public bool FromOpenFile
         { get; set; }
 
-        //private string _OperatorNameCallsign;
-        //public string OperatorNameCallsign
-        //{
-        //    get => _OperatorNameCallsign;
-        //    set => SetProperty(ref _OperatorNameCallsign, value);
-        //}
-
-        //private string _DateTimePrepared;
-        //public string DateTimePrepared
-        //{
-        //    get => _DateTimePrepared;
-        //    set => SetProperty(ref _DateTimePrepared, value);
-        //}
-
-        //private int _totalPages = 1;
-        //public int TotalPages
-        //{
-        //    get => _totalPages;
-        //    set
-        //    {
-        //        _totalPages = value;
-        //        PageNoAsString = PageNo.ToString();
-        //    }
-        //}
-
-        //// 1-based page number
-        //private int _pageNo;
-        //public int PageNo
-        //{
-        //    get => _pageNo;
-        //    set
-        //    {
-        //        _pageNo = value;
-        //        PageNoAsString = _pageNo.ToString();
-        //    }
-        //}
-
-        //private string _pageNoAsString;
-        //public string PageNoAsString
-        //{
-        //    get => _pageNoAsString;
-        //    set
-        //    {
-        //        SetProperty(ref _pageNoAsString, $"Page {value} of {TotalPages}");
-        //    }
-        //}
-
         private bool _ics309PrintButtonVisible;
         public bool ICS309PrintButtonVisible
         {
@@ -251,15 +196,8 @@ namespace PacketMessagingTS.ViewModels
             CommLogEntryCollection = new ObservableCollection<CommLogEntry>(sortedList);
 
             int commLogEntryCount = _CommLog.CommLogEntryList.Count;
-            int pages = (int)(commLogEntryCount / (double)_linesPerPage);
-            if (commLogEntryCount == pages * _linesPerPage)
-            {
-                ICS309FooterViewModel.Instance.TotalPages = (int)(commLogEntryCount / (double)_linesPerPage);
-            }
-            else
-            {
-                ICS309FooterViewModel.Instance.TotalPages = (int)((commLogEntryCount / (double)_linesPerPage) + 1.0);
-            }
+            int pages = Math.DivRem(commLogEntryCount, _linesPerPage, out int remainder);
+            ICS309FooterViewModel.Instance.TotalPages = remainder == 0 ? pages : pages + 1;
         }
 
         //pageNo is 0-based
@@ -285,7 +223,7 @@ namespace PacketMessagingTS.ViewModels
             ICS309HeaderViewModel.Instance.ActivationNumber = _CommLog.ActivationNumber;
             ICS309HeaderViewModel.Instance.OperationalPeriodStart = _CommLog.OperationalPeriodFrom;
             ICS309HeaderViewModel.Instance.OperationalPeriodEnd = _CommLog.OperationalPeriodTo;
-            //OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
+            ICS309HeaderViewModel.Instance.OperationalPeriod = $"{DateTimeStrings.DateTimeString(_CommLog.OperationalPeriodFrom)} to {DateTimeStrings.DateTimeString(_CommLog.OperationalPeriodTo)}";
             ICS309HeaderViewModel.Instance.RadioNetName = _CommLog.RadioNetName;
             ICS309FooterViewModel.Instance.OperatorNameCallsignFooter = _CommLog.OperatorNameCallsign;
             CommLogEntryCollection = new ObservableCollection<CommLogEntry>(_CommLog.CommLogEntryList);
@@ -331,15 +269,6 @@ namespace PacketMessagingTS.ViewModels
             _CommLog.DateTimePrepared = ICS309FooterViewModel.Instance.DateTimePrepared;
             await _CommLog.SaveAsync();
         }
-
-        //private ICommand _PrintICS309Command;
-        //public ICommand PrintICS309Command => _PrintICS309Command ?? (_PrintICS309Command = new RelayCommand(PrintICS309));
-
-        //public async void PrintICS309()
-        //{
-        //    await printHelper.ShowPrintUIAsync("ICS 309", true);
-        //    //await PrintManager.ShowPrintUIAsync();
-        //}
 
     }
 } 

@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using MetroLog;
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
-//using Microsoft.UI.Xaml.Data.Binding.Binding;
 
 using PacketMessagingTS.Controls;
 using PacketMessagingTS.Core.Helpers;
@@ -685,7 +684,8 @@ namespace PacketMessagingTS.Views
 
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(72) });
+                //grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
                 ICS309HeaderControl ics309HeaderControl = new ICS309HeaderControl();
@@ -696,7 +696,7 @@ namespace PacketMessagingTS.Views
 
                 DataGrid ics309DataGrid = new DataGrid()
                 {
-                    Height = 788,
+                    //Height = 788,
                     ItemsSource = Ics309ViewModel.CommLogEntriesByPage,
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                     VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
@@ -725,11 +725,9 @@ namespace PacketMessagingTS.Views
                 Grid.SetRow(ics309DataGrid, 1);
                 grid.Children.Add(ics309DataGrid);
 
-                //ICS309FooterControl ics309FooterControl = new ICS309FooterControl(i + 1);
-                ICS309FooterControl ics309FooterControl = new ICS309FooterControl();
-                ics309FooterControl.PageNoOf(i + 1);
-                //ICS309FooterViewModel.Instance.PageNoAsString = $"Page {i + 1} of {ICS309FooterViewModel.Instance.TotalPages}";
-                //ICS309FooterViewModel.Instance.PageNo = i + 1;
+                ICS309FooterControl ics309FooterControl = new ICS309FooterControl(i + 1);
+                //ICS309FooterControl ics309FooterControl = new ICS309FooterControl();
+                //ics309FooterControl.PageNoOf(i + 1);
                 //var footer = new TextBlock { Text = string.Format("page {0}", i + 1), Margin = new Thickness(0, 20, 0, 0) };
                 Grid.SetRow(ics309FooterControl, 2);
                 grid.Children.Add(ics309FooterControl);

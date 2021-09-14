@@ -22,11 +22,11 @@ namespace PacketMessagingTS.Controls
 
         ICS309HeaderViewModel()
         {
-            OperationalPeriodStart = DateTime.Today;
-            OperationalPeriodEnd = DateTime.Now;
-            OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
-            RadioNetName = IdentityViewModel.Instance.UseTacticalCallsign ? $"{IdentityViewModel.Instance.TacticalCallsign}" : "";
-            OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
+            //OperationalPeriodStart = DateTime.Today;
+            //OperationalPeriodEnd = DateTime.Now;
+            //OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
+            //RadioNetName = IdentityViewModel.Instance.UseTacticalCallsign ? $"{IdentityViewModel.Instance.TacticalCallsign}" : "";
+            //OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
         }
 
         private string _incidentName;
@@ -112,6 +112,14 @@ namespace PacketMessagingTS.Controls
             }
         }
 
+        private async void OperationalPeriod_TextChangedFromFileAsync(string operationalPeriod)
+        {
+            if (OperationalPeriodEnd - OperationalPeriodStart > new TimeSpan(0, 0, 0))
+            {
+                await ICS309ViewModel.Instance.BuildLogDataSetAsync(OperationalPeriodStart, OperationalPeriodEnd);
+            }
+        }
+
         private string _operationalPeriod;
         public string OperationalPeriod
         {
@@ -121,6 +129,10 @@ namespace PacketMessagingTS.Controls
                 if (!ICS309ViewModel.Instance.FromOpenFile)
                 {
                     OperationalPeriod_TextChangedAsync(value);
+                }
+                else
+                {
+                    OperationalPeriod_TextChangedFromFileAsync(value);
                 }
                 SetProperty(ref _operationalPeriod, $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}");
             }
