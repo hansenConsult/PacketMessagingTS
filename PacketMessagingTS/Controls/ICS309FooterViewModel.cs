@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-
-using PacketMessagingTS.Core.Helpers;
-using PacketMessagingTS.ViewModels;
 
 namespace PacketMessagingTS.Controls
 {
@@ -16,11 +8,11 @@ namespace PacketMessagingTS.Controls
         public static ICS309FooterViewModel Instance { get; } = new ICS309FooterViewModel();
 
 
-        private string _OperatorNameCallsignFooter;
-        public string OperatorNameCallsignFooter
+        private string _OperatorNameCallsign;
+        public string OperatorNameCallsign
         {
-            get => _OperatorNameCallsignFooter;
-            set => SetProperty(ref _OperatorNameCallsignFooter, value);
+            get => _OperatorNameCallsign;
+            set => SetProperty(ref _OperatorNameCallsign, value);
         }
 
         private string _DateTimePrepared;
@@ -37,28 +29,28 @@ namespace PacketMessagingTS.Controls
             set
             {
                 _totalPages = value;
-                PageNoAsString = $"Page {_pageNo} of {_totalPages}";
+                //PageNoAsString = $"Page {_pageNo} of {_totalPages}";
             }
         }
 
-        // 1-based page number
-        private int _pageNo = 1;
-        public int PageNo
-        {
-            get => _pageNo;
-            set
-            {
-                _pageNo = value;
-                //PageNoAsString = $"Page {_pageNo} of {TotalPages}";
-            }
-        }
+        //// 1-based page number
+        //private int _pageNo = 1;
+        //public int PageNo
+        //{
+        //    get => _pageNo;
+        //    set
+        //    {
+        //        _pageNo = value;
+        //        //PageNoAsString = $"Page {_pageNo} of {TotalPages}";
+        //    }
+        //}
 
-        private string _pageNoAsString;
-        public string PageNoAsString
-        {
-            get => _pageNoAsString;
-            set => SetProperty(ref _pageNoAsString, value);
-        }
+        //private string _pageNoAsString;
+        //public string PageNoAsString
+        //{
+        //    get => _pageNoAsString;
+        //    set => SetProperty(ref _pageNoAsString, value);
+        //}
 
     }
 }

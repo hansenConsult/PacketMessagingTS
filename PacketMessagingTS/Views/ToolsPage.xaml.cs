@@ -470,7 +470,7 @@ namespace PacketMessagingTS.Views
 
         public ToolsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 #if !DEBUG
             testReceive.Header = "";
 #endif
@@ -667,7 +667,7 @@ namespace PacketMessagingTS.Views
             }
             else if (_currentPivotItem.Name == "ics309")
             {
-                Ics309ViewModel.Initialize();
+                await Ics309ViewModel.InitializeAsync();
                 ICS309FooterViewModel.Instance.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
             }
         }
@@ -767,10 +767,10 @@ namespace PacketMessagingTS.Views
         {
             _printHelper.Dispose();
 
-            if (!DirectPrintContainer.Children.Contains(PrintableContent))
-            {
-                DirectPrintContainer.Children.Add(PrintableContent);
-            }
+            //if (!DirectPrintContainer.Children.Contains(PrintableContent))
+            //{
+            //    DirectPrintContainer.Children.Add(PrintableContent);
+            //}
             Ics309ViewModel.FillFormFromCommLog();
             ics309DataGrid.ItemsSource = Ics309ViewModel.CommLogEntryCollection;
         }

@@ -23,13 +23,19 @@ namespace PacketMessagingTS.ViewModels
     {
         public static ICS309ViewModel Instance { get; } = new ICS309ViewModel();
 
-        private CommLog _CommLog = new CommLog();
         private readonly int _linesPerPage = 22;
 
 
-        public void Initialize()
+        public async Task InitializeAsync()
         {
             FromOpenFile = false;
+
+            _CommLog = new CommLog();
+            _CommLog.OperationalPeriodFrom = DateTime.Today;
+            _CommLog.OperationalPeriodTo = DateTime.Now;
+            _CommLog.OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
+            _CommLog.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
+            await BuildLogDataSetAsync(_CommLog.OperationalPeriodFrom, _CommLog.OperationalPeriodTo);
         }
 
         //private string incidentNameActivationNumber;
@@ -136,6 +142,13 @@ namespace PacketMessagingTS.ViewModels
         //    }
         //}
 
+        private CommLog _CommLog;
+        public CommLog CommLog
+        {
+            get => _CommLog;
+            set => SetProperty(ref _CommLog, value);
+        }
+
         public bool FromOpenFile
         { get; set; }
 
@@ -216,18 +229,17 @@ namespace PacketMessagingTS.ViewModels
         public void FillFormFromCommLog()
         {
             if (_CommLog is null)
+            {
                 return;
-
-            FromOpenFile = true;
+            }
             ICS309HeaderViewModel.Instance.IncidentName = _CommLog.IncidentName;
             ICS309HeaderViewModel.Instance.ActivationNumber = _CommLog.ActivationNumber;
-            ICS309HeaderViewModel.Instance.OperationalPeriodStart = _CommLog.OperationalPeriodFrom;
-            ICS309HeaderViewModel.Instance.OperationalPeriodEnd = _CommLog.OperationalPeriodTo;
             ICS309HeaderViewModel.Instance.OperationalPeriod = $"{DateTimeStrings.DateTimeString(_CommLog.OperationalPeriodFrom)} to {DateTimeStrings.DateTimeString(_CommLog.OperationalPeriodTo)}";
             ICS309HeaderViewModel.Instance.RadioNetName = _CommLog.RadioNetName;
-            ICS309FooterViewModel.Instance.OperatorNameCallsignFooter = _CommLog.OperatorNameCallsign;
-            CommLogEntryCollection = new ObservableCollection<CommLogEntry>(_CommLog.CommLogEntryList);
+            ICS309HeaderViewModel.Instance.OperatorNameCallsign = _CommLog.OperatorNameCallsign;
+            ICS309FooterViewModel.Instance.OperatorNameCallsign = _CommLog.OperatorNameCallsign;
             ICS309FooterViewModel.Instance.DateTimePrepared = _CommLog.DateTimePrepared;
+            CommLogEntryCollection = new ObservableCollection<CommLogEntry>(_CommLog.CommLogEntryList);
         }
 
         private ICommand _OpenICS309Command;
@@ -252,6 +264,7 @@ namespace PacketMessagingTS.ViewModels
                 return;
 
             _CommLog = CommLog.Open(file);
+            FromOpenFile = true;
             FillFormFromCommLog();
         }
 
@@ -262,10 +275,8 @@ namespace PacketMessagingTS.ViewModels
         {
             _CommLog.IncidentName = ICS309HeaderViewModel.Instance.IncidentName;
             _CommLog.ActivationNumber = ICS309HeaderViewModel.Instance.ActivationNumber;
-            _CommLog.OperationalPeriodFrom = ICS309HeaderViewModel.Instance.OperationalPeriodStart;
-            _CommLog.OperationalPeriodTo = ICS309HeaderViewModel.Instance.OperationalPeriodEnd;
             _CommLog.RadioNetName = ICS309HeaderViewModel.Instance.RadioNetName;
-            _CommLog.OperatorNameCallsign = ICS309FooterViewModel.Instance.OperatorNameCallsignFooter;
+            _CommLog.OperatorNameCallsign = ICS309HeaderViewModel.Instance.OperatorNameCallsign;
             _CommLog.DateTimePrepared = ICS309FooterViewModel.Instance.DateTimePrepared;
             await _CommLog.SaveAsync();
         }

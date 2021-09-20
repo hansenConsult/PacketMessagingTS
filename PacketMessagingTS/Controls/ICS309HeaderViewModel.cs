@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 using PacketMessagingTS.Core.Helpers;
-using PacketMessagingTS.Helpers;
-using PacketMessagingTS.Models;
 using PacketMessagingTS.ViewModels;
-
-using SharedCode;
 
 namespace PacketMessagingTS.Controls
 {
@@ -22,53 +14,71 @@ namespace PacketMessagingTS.Controls
 
         ICS309HeaderViewModel()
         {
-            //OperationalPeriodStart = DateTime.Today;
-            //OperationalPeriodEnd = DateTime.Now;
-            //OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
+            if (ICS309ViewModel.Instance.CommLog == null)
+            {
+                //ICS309ViewModel.Instance.InitializeAsync();
+                InitializeCommLog();
+            }
+            OperationalPeriod = $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
             //RadioNetName = IdentityViewModel.Instance.UseTacticalCallsign ? $"{IdentityViewModel.Instance.TacticalCallsign}" : "";
-            //OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
+            OperatorNameCallsign = ICS309ViewModel.Instance.CommLog.OperatorNameCallsign;
+        }
+
+        private async void InitializeCommLog()
+        {
+            await ICS309ViewModel.Instance.InitializeAsync();
         }
 
         private string _incidentName;
         public string IncidentName
         {
             get => _incidentName;
-            set => SetProperty(ref _incidentName, value);
+            set
+            {
+                ICS309ViewModel.Instance.CommLog.IncidentName = value;
+                SetProperty(ref _incidentName, value);
+            }
         }
 
         private string _activationNumber;
         public string ActivationNumber
         {
             get => _activationNumber;
-            set => SetProperty(ref _activationNumber, value);
+            set
+            {
+                ICS309ViewModel.Instance.CommLog.ActivationNumber = value;
+                SetProperty(ref _activationNumber, value);
+            }
         }
 
-        private DateTime _operationalPeriodStart;
         public DateTime OperationalPeriodStart
         {
-            get => _operationalPeriodStart;
-            set => _operationalPeriodStart = value;
+            get => ICS309ViewModel.Instance.CommLog.OperationalPeriodFrom;
+            set => ICS309ViewModel.Instance.CommLog.OperationalPeriodFrom = value;
         }
 
         private string _radioNetName;
         public string RadioNetName
         {
             get => _radioNetName;
-            set => SetProperty(ref _radioNetName, value);
+            set
+            {
+                ICS309ViewModel.Instance.CommLog.RadioNetName = value;
+                SetProperty(ref _radioNetName, value);
+            }
         }
 
-        private DateTime _operationalPeriodEnd;
         public DateTime OperationalPeriodEnd
         {
-            get => _operationalPeriodEnd;
-            set => _operationalPeriodEnd = value;
+            get => ICS309ViewModel.Instance.CommLog.OperationalPeriodTo;
+            set => ICS309ViewModel.Instance.CommLog.OperationalPeriodTo = value;
         }
 
         private async void OperationalPeriod_TextChangedAsync(string operationalPeriod)
         {
             string opPeriod = operationalPeriod;
-            var startStop = opPeriod.Split(new string[] { "to", " " }, StringSplitOptions.RemoveEmptyEntries);
-            if (startStop != null && (startStop.Count() != 3 && startStop.Count() != 4))
+            string[] startStop = opPeriod.Split(new string[] { "to", " " }, StringSplitOptions.RemoveEmptyEntries);
+            if (startStop != null && startStop.Count() != 3 && startStop.Count() != 4)
                 return;
 
             int endTimeIndex = 3;
@@ -103,8 +113,8 @@ namespace PacketMessagingTS.Controls
             if (operationalPeriodEnd < operationalPeriodStart)
                 return;
 
-            OperationalPeriodStart = operationalPeriodStart;
-            OperationalPeriodEnd = operationalPeriodEnd;
+            ICS309ViewModel.Instance.CommLog.OperationalPeriodFrom = operationalPeriodStart;
+            ICS309ViewModel.Instance.CommLog.OperationalPeriodTo = operationalPeriodEnd;
 
             if (operationalPeriodEnd - operationalPeriodStart > new TimeSpan(0, 0, 0))
             {
@@ -123,7 +133,8 @@ namespace PacketMessagingTS.Controls
         private string _operationalPeriod;
         public string OperationalPeriod
         {
-            get => _operationalPeriod;
+            //get => _operationalPeriod;
+            get => $"{DateTimeStrings.DateTimeString(OperationalPeriodStart)} to {DateTimeStrings.DateTimeString(OperationalPeriodEnd)}";
             set
             {
                 if (!ICS309ViewModel.Instance.FromOpenFile)

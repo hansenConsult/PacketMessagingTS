@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
         <Border  Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,1,0">
             <TextBox x:Name="preparedByNameCallsign"  BorderBrush="White"
-                     Text="{x:Bind ics309FooterViewModel.OperatorNameCallsignFooter, Mode=TwoWay}"
+                     Text="{x:Bind ics309FooterViewModel.OperatorNameCallsign, Mode=TwoWay}"
                      Header="6. Prepared By (Name, Call Sign)" 
                      HeaderTemplate="{StaticResource isc309HeaderTemplate}" />
         </Border>
