@@ -52,7 +52,6 @@ namespace MVCERTDA_FormsControl
             action.SelectedIndex = 1;
             reply.SelectedIndex = 1;
             forInfo.IsChecked = true;
-            //autoSuggestBoxToICSPosition.Text = "Planning";
             comboBoxToICSPosition.SelectedItem = "Planning";
             comboBoxFromICSPosition.SelectedItem = "Planning";
             //ToLocation = "Mountain View EOC";
