@@ -90,30 +90,11 @@ namespace SharedCode.Helpers
         public string ReceivedOrSent
         {
             get => _receivedOrSent;
-            set
-            {
-                //if (value == "Sender")
-                //    ReceivedOrSentIndex = 1;
-                //else
-                //    ReceivedOrSentIndex = 0;
-
-                SetProperty(ref _receivedOrSent, value);
-            }
+            set => SetProperty(ref _receivedOrSent, value);
         }
-
-        //private int receivedOrSentIndex;
-        //public int ReceivedOrSentIndex
-        //{
-        //    get => receivedOrSentIndex;
-        //    set => SetProperty(ref receivedOrSentIndex, value);
-        //}
 
         public virtual string TacticalCallsign
         { get; set; }
-
-        //public virtual string MessageBody
-        //{ get; set; }
-
 
     }
 }
