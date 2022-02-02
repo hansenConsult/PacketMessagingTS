@@ -443,11 +443,37 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
-        private string _areaString = "XSCPERM, XSCEVENT";
+        private string _areaString;
         public string AreaString
         {
             get => GetProperty(ref _areaString);
+            //get => _areaString;
             set => SetPropertyPrivate(ref _areaString, value, true);
+            //set => _areaString = value;
+        }
+
+        private string _areaCommands;
+        public string AreaCommands
+        {
+            get => GetProperty(ref _areaCommands);
+            set
+            {
+                SetPropertyPrivate(ref _areaCommands, value, true);
+                string[] areas = _areaCommands.Split(new char[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                string areaString = "";
+                foreach (string area in areas)
+                {
+                    if (area.StartsWith("L>"))
+                        continue;
+
+                    if (areaString.Length > 0)
+                    {
+                        areaString += ", ";
+                    }
+                    areaString += area;
+                }
+                AreaString = areaString;
+            }
         }
 
         private bool _sendReceipt;

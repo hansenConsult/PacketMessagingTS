@@ -5,6 +5,8 @@ using FormControlBaseMvvmNameSpace;
 
 using FormControlBasicsNamespace;
 
+using FormUserControl;
+
 using Microsoft.UI.Xaml.Controls;
 
 using SharedCode;
@@ -141,6 +143,21 @@ namespace FormUserControl
                     autosuggestTextBox.FormPacketMessage = FormPacketMessage;
                 }
             }
+        }
+
+        public void SetHandlingOrder(int index)
+        {
+            handlingOrder.SelectedIndex = index;
+        }
+
+        public void SetToLocation(string tolocation)
+        {
+            toLocation.SetText(tolocation);
+        }
+
+        public void SetToICSPosition(string toicsPosition)
+        {
+            autoSuggestBoxToICSPosition.Text = toicsPosition;
         }
 
         public DependencyObject Panel => formHeaderUserControl;

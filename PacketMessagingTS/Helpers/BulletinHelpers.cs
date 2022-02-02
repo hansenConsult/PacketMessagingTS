@@ -49,34 +49,42 @@ namespace PacketMessagingTS.Helpers
         public static void CreateBulletinDictionaryFromFiles()
         {
             PacketSettingsViewModel packetSettingsViewModel = PacketSettingsViewModel.Instance;
-            string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] areas = null;
+            if (packetSettingsViewModel.AreaString != null)
+            {
+                areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                //string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            }
 
             BulletinDictionary = new Dictionary<string, List<string>>();
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             string[] areaBulletin;
-            foreach (string area in areas)
+            if (areas != null)
             {
-                string filePath = Path.Combine(localFolder.Path, GetBulletinsFileName(area));
-
-                try
+                foreach (string area in areas)
                 {
-                    if (File.Exists(filePath))
+                    string filePath = Path.Combine(localFolder.Path, GetBulletinsFileName(area));
+
+                    try
                     {
-                        areaBulletin = File.ReadAllLines(filePath);
-                        foreach (string subject in areaBulletin)
+                        if (File.Exists(filePath))
                         {
-                            if (!BulletinDictionary.TryGetValue(area, out List<string> bulletinList))
+                            areaBulletin = File.ReadAllLines(filePath);
+                            foreach (string subject in areaBulletin)
                             {
-                                BulletinDictionary[area] = new List<string>();
+                                if (!BulletinDictionary.TryGetValue(area, out List<string> bulletinList))
+                                {
+                                    BulletinDictionary[area] = new List<string>();
+                                }
+                                BulletinDictionary[area].Add(subject);
                             }
-                            BulletinDictionary[area].Add(subject);
                         }
                     }
-                }
-                catch
-                {
-                    continue;
+                    catch
+                    {
+                        continue;
+                    }
                 }
             }
         }

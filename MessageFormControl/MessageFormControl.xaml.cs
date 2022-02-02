@@ -49,8 +49,6 @@ namespace MessageFormControl
 
             ScanControls(PrintableArea);
 
-            //InitializeToggleButtonGroups();
-
             GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;

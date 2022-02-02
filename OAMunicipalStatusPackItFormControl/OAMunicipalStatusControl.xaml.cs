@@ -149,7 +149,10 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            FormHeaderControl.ViewModelBase.HandlingOrder = "Routine";
+            FormHeaderControl.SetHandlingOrder(0);
+            FormHeaderControl.ViewModelBase.HandlingOrder = "Immediate";
+            FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
+            FormHeaderControl.SetToICSPosition("Planning");
             reportType.SelectedIndex = 0;
             jurisdictionName.SelectedIndex = 9;
         }

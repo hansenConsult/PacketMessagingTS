@@ -100,6 +100,11 @@ namespace FormUserControl
 
         }
 
+        public void SetText(string text)
+        {
+            autoSuggestTextBoxUsercontrol.Text = text;
+        }
+
         private async void AutoSuggestTextBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Only get results when it was a user typing, 

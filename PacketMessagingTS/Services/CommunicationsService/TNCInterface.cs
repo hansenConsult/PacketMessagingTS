@@ -59,6 +59,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private string _readBuffer = "";
 
+        string _LastAccessedArea = "";
+
         //const byte send = 0x5;
         public TNCInterface()
         {
@@ -749,7 +751,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             {
                 foreach (string subject in BulletinHelpers.BulletinDictionary[area])
                 {
-                    //_logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
+                    _logHelper.Log(LogLevel.Info, $"Subject: {subject} - Bulletin subject: {bulletinSubject}");
                     if (subject.Trim().Contains(bulletinSubject.Trim()))
                     {
                         return true;
@@ -768,11 +770,19 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (area.Length != 0)
                 {
                     //_serialPort.Write($"A {area}\r\x05");        // A XSCPERM
-                    _serialPort.Write($"A {area}\r");        // A XSCPERM
+                    if (area.StartsWith("L>"))
+                    {
+                        _serialPort.Write($"{area}\r");
+                    }
+                    else
+                    {
+                        _serialPort.Write($"A {area}\r");        // A XSCPERM
+                        _LastAccessedArea = area;
+                    }
+                    readText = ReadTo(_BBSPromptRN);        // read response
                     //readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
                     //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
                     //AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
-                    readText = ReadTo(_BBSPromptRN);        // read response
                     _logHelper.Log(LogLevel.Info, readText);
 
 
@@ -785,9 +795,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         return;
                     }
                     //_logHelper.Log(LogLevel.Info, $"Force read bulletin {area}: {_forceReadBulletins.ToString()}");
-                    if (area == "ALLXSC")
+                    if (_LastAccessedArea.Contains("ALLXSC"))
                     {
-                        _serialPort.Write("L> MTV\r");
+                        //_serialPort.Write("L> MTV\r");
                     }
                     else
                     {
@@ -1051,6 +1061,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 if (!string.IsNullOrEmpty(_Areas) && !_error)
                 {
                     var areas = _Areas.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    //var areas = _Areas.Split(new char[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string area in areas)
                     {
                         ReceiveMessages(area);

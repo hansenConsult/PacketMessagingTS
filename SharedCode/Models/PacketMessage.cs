@@ -36,9 +36,11 @@ namespace SharedCode
 
     public enum MessageState
     {
-        Locked,     // Received or sent message or message in outbox
-        Edit,       // Message in outbox opened for editing or draft message
-        None,       // New message
+        Locked,         // Received or sent message or message in outbox
+        Edit,           // Message in outbox opened for editing or draft message
+        None,           // New message
+        ResendSameID,   // Resend message with same ID
+        ResendNewID,    // Resend message with new ID
     }
 
     /// <remarks/>

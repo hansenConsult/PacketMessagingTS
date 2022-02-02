@@ -204,6 +204,105 @@ namespace FormControlBaseMvvmNameSpace
             }
         }
 
+        public virtual void UnLockForm()
+        {
+            if (FormPacketMessage.MessageState == MessageState.Locked)
+                return;
+
+            //TextBox
+            RootPanel.Resources["TextControlBorderBrushPointerOver"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
+            RootPanel.Resources["TextControlBorderBrushFocused"] = RootPanel.Resources["ComboBoxFocusedBackgroundThemeBrush"];
+            // CheckBox
+            RootPanel.Resources["CheckBoxForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundChecked"];
+            RootPanel.Resources["CheckBoxBackgroundCheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundChecked"];
+            RootPanel.Resources["CheckBoxBorderBrushCheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushChecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundStrokeCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeChecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundFillCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillChecked"];
+            RootPanel.Resources["CheckBoxCheckGlyphForegroundCheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundChecked"];
+
+            RootPanel.Resources["CheckBoxForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxForegroundUnchecked"];
+            RootPanel.Resources["CheckBoxBackgroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxBackgroundUnchecked"];
+            RootPanel.Resources["CheckBoxBorderBrushUncheckedDisabled"] = RootPanel.Resources["CheckBoxBorderBrushUnchecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundStrokeUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundStrokeUnchecked"];
+            RootPanel.Resources["CheckBoxCheckBackgroundFillUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckBackgroundFillUnchecked"];
+            RootPanel.Resources["CheckBoxCheckGlyphForegroundUncheckedDisabled"] = RootPanel.Resources["CheckBoxCheckGlyphForegroundUnchecked"];
+
+            // RadioButton
+            RootPanel.Resources["RadioButtonForegroundDisabled"] = RootPanel.Resources["RadioButtonForeground"];
+            RootPanel.Resources["RadioButtonOuterEllipseFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseFill"];
+            RootPanel.Resources["RadioButtonOuterEllipseCheckedFillDisabled"] = RootPanel.Resources["RadioButtonOuterEllipseCheckedFill"];
+            RootPanel.Resources["RadioButtonCheckGlyphFillDisabled"] = RootPanel.Resources["RadioButtonCheckGlyphFill"];
+
+            //ToggleSwitch
+            RootPanel.Resources["ToggleSwitchContainerBackgroundDisabled"] = RootPanel.Resources["ToggleSwitchContainerBackground"];
+            RootPanel.Resources["ToggleSwitchContentForegroundDisabled"] = RootPanel.Resources["ToggleSwitchContentForeground"];
+            RootPanel.Resources["ToggleSwitchFillOffDisabled"] = RootPanel.Resources["ToggleSwitchFillOff"];
+            RootPanel.Resources["ToggleSwitchFillOnDisabled"] = RootPanel.Resources["ToggleSwitchFillOn"];
+            RootPanel.Resources["ToggleSwitchKnobFillOffDisabled"] = RootPanel.Resources["ToggleSwitchKnobFillOff"];
+            RootPanel.Resources["ToggleSwitchKnobFillOnDisabled"] = RootPanel.Resources["ToggleSwitchKnobFillOn"];
+
+
+            foreach (FormControl formControl in _formControlsList)
+            {
+                FrameworkElement control = formControl.InputControl;
+
+                if (control is TextBox textBox)
+                {
+                    textBox.IsReadOnly = false;
+                    //textBox.IsSpellCheckEnabled = false;
+                    //textBox.PlaceholderText = "";
+                    textBox.BorderBrush = WhiteBrush;
+                }
+                else if (control is AutoSuggestBox autoSuggestBox)
+                {
+                    if (FindName($"{autoSuggestBox.Name}TextBox") is TextBox autoSuggestBoxAsTextBox)
+                    {
+                        autoSuggestBox.Visibility = Visibility.Visible;
+
+                        //autoSuggestBoxAsTextBox.Visibility = Visibility.Collapsed;
+                        //autoSuggestBoxAsTextBox.IsReadOnly = true;
+                        //autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
+                        //autoSuggestBoxAsTextBox.PlaceholderText = "";
+                        //autoSuggestBoxAsTextBox.BorderBrush = WhiteBrush;
+                        //autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        //autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
+                        if (formField != null && formField.ControlContent != null)
+                        {
+                            autoSuggestBoxAsTextBox.Text = formField.ControlContent;
+                        }
+                    }
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    if (FindName($"{comboBox.Name}TextBox") is TextBox comboBoxAsTextBox)
+                    {
+                        comboBox.Visibility = Visibility.Visible;
+
+                        //comboBoxAsTextBox.Visibility = Visibility.Collapsed;
+                        //comboBoxAsTextBox.IsReadOnly = true;
+                        //comboBoxAsTextBox.IsSpellCheckEnabled = false;
+                        //comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        //comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                    }
+                }
+                else if (control is RadioButtons radioButtons)
+                {
+                    radioButtons.IsEnabled = true;
+                }
+                else if (control is CheckBox checkBox)
+                {
+                    checkBox.IsEnabled = true;
+                }
+                else if (control is ToggleSwitch toggleSwitch)
+                {
+                    toggleSwitch.IsEnabled = true;
+                }
+            }
+        }
+
         protected void AddToErrorString(string errorText)
         {
             _validationResultMessage += ($"\n{errorText}");

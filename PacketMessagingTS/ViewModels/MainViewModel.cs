@@ -32,6 +32,8 @@ namespace PacketMessagingTS.ViewModels
         private static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<MainViewModel>();
         private static readonly LogHelper _logHelper = new LogHelper(log);
 
+        private PacketMessage _packetMessage; 
+
         public static MainViewModel Instance { get; } = new MainViewModel();
 
         public MainViewModel()
@@ -73,7 +75,53 @@ namespace PacketMessagingTS.ViewModels
                     type = typeof(TestFormsPage);
                     break;
             }
-            NavigationService.Navigate(type, packetMessagePath);
+            if (packetMessage.MessageState != MessageState.ResendSameID && packetMessage.MessageState != MessageState.ResendNewID)
+                NavigationService.Navigate(type, packetMessagePath);
+            else
+                NavigationService.Navigate(type, packetMessagePath, packetMessage.MessageState);
+
+        }
+
+        public void OpenMessage(PacketMessage packetMessage, string folder)
+        {
+            if (packetMessage is null)
+                return;
+
+            //string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
+            // Change state so the message will not be sent if it is open for editing
+            //if (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder == SharedData.UnsentMessagesFolder)
+            if (folder == SharedData.UnsentMessagesFolder.Path)
+            {
+                packetMessage.MessageState = MessageState.Edit;
+                packetMessage.Save(folder);
+            }
+            string packetMessagePath = Path.Combine(folder, packetMessage.FileName);
+            Type type = typeof(CountyFormsPage);
+            switch (packetMessage.FormControlType)
+            {
+                case FormControlAttribute.FormType.Undefined:
+                    type = typeof(CountyFormsPage);
+                    break;
+                case FormControlAttribute.FormType.None:
+                    type = typeof(CountyFormsPage);
+                    break;
+                case FormControlAttribute.FormType.CountyForm:
+                    type = typeof(CountyFormsPage);
+                    break;
+                case FormControlAttribute.FormType.CityForm:
+                    type = typeof(CityFormsPage);
+                    break;
+                case FormControlAttribute.FormType.HospitalForm:
+                    type = typeof(HospitalFormsPage);
+                    break;
+                case FormControlAttribute.FormType.TestForm:
+                    type = typeof(TestFormsPage);
+                    break;
+            }
+            if (packetMessage.MessageState != MessageState.ResendSameID && packetMessage.MessageState != MessageState.ResendNewID)
+                NavigationService.Navigate(type, packetMessagePath);
+            else
+                NavigationService.Navigate(type, packetMessagePath, packetMessage.MessageState);
 
         }
 
@@ -440,6 +488,179 @@ namespace PacketMessagingTS.ViewModels
         {
             await DeleteMessageAsync(PacketMessageRightClicked);
             RefreshDataGridAsync();
+        }
+
+        public void ResendMessageFromContextMenu()
+        {
+            _packetMessage = new PacketMessage()
+            {
+                FormControlType = PacketMessageRightClicked.FormControlType,
+                BBSName = PacketMessageRightClicked.BBSName,
+                TNCName = PacketMessageRightClicked.TNCName,
+                //FormFieldArray = PacketForm.CreateFormFieldsInXML(),
+                FormFieldArray = PacketMessageRightClicked.FormFieldArray,
+                FormProvider = PacketMessageRightClicked.FormProvider,
+                PacFormName = PacketMessageRightClicked.PacFormName,
+                PacFormType = PacketMessageRightClicked.PacFormType,
+                MessageFrom = PacketMessageRightClicked.MessageFrom,
+                MessageTo = PacketMessageRightClicked.MessageTo,
+                CreateTime = DateTime.Now,
+                //MessageState = MessageState.ResendSameID,
+                //MessageNumber = RmessageNo,
+            };
+        }
+
+        private ICommand _ResendMessageFromContextMenuSameIDCommand;
+        public ICommand ResendMessageFromContextMenuSameIDCommand => _ResendMessageFromContextMenuSameIDCommand ?? (_ResendMessageFromContextMenuSameIDCommand = new RelayCommand(ResendMessageFromContextMenuSameID));
+
+        public void ResendMessageFromContextMenuSameID()
+        {
+            if (PacketMessageRightClicked == null || PacketMessageRightClicked.Subject.StartsWith("DELIVERED"))
+                return;
+
+            ResendMessageFromContextMenu();
+            _packetMessage.MessageState = MessageState.ResendSameID;
+            //_packetMessage = PacketMessageRightClicked;
+            //_packetMessage.CreateTime = DateTime.Now;
+            //_packetMessage.MessageState = MessageState.ResendSameID;
+
+            string RmessageNo = PacketMessageRightClicked.MessageNumber;
+            RmessageNo = RmessageNo.Substring(0, PacketMessageRightClicked.MessageNumber.Length - 1);
+            RmessageNo = RmessageNo + "R";
+
+            _packetMessage.Subject = PacketMessageRightClicked.Subject.Replace(PacketMessageRightClicked.MessageNumber, RmessageNo);
+
+            foreach (FormField formField in PacketMessageRightClicked.FormFieldArray)
+            {
+                if (formField.ControlName == "messageNo")
+                {
+                    formField.ControlContent = RmessageNo;
+                    break;
+                }
+            }
+            //_packetMessage.FormFieldArray[1].ControlName;
+
+            //if (PacketMessageRightClicked != null)     // Not a new message
+            //{
+            //    // if the message state was locked it means it was previously sent or received.
+            //    // We must assign a new message number. Also unlock the message
+            //    if (PacketMessageRightClicked.MessageState == MessageState.Locked)
+            //    {
+            //        string RmessageNo = PacketMessageRightClicked.MessageNumber;
+            //        //MessageNo = Utilities.GetMessageNumberPacket();
+            //        //PacketMessageRightClicked.MessageNumber = MessageNo;
+            //        PacketMessageRightClicked.MessageState = MessageState.Edit;
+            //    }
+            //    //PacketMessageRightClicked.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields
+            //}
+            //else
+            //{
+            //CreatePacketMessage();
+            //PacketMessage _packetMessage = new PacketMessage()
+            //{
+            //    FormControlType = PacketMessageRightClicked.FormControlType,
+            //    BBSName = PacketMessageRightClicked.BBSName,
+            //    TNCName = PacketMessageRightClicked.TNCName,
+            //    //FormFieldArray = PacketForm.CreateFormFieldsInXML(),
+            //    FormFieldArray = PacketMessageRightClicked.FormFieldArray,
+            //    FormProvider = PacketMessageRightClicked.FormProvider,
+            //    PacFormName = PacketMessageRightClicked.PacFormName,
+            //    PacFormType = PacketMessageRightClicked.PacFormType,
+            //    MessageFrom = PacketMessageRightClicked.MessageFrom,
+            //    MessageTo = PacketMessageRightClicked.MessageTo,
+            //    CreateTime = DateTime.Now,
+            //    MessageState = MessageState.ResendSameID,
+            //    MessageNumber = RmessageNo,
+            //};
+
+            _packetMessage.MessageNumber = RmessageNo;
+
+            //_packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
+
+            //UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
+
+            //string subject = PacketMessageRightClicked.MessageNumber;
+            //string subject = _packetForm.CreateSubject();
+            // subject is "null" for Simple Message, otherwise use the form generated subject line
+            //_packetMessage.Subject = subject ?? SendFormDataControlViewModel.Instance.MessageSubject;
+            //_packetMessage.Subject = PacketMessageRightClicked.Subject;
+            if (!_packetMessage.CreateFileName())
+            {
+                throw new Exception();
+            }
+
+            // Change folder to County messages or whatever is required. Maybe move to draft folder
+            _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
+
+            string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
+            int index = folder.LastIndexOf('\\');
+            folder = folder.Substring(0, index);
+            folder = folder + "\\DraftMessages";
+
+            OpenMessage(_packetMessage, folder);
+            //}
+
+            //_packetMessage.Save(SharedData.DraftMessagesFolder.Path);
+            //Utilities.MarkMessageNumberAsUsed();
+
+            //// Change folder to County messages or whatever is required. Maybe move to draft folder
+            ////string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
+            ////PacketMessageRightClicked.MessageState = MessageState.ResendSameID;
+            //PacketMessageRightClicked.MessageState = MessageState.Edit;
+            //PacketMessageRightClicked.CreateTime = null;
+            ////int Rindex = PacketMessageRightClicked.MessageNumber.IndexOf(PacketMessageRightClicked.MessageNumber.Length - 1);
+            //int Rindex = PacketMessageRightClicked.MessageNumber.Length - 1;
+            //char Rchar = RmessageNo[Rindex];
+            ////RmessageNo[Rindex] = "R";
+            ////PacketMessageRightClicked.MessageNumber = messageNumber;
+            ////PacketMessageRightClicked..;
+            //OpenMessage(PacketMessageRightClicked);
+            ////await DeleteMessageAsync(PacketMessageRightClicked);
+            ////RefreshDataGridAsync();
+        }
+
+        private ICommand _ResendMessageFromContextMenuNewIDCommand;
+        public ICommand ResendMessageFromContextMenuNewIDCommand => _ResendMessageFromContextMenuNewIDCommand ?? (_ResendMessageFromContextMenuNewIDCommand = new RelayCommand(ResendMessageFromContextMenuNewID));
+
+        public void ResendMessageFromContextMenuNewID()
+        {
+            if (PacketMessageRightClicked == null || PacketMessageRightClicked.Subject.StartsWith("DELIVERED"))
+                return;
+
+            ResendMessageFromContextMenu();
+            _packetMessage.MessageState = MessageState.ResendNewID;
+
+            _packetMessage.MessageNumber = Utilities.GetMessageNumberPacket();
+
+            _packetMessage.Subject = PacketMessageRightClicked.Subject.Replace(PacketMessageRightClicked.MessageNumber, _packetMessage.MessageNumber);
+
+            foreach (FormField formField in PacketMessageRightClicked.FormFieldArray)
+            {
+                if (formField.ControlName == "messageNo")
+                {
+                    formField.ControlContent = _packetMessage.MessageNumber;
+                    break;
+                }
+            }
+
+
+            //UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
+
+            if (!_packetMessage.CreateFileName())
+            {
+                throw new Exception();
+            }
+
+            // Change folder to County messages or whatever is required. Maybe move to draft folder
+            _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
+
+            string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
+            int index = folder.LastIndexOf('\\');
+            folder = folder.Substring(0, index);
+            folder = folder + "\\DraftMessages";
+
+            OpenMessage(_packetMessage, folder);
+
         }
 
         protected override async void MoveToFolderFromContextMenu(string folder)

@@ -492,8 +492,17 @@ namespace PacketMessagingTS.ViewModels
 
             _packetForm.FormPacketMessage = _packetMessage;
             _packetForm.FormatTextBoxes();
-            MessageNo = Utilities.GetMessageNumberPacket();
+            if (LoadMessage && _packetForm.FormPacketMessage.MessageState == MessageState.ResendSameID)
+            {
+                MessageNo = _packetForm.FormPacketMessage.MessageNumber;
+            }
+            else
+            {
+                MessageNo = Utilities.GetMessageNumberPacket();
+            }
             OriginMsgNo = MessageNo;
+
+            //formHeaderControl.ViewModelBase.OriginMsgNo
 
             // Populate the form View
             StackPanel stackPanel = ((ScrollViewer)_pivotItem.Content).Content as StackPanel;
@@ -507,6 +516,11 @@ namespace PacketMessagingTS.ViewModels
                     // Show existing message
                     stackPanel.Children.Insert(0, _packetAddressForm);
                     stackPanel.Children.Insert(1, _packetForm);
+
+                    if (_packetMessage.MessageState == MessageState.ResendSameID)
+                    {
+                        (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;     // Is inserted in the Created time field
+                    }
 
                     switch (_packetMessage.MessageOrigin)
                     {

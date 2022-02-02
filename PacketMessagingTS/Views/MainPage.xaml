@@ -176,6 +176,10 @@
                                 <MenuFlyoutItem Text="Move To Archive" Command="{x:Bind MainViewModel.MoveToArchiveFromContextMenuCommand}"/>
                             </MenuFlyoutSubItem>
                             <MenuFlyoutItem Text="Delete" Command="{x:Bind MainViewModel.DeleteMessagesFromContextMenuCommand}"/>
+                            <MenuFlyoutSubItem Text="Resend" >
+                                <MenuFlyoutItem Text="Same Message ID" Command="{x:Bind MainViewModel.ResendMessageFromContextMenuSameIDCommand}"/>
+                                <MenuFlyoutItem Text="New Message ID" Command="{x:Bind MainViewModel.ResendMessageFromContextMenuNewIDCommand}"/>
+                            </MenuFlyoutSubItem>
                             <MenuFlyoutItem Text="open in WebView" Click="AppBarMainPage_OpenInWebView"/>
                         </MenuFlyout>
                     </controls:DataGrid.ContextFlyout>

@@ -530,9 +530,9 @@
                                      Width="155" HorizontalAlignment="Left" Margin="8,16,0,0" 
                                      Text="{x:Bind PacketSettingsViewmodel.FirstMessageNumber, Mode=TwoWay}"/>
 
-                            <TextBox x:Name="areaString" Header="Area string" MinHeight="60" Margin="8,8,0,0"                                   
+                            <TextBox x:Name="areaString" Header="Area string/Commands" MinHeight="80" Margin="8,8,0,8"                                   
                                      Width="300"  AcceptsReturn="True" HorizontalAlignment="Left"
-                                     Text="{x:Bind PacketSettingsViewmodel.AreaString, Mode=TwoWay}" 
+                                     Text="{x:Bind PacketSettingsViewmodel.AreaCommands, Mode=TwoWay}" 
                                      />
                             <ToggleSwitch x:Name="sendReceivedReceipt" Header="Send Received Receipt" Margin="8"
                                           IsOn="{x:Bind PacketSettingsViewmodel.SendReceipt, Mode=TwoWay}"

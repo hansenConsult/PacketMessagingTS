@@ -1,5 +1,7 @@
 ﻿using System;
 
+using SharedCode;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -59,6 +61,25 @@ namespace PacketMessagingTS.Services
             if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParamUsed)))
             {
                 var navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
+                if (navigationResult)
+                {
+                    _lastParamUsed = parameter;
+                }
+
+                return navigationResult;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool Navigate(Type pageType, string parameter, MessageState messageState = MessageState.None)
+        {
+            // Don't open the same page multiple times
+            if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParamUsed)))
+            {
+                var navigationResult = Frame.Navigate(pageType, parameter, null);
                 if (navigationResult)
                 {
                     _lastParamUsed = parameter;
