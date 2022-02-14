@@ -53,7 +53,6 @@ namespace PacketMessagingTS.Helpers
             if (packetSettingsViewModel.AreaString != null)
             {
                 areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-                //string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             }
 
             BulletinDictionary = new Dictionary<string, List<string>>();

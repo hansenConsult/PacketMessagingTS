@@ -74,7 +74,7 @@
                 <ColumnDefinition Width="0.8*" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Text="Created Time:" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.MessageReceivedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Text="{x:Bind ViewModel.MessageCreatedTime, Mode=OneWay, Converter={StaticResource datetimeConverter}}" VerticalAlignment="Center" />
             <TextBlock Grid.Column="4" Text="Message No:" VerticalAlignment="Center" />
             <TextBlock Grid.Column="5" Text="{x:Bind ViewModel.MessageNo, Mode=OneWay}" VerticalAlignment="Center" />
         </Grid>

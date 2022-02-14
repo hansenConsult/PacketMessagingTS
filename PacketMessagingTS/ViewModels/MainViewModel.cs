@@ -79,7 +79,6 @@ namespace PacketMessagingTS.ViewModels
                 NavigationService.Navigate(type, packetMessagePath);
             else
                 NavigationService.Navigate(type, packetMessagePath, packetMessage.MessageState);
-
         }
 
         public void OpenMessage(PacketMessage packetMessage, string folder)
@@ -505,8 +504,6 @@ namespace PacketMessagingTS.ViewModels
                 MessageFrom = PacketMessageRightClicked.MessageFrom,
                 MessageTo = PacketMessageRightClicked.MessageTo,
                 CreateTime = DateTime.Now,
-                //MessageState = MessageState.ResendSameID,
-                //MessageNumber = RmessageNo,
             };
         }
 
@@ -520,9 +517,6 @@ namespace PacketMessagingTS.ViewModels
 
             ResendMessageFromContextMenu();
             _packetMessage.MessageState = MessageState.ResendSameID;
-            //_packetMessage = PacketMessageRightClicked;
-            //_packetMessage.CreateTime = DateTime.Now;
-            //_packetMessage.MessageState = MessageState.ResendSameID;
 
             string RmessageNo = PacketMessageRightClicked.MessageNumber;
             RmessageNo = RmessageNo.Substring(0, PacketMessageRightClicked.MessageNumber.Length - 1);
@@ -538,58 +532,14 @@ namespace PacketMessagingTS.ViewModels
                     break;
                 }
             }
-            //_packetMessage.FormFieldArray[1].ControlName;
-
-            //if (PacketMessageRightClicked != null)     // Not a new message
-            //{
-            //    // if the message state was locked it means it was previously sent or received.
-            //    // We must assign a new message number. Also unlock the message
-            //    if (PacketMessageRightClicked.MessageState == MessageState.Locked)
-            //    {
-            //        string RmessageNo = PacketMessageRightClicked.MessageNumber;
-            //        //MessageNo = Utilities.GetMessageNumberPacket();
-            //        //PacketMessageRightClicked.MessageNumber = MessageNo;
-            //        PacketMessageRightClicked.MessageState = MessageState.Edit;
-            //    }
-            //    //PacketMessageRightClicked.FormFieldArray = _packetForm.CreateFormFieldsInXML();       // Update fields
-            //}
-            //else
-            //{
-            //CreatePacketMessage();
-            //PacketMessage _packetMessage = new PacketMessage()
-            //{
-            //    FormControlType = PacketMessageRightClicked.FormControlType,
-            //    BBSName = PacketMessageRightClicked.BBSName,
-            //    TNCName = PacketMessageRightClicked.TNCName,
-            //    //FormFieldArray = PacketForm.CreateFormFieldsInXML(),
-            //    FormFieldArray = PacketMessageRightClicked.FormFieldArray,
-            //    FormProvider = PacketMessageRightClicked.FormProvider,
-            //    PacFormName = PacketMessageRightClicked.PacFormName,
-            //    PacFormType = PacketMessageRightClicked.PacFormType,
-            //    MessageFrom = PacketMessageRightClicked.MessageFrom,
-            //    MessageTo = PacketMessageRightClicked.MessageTo,
-            //    CreateTime = DateTime.Now,
-            //    MessageState = MessageState.ResendSameID,
-            //    MessageNumber = RmessageNo,
-            //};
 
             _packetMessage.MessageNumber = RmessageNo;
 
-            //_packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
-
-            //UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
-
-            //string subject = PacketMessageRightClicked.MessageNumber;
-            //string subject = _packetForm.CreateSubject();
-            // subject is "null" for Simple Message, otherwise use the form generated subject line
-            //_packetMessage.Subject = subject ?? SendFormDataControlViewModel.Instance.MessageSubject;
-            //_packetMessage.Subject = PacketMessageRightClicked.Subject;
             if (!_packetMessage.CreateFileName())
             {
                 throw new Exception();
             }
 
-            // Change folder to County messages or whatever is required. Maybe move to draft folder
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
 
             string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
@@ -598,10 +548,6 @@ namespace PacketMessagingTS.ViewModels
             folder = folder + "\\DraftMessages";
 
             OpenMessage(_packetMessage, folder);
-            //}
-
-            //_packetMessage.Save(SharedData.DraftMessagesFolder.Path);
-            //Utilities.MarkMessageNumberAsUsed();
 
             //// Change folder to County messages or whatever is required. Maybe move to draft folder
             ////string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;
@@ -651,7 +597,6 @@ namespace PacketMessagingTS.ViewModels
                 throw new Exception();
             }
 
-            // Change folder to County messages or whatever is required. Maybe move to draft folder
             _packetMessage.Save(SharedData.DraftMessagesFolder.Path);
 
             string folder = (((PivotItem)MainPagePivot.SelectedItem).Tag as StorageFolder).Path;

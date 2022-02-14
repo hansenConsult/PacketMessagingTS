@@ -45,6 +45,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
         string _bbsConnectName = "";
         bool _forceReadBulletins = false;
         string _Areas;
+        string _AreasCommand;
         TNCDevice _TncDevice = null;
         SerialPort _serialPort = null;
 
@@ -73,7 +74,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             _TncDevice = tncDevice;
             _TNCPrompt = _TncDevice.Prompts.Command;
             _forceReadBulletins = forceReadBulletins;
-            _Areas = areas;
+            //_Areas = areas;
+            _AreasCommand = areas;
             _packetMessagesToSend = packetMessagesToSend;
         }
 
@@ -620,7 +622,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
         {
             _bbsConnectName = messageBBS + "-1";
             _TncDevice = tncDevice;
-            _Areas = areas;
+            //_Areas = areas;
+            _AreasCommand = areas;
 
             PacketMessagesReceived = packetMessagesReceived;
             SendMessageReceipts();
@@ -761,29 +764,165 @@ namespace PacketMessagingTS.Services.CommunicationsService
             return false;
         }
 
+        //private void ReceiveMessages(string area)
+        //{
+        //    string readText;
+        //    _serialPort.ReadTimeout = 300000;
+        //    try
+        //    {
+        //        if (area.Length != 0)
+        //        {
+        //            //_serialPort.Write($"A {area}\r\x05");        // A XSCPERM
+        //            if (area.StartsWith("L>"))
+        //            {
+        //                _serialPort.Write($"{area}\r");
+        //            }
+        //            else
+        //            {
+        //                _serialPort.Write($"A {area}\r");        // A XSCPERM
+        //                _LastAccessedArea = area;
+        //                readText = ReadTo(_BBSPromptRN);        // read response
+        //                _logHelper.Log(LogLevel.Info, readText);
+        //                if (!_forceReadBulletins && readText.Contains("0 messages"))
+        //                {
+        //                    return;
+        //                }
+        //                if (!_forceReadBulletins && readText.Contains("0 new"))
+        //                {
+        //                    return;
+        //                }
+
+        //            }
+        //            //readText = ReadTo(_BBSPromptRN);        // read response
+        //            //readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
+        //            //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
+        //            //AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
+        //            //_logHelper.Log(LogLevel.Info, readText);
+
+
+        //            //if (!_forceReadBulletins && readText.Contains("0 messages"))
+        //            //{
+        //            //    return;
+        //            //}
+        //            //if (!_forceReadBulletins && readText.Contains("0 new"))
+        //            //{
+        //            //    return;
+        //            //}
+        //            //_logHelper.Log(LogLevel.Info, $"Force read bulletin {area}: {_forceReadBulletins.ToString()}");
+        //            if (_LastAccessedArea.Contains("ALLXSC"))
+        //            {
+        //                //_serialPort.Write("L> MTV\r");
+        //            }
+        //            else
+        //            {
+        //                _serialPort.Write("LA\r");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //log.Info($"Timeout = {_serialPort.ReadTimeout}");        // For testing
+        //            _serialPort.Write("LM\r");
+        //        }
+        //        readText = ReadTo(_BBSPromptRN);      // read response
+        //        _logHelper.Log(LogLevel.Info, readText);
+
+        //        // read messages
+        //        string[] lines = readText.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        //        bool firstMessageDescriptionDetected = false;
+        //        foreach (string line in lines)
+        //        {
+        //            if (_error)
+        //            {
+        //                _logHelper.Log(LogLevel.Error, $"Error in receive messages");
+        //                break;
+        //            }
+
+        //            if (line[0] != '(' && (line[0] == '>' || firstMessageDescriptionDetected))
+        //            {
+        //                // St.  #  TO         FROM     DATE   SIZE SUBJECT
+        //                // > N   1 kz6dm      kz6dm    Feb  3  867 6DM-349P_O/R_ICS213_dfdsfsdfggh    
+        //                string lineCopy = line.TrimStart(new char[] { ' ', '>' });  // Remove the first character which may be ' ' or '>'
+
+        //                firstMessageDescriptionDetected = true;
+        //                string[] lineSections = lineCopy.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        //                //Console.WriteLine("lineSections length: " + lineSections.Length);
+        //                if (char.IsLetter(lineSections[1][0]))        // No more messages in the list. Not sure this works!
+        //                    break;
+
+        //                string bulletinSubject = GetBulletinSubject(lineCopy);
+        //                // Read messages or bulletins if the bulletin is not already read.
+        //                if (area.Length == 0 || !IsBulletinDownLoaded(area, bulletinSubject))
+        //                {
+        //                    PacketMessage packetMessage = new PacketMessage()
+        //                    {
+        //                        BBSName = _bbsConnectName.Substring(0, _bbsConnectName.IndexOf('-')),
+        //                        TNCName = _TncDevice.Name,
+        //                        MessageNumber = Utilities.GetMessageNumberPacket(true),
+        //                        Area = area,
+        //                        MessageSize = Convert.ToInt32(lineSections[6]),
+        //                        MessageState = MessageState.Locked,
+        //                    };
+        //                    int msgIndex = Convert.ToInt32(lineSections[1]);
+
+        //                    _serialPort.Write("R " + msgIndex + "\r");
+        //                    readText = ReadTo(_BBSPromptRN);      // read response eg R 1 plus message
+        //                    _logHelper.Log(LogLevel.Info, readText);
+
+        //                    packetMessage.MessageBody = readText.Substring(0, readText.Length - 3); // Remove beginning of prompt
+        //                    packetMessage.ReceivedTime = DateTime.Now;
+        //                    PacketMessagesReceived.Add(packetMessage);
+        //                    if (area.Length == 0)
+        //                    {
+        //                        _serialPort.Write("K " + msgIndex + "\r");
+        //                        readText = ReadTo(_BBSPromptRN);      // read response
+        //                        _logHelper.Log(LogLevel.Info, readText);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _logHelper.Log(LogLevel.Error, $"Receive message exception: {e.Message}");
+        //        //_serialPort.DiscardInBuffer();
+        //        //_serialPort.DiscardOutBuffer();
+        //        _error = true;
+        //        throw;
+
+        //    }
+        //    finally
+        //    {
+        //        _serialPort.ReadTimeout = 300000;
+        //    }
+        //}
+
+
         private void ReceiveMessages(string area)
         {
-            string readText;
+            string readText = "";
             _serialPort.ReadTimeout = 300000;
             try
             {
                 if (area.Length != 0)
                 {
                     //_serialPort.Write($"A {area}\r\x05");        // A XSCPERM
-                    if (area.StartsWith("L>"))
-                    {
-                        _serialPort.Write($"{area}\r");
-                    }
-                    else
+                    if (!area.StartsWith("L>"))
                     {
                         _serialPort.Write($"A {area}\r");        // A XSCPERM
                         _LastAccessedArea = area;
+                        readText = ReadTo(_BBSPromptRN);        // read response
+                        _logHelper.Log(LogLevel.Info, readText);
                     }
-                    readText = ReadTo(_BBSPromptRN);        // read response
-                    //readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
-                    //_logHelper.Log(LogLevel.Info, readText + _BBSPrompt);
-                    //AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
-                    _logHelper.Log(LogLevel.Info, readText);
+                        //else
+                        //{
+                        //    _serialPort.Write($"A {area}\r");        // A XSCPERM
+                        //    _LastAccessedArea = area;
+                        //}
+                        //readText = ReadTo(_BBSPromptRN);        // read response
+                        //readText = _serialPort.ReadTo(_BBSPromptRN);        // read response
+                        //_logHelper.Log(LogLevel.Info, readText + _BBSPromptRN);
+                        //AddTextToStatusWindowAsync(readText + _BBSPrompt + "\n");
+                        //_logHelper.Log(LogLevel.Info, readText);
 
 
                     if (!_forceReadBulletins && readText.Contains("0 messages"))
@@ -795,13 +934,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         return;
                     }
                     //_logHelper.Log(LogLevel.Info, $"Force read bulletin {area}: {_forceReadBulletins.ToString()}");
-                    if (_LastAccessedArea.Contains("ALLXSC"))
+                    if (area.Contains("XSCPERM") || area.Contains("XSCEVENT") || area.Contains("XSCTEST")) 
                     {
-                        //_serialPort.Write("L> MTV\r");
+                        _serialPort.Write("LA\r");
                     }
                     else
                     {
-                        _serialPort.Write("LA\r");
+                        if (area.StartsWith("L>"))
+                        {
+                            _serialPort.Write($"{area}\r");
+                        }
                     }
                 }
                 else
@@ -1058,10 +1200,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     ReceiveMessages("");
                 }
 
-                if (!string.IsNullOrEmpty(_Areas) && !_error)
+                //if (!string.IsNullOrEmpty(_Areas) && !_error)
+                if (!string.IsNullOrEmpty(_AreasCommand) && !_error)
                 {
-                    var areas = _Areas.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    //var areas = _Areas.Split(new char[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                    //var areas = _Areas.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var areas = _AreasCommand.Split(new char[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string area in areas)
                     {
                         ReceiveMessages(area);

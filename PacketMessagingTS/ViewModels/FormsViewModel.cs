@@ -365,18 +365,13 @@ namespace PacketMessagingTS.ViewModels
             SendFormDataControlViewModel.Instance.MessageTo = _packetMessage.MessageTo;
             SendFormDataControlViewModel.Instance.MessageSubject = _packetMessage.Subject;
 
-            //if (_packetMessage.MessageState == MessageState.Locked)
-            //{
-            //    _packetForm.LockForm();
-            //    _packetAddressForm.LockForm();
-            //}
-
             //string opcall = _packetForm.OperatorCallsign;//test
             // Special handling for SimpleMessage
             MessageNo = _packetMessage.MessageNumber;
             if (_packetForm.PacFormType == "SimpleMessage")
             {
                 (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = _packetMessage.ReceivedTime;
+                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageCreatedTime = _packetMessage.CreateTime;
             }
             //_packetForm.MessageReceivedTime = _packetMessage.ReceivedTime;
             if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.Received)
@@ -517,9 +512,10 @@ namespace PacketMessagingTS.ViewModels
                     stackPanel.Children.Insert(0, _packetAddressForm);
                     stackPanel.Children.Insert(1, _packetForm);
 
-                    if (_packetMessage.MessageState == MessageState.ResendSameID)
+                    if (_packetMessage.MessageState == MessageState.ResendSameID || _packetMessage.MessageState == MessageState.ResendNewID)
                     {
-                        (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;     // Is inserted in the Created time field
+                        //(_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;     // Is inserted in the Created time field
+                        (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageCreatedTime = DateTime.Now;
                     }
 
                     switch (_packetMessage.MessageOrigin)
@@ -545,7 +541,8 @@ namespace PacketMessagingTS.ViewModels
                     stackPanel.Children.Insert(2, _packetForm);
 
                     (_packetForm.ViewModelBase as MessageFormControlViewModel).NewHeaderVisibility = true;
-                    (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;     // Is inserted in the Created time field
+                    //(_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;     // Is inserted in the Created time field
+                    (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageCreatedTime = DateTime.Now;
 
                     _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
                     _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
@@ -558,7 +555,7 @@ namespace PacketMessagingTS.ViewModels
                 //    _packetAddressForm.MessageSubject += practiceSubject;
                 //    //_packetForm.MessageBody = PacketSettingsViewModel>.Instance.DefaultMessage;
                 //}
-                (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;
+                //(_packetForm.ViewModelBase as MessageFormControlViewModel).MessageReceivedTime = DateTime.Now;
             }
             else
             {

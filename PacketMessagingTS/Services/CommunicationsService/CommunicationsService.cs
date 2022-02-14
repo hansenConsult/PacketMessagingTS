@@ -801,7 +801,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                 PacketSettingsViewModel packetSettingsViewModel = PacketSettingsViewModel.Instance;
 
-                _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+                //_tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
+                _tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaCommands, ref _packetMessagesToSend);
 
                 // Collect remaining messages to be sent
                 // Process files to be sent via BBS

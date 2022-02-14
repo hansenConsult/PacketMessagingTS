@@ -139,6 +139,13 @@ namespace MessageFormControl
             set => SetProperty(ref _messageBody, value);
         }
 
+        private DateTime? _messageCreatedTime;
+        public DateTime? MessageCreatedTime
+        {
+            get => _messageCreatedTime;
+            set => SetProperty(ref _messageCreatedTime, value);
+        }
+
         private DateTime? messageReceivedTime;
         public DateTime? MessageReceivedTime
         {
