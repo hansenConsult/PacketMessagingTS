@@ -26,7 +26,8 @@ namespace PacketMessagingTS.ViewModels
         private readonly int _linesPerPage = 22;
 
 
-        public async Task InitializeAsync()
+        //public async Task InitializeAsync()
+        public void InitializeAsync()
         {
             FromOpenFile = false;
 
@@ -35,7 +36,7 @@ namespace PacketMessagingTS.ViewModels
             _CommLog.OperationalPeriodTo = DateTime.Now;
             _CommLog.OperatorNameCallsign = $"{IdentityViewModel.Instance.UserName}, {IdentityViewModel.Instance.UserCallsign}";
             _CommLog.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
-            await BuildLogDataSetAsync(_CommLog.OperationalPeriodFrom, _CommLog.OperationalPeriodTo);
+            //await BuildLogDataSetAsync(_CommLog.OperationalPeriodFrom, _CommLog.OperationalPeriodTo);
         }
 
         //private string incidentNameActivationNumber;

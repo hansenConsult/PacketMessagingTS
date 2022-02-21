@@ -667,7 +667,8 @@ namespace PacketMessagingTS.Views
             }
             else if (_currentPivotItem.Name == "ics309")
             {
-                await Ics309ViewModel.InitializeAsync();
+                //await Ics309ViewModel.InitializeAsync();
+                Ics309ViewModel.InitializeAsync();
                 ICS309FooterViewModel.Instance.DateTimePrepared = DateTimeStrings.DateTimeString(DateTime.Now);
             }
         }

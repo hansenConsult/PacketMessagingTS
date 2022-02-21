@@ -24,9 +24,11 @@ namespace PacketMessagingTS.Controls
             OperatorNameCallsign = ICS309ViewModel.Instance.CommLog.OperatorNameCallsign;
         }
 
-        private async void InitializeCommLog()
+        //private async void InitializeCommLog()
+        private void InitializeCommLog()
         {
-            await ICS309ViewModel.Instance.InitializeAsync();
+            //await ICS309ViewModel.Instance.InitializeAsync();
+            ICS309ViewModel.Instance.InitializeAsync();
         }
 
         private string _incidentName;
