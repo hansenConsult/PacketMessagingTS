@@ -75,7 +75,8 @@ namespace PacketMessagingTS.Controls
                     string tacticalCallsign = IdentityViewModel.Instance.TacticalCallsign;
                     string tacticalAgencyName = IdentityViewModel.Instance.TacticalAgencyName;
                     Subject = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName}";
-                    Message = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName} \r\nPresent are:\r\n{userCallsign}, {userName}\r\n";
+                    //Message = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName} \r\nPresent are:\r\n{userCallsign}, {userName}\r\n";
+                    Message = $"{chechInOut} {tacticalCallsign}, {tacticalAgencyName} \r\n{userCallsign}, {userName}\r\n";
                 }
                 else
                 {

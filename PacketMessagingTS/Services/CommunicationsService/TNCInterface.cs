@@ -768,6 +768,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private void ReceiveMessages(string area)
         {
+            if (area.StartsWith('#'))
+                return;
+
             string readText = "";
             _serialPort.ReadTimeout = 300000;
             try
