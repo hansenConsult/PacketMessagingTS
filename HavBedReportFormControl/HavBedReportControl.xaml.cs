@@ -74,6 +74,8 @@ namespace HavBedReportFormControl
 
             ViewModelBase = ViewModel;
 
+            FormHeaderControl.SetHandlingOrder(0);
+
             UpdateFormFieldsRequiredColors();
         }
 

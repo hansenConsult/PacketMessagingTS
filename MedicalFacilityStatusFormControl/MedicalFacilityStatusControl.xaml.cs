@@ -135,6 +135,8 @@ namespace MedicalFacilityStatusFormControl
 
             ViewModelBase = ViewModel;
 
+            FormHeaderControl.SetHandlingOrder(0);
+
             UpdateFormFieldsRequiredColors();
         }
 

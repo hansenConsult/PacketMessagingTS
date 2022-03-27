@@ -11,6 +11,7 @@ namespace MedicalHealthBranchRRFormControl
     public class MedicalHealthBranchRRControlViewModel : UserControlViewModelBase
     {
         //public static MedicalHealthBranchRRControlViewModel Instance { get; } = new MedicalHealthBranchRRControlViewModel();
+        //HandlingOrder = "priority;"
 
         public override string MsgDate
         {

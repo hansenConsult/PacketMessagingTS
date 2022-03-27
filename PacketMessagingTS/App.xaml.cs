@@ -67,7 +67,7 @@ namespace PacketMessagingTS
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             _logHelper.Log(LogLevel.Info, "--------------------------------------");
-            _logHelper.Log(LogLevel.Info, "Packet Messaging Application started");
+            _logHelper.Log(LogLevel.Info, "Packet Messaging Application launched");
 
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             Properties = await localFolder.ReadAsync<Dictionary<string, object>>(PropertiesDictionaryFileName) ?? new Dictionary<string, object>();
@@ -201,7 +201,7 @@ namespace PacketMessagingTS
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
-            _logHelper.Log(LogLevel.Trace, "Entered OnActivated");
+            //_logHelper.Log(LogLevel.Trace, "Entered OnActivated");
 
             await ActivationService.ActivateAsync(args);
         }

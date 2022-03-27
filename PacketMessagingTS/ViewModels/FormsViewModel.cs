@@ -600,6 +600,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 _packetForm.FormHeaderControl.EventSubjectChanged += FormControl_SubjectChange;
                 _packetForm.FormHeaderControl.EventMsgTimeChanged += FormControl_MsgTimeChanged;
+
+                //_packetForm.FormHeaderControl.ViewModelBase.HandlingOrder = "priority";
             }
         }
 

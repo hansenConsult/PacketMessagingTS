@@ -301,7 +301,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <StackPanel Grid.Row="5" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <!--<StackPanel Grid.Row="5" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <TextBlock Text="Priority:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                             <ComboBox x:Name="ReqPriority" Width="150"
                                       ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
@@ -309,11 +309,11 @@
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="26.,required"/>
-                            <!--DisplayMemberPath="Item"-->
+                            --><!--DisplayMemberPath="Item"--><!--
 
                             <TextBox x:Name="ReqPriorityTextBox" Width="150"
                                      Visibility="Collapsed" />
-                        </StackPanel>
+                        </StackPanel>-->
                         <StackPanel Grid.Row="6" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Border Height="30"  Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1">
                                 <TextBlock Text="DESCRIBE THE RESOURCE REQUESTED" HorizontalAlignment="Center" 

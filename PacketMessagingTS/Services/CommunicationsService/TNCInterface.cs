@@ -44,7 +44,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         string _bbsConnectName = "";
         bool _forceReadBulletins = false;
-        string _Areas;
+        //string _Areas;
         string _AreasCommand;
         TNCDevice _TncDevice = null;
         SerialPort _serialPort = null;

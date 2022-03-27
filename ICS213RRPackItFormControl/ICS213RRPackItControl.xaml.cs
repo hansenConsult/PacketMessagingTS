@@ -97,7 +97,7 @@ namespace ICS213RRPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            FormHeaderControl.ViewModelBase.HandlingOrder = "Routine";
+            FormHeaderControl.SetHandlingOrder(3);
             FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
             FormHeaderControl.SetToICSPosition("Planning");
             incidentName.Text = practiceField;

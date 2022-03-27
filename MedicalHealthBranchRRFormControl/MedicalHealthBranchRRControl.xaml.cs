@@ -39,16 +39,20 @@ namespace MedicalHealthBranchRRFormControl
 
             ScanControls(PrintableArea);
 
+            //FormHeaderControl.ViewModel.HandlingOrder = "priority";
             FormHeaderControl.ViewModel.NamePanel1Visibility = false;
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: September 2009";
-            FormHeaderControl.ViewModelBase.PIF = "3.1";
+            FormHeaderControl.ViewModel.PIF = "3.1";            
 
             GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
 
+            FormHeaderControl.SetHandlingOrder(1);
+
             UpdateFormFieldsRequiredColors();
+
         }
 
         public override FormControlBaseMvvm RootPanel => rootPanel;

@@ -65,7 +65,7 @@ namespace SharedCode.Helpers
             set => SetProperty(ref _msgTime, value); 
         }
 
-        private string _handlingOrder;
+        protected string _handlingOrder;
         public string HandlingOrder
         {
             get => _handlingOrder;
