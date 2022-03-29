@@ -41,11 +41,14 @@ namespace MutualAidRequestFormControl
             ScanControls(PrintableArea);
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
-            FormHeaderControl.ViewModel.HeaderSubstring = "Version: 190614";
+            FormHeaderControl.ViewModel.HeaderSubstring = "Version: 20220129";
 
             GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
+
+            FormHeaderControl.SetHandlingOrder(2);
+            FormHeaderControl.SetToLocation("County EOC");
 
             UpdateFormFieldsRequiredColors();
         }

@@ -725,7 +725,8 @@ namespace FormControlBasicsNamespace
                 if (sender is RadioButtons radioButtons && radioButtons.Name == formControl.InputControl.Name)
                 {
                     RadioButton radioButton = radioButtons.SelectedItem as RadioButton;
-                    if (radioButtons.Name == "handlingOrder" && radioButtons.SelectedIndex != -1)
+                    //if (radioButtons.Name == "handlingOrder" && radioButtons.SelectedIndex != -1)
+                    if (radioButtons.Name == "handlingOrder" && radioButton != null)
                     {
                         ViewModelBase.HandlingOrder = (radioButtons.Items[radioButtons.SelectedIndex] as RadioButton)?.Name;
                     }

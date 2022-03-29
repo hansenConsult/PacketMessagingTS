@@ -43,7 +43,7 @@ namespace MedicalHealthBranchRRFormControl
             FormHeaderControl.ViewModel.NamePanel1Visibility = false;
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: September 2009";
-            FormHeaderControl.ViewModel.PIF = "3.1";            
+            FormHeaderControl.ViewModel.PIF = "3.3";            
 
             GetFormDataFromAttribute(GetType());
 

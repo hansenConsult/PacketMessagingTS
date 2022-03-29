@@ -53,9 +53,9 @@ namespace ICS213RRPackItFormControl
 
             //InitializeToggleButtonGroups();
 
+            //FormHeaderControl.ViewModel.NamePanel1Visibility = false;
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version 8/17";
-            FormHeaderControl.ViewModel.PIF = "2.3";
 
             GetFormDataFromAttribute(GetType());
             
@@ -97,7 +97,7 @@ namespace ICS213RRPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            FormHeaderControl.SetHandlingOrder(3);
+            FormHeaderControl.SetHandlingOrder(2);
             FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
             FormHeaderControl.SetToICSPosition("Planning");
             incidentName.Text = practiceField;

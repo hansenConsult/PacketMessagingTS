@@ -137,6 +137,8 @@ namespace MedicalFacilityStatusFormControl
 
             FormHeaderControl.SetHandlingOrder(0);
 
+            FormHeaderControl.SetHandlingOrder(0);
+
             UpdateFormFieldsRequiredColors();
         }
 

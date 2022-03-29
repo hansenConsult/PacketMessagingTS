@@ -117,6 +117,8 @@ namespace OAShelterStatusFormControl
 
             ViewModelBase = ViewModel;
 
+            FormHeaderControl.SetHandlingOrder(1);
+
             UpdateFormFieldsRequiredColors();
         }
 

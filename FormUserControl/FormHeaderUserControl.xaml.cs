@@ -28,7 +28,7 @@ namespace FormUserControl
         public FormHeaderUserControlViewModel ViewModel = new FormHeaderUserControlViewModel();
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
-     
+
 
         public FormHeaderUserControl()
         {
@@ -147,6 +147,10 @@ namespace FormUserControl
 
         public void SetHandlingOrder(int index)
         {
+            if (index < 0 || index > 2)
+            {
+                Exception exception = new Exception("Wrong parameter");
+            }
             handlingOrder.SelectedIndex = index;
         }
 

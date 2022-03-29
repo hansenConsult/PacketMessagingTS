@@ -49,6 +49,8 @@ namespace OAAlliedHealthStatus201802FormControl
 
             ViewModelBase = ViewModel;
 
+            FormHeaderControl.SetHandlingOrder(2);
+
             UpdateFormFieldsRequiredColors();
         }
 

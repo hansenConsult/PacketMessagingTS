@@ -114,6 +114,7 @@ namespace OAMunicipalStatusPackItFormControl
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20190327";
+            FormHeaderControl.SetToLocation("County EOC");
 
             CreateComboBoxList(Debris, Communications);
             CreateComboBoxList(Flooding, Communications);
@@ -134,6 +135,8 @@ namespace OAMunicipalStatusPackItFormControl
             GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
+
+            FormHeaderControl.SetHandlingOrder(0);
 
             UpdateFormFieldsRequiredColors();
         }

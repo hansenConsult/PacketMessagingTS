@@ -5,7 +5,8 @@ namespace FormUserControl
 {
     public class FormHeaderUserControlViewModel : UserControlViewModelBase
     {
-        private bool namePanel1Visibility = true;
+        //private bool namePanel1Visibility = true;
+        private bool namePanel1Visibility = false;
         public bool NamePanel1Visibility
         {
             get => namePanel1Visibility;

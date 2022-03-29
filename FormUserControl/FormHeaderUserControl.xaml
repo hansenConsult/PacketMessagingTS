@@ -432,9 +432,10 @@
                                Text="{x:Bind ViewModel.HeaderString2, Mode=OneWay}"/>
                 </StackPanel>
                 <TextBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" 
+                         
                            FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
                            Margin="8,1" IsReadOnly="True" AcceptsReturn="True"
-                           VerticalAlignment="Top" Visibility="{x:Bind ViewModel.NamePanel2Visibility}" 
+                           VerticalAlignment="Center" Visibility="{x:Bind ViewModel.NamePanel2Visibility}" 
                            Text="{x:Bind ViewModel.HeaderString1, Mode=OneWay}"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind ViewModel.HeaderSubstring, Mode=OneWay}" 
                            Visibility="{x:Bind ViewModel.NamePanel2Visibility}" HorizontalAlignment="Right" 
@@ -502,17 +503,17 @@
                                Tag="5.,required,Indicate Msg. Handling Order.">
                 <RadioButton Grid.Column="5" x:Name="immediate" 
                              Style="{StaticResource HandlingOrderRadioButtonStyle}" 
-                             Content="IMMEDIATE (ASAP)"
+                             Content="Immediate (ASAP)"
                              Margin="0,-6,0,0"
                              Tag="IMMEDIATE"/>
                 <RadioButton Grid.Column="6" x:Name="priority" 
                              Style="{StaticResource HandlingOrderRadioButtonStyle}" 
-                             Content="PRIORITY (&lt; 1 hr)" 
+                             Content="Priority (&lt;1 hr)" 
                              Margin="0,-6,0,0"
                              Tag="PRIORITY"/>
                 <RadioButton Grid.Column="7" x:Name="routine" 
                              Style="{StaticResource HandlingOrderRadioButtonStyle}" 
-                             Content="ROUTINE (&lt; 2 hrs)" 
+                             Content="Routine (&lt;2 hrs)" 
                              Margin="0,-6,0,0"
                              Tag="ROUTINE"/>
             </muxc:RadioButtons>
