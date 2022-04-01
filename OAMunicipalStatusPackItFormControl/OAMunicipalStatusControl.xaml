@@ -79,12 +79,17 @@
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
                                          Checked="ReportType_Checked" Tag="Complete"/>-->
                             <TextBlock Grid.Column="3" Text="Jurisdiction Name:" VerticalAlignment="Center" Margin="8,4,8,0" />
+                            <TextBox Grid.Column="4" Name="jurisdictionNameBaseTextBox" 
+                                     Visibility="Collapsed" 
+                                     Tag="21." />
                             <ComboBox Grid.Column="4" Name="jurisdictionName" Width="250"
                                       ItemsSource="{x:Bind Municipalities}"
                                       Style="{StaticResource FormsComboBox}"
-                                      SelectionChanged="Subject_Changed" 
+                                      IsEditable="True"
+                                      SelectionChanged="JurisdictionName_Changed" 
                                       Loaded="ComboBox_Loaded"
-                                      Tag="21.,required,Select a Jurisdiction Name."  />
+                                      Tag="22.,required,Select a Jurisdiction Name."  />
+                            <!--SelectionChanged="Subject_Changed"-->
                             <TextBox Grid.Column="4" Name="jurisdictionNameTextBox" 
                                      Visibility="Collapsed" Margin="2,4"
                                      HorizontalAlignment="Center" />

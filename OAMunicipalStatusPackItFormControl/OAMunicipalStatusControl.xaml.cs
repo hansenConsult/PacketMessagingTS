@@ -50,7 +50,7 @@ namespace OAMunicipalStatusPackItFormControl
                 new ComboBoxItem() {Content = "Santa Clara"},
                 new ComboBoxItem() {Content = "Saratoga"},
                 new ComboBoxItem() {Content = "Sunnyvale"},
-                new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
+                //new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
         };
         readonly List<ComboBoxItem> OfficeStatus = new List<ComboBoxItem>
         {
@@ -114,6 +114,7 @@ namespace OAMunicipalStatusPackItFormControl
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20190327";
+            FormHeaderControl.ViewModel.PIF = "2.2";
             FormHeaderControl.SetToLocation("County EOC");
 
             CreateComboBoxList(Debris, Communications);
@@ -155,9 +156,11 @@ namespace OAMunicipalStatusPackItFormControl
             FormHeaderControl.SetHandlingOrder(0);
             FormHeaderControl.ViewModelBase.HandlingOrder = "Immediate";
             FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
-            FormHeaderControl.SetToICSPosition("Planning");
+            FormHeaderControl.SetToICSPosition("Situation Analysis Unit");
             reportType.SelectedIndex = 0;
-            jurisdictionName.SelectedIndex = 9;
+            //jurisdictionName.SelectedIndex = 9;
+            ////jurisdictionName.Text = "Mountain View";
+            //jurisdictionNameBaseTextBox.Text = "Mountain View";
         }
 
         public override Panel CanvasContainer => container;
@@ -457,6 +460,21 @@ namespace OAMunicipalStatusPackItFormControl
             UpdateFormFieldsRequiredColors();
 
             ComboBox_SelectionChanged(sender, e);
+        }
+
+        void JurisdictionName_Changed(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;            
+            if (comboBox.SelectedIndex >= 0)
+            {
+                jurisdictionNameBaseTextBox.Text = comboBox.Text;
+            }
+            else
+            {
+                jurisdictionNameBaseTextBox.Text = "Unincorporated";
+            }
+
+            Subject_Changed(sender, e);
         }
 
         protected override void UpdateRequiredFields(bool required)
