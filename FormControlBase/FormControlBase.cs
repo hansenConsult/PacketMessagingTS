@@ -383,9 +383,21 @@ namespace FormControlBaseClass
 
         public virtual string CreateOutpostData(ref PacketMessage packetMessage)
         {
+            string line1 = "!SCCoPIFO!";
+            switch (packetMessage.HandlingOrder)
+            {
+                case "priority":
+                    //line1 = ""
+                    break;
+                
+                case "immediate":
+                    line1 = "!URG!!SCCoPIFO!";
+                    break;
+            }
+
             _outpostData = new List<string>
             {
-                "!SCCoPIFO!",
+                {line1},
                 $"#T: {FormControlName}.html",
                 $"#V: {ViewModelBase.PackItFormVersion}-{FormHeaderControl.ViewModelBase.PIF}",
             };

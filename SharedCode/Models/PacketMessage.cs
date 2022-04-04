@@ -108,6 +108,7 @@ namespace SharedCode
 
         private MessageOrigin messageOriginField;
 
+        private string handlingOrder;
 
         /// <remarks/>
         public string FileName
@@ -405,6 +406,12 @@ namespace SharedCode
         {
             get => movedFromFolderField;
             set => movedFromFolderField = value;
+        }
+
+        public string HandlingOrder
+        {
+            get => handlingOrder;
+            set => handlingOrder = value;
         }
 
         //[XmlIgnore]

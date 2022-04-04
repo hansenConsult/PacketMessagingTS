@@ -698,7 +698,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         controlContent.AppendLine("Your Message");
                         controlContent.AppendLine($"To: {pktMsg.MessageTo}");
                         controlContent.AppendLine($"Subject: {pktMsg.Subject}");
-                        controlContent.AppendLine($"was delivered on {DateTime.Now}"); // 7/10/2017 6:35:51 PM
+                        var now = DateTime.Now;
+                        //controlContent.AppendLine($"was delivered on {DateTime.Now}"); // 7/10/2017 14:35
+                        controlContent.AppendLine($"was delivered on {now.ToString("MM/dd/yyyy HH:mm")}");
                         controlContent.AppendLine($"Recipient's Local Message ID: {pktMsg.MessageNumber}");
                         formField.ControlContent = controlContent.ToString();
                         formFields[0] = formField;

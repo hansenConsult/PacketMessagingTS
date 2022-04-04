@@ -658,6 +658,7 @@ namespace PacketMessagingTS.ViewModels
                 MessageTo = SendFormDataControlViewModel.Instance.MessageTo,
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
+                HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder,
             };
 
             _packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
