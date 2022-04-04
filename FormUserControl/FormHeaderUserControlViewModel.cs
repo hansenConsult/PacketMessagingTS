@@ -1,6 +1,8 @@
 ﻿
 using SharedCode.Helpers;
 
+using System.Collections.Generic;
+
 namespace FormUserControl
 {
     public class FormHeaderUserControlViewModel : UserControlViewModelBase
@@ -36,5 +38,11 @@ namespace FormUserControl
             set => SetProperty(ref headerSubstring, value);
         }
 
+        private List<string> toICSPosition;
+        public List<string> ToICSPosition 
+        { 
+            get => toICSPosition; 
+            set => SetProperty(ref toICSPosition, value); 
+        }
     }
 }

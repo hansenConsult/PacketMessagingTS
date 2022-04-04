@@ -658,6 +658,20 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource LabelFont14SB}" Padding="5,0,0,0" Text="ICS Position:"  />
+                <ComboBox Grid.Column="1" x:Name="comboBoxToICSPosition" Margin="8,2,2,2"     
+                          IsEditable="True"
+                          PlaceholderText="Select ICS Position"
+                          Visibility="Collapsed"
+                          ItemsSource="{x:Bind ToICSPositionComboBoxItems, Mode=OneWay}" 
+                          HorizontalAlignment="Stretch"                                 
+                          SelectionChanged="ComboBox_SelectionChanged"
+                          Tag="7a.,required,Enter a To Position."  
+                          />
+                <TextBox Grid.Column="1" Name="comboBoxToICSPositionTextBox" 
+                         Style="{StaticResource ToFromTextBox}"
+                         Visibility="Collapsed"
+                         />
+
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="8,2,2,2"     
                                 PlaceholderText="Select ICS Position"
                                 BorderBrush="Gray"

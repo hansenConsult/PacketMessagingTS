@@ -33,6 +33,12 @@ namespace OAMunicipalStatusPackItFormControl
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
+        List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() {Content = "Situation Analysis Unit"},
+            new ComboBoxItem() {Content = "Planning Section"},
+        };
+
         readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = "Campbell"},
@@ -115,7 +121,10 @@ namespace OAMunicipalStatusPackItFormControl
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Jurisdiction Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20190327";
             FormHeaderControl.ViewModel.PIF = "2.2";
+
+            FormHeaderControl.SetToICSPosition(ToICSPositionItems);
             FormHeaderControl.SetToLocation("County EOC");
+            //FormHeaderControl.SelectToICSPositionAsComboBox(true);
 
             CreateComboBoxList(Debris, Communications);
             CreateComboBoxList(Flooding, Communications);

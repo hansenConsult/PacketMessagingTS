@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using FormControlBaseMvvmNameSpace;
@@ -29,6 +30,7 @@ namespace FormUserControl
 
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
+        public List<ComboBoxItem> ToICSPositionComboBoxItems;
 
         public FormHeaderUserControl()
         {
@@ -145,6 +147,20 @@ namespace FormUserControl
             }
         }
 
+        public void SelectToICSPositionAsComboBox(bool selectComboBox)
+        {
+            if (selectComboBox)
+            {
+                autoSuggestBoxToICSPosition.Visibility = Visibility.Collapsed;
+                comboBoxToICSPosition.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                autoSuggestBoxToICSPosition.Visibility = Visibility.Visible;
+                comboBoxToICSPosition.Visibility = Visibility.Collapsed;
+            }
+        }
+
         public void SetHandlingOrder(int index)
         {
             if (index < 0 || index > 2)
@@ -162,6 +178,12 @@ namespace FormUserControl
         public void SetToICSPosition(string toicsPosition)
         {
             autoSuggestBoxToICSPosition.Text = toicsPosition;
+        }
+
+        public void SetToICSPosition(List<ComboBoxItem> toICSPositionComboBoxItems)
+        {
+            ToICSPositionComboBoxItems = toICSPositionComboBoxItems;
+            SelectToICSPositionAsComboBox(true);
         }
 
         public DependencyObject Panel => formHeaderUserControl;
