@@ -31,6 +31,7 @@ namespace FormUserControl
         public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public List<ComboBoxItem> ToICSPositionComboBoxItems;
+        public List<ComboBoxItem> ToLocationComboBoxItems;
 
         public FormHeaderUserControl()
         {
@@ -147,19 +148,19 @@ namespace FormUserControl
             }
         }
 
-        public void SelectToICSPositionAsComboBox(bool selectComboBox)
-        {
-            if (selectComboBox)
-            {
-                autoSuggestBoxToICSPosition.Visibility = Visibility.Collapsed;
-                comboBoxToICSPosition.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                autoSuggestBoxToICSPosition.Visibility = Visibility.Visible;
-                comboBoxToICSPosition.Visibility = Visibility.Collapsed;
-            }
-        }
+        //public void SelectToICSPositionAsComboBox(bool selectComboBox)
+        //{
+        //    if (selectComboBox)
+        //    {
+        //        autoSuggestBoxToICSPosition.Visibility = Visibility.Collapsed;
+        //        comboBoxToICSPosition.Visibility = Visibility.Visible;
+        //    }
+        //    else
+        //    {
+        //        autoSuggestBoxToICSPosition.Visibility = Visibility.Visible;
+        //        comboBoxToICSPosition.Visibility = Visibility.Collapsed;
+        //    }
+        //}
 
         public void SetHandlingOrder(int index)
         {
@@ -175,6 +176,13 @@ namespace FormUserControl
             toLocation.SetText(tolocation);
         }
 
+        public void SetToLocation(List<ComboBoxItem> toLocationComboBoxItems)
+        {
+            ToLocationComboBoxItems = toLocationComboBoxItems;
+            toLocation.Visibility = Visibility.Collapsed;
+            toLocationComboBox.Visibility = Visibility.Visible;
+        }
+
         public void SetToICSPosition(string toicsPosition)
         {
             autoSuggestBoxToICSPosition.Text = toicsPosition;
@@ -183,7 +191,8 @@ namespace FormUserControl
         public void SetToICSPosition(List<ComboBoxItem> toICSPositionComboBoxItems)
         {
             ToICSPositionComboBoxItems = toICSPositionComboBoxItems;
-            SelectToICSPositionAsComboBox(true);
+            autoSuggestBoxToICSPosition.Visibility = Visibility.Collapsed;
+            comboBoxToICSPosition.Visibility = Visibility.Visible;
         }
 
         public DependencyObject Panel => formHeaderUserControl;

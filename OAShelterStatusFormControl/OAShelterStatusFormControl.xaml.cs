@@ -32,6 +32,14 @@ namespace OAShelterStatusFormControl
     public sealed partial class OAShelterStatusControl : FormControlBase
     {
         OAShelterStatusFormControlViewModel ViewModel = new OAShelterStatusFormControlViewModel();
+
+        List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() {Content = "Mass Care and Shelter Unit"},
+            new ComboBoxItem() {Content = "Care and Shelter Branch"},
+            new ComboBoxItem() {Content = "Operations Section"},
+        };
+
         readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = "Campbell" },
@@ -112,6 +120,8 @@ namespace OAShelterStatusFormControl
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Shelter Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20130814";
+
+            FormHeaderControl.SetToICSPosition(ToICSPositionItems);
 
             GetFormDataFromAttribute(GetType());
 

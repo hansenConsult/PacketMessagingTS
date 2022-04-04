@@ -126,7 +126,11 @@ namespace MedicalFacilityStatusFormControl
 
             FormHeaderControl.ViewModel.HeaderString1 = "Medical facility Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20160101";
-            FormHeaderControl.ViewModelBase.PIF = "3.2";
+            FormHeaderControl.ViewModelBase.PIF = "3.3";
+
+            FormHeaderControl.SetToICSPosition(ToICSPositionItems);
+            formHeaderControl.SetToLocation(ToICSLocationItems);
+
 
             CreateComboBoxList(Status, Staffing);
             CreateComboBoxList(ClinicalSupplies, Staffing);

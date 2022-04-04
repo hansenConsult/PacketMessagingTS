@@ -31,6 +31,14 @@ namespace OAAlliedHealthStatus201802FormControl
     {
         readonly OAAlliedHealthStatusControlViewModel ViewModel = new OAAlliedHealthStatusControlViewModel();
 
+        readonly protected List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() {Content = "EMS Unit"},
+            new ComboBoxItem() {Content = "Public Health Unit"},
+            new ComboBoxItem() {Content = "Medical Health Branch"},
+            new ComboBoxItem() {Content = "Operations Section"},
+        };
+
 
         public OAAlliedHealthStatusControl()
         {
@@ -44,6 +52,9 @@ namespace OAAlliedHealthStatus201802FormControl
             FormHeaderControl.ViewModel.HeaderString2 = "(DEOC-9)";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: February 2018";
             FormHeaderControl.ViewModelBase.PIF = "2.2";
+
+            FormHeaderControl.SetToICSPosition(ToICSPositionItems);
+            FormHeaderControl.SetToLocation(ToICSLocationItems);
 
             GetFormDataFromAttribute(GetType());
 

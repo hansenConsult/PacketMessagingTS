@@ -59,6 +59,18 @@ namespace FormControlBaseClass
             new ComboBoxItem() { Content = "Low (12+ hrs.)", Tag = "Low" },
         };
 
+        readonly protected List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() {Content = "EMS Unit"},
+            new ComboBoxItem() {Content = "Medical Health Branch"},
+            new ComboBoxItem() {Content = "Operations Section"},
+        };
+
+        readonly protected List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() {Content = "MHJOC"},
+            new ComboBoxItem() {Content = "County EOC"},
+        };
 
 
         public static string DrillTraffic = "\rDrill Traffic\r";

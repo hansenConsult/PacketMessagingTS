@@ -662,15 +662,13 @@
                           IsEditable="True"
                           PlaceholderText="Select ICS Position"
                           Visibility="Collapsed"
-                          ItemsSource="{x:Bind ToICSPositionComboBoxItems, Mode=OneWay}" 
+                          ItemsSource="{x:Bind ToICSPositionComboBoxItems, Mode=TwoWay}" 
                           HorizontalAlignment="Stretch"                                 
                           SelectionChanged="ComboBox_SelectionChanged"
-                          Tag="7a.,required,Enter a To Position."  
-                          />
+                          Tag="7a.,required,Enter a To Position." />
                 <TextBox Grid.Column="1" Name="comboBoxToICSPositionTextBox" 
                          Style="{StaticResource ToFromTextBox}"
-                         Visibility="Collapsed"
-                         />
+                         Visibility="Collapsed" />
 
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="8,2,2,2"     
                                 PlaceholderText="Select ICS Position"
@@ -717,6 +715,17 @@
                 <!--<TextBox Grid.Column="1" x:Name="toLocation" Style="{StaticResource ToFromTextBox}"
                          TextChanged="TextBox_TextChanged"
                          Tag="7b.,required,Enter a To Location."/>-->
+                <ComboBox Grid.Column="1" x:Name="toLocationComboBox" Margin="8,2,2,2"      
+                          IsEditable="True"
+                          Visibility="Collapsed"
+                          ItemsSource="{x:Bind ToLocationComboBoxItems, Mode=TwoWay}" 
+                          HorizontalAlignment="Stretch"                                 
+                          SelectionChanged="ComboBox_SelectionChanged"
+                          Tag="7b.,required,Enter a To Location."/>
+                <TextBox Grid.Column="1" x:Name="toLocationComboBoxTextBox"
+                         Style="{StaticResource ToFromTextBox}"
+                         Visibility="Collapsed" />
+
                 <local:AutoSuggestTextBoxUserControl Grid.Column="1" x:Name="toLocation" Margin="8,2,2,2"                                                     
                                                      Tag="7b.,required,Enter a To Location."/>
                 <TextBox Grid.Column="1" x:Name="toLocationTextBox"

@@ -33,6 +33,7 @@ namespace MedicalHealthBranchRRFormControl
     {
         readonly MedicalHealthBranchRRControlViewModel ViewModel = new MedicalHealthBranchRRControlViewModel();
 
+
         public MedicalHealthBranchRRControl()
         {
             InitializeComponent();
@@ -43,7 +44,10 @@ namespace MedicalHealthBranchRRFormControl
             FormHeaderControl.ViewModel.NamePanel1Visibility = false;
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: September 2009";
-            FormHeaderControl.ViewModel.PIF = "3.3";            
+            FormHeaderControl.ViewModel.PIF = "3.3";
+
+            FormHeaderControl.SetToICSPosition(ToICSPositionItems);
+            formHeaderControl.SetToLocation(ToICSLocationItems);
 
             GetFormDataFromAttribute(GetType());
 

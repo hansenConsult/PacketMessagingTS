@@ -34,6 +34,8 @@ namespace HavBedReportFormControl
     public sealed partial class HavBedReportControl : FormControlBase
     {
         private const string Key = "HAvBedNumberTextBox";
+
+
         readonly List<ComboBoxItem> CommandCenterStatus = new List<ComboBoxItem>
         {
             new ComboBoxItem() { Content = null, Tag = "" },
@@ -65,11 +67,12 @@ namespace HavBedReportFormControl
 
             ScanControls(PrintableArea);
 
-            //InitializeToggleButtonGroups();
-
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch - HAvBed Report";
             FormHeaderControl.ViewModel.HeaderSubstring = "EMResource: c190320";
             FormHeaderControl.ViewModel.HeaderPIF = "2.2";
+
+            FormHeaderControl.SetToICSPosition(ToICSPositionItems);
+            formHeaderControl.SetToLocation(ToICSLocationItems);
 
             GetFormDataFromAttribute(GetType());
 

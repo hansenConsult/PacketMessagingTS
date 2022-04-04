@@ -31,7 +31,13 @@ namespace MutualAidRequestFormControl
     public sealed partial class MutualAidRequestControl : FormControlBase
     {
         MutualAidRequestControlViewModel ViewModel = MutualAidRequestControlViewModel.Instance;
-        
+
+        readonly List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() {Content = "RACES Chief Radio Officer"},
+            new ComboBoxItem() {Content = "RACES Unit"},
+            new ComboBoxItem() {Content = "Operations Section"},
+        };
 
 
         public MutualAidRequestControl()
@@ -42,6 +48,9 @@ namespace MutualAidRequestFormControl
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: 20220129";
+
+            FormHeaderControl.SetToICSPosition(ToICSPositionItems);
+            FormHeaderControl.SetToLocation("County EOC");
 
             GetFormDataFromAttribute(GetType());
 
