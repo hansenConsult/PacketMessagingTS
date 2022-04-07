@@ -40,6 +40,7 @@ namespace ICS213PackItFormControl
 
             ScanControls(PrintableArea);
 
+            ViewModel.PIF = "2.2";
             receivedOrSent.SelectedIndex = 1;
             ViewModel.HowReceivedSent = otherRecvdType;
             otherText.Text = "Packet";
@@ -68,7 +69,7 @@ namespace ICS213PackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            severity.SelectedIndex = 2;
+            //severity.SelectedIndex = 2;
             handlingOrder.SelectedIndex = 2;
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;

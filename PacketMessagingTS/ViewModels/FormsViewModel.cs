@@ -381,16 +381,26 @@ namespace PacketMessagingTS.ViewModels
                     (_packetForm.ViewModelBase as MessageFormControlViewModel).MessageSentTime = _packetMessage.JNOSDate;
                 }
                 _packetForm.ViewModelBase.ReceivedOrSent = "Receiver";
-                if (_packetForm.FormProvider == FormProvidersHelper.FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
-                {
-                    MessageNo = _packetMessage.MessageNumber;
-                    _packetForm.ViewModelBase.SenderMsgNo = _packetMessage.SenderMessageNumber;
-                }
-                else
+                if (_packetForm.FormProvider == FormProvidersHelper.FormProviders.PacItForm)
                 {
                     DestinationMsgNo = _packetMessage.MessageNumber;
                     OriginMsgNo = _packetMessage.SenderMessageNumber;
                 }
+                else
+                {
+                    MessageNo = _packetMessage.MessageNumber;
+                    _packetForm.ViewModelBase.SenderMsgNo = _packetMessage.SenderMessageNumber;
+                }
+                //if (_packetForm.FormProvider == FormProvidersHelper.FormProviders.PacItForm && _packetForm.PacFormType == "ICS213")
+                //{
+                //    MessageNo = _packetMessage.MessageNumber;
+                //    _packetForm.ViewModelBase.SenderMsgNo = _packetMessage.SenderMessageNumber;
+                //}
+                //else
+                //{
+                //    DestinationMsgNo = _packetMessage.MessageNumber;
+                //    OriginMsgNo = _packetMessage.SenderMessageNumber;
+                //}
             }
             else if (_packetMessage.MessageOrigin == MessageOriginHelper.MessageOrigin.Sent)
             {
