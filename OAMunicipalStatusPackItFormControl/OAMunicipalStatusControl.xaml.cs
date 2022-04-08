@@ -26,14 +26,14 @@ namespace OAMunicipalStatusPackItFormControl
 
     [FormControl(
         FormControlName = "form-oa-muni-status",
-        FormControlMenuName = "OA Municipal Status",
+        FormControlMenuName = "OA Jurisdiction Status",
         FormControlType = FormControlAttribute.FormType.CountyForm
         )
     ]
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
-        List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        readonly protected List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {
             new ComboBoxItem() {Content = "Situation Analysis Unit"},
             new ComboBoxItem() {Content = "Planning Section"},
