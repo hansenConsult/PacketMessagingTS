@@ -395,12 +395,24 @@ namespace FormControlBaseClass
                     break;
             }
 
-            _outpostData = new List<string>
+            if (FormHeaderControl == null)
             {
-                {line1},
-                $"#T: {FormControlName}.html",
-                $"#V: {ViewModelBase.PackItFormVersion}-{FormHeaderControl.ViewModelBase.PIF}",
-            };
+                _outpostData = new List<string>
+                {
+                    {line1},
+                    $"#T: {FormControlName}.html",
+                    $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
+                };
+            }
+            else 
+            {
+                _outpostData = new List<string>
+                {
+                    {line1},
+                    $"#T: {FormControlName}.html",
+                    $"#V: {ViewModelBase.PackItFormVersion}-{FormHeaderControl.ViewModelBase.PIF}",
+                };
+            }
             CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
             return CreateOutpostMessageBody(_outpostData);

@@ -167,19 +167,6 @@ namespace OAShelterStatusFormControl
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
         }
 
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    _outpostData = new List<string>
-        //    {
-        //        "!SCCoPIFO!",
-        //        "#T: form-oa-shelter-status.html",
-        //        $"#V: {PackItFormVersion}-{FormHeaderControl.PIF}",
-        //    };
-        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-        //    return CreateOutpostMessageBody(_outpostData);
-        //}
-
         private void UpdateAvailability()
         {
             try

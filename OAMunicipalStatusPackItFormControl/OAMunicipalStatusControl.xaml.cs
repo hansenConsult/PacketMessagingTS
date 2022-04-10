@@ -11,7 +11,6 @@ using SharedCode.Models;
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
-//using ToggleButtonGroupControl;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
 
@@ -33,7 +32,7 @@ namespace OAMunicipalStatusPackItFormControl
 
     public sealed partial class OAMunicipalStatusControl : FormControlBase
     {
-        readonly protected List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        readonly new List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {
             new ComboBoxItem() {Content = "Situation Analysis Unit"},
             new ComboBoxItem() {Content = "Planning Section"},
@@ -124,7 +123,6 @@ namespace OAMunicipalStatusPackItFormControl
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
             FormHeaderControl.SetToLocation("County EOC");
-            //FormHeaderControl.SelectToICSPositionAsComboBox(true);
 
             CreateComboBoxList(Debris, Communications);
             CreateComboBoxList(Flooding, Communications);
@@ -302,19 +300,6 @@ namespace OAMunicipalStatusPackItFormControl
         //        }
         //    }
         //    return ValidationResultMessage;
-        //}
-
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    _outpostData = new List<string>
-        //    {
-        //        "!SCCoPIFO!",
-        //        "#T: form-oa-muni-status.html",
-        //        $"#V: {PackItFormVersion}-{PIF}",
-        //    };
-        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-        //    return CreateOutpostMessageBody(_outpostData);
         //}
 
         //public override void FillFormFromFormFields(FormField[] formFields)

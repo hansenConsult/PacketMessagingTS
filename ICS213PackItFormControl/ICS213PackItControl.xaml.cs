@@ -69,11 +69,10 @@ namespace ICS213PackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            //severity.SelectedIndex = 2;
             handlingOrder.SelectedIndex = 2;
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
-            UpdateFormFieldsRequiredColors();       // TODO check this. Subject is red unless called.
+            //UpdateFormFieldsRequiredColors();       // TODO check this. Subject is red unless called.
         }
 
         public override Panel DirectPrintContainer => directPrintContainer;
@@ -131,18 +130,18 @@ namespace ICS213PackItFormControl
             }
         }
 
-        public override string CreateOutpostData(ref PacketMessage packetMessage)
-        {
-            _outpostData = new List<string>
-            {
-                "!SCCoPIFO!",
-                $"#T: {FormControlName}.html",
-                $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
-            };
-            CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
+        //public override string CreateOutpostData(ref PacketMessage packetMessage)
+        //{
+        //    _outpostData = new List<string>
+        //    {
+        //        "!SCCoPIFO!",
+        //        $"#T: {FormControlName}.html",
+        //        $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
+        //    };
+        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
 
-            return CreateOutpostMessageBody(_outpostData);
-        }
+        //    return CreateOutpostMessageBody(_outpostData);
+        //}
 
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
@@ -275,55 +274,6 @@ namespace ICS213PackItFormControl
             }
         }
 
-        //protected override string CreateComboBoxOutpostDataString(FormField formField, string id)
-        //{
-        //    string[] data = formField.ControlContent.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-        //    switch (FormProvider)
-        //    {
-        //        case FormProviders.PacForm:
-        //            if (data.Length == 2)
-        //            {
-        //                if (data[1] == (-1).ToString())
-        //                {
-        //                    return $"{id}: [ }}0]";
-        //                }
-        //                else
-        //                {
-        //                    if (formField.ControlName == "comboBoxToICSPosition" || formField.ControlName == "comboBoxFromICSPosition")
-        //                    {
-        //                        int index = Convert.ToInt32(data[1]);
-        //                        return $"{id}: [{data[0]}}}{(index + 1).ToString()}]";
-        //                    }
-        //                    else
-        //                    {
-        //                        return $"{id}: [{data[0]}}}{data[1]}]";
-        //                    }
-        //                }
-        //            }
-        //            else if (data[0] == "-1" || string.IsNullOrEmpty(data[0]))
-        //            {
-        //                return $"{id}: [ }}0]";
-        //            }
-        //            break;
-        //        case FormProviders.PacItForm:
-        //            break;
-        //    }
-        //    return "";
-        //}
-
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    _outpostData = new List<string>()
-        //    {
-        //        "!SCCoPIFO!",
-        //        "#T: form-ics213.html",
-        //        $"#V: {PackItFormVersion}-{PIF}",
-        //    };
-        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-        //    return CreateOutpostMessageBody(_outpostData);
-        //}
-
         //public override void FillFormFromFormFields(FormField[] formFields)
         //{
         //    bool found1 = false;
@@ -396,19 +346,6 @@ namespace ICS213PackItFormControl
         //        }
         //        sender.ItemsSource = _ICSPositionFiltered;
         //    }
-        //}
-
-        //private void ICSPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if ((sender as ComboBox).Name == "comboBoxToICSPosition")
-        //    {
-        //        textBoxToICSPosition.Text = comboBoxToICSPosition.Text;
-        //    }
-        //    else if ((sender as ComboBox).Name == "comboBoxFromICSPosition")
-        //    {
-        //        textBoxFromICSPosition.Text = comboBoxFromICSPosition.Text;
-        //    }
-        //    ComboBoxRequired_SelectionChanged(sender, e);
         //}
 
     }

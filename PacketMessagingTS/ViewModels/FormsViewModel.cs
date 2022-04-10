@@ -668,8 +668,16 @@ namespace PacketMessagingTS.ViewModels
                 MessageTo = SendFormDataControlViewModel.Instance.MessageTo,
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
-                HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder,
+                //HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder,
             };
+            if (PacketForm.FormHeaderControl == null)
+            {
+                _packetMessage.HandlingOrder = PacketForm.ViewModelBase.HandlingOrder;
+            }
+            else
+            {
+                _packetMessage.HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder;
+            }
 
             _packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
 
@@ -704,6 +712,15 @@ namespace PacketMessagingTS.ViewModels
                 MessageNumber = PacketForm.ViewModelBase.MessageNo,
                 CreateTime = DateTime.Now,
             };
+            if (PacketForm.FormHeaderControl == null)
+            {
+                packetMessage.HandlingOrder = PacketForm.ViewModelBase.HandlingOrder;
+            }
+            else
+            {
+                packetMessage.HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder;
+            }
+
             DateTime now = DateTime.Now;
             var operatorDateField = packetMessage.FormFieldArray.Where(formField => formField.ControlName == "operatorDate").FirstOrDefault();
             if (operatorDateField != null)

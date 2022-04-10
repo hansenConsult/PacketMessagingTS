@@ -127,19 +127,6 @@ namespace OAAlliedHealthStatus201802FormControl
             return $"{formHeaderControl.ViewModelBase.MessageNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
         }
 
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    _outpostData = new List<string>
-        //    {
-        //        "!SCCoPIFO!",
-        //        "#T: form-allied-health-facility-status.html",
-        //        $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
-        //    };
-        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-        //    return CreateOutpostMessageBody(_outpostData);
-        //}
-
         protected override void UpdateRequiredFields(bool required)
         {
             if (!required)

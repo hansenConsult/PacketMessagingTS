@@ -52,8 +52,6 @@ namespace HospitalRollCallFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        //public override string GetPacFormName() => "hospital_roll_call";
-
         public override string PacFormType => "ICS-213 Test";
 
         //public override string MessageNo

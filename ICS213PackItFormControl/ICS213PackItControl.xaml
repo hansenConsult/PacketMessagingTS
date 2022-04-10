@@ -88,7 +88,7 @@
                                    Text="Message Form" />
                                 <Grid>
                                     <TextBlock FontSize="12" Text="SCCo ICS Form 213 (01/19/2022)" HorizontalAlignment="Left" />
-                                    <TextBlock  FontSize="12" Text="PIF 2.2  " HorizontalAlignment="right" />
+                                    <TextBlock  FontSize="12" Text="{x:Bind ViewModel.HeaderPIF, Mode=OneWay}" HorizontalAlignment="right" />
                                 </Grid>
                             </StackPanel>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">

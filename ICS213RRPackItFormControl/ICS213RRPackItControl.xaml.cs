@@ -1,15 +1,10 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 
 using FormControlBaseClass;
-using FormControlBasicsNamespace;
 
 using FormUserControl;
 
 using SharedCode;
-using SharedCode.Helpers;
 
 using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 
@@ -50,8 +45,6 @@ namespace ICS213RRPackItFormControl
             InitializeComponent();
 
             ScanControls(PrintableArea);
-
-            //InitializeToggleButtonGroups();
 
             //FormHeaderControl.ViewModel.NamePanel1Visibility = false;
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo EOC Resource Request Form 213RR";
