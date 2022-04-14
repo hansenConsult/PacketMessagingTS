@@ -126,18 +126,6 @@ namespace MutualAidRequestFormControl
             CreateComboBoxList(ResourceRole4, ResourceRole);
             CreateComboBoxList(ResourceRole5, ResourceRole);
 
-            //CreateComboBoxList(ResourceType1P, ResourceType);
-            //CreateComboBoxList(ResourceType1M, ResourceType);
-            //CreateComboBoxList(ResourceType2P, ResourceType);
-            //CreateComboBoxList(ResourceType2M, ResourceType);
-            //CreateComboBoxList(ResourceType3P, ResourceType);
-            //CreateComboBoxList(ResourceType3M, ResourceType);
-            //CreateComboBoxList(ResourceType4P, ResourceType);
-            //CreateComboBoxList(ResourceType4M, ResourceType);
-            //CreateComboBoxList(ResourceType5P, ResourceType);
-            //CreateComboBoxList(ResourceType5M, ResourceType);
-
-
             GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;

@@ -27,6 +27,7 @@
             <Style x:Key="ToFromTextBox" TargetType="TextBox">
                 <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
                 <Setter Property="Margin" Value="8,2,2,2"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
             <!--<Style x:Key="LocalTextBox" TargetType="TextBox" BasedOn="{StaticResource StandardTextBox}">-->
             <Style x:Key="LocalTextBox" TargetType="TextBox" >
@@ -668,6 +669,7 @@
                           Tag="7a.,required,Enter a To Position." />
                 <TextBox Grid.Column="1" Name="comboBoxToICSPositionTextBox" 
                          Style="{StaticResource ToFromTextBox}"
+                         HorizontalAlignment="Stretch"
                          Visibility="Collapsed" />
 
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="8,2,2,2"     
