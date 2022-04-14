@@ -38,25 +38,25 @@ namespace OAMunicipalStatusPackItFormControl
             new ComboBoxItem() {Content = "Planning Section"},
         };
 
-        readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() {Content = "Campbell"},
-                new ComboBoxItem() {Content = "Cupertino"},
-                new ComboBoxItem() {Content = "Gilroy"},
-                new ComboBoxItem() {Content = "Los Altos"},
-                new ComboBoxItem() {Content = "Los Altos Hills"},
-                new ComboBoxItem() {Content = "Los Gatos"},
-                new ComboBoxItem() {Content = "Milpitas"},
-                new ComboBoxItem() {Content = "Monte Sereno"},
-                new ComboBoxItem() {Content = "Morgan Hill"},
-                new ComboBoxItem() {Content = "Mountain View"},
-                new ComboBoxItem() {Content = "Palo Alto"},
-                new ComboBoxItem() {Content = "San Jose"},
-                new ComboBoxItem() {Content = "Santa Clara"},
-                new ComboBoxItem() {Content = "Saratoga"},
-                new ComboBoxItem() {Content = "Sunnyvale"},
-                //new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
-        };
+        //readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
+        //{
+        //        new ComboBoxItem() {Content = "Campbell"},
+        //        new ComboBoxItem() {Content = "Cupertino"},
+        //        new ComboBoxItem() {Content = "Gilroy"},
+        //        new ComboBoxItem() {Content = "Los Altos"},
+        //        new ComboBoxItem() {Content = "Los Altos Hills"},
+        //        new ComboBoxItem() {Content = "Los Gatos"},
+        //        new ComboBoxItem() {Content = "Milpitas"},
+        //        new ComboBoxItem() {Content = "Monte Sereno"},
+        //        new ComboBoxItem() {Content = "Morgan Hill"},
+        //        new ComboBoxItem() {Content = "Mountain View"},
+        //        new ComboBoxItem() {Content = "Palo Alto"},
+        //        new ComboBoxItem() {Content = "San Jose"},
+        //        new ComboBoxItem() {Content = "Santa Clara"},
+        //        new ComboBoxItem() {Content = "Saratoga"},
+        //        new ComboBoxItem() {Content = "Sunnyvale"},
+        //        //new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
+        //};
         readonly List<ComboBoxItem> OfficeStatus = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = null, Tag = "" },

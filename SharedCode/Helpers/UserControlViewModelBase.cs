@@ -96,5 +96,13 @@ namespace SharedCode.Helpers
         public virtual string TacticalCallsign
         { get; set; }
 
+        private RadioButton howReceivedSent;
+        public RadioButton HowReceivedSent
+        {
+            get => howReceivedSent;
+            set => SetProperty(ref howReceivedSent, value);
+        }
+
+
     }
 }

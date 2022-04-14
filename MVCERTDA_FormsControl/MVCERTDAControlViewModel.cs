@@ -19,20 +19,6 @@ namespace MVCERTDA_FormControl
         public List<TacticalCall> CERTLocationTacticalCalls { get => TacticalCallsigns.CreateMountainViewCERTList(); }    // Must be sorted by Agency Name
 
 
-        //private string howReceivedSent;
-        //public string HowReceivedSent
-        //{
-        //    get => howReceivedSent;
-        //    set => SetProperty(ref howReceivedSent, value);
-        //}
-
-        private RadioButton howReceivedSent;
-        public RadioButton HowReceivedSent
-        {
-            get => howReceivedSent;
-            set => SetProperty(ref howReceivedSent, value);
-        }
-
         public override string TacticalCallsign
         {
             get => CERTLocationValue;

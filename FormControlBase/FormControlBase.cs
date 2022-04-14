@@ -34,6 +34,26 @@ namespace FormControlBaseClass
 
         protected ScrollViewer _scrollViewer;
 
+        readonly protected List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
+        {
+                new ComboBoxItem() {Content = "Campbell"},
+                new ComboBoxItem() {Content = "Cupertino"},
+                new ComboBoxItem() {Content = "Gilroy"},
+                new ComboBoxItem() {Content = "Los Altos"},
+                new ComboBoxItem() {Content = "Los Altos Hills"},
+                new ComboBoxItem() {Content = "Los Gatos"},
+                new ComboBoxItem() {Content = "Milpitas"},
+                new ComboBoxItem() {Content = "Monte Sereno"},
+                new ComboBoxItem() {Content = "Morgan Hill"},
+                new ComboBoxItem() {Content = "Mountain View"},
+                new ComboBoxItem() {Content = "Palo Alto"},
+                new ComboBoxItem() {Content = "San Jose"},
+                new ComboBoxItem() {Content = "Santa Clara"},
+                new ComboBoxItem() {Content = "Saratoga"},
+                new ComboBoxItem() {Content = "Sunnyvale"},
+                //new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
+        };
+
         readonly protected List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
         {
             new ComboBoxItem() { Content = "El Camino Hospital Los Gatos" },
@@ -181,9 +201,6 @@ namespace FormControlBaseClass
 
         //public virtual UserControlViewModelBase ViewModelBase
         //{ get; set; }
-
-        //public virtual string TacticalCallsign
-        //{ get; set; }
     
         public virtual FormHeaderUserControl FormHeaderControl
         { get; set; }
@@ -191,13 +208,7 @@ namespace FormControlBaseClass
         public virtual RadioOperatorUserControl RadioOperatorControl
         { get; set; }
 
-        //public virtual string SenderMsgNo
-        //{ get; set; }
-
         //public virtual string MessageBody
-        //{ get; set; }
-
-        //public virtual string ReceiverMsgNo
         //{ get; set; }
 
         //protected static string TimeCheck(string time)
@@ -228,23 +239,6 @@ namespace FormControlBaseClass
         //    {
         //        return "";
         //    }
-        //}
-
-        //public virtual string Action
-        //{ get; set; }
-
-        //public virtual string Reply
-        //{ get; set; }
-
-        //public virtual string FacilityName      // Required for setting Practice Using local ViewModel for now
-        //{ get; set; }
-
-        //// Implemented this way to facilitate synchronizing two name fields and required for setting Practice 
-        //private string _shelterName;
-        //public virtual string ShelterName
-        //{
-        //    get => _shelterName;
-        //    set => SetProperty(ref _shelterName, value);
         //}
 
         public virtual FormControlAttribute.FormType FormControlType

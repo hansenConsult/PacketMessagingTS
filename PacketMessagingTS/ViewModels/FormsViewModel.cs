@@ -670,14 +670,15 @@ namespace PacketMessagingTS.ViewModels
                 MessageState = messageState,
                 //HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder,
             };
-            if (PacketForm.FormHeaderControl == null)
-            {
-                _packetMessage.HandlingOrder = PacketForm.ViewModelBase.HandlingOrder;
-            }
-            else
-            {
-                _packetMessage.HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder;
-            }
+            _packetMessage.HandlingOrder = HandlingOrder;
+            //if (PacketForm.FormHeaderControl == null)
+            //{
+            //    _packetMessage.HandlingOrder = PacketForm.ViewModelBase.HandlingOrder;
+            //}
+            //else
+            //{
+            //    _packetMessage.HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder;
+            //}
 
             _packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
 

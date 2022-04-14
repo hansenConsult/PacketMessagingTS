@@ -33,32 +33,32 @@ namespace OAShelterStatusFormControl
     {
         OAShelterStatusFormControlViewModel ViewModel = new OAShelterStatusFormControlViewModel();
 
-        List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        readonly new List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {
-            new ComboBoxItem() {Content = "Mass Care and Shelter Unit"},
-            new ComboBoxItem() {Content = "Care and Shelter Branch"},
-            new ComboBoxItem() {Content = "Operations Section"},
+            new ComboBoxItem() { Content = "Mass Care and Shelter Unit" },
+            new ComboBoxItem() { Content = "Care and Shelter Branch" },
+            new ComboBoxItem() { Content = "Operations Section" },
         };
 
-        readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() {Content = "Campbell" },
-                new ComboBoxItem() { Content = "Cupertino" },
-                new ComboBoxItem() { Content = "Gilroy" },
-                new ComboBoxItem() { Content = "Los Altos" },
-                new ComboBoxItem() { Content = "Los Altos Hills" },
-                new ComboBoxItem() { Content = "Los Gatos" },
-                new ComboBoxItem() { Content = "Milpitas" },
-                new ComboBoxItem() { Content = "Monte Sereno" },
-                new ComboBoxItem() { Content = "Morgan Hill" },
-                new ComboBoxItem() { Content = "Mountain View" },
-                new ComboBoxItem() { Content = "Palo Alto" },
-                new ComboBoxItem() { Content = "San Jose" },
-                new ComboBoxItem() { Content = "Santa Clara" },
-                new ComboBoxItem() { Content = "Saratoga" },
-                new ComboBoxItem() { Content = "Sunnyvale" },
-                new ComboBoxItem() { Content = "Unincorporated Areas", Tag = "Unincorporated" }
-        };
+        //readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
+        //{
+        //        new ComboBoxItem() { Content = "Campbell" },
+        //        new ComboBoxItem() { Content = "Cupertino" },
+        //        new ComboBoxItem() { Content = "Gilroy" },
+        //        new ComboBoxItem() { Content = "Los Altos" },
+        //        new ComboBoxItem() { Content = "Los Altos Hills" },
+        //        new ComboBoxItem() { Content = "Los Gatos" },
+        //        new ComboBoxItem() { Content = "Milpitas" },
+        //        new ComboBoxItem() { Content = "Monte Sereno" },
+        //        new ComboBoxItem() { Content = "Morgan Hill" },
+        //        new ComboBoxItem() { Content = "Mountain View" },
+        //        new ComboBoxItem() { Content = "Palo Alto" },
+        //        new ComboBoxItem() { Content = "San Jose" },
+        //        new ComboBoxItem() { Content = "Santa Clara" },
+        //        new ComboBoxItem() { Content = "Saratoga" },
+        //        new ComboBoxItem() { Content = "Sunnyvale" },
+        //        //new ComboBoxItem() { Content = "Unincorporated Areas", Tag = "Unincorporated" }
+        //};
 
         public List<ComboBoxItem> ShelterTypes = new List<ComboBoxItem>
         {
@@ -120,6 +120,7 @@ namespace OAShelterStatusFormControl
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Shelter Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20130814";
+            FormHeaderControl.ViewModelBase.PIF = "2.2";
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
 
@@ -264,6 +265,21 @@ namespace OAShelterStatusFormControl
         {
             TextBox shelterName = sender as TextBox;
             shelterDetailsName.Text = shelterName.Text;
+
+            Subject_Changed(sender, e);
+        }
+
+        void ShelterCity_Changed(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox.SelectedIndex >= 0)
+            {
+                shelterCityBaseTextBox.Text = comboBox.Text;
+            }
+            else
+            {
+                shelterCityBaseTextBox.Text = "Unincorporated";
+            }
 
             Subject_Changed(sender, e);
         }

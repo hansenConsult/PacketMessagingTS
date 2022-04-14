@@ -452,6 +452,10 @@ namespace PacketMessagingTS.ViewModels
             {
                 args.Row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
             }
+            if (packetMesage?.HandlingOrder == "immediate")
+            {
+                args.Row.Foreground = new SolidColorBrush(Colors.Red);
+            }
         }
 
         protected RelayCommand<DataGridRowEventArgs> _UnloadingRowCommand;

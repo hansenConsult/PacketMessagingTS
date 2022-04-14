@@ -7,18 +7,13 @@ namespace ICS213PackItFormControl
 {
     public class ICS213PackItControlViewModel : UserControlViewModelBase
     {
-        //private string howReceivedSent;
-        //public string HowReceivedSent
+
+        //private RadioButton howReceivedSent;
+        //public RadioButton HowReceivedSent
         //{
         //    get => howReceivedSent;
         //    set => SetProperty(ref howReceivedSent, value);
         //}
-
-        private RadioButton howReceivedSent;
-        public RadioButton HowReceivedSent
-        {
-            get => howReceivedSent;
-            set => SetProperty(ref howReceivedSent, value);
-        }
     }
 }
+

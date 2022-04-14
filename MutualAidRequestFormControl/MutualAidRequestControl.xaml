@@ -122,64 +122,129 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="120"/>
-                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="104"/>
+                                <ColumnDefinition Width="104"/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Background="LightGray" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"  />
                             <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"  />
                             <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"  />
+                            <Border Grid.Row="0" Grid.Column="3" Grid.RowSpan="6" BorderBrush="Black" BorderThickness="0,0,1,0"  />
                             <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,2,0" Text="Qty" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="2,0,0,0" Text="Role/Position" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Margin="2,0,0,0" Text="Preferred Type" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Row="0" Grid.Column="3" Margin="2,0,0,0" Text="Minimum Type" VerticalAlignment="Center"/>
-                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="2,0,0,0" Text="Role" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Margin="2,0,0,0" Text="Position" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Margin="2,0,0,0" Text="Preferred Type" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" Grid.Column="4" Margin="2,0,0,0" Text="Minimum Type" VerticalAlignment="Center"/>
+                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="1" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right" x:Name="radioQty"
                                      ui:TextBoxExtensions.ValidationMode="Dynamic"
                                      ui:TextBoxExtensions.ValidationType="Number"
                                      TextChanged="TextBox_TextChanged"
                                      Tag="18.1a.,Required" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="4,2,4,2" x:Name="radioRple"
-                                     TextChanged="TextBox_TextChanged"
-                                     Tag="18.1b.,Required" />
-                            <TextBox Grid.Row="1" Grid.Column="2" Margin="4,2,4,2" x:Name="radioPrefType"
-                                     TextChanged="TextBox_TextChanged"
-                                     Tag="18.1c.,Required" />
-                            <TextBox Grid.Row="1" Grid.Column="3" Margin="4,2,4,2" x:Name="radioMinType"
-                                     TextChanged="TextBox_TextChanged"
-                                     Tag="18.1d.,Required" />
-                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="4,2,4,2" x:Name="radioRole1"
+                                      ItemsSource="{x:Bind ResourceRole1, Mode=OneTime}"
+                                      SelectionChanged="Role_Changed"
+                                      Tag="18.1e.,Required" HorizontalAlignment="Stretch" />
+                            <!--ItemsSource="{x:Bind ResourceRole1, Mode=OneTime}"-->
+                            <TextBox Grid.Row="1" Grid.Column="2" Margin="4,2,4,2" x:Name="radioPosition1"
+                                     TextChanged="position_TextChanged"
+                                     Tag="18.1f.,Required" />
+                            <TextBox Grid.Row="1" x:Name="rolePosition1"
+                                     Visibility="Collapsed"
+                                     Text=""
+                                     Tag="18.1b." />
+                            <ComboBox Grid.Row="1" Grid.Column="3" Margin="4,2,4,2" x:Name="radioPrefType"
+                                      ItemsSource="{x:Bind ResourceType1P}" 
+                                      SelectedValuePath="Content"
+                                      Tag="18.1c.,Required" HorizontalAlignment="Stretch" />
+                            <ComboBox Grid.Row="1" Grid.Column="4" Margin="4,2,4,2" x:Name="radioMinType"
+                                      ItemsSource="{x:Bind ResourceType1M}"                                      
+                                      Tag="18.1d.,Required" HorizontalAlignment="Stretch" />
+                            <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="2" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
                                      ui:TextBoxExtensions.ValidationMode="Dynamic"
                                      ui:TextBoxExtensions.ValidationType="Number" 
                                      Tag="18.2a." />
-                            <TextBox Grid.Row="2" Grid.Column="1" Margin="4,2,4,2" Tag="18.2b." />
-                            <TextBox Grid.Row="2" Grid.Column="2" Margin="4,2,4,2" Tag="18.2c." />
-                            <TextBox Grid.Row="2" Grid.Column="3" Margin="4,2,4,2" Tag="18.2d." />
-                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <ComboBox Grid.Row="2" Grid.Column="1" x:Name="radioRole2" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceRole2, Mode=OneTime}" 
+                                      SelectionChanged="Role_Changed"
+                                      Tag="18.2e." HorizontalAlignment="Stretch" />
+                            <TextBox Grid.Row="2" Grid.Column="2" x:Name="radioPosition2" Margin="4,2,4,2" 
+                                     TextChanged="position_TextChanged"
+                                     Tag="18.2f." />
+                            <TextBox Grid.Row="2" x:Name="rolePosition2"
+                                     Visibility="Collapsed"
+                                     Tag="18.2b." />
+                            <ComboBox Grid.Row="2" Grid.Column="3" x:Name="prefType1" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType2P}" 
+                                      Tag="18.2c.,Required" HorizontalAlignment="Stretch" />
+                            <ComboBox Grid.Row="2" Grid.Column="4" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType2M}"
+                                      Tag="18.2d.,Required" HorizontalAlignment="Stretch" />
+                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="3" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
                                      ui:TextBoxExtensions.ValidationMode="Dynamic"
                                      ui:TextBoxExtensions.ValidationType="Number"
                                      Tag="18.3a." />
-                            <TextBox Grid.Row="3" Grid.Column="1" Margin="4,2,4,2" Tag="18.3b." />
-                            <TextBox Grid.Row="3" Grid.Column="2" Margin="4,2,4,2" Tag="18.3c." />
-                            <TextBox Grid.Row="3" Grid.Column="3" Margin="4,2,4,2" Tag="18.3d." />
-                            <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <ComboBox Grid.Row="3" Grid.Column="1" x:Name="radioRole3" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceRole3, Mode=OneTime}"
+                                      SelectionChanged="Role_Changed"
+                                      Tag="18.3e." HorizontalAlignment="Stretch" />
+                            <TextBox Grid.Row="3" Grid.Column="2" x:Name="radioPosition3" Margin="4,2,4,2" 
+                                     TextChanged="position_TextChanged"
+                                     Tag="18.3f." />
+                            <TextBox Grid.Row="3" x:Name="rolePosition3"
+                                     Visibility="Collapsed"
+                                     Tag="18.3b." />
+                            <ComboBox Grid.Row="3" Grid.Column="3" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType3P}" 
+                                      Tag="18.3c.,Required" HorizontalAlignment="Stretch" />
+                            <ComboBox Grid.Row="3" Grid.Column="4" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType3M}"
+                                      Tag="18.3d.,Required" HorizontalAlignment="Stretch" />
+                            <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="4" Grid.Column="0" Margin="4,2,4,2" TextAlignment="Right"
                                      ui:TextBoxExtensions.ValidationMode="Dynamic"
                                      ui:TextBoxExtensions.ValidationType="Number"
                                      Tag="18.4a." />
-                            <TextBox Grid.Row="4" Grid.Column="1" Margin="2" Tag="18.4b." />
-                            <TextBox Grid.Row="4" Grid.Column="2" Margin="2" Tag="18.4c." />
-                            <TextBox Grid.Row="4" Grid.Column="3" Margin="2" Tag="18.4d." />
-                            <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0,1,0,0" />
+                            <ComboBox Grid.Row="4" Grid.Column="1" x:Name="radioRole4" Margin="2" 
+                                      ItemsSource="{x:Bind ResourceRole4, Mode=OneTime}"
+                                      SelectionChanged="Role_Changed"
+                                      Tag="18.4e." HorizontalAlignment="Stretch" />
+                            <TextBox Grid.Row="4" Grid.Column="2" x:Name="radioPosition4" Margin="2" 
+                                     TextChanged="position_TextChanged"
+                                     Tag="18.4f." />
+                            <TextBox Grid.Row="4" x:Name="rolePosition4"
+                                     Visibility="Collapsed"
+                                     Tag="18.4b." />
+                            <ComboBox Grid.Row="4" Grid.Column="3" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType4P}" 
+                                      Tag="18.4c.,Required" HorizontalAlignment="Stretch" />
+                            <ComboBox Grid.Row="4" Grid.Column="4" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType4M}"
+                                      Tag="18.4d.,Required" HorizontalAlignment="Stretch" />
+                            <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,1,0,0" />
                             <TextBox Grid.Row="5" Grid.Column="0" Margin="2" TextAlignment="Right"
                                      ui:TextBoxExtensions.ValidationMode="Dynamic"
                                      ui:TextBoxExtensions.ValidationType="Number"
                                      Tag="18.5a." />
-                            <TextBox Grid.Row="5" Grid.Column="1" Margin="2" Tag="18.5b." />
-                            <TextBox Grid.Row="5" Grid.Column="2" Margin="2" Tag="18.5c." />
-                            <TextBox Grid.Row="5" Grid.Column="3" Margin="2" Tag="18.5d." />
+                            <ComboBox Grid.Row="5" Grid.Column="1" x:Name="radioRole5" Margin="2" 
+                                      ItemsSource="{x:Bind ResourceRole5, Mode=OneTime}"
+                                      SelectionChanged="Role_Changed"
+                                      Tag="18.5e." HorizontalAlignment="Stretch" />
+                            <TextBox Grid.Row="5" Grid.Column="2" x:Name="radioPosition5" Margin="2" 
+                                     TextChanged="position_TextChanged"
+                                     Tag="18.5f." />
+                            <TextBox Grid.Row="5" x:Name="rolePosition5"
+                                     Visibility="Collapsed"
+                                     Tag="18.5b." />
+                            <ComboBox Grid.Row="5" Grid.Column="3" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType5P}" 
+                                      Tag="18.5c.,Required" HorizontalAlignment="Stretch" />
+                            <ComboBox Grid.Row="5" Grid.Column="4" Margin="4,2,4,2" 
+                                      ItemsSource="{x:Bind ResourceType5M}"
+                                      Tag="18.5d.,Required" HorizontalAlignment="Stretch" />
                         </Grid>
                         <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="0,1,0,0" />
                         <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource LabelCenterSemiBold}" Text="Requested Arrival" />
