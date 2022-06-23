@@ -319,7 +319,7 @@
                                 <TextBlock Text="DESCRIBE THE RESOURCE REQUESTED" HorizontalAlignment="Center" 
                                        FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,4,0,0"/>
                             </Border>
-                            <TextBlock FontStyle="Italic" TextWrapping="WrapWholeWords" Margin="8,0,0,0"
+                            <TextBlock FontStyle="Italic" TextWrapping="WrapWholeWords" Margin="8,4,0,0"
                                        Text="Directions: Include quantity, need by, deliver location, duration, specifications, etc. Use one form per request."/>
                             <TextBox x:Name="resourceDescription" Height="92" Margin="2"
                                      TextChanged="TextBox_TextChanged"
@@ -328,7 +328,7 @@
                                 <TextBlock Text="STATEMENT OF REQUESTOR"  HorizontalAlignment="Center" 
                                            FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,4,0,0"/>
                             </Border>
-                            <TextBlock TextWrapping="WrapWholeWords" Margin="8,0,8,0"
+                            <TextBlock TextWrapping="WrapWholeWords" Margin="8,4,8,0"
                                        Text="I certify that that the resources requested are currently not available and that our organization has exhausted all appropriate means to procure such resources. I understand that my organization is responsible for all costs related to filling this request."/>
                             <Grid Margin="0,0,0,2">
                                 <Grid.ColumnDefinitions>

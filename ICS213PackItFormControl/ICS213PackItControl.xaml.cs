@@ -72,7 +72,7 @@ namespace ICS213PackItFormControl
             handlingOrder.SelectedIndex = 2;
             ViewModelBase.HandlingOrder = "Routine";
             subject.Text = practiceField;
-            //UpdateFormFieldsRequiredColors();       // TODO check this. Subject is red unless called.
+            UpdateFormFieldsRequiredColors();       // TODO check this. Subject is red unless called.
         }
 
         public override Panel DirectPrintContainer => directPrintContainer;

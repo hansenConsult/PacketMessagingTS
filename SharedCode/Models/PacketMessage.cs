@@ -108,7 +108,7 @@ namespace SharedCode
 
         private MessageOrigin messageOriginField;
 
-        private string handlingOrder;
+        private string handlingOrder = "";
 
         /// <remarks/>
         public string FileName

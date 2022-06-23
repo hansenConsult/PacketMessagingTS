@@ -39,7 +39,7 @@ namespace FormUserControl
 
             ScanControls(formHeaderUserControl);
 
-            ViewModel.HandlingOrder = null;
+            //ViewModel.HandlingOrder = null;
 
             ViewModelBase = ViewModel;
             //UpdateFormFieldsRequiredColors();
@@ -73,7 +73,7 @@ namespace FormUserControl
                             //textBox.BorderThickness = (Thickness)RootPanel.Resources["TextControlBorderThemeThickness"];
                             //textBox.BorderThickness = RootPanel.Resources["TextControlBorderThemeThickness"] as Thickness;
                             //formControl.BaseBorderColor = textBox.BorderBrush;
-                            CornerRadius cornerRadius = textBox.CornerRadius;
+                            //CornerRadius cornerRadius = textBox.CornerRadius;
                         }
                         _formControlsList.Add(formControl);
                         break;
@@ -132,7 +132,7 @@ namespace FormUserControl
                         autoSuggestBoxAsTextBox.PlaceholderText = "";
                         autoSuggestBoxAsTextBox.BorderBrush = WhiteBrush;
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
-                        autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+                        autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
 
                         FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == autoSuggestBox.Name);
                         if (!string.IsNullOrEmpty(formField?.ControlContent))
@@ -144,6 +144,19 @@ namespace FormUserControl
                 else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
                 {
                     autosuggestTextBox.FormPacketMessage = FormPacketMessage;
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    if (FindName($"{comboBox.Name}TextBox") is TextBox comboBoxAsTextBox)
+                    {
+                        comboBox.Visibility = Visibility.Collapsed;
+
+                        comboBoxAsTextBox.Visibility = Visibility.Visible;
+                        comboBoxAsTextBox.IsReadOnly = true;
+                        comboBoxAsTextBox.IsSpellCheckEnabled = false;
+                        comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
+                        comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    }
                 }
             }
         }
@@ -166,7 +179,7 @@ namespace FormUserControl
         {
             if (index < 0 || index > 2)
             {
-                Exception exception = new Exception("Wrong parameter");
+                _ = new Exception("Wrong parameter");
             }
             handlingOrder.SelectedIndex = index;
         }
@@ -196,36 +209,6 @@ namespace FormUserControl
         }
 
         public DependencyObject Panel => formHeaderUserControl;
-
-        //private bool namePanel1Visibility = true;
-        //public bool NamePanel1Visibility
-        //{ 
-        //    get => namePanel1Visibility; 
-        //    set => SetProperty(ref namePanel1Visibility, value);
-        //}
-
-        //public bool NamePanel2Visibility => !NamePanel1Visibility;
-
-        //private string headerString1;
-        //public string HeaderString1
-        //{
-        //    get => headerString1;
-        //    set => SetProperty(ref headerString1, value);
-        //}
-
-        //private string headerString2;
-        //public string HeaderString2
-        //{
-        //    get => headerString2;
-        //    set => SetProperty(ref headerString2, $" {value}");
-        //}
-
-        //private string headerSubstring;
-        //public string HeaderSubstring
-        //{
-        //    get => headerSubstring;
-        //    set => SetProperty(ref headerSubstring, value);
-        //}
 
         public void TextBox_MsgTimeChanged(object sender, TextChangedEventArgs e)
         {

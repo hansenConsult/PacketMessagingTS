@@ -452,7 +452,8 @@ namespace PacketMessagingTS.ViewModels
             {
                 args.Row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
             }
-            if (packetMesage?.HandlingOrder == "immediate")
+            if (packetMesage != null && packetMesage?.HandlingOrder == "immediate" || (packetMesage.MessageBody != null && packetMesage.MessageBody.StartsWith("!URG!")))
+            //if (packetMesage != null && packetMesage.MessageBody.StartsWith("!URG!"))
             {
                 args.Row.Foreground = new SolidColorBrush(Colors.Red);
             }
@@ -464,6 +465,7 @@ namespace PacketMessagingTS.ViewModels
         protected static void UnloadingRow(DataGridRowEventArgs args)
         {
             args.Row.Background = new SolidColorBrush(Colors.White);
+            args.Row.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         private ICommand _MoveToArchiveCommand;

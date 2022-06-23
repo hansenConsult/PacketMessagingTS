@@ -669,7 +669,6 @@
                           Tag="7a.,required,Enter a To Position." />
                 <TextBox Grid.Column="1" Name="comboBoxToICSPositionTextBox" 
                          Style="{StaticResource ToFromTextBox}"
-                         HorizontalAlignment="Stretch"
                          Visibility="Collapsed" />
 
                 <AutoSuggestBox Grid.Column="1" x:Name="autoSuggestBoxToICSPosition" Margin="8,2,2,2"     
@@ -706,6 +705,7 @@
                 <!--Style="{StaticResource AutoSuggestICSPosition}"-->
                 <TextBox  Grid.Column="1" x:Name="autoSuggestBoxFromICSPositionTextBox"
                           Style="{StaticResource ToFromTextBox}"
+                          HorizontalAlignment="Stretch"
                           Visibility="Collapsed" />
             </Grid>
             <Grid Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">

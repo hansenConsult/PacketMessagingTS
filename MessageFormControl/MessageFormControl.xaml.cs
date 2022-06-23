@@ -380,7 +380,7 @@ namespace MessageFormControl
             }
             base.FillFormFromFormFields(formFields);
 
-            UpdateFormFieldsRequiredColors();
+            //UpdateFormFieldsRequiredColors();
         }
 
         public override void MessageChanged(string message)

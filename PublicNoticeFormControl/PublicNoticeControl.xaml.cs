@@ -236,8 +236,6 @@ namespace PublicNoticeFormControl
                     break;
             }
             base.FillFormFromFormFields(formFields);
-
-            UpdateFormFieldsRequiredColors();
         }
 
         public override async void PrintForm()

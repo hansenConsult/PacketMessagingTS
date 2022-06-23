@@ -31,7 +31,7 @@ namespace OAAlliedHealthStatus201802FormControl
     {
         readonly OAAlliedHealthStatusControlViewModel ViewModel = new OAAlliedHealthStatusControlViewModel();
 
-        readonly protected List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        readonly new List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {
             new ComboBoxItem() {Content = "EMS Unit"},
             new ComboBoxItem() {Content = "Public Health Unit"},
@@ -45,8 +45,6 @@ namespace OAAlliedHealthStatus201802FormControl
             InitializeComponent();
 
             ScanControls(PrintableArea);
-
-            //InitializeToggleButtonGroups();
 
             FormHeaderControl.ViewModel.HeaderString1 = "Allied Health Status Report Short Form";
             FormHeaderControl.ViewModel.HeaderString2 = "(DEOC-9)";

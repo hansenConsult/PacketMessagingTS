@@ -40,7 +40,6 @@ namespace MedicalHealthBranchRRFormControl
 
             ScanControls(PrintableArea);
 
-            //FormHeaderControl.ViewModel.HandlingOrder = "priority";
             FormHeaderControl.ViewModel.NamePanel1Visibility = false;
             FormHeaderControl.ViewModel.HeaderString1 = "SCCo Medical Health Branch\rResource Request Form #9A";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: September 2009";
@@ -83,8 +82,6 @@ namespace MedicalHealthBranchRRFormControl
         //    get => requestMsgDate;
         //    set => SetProperty(ref requestMsgDate, value);
         //}
-
-        //public override string PIF => "3.1";
 
         public override void AppendDrillTraffic()
         {
@@ -138,7 +135,7 @@ namespace MedicalHealthBranchRRFormControl
             }
             base.FillFormFromFormFields(formFields);
 
-            UpdateFormFieldsRequiredColors();
+            //UpdateFormFieldsRequiredColors();
         }
 
         public override void MsgTimeChanged(string msgTime)

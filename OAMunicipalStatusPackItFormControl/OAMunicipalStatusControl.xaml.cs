@@ -182,7 +182,7 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_MuniStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
+            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_JurisStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
         }
 
         /// <summary>
