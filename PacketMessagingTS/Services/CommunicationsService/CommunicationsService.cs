@@ -222,7 +222,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
             if (formField.ControlContent.Contains("!LMI!"))
             {
                 string[] searchStrings = new string[] { "Subject: ", "was delivered on ", "Recipient's Local Message ID: " };
-                DateTime receiveTime = DateTime.Now;
+                DateTime now = DateTime.Now;
+                string receiveTime = "";    // $"{now.Month}/{now.Date}/{now.Year} {now.Hour}:{now.Minute}";
                 string receiversMessageId = "", sendersMessageId = "", senderSubject = "";
                 var messageLines = formField.ControlContent.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -243,8 +244,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         int indexOfDeliveryTime = line.IndexOf(searchStrings[1]);
                         if (indexOfDeliveryTime >= 0)
                         {
-                            string s = line.Substring(indexOfDeliveryTime + searchStrings[1].Length);
-                            receiveTime = DateTime.Parse(s);
+                            //string s = line.Substring(indexOfDeliveryTime + searchStrings[1].Length);
+                            //receiveTime = DateTime.Parse(s);
+                            receiveTime = $"{now.Month}/{now.Day}/{now.Year} {now.Hour}:{now.Minute}";
                         }
                     }
                     else if (line.Contains(searchStrings[2]))
@@ -285,7 +287,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                     formField.ControlContent = receiversMessageId;
                                 }
                                 packetMessage.ReceiverMessageNumber = receiversMessageId;
-                                packetMessage.ReceivedTime = receiveTime;
+                                //packetMessage.ReceivedTime = receiveTime;
+                                packetMessage.ReceivedTime = DateTime.Now;
                                 packetMessage.Save(SharedData.SentMessagesFolder.Path);
                                 break;
                             }
