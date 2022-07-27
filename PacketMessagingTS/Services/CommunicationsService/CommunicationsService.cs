@@ -244,10 +244,22 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         int indexOfDeliveryTime = line.IndexOf(searchStrings[1]);
                         if (indexOfDeliveryTime >= 0)
                         {
+                            string s = line.Substring(indexOfDeliveryTime + searchStrings[1].Length);
+                            DateTime time = DateTime.Parse(s);
+                            //if (s.Contains("AM") || s.Contains("PM"))
+                            //{
+                                //receiveTime = DateTime.Parse(s);                                  
+                                receiveTime = $"{time.Month:d2}/{time.Day:d2}/{time.Year} {time.Hour:d2}:{time.Minute:d2}";
+                            //}
+                            //else
+                            //{
+                            //}
+                        }
+
                             //string s = line.Substring(indexOfDeliveryTime + searchStrings[1].Length);
                             //receiveTime = DateTime.Parse(s);
-                            receiveTime = $"{now.Month}/{now.Day}/{now.Year} {now.Hour}:{now.Minute}";
-                        }
+                            //receiveTime = $"{now.Month}/{now.Day}/{now.Year} {now.Hour}:{now.Minute}";
+                        //}
                     }
                     else if (line.Contains(searchStrings[2]))
                     {
@@ -287,8 +299,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                                     formField.ControlContent = receiversMessageId;
                                 }
                                 packetMessage.ReceiverMessageNumber = receiversMessageId;
-                                //packetMessage.ReceivedTime = receiveTime;
-                                packetMessage.ReceivedTime = DateTime.Now;
+                                packetMessage.ReceivedTime = DateTime.Parse(receiveTime);
+                                //packetMessage.ReceivedTime = DateTime.Now;
                                 packetMessage.Save(SharedData.SentMessagesFolder.Path);
                                 break;
                             }
