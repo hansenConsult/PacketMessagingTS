@@ -153,6 +153,11 @@ namespace MutualAidRequestFormControl
             //specialInstructions.Text += DrillTraffic;
         }
 
+        public override void SetPracticeField(string practiceField)
+        {
+            agencyName.Text = practiceField;
+        }
+
         // PEH-1316P_R_RACES-MAR_Agency
         public override string CreateSubject()
         {

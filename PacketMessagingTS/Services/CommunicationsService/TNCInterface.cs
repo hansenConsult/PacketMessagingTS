@@ -586,7 +586,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 _serialPort.Write(packetMessage.Subject + "\r");
                 readText = ReadLine();
                 _logHelper.Log(LogLevel.Info, readText);
-                _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
+                //_serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
+                _serialPort.Write(packetMessage.MessageBody + "/EX\r");
 
                 readText = ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
@@ -1057,7 +1058,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             _serialPort.Write(packetMessage.Subject + "\r");
                             readText = ReadLine();
                             _logHelper.Log(LogLevel.Info, readText);
-                            _serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
+                            //_serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
+                            _serialPort.Write(packetMessage.MessageBody + "\r/EX\r");
 
                             readText = ReadTo(_BBSPromptRN);      // read response
                             _logHelper.Log(LogLevel.Info, readText);   // Subject + message body plus stuff

@@ -247,13 +247,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             string s = line.Substring(indexOfDeliveryTime + searchStrings[1].Length);
                             DateTime time = DateTime.Parse(s);
                             //if (s.Contains("AM") || s.Contains("PM"))
-                            //{
+                            if (s.Contains("PM"))
+                            {
                                 //receiveTime = DateTime.Parse(s);                                  
+                                //receiveTime = $"{time.Month:d2}/{time.Day:d2}/{time.Year} {time.Hour:d2}:{time.Minute:d2}";
+                                receiveTime = $"{time.Month:d2}/{time.Day:d2}/{time.Year} {time.Hour:d2 + 12}:{time.Minute:d2}";
+                            }
+                            else
+                            {
                                 receiveTime = $"{time.Month:d2}/{time.Day:d2}/{time.Year} {time.Hour:d2}:{time.Minute:d2}";
-                            //}
-                            //else
-                            //{
-                            //}
+                            }
                         }
 
                             //string s = line.Substring(indexOfDeliveryTime + searchStrings[1].Length);
@@ -266,6 +269,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         receiversMessageId = line.Substring(line.IndexOf(searchStrings[2]) + searchStrings[2].Length);
                     }
                 }
+                _logHelper.Log(LogLevel.Info, $"sendersMessageId {sendersMessageId}");
+                _logHelper.Log(LogLevel.Info, $"receiveTime {receiveTime}");
+
                 StringBuilder messageBody = new StringBuilder();
                 messageBody.AppendLine("Your message was delivered to:");
                 messageBody.AppendLine($"{pktMsg.MessageFrom} at {receiveTime}");
