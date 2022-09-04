@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.UI.Xaml;
+using SharedCode;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -123,6 +124,35 @@ namespace OAAlliedHealthStatus201802FormControl
         {
             return $"{formHeaderControl.ViewModelBase.MessageNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_AHFacStat_{facilityName.Text}";
         }
+
+        public override void FillFormFromFormFields(FormField[] formFields)
+        {
+            bool found1 = false;
+            foreach (FormField formField in formFields)
+            {
+                FrameworkElement control = GetFrameworkElement(formField);
+
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
+
+                if (control is TextBox textBox)
+                {
+                    switch (control.Name)
+                    {
+                        case "facilityDate":
+                            ViewModel.FacilityDate = formField.ControlContent;
+                            found1 = true;
+                            break;
+                        case null:
+                            continue;
+                    }
+                }
+                if (found1)
+                    break;
+            }
+            base.FillFormFromFormFields(formFields);
+        }
+
 
         protected override void UpdateRequiredFields(bool required)
         {
@@ -302,5 +332,9 @@ namespace OAAlliedHealthStatus201802FormControl
             }
         }
 
+        //private void TextBox_DateChanged(object sender, TextChangedEventArgs e)
+        //{
+
+        //}
     }
 }

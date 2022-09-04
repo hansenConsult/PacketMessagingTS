@@ -160,12 +160,11 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            FormHeaderControl.SetHandlingOrder(0);
-            FormHeaderControl.ViewModelBase.HandlingOrder = "Immediate";
-            FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
-            FormHeaderControl.SetToICSPosition("Situation Analysis Unit");
+            //FormHeaderControl.ViewModelBase.HandlingOrder = "Immediate";
+            //FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
+            //FormHeaderControl.SetToICSPosition("Situation Analysis Unit");
             reportType.SelectedIndex = 0;
-            //jurisdictionName.SelectedIndex = 9;
+            jurisdictionName.SelectedIndex = 9;
             ////jurisdictionName.Text = "Mountain View";
             //jurisdictionNameBaseTextBox.Text = "Mountain View";
         }

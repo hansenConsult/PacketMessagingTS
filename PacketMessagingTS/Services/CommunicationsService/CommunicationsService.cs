@@ -837,6 +837,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     RxTxStatViewModel.Instance.CloseStatusWindowAsync();
                 });
 
+                string text = _tncInterface.ReceivedMessage;        // For testing received message formatKZ6DM
+                string sentText = _tncInterface.SentMessage;        // For testing sent message
+
                 PacketSettingsViewModel.Instance.ForceReadBulletins = false;
                 if (!string.IsNullOrEmpty(bbs?.Name))
                 {

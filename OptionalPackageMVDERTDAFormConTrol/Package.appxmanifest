@@ -1,33 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<Package
-  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  IgnorableNamespaces="uap mp uap3">
-
-  <Identity
-    Name="a4817cab-0f7e-48cb-8745-41737443f58f"
-    Publisher="CN=poul_"
-    Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="a4817cab-0f7e-48cb-8745-41737443f58f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
-
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap mp uap3">
+  <Identity Name="a4817cab-0f7e-48cb-8745-41737443f58f" Publisher="CN=poul_" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="a4817cab-0f7e-48cb-8745-41737443f58f" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>OptionalPackageMVDERTDAFormConTrol</DisplayName>
     <PublisherDisplayName>poul_</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-  
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-  
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
     <uap3:MainPackageDependency Name="754E5270-DE6A-4358-A338-D7150371D0BD" />
-" />
+" /&gt;
   </Dependencies>
-
+  <Metadata xmlns="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio">
+    <Item Name="generator" Value="Template Studio" />
+    <Item Name="projectType" Value="SplitView" />
+    <Item Name="framework" Value="MVVMToolkit" />
+    <Item Name="platform" Value="Uwp" />
+  </Metadata>
 </Package>

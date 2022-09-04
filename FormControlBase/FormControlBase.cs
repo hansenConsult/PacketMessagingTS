@@ -774,7 +774,7 @@ namespace FormControlBaseClass
 			StringBuilder sb = new StringBuilder();
 			foreach (string s in outpostData)
 			{
-				sb.Append(s + "\r");
+				sb.Append(s + "\n");          // Added \n
 			}
 			string outpostDataMessage = sb.ToString();
 			return outpostDataMessage;
@@ -922,6 +922,7 @@ namespace FormControlBaseClass
         protected virtual void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
         {
             if (comboBox.Items.Count == 0)
+            //if (formField.)
                 return;     // ComboBox is not loaded
 
             if (FormPacketMessage.FormProvider == FormProviders.PacForm)
@@ -999,8 +1000,8 @@ namespace FormControlBaseClass
 
         public virtual void FillFormFromFormFields(FormField[] formFields)
 		{
-			foreach (FormField formField in formFields)
-			{
+            foreach (FormField formField in formFields)
+            {
                 FormControl formControl;
                 if (!string.IsNullOrEmpty(formField.ControlName))
                 {
@@ -1014,8 +1015,8 @@ namespace FormControlBaseClass
 
                 FrameworkElement control = formControl?.InputControl;
 
-				if (control is null || string.IsNullOrEmpty(formField.ControlContent))
-					continue;
+                if (control is null || string.IsNullOrEmpty(formField.ControlContent))
+                    continue;
 
                 if (control is TextBox textBox)
                 {
@@ -1104,7 +1105,40 @@ namespace FormControlBaseClass
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    FillComboBoxFromFormFields(formField, comboBox);
+                    if (formControl.UserControl == null)
+                    {
+                        FillComboBoxFromFormFields(formField, comboBox);
+                    }
+                    else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
+                    {
+                        FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
+                        if (control.Name == "comboBoxToICSPosition")
+                        {
+                            int i = 0;
+                            foreach (ComboBoxItem comboBoxItem in formHeaderControl.ToICSPositionComboBoxItems)
+                            {
+                                if (formField.ControlContent.ToLower() == ((string)comboBoxItem.Content).ToLower())
+                                {
+                                    comboBox.SelectedIndex = i;
+                                    break;
+                                }
+                                i++;
+                            }
+                        }
+                        else if (control.Name == "toLocationComboBox")
+                        {
+                            int i = 0;
+                            foreach (ComboBoxItem comboBoxItem in formHeaderControl.ToLocationComboBoxItems)
+                            {
+                                if (formField.ControlContent.ToLower() == ((string)comboBoxItem.Content).ToLower())
+                                {
+                                    comboBox.SelectedIndex = i;
+                                    break;
+                                }
+                                i++;
+                            }
+                        }
+                    }
                 }
                 else if (control is RadioButtons radioButtons)
                 {
@@ -1168,6 +1202,17 @@ namespace FormControlBaseClass
                 else if (control is CheckBox checkBox)
                 {
                     checkBox.IsChecked = formField.ControlContent == "True";
+                }
+                else if (control is AutoSuggestTextBoxUserControl autoSuggestTextBoxUserControl)
+                {
+                    if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
+                    {
+                        FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
+                        if (control.Name == "toLocation")
+                        {
+                            autoSuggestTextBoxUserControl.SetText(formField.ControlContent);
+                        }
+                    }
                 }
             }
             UpdateFormFieldsRequiredColors();

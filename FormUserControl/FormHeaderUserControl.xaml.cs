@@ -193,6 +193,7 @@ namespace FormUserControl
         {
             ToLocationComboBoxItems = toLocationComboBoxItems;
             toLocation.Visibility = Visibility.Collapsed;
+            toLocation.Tag = (toLocation.Tag as string).Replace(",required", ",conditionallyrequired");
             toLocationComboBox.Visibility = Visibility.Visible;
         }
 

@@ -22,6 +22,23 @@ namespace SharedCode
                 [CallerFilePath] string sourceFilePath = "",
                 [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // Convert \n to \r            
+            //for (int index = 0; index < message.Length; index++)
+            //{
+            //    if (index + 1 > message.Length - 1)
+            //        break;
+
+            //    if (message[index + 1] == '\n' && message[index] != '\r')
+            //    {
+            //        //message = message.Insert(index, "\r");
+            //        //index++;
+            //        message = message.Replace('\n', '\r');
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //}
             // Remove trailing characters that results in extra line feeds
             char[] charsToTrim = { '\r', '\n' };
             message = message.TrimEnd(charsToTrim);

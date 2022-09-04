@@ -359,7 +359,7 @@
                                      Header="Facility Name:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"  
                                      
-                                     Tag="13,required,Enter the Facility Name." 
+                                     Tag="20.,required,Enter the Facility Name." 
                                      TextChanged="Subject_Changed" />
                             <!--Text="{x:Bind OAAlliedHealthStatusControlViewModel.FacilityName, Mode=TwoWay}"-->
                             <Grid Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1,0,0,1">
@@ -376,14 +376,16 @@
                                 <Border Grid.Column="1" BorderBrush="black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="1" x:Name="facilityDate"
                                          Style="{StaticResource FormsDateTextBox}"    
-                                         Text="{x:Bind ViewModel.FacilityDate, Mode=OneWay}"
-                                         HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22d.,required"
+                                         Text="{x:Bind ViewModel.FacilityDate, Mode=TwoWay}"
+                                         HeaderTemplate="{StaticResource alliedHeaderTemplate}" 
                                          Header="Date:"
-                                         TextChanged="TextBox_DateChanged"/>
+                                         Tag="22d.,required"
+                                         />
+                                <!--TextChanged="TextBox_DateChanged"-->
                                 <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0"/>
                                 <TextBox Grid.Column="2" x:Name="facilityTime" Header="Time:"  
                                          Style="{StaticResource FormsTimeTextBox}"
-                                         HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="16,required" 
+                                         HeaderTemplate="{StaticResource alliedHeaderTemplate}" Tag="22t.,required" 
                                          PlaceholderText="hh:mm" TextChanged="TextBox_TimeChanged"/>
                             </Grid>
                             <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1"/>
@@ -391,7 +393,7 @@
                                      Style="{StaticResource MuniStatusTextBox}"
                                      Header="Contact Name:" 
                                      HeaderTemplate="{StaticResource alliedHeaderTemplate}"
-                                     Tag="17,conditionallyrequired" TextChanged="Subject_Changed"/>
+                                     Tag="23.,conditionallyrequired" TextChanged="Subject_Changed"/>
                             <Grid Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,0,1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />

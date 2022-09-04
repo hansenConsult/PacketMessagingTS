@@ -82,6 +82,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         public List<PacketMessage> PacketMessagesSent => _packetMessagesSent;
 
+        public string ReceivedMessage
+        { get; set; }
+
+        public string SentMessage
+        { get; set; }
+
         public DateTime BBSConnectTime
         { get; set; }
 
@@ -837,6 +843,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 readText = ReadTo(_BBSPromptRN);      // read response
                 _logHelper.Log(LogLevel.Info, readText);
 
+                //ReceivedMessage = readText;     // For testing message content
+
                 // read messages
                 string[] lines = readText.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 bool firstMessageDescriptionDetected = false;
@@ -878,6 +886,8 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             _serialPort.Write("R " + msgIndex + "\r");
                             readText = ReadTo(_BBSPromptRN);      // read response eg R 1 plus message
                             _logHelper.Log(LogLevel.Info, readText);
+
+                            ReceivedMessage = readText;     // For testing message content
 
                             packetMessage.MessageBody = readText.Substring(0, readText.Length - 3); // Remove beginning of prompt
                             packetMessage.ReceivedTime = DateTime.Now;
@@ -950,16 +960,23 @@ namespace PacketMessagingTS.Services.CommunicationsService
             Parity parity = _TncDevice.CommPort.Parity;
             ushort dataBits = _TncDevice.CommPort.Databits;
             StopBits stopBits = _TncDevice.CommPort.Stopbits;
-            _serialPort = new SerialPort(_TncDevice.CommPort.Comport, _TncDevice.CommPort.Baudrate,
-                parity, dataBits, stopBits)
+            try
             {
-                RtsEnable = _TncDevice.CommPort.Flowcontrol == Handshake.RequestToSend ? true : false,
-                Handshake = _TncDevice.CommPort.Flowcontrol,
-                WriteTimeout = 50000,
-                ReadTimeout = 5000,
-                ReadBufferSize = 8192,
-                WriteBufferSize = 4096
-            };
+                _serialPort = new SerialPort(_TncDevice.CommPort.Comport, _TncDevice.CommPort.Baudrate,
+                    parity, dataBits, stopBits)
+                {
+                    RtsEnable = _TncDevice.CommPort.Flowcontrol == Handshake.RequestToSend ? true : false,
+                    Handshake = _TncDevice.CommPort.Flowcontrol,
+                    WriteTimeout = 50000,
+                    ReadTimeout = 5000,
+                    ReadBufferSize = 8192,
+                    WriteBufferSize = 4096
+                };
+            }
+            catch (Exception ex)
+            {
+                _logHelper.Log(LogLevel.Error, $"Exception in comport setup {ex.Message}");
+            }
             _serialPort.ErrorReceived += new SerialErrorReceivedEventHandler(OnSerialPortErrorReceivedAsync);
             _logHelper.Log(LogLevel.Info, "");
             _logHelper.Log(LogLevel.Info, $"{DateTime.Now}");
@@ -1056,12 +1073,16 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             readText = ReadLine();
                             _logHelper.Log(LogLevel.Info, readText);
                             _serialPort.Write(packetMessage.Subject + "\r");
+                            //_serialPort.Write(packetMessage.Subject + "\n");
                             readText = ReadLine();
                             _logHelper.Log(LogLevel.Info, readText);
                             //_serialPort.Write(packetMessage.MessageBody + "\r\x1a\r");
-                            _serialPort.Write(packetMessage.MessageBody + "\r/EX\r");
+                            //_serialPort.Write(packetMessage.MessageBody + "\r/EX\r");
+                            SentMessage = packetMessage.MessageBody + "\n/EX\r";
+                            _serialPort.Write(packetMessage.MessageBody + "\n/EX\r");
 
                             readText = ReadTo(_BBSPromptRN);      // read response
+                            //sentMessage = sentMessage.Replace('\n', '\r');        // To show new line in log file
                             _logHelper.Log(LogLevel.Info, readText);   // Subject + message body plus stuff
 
                             packetMessage.MessageState = MessageState.Locked;
