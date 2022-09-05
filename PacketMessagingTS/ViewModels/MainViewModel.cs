@@ -452,8 +452,17 @@ namespace PacketMessagingTS.ViewModels
             {
                 args.Row.Background = new SolidColorBrush(Colors.BlanchedAlmond);
             }
-            if (packetMesage != null && packetMesage?.HandlingOrder == "immediate" || (packetMesage.MessageBody != null && packetMesage.MessageBody.StartsWith("!URG!")))
-            //if (packetMesage != null && packetMesage.MessageBody.StartsWith("!URG!"))
+            for (int i = 0; i < packetMesage?.FormFieldArray.Length; i++)
+            {
+                if (packetMesage?.FormFieldArray[i].ControlName == "handlingOrder")
+                {
+                    if (packetMesage?.FormFieldArray[i].ControlContent == "IMMEDIATE")
+                    {
+                        packetMesage.HandlingOrder = "immediate";
+                    }
+                }
+            }
+            if (packetMesage != null && packetMesage.HandlingOrder == "immediate" || (packetMesage.MessageBody != null && packetMesage.MessageBody.StartsWith("!URG!")))
             {
                 args.Row.Foreground = new SolidColorBrush(Colors.Red);
             }

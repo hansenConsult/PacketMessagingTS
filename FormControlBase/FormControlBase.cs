@@ -1127,15 +1127,18 @@ namespace FormControlBaseClass
                         }
                         else if (control.Name == "toLocationComboBox")
                         {
-                            int i = 0;
-                            foreach (ComboBoxItem comboBoxItem in formHeaderControl.ToLocationComboBoxItems)
+                            if (formHeaderControl.ToLocationComboBoxItems != null)
                             {
-                                if (formField.ControlContent.ToLower() == ((string)comboBoxItem.Content).ToLower())
+                                int i = 0;
+                                foreach (ComboBoxItem comboBoxItem in formHeaderControl.ToLocationComboBoxItems)
                                 {
-                                    comboBox.SelectedIndex = i;
-                                    break;
+                                    if (formField.ControlContent.ToLower() == ((string)comboBoxItem.Content).ToLower())
+                                    {
+                                        comboBox.SelectedIndex = i;
+                                        break;
+                                    }
+                                    i++;
                                 }
-                                i++;
                             }
                         }
                     }
