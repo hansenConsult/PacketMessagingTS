@@ -878,7 +878,7 @@ namespace PacketMessagingTS.Views
         //                    || _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMailEdit
         //                    || _TNCSettingsViewModel.State != TNCSettingsViewModel.TNCState.EMailAdd)
         //    {
-        //        // Not an e-mail device
+        //        // Not an Email device
         //        _TNCSettingsViewModel.State = TNCSettingsViewModel.TNCState.TNCAdd;
         //        NewTNCDevice();
         //    }

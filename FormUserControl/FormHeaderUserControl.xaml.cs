@@ -8,6 +8,8 @@ using FormControlBasicsNamespace;
 
 using FormUserControl;
 
+using MetroLog;
+
 using Microsoft.UI.Xaml.Controls;
 
 using SharedCode;
@@ -24,6 +26,9 @@ namespace FormUserControl
 {
     public sealed partial class FormHeaderUserControl : FormControlBasics
     {
+        static readonly ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormHeaderUserControl>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
+
         public event EventHandler<FormEventArgs> EventMsgTimeChanged;
 
         public FormHeaderUserControlViewModel ViewModel = new FormHeaderUserControlViewModel();
@@ -70,10 +75,6 @@ namespace FormUserControl
                         else
                         {
                             textBox.BorderBrush = RootPanel.Resources["TextControlBorderBrush"] as Brush;
-                            //textBox.BorderThickness = (Thickness)RootPanel.Resources["TextControlBorderThemeThickness"];
-                            //textBox.BorderThickness = RootPanel.Resources["TextControlBorderThemeThickness"] as Thickness;
-                            //formControl.BaseBorderColor = textBox.BorderBrush;
-                            //CornerRadius cornerRadius = textBox.CornerRadius;
                         }
                         _formControlsList.Add(formControl);
                         break;
@@ -111,7 +112,7 @@ namespace FormUserControl
 
         public new void LockForm()
         {
-            //base.LockForm();
+            //_logHelper.Log(LogLevel.Debug, "Enter Header LockForm()");
 
             foreach (FormControl formControl in _formControlsList)
             {
@@ -130,7 +131,7 @@ namespace FormUserControl
                         autoSuggestBoxAsTextBox.IsReadOnly = true;
                         autoSuggestBoxAsTextBox.IsSpellCheckEnabled = false;
                         autoSuggestBoxAsTextBox.PlaceholderText = "";
-                        autoSuggestBoxAsTextBox.BorderBrush = WhiteBrush;
+                        //autoSuggestBoxAsTextBox.BorderBrush = WhiteBrush;
                         autoSuggestBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         autoSuggestBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
 
@@ -138,6 +139,7 @@ namespace FormUserControl
                         if (!string.IsNullOrEmpty(formField?.ControlContent))
                         {
                             autoSuggestBoxAsTextBox.Text = formField.ControlContent;
+                            //_logHelper.Log(LogLevel.Debug, autoSuggestBoxAsTextBox.Text);
                         }
                     }
                 }
@@ -156,6 +158,18 @@ namespace FormUserControl
                         comboBoxAsTextBox.IsSpellCheckEnabled = false;
                         comboBoxAsTextBox.VerticalAlignment = VerticalAlignment.Center;
                         comboBoxAsTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                        FormField formField = FormPacketMessage.FormFieldArray.FirstOrDefault(f => f.ControlName == comboBox.Name);
+                        if (!string.IsNullOrEmpty(formField?.ControlContent))
+                        {
+                            comboBoxAsTextBox.Text = formField.ControlContent;
+                            //_logHelper.Log(LogLevel.Debug, comboBoxAsTextBox.Text);
+                            // Do not know why this works
+                            if (FormPacketMessage.MessageOrigin == PacketMessagingTS.Core.Helpers.MessageOriginHelper.MessageOrigin.Sent)
+                            {
+                                autoSuggestBoxToICSPositionTextBox.Text = formField.ControlContent;
+                            }
+                        }
                     }
                 }
             }
@@ -206,6 +220,7 @@ namespace FormUserControl
         {
             ToICSPositionComboBoxItems = toICSPositionComboBoxItems;
             autoSuggestBoxToICSPosition.Visibility = Visibility.Collapsed;
+            //autoSuggestBoxToICSPosition.Tag = (toLocation.Tag as string).Replace(",required", ",conditionallyrequired");
             comboBoxToICSPosition.Visibility = Visibility.Visible;
         }
 

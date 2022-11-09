@@ -200,6 +200,9 @@ namespace PacketMessagingTS.ViewModels
         public async Task UpdateDownloadedBulletinsAsync()
         {
             PacketSettingsViewModel packetSettingsViewModel = PacketSettingsViewModel.Instance;
+            if (packetSettingsViewModel.AreaString == null || packetSettingsViewModel.AreaString.Length == 0)
+                return;
+
             string[] areas = packetSettingsViewModel.AreaString.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             BulletinHelpers.BulletinDictionary = new Dictionary<string, List<string>>();

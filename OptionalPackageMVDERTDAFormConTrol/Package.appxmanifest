@@ -21,4 +21,10 @@
     <Item Name="framework" Value="MVVMToolkit" />
     <Item Name="platform" Value="Uwp" />
   </Metadata>
+  <Metadata xmlns="http://schemas.microsoft.com/appx/developer/templatestudio">
+    <Item Name="generator" Value="Template Studio" />
+    <Item Name="projectType" Value="SplitView" />
+    <Item Name="framework" Value="MVVMToolkit" />
+    <Item Name="platform" Value="Uwp" />
+  </Metadata>
 </Package>

@@ -595,7 +595,15 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async Task<bool> SendMessageViaEMailAsync(PacketMessage packetMessage)
         {
+            bool sendMailSuccess = false;
+
             EmailMessage emailMessage = new EmailMessage();
+
+            //string testMessage = "Test message\r\nin two lines\r\nend";
+            //string messageBody = packetMessage.MessageBody.Replace("\n", "\r");
+            emailMessage.Body = packetMessage.MessageBody;
+            //emailMessage.Body = testMessage;
+
             // Create the to field.
             var messageTo = packetMessage.MessageTo.Split(new char[] { ' ', ';' });
             foreach (string address in messageTo)
@@ -619,39 +627,72 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     emailMessage.To.Add(new EmailRecipient(to));
                 }
             }
-            SmtpClient smtpClient = SmtpClient.Instance;
-            if (smtpClient.Server == "smtp-mail.outlook.com")
-            {
-                if (!smtpClient.UserName.EndsWith("outlook.com") && !smtpClient.UserName.EndsWith("hotmail.com") && !smtpClient.UserName.EndsWith("live.com"))
-                    throw new Exception("Mail from user must be a valid outlook.com address.");
-            }
-            else if (smtpClient.Server == "smtp.gmail.com")
-            {
-                if (!smtpClient.UserName.EndsWith("gmail.com"))
-                    throw new Exception("Mail from user must be a valid gmail address.");
-            }
-            else if (string.IsNullOrEmpty(smtpClient.Server))
-            {
-                throw new Exception("Mail Server must be defined");
-            }
 
-            SmtpMessage message = new SmtpMessage(smtpClient.UserName, packetMessage.MessageTo, null, packetMessage.Subject, packetMessage.MessageBody);
+            //var emailRecipient = new EmailRecipient(packetMessage.MessageTo);
+            //emailMessage.To.Add(emailRecipient);
+            emailMessage.Subject = packetMessage.Subject;
 
-            // adding an other To receiver
-            //message.To.Add("Eleanore.Doe@somewhere.com");
-            bool sendMailSuccess = false;
-            try
-            {
-                sendMailSuccess = await smtpClient.SendMail(message);
-                if (!sendMailSuccess)
-                {
-                    _logHelper.Log(LogLevel.Error, $"Failed to send email message to {packetMessage.MessageTo}. Message No: {packetMessage.MessageNumber}");
-                }
-            }
-            catch (Exception e)
-            {
-                _logHelper.Log(LogLevel.Error, e.Message);
-            }
+            await EmailManager.ShowComposeNewEmailAsync(emailMessage);
+            sendMailSuccess = true;
+
+
+            //EmailMessage emailMessage = new EmailMessage();
+            //// Create the to field.
+            //var messageTo = packetMessage.MessageTo.Split(new char[] { ' ', ';' });
+            //foreach (string address in messageTo)
+            //{
+            //    var index = address.IndexOf('@');
+            //    if (index > 0)
+            //    {
+            //        index = address.ToLower().IndexOf("ampr.org");
+            //        if (index < 0)
+            //        {
+            //            emailMessage.To.Add(new EmailRecipient(address + ".ampr.org"));
+            //        }
+            //        else
+            //        {
+            //            emailMessage.To.Add(new EmailRecipient(address));
+            //        }
+            //    }
+            //    else
+            //    {
+            //        string to = $"{packetMessage.MessageTo}@{packetMessage.BBSName}.ampr.org";
+            //        emailMessage.To.Add(new EmailRecipient(to));
+            //    }
+            //}
+            //SmtpClient smtpClient = SmtpClient.Instance;
+            //if (smtpClient.Server == "smtp-mail.outlook.com")
+            //{
+            //    if (!smtpClient.UserName.EndsWith("outlook.com") && !smtpClient.UserName.EndsWith("hotmail.com") && !smtpClient.UserName.EndsWith("live.com"))
+            //        throw new Exception("Mail from user must be a valid outlook.com address.");
+            //}
+            //else if (smtpClient.Server == "smtp.gmail.com")
+            //{
+            //    if (!smtpClient.UserName.EndsWith("gmail.com"))
+            //        throw new Exception("Mail from user must be a valid gmail address.");
+            //}
+            //else if (string.IsNullOrEmpty(smtpClient.Server))
+            //{
+            //    throw new Exception("Mail Server must be defined");
+            //}
+
+            //SmtpMessage message = new SmtpMessage(smtpClient.UserName, packetMessage.MessageTo, null, packetMessage.Subject, packetMessage.MessageBody);
+
+            //// adding an other To receiver
+            ////message.To.Add("Eleanore.Doe@somewhere.com");
+            //bool sendMailSuccess = false;
+            //try
+            //{
+            //    sendMailSuccess = await smtpClient.SendMail(message);
+            //    if (!sendMailSuccess)
+            //    {
+            //        _logHelper.Log(LogLevel.Error, $"Failed to send email message to {packetMessage.MessageTo}. Message No: {packetMessage.MessageNumber}");
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    _logHelper.Log(LogLevel.Error, e.Message);
+            //}
             return sendMailSuccess;
         }
 
@@ -733,7 +774,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 //bbs = BBSDefinitions.Instance.BBSDataList.Where(bBS => bBS.Name == packetMessage.BBSName).FirstOrDefault();
 
                 //TNCInterface tncInterface = new TNCInterface(bbs?.ConnectName, ref tncDevice, packetSettingsViewModel.ForceReadBulletins, packetSettingsViewModel.AreaString, ref _packetMessagesToSend);
-                // Send as email if a TNC is not reachable, or if message is defined as an e-mail message
+                // Send as email if a TNC is not reachable, or if message is defined as an Email message
                 if (tncDevice.Name.Contains(PublicData.EMail))
                 {
                     try
@@ -742,7 +783,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                         packetMessage.TNCName = tncDevice.Name;
                         //if (!tncDevice.Name.Contains(SharedData.EMail))
                         //{
-                        //    packetMessage.TNCName = "E-Mail-" + PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
+                        //    packetMessage.TNCName = "Email-" + PacketSettingsViewModel>.Instance.CurrentTNC.MailUserName;
                         //}
 
                         bool sendMailSuccess = await SendMessageViaEMailAsync(packetMessage);
@@ -752,7 +793,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                             packetMessage.MessageState = MessageState.Locked;
                             packetMessage.SentTime = DateTime.Now;
                             packetMessage.MailUserName = SmtpClient.Instance.UserName;
-                            _logHelper.Log(LogLevel.Info, $"Message sent via E-Mail: {packetMessage.MessageNumber}");
+                            _logHelper.Log(LogLevel.Info, $"Message sent via Email: {packetMessage.MessageNumber}");
 
                             var file = await SharedData.UnsentMessagesFolder.CreateFileAsync(packetMessage.FileName, CreationCollisionOption.OpenIfExists);
                             await file?.DeleteAsync();
@@ -766,14 +807,14 @@ namespace PacketMessagingTS.Services.CommunicationsService
                     }
                     catch (Exception ex)
                     {
-                        _logHelper.Log(LogLevel.Error, $"Error sending e-mail message {packetMessage.MessageNumber}");
+                        _logHelper.Log(LogLevel.Error, $"Error sending Email message {packetMessage.MessageNumber}");
                         string text = ex.Message;
                         continue;
                     }
                 }
             }
 
-            // Remove already processed E-Mail messages. 
+            // Remove already processed Email messages. 
             foreach (PacketMessage packetMessage in messagesSentAsEMail)
             {
                 _packetMessagesToSend.Remove(packetMessage);

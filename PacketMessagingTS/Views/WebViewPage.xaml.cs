@@ -250,7 +250,7 @@ namespace PacketMessagingTS.Views
                 MessageFrom = viewModel.UseTacticalCallsign ? viewModel.TacticalCallsign : viewModel.UserCallsign,
                 MessageNumber = Utilities.GetMessageNumberPacket(),
                 MessageBody = payload,
-                //TNCName = "E-Mail-" + Singleton<TNCSettingsViewModel>.Instance.CurrentMailAccount.MailUserName,
+                //TNCName = "Email-" + Singleton<TNCSettingsViewModel>.Instance.CurrentMailAccount.MailUserName,
             };
 
             string folderPath = SharedData.UnsentMessagesFolder.Path;

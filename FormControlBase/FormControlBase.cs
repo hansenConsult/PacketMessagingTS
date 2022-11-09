@@ -24,12 +24,16 @@ using Windows.UI.Xaml.Documents;
 using Windows.Storage;
 using System.Linq;
 using PacketMessagingTS.Core.Helpers;
+using MetroLog;
 
 namespace FormControlBaseClass
 {
 
     public abstract partial class FormControlBase : FormControlBasics
     {
+        protected static ILogger log = LogManagerFactory.DefaultLogManager.GetLogger<FormControlBase>();
+        private static readonly LogHelper _logHelper = new LogHelper(log);
+
         protected List<string> _outpostData;
 
         protected ScrollViewer _scrollViewer;
@@ -165,7 +169,7 @@ namespace FormControlBaseClass
                 {
                     if (radioButtons.Name != "reportType" && isReportTypeSelected)
                     {
-                        foreach (RadioButton radioButton in radioButtons.Items)
+                        foreach (RadioButton radioButton in radioButtons.Items.Cast<RadioButton>())
                         {
                             if (IsFieldRequired(control) && radioButtons.SelectedIndex == -1)
                             {
@@ -186,7 +190,7 @@ namespace FormControlBaseClass
                     }
                     else
                     {
-                        foreach (RadioButton radioButton in radioButtons.Items)
+                        foreach (RadioButton radioButton in radioButtons.Items.Cast<RadioButton>())
                         {
                             radioButton.Foreground = new SolidColorBrush(Colors.Black);
                         }
@@ -344,20 +348,21 @@ namespace FormControlBaseClass
 
         public override void LockForm()
         {
-            if (FormPacketMessage.MessageState != MessageState.Locked)
-                return;
+            //_logHelper.Log(LogLevel.Debug, "Enter LockForm in FormControlBase.cs");
 
             base.LockForm();
 
+            bool FormHeaderLockFormCalled = false; 
             foreach (FormControl formControl in _formControlsList)
             {
-                if (formControl.UserControl == null)
+                if (formControl.UserControl == null || FormHeaderLockFormCalled)
                     continue;
 
                 if (formControl.UserControl is FormHeaderUserControl formHeader)
                 {
                     formHeader.FormPacketMessage = FormPacketMessage;
                     formHeader.LockForm();
+                    FormHeaderLockFormCalled = true;
                 }
                 else if (formControl.UserControl is AutoSuggestTextBoxUserControl autosuggestTextBox)
                 {
@@ -512,8 +517,8 @@ namespace FormControlBaseClass
                 foreach (FormField formField in formFields)
                 {
                     (string id, FrameworkElement control) = GetTagIndex(formField);
-                    formField.ControlIndex = id;    
-                    if (control is RadioButtons radioButtons)
+                    formField.ControlIndex = id;
+                    if (control is RadioButtons)
                     {
                         formField.ControlContent = GetOutpostValue(id, ref msgLines);
                     }
@@ -699,7 +704,6 @@ namespace FormControlBaseClass
             string id = formField.ControlIndex;
             if (string.IsNullOrEmpty(id))
                 return "";
-
             if (control is TextBox textBox)
             {
                 if (formProvider == FormProviders.PacForm)
@@ -733,7 +737,7 @@ namespace FormControlBaseClass
             {
                 return $"{id}: [{formField.ControlContent}]";
             }
-            else if (control is RadioButtons radioButtons)
+            else if (control is RadioButtons)
             {
                 if (formProvider == FormProviders.PacItForm)
                 {
@@ -1150,7 +1154,7 @@ namespace FormControlBaseClass
                         if (formControl.InputControl.Name != "receivedOrSent")
                         {
                             int i = 0;
-                            foreach (RadioButton radioButton in radioButtons.Items)
+                            foreach (RadioButton radioButton in radioButtons.Items.Cast<RadioButton>())
                             {
                                 if (FormPacketMessage.FormProvider == FormProviders.PacItForm)
                                 {
@@ -1190,7 +1194,7 @@ namespace FormControlBaseClass
                         {
                             formHeaderControl.ViewModelBase.HandlingOrder = formField.ControlContent;
                             int i = 0;
-                            foreach (RadioButton radioButton in radioButtons.Items)
+                            foreach (RadioButton radioButton in radioButtons.Items.Cast<RadioButton>())
                             {
                                 if (formField.ControlContent.ToLower() == ((string)radioButton.Tag).ToLower())
                                 {
@@ -1431,10 +1435,16 @@ namespace FormControlBaseClass
                                || (c.Content as string) == formField.ControlContent);
                     if (FormPacketMessage.MessageState == MessageState.Locked)
                     {
-                         textBox.Background = comboBoxItem.Background;
-                         textBox.Text = comboBoxItem.Content as string;
+                        if (comboBoxItem?.Background != null)
+                        {
+                            textBox.Background = comboBoxItem.Background;
+                        }
+                        textBox.Text = comboBoxItem.Content as string;
                     }
-                    comboBox.SelectedItem = comboBoxItem;
+                    else
+                    {
+                        comboBox.SelectedItem = comboBoxItem;
+                    }
                 }
 
             }

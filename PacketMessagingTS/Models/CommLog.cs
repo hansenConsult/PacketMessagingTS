@@ -219,7 +219,7 @@ namespace PacketMessagingTS.Models
 			}
 			catch (FileNotFoundException e)
 			{
-                _logHelper.Log(LogLevel.Error, $"Open E-Mail Accounts file failed: {e.Message}");
+                _logHelper.Log(LogLevel.Error, $"Open Email Accounts file failed: {e.Message}");
 				return null;
 			}
 

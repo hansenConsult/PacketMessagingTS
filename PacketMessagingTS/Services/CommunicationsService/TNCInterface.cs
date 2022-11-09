@@ -885,6 +885,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
                             _serialPort.Write("R " + msgIndex + "\r");
                             readText = ReadTo(_BBSPromptRN);      // read response eg R 1 plus message
+
+                            //string logText = readText.Replace('\n', '\r');
+                            //_logHelper.Log(LogLevel.Info, logText);
                             _logHelper.Log(LogLevel.Info, readText);
 
                             ReceivedMessage = readText;     // For testing message content

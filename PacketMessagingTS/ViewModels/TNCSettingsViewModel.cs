@@ -1219,7 +1219,7 @@ namespace PacketMessagingTS.ViewModels
                             || State != TNCState.EMailEdit
                             || State != TNCState.EMailAdd)
             {
-                // Not an e-mail device
+                // Not an Email device
                 State = TNCState.TNCAdd;
                 NewTNCDevice();
             }

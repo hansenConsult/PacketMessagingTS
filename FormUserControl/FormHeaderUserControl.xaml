@@ -679,7 +679,6 @@
                                 TextChanged="AutoSuggestBoxICSPosition_TextChanged"
                                 SuggestionChosen="TextBoxICSPosition_SuggestionChosen"
                                 Tag="7a.,required,Enter a To Position." />
-                <!--Style="{StaticResource AutoSuggestICSPosition}"-->
                 <TextBox  Grid.Column="1" x:Name="autoSuggestBoxToICSPositionTextBox"
                           Style="{StaticResource ToFromTextBox}"
                           Visibility="Collapsed" />

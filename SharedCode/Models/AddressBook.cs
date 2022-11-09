@@ -246,7 +246,7 @@ namespace SharedCode.Models
 						}
 						else
 						{
-							// Have a BBS but is sending via e-mail
+							// Have a BBS but is sending via Email
 							return entry.Callsign + '@' + bbs + ".ampr.org";
 						}
 					}

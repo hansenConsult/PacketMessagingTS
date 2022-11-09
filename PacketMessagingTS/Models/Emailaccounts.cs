@@ -130,7 +130,7 @@ namespace PacketMessagingTS.Models
             }
 			catch (FileNotFoundException e)
 			{
-				log.Error($"Open E-Mail Accounts file failed: {e.Message}");
+				log.Error($"Open Email Accounts file failed: {e.Message}");
 				return;
 			}
 

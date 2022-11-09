@@ -147,7 +147,7 @@ namespace FormControlBaseMvvmNameSpace
                     textBox.PlaceholderText = "";
                     textBox.BorderBrush = WhiteBrush;
                 }
-                else if (control is AutoSuggestBox autoSuggestBox)
+                else if (control is AutoSuggestBox autoSuggestBox && formControl.UserControl == null)
                 {
                     if (FindName($"{autoSuggestBox.Name}TextBox") is TextBox autoSuggestBoxAsTextBox)
                     {
@@ -168,7 +168,7 @@ namespace FormControlBaseMvvmNameSpace
                         }
                     }
                 }
-                else if (control is ComboBox comboBox)
+                else if (control is ComboBox comboBox && formControl.UserControl == null)
                 {
                     if (FindName($"{comboBox.Name}TextBox") is TextBox comboBoxAsTextBox)
                     {
