@@ -118,20 +118,20 @@ namespace ICS213RRPackItFormControl
             if ((sender as ComboBox).Name != "resourceInfoPriority" || e.AddedItems.Count > 1)
                 return;
 
-            string content = (e.AddedItems[0] as ComboBoxItem).Content.ToString();
-            if (content == Priority[0].Content.ToString())
+            object content = (e.AddedItems[0] as ComboBoxItem).Content;
+            if (content == Priority[0].Content)
             {
                 FormHeaderControl.SetHandlingOrder(0);
             }
-            else if (content == Priority[1].Content.ToString())
+            else if (content == Priority[1].Content)
             {
                 FormHeaderControl.SetHandlingOrder(0);
             }
-            else if (content == Priority[2].Content.ToString())
+            else if (content == Priority[2].Content)
             {
                 FormHeaderControl.SetHandlingOrder(1);
             }
-            else if (content == Priority[3].Content.ToString())
+            else if (content == Priority[3].Content)
             {
                 FormHeaderControl.SetHandlingOrder(2);
             }
