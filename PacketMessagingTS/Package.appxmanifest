@@ -25,7 +25,6 @@
     </Application>
   </Applications>
   <Capabilities>
-    <Capability Name="email" />
     <Capability Name="internetClient" />
     <Capability Name="privateNetworkClientServer" />
     <uap:Capability Name="removableStorage" />

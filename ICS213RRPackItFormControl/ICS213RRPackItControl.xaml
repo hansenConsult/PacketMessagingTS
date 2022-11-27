@@ -237,7 +237,7 @@
                                           Margin="2"
                                           ItemsSource="{x:Bind Priority, Mode=TwoWay}" 
                                           Loaded="ComboBox_Loaded"                                              
-                                          SelectionChanged="ComboBox_SelectionChanged"
+                                          SelectionChanged="Priority_SelectionChanged"
                                           HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                           Tag="31.,required,Select 11. Priority"/>
                                 <!--Style="{StaticResource MuniStatusComboBox}"-->

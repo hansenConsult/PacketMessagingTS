@@ -92,11 +92,10 @@ namespace ICS213RRPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            FormHeaderControl.SetHandlingOrder(2);
             FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
             FormHeaderControl.SetToICSPosition("Planning Section");
             incidentName.Text = practiceField;
-            UpdateFormFieldsRequiredColors();       // TODO check this
+            //UpdateFormFieldsRequiredColors();       // TODO check this
         }
 
         public override Panel CanvasContainer => container;
@@ -112,6 +111,32 @@ namespace ICS213RRPackItFormControl
         public override string CreateSubject()
         {
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_EOC213RR_{incidentName.Text}";
+        }
+
+        private void Priority_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as ComboBox).Name != "resourceInfoPriority" || e.AddedItems.Count > 1)
+                return;
+
+            string content = (e.AddedItems[0] as ComboBoxItem).Content.ToString();
+            if (content == Priority[0].Content.ToString())
+            {
+                FormHeaderControl.SetHandlingOrder(0);
+            }
+            else if (content == Priority[1].Content.ToString())
+            {
+                FormHeaderControl.SetHandlingOrder(0);
+            }
+            else if (content == Priority[2].Content.ToString())
+            {
+                FormHeaderControl.SetHandlingOrder(1);
+            }
+            else if (content == Priority[3].Content.ToString())
+            {
+                FormHeaderControl.SetHandlingOrder(2);
+            }
+
+            ComboBox_SelectionChanged(sender, e);
         }
 
         private void SuppReqFuel_Checked(object sender, RoutedEventArgs e)
