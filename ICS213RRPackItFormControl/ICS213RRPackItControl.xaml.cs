@@ -143,7 +143,7 @@ namespace ICS213RRPackItFormControl
         {
             if ((bool)(sender as CheckBox).IsChecked)
             {
-                fuelType.Tag = (fuelType.Tag as string).Replace("conditionallyrequired", "required");
+                fuelType.Tag = (fuelType.Tag as string).Replace("conditionallyrequired", "Required");
             }
             else
             {
@@ -157,7 +157,7 @@ namespace ICS213RRPackItFormControl
         {
             if ((bool)(sender as CheckBox).IsChecked)
             {
-                specialInstructions.Tag = specialInstructions.Tag.ToString().Replace("conditionallyrequired", "required");
+                specialInstructions.Tag = specialInstructions.Tag.ToString().Replace("conditionallyrequired", "Required");
             }
             else
             {

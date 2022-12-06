@@ -156,6 +156,8 @@ namespace MutualAidRequestFormControl
         public override void SetPracticeField(string practiceField)
         {
             agencyName.Text = practiceField;
+
+            UpdateFormFieldsRequiredColors();
         }
 
         // PEH-1316P_R_RACES-MAR_Agency
@@ -197,6 +199,7 @@ namespace MutualAidRequestFormControl
                     break;
             }
 
+            int resourceNo = 0;
             switch (comboBox.Name)
             {
                 case "radioRole1":
@@ -204,32 +207,70 @@ namespace MutualAidRequestFormControl
                     CreateComboBoxList(ResourceType1P, ResourceType);
                     CreateComboBoxList(ResourceType1M, ResourceType);
                     rolePosition1.Text = $"{resoueceRole.Content} / {radioPosition1.Text}";
+                    resourceNo = 1;
                     break;
 
                 case "radioRole2":
                     CreateComboBoxList(ResourceType2P, ResourceType);
                     CreateComboBoxList(ResourceType2M, ResourceType);
                     rolePosition2.Text = $"{resoueceRole.Content} / {radioPosition2.Text}";
+                    resourceNo = 2;
                     break;
 
                 case "radioRole3":
                     CreateComboBoxList(ResourceType3P, ResourceType);
                     CreateComboBoxList(ResourceType3M, ResourceType);
                     rolePosition3.Text = $"{resoueceRole.Content} / {radioPosition3.Text}";
+                    resourceNo = 3;
                     break;
 
                 case "radioRole4":
                     CreateComboBoxList(ResourceType4P, ResourceType);
                     CreateComboBoxList(ResourceType4M, ResourceType);
                     rolePosition4.Text = $"{resoueceRole.Content} / {radioPosition4.Text}";
+                    resourceNo = 4;
                     break;
 
                 case "radioRole5":
                     CreateComboBoxList(ResourceType5P, ResourceType);
                     CreateComboBoxList(ResourceType5M, ResourceType);
                     rolePosition5.Text = $"{resoueceRole.Content} / {radioPosition5.Text}";
+                    resourceNo = 5;
                     break;
             }
+            //if (resourceNo > 1)
+            //{
+                comboBox.Tag = comboBox.Tag.ToString().Replace("conditionallyrequired", "required");
+                switch (resourceNo)
+                {
+                    case 1:
+                        prefType1.Tag = prefType1.Tag.ToString().Replace("conditionallyrequired", "required");
+                        radioMinType1.Tag = radioMinType1.Tag.ToString().Replace("conditionallyrequired", "required");
+                        break;
+                    case 2:
+                        radioQty2.Tag = radioQty2.Tag.ToString().Replace("conditionallyrequired", "required");
+                        prefType2.Tag = prefType2.Tag.ToString().Replace("conditionallyrequired", "required");
+                        radioMinType2.Tag = radioMinType2.Tag.ToString().Replace("conditionallyrequired", "required");
+                        break; 
+                    case 3:
+                        radioQty3.Tag = radioQty3.Tag.ToString().Replace("conditionallyrequired", "required");
+                        prefType3.Tag = prefType3.Tag.ToString().Replace("conditionallyrequired", "Required");
+                        radioMinType3.Tag = radioMinType3.Tag.ToString().Replace("conditionallyrequired", "required");
+                        break;
+                    case 4:
+                        radioQty4.Tag = radioQty4.Tag.ToString().Replace("conditionallyrequired", "required");
+                        prefType4.Tag = prefType4.Tag.ToString().Replace("conditionallyrequired", "required");
+                        radioMinType4.Tag = radioMinType4.Tag.ToString().Replace("conditionallyrequired", "required");
+                        break;
+                    case 5:
+                        radioQty5.Tag = radioQty5.Tag.ToString().Replace("conditionallyrequired", "required");
+                        prefType5.Tag = prefType5.Tag.ToString().Replace("conditionallyrequired", "required");
+                        radioMinType5.Tag = radioMinType5.Tag.ToString().Replace("conditionallyrequired", "required");
+                        break;
+                }
+            //}
+            ComboBox_SelectionChanged(sender, e);
+            UpdateFormFieldsRequiredColors();
         }
 
         void position_TextChanged(object sender, TextChangedEventArgs e)
