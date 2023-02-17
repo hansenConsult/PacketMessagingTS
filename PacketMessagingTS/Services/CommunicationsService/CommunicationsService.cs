@@ -195,11 +195,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
             To: kz6dm@w3xsc.ampr.org
             Subject: DELIVERED: 5DM-002_O/R_OAAlliedHealth_Facility Type_Facility Name
 
-            !LMI!6DM-526P!DR!9/14/2018 6:51:22 PM
+            !LMI!6DM-526P!DR!9/14/2018 18:51:22
             Your Message
             To: KZ6DM
             Subject: 5DM-002_O/R_OAAlliedHealth_Facility Type_Facility Name
-            was delivered on 9/14/2018 6:51:22 PM
+            was delivered on 9/14/2018 18:51:22
             Recipient's Local Message ID: 6DM-526P
 
             (#1) >

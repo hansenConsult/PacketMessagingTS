@@ -439,8 +439,9 @@ namespace PacketMessagingTS.Models
             }
             if (commLogEntry != null)
 			{
-				commLogEntryListField.Add(commLogEntry);				
-			}
+                //commLogEntryListField.Add(commLogEntry);
+                CommLogEntryList.Add(commLogEntry);
+            }
 		}
 
 	}

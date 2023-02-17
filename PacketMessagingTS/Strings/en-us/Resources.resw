@@ -341,7 +341,7 @@
     <comment>Second Pivot item title for CountyForms</comment>
   </data>
   <data name="Shell_CountyForms.Content" xml:space="preserve">
-    <value>CountyForms</value>
+    <value>County Forms</value>
     <comment>Navigation view item name for CountyForms</comment>
   </data>
   <data name="Shell_CustomFolders.Content" xml:space="preserve">
