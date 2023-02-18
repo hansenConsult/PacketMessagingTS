@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 using MetroLog;
 
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 using Newtonsoft.Json;
 

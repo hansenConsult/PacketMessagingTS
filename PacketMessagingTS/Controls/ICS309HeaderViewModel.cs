@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+//using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.ViewModels;

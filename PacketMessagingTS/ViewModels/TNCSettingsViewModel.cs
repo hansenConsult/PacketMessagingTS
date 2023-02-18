@@ -6,7 +6,8 @@ using System.Linq;
 
 using MetroLog;
 
-using Microsoft.Toolkit.Mvvm.Input;
+//using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 
 using PacketMessagingTS.Core.Helpers;
 using PacketMessagingTS.Helpers;

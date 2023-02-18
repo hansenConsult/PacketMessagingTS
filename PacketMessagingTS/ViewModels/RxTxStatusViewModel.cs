@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 
 using PacketMessagingTS.Services;
 using PacketMessagingTS.Services.CommunicationsService;

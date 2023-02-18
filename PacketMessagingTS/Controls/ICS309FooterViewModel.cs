@@ -1,5 +1,6 @@
 ﻿
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+//using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PacketMessagingTS.Controls
 {
