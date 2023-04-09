@@ -116,28 +116,31 @@ namespace PacketMessagingTS.Controls
             foreach (FormControl formControl in _formControlsList)
             {
                 FrameworkElement control = formControl.InputControl;
-
-                if (control is AutoSuggestBox autoSuggestBox)
+                if (control != null)
                 {
-                    if (autoSuggestBox.Name == "textBoxMessageTo")
+
+                    if (control is AutoSuggestBox autoSuggestBox)
                     {
-                        if (FindName($"{autoSuggestBox.Name}TextBox") is TextBox autoSuggestBoxAsTextBox)
+                        if (autoSuggestBox.Name == "textBoxMessageTo")
                         {
-                            autoSuggestBoxAsTextBox.Text = FormPacketMessage.MessageTo;
+                            if (FindName($"{autoSuggestBox.Name}TextBox") is TextBox autoSuggestBoxAsTextBox)
+                            {
+                                autoSuggestBoxAsTextBox.Text = FormPacketMessage.MessageTo;
+                            }
                         }
                     }
-                }
-                else if (control is ComboBox comboBox)
-                {
-                    if (FindName($"{comboBox.Name}TextBox") is TextBox comboBoxAsTextBox)
+                    else if (control is ComboBox comboBox)
                     {
-                        if (comboBox.Name == "comboBoxMessageBBS")
+                        if (FindName($"{comboBox.Name}TextBox") is TextBox comboBoxAsTextBox )
                         {
-                            comboBoxAsTextBox.Text = FormPacketMessage.BBSName;
-                        }
-                        else if (comboBox.Name == "comboBoxMessageTNC")
-                        {
-                            comboBoxAsTextBox.Text = FormPacketMessage.TNCName;
+                            if (comboBox.Name == "comboBoxMessageBBS")
+                            {
+                                comboBoxAsTextBox.Text = FormPacketMessage.BBSName;
+                            }
+                            else if (comboBox.Name == "comboBoxMessageTNC")
+                            {
+                                comboBoxAsTextBox.Text = FormPacketMessage.TNCName;
+                            }
                         }
                     }
                 }

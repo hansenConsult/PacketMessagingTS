@@ -926,8 +926,16 @@ namespace FormControlBaseClass
         protected virtual void FillComboBoxFromFormFields(FormField formField, ComboBox comboBox)
         {
             if (comboBox.Items.Count == 0)
-            //if (formField.)
-                return;     // ComboBox is not loaded
+            {
+                if (comboBox.IsEditable && formField.ControlContent.Length != 0)
+                {
+                    comboBox.Text = formField.ControlContent;
+                }
+                else
+                {
+                    return;     // ComboBox is not loaded
+                }
+            }
 
             if (FormPacketMessage.FormProvider == FormProviders.PacForm)
             {
@@ -1116,7 +1124,7 @@ namespace FormControlBaseClass
                     else if (formControl.UserControl.GetType() == typeof(FormHeaderUserControl))
                     {
                         FormHeaderUserControl formHeaderControl = formControl.UserControl as FormHeaderUserControl;
-                        if (control.Name == "comboBoxToICSPosition")
+                        if (control.Name == "comboBoxToICSPosition" && formHeaderControl.ToICSPositionComboBoxItems != null)
                         {
                             int i = 0;
                             foreach (ComboBoxItem comboBoxItem in formHeaderControl.ToICSPositionComboBoxItems)
@@ -1129,7 +1137,7 @@ namespace FormControlBaseClass
                                 i++;
                             }
                         }
-                        else if (control.Name == "toLocationComboBox")
+                        else if (control.Name == "toLocationComboBox" && formHeaderControl.ToLocationComboBoxItems != null)
                         {
                             if (formHeaderControl.ToLocationComboBoxItems != null)
                             {
@@ -1439,7 +1447,8 @@ namespace FormControlBaseClass
                         {
                             textBox.Background = comboBoxItem.Background;
                         }
-                        textBox.Text = comboBoxItem.Content as string;
+                        //textBox.Text = comboBoxItem.Content as string;
+                        textBox.Text = comboBox.Text;
                     }
                     else
                     {

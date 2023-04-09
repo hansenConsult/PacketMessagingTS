@@ -164,9 +164,10 @@ namespace OAMunicipalStatusPackItFormControl
             //FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
             //FormHeaderControl.SetToICSPosition("Situation Analysis Unit");
             reportType.SelectedIndex = 0;
-            jurisdictionName.SelectedIndex = 9;
+            //jurisdictionName.SelectedIndex = 9;
             ////jurisdictionName.Text = "Mountain View";
             //jurisdictionNameBaseTextBox.Text = "Mountain View";
+            jurisdictionName.Text = practiceField;
         }
 
         public override Panel CanvasContainer => container;
@@ -181,7 +182,8 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_JurisStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
+            //return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_JurisStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
+            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_JurisStat_{jurisdictionName.Text}";
         }
 
         /// <summary>
