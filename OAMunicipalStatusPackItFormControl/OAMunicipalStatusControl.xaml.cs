@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
+using System.Collections;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -38,7 +39,7 @@ namespace OAMunicipalStatusPackItFormControl
             new ComboBoxItem() {Content = "Planning Section"},
         };
 
-        //readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
+        List<ComboBoxItem> _Municipalities = new List<ComboBoxItem>();
         //{
         //        new ComboBoxItem() {Content = "Campbell"},
         //        new ComboBoxItem() {Content = "Cupertino"},
@@ -111,6 +112,7 @@ namespace OAMunicipalStatusPackItFormControl
         readonly List<ComboBoxItem> CivilUnrest = new List<ComboBoxItem>();
         readonly List<ComboBoxItem> AnimalIssues = new List<ComboBoxItem>();
 
+
         public OAMunicipalStatusControl()
         {
             InitializeComponent();
@@ -140,6 +142,8 @@ namespace OAMunicipalStatusPackItFormControl
             CreateComboBoxList(CivilUnrest, Communications);
             CreateComboBoxList(AnimalIssues, Communications);
 
+            _Municipalities = base.Municipalities;
+
             GetFormDataFromAttribute(GetType());
 
             ViewModelBase = ViewModel;
@@ -160,14 +164,27 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            //FormHeaderControl.ViewModelBase.HandlingOrder = "Immediate";
-            //FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
-            //FormHeaderControl.SetToICSPosition("Situation Analysis Unit");
             reportType.SelectedIndex = 0;
-            //jurisdictionName.SelectedIndex = 9;
-            ////jurisdictionName.Text = "Mountain View";
-            //jurisdictionNameBaseTextBox.Text = "Mountain View";
-            jurisdictionName.Text = practiceField;
+
+            ComboBoxItem practiceComboBoxItem = new ComboBoxItem() { Content = practiceField };
+            //if (jurisdictionName.Items.Count == 0 || (base.Municipalities.Count == _Municipalities.Count))
+            //if (practiceComboBoxItem.Content != jurisdictionName.Items[_Municipalities.Count - 1].Content)
+            {
+                _Municipalities.Add(practiceComboBoxItem);
+                //jurisdictionName.ItemsSource = _Municipalities;
+                //if (jurisdictionName.Items.Count == 16)
+                {
+                    try
+                    {
+                        //jurisdictionName.Text = practiceField;
+                        jurisdictionName.SelectedIndex = _Municipalities.Count - 1;
+                    }
+                    catch
+                    {
+                        jurisdictionName.SelectedIndex = -1;
+                    }
+                }
+            }
         }
 
         public override Panel CanvasContainer => container;

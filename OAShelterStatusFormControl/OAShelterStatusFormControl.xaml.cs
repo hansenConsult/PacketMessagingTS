@@ -31,7 +31,7 @@ namespace OAShelterStatusFormControl
 
     public sealed partial class OAShelterStatusControl : FormControlBase
     {
-        OAShelterStatusFormControlViewModel ViewModel = new OAShelterStatusFormControlViewModel();
+        readonly OAShelterStatusFormControlViewModel ViewModel = new OAShelterStatusFormControlViewModel();
 
         readonly new List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {
@@ -165,7 +165,7 @@ namespace OAShelterStatusFormControl
 
         public override string CreateSubject()
         {
-            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_OAShelterStat_{shelterName.Text}";
+            return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_SheltStat_{shelterName.Text}";
         }
 
         private void UpdateAvailability()

@@ -365,6 +365,13 @@ namespace FormControlBaseMvvmNameSpace
                         {
                             AddToErrorString(GetTagErrorMessage(comboBox));
                         }
+                        else
+                        {
+                            if (comboBox.IsEditable && comboBox.Text.Length == 0)
+                            {
+                                AddToErrorString(GetTagErrorMessage(comboBox));
+                            }
+                        }
                     }
                     else if (control is RadioButtons radioButtons)
                     {

@@ -55,7 +55,6 @@ namespace FormControlBaseClass
                 new ComboBoxItem() {Content = "Santa Clara"},
                 new ComboBoxItem() {Content = "Saratoga"},
                 new ComboBoxItem() {Content = "Sunnyvale"},
-                //new ComboBoxItem() {Content = "*Unincorporated County Areas*", Tag = "Unincorporated"}
         };
 
         readonly protected List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
