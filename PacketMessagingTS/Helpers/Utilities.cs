@@ -35,7 +35,7 @@ namespace PacketMessagingTS.Helpers
             string messageNumberString;
 
             int messageNumber = GetProperty("MessageNumber");
-            if (messageNumber == default(int))
+            if (messageNumber == default)
             {
                 messageNumber = FindHighestUsedMesageNumber() + 1;
                 //messageNumber = 100;
@@ -196,7 +196,7 @@ namespace PacketMessagingTS.Helpers
                 //return property;
             }
             else
-                return default(T);
+                return default;
         }
 
         public static (string bbs, string tnc, string from) GetProfileData()

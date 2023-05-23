@@ -837,7 +837,7 @@ namespace PacketMessagingTS.ViewModels
                 // We must assign a new message number. Also unlock the message
                 if (_packetMessage.MessageState == MessageState.Locked)
                 {
-                    MessageNo = Utilities.GetMessageNumberPacket();
+                    MessageNo = Utilities.GetMessageNumberPacket(true);
                     _packetMessage.MessageNumber = MessageNo;
                     _packetMessage.MessageState = MessageState.Edit;
                 }
