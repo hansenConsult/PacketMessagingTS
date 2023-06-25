@@ -7,9 +7,9 @@ namespace SharedCode.Helpers
 {
     public class UserControlViewModelBase : ObservableObject
     {
-        public virtual string PackItFormVersion => "3.9";
+        public virtual string PackItFormVersion => "3.11";
 
-        protected string _pif = "2.3";
+        protected string _pif = "3.4";
         public virtual string PIF
         {
             get => _pif;

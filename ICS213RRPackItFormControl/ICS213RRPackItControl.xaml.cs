@@ -51,6 +51,7 @@ namespace ICS213RRPackItFormControl
             FormHeaderControl.ViewModel.HeaderSubstring = "Version 8/17";
             FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
             FormHeaderControl.SetToICSPosition("Planning Section");
+            FormHeaderControl.ViewModel.PIF = "2.4";
 
             GetFormDataFromAttribute(GetType());
             

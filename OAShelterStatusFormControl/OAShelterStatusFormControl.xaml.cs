@@ -60,21 +60,6 @@ namespace OAShelterStatusFormControl
         //        //new ComboBoxItem() { Content = "Unincorporated Areas", Tag = "Unincorporated" }
         //};
 
-        public List<ComboBoxItem> ShelterTypes = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() { Content = "Type 1" },
-                new ComboBoxItem() { Content = "Type 2" },
-                new ComboBoxItem() { Content = "Type 3" },
-                new ComboBoxItem() { Content = "Type 4" },
-        };
-
-        readonly IList<ComboBoxItem> ShelterStatuses = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() { Content = "Open", Background = LightGreenBrush },
-                new ComboBoxItem() { Content = "Closed", Background = PinkBrush },
-                new ComboBoxItem() { Content = "Full", Background = YellowBrush },
-        };
-
 
         //public IList<ComboBoxItem> ShelterStatusStrings = new List<ComboBoxItem>();
 
@@ -120,7 +105,7 @@ namespace OAShelterStatusFormControl
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Shelter Status";
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20130814";
-            FormHeaderControl.ViewModelBase.PIF = "2.2";
+            FormHeaderControl.ViewModelBase.PIF = "2.3";
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
 

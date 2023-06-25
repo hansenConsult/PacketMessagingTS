@@ -96,13 +96,45 @@
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Shelter Type:"                                        
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterType" 
+                            <!--<ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterType" 
                                       Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind ShelterTypes}" 
                                       SelectedValuePath="Content"
                                       Tag="30.,conditionallyrequired"
                                       SelectionChanged="ComboBox_SelectionChanged"
-                                      Loaded="ComboBox_Loaded"/>
+                                      Loaded="ComboBox_Loaded"/>-->
+                            <Grid Grid.Row="1" Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="(Pick One)" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                <muxc:RadioButtons Grid.Column="1" x:Name="shelterType"
+                                               MaxColumns="5"
+                                               Tag="30." >
+                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
+                                    <RadioButton x:Name="Type1" Content="Type 1"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Type 1"/>
+                                    <RadioButton x:Name="Type2" Content="Type 2"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Type 2"/>
+                                    <RadioButton x:Name="Type3" Content="Type 3"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Type 3"/>
+                                    <RadioButton x:Name="Type4" Content="Type 4"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Type 4"/>
+                                </muxc:RadioButtons>
+                            </Grid>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="shelterTypeTextBox"
                                      Margin="2" Width="auto" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
@@ -110,18 +142,37 @@
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <!--<ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
                                       Style="{StaticResource FormsComboBox}"
-                                      DisplayMemberPath="Item"                                      
-                                      ItemsSource="{x:Bind ShelterStatuses}" 
-                                      SelectionChanged="ComboBox_SelectionChanged"
-                                      Loaded="ComboBox_Loaded"
-                                      Tag="31.,conditionallyrequired,Select shelter status" />-->
-                            <ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
-                                      Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind ShelterStatuses}" 
                                       SelectionChanged="ComboBox_SelectionChanged"
                                       Loaded="ComboBox_Loaded"
                                       Tag="31.,conditionallyrequired,Select shelter status" >
-                            </ComboBox>
+                            </ComboBox>-->
+                            <Grid Grid.Row="2" Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="(Pick One)" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                                <muxc:RadioButtons Grid.Column="1" x:Name="shelterStatus"
+                                               MaxColumns="5"
+                                               Tag="31." >
+                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
+                                    <RadioButton x:Name="statusOpen" Content="Open (Green)"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Open"/>
+                                    <RadioButton x:Name="status" Content="Closed (Red)"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Closed"/>
+                                    <RadioButton x:Name="statusFull" Content="Full (Yellow)"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Full"/>
+                                </muxc:RadioButtons>
+                            </Grid>
                             <TextBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatusTextBox"
                                      Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" 

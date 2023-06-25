@@ -345,7 +345,8 @@
                                          TextChanged="TextBox_TextChanged"
                                          Tag="30.,required"/>
                                 <TextBlock Grid.Column="2" Text="Signed:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
-                                <TextBlock Grid.Column="3"  Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
+                                <!--<TextBlock Grid.Column="3"  Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>-->
+                                <CheckBox x:Name="requestorSignature" Grid.Column="3" Content="with signature" VerticalAlignment="Center" Margin="4,0,0,0" Tag="30s."/>
                                 <TextBlock Grid.Column="4" Text="Date:" Style="{StaticResource MedicalFacilityStatusLeftHeaderText}"/>
                                 <TextBox Grid.Column="5" x:Name="requestorDate" 
                                          Style="{StaticResource FormsDateTextBox}"
