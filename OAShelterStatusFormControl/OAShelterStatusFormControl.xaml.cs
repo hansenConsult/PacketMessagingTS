@@ -41,27 +41,6 @@ namespace OAShelterStatusFormControl
             new ComboBoxItem() { Content = "Operations Section" },
         };
 
-        //readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
-        //{
-        //        new ComboBoxItem() { Content = "Campbell" },
-        //        new ComboBoxItem() { Content = "Cupertino" },
-        //        new ComboBoxItem() { Content = "Gilroy" },
-        //        new ComboBoxItem() { Content = "Los Altos" },
-        //        new ComboBoxItem() { Content = "Los Altos Hills" },
-        //        new ComboBoxItem() { Content = "Los Gatos" },
-        //        new ComboBoxItem() { Content = "Milpitas" },
-        //        new ComboBoxItem() { Content = "Monte Sereno" },
-        //        new ComboBoxItem() { Content = "Morgan Hill" },
-        //        new ComboBoxItem() { Content = "Mountain View" },
-        //        new ComboBoxItem() { Content = "Palo Alto" },
-        //        new ComboBoxItem() { Content = "San Jose" },
-        //        new ComboBoxItem() { Content = "Santa Clara" },
-        //        new ComboBoxItem() { Content = "Saratoga" },
-        //        new ComboBoxItem() { Content = "Sunnyvale" },
-        //        //new ComboBoxItem() { Content = "Unincorporated Areas", Tag = "Unincorporated" }
-        //};
-
-
         //public IList<ComboBoxItem> ShelterStatusStrings = new List<ComboBoxItem>();
 
         public OAShelterStatusControl()
@@ -240,20 +219,23 @@ namespace OAShelterStatusFormControl
             Subject_Changed(sender, e);
         }
 
-        void ManagedBy_SelectionChanged(object sender, RoutedEventArgs e)
+        void ManagedBy_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RadioButtons managByButtons = sender as RadioButtons;
-            if (managByButtons.SelectedItem == null)
+            RadioButton rb = (RadioButton)e.AddedItems[0];
+            if (rb == null)
                 return;
-            if ((managByButtons.SelectedItem as RadioButton).Name == "managedByOther")
+
+            if (rb.Name == "managedByOther")
             {
                 textBoxOther.Text = "";
+                textBoxOther.Tag = (textBoxOther.Tag as string).Replace(",conditionallyrequired", ",required");
                 textBoxOther.Visibility = Visibility.Visible;
+                UpdateFormFieldsRequiredColors();
             }
             else
             {
+                textBoxOther.Text = (string)rb.Content;
                 textBoxOther.Visibility = Visibility.Collapsed;
-                textBoxOther.Text = (string)(managByButtons.SelectedItem as RadioButton).Content;
             }
         }
 

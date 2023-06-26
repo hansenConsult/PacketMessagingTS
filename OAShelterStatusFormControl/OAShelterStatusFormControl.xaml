@@ -140,13 +140,6 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="2" Text="Status:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <!--<ComboBox Grid.Column="1" Grid.Row="2" x:Name="shelterStatus" 
-                                      Style="{StaticResource FormsComboBox}"
-                                      ItemsSource="{x:Bind ShelterStatuses}" 
-                                      SelectionChanged="ComboBox_SelectionChanged"
-                                      Loaded="ComboBox_Loaded"
-                                      Tag="31.,conditionallyrequired,Select shelter status" >
-                            </ComboBox>-->
                             <Grid Grid.Row="2" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -322,11 +315,6 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Basic Safety Inspection:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <!--<ComboBox Grid.Column="1" Grid.Row="7" x:Name="basicSafety"
-                                      Style="{StaticResource FormsComboBox}"
-                                      ItemsSource="{x:Bind Path=YesNoContentSafety}" Tag="43b."
-                                      SelectedValuePath="Content"
-                                      Loaded="ComboBox_Loaded"/>-->
                             <Grid Grid.Row="7" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -468,7 +456,7 @@
                                              Margin="0,-6,0,0"
                                              Tag="Community"/>
                                 </muxc:RadioButtons>
-                                <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxOther" VerticalAlignment="Bottom" Margin="-230,0,0,0" Tag="49a."/>
+                                <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxOther" VerticalAlignment="Bottom" Margin="-230,0,0,0" Tag="49a.,conditionallyrequired,Enter Other description"/>
                             </Grid>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="managedByTextBox"
                                      Margin="2" Visibility="Collapsed" />
