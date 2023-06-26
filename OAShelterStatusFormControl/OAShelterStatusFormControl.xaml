@@ -293,31 +293,88 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Pet Friendly:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="6" x:Name="petFriendly"
+                            <!--<ComboBox Grid.Column="1" Grid.Row="6" x:Name="petFriendly"
                                       Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentPet}" Tag="43a."
                                       SelectedValuePath="Content"
-                                      Loaded="ComboBox_Loaded"/>
+                                      Loaded="ComboBox_Loaded"/>-->
+                            <Grid Grid.Row="6" Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <muxc:RadioButtons Grid.Column="1" x:Name="petFriendly" Margin="3,0,0,0"
+                                               MaxColumns="5"
+                                               Tag="43a." >
+                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
+                                    <RadioButton x:Name="petFriendlyYes" Content="Yes"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Checked"/>
+                                    <RadioButton x:Name="petFriendlyNo" Content="No"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="false"/>
+                                </muxc:RadioButtons>
+                            </Grid>
                             <TextBox Grid.Column="1" Grid.Row="6" x:Name="petFriendlyTextBox"
                                      Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="7" Text="Basic Safety Inspection:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="7" x:Name="basicSafety"
+                            <!--<ComboBox Grid.Column="1" Grid.Row="7" x:Name="basicSafety"
                                       Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentSafety}" Tag="43b."
                                       SelectedValuePath="Content"
-                                      Loaded="ComboBox_Loaded"/>
+                                      Loaded="ComboBox_Loaded"/>-->
+                            <Grid Grid.Row="7" Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <muxc:RadioButtons Grid.Column="1" x:Name="basicSafety" Margin="3,0,0,0"
+                                               MaxColumns="2"
+                                               Tag="43b." >
+                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
+                                    <RadioButton x:Name="basicSafetyYes" Content="Yes"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Checked"/>
+                                    <RadioButton x:Name="basicSafetyNo" Content="No"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="false"/>
+                                </muxc:RadioButtons>
+                            </Grid>
                             <TextBox Grid.Column="1" Grid.Row="7" x:Name="basicSafetyTextBox"
                                      Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="ATC 20 Inspection:" 
                                    Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <ComboBox Grid.Column="1" Grid.Row="8" x:Name="act20Inspection"
+                            <!--<ComboBox Grid.Column="1" Grid.Row="8" x:Name="act20Inspection"
                                       Style="{StaticResource FormsComboBox}"
                                       ItemsSource="{x:Bind Path=YesNoContentArt20}" Tag="43c."
                                       SelectedValuePath="Content"
-                                      Loaded="ComboBox_Loaded" Margin="3,2,0,0" VerticalAlignment="Top"/>
+                                      Loaded="ComboBox_Loaded" Margin="3,2,0,0" VerticalAlignment="Top"/>-->
+                            <Grid Grid.Row="8" Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <muxc:RadioButtons Grid.Column="1" x:Name="act20Inspection" Margin="3,0,0,0"
+                                               MaxColumns="2"
+                                               Tag="43c." >
+                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
+                                    <RadioButton x:Name="act20InspectionYes" Content="Yes"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Checked"/>
+                                    <RadioButton x:Name="act20InspectionNo" Content="No"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="false"/>
+                                </muxc:RadioButtons>
+                            </Grid>
                             <TextBox Grid.Column="1" Grid.Row="8" x:Name="act20InspectionTextBox"
                                      Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9" BorderBrush="Black" BorderThickness="0,1,0,0"/>
@@ -370,15 +427,49 @@
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Contact Information" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                    Height="20" Margin="8,4,0,0"/>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Managed By:" 
+                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Managed By: (Pick One)" 
                                        Style="{StaticResource ShelterStatusHeaderText}" />
-                            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="managedBy" 
+                            <!--<ComboBox Grid.Column="1" Grid.Row="1" x:Name="managedBy" 
                                       Style="{StaticResource FormsComboBox}"
                                       DisplayMemberPath="Item"
                                       ItemsSource="{x:Bind Path=Managers}" 
                                       SelectedItem="American Red Cross" 
                                       Tag="50a.,conditionallyrequired" Width="260"
-                                      Loaded="ComboBox_Loaded" Margin="2,0,0,0"/>
+                                      Loaded="ComboBox_Loaded" Margin="2,0,0,0"/>-->
+                            <Grid Grid.Row="1" Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <muxc:RadioButtons Grid.Column="1" x:Name="managedBy" Margin="3,0,0,0"
+                                               MaxColumns="3"
+                                               SelectionChanged="ManagedBy_SelectionChanged"
+                                               Tag="50a." >
+                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
+                                    <RadioButton x:Name="managedByRedCross" Content="American Red Cross"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="American Red Cross"/>
+                                    <RadioButton x:Name="managedByGovernment" Content="Government"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Government"/>
+                                    <RadioButton x:Name="managedByPrivate" Content="Private"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Private"/>
+                                    <RadioButton x:Name="managedByOther" Content="Other"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Other"/>
+                                    <RadioButton x:Name="managedByCommunity" Content="Community"
+                                             Style="{StaticResource RadioButton14}"
+                                             Margin="0,-6,0,0"
+                                             Tag="Community"/>
+                                </muxc:RadioButtons>
+                                <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxOther" VerticalAlignment="Bottom" Margin="-230,0,0,0" Tag="49a."/>
+                            </Grid>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="managedByTextBox"
                                      Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" BorderBrush="Black" BorderThickness="0,1,0,0"/>

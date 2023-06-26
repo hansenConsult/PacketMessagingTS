@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using System.Drawing;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
+using Microsoft.UI.Xaml.Controls;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -63,36 +64,6 @@ namespace OAShelterStatusFormControl
 
         //public IList<ComboBoxItem> ShelterStatusStrings = new List<ComboBoxItem>();
 
-        public List<ComboBoxItem> YesNoContentPet = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() { Content = null, Tag = ""},
-                new ComboBoxItem() { Content = "Yes", Tag = "checked" },
-                new ComboBoxItem() { Content = "No", Tag = "false" },
-        };
-
-        public List<ComboBoxItem> YesNoContentSafety = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() { Content = null, Tag = ""},
-                new ComboBoxItem() { Content = "Yes", Tag = "checked" },
-                new ComboBoxItem() { Content = "No", Tag = "false" },
-        };
-
-        public List<ComboBoxItem> YesNoContentArt20 = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() { Content = null, Tag = ""},
-                new ComboBoxItem() { Content = "Yes", Tag = "checked" },
-                new ComboBoxItem() { Content = "No", Tag = "false" },
-        };
-
-        readonly List<ComboBoxItem> Managers = new List<ComboBoxItem>
-        {
-                new ComboBoxItem() { Content = "American Red Cross" },
-                new ComboBoxItem() { Content = "Private" },
-                new ComboBoxItem() { Content = "Community" },
-                new ComboBoxItem() { Content = "Government" },
-                new ComboBoxItem() { Content = "Other" },
-        };
-
         public OAShelterStatusControl()
         {
             this.InitializeComponent();
@@ -118,7 +89,7 @@ namespace OAShelterStatusFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-    public override FormControlBaseMvvm RootPanel => rootPanel;
+        public override FormControlBaseMvvm RootPanel => rootPanel;
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
@@ -261,98 +232,30 @@ namespace OAShelterStatusFormControl
             {
                 shelterCityBaseTextBox.Text = comboBox.Text;
             }
-            else
-            {
-                shelterCityBaseTextBox.Text = "Unincorporated";
-            }
+            //else
+            //{
+            //    shelterCityBaseTextBox.Text = "Unincorporated";
+            //}
 
             Subject_Changed(sender, e);
         }
 
-        //protected override void ComboBox_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    ComboBox comboBox = sender as ComboBox;
-
-        //    TextBox textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
-
-        //    if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxPackItItem>)
-        //    {
-        //        if (FormPacketMessage.MessageState != MessageState.Locked)
-        //            return;
-
-        //        foreach (FormField formField in FormPacketMessage.FormFieldArray)
-        //        {
-        //            //if (formField.ControlName == comboBox.Name && formField.ControlComboxContent.SelectedIndex < 0)
-        //            if (formField.ControlName == comboBox.Name)
-        //            {
-        //                //comboBox.SelectedValue = formField.ControlContent;
-        //                int index = 0;
-        //                foreach (ComboBoxPackItItem packItItem in comboBox.ItemsSource as List<ComboBoxPackItItem>)
-        //                {
-        //                    if (packItItem.PacketData == formField.ControlContent)
-        //                    {
-        //                        packItItem.SelectedIndex = index;
-        //                        comboBox.SelectedIndex = index;
-        //                        //if (FormPacketMessage.MessageState == MessageState.Locked)
-        //                        //{
-        //                        //    textBox = FindName($"{comboBox.Name}TextBox") as TextBox;
-        //                            textBox.Background = packItItem.BackgroundBrush;
-        //                        //}
-        //                        break;
-        //                    }
-        //                    index++;
-        //                }
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    if (FormPacketMessage != null && FormPacketMessage.FormFieldArray != null && comboBox.ItemsSource is List<ComboBoxItem>)
-        //    {
-        //        if (FormPacketMessage.MessageState != MessageState.Locked)
-        //            return;
-
-        //        foreach (FormField formField in FormPacketMessage.FormFieldArray)
-        //        {
-        //            if (formField.ControlName == comboBox.Name && !string.IsNullOrEmpty(formField.ControlContent))
-        //            {
-        //                var co = comboBox.Items.Count;
-        //                bool tagFnd = false;
-        //                bool backgroundColorFound = false;
-        //                foreach (ComboBoxItem comboBoxItem in comboBox.Items)
-        //                {
-        //                    if ((comboBoxItem.Tag as string) == formField.ControlContent)
-        //                    {
-        //                        tagFnd = true;
-        //                        comboBox.SelectedItem = comboBoxItem;
-        //                        textBox.Text = comboBoxItem.Content as string;
-        //                        if (comboBoxItem.Background != null)
-        //                        {
-        //                            backgroundColorFound = true;
-        //                            textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
-        //                            break;
-        //                        }
-        //                    }
-        //                    if ((comboBoxItem.Content as string) == formField.ControlContent)
-        //                    {
-        //                        if (comboBoxItem.Background != null)
-        //                        {
-        //                            backgroundColorFound = true;
-        //                            comboBox.SelectedItem = comboBoxItem;
-        //                            textBox.Background = (comboBox.SelectedItem as ComboBoxItem).Background;
-        //                            //break;
-        //                        }
-        //                    }
-        //                }
-        //                if (!tagFnd && !backgroundColorFound)
-        //                {
-        //                    comboBox.SelectedValue = formField.ControlContent;
-        //                }
-        //                break;
-        //            }
-        //        }
-
-        //    }
-        //}
+        void ManagedBy_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            RadioButtons managByButtons = sender as RadioButtons;
+            if (managByButtons.SelectedItem == null)
+                return;
+            if ((managByButtons.SelectedItem as RadioButton).Name == "managedByOther")
+            {
+                textBoxOther.Text = "";
+                textBoxOther.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                textBoxOther.Visibility = Visibility.Collapsed;
+                textBoxOther.Text = (string)(managByButtons.SelectedItem as RadioButton).Content;
+            }
+        }
 
     }
 }
