@@ -750,7 +750,7 @@ namespace PacketMessagingTS.ViewModels
 
             string messageTextForViewing = $"{packetMessage.Subject}\r\n\r\n{messagebodyForViewing}";
             string messageText = $"{packetMessage.Subject}\r\n\r\n{packetMessage.MessageBody}";
-            bool copy = await ContentDialogs.ShowDualButtonMessageDialogAsync(messageText, "Copy", "Close", "Outpost Message");
+            bool copy = await ContentDialogs.ShowDualButtonMessageDialogAsync(messageTextForViewing, "Copy", "Close", "Outpost Message");
             if (copy)
             {
                 DataPackage dataPackage = new DataPackage

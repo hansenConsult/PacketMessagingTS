@@ -817,15 +817,7 @@ namespace FormControlBaseClass
                 {
                     string noCRText = textBox.Text.Replace("\r", "\n");
 
-                    //if (formField.ControlIndex == "12.")
-                    //{
-                    //    formField.ControlContent = noCRText;
-                    //}
-                    //else
-                    //{
-                        //formField.ControlContent = @noCRText;
                         formField.ControlContent = noCRText;
-                    //}
                     //if (_formControlsList[i].UserControl == null)
                     //{
                     //formField.ControlContent = textBox.Text;
