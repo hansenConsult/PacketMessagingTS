@@ -815,30 +815,41 @@ namespace FormControlBaseClass
 
                 if (_formControlsList[i].InputControl is TextBox textBox)
                 {
+                    string noCRText = textBox.Text.Replace("\r", "\n");
+
+                    //if (formField.ControlIndex == "12.")
+                    //{
+                    //    formField.ControlContent = noCRText;
+                    //}
+                    //else
+                    //{
+                        //formField.ControlContent = @noCRText;
+                        formField.ControlContent = noCRText;
+                    //}
                     //if (_formControlsList[i].UserControl == null)
                     //{
-                        formField.ControlContent = textBox.Text;
-                        //if (((TextBox)formFieldsList[i]).IsSpellCheckEnabled)
-                        //{
-                        //	for (int j = 0; j < ((TextBox)formFieldsList[i]).Text.Length; j++)
-                        //	{
-                        //		int spellingErrorIndex = ((TextBox)formFieldsList[i]).GetSpellingErrorStart(j);
-                        //		if (spellingErrorIndex < 0)
-                        //		{
-                        //			continue;
-                        //		}
-                        //		else
-                        //		{
-                        //			int spellingErrorLength = ((TextBox)formFieldsList[i]).GetSpellingErrorLength(spellingErrorIndex);
-                        //			string misSpelledWord = ((TextBox)formFieldsList[i]).Text.Substring(spellingErrorIndex, spellingErrorLength);
-                        //			j += spellingErrorLength;
-                        //			if (formField.MisSpells is null || formField.MisSpells.Length == 0)
-                        //				formField.MisSpells = misSpelledWord;
-                        //			else
-                        //				formField.MisSpells += (", " + misSpelledWord);
-                        //		}
-                        //	}
-                        //}
+                    //formField.ControlContent = textBox.Text;
+                    //if (((TextBox)formFieldsList[i]).IsSpellCheckEnabled)
+                    //{
+                    //	for (int j = 0; j < ((TextBox)formFieldsList[i]).Text.Length; j++)
+                    //	{
+                    //		int spellingErrorIndex = ((TextBox)formFieldsList[i]).GetSpellingErrorStart(j);
+                    //		if (spellingErrorIndex < 0)
+                    //		{
+                    //			continue;
+                    //		}
+                    //		else
+                    //		{
+                    //			int spellingErrorLength = ((TextBox)formFieldsList[i]).GetSpellingErrorLength(spellingErrorIndex);
+                    //			string misSpelledWord = ((TextBox)formFieldsList[i]).Text.Substring(spellingErrorIndex, spellingErrorLength);
+                    //			j += spellingErrorLength;
+                    //			if (formField.MisSpells is null || formField.MisSpells.Length == 0)
+                    //				formField.MisSpells = misSpelledWord;
+                    //			else
+                    //				formField.MisSpells += (", " + misSpelledWord);
+                    //		}
+                    //	}
+                    //}
                     //}
                     //else if (_formControlsList[i].UserControl.GetType() == typeof(RadioOperatorUserControl))
                     //{

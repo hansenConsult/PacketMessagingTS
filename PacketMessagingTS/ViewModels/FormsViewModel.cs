@@ -737,6 +737,18 @@ namespace PacketMessagingTS.ViewModels
             packetMessage.Subject = (subject ?? SendFormDataControlViewModel.Instance.MessageSubject);
             packetMessage.MessageBody = PacketForm.CreateOutpostData(ref packetMessage);
 
+            string messagebodyForViewing = packetMessage.MessageBody;
+
+            // Dispaly "\n" as \\n
+            messagebodyForViewing = messagebodyForViewing.TrimEnd('\n');
+            string messageBodyStart = messagebodyForViewing.Substring(0, messagebodyForViewing.IndexOf("]\n"));
+            messagebodyForViewing = messagebodyForViewing.Substring(messagebodyForViewing.IndexOf("]\n"));
+            messagebodyForViewing = messagebodyForViewing.Replace("]\n", "backslashNL");
+            messagebodyForViewing = messagebodyForViewing.Replace("\n", "\\n");
+            messagebodyForViewing = messagebodyForViewing.Replace("backslashNL", "]\n");
+            messagebodyForViewing = messageBodyStart + messagebodyForViewing;
+
+            string messageTextForViewing = $"{packetMessage.Subject}\r\n\r\n{messagebodyForViewing}";
             string messageText = $"{packetMessage.Subject}\r\n\r\n{packetMessage.MessageBody}";
             bool copy = await ContentDialogs.ShowDualButtonMessageDialogAsync(messageText, "Copy", "Close", "Outpost Message");
             if (copy)

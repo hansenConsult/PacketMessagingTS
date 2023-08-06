@@ -130,19 +130,6 @@ namespace ICS213PackItFormControl
             }
         }
 
-        //public override string CreateOutpostData(ref PacketMessage packetMessage)
-        //{
-        //    _outpostData = new List<string>
-        //    {
-        //        "!SCCoPIFO!",
-        //        $"#T: {FormControlName}.html",
-        //        $"#V: {ViewModelBase.PackItFormVersion}-{ViewModelBase.PIF}",
-        //    };
-        //    CreateOutpostDataFromFormFields(ref packetMessage, ref _outpostData);
-
-        //    return CreateOutpostMessageBody(_outpostData);
-        //}
-
         protected override void ScanControls(DependencyObject panelName, FrameworkElement formUserControl = null)
         {
             int count = VisualTreeHelper.GetChildrenCount(panelName);
