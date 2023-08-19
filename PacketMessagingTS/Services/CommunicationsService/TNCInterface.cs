@@ -580,6 +580,9 @@ namespace PacketMessagingTS.Services.CommunicationsService
         //    return readText;
         //}
 
+        // \n = %5Cn
+        //17-Aug 16:32:28: SRV0001: DataArrival: data=POST /TBD HTTP/1.1Host: 127.0.0.1:9334Content-Type: application/x-www-form-urlencodedConnection: closeContent-Length: 1017adn=SCCoPIFO&sub=6DM-751P_R_ICS213_RDF%20Results&urg=FALSE&msg=!SCCoPIFO!%0D%0A%23T%3A%20form-ics213.html%0D%0A%23V%3A%203.11-2.2%0D%0AMsgNo%3A%20%5B6DM-751P%5D%0D%0A1a.%3A%20%5B08%2F15%2F2023%5D%0D%0A1b.%3A%20%5B08%3A12%5D%0D%0A5.%3A%20%5BROUTINE%5D%0D%0A6a.%3A%20%5BNo%5D%0D%0A6b.%3A%20%5BNo%5D%0D%0A7.%3A%20%5BCounty%20ARES%5D%0D%0A8.%3A%20%5BObserver%5D%0D%0A9a.%3A%20%5BEverywhere%5D%0D%0A9b.%3A%20%5BCuesta%20Park%20MTV%5D%0D%0A10.%3A%20%5BRDF%20Results%5D%0D%0A12.%3A%20%5BCongratulations%20to%20Bertrand%20KN6YUY%2C%20Karlis%20KN6GLT%2C%20and%20Sorin%20KN6YUH%20for%20being%20the%20first%20team%20to%20find%20all%20four%20foxes%20at%20this%20year's%20Radio%20Direction%20Finding%20Mini-Drill.%5Cn%5Cn****%20This%20is%20drill%20traffic%20****%5D%0D%0ARec-Sent%3A%20%5Bsender%5D%0D%0AOpCall%3A%20%5BKZ6DM%5D%0D%0AOpName%3A%20%5BPoul%20Hansen%5D%0D%0AMethod%3A%20%5BOther%5D%0D%0AOther%3A%20%5BPacket%5D%0D%0AOpDate%3A%20%5B08%2F17%2F2023%5D%0D%0AOpTime%3A%20%5B16%3A32%5D%0D%0A!%2FADDON!%0D%0A&4VAO=%0D%0A%23EOF
+
         private void SendMessage(PacketMessage packetMessage)
         {
             int readTimeout = _serialPort.ReadTimeout;

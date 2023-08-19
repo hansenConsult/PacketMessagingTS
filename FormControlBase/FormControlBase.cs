@@ -815,9 +815,10 @@ namespace FormControlBaseClass
 
                 if (_formControlsList[i].InputControl is TextBox textBox)
                 {
-                    string noCRText = textBox.Text.Replace("\r", "\n");
+                    //string noCRText = textBox.Text.Replace("\r", "\n");
+                    string noCRText = textBox.Text.Replace("\r", "\\n");
 
-                        formField.ControlContent = noCRText;
+                    formField.ControlContent = noCRText;
                     //if (_formControlsList[i].UserControl == null)
                     //{
                     //formField.ControlContent = textBox.Text;
@@ -1035,6 +1036,7 @@ namespace FormControlBaseClass
                 if (control is TextBox textBox)
                 {
                     textBox.Text = formField.ControlContent;
+                    textBox.Text = textBox.Text.Replace("\\n", "\n");
                     if (formControl.UserControl == null)
                     {
                         // Fields that use Binding requires special handling

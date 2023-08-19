@@ -744,7 +744,7 @@ namespace PacketMessagingTS.ViewModels
             string messageBodyStart = messagebodyForViewing.Substring(0, messagebodyForViewing.IndexOf("]\n"));
             messagebodyForViewing = messagebodyForViewing.Substring(messagebodyForViewing.IndexOf("]\n"));
             messagebodyForViewing = messagebodyForViewing.Replace("]\n", "backslashNL");
-            messagebodyForViewing = messagebodyForViewing.Replace("\n", "\\n");
+            //messagebodyForViewing = messagebodyForViewing.Replace("\n", "\\n");
             messagebodyForViewing = messagebodyForViewing.Replace("backslashNL", "]\n");
             messagebodyForViewing = messageBodyStart + messagebodyForViewing;
 
