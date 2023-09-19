@@ -15,6 +15,8 @@ namespace PacketMessagingTS.Controls
         public event EventHandler<FormEventArgs> EventMessageChanged;
         public event EventHandler<FormEventArgs> EventSimpleMsgSubjectChanged;
 
+        static string DrillTraffic = "\r\r**** This is drill traffic ****\r";
+
         public int SelectedIndex
         { get; set; }
 
@@ -72,6 +74,11 @@ namespace PacketMessagingTS.Controls
                     Subject = $"{chechInOut} {userCallsign}, {userName}";
                     Message = $"{chechInOut} {userCallsign}, {userName} \r\n";
                 }
+            }
+            if (PacketSettingsViewModel.Instance.IsDrillTraffic)
+            {
+                //_packetForm.AppendDrillTraffic();
+                Message += DrillTraffic;
             }
 
             // Create event Message changed

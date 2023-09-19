@@ -256,7 +256,7 @@ namespace PacketMessagingTS.ViewModels
                 {
                     foreach (Type classType in assembly.GetTypes())
                     {
-                        var attrib = classType.GetTypeInfo();
+                        Type attrib = classType.GetTypeInfo();
 
                         CustomAttributeData customAttribute = attrib.CustomAttributes.FirstOrDefault(c => c.AttributeType == typeof(FormControlAttribute));
                         if (customAttribute == null)
@@ -556,6 +556,11 @@ namespace PacketMessagingTS.ViewModels
 
                     _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
                     _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
+
+                    //if (PacketSettingsViewModel.Instance.IsDrillTraffic)
+                    //{
+                    //    _packetForm.AppendDrillTraffic();
+                    //}
                 }
 
                 // Moved to SimpleMessagePivot control
@@ -598,6 +603,11 @@ namespace PacketMessagingTS.ViewModels
                         _packetForm.SetPracticeField(practiceSubject);
                     }
                 }
+                if (PacketSettingsViewModel.Instance.IsDrillTraffic)
+                {
+                    _packetForm.AppendDrillTraffic();
+                }
+
             }
             else
             {

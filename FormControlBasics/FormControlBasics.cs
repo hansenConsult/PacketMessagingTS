@@ -11,6 +11,7 @@ using SharedCode;
 using SharedCode.Models;
 
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -520,7 +521,7 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        protected virtual void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        protected virtual async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
             FormControl formControl = _formControlsList.FirstOrDefault(
@@ -535,6 +536,13 @@ namespace FormControlBasicsNamespace
             {
                 textBox.BorderThickness = new Thickness(1);
                 textBox.BorderBrush = formControl.BaseBorderColor;
+            }
+            // Check if line is longer than 127 charactersetr. A JNOS limitation
+            int lastCRindex = textBox.Text.LastIndexOf('\r');
+            if (textBox.Text.Length - lastCRindex >= 127)
+            {
+                MessageDialog messageDialog = new MessageDialog("Line length is greater than 127.\nInsert a new line");
+                await messageDialog.ShowAsync();
             }
         }
 

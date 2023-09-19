@@ -96,7 +96,7 @@ namespace FormControlBaseClass
         };
 
 
-        public static string DrillTraffic = "\rDrill Traffic\r";
+        public static string DrillTraffic = "\r\r**** This is drill traffic ****\r";
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
