@@ -96,7 +96,7 @@ namespace FormControlBaseClass
         };
 
 
-        public static string DrillTraffic = "\r\r**** This is drill traffic ****\r";
+        public static string DrillTraffic = "\n**** This is drill traffic ****";
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
@@ -1054,7 +1054,6 @@ namespace FormControlBaseClass
                             case "operatorName":
                                 ViewModelBase.OperatorName = textBox.Text;
                                 break;
-
                             //case "messageNo":
                             //    OriginMsgNo = textBox.Text;
                             //    break;

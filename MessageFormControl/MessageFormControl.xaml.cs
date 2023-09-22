@@ -184,7 +184,8 @@ namespace MessageFormControl
 
         public override void AppendDrillTraffic()
         {
-            messageBody.Text += DrillTraffic;
+            //messageBody.Text += DrillTraffic;
+            ViewModel.MessageBody = ViewModel.MessageBody + DrillTraffic;
         }
 
         public override Panel CanvasContainer => container;
@@ -368,7 +369,10 @@ namespace MessageFormControl
                     switch (control.Name)
                     {
                         case "messageBody":
-                            ViewModel.MessageBody = formField.ControlContent;
+                            //ViewModel.MessageBody = formField.ControlContent;
+                            ViewModel.MessageBody = formField.ControlContent.Replace("\\n", "\n");
+                            //string msgBody = formField.ControlContent.Replace("\\n", "\n");
+                            //ViewModel.MessageBody = "1234567890\r123456";
                             found1 = true;
                             break;
                         case null:

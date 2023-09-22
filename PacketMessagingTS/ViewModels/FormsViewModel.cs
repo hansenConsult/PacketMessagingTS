@@ -556,11 +556,6 @@ namespace PacketMessagingTS.ViewModels
 
                     _simpleMessagePivot.EventSimpleMsgSubjectChanged += SimpleMessage_SubjectChange;
                     _simpleMessagePivot.EventMessageChanged += FormControl_MessageChanged;
-
-                    //if (PacketSettingsViewModel.Instance.IsDrillTraffic)
-                    //{
-                    //    _packetForm.AppendDrillTraffic();
-                    //}
                 }
 
                 // Moved to SimpleMessagePivot control
@@ -578,6 +573,11 @@ namespace PacketMessagingTS.ViewModels
                 stackPanel.Children.Insert(1, _packetAddressForm);
 
                 SendFormDataControlViewModel.Instance.MessageSubject = _packetForm.CreateSubject();
+
+                if (PacketSettingsViewModel.Instance.IsDrillTraffic && !LoadMessage && pivotItemName != "SimpleMessage")
+                {
+                    _packetForm.AppendDrillTraffic();
+                }
             }
 
             if (!LoadMessage)
@@ -603,11 +603,6 @@ namespace PacketMessagingTS.ViewModels
                         _packetForm.SetPracticeField(practiceSubject);
                     }
                 }
-                if (PacketSettingsViewModel.Instance.IsDrillTraffic)
-                {
-                    _packetForm.AppendDrillTraffic();
-                }
-
             }
             else
             {
@@ -748,15 +743,22 @@ namespace PacketMessagingTS.ViewModels
             packetMessage.MessageBody = PacketForm.CreateOutpostData(ref packetMessage);
 
             string messagebodyForViewing = packetMessage.MessageBody;
+            messagebodyForViewing = messagebodyForViewing.TrimEnd('\n');
 
             // Dispaly "\n" as \\n
-            messagebodyForViewing = messagebodyForViewing.TrimEnd('\n');
-            string messageBodyStart = messagebodyForViewing.Substring(0, messagebodyForViewing.IndexOf("]\n"));
-            messagebodyForViewing = messagebodyForViewing.Substring(messagebodyForViewing.IndexOf("]\n"));
-            messagebodyForViewing = messagebodyForViewing.Replace("]\n", "backslashNL");
-            //messagebodyForViewing = messagebodyForViewing.Replace("\n", "\\n");
-            messagebodyForViewing = messagebodyForViewing.Replace("backslashNL", "]\n");
-            messagebodyForViewing = messageBodyStart + messagebodyForViewing;
+            if (packetMessage.PacFormName != "SimpleMessage")
+            {                
+                string messageBodyStart = messagebodyForViewing.Substring(0, messagebodyForViewing.IndexOf("]\n"));
+                messagebodyForViewing = messagebodyForViewing.Substring(messagebodyForViewing.IndexOf("]\n"));
+                //messagebodyForViewing = messagebodyForViewing.Replace("]\n", "backslashNL");
+                //messagebodyForViewing = messagebodyForViewing.Replace("\n", "\\n");
+                //messagebodyForViewing = messagebodyForViewing.Replace("backslashNL", "]\n");
+                messagebodyForViewing = messageBodyStart + messagebodyForViewing;
+            }
+            else
+            {
+
+            }
 
             string messageTextForViewing = $"{packetMessage.Subject}\r\n\r\n{messagebodyForViewing}";
             string messageText = $"{packetMessage.Subject}\r\n\r\n{packetMessage.MessageBody}";
@@ -786,11 +788,11 @@ namespace PacketMessagingTS.ViewModels
                 return;
             }
 
-            // append "Drill Traffic" if requested
-            if (PacketSettingsViewModel.Instance.IsDrillTraffic)
-            {
-                PacketForm.AppendDrillTraffic();
-            }
+            // append "Drill Traffic" if requested. Moved to message creation.
+            //if (PacketSettingsViewModel.Instance.IsDrillTraffic)
+            //{
+            //    PacketForm.AppendDrillTraffic();
+            //}
 
             CreatePacketMessage();
 

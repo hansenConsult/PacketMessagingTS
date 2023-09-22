@@ -15,7 +15,7 @@ namespace PacketMessagingTS.Controls
         public event EventHandler<FormEventArgs> EventMessageChanged;
         public event EventHandler<FormEventArgs> EventSimpleMsgSubjectChanged;
 
-        static string DrillTraffic = "\r\r**** This is drill traffic ****\r";
+        static string DrillTraffic = "\n**** This is drill traffic ****";
 
         public int SelectedIndex
         { get; set; }
@@ -24,13 +24,12 @@ namespace PacketMessagingTS.Controls
         { get; set; }
 
         public string Subject
-        { get;
-            set; }
+        { get; set; }
 
 
         public SimpleMessagePivot()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void SimpleMessageTypePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
