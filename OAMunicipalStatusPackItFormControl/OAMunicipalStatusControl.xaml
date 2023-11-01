@@ -239,7 +239,7 @@
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <ComboBox Grid.Column="1" Grid.Row="1" Name="eocOpen" 
                                       DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind UnknownYesNo}"
+                                      ItemsSource="{x:Bind UnknownYesNo1}"
                                       Style="{StaticResource FormsComboBox}" 
                                       Tag="34.,conditionallyrequired,Select EOC Open: Yes or No." 
                                       SelectionChanged="ComboBox_SelectionChanged"
@@ -310,7 +310,7 @@
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,1,0"/>
                             <ComboBox Grid.Column="1" Grid.Row="1" Name="stateOfEmergency" 
                                       DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind UnknownYesNo}"
+                                      ItemsSource="{x:Bind UnknownYesNo2}"
                                       Style="{StaticResource FormsComboBox}" 
                                       Tag="40.,conditionallyrequired,Select the State of Emergency: Yes or No." 
                                       SelectionChanged="StateOfEmergency_SelectionChanged"

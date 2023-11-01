@@ -1036,7 +1036,9 @@ namespace FormControlBaseClass
                 if (control is TextBox textBox)
                 {
                     textBox.Text = formField.ControlContent;
+                    //string controlContent = formField.ControlContent;
                     textBox.Text = textBox.Text.Replace("\\n", "\n");
+                    //controlContent = controlContent.Replace("\\n", "\n");
                     if (formControl.UserControl == null)
                     {
                         // Fields that use Binding requires special handling
@@ -1054,9 +1056,6 @@ namespace FormControlBaseClass
                             case "operatorName":
                                 ViewModelBase.OperatorName = textBox.Text;
                                 break;
-                            //case "messageNo":
-                            //    OriginMsgNo = textBox.Text;
-                            //    break;
                             case null:
                                 continue;
                         }

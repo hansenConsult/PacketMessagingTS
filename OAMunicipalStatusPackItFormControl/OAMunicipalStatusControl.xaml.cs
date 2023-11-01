@@ -94,6 +94,10 @@ namespace OAMunicipalStatusPackItFormControl
                 new ComboBoxItem() {Content = "Early Out", Background = WhiteBrush },
         };
 
+        readonly List<ComboBoxItem> UnknownYesNo1 = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> UnknownYesNo2 = new List<ComboBoxItem>();
+
+
         //public OAMunicipalStatusControlViewModel ViewModel = OAMunicipalStatusControlViewModel.Instance;
         public OAMunicipalStatusControlViewModel ViewModel = new OAMunicipalStatusControlViewModel();
         readonly List<ComboBoxItem> Debris = new List<ComboBoxItem>();
@@ -125,6 +129,9 @@ namespace OAMunicipalStatusPackItFormControl
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
             FormHeaderControl.SetToLocation("County EOC");
+
+            CreateComboBoxList(UnknownYesNo1, UnknownYesNo);
+            CreateComboBoxList(UnknownYesNo2, UnknownYesNo);
 
             CreateComboBoxList(Debris, Communications);
             CreateComboBoxList(Flooding, Communications);
@@ -539,6 +546,10 @@ namespace OAMunicipalStatusPackItFormControl
             UpdateFormFieldsRequiredColors();
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
 

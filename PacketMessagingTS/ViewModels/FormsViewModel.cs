@@ -39,6 +39,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
+using Windows.UI.Xaml.Documents;
 
 namespace PacketMessagingTS.ViewModels
 {
@@ -220,7 +221,7 @@ namespace PacketMessagingTS.ViewModels
             //get => isAppBarSendEnabled;
             get
             {
-                IsAppBarSendEnabled = _packetMessage is null ? true : !(_packetMessage.MessageState == MessageState.Locked);
+                IsAppBarSendEnabled = _packetMessage is null || !(_packetMessage.MessageState == MessageState.Locked);
 
                 return _isAppBarSendEnabled;
             }
@@ -459,9 +460,9 @@ namespace PacketMessagingTS.ViewModels
 
         public void FormsPagePivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int addedCount = e.AddedItems.Count;
-            int removedCount = e.RemovedItems.Count;
-            var item = e.AddedItems[0];
+            //int addedCount = e.AddedItems.Count;
+            //int removedCount = e.RemovedItems.Count;
+            //var item = e.AddedItems[0];
 
             int index = FormsPagePivotSelectedIndex;
             FormsPagePivotSelectionChangedAsync(index);
@@ -635,23 +636,23 @@ namespace PacketMessagingTS.ViewModels
             await ShowPacketFormAsync();
         }
 
-        private static string ValidateSubject(string subject)
-        {
-            if (string.IsNullOrEmpty(subject))
-                return subject;
+        //private static string ValidateSubject(string subject)
+        //{
+        //    if (string.IsNullOrEmpty(subject))
+        //        return subject;
 
-            try
-            {
-                return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
-                                     RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
-            }
-            // If we timeout when replacing invalid characters, 
-            // we should return Empty.
-            catch (RegexMatchTimeoutException)
-            {
-                return string.Empty;
-            }
-        }
+        //    try
+        //    {
+        //        return Regex.Replace(subject, @"[^\w\.@-\\%/\-\ ,()]", "~",
+        //                             RegexOptions.Singleline, TimeSpan.FromSeconds(1.0));
+        //    }
+        //    // If we timeout when replacing invalid characters, 
+        //    // we should return Empty.
+        //    catch (RegexMatchTimeoutException)
+        //    {
+        //        return string.Empty;
+        //    }
+        //}
 
         //private string CreateValidatedSubject()
         //{
@@ -673,19 +674,12 @@ namespace PacketMessagingTS.ViewModels
                 MessageTo = SendFormDataControlViewModel.Instance.MessageTo,
                 CreateTime = DateTime.Now,
                 MessageState = messageState,
-                //HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder,
-            };
-            _packetMessage.HandlingOrder = HandlingOrder;
-            //if (PacketForm.FormHeaderControl == null)
-            //{
-            //    _packetMessage.HandlingOrder = PacketForm.ViewModelBase.HandlingOrder;
-            //}
-            //else
-            //{
-            //    _packetMessage.HandlingOrder = PacketForm.FormHeaderControl.ViewModelBase.HandlingOrder;
-            //}
+                HandlingOrder = HandlingOrder,
+                MessageNumber = PacketForm.ViewModelBase.MessageNo,
+        };
+            //_packetMessage.HandlingOrder = HandlingOrder;
 
-            _packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
+            //_packetMessage.MessageNumber = PacketForm.ViewModelBase.MessageNo;
 
             UserAddressArray.Instance.AddAddressAsync(_packetMessage.MessageTo);
             //string subject = ValidateSubject(_packetForm.CreateSubject());  // TODO use CreateSubject
@@ -774,6 +768,7 @@ namespace PacketMessagingTS.ViewModels
             }
         }
 
+        //Send message
         private ICommand _SendReceiveCommand;
         public ICommand SendReceiveCommand => _SendReceiveCommand ?? (_SendReceiveCommand = new RelayCommand(SendReceive));
 
@@ -811,11 +806,21 @@ namespace PacketMessagingTS.ViewModels
             _packetMessage.MessageOrigin = MessageOriginHelper.MessageOrigin.Sent;
             if (_packetMessage.PacFormName == "SimpleMessage")
             {
-                // Copy messageBody to facilitate printing for long messages
+                // Copy messageBody to facilitate printing for long messages. Convert to Rich Text Format
+                string message = _packetMessage.FormFieldArray[0].ControlContent.Replace("\\n", "\r\n");
+                Paragraph paragraph = new Paragraph();
+                Run run = new Run
+                {
+                    Text = message
+                };
+
+                // Add the Run to the Paragraph, the Paragraph to the RichTextBlock.
+                paragraph.Inlines.Add(run);
                 FormField formField = new FormField()
                 {
                     ControlName = "richTextMessageBody",
-                    ControlContent = _packetMessage.FormFieldArray[0].ControlContent,
+                    //ControlContent = _packetMessage.FormFieldArray[0].ControlContent,
+                    ControlContent = run.Text,
                 };
                 _packetMessage.FormFieldArray[1] = formField;
             }
