@@ -225,7 +225,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 DateTime now = DateTime.Now;
                 string receiveTime = "";    // $"{now.Month}/{now.Date}/{now.Year} {now.Hour}:{now.Minute}";
                 string receiversMessageId = "", sendersMessageId = "", senderSubject = "";
-                var messageLines = formField.ControlContent.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var messageLines = formField.ControlContent.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
                 foreach (string line in messageLines)
                 {
@@ -276,6 +276,11 @@ namespace PacketMessagingTS.Services.CommunicationsService
                 messageBody.AppendLine("Your message was delivered to:");
                 messageBody.AppendLine($"{pktMsg.MessageFrom} at {receiveTime}");
                 messageBody.AppendLine($"{pktMsg.MessageFrom} assigned Msg ID: {receiversMessageId}");
+
+                for (int i = 7; i < messageLines.Length; i++)
+                {
+                    messageBody.AppendLine(messageLines[i]);
+                }
                 formField.ControlContent = messageBody.ToString();
 
                 List<string> fileTypeFilter = new List<string>() { ".xml" };

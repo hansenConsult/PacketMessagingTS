@@ -287,7 +287,8 @@ namespace MessageFormControl
                 switch (formField.ControlName)
                 {
                     case "messageBody":
-                        string filteredMsg = formField.ControlContent.Replace("\r\n", "\r");
+                        //string filteredMsg = formField.ControlContent.Replace("\r\n", "\r");
+                        string filteredMsg = formField.ControlContent.Replace("\\n", "\r");
                         outpostData.Add($"{filteredMsg}");
                         break;
                 }
