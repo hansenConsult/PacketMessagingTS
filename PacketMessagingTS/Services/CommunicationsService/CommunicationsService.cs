@@ -600,14 +600,12 @@ namespace PacketMessagingTS.Services.CommunicationsService
 
         private async Task<bool> SendMessageViaEMailAsync(PacketMessage packetMessage)
         {
-            bool sendMailSuccess = false;
-
-            EmailMessage emailMessage = new EmailMessage();
-
-            //string testMessage = "Test message\r\nin two lines\r\nend";
-            //string messageBody = packetMessage.MessageBody.Replace("\n", "\r");
-            emailMessage.Body = packetMessage.MessageBody;
-            //emailMessage.Body = testMessage;
+            EmailMessage emailMessage = new EmailMessage
+            {
+                //string testMessage = "Test message\r\nin two lines\r\nend";
+                //string messageBody = packetMessage.MessageBody.Replace("\n", "\r");
+                Body = packetMessage.MessageBody
+            };
 
             // Create the to field.
             var messageTo = packetMessage.MessageTo.Split(new char[] { ' ', ';' });
@@ -638,7 +636,7 @@ namespace PacketMessagingTS.Services.CommunicationsService
             emailMessage.Subject = packetMessage.Subject;
 
             await EmailManager.ShowComposeNewEmailAsync(emailMessage);
-            sendMailSuccess = true;
+            bool sendMailSuccess = true;
 
 
             //EmailMessage emailMessage = new EmailMessage();

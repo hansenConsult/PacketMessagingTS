@@ -185,7 +185,7 @@ namespace MessageFormControl
         public override void AppendDrillTraffic()
         {
             //messageBody.Text += DrillTraffic;
-            ViewModel.MessageBody = ViewModel.MessageBody + DrillTraffic;
+            ViewModel.MessageBody += DrillTraffic;
         }
 
         public override Panel CanvasContainer => container;

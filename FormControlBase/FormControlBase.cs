@@ -91,7 +91,7 @@ namespace FormControlBaseClass
 
         readonly protected List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
         {
-            new ComboBoxItem() {Content = "MHJOC"},
+            new ComboBoxItem() {Content = "PHDOC"},
             new ComboBoxItem() {Content = "County EOC"},
         };
 

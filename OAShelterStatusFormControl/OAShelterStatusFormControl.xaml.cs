@@ -41,7 +41,11 @@ namespace OAShelterStatusFormControl
             new ComboBoxItem() { Content = "Operations Section" },
         };
 
-        //public IList<ComboBoxItem> ShelterStatusStrings = new List<ComboBoxItem>();
+        readonly new List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
+        {
+            new ComboBoxItem() { Content = "City EOC" },
+            new ComboBoxItem() { Content = "County EOC" },
+        };
 
         public OAShelterStatusControl()
         {
@@ -57,6 +61,7 @@ namespace OAShelterStatusFormControl
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20130814";
             FormHeaderControl.ViewModelBase.PIF = "2.3";
 
+            formHeaderControl.SetToLocation(ToICSLocationItems);
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
 
             GetFormDataFromAttribute(GetType());
@@ -204,20 +209,20 @@ namespace OAShelterStatusFormControl
             Subject_Changed(sender, e);
         }
 
-        void ShelterCity_Changed(object sender, RoutedEventArgs e)
-        {
-            ComboBox comboBox = sender as ComboBox;
-            if (comboBox.SelectedIndex >= 0)
-            {
-                shelterCityBaseTextBox.Text = comboBox.Text;
-            }
-            //else
-            //{
-            //    shelterCityBaseTextBox.Text = "Unincorporated";
-            //}
+        //void ShelterCity_Changed(object sender, RoutedEventArgs e)
+        //{
+        //    ComboBox comboBox = sender as ComboBox;
+        //    if (comboBox.SelectedIndex >= 0)
+        //    {
+        //        shelterCityBaseTextBox.Text = comboBox.Text;
+        //    }
+        //    //else
+        //    //{
+        //    //    shelterCityBaseTextBox.Text = "Unincorporated";
+        //    //}
 
-            Subject_Changed(sender, e);
-        }
+        //    Subject_Changed(sender, e);
+        //}
 
         void ManagedBy_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -239,5 +244,9 @@ namespace OAShelterStatusFormControl
             }
         }
 
+        private void ShelterCity_Changed(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
