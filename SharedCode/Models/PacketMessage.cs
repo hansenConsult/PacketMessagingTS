@@ -751,7 +751,7 @@ namespace SharedCode
 
         private int selectedIndexField;
 
-        private string backgroundColorField;
+        //private string backgroundColorField;
 
         private Brush backgroundBrushField;
 
@@ -778,12 +778,12 @@ namespace SharedCode
             set => selectedIndexField = value;
         }
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string BackgroundColor
-        {
-            get => this.backgroundColorField;
-            set => this.backgroundColorField = value;
-        }
+        //[System.Xml.Serialization.XmlAttributeAttribute()]
+        //public string BackgroundColor
+        //{
+        //    get => this.backgroundColorField;
+        //    set => this.backgroundColorField = value;
+        //}
 
         [System.Xml.Serialization.XmlIgnore]
         public Brush BackgroundBrush
@@ -802,15 +802,15 @@ namespace SharedCode
         public ComboBoxPackItItem()
         { }
 
-        public ComboBoxPackItItem(string item)
-        {
-            //throw new Exception("Obsolete");
+        //public ComboBoxPackItItem(string item)
+        //{
+        //    //throw new Exception("Obsolete");
 
-            Item = item;
-            PacketData = item;
-            BackgroundBrush = _backgroundBrush;
-            ForegroundBrush = _foregroundBrush;
-        }
+        //    Item = item;
+        //    PacketData = item;
+        //    BackgroundBrush = _backgroundBrush;
+        //    ForegroundBrush = _foregroundBrush;
+        //}
 
         //public ComboBoxPackItItem(string item, Color color)
         //{
@@ -819,25 +819,25 @@ namespace SharedCode
         //    BackgroundColor = color.ToString();
         //}
 
-        public ComboBoxPackItItem(string item, Brush brush)
-        {
-            //throw new Exception("Obsolete");
+        //public ComboBoxPackItItem(string item, Brush brush)
+        //{
+        //    //throw new Exception("Obsolete");
 
-            Item = item;
-            PacketData = item;
-            BackgroundBrush = brush;
-            ForegroundBrush = _foregroundBrush;
-        }
+        //    Item = item;
+        //    PacketData = item;
+        //    BackgroundBrush = brush;
+        //    ForegroundBrush = _foregroundBrush;
+        //}
 
-        public ComboBoxPackItItem(string item, Brush brush, Brush foregroundBrush)
-        {
-            //throw new Exception("Obsolete");
+        //public ComboBoxPackItItem(string item, Brush brush, Brush foregroundBrush)
+        //{
+        //    //throw new Exception("Obsolete");
 
-            Item = item;
-            PacketData = item;
-            BackgroundBrush = brush;
-            ForegroundBrush = foregroundBrush;
-        }
+        //    Item = item;
+        //    PacketData = item;
+        //    BackgroundBrush = brush;
+        //    ForegroundBrush = foregroundBrush;
+        //}
 
         public ComboBoxPackItItem(string item, string packetData)
         {

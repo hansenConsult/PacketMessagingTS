@@ -17,6 +17,7 @@ using static PacketMessagingTS.Core.Helpers.FormProvidersHelper;
 using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
 using System.Reflection;
+using System.Security.AccessControl;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -98,16 +99,16 @@ namespace MutualAidRequestFormControl
 
         List<ComboBoxItem> ResourceType = new List<ComboBoxItem>();
 
-        readonly List<ComboBoxItem> ResourceType1P = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType1M = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType2P = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType2M = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType3P = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType3M = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType4P = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType4M = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType5P = new List<ComboBoxItem>();
-        readonly List<ComboBoxItem> ResourceType5M = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType1P = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType1M = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType2P = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType2M = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType3P = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType3M = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType4P = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType4M = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType5P = new List<ComboBoxItem>();
+        List<ComboBoxItem> ResourceType5M = new List<ComboBoxItem>();
 
 
         public MutualAidRequestControl()
@@ -117,7 +118,7 @@ namespace MutualAidRequestFormControl
             ScanControls(PrintableArea);
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
-            FormHeaderControl.ViewModel.HeaderSubstring = "Version: 20220129";
+            FormHeaderControl.ViewModel.HeaderSubstring = "Version: 20220129";            
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
             FormHeaderControl.SetToLocation("County EOC");
@@ -180,7 +181,7 @@ namespace MutualAidRequestFormControl
                     if (roleChanged)
                     {
                         prefType1.Tag = prefType1.Tag.ToString().Replace("conditionallyrequired", "required");
-                        radioMinType1.Tag = radioMinType1.Tag.ToString().Replace("conditionallyrequired", "required");
+                        minType1.Tag = minType1.Tag.ToString().Replace("conditionallyrequired", "required");
                     }
                     break;
                 case 2:
@@ -232,6 +233,7 @@ namespace MutualAidRequestFormControl
             TextBox_TextChanged(sender, e);
         }
 
+
         void Role_Changed(object sender, SelectionChangedEventArgs e)
         {
             ResourceType = new List<ComboBoxItem>();
@@ -265,36 +267,50 @@ namespace MutualAidRequestFormControl
             switch (comboBox.Name)
             {
                 case "radioRole1":
-                    CreateComboBoxList(ResourceType1P, ResourceType);
+                    prefType1.ItemsSource = ResourceType;
+                    ResourceType1M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType1M, ResourceType);
+                    minType1.ItemsSource = ResourceType1M;
                     rolePosition1.Text = $"{resoueceRole.Content} / {radioPosition1.Text}";
                     resourceNo = 1;
                     break;
 
                 case "radioRole2":
-                    CreateComboBoxList(ResourceType2P, ResourceType);
+                    //CreateComboBoxList(ResourceType2P, ResourceType);
+                    prefType2.ItemsSource = ResourceType;
+                    ResourceType2M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType2M, ResourceType);
+                    radioMinType2.ItemsSource = ResourceType2M;
                     rolePosition2.Text = $"{resoueceRole.Content} / {radioPosition2.Text}";
                     resourceNo = 2;
                     break;
 
                 case "radioRole3":
-                    CreateComboBoxList(ResourceType3P, ResourceType);
+                    //CreateComboBoxList(ResourceType3P, ResourceType);
+                    prefType3.ItemsSource = ResourceType;
+                    ResourceType3M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType3M, ResourceType);
+                    radioMinType3.ItemsSource = ResourceType3M;
                     rolePosition3.Text = $"{resoueceRole.Content} / {radioPosition3.Text}";
                     resourceNo = 3;
                     break;
 
                 case "radioRole4":
-                    CreateComboBoxList(ResourceType4P, ResourceType);
+                    //CreateComboBoxList(ResourceType4P, ResourceType);
+                    prefType4.ItemsSource = ResourceType;
+                    ResourceType4M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType4M, ResourceType);
+                    radioMinType4.ItemsSource = ResourceType4M;
                     rolePosition4.Text = $"{resoueceRole.Content} / {radioPosition4.Text}";
                     resourceNo = 4;
                     break;
 
                 case "radioRole5":
-                    CreateComboBoxList(ResourceType5P, ResourceType);
+                    //CreateComboBoxList(ResourceType5P, ResourceType);
+                    prefType5.ItemsSource = ResourceType;
+                    ResourceType5M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType5M, ResourceType);
+                    radioMinType5.ItemsSource = ResourceType5M;
                     rolePosition5.Text = $"{resoueceRole.Content} / {radioPosition5.Text}";
                     resourceNo = 5;
                     break;
@@ -332,6 +348,16 @@ namespace MutualAidRequestFormControl
             }
 
         }
+
+        private void formHeaderControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        //private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+
+        //}
 
         //public override string MsgDate
         //{
