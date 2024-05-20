@@ -41,11 +41,19 @@ namespace OAShelterStatusFormControl
             new ComboBoxItem() { Content = "Operations Section" },
         };
 
-        readonly new List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
-        {
-            new ComboBoxItem() { Content = "City EOC" },
-            new ComboBoxItem() { Content = "County EOC" },
-        };
+        //readonly new List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
+        //{
+        //    new ComboBoxItem() { Content = "Campbell EOC" },
+        //    new ComboBoxItem() { Content = "Cupertino EOC" },
+        //    new ComboBoxItem() { Content = "Gilroy EOC" },
+        //    new ComboBoxItem() { Content = "Los Altos EOC" },
+        //    new ComboBoxItem() { Content = "County EOC" },
+        //    new ComboBoxItem() { Content = "Morgan Hill EOC" },
+        //    new ComboBoxItem() { Content = "Mountain View EOC" },
+        //    new ComboBoxItem() { Content = "Sunnyvale EOC" },
+        //    new ComboBoxItem() { Content = "Xanadu EOC" },
+        //    new ComboBoxItem() { Content = "County EOC" },
+        //};
 
         public OAShelterStatusControl()
         {
@@ -61,8 +69,9 @@ namespace OAShelterStatusFormControl
             FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20130814";
             FormHeaderControl.ViewModelBase.PIF = "2.3";
 
-            formHeaderControl.SetToLocation(ToICSLocationItems);
+            //formHeaderControl.SetToLocation(ToICSLocationItems);
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
+            //FormHeaderControl.SetToLocation("EOC");
 
             GetFormDataFromAttribute(GetType());
 

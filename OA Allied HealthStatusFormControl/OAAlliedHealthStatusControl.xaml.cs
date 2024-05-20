@@ -52,7 +52,7 @@ namespace OAAlliedHealthStatus201802FormControl
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: February 2018";
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
-            FormHeaderControl.SetToLocation(ToICSLocationItems);
+            //FormHeaderControl.SetToLocation(ToICSLocationItems);
 
             GetFormDataFromAttribute(GetType());
 

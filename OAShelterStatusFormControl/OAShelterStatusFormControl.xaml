@@ -456,7 +456,7 @@
                                              Margin="0,-6,0,0"
                                              Tag="Community"/>
                                 </muxc:RadioButtons>
-                                <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxOther" VerticalAlignment="Bottom" Margin="-230,0,0,0" Tag="49a.,conditionallyrequired,Enter Other description"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" x:Name="textBoxOther" VerticalAlignment="Bottom" Margin="-230,0,0,0" Tag="49a."/>
                             </Grid>
                             <TextBox Grid.Column="1" Grid.Row="1" x:Name="managedByTextBox"
                                      Margin="2" Visibility="Collapsed" />

@@ -46,7 +46,7 @@ namespace MedicalHealthBranchRRFormControl
             //FormHeaderControl.ViewModel.PIF = "3.3";
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
-            formHeaderControl.SetToLocation(ToICSLocationItems);
+            //formHeaderControl.SetToLocation(ToICSLocationItems);
 
             GetFormDataFromAttribute(GetType());
 

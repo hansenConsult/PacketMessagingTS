@@ -171,27 +171,27 @@ namespace OAMunicipalStatusPackItFormControl
 
         public override void SetPracticeField(string practiceField)
         {
-            reportType.SelectedIndex = 0;
+            //reportType.SelectedIndex = 0;
 
-            ComboBoxItem practiceComboBoxItem = new ComboBoxItem() { Content = practiceField };
-            //if (jurisdictionName.Items.Count == 0 || (base.Municipalities.Count == _Municipalities.Count))
-            //if (practiceComboBoxItem.Content != jurisdictionName.Items[_Municipalities.Count - 1].Content)
-            {
-                _Municipalities.Add(practiceComboBoxItem);
-                //jurisdictionName.ItemsSource = _Municipalities;
-                //if (jurisdictionName.Items.Count == 16)
-                {
-                    try
-                    {
-                        //jurisdictionName.Text = practiceField;
-                        jurisdictionName.SelectedIndex = _Municipalities.Count - 1;
-                    }
-                    catch
-                    {
-                        jurisdictionName.SelectedIndex = -1;
-                    }
-                }
-            }
+            //ComboBoxItem practiceComboBoxItem = new ComboBoxItem() { Content = practiceField };
+            ////if (jurisdictionName.Items.Count == 0 || (base.Municipalities.Count == _Municipalities.Count))
+            ////if (practiceComboBoxItem.Content != jurisdictionName.Items[_Municipalities.Count - 1].Content)
+            //{
+            //    _Municipalities.Add(practiceComboBoxItem);
+            //    //jurisdictionName.ItemsSource = _Municipalities;
+            //    //if (jurisdictionName.Items.Count == 16)
+            //    {
+            //        try
+            //        {
+            //            //jurisdictionName.Text = practiceField;
+            //            jurisdictionName.SelectedIndex = _Municipalities.Count - 1;
+            //        }
+            //        catch
+            //        {
+            //            jurisdictionName.SelectedIndex = -1;
+            //        }
+            //    }
+            //}
         }
 
         public override Panel CanvasContainer => container;
@@ -209,7 +209,7 @@ namespace OAMunicipalStatusPackItFormControl
             //return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_JurisStat_{(jurisdictionName.SelectedValue as ComboBoxItem)?.Content}";
             return $"{formHeaderControl.ViewModelBase.OriginMsgNo}_{formHeaderControl.ViewModelBase.HandlingOrder?.ToUpper()[0]}_JurisStat_{jurisdictionName.Text}";
         }
-
+       
         /// <summary>
         /// 
         /// </summary>
@@ -546,15 +546,20 @@ namespace OAMunicipalStatusPackItFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        //private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
 
-        }
+        //}
 
         private void JurisdictionName_Changed(object sender, SelectionChangedEventArgs e)
         {
-
+            //ComboBox_SelectionChanged(sender, e);
         }
+
+        //private void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        //{
+
+        //}
     }
 }
 

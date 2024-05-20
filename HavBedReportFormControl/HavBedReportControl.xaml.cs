@@ -72,7 +72,7 @@ namespace HavBedReportFormControl
             FormHeaderControl.ViewModel.PIF = "2.2";
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
-            formHeaderControl.SetToLocation(ToICSLocationItems);
+            //formHeaderControl.SetToLocation(ToICSLocationItems);
 
             GetFormDataFromAttribute(GetType());
 

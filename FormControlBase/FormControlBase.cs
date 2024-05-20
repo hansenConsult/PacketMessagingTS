@@ -55,6 +55,7 @@ namespace FormControlBaseClass
                 new ComboBoxItem() {Content = "Santa Clara"},
                 new ComboBoxItem() {Content = "Saratoga"},
                 new ComboBoxItem() {Content = "Sunnyvale"},
+                new ComboBoxItem() {Content = "Xanadu"},
         };
 
         readonly protected List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
@@ -89,11 +90,11 @@ namespace FormControlBaseClass
             new ComboBoxItem() {Content = "Operations Section"},
         };
 
-        readonly protected List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
-        {
-            new ComboBoxItem() {Content = "PHDOC"},
-            new ComboBoxItem() {Content = "County EOC"},
-        };
+        //readonly protected List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
+        //{
+        //    new ComboBoxItem() {Content = "PHDOC"},
+        //    new ComboBoxItem() {Content = "County EOC"},
+        //};
 
 
         public static string DrillTraffic = "\n**** This is drill traffic ****";
