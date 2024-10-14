@@ -95,7 +95,14 @@ namespace ICS213RRPackItFormControl
         {
             FormHeaderControl.SetToLocation("County EOC");  //XSCEOC
             FormHeaderControl.SetToICSPosition("Planning Section");
-            incidentName.Text = practiceField;
+            if (practiceField == null)
+            {
+                incidentName.Text = "";
+            }
+            else
+            {
+                incidentName.Text = practiceField;
+            }
             UpdateFormFieldsRequiredColors();       // TODO check this. Needed for subject
         }
 

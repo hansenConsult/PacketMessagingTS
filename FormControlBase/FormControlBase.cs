@@ -55,7 +55,6 @@ namespace FormControlBaseClass
                 new ComboBoxItem() {Content = "Santa Clara"},
                 new ComboBoxItem() {Content = "Saratoga"},
                 new ComboBoxItem() {Content = "Sunnyvale"},
-                new ComboBoxItem() {Content = "Xanadu"},
         };
 
         readonly protected List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
@@ -1118,6 +1117,7 @@ namespace FormControlBaseClass
                 {
                     autoSuggsetBox.Text = formField.ControlContent;
                 }
+                //else if (control is ComboBox comboBox && control.Visibility == Visibility.Visible)
                 else if (control is ComboBox comboBox)
                 {
                     if (formControl.UserControl == null)
@@ -1130,15 +1130,21 @@ namespace FormControlBaseClass
                         if (control.Name == "comboBoxToICSPosition" && formHeaderControl.ToICSPositionComboBoxItems != null)
                         {
                             int i = 0;
+                            //bool found = false;
                             foreach (ComboBoxItem comboBoxItem in formHeaderControl.ToICSPositionComboBoxItems)
                             {
                                 if (formField.ControlContent.ToLower() == ((string)comboBoxItem.Content).ToLower())
                                 {
+                                    //found = true;
                                     comboBox.SelectedIndex = i;
                                     break;
                                 }
                                 i++;
                             }
+//                            if (!found && (control as ComboBox).IsEditable)
+//                            {
+//                                comboBox.Text = formField.ControlContent;                            
+//                            }
                         }
                         else if (control.Name == "toLocationComboBox" && formHeaderControl.ToLocationComboBoxItems != null)
                         {

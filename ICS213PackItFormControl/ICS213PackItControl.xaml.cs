@@ -71,6 +71,10 @@ namespace ICS213PackItFormControl
         {
             handlingOrder.SelectedIndex = 2;
             ViewModelBase.HandlingOrder = "Routine";
+            if (string.IsNullOrEmpty(practiceField))
+            {
+                practiceField = "";
+            }
             subject.Text = practiceField;
             UpdateFormFieldsRequiredColors();       // TODO check this. Subject is red unless called.
         }

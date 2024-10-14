@@ -551,11 +551,6 @@ namespace OAMunicipalStatusPackItFormControl
 
         //}
 
-        private void JurisdictionName_Changed(object sender, SelectionChangedEventArgs e)
-        {
-            //ComboBox_SelectionChanged(sender, e);
-        }
-
         //private void ComboBox_Loaded(object sender, RoutedEventArgs e)
         //{
 

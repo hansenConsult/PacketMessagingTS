@@ -220,8 +220,8 @@ namespace FormUserControl
         {
             ToICSPositionComboBoxItems = toICSPositionComboBoxItems;
             autoSuggestBoxToICSPosition.Visibility = Visibility.Collapsed;
-            //autoSuggestBoxToICSPosition.Tag = (toLocation.Tag as string).Replace(",required", ",conditionallyrequired");
             comboBoxToICSPosition.Visibility = Visibility.Visible;
+            //autoSuggestBoxToICSPosition.Tag = (toLocation.Tag as string).Replace(",required", ",conditionallyrequired");
         }
 
         public DependencyObject Panel => formHeaderUserControl;
@@ -242,6 +242,11 @@ namespace FormUserControl
                 FormEventArgs formEventArgs = new FormEventArgs() { SubjectLine = textBox.Text };
                 EventMsgTimeChanged?.Invoke(this, formEventArgs);
             }
+        }
+
+        private void ComboBox_SelectionChanged1(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox_SelectionChanged(sender, e);
         }
 
         //private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -187,22 +187,22 @@ namespace PacketMessagingTS.ViewModels
                 }
                 if (!string.IsNullOrEmpty(DefaultTo) && (DefaultTo.Contains("PKTMON") || DefaultTo.Contains("PKTTUE")))
                 {
-                    DateTime netTime;
-                    if (DefaultTo.Contains("PKTMON"))
-                    {
-                        netTime = GetNextNetDate("PKTMON");
-                    }
-                    else if (DefaultTo.Contains("PKTTUE"))
-                    {
-                        netTime = GetNextNetDate("PKTTUE");
-                    }
-                    else
-                    {
-                        return;
-                    }
-                    IdentityViewModel instance = IdentityViewModel.Instance;
-                    DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, " +
-                                     $"{netTime.Month:d2}/{netTime.Day:d2}/{netTime.Year:d4}";
+                //    DateTime netTime;
+                //    if (DefaultTo.Contains("PKTMON"))
+                //    {
+                //        netTime = GetNextNetDate("PKTMON");
+                //    }
+                //    else if (DefaultTo.Contains("PKTTUE"))
+                //    {
+                //        netTime = GetNextNetDate("PKTTUE");
+                //    }
+                //    else
+                //    {
+                //        return;
+                //    }
+                //    IdentityViewModel instance = IdentityViewModel.Instance;
+                //    DefaultSubject = $"Practice {instance.UserCallsign}, {instance.UserFirstName}, {instance.UserCity}, " +
+                //                     $"{netTime.Month:d2}/{netTime.Day:d2}/{netTime.Year:d4}";
                 }
                 else
                 {

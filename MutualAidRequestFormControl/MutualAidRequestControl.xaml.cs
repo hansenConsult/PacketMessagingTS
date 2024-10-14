@@ -33,7 +33,7 @@ namespace MutualAidRequestFormControl
 
     public sealed partial class MutualAidRequestControl : FormControlBase
     {
-        MutualAidRequestControlViewModel ViewModel = MutualAidRequestControlViewModel.Instance;
+        readonly MutualAidRequestControlViewModel ViewModel = MutualAidRequestControlViewModel.Instance;
 
         readonly new List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {

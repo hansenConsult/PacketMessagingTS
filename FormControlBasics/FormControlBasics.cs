@@ -702,6 +702,19 @@ namespace FormControlBasicsNamespace
             }
         }
 
+        //protected virtual void ComboBox_TextSubmitted(object sender, RoutedEventArgs e)
+        //{
+        //    if (e is null)
+        //        return;
+
+        //    if (sender is ComboBox comboBox)
+        //    {
+        //        FormControl formControl = _formControlsList.FirstOrDefault(
+        //                    control => control.InputControl.Name == comboBox.Name);
+        //        comboBox.BorderBrush = formControl.BaseBorderColor;
+        //    }
+        //}
+
         private void RadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RadioButtons radioButtons = sender as RadioButtons;

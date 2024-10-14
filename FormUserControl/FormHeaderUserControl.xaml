@@ -665,7 +665,7 @@
                           Visibility="Collapsed"
                           ItemsSource="{x:Bind ToICSPositionComboBoxItems, Mode=TwoWay}" 
                           HorizontalAlignment="Stretch"                                 
-                          SelectionChanged="ComboBox_SelectionChanged"
+                          SelectionChanged="ComboBox_SelectionChanged1"
                           Tag="7a.,required,Enter a To Position." />
                 <TextBox Grid.Column="1" Name="comboBoxToICSPositionTextBox" 
                          Style="{StaticResource ToFromTextBox}"
