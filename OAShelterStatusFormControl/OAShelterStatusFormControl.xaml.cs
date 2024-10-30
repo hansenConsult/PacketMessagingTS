@@ -97,6 +97,11 @@ namespace OAShelterStatusFormControl
 
         public override void SetPracticeField(string practiceField) 
         {
+            if (practiceField is null)
+            {
+                practiceField = "";
+            }
+
             shelterName.Text = practiceField;
             shelterDetailsName.Text = practiceField;
         }

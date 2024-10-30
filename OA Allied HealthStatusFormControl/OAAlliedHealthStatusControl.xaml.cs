@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.UI.Xaml;
 using SharedCode;
+using System;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -74,6 +75,11 @@ namespace OAAlliedHealthStatus201802FormControl
 
         public override void SetPracticeField(string practiceField)
         {
+            if (practiceField is null)
+            {
+                practiceField = "";
+            }
+
             facilityName.Text = practiceField;
             //UpdateFormFieldsRequiredColors();
         }

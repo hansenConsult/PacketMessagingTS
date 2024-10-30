@@ -158,6 +158,11 @@ namespace MutualAidRequestFormControl
 
         public override void SetPracticeField(string practiceField)
         {
+            if (practiceField is null)
+            {
+                practiceField = "";
+            }
+
             agencyName.Text = practiceField;
 
             UpdateFormFieldsRequiredColors();

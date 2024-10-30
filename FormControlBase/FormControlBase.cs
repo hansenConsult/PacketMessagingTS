@@ -1330,7 +1330,14 @@ namespace FormControlBaseClass
 			return convertedLine;
 		}
 
-        public virtual void SetPracticeField(string practiceField)  {  }
+        public virtual void SetPracticeField(string practiceField)  
+        {
+            if (practiceField is null)
+            {
+                practiceField = "";
+                SetPracticeField(practiceField);
+            }
+        }
 
         protected virtual void UpdateRequiredFields(bool required)
         {

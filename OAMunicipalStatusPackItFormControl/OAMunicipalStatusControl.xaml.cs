@@ -484,14 +484,14 @@ namespace OAMunicipalStatusPackItFormControl
         void JurisdictionName_Changed(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;            
-            if (comboBox.SelectedIndex >= 0)
-            {
+            //if (comboBox.SelectedIndex < 0)
+            //{
                 jurisdictionNameBaseTextBox.Text = comboBox.Text;
-            }
-            else
-            {
-                jurisdictionNameBaseTextBox.Text = "Unincorporated";
-            }
+            //}
+            //else
+            //{
+            //    jurisdictionNameBaseTextBox.Text = "Unincorporated";
+            //}
 
             Subject_Changed(sender, e);
         }
