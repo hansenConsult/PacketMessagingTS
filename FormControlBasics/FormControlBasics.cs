@@ -521,7 +521,7 @@ namespace FormControlBasicsNamespace
             }
         }
 
-        protected virtual async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        protected async virtual void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
             FormControl formControl = _formControlsList.FirstOrDefault(

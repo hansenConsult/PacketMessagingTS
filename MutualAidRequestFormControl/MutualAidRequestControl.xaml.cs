@@ -18,13 +18,15 @@ using FormControlBaseMvvmNameSpace;
 using PacketMessagingTS.Core.Helpers;
 using System.Reflection;
 using System.Security.AccessControl;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MutualAidRequestFormControl
 {
     [FormControl(
-        FormControlName = "form-oa-mutual-aid-request-v2",
+        FormControlName = "form-oa-mutual-aid-request-v3",
         FormControlMenuName = "RACES Mutual Aid Request",
         FormControlType = FormControlAttribute.FormType.CountyForm
         )
@@ -99,15 +101,15 @@ namespace MutualAidRequestFormControl
 
         List<ComboBoxItem> ResourceType = new List<ComboBoxItem>();
 
-        List<ComboBoxItem> ResourceType1P = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> ResourceType1P = new List<ComboBoxItem>();
         List<ComboBoxItem> ResourceType1M = new List<ComboBoxItem>();
-        List<ComboBoxItem> ResourceType2P = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> ResourceType2P = new List<ComboBoxItem>();
         List<ComboBoxItem> ResourceType2M = new List<ComboBoxItem>();
-        List<ComboBoxItem> ResourceType3P = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> ResourceType3P = new List<ComboBoxItem>();
         List<ComboBoxItem> ResourceType3M = new List<ComboBoxItem>();
-        List<ComboBoxItem> ResourceType4P = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> ResourceType4P = new List<ComboBoxItem>();
         List<ComboBoxItem> ResourceType4M = new List<ComboBoxItem>();
-        List<ComboBoxItem> ResourceType5P = new List<ComboBoxItem>();
+        readonly List<ComboBoxItem> ResourceType5P = new List<ComboBoxItem>();
         List<ComboBoxItem> ResourceType5M = new List<ComboBoxItem>();
 
 
@@ -118,7 +120,8 @@ namespace MutualAidRequestFormControl
             ScanControls(PrintableArea);
 
             FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara County RACES -- Mutual Aid Request";
-            FormHeaderControl.ViewModel.HeaderSubstring = "Version: 20220129";            
+            FormHeaderControl.ViewModel.HeaderSubstring = "Version: 20240711";
+            FormHeaderControl.ViewModel.PIF = "3.3";
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
             FormHeaderControl.SetToLocation("County EOC");
@@ -276,7 +279,8 @@ namespace MutualAidRequestFormControl
                     ResourceType1M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType1M, ResourceType);
                     minType1.ItemsSource = ResourceType1M;
-                    rolePosition1.Text = $"{resoueceRole.Content} / {radioPosition1.Text}";
+                    //rolePosition1.Text = $"{resoueceRole.Content} / {radioPosition1.Text}";
+                    rolePosition1.Text = $"{radioPosition1.Text}";
                     resourceNo = 1;
                     break;
 
@@ -286,7 +290,7 @@ namespace MutualAidRequestFormControl
                     ResourceType2M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType2M, ResourceType);
                     radioMinType2.ItemsSource = ResourceType2M;
-                    rolePosition2.Text = $"{resoueceRole.Content} / {radioPosition2.Text}";
+                    //rolePosition2.Text = $"{resoueceRole.Content} / {radioPosition2.Text}";
                     resourceNo = 2;
                     break;
 
@@ -296,7 +300,7 @@ namespace MutualAidRequestFormControl
                     ResourceType3M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType3M, ResourceType);
                     radioMinType3.ItemsSource = ResourceType3M;
-                    rolePosition3.Text = $"{resoueceRole.Content} / {radioPosition3.Text}";
+                    //rolePosition3.Text = $"{resoueceRole.Content} / {radioPosition3.Text}";
                     resourceNo = 3;
                     break;
 
@@ -306,7 +310,7 @@ namespace MutualAidRequestFormControl
                     ResourceType4M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType4M, ResourceType);
                     radioMinType4.ItemsSource = ResourceType4M;
-                    rolePosition4.Text = $"{resoueceRole.Content} / {radioPosition4.Text}";
+                    //rolePosition4.Text = $"{resoueceRole.Content} / {radioPosition4.Text}";
                     resourceNo = 4;
                     break;
 
@@ -316,7 +320,7 @@ namespace MutualAidRequestFormControl
                     ResourceType5M = new List<ComboBoxItem>();
                     CreateComboBoxList(ResourceType5M, ResourceType);
                     radioMinType5.ItemsSource = ResourceType5M;
-                    rolePosition5.Text = $"{resoueceRole.Content} / {radioPosition5.Text}";
+                    //rolePosition5.Text = $"{resoueceRole.Content} / {radioPosition5.Text}";
                     resourceNo = 5;
                     break;
             }
@@ -326,37 +330,81 @@ namespace MutualAidRequestFormControl
             UpdateFormFieldsRequiredColors();
         }
 
-        void position_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            switch (textBox.Name)
-            {
-                case "radioPosition1":
-                    rolePosition1.Text = $"{(radioRole1.SelectedItem as ComboBoxItem)?.Content} / {radioPosition1.Text}";
-                    break;
+        //void position_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    TextBox textBox = sender as TextBox;
+        //    return;
 
-                case "radioPosition2":
-                    rolePosition2.Text = $"{(radioRole2.SelectedItem as ComboBoxItem)?.Content} / {radioPosition2.Text}";
-                    break;
+        //    switch (textBox.Name)
+        //    {
+        //        case "radioPosition1":
+        //            rolePosition1.Text = $"{(radioRole1.SelectedItem as ComboBoxItem)?.Content} / {radioPosition1.Text}";
+        //            break;
 
-                case "radioPosition3":
-                    rolePosition3.Text = $"{(radioRole3.SelectedItem as ComboBoxItem)?.Content} / {radioPosition3.Text}";
-                    break;
+        //        case "radioPosition2":
+        //            //rolePosition2.Text = $"{(radioRole2.SelectedItem as ComboBoxItem)?.Content} / {radioPosition2.Text}";
+        //            break;
 
-                case "radioPosition4":
-                    rolePosition4.Text = $"{(radioRole4.SelectedItem as ComboBoxItem)?.Content} / {radioPosition4.Text}";
-                    break;
+        //        case "radioPosition3":
+        //            rolePosition3.Text = $"{(radioRole3.SelectedItem as ComboBoxItem)?.Content} / {radioPosition3.Text}";
+        //            break;
 
-                case "radioPosition5":
-                    rolePosition5.Text = $"{(radioRole5.SelectedItem as ComboBoxItem)?.Content} / {radioPosition5.Text}";
-                    break;
-            }
+        //        case "radioPosition4":
+        //            rolePosition4.Text = $"{(radioRole4.SelectedItem as ComboBoxItem)?.Content} / {radioPosition4.Text}";
+        //            break;
 
-        }
+        //        case "radioPosition5":
+        //            rolePosition5.Text = $"{(radioRole5.SelectedItem as ComboBoxItem)?.Content} / {radioPosition5.Text}";
+        //            break;
+        //    }
+
+        //}
 
         private void formHeaderControl_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        protected override void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        protected override void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ComboBox_TypeSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e is null)
+                return;
+
+            if (e.AddedItems.Count == 0)
+            {
+                return;
+            }
+
+            ComboBox comboBox = sender as ComboBox;
+
+            switch (comboBox.Name)
+            {
+                case "prefType1":
+
+                    //ComboBox_SelectionChanged(sender, e);
+                    //if (e.AddedItems[0] is ComboBoxPackItItem comboBoxPackItItem)
+                    //{
+                    ComboBoxItem comboBoxItem = e.AddedItems[0] as ComboBoxItem;
+                    //string selection = e.AddedItems[0].ToString();
+                    //comboBox.SelectedIndex = comboBox.SelectedIndex;
+
+                    //}
+
+                    break;
+
+                case "radioMinType2":
+                    break;
+            }
         }
 
         //private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

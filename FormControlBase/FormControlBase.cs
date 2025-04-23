@@ -38,7 +38,7 @@ namespace FormControlBaseClass
 
         protected ScrollViewer _scrollViewer;
 
-        readonly protected List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
+        protected readonly List<ComboBoxItem> Municipalities = new List<ComboBoxItem>
         {
                 new ComboBoxItem() {Content = "Campbell"},
                 new ComboBoxItem() {Content = "Cupertino"},
@@ -57,7 +57,7 @@ namespace FormControlBaseClass
                 new ComboBoxItem() {Content = "Sunnyvale"},
         };
 
-        readonly protected List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
+        protected readonly List<ComboBoxItem> Hospitals = new List<ComboBoxItem>
         {
             new ComboBoxItem() { Content = "El Camino Hospital Los Gatos" },
             new ComboBoxItem() { Content = "El Camino Hospital Mountain View" },
@@ -82,7 +82,7 @@ namespace FormControlBaseClass
             new ComboBoxItem() { Content = "Low (12+ hrs.)", Tag = "Low" },
         };
 
-        readonly protected List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
+        protected readonly List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {
             new ComboBoxItem() {Content = "EMS Unit"},
             new ComboBoxItem() {Content = "Medical Health Branch"},
