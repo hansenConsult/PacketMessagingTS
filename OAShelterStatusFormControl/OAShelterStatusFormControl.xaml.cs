@@ -93,7 +93,9 @@ namespace OAShelterStatusFormControl
         public override string PacFormType => "OAShelterStat";
 
         public override void AppendDrillTraffic()
-        { }
+        {
+            // 70 drill comments
+        }
 
         public override void SetPracticeField(string practiceField) 
         {
@@ -260,6 +262,16 @@ namespace OAShelterStatusFormControl
 
         private void ShelterCity_Changed(object sender, SelectionChangedEventArgs e)
         {
+            if (!(sender is ComboBox comboBoxCity)) return;
+
+            if (comboBoxCity.SelectedIndex == -1)
+            {
+                shelterCityBaseTextBox.Text = "Unincorporated";
+            }
+            else
+            {
+                shelterCityBaseTextBox.Text = comboBoxCity.Text;
+            }
 
         }
     }
