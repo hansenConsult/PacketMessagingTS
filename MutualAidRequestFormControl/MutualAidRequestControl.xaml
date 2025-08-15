@@ -8,9 +8,9 @@
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:MyBaseNamespace="using:FormControlBaseClass"
     xmlns:src="using:FormUserControl"
-    mc:Ignorable="d"
-    d:DesignWidth="816" 
-    d:DesignHeight="1068">
+    mc:Ignorable="d">
+    <!--d:DesignWidth="816" 
+    d:DesignHeight="1068">-->
 
     <MyBaseNamespace:FormControlBase.Resources>
         <ResourceDictionary>
@@ -378,7 +378,7 @@
                                      Tag="20a.,Required" />
                             <TextBlock Grid.Column="3" Style="{StaticResource LabelCenter}" Text="From Time (24hr):" Margin="4,0,0,0" />
                             <TextBox Grid.Row="0" Grid.Column="4" Margin="2,2,2,2" x:Name="neededFromTime" PlaceholderText="hh:mm"
-                                     TextChanged="TextBox_TextChanged"
+                                     TextChanged="TextBox_TimeChanged"
                                      Tag="20b.,Required" />
                             <TextBlock Grid.Column="5" Style="{StaticResource LabelCenter}" Text="To Date:" Grid.ColumnSpan="2" Margin="4,0,0,0" />
                             <TextBox Grid.Row="0" Grid.Column="6" Margin="2,2,4,2" x:Name="neededUntilDate" PlaceholderText="mm/dd/yyyy"
@@ -386,7 +386,7 @@
                                      Tag="20c.,Required" />
                             <TextBlock Grid.Column="7" Style="{StaticResource LabelCenter}" Text="To Time (24hr):" Margin="4,0,0,0" />
                             <TextBox Grid.Row="0" Grid.Column="8" Margin="2,2,2,2" x:Name="neededUntilTime" PlaceholderText="hh:mm"
-                                     TextChanged="TextBox_TextChanged"
+                                     TextChanged="TextBox_TimeChanged"
                                      Tag="20d.,Required" />
 
                         </Grid>
@@ -503,7 +503,7 @@
                                 <TextBlock Grid.Column="3" Style="{StaticResource LabelCenter}" Text="Time:" VerticalAlignment="Top"/>
                                 <TextBox Grid.Column="4" PlaceholderText="hh:mm" Margin="2" VerticalAlignment="Top" 
                                          x:Name="signedTime"
-                                         TextChanged="TextBox_TextChanged"
+                                         TextChanged="TextBox_TimeChanged"
                                          Tag="26b.,Required" />
                             </Grid>
                         </Grid>

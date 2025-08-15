@@ -14,11 +14,9 @@ namespace ICS213RRPackItFormControl
         public override string MsgDate
         {
             get => _msgDate;
-            set
-            {
+            set =>
                 //SetProperty(ref _msgDate, value);
                 InitiatedDate = value;
-            }
         }
 
         private string _initiatedDate;

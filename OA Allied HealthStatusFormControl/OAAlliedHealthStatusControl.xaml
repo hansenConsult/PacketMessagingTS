@@ -369,7 +369,8 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox Grid.Column="0" x:Name="facilityType"                                      
-                                         Margin="2" TextChanged="TextBox_TextChanged"
+                                         Margin="2" 
+                                         TextChanged="TextBox_TextChanged"
                                          HeaderTemplate="{StaticResource alliedHeaderTemplate}"
                                          Header="Facility Type:" 
                                          Tag="21.,conditionallyrequired" />

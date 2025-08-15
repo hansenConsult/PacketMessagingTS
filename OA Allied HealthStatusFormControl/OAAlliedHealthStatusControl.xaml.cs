@@ -51,6 +51,7 @@ namespace OAAlliedHealthStatus201802FormControl
             FormHeaderControl.ViewModel.HeaderString1 = "Allied Health Status Report Short Form";
             FormHeaderControl.ViewModel.HeaderString2 = "(DEOC-9)";
             FormHeaderControl.ViewModel.HeaderSubstring = "Version: February 2018";
+            FormHeaderControl.ViewModel.PIF = "2.6";
 
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
             //FormHeaderControl.SetToLocation(ToICSLocationItems);

@@ -89,6 +89,12 @@ namespace FormControlBaseClass
             new ComboBoxItem() {Content = "Operations Section"},
         };
 
+        readonly List<ComboBoxPackItItem> TypeFieldCom1 = new List<ComboBoxPackItItem>
+        {
+            new ComboBoxPackItItem() { Item = null },
+            new ComboBoxPackItItem() { Item = "F1" }
+        };
+
         //readonly protected List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
         //{
         //    new ComboBoxItem() {Content = "PHDOC"},
@@ -100,7 +106,7 @@ namespace FormControlBaseClass
 
         protected PrintHelper _printHelper;
         protected List<Panel> _printPanels;
-
+        private string prefType1;
 
         public virtual void UpdateFormFieldsRequiredColors()
         {
@@ -767,7 +773,16 @@ namespace FormControlBaseClass
                         }
             else if (control is ComboBox)
             {
-                return CreateComboBoxOutpostDataString(formField, id);
+                if (formProvider == FormProviders.PacItForm)
+                {
+                    ComboBox typeComboBox = (ComboBox) control;
+                    if (typeComboBox.Name == "prefType1")
+                    {
+                        //formField.ControlComboxContent.SelectedIndex = 2;
+                        return CreateComboBoxOutpostDataString(formField, id);
+                    }
+                    return CreateComboBoxOutpostDataString(formField, id);
+                }
             }
             return "";
         }
