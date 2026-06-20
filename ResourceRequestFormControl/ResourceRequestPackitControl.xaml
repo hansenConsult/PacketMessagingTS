@@ -1,0 +1,60 @@
+﻿<MyBaseNamespace:FormControlBase
+    x:Name="rootPanel"
+    x:Class="ResourceRequestPackItFormControl.ResourceRequestPackItControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:MyBaseNamespace="using:FormControlBaseClass"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:src="using:FormUserControl"
+    mc:Ignorable="d"
+
+    d:DesignWidth="816" d:DesignHeight="1056">
+
+    <MyBaseNamespace:FormControlBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />-->
+                <ResourceDictionary Source="/Styles/ICSFormsDictionary.xaml"/>
+                <ResourceDictionary Source="/Styles/FormsDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Name="ICS213RRHeaderTemplate">
+                <TextBlock Text="{Binding}" FontSize="13" Margin="4,0,0,0"
+                           FontWeight="SemiBold" Foreground="Black" />
+            </DataTemplate>
+            <Style x:Key="FormsCheckBox" TargetType="CheckBox" BasedOn="{StaticResource DefaultCheckBoxStyle}">
+                <Setter Property="FontFamily" Value="Ariel"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+
+        </ResourceDictionary>
+    </MyBaseNamespace:FormControlBase.Resources>
+
+
+
+    <StackPanel x:Name="PrintableArea" RequestedTheme="Light" Margin="0,0,0,0" >
+        <Border x:Name="Form213RR" BorderBrush="Black" BorderThickness="1" Padding="15" >
+            <StackPanel >
+                <Grid x:Name="container" Opacity="0" />
+                <StackPanel x:Name="directPrintContainer">
+                    <Grid x:Name="printPage1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
+                        <TextBlock Grid.Row="1" Text="Resource Order" HorizontalAlignment="Left" 
+                            Style="{StaticResource EOC213RRFieldLabel}" />
+                        <src:RadioOperatorUserControl Grid.Row="3" x:Name="radioOperatorControl"/>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</MyBaseNamespace:FormControlBase>

@@ -265,6 +265,11 @@ namespace ICS213PackItFormControl
             }
         }
 
+        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         //public override void FillFormFromFormFields(FormField[] formFields)
         //{
         //    bool found1 = false;

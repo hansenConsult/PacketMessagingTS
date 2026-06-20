@@ -85,15 +85,15 @@
                                 <TextBlock  
                                    VerticalAlignment="Center" 
                                    FontSize="20" FontFamily="Arial Black" FontWeight="Bold" 
-                                   Text="Message Form" />
+                                   Text="ICS-213 Message Form 2.3" />
                                 <Grid>
-                                    <TextBlock FontSize="12" Text="SCCo ICS Form 213 (01/19/2022)" HorizontalAlignment="Left" />
+                                    <TextBlock FontSize="12" Text="SCCo ICS Form 2.13 (20260512)" HorizontalAlignment="Left" />
                                     <TextBlock  FontSize="12" Text="{x:Bind ViewModel.HeaderPIF, Mode=OneWay}" HorizontalAlignment="right" />
                                 </Grid>
                             </StackPanel>
                             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <TextBlock  FontSize="12" FontWeight="Bold" Margin="8" VerticalAlignment="Center" Text="Origin Msg #:"/>
+                                    <TextBlock  FontSize="12" FontWeight="Bold" Margin="8" VerticalAlignment="Center" SelectionChanged="TextBlock_SelectionChanged"><Run Text="1. "/><Run Text="Origin Msg #:"/></TextBlock>
                                     <TextBox x:Name="messageNo" 
                                          Text="{x:Bind ViewModel.OriginMsgNo, Mode=TwoWay}"
 										 TextAlignment="Center" BorderBrush="White" Margin="2"  
@@ -103,7 +103,7 @@
                             <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
                                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                                     <TextBlock  FontSize="12" FontWeight="Bold" Foreground="Black" Margin="8"
-                                                VerticalAlignment="Center" Text="Destination Msg #:"/>
+                                                VerticalAlignment="Center"><Run Text="2. "/><Run Text="Destination Msg #:"/></TextBlock>
                                     <TextBox x:Name="destinationMsgNo" TextAlignment="Center" BorderBrush="White" 
                                              Text="{x:Bind ViewModel.DestinationMsgNo, Mode=TwoWay}"
                                              Margin="2,0,2,2" Tag="4" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120"/>
@@ -126,7 +126,7 @@
                                 <!--<StackPanel Grid.Row="0" Grid.Column="0">-->
                                 <TextBox Grid.Column="0" Grid.Row="0" x:Name="msgDate" PlaceholderText="mm/dd/yyyy"
                                          HeaderTemplate="{StaticResource HeaderTemplate}"
-                                         Header="1a. Date:"                                                                                                                                                   
+                                         Header="3. Date:"                                                                                                                                                   
                                          Text="{x:Bind ViewModel.MsgDate, Mode=TwoWay}"
                                          TextAlignment="Center" BorderBrush="White" 
                                          TextChanged="TextBox_DateChanged"
@@ -136,7 +136,7 @@
                                 <TextBox Grid.Column="1" Grid.Row="0" x:Name="msgTime" PlaceholderText="hh:mm"
                                              Text="{x:Bind ViewModelBase.MsgTime, Mode=TwoWay}"
                                              HeaderTemplate="{StaticResource HeaderTemplate}"
-                                             Header="1b. Time:"                                                                                                                                                   
+                                             Header="4. Time:"                                                                                                                                                   
                                              TextAlignment="Center" BorderBrush="White" 
                                              TextChanged="TextBox_TimeChanged"
                                              Margin="2"  Tag="1b.,required,Enter message creation time"/>
@@ -176,7 +176,7 @@
                                 </StackPanel>
                                 <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="1,0,0,0">
                                     <StackPanel x:Name="msgRequest" Grid.Column="3">
-                                        <TextBlock Style="{StaticResource LabelFont12B}"  Text="6. Message requests you to:" Margin="8"/>
+                                        <TextBlock Style="{StaticResource LabelFont12B}"  Text="This Message requests you to:" Margin="8"/>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Take action:" FontSize="12" FontWeight="Bold" 
                                                        Margin="8"  HorizontalAlignment="Left" VerticalAlignment="Center"  />
@@ -390,7 +390,7 @@
                                     <StackPanel BorderBrush="Black" BorderThickness="0,1">
                                         <TextBlock Padding="10,0,5,5" FontSize="12" 
                                                    FontWeight="Bold" Foreground="Black"
-                                                   Text="7. ICS Position:" />
+                                                   Text="6. ICS Position:" />
                                         <AutoSuggestBox x:Name="autoSuggestBoxToICSPosition" Margin="4,0,4,2"  
                                                         PlaceholderText="Select ICS Position"                                                        
                                                         BorderBrush="Gray"
@@ -410,7 +410,7 @@
                                     <StackPanel>
                                         <TextBlock Padding="10,0,5,5" FontSize="12"
                                                        FontWeight="Bold" Foreground="Black"
-                                                       Text="8. ICS Position:" />
+                                                       Text="10. ICS Position:" />
                                         <AutoSuggestBox x:Name="autoSuggestBoxFromICSPosition" Margin="4,0,4,2"
                                                         PlaceholderText="Select ICS Position"
                                                         BorderBrush="Gray"
@@ -429,7 +429,7 @@
                                     <StackPanel>
                                         <TextBlock Padding="10,0,5,5" FontSize="12"
                                                        FontWeight="Bold" Foreground="Black"
-                                                       Text="9a. Location:" />
+                                                       Text="7. Location:" />
                                         <src:AutoSuggestTextBoxUserControl x:Name="toLocation" Margin="4,0,4,2"                                                     
                                                      Tag="9a.,required,Enter a To Location."/>
                                         <TextBox x:Name="toLocationTextBox" Margin="4,0,4,2" 
@@ -440,7 +440,7 @@
                                     <StackPanel>
                                         <TextBlock Padding="10,0,5,5" FontSize="12" 
                                                    FontWeight="Bold" Foreground="Black"
-                                                   Text="9b. Location:" />
+                                                   Text="11. Location:" />
                                         <src:AutoSuggestTextBoxUserControl x:Name="fromLocation" Margin="4,0,4,2"                                                     
                                                      Tag="9b.,required,Enter a From Location."/>
                                         <TextBox x:Name="fromLocationTextBox"
@@ -450,26 +450,26 @@
                                 <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <TextBox x:Name="toName"  
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Name:"                                                                                                  
+                                             Header="8. Name:"                                                                                                  
                                              BorderThickness="1" Margin="4,0,4,2" Tag="ToName"/>
                                 </Border>
                                 <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <TextBox x:Name="fromName"  
                                                      HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                                     Header="Name:"                                                                                                                                                   
+                                                     Header="12. Name:"                                                                                                                                                   
                                                      BorderThickness="1" Margin="4,0,4,2" Tag="FmName"/>
                                 </Border>
                                 <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="0,0,0,1" Margin="0, 0">
                                     <TextBox x:Name="toTelephone" PlaceholderText="(123) 456-7890" 
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Telephone number:"
+                                             Header="9. Contact Info:"
                                              InputScope="TelephoneNumber" BorderThickness="1" Margin="4,0,4,2" Tag="ToTel"
                                              TextChanged="PhoneNumber_TextChanged"/>
                                 </Border>
                                 <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="0,0,0,1">
                                     <TextBox x:Name="fromTelephone" PlaceholderText="(123) 456-7890" 
                                              HeaderTemplate="{StaticResource ToFromHeaderTemplate}"
-                                             Header="Telephone number:"
+                                             Header="13 Contact Info:"
                                              InputScope="TelephoneNumber" Margin="4,0,4,2" Tag="FmTel" BorderThickness="1"
                                              TextChanged="PhoneNumber_TextChanged"/>
                                 </Border>
@@ -486,7 +486,7 @@
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="0" Text="10. Subject:" Style="{StaticResource LabelFont14B}" Margin="4,0,0,0"/>
+                                <TextBlock Grid.Column="0" Text="Subject:" Style="{StaticResource LabelFont14B}" Margin="4,0,0,0"/>
                                 <TextBox  Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="subject" 
                                           
                                           Tag="10.,required,Enter a Subject." 
@@ -495,14 +495,14 @@
                                 <!--Text="{x:Bind Subject, Mode=TwoWay}"-->
                                 <Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" 
                                         BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="11. Reference:" 
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Reference:" 
                                            Style="{StaticResource LabelFont14B}" Margin="5,0,0,0" />
                                 <TextBox  Grid.Column="1" Grid.Row="1" x:Name="reference" TextChanged="Subject_Changed" 
                                           PlaceholderText="e.g. Number of earlier message" BorderThickness="1"
                                           Margin="4,2,4,2" Tag="11." Grid.ColumnSpan="2"/>
                             </Grid>
                             <Border BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Style="{StaticResource LabelFont14B}" Text="12. Message:" Margin="4,4,0,0"/>
+                            <TextBlock Style="{StaticResource LabelFont14B}" Text="Message:" Margin="4,4,0,0"/>
                             <TextBox x:Name="message"   ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                      AcceptsReturn="True" TextWrapping="Wrap" Height="120" Margin="4,4,4,2" 
                                      Tag="12.,required,You must include a Message." 

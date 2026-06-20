@@ -990,7 +990,7 @@ namespace FormControlBaseClass
             {
                 // Does not work for ComBoxItem. Use ComBox_Loaded
 
-                // Received forms neds to have their ControlComboxContent updated
+                // Received forms needs to have their ControlComboxContent updated
                 var items = comboBox.Items;
 
                 var selectedItem = comboBox.Items[0];

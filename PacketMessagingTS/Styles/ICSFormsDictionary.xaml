@@ -1225,7 +1225,7 @@
         <Setter Property="FontStyle" Value="Normal"/>
         <!--<Setter Property="FontSize" Value="13"/>-->
         <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="8,0,8,0"/>
     </Style>

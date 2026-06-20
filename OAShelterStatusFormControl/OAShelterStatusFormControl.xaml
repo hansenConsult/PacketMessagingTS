@@ -35,7 +35,172 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <src:FormHeaderUserControl Grid.Row="0" x:Name="formHeaderControl" />
-                        <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,0">
+                        <TextBlock Grid.Row="1" Text="General Site Information" Style="{StaticResource EOC213RRFieldLabel}" 
+                                   Margin="8,2,0,2" VerticalAlignment="Center"/>
+                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="0,0,0,1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="136"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="36"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Jurisdiction:" 
+                                   Margin="8,2,0,10" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" Grid.Row="0" x:Name="jurisdiction" Width="200"
+                                IsEditable="True"
+                                Style="{StaticResource FormsComboBox}"
+                                ItemsSource="{x:Bind Municipalities}" 
+                                SelectionChanged="Jurisdiction_Changed"
+                                SelectedValuePath="Content"
+                                Tag="20.,required,Select a city name"
+                                Loaded="ComboBox_Loaded"/>
+                            <TextBox Grid.Column="1" Grid.Row="5" x:Name="jurisdictionTextBox"
+                                     Margin="2" Width="180" Visibility="Collapsed"
+                                     HorizontalAlignment="Center" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Shelter Name:" 
+                                   Margin="8,2,0,10" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="shelterName"
+                                 Margin="0,2,2,10"
+                                 TextChanged="ShelterName_Changed"
+                                 Tag="21.,required,Enter Shelter Name"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Location:" 
+                                   Margin="8,2,0,10" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="location"
+                                 Style="{StaticResource ReadOnlyTextBox}" 
+                                 Margin="0,2,2,10"
+                                 IsReadOnly="True"
+                                 Tag="22.,required,Enter Location"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Type: (Multi select)" 
+                                   Margin="8,2,0,10" VerticalAlignment="Center"/>
+                            <Grid Grid.Row="3" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <CheckBox Grid.Row="0" Grid.Column="0" x:Name="shelterType1"
+                                          Content="Cungregate"
+                                          Margin="8,-6,0,0"
+                                          Tag="23a.,required,Select Type"/>
+                                <CheckBox Grid.Row="0" Grid.Column="1" x:Name="shelterType2"
+                                          Content="Temporary Evacuation Point"
+                                          Margin="10,-6,0,0"
+                                          Tag="23c.,required,Select Type"/>
+                                <CheckBox Grid.Row="0" Grid.Column="2" x:Name="shelterType3"
+                                          Content="Large Animals"
+                                          Margin="8,-6,0,0"
+                                          Tag="23e.,required,Select Type"/>
+                                <CheckBox Grid.Row="1" Grid.Column="0" x:Name="shelterType4"
+                                          Content="Non-Congregate"
+                                          Margin="8,-6,0,0"
+                                          Tag="23b.,required,Select Type"/>
+                                <CheckBox Grid.Row="1" Grid.Column="1" x:Name="shelterType5"
+                                          Content="Pets Accepted"
+                                          Margin="10,-6,0,0"
+                                          Tag="23d.,required,Select Type"/>
+
+                            </Grid>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Shelter Status:" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                            <muxc:RadioButtons Grid.Row="4" Grid.Column="1" x:Name="shelterType"
+                                           MaxColumns="2"
+                                           Tag="24., required,Select Type">
+                                <!--SelectionChanged="ShelterType_SelectionChanged"-->
+                                <RadioButton x:Name="emergency" Content="Setup in progress, not accepting guests"
+                                         Style="{StaticResource RadioButton14}"
+                                         Margin="8,-6,0,0"
+                                         Tag="Setup"/>
+                                <RadioButton x:Name="temporary" Content="Full, not accepting guests"
+                                         Style="{StaticResource RadioButton14}"
+                                         Margin="8,-6,0,0"
+                                         Tag="Full"/>
+                            </muxc:RadioButtons>
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Resources:" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                            <CheckBox Grid.Row="5" Grid.Column="1" x:Name="resources"
+                                      Content="Warming Center"
+                                      Margin="8,-6,0,0"
+                                      Tag="20.,required,Select Resources Available"/>
+                            <CheckBox Grid.Row="5" Grid.Column="1" x:Name="resources2"
+                                      Content="Food and Drink"
+                                      Margin="150,-6,0,0"
+                                      Tag="80.,required,Select Resources Available"/>
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Notes:" 
+                                   Margin="8,2,0,10" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="6" Grid.Column="1" x:Name="notes"
+                                 Style="{StaticResource ReadOnlyTextBox}" 
+                                 Margin="8,2,2,10"
+                                 IsReadOnly="True"
+                                 TextChanged="Notes_TextChanged"
+                                 Tag="26."    />
+                            <!--Text="{x:Bind Notes, Mode=TwoWay}"-->
+                            <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="ADA Compliant:"  
+                                       Margin="8,2,0,2" VerticalAlignment="Center"/>
+                                <RadioButton Grid.Column="1" x:Name="ADAComplientYes" Content="Yes"
+                                      Style="{StaticResource RadioButton14}"
+                                         Margin="8,-6,0,0"
+                                         Tag="Emergency"/>
+                                <RadioButton Grid.Column="2" x:Name="ADAComplientNo" Content="No"
+                                         Style="{StaticResource RadioButton14}"
+                                         Margin="8,-6,0,0"
+                                         Tag="Emergency"/>
+                                <TextBlock Grid.Column="3" Text="Pets Allowed?" Margin="8,2,0,2" VerticalAlignment="Center"/>
+                                <RadioButton Grid.Column="4" x:Name="PetsAllowedYes" Content="Yes"
+                                      Style="{StaticResource RadioButton14}"
+                                         Margin="8,-6,0,0"
+                                         Tag="Emergency"/>
+                                <RadioButton Grid.Column="5" x:Name="PetsAllowedNo" Content="No"
+                                         Style="{StaticResource RadioButton14}"
+                                         Margin="8,-6,0,0"
+                                         Tag="Emergency"/>
+                            </Grid>
+
+                            <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Maximum Capacity:"  
+                                       Margin="8,2,0,2" VerticalAlignment="Center"/>
+                            </Grid>
+                            <TextBlock Grid.Row="9" Grid.Column="0" Text="AFN Considerations:" 
+                                       Margin="8,2,0,10" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="9" Grid.Column="1" x:Name="afnConsiderations"
+                                 Style="{StaticResource ReadOnlyTextBox}" 
+                                 Margin="8,2,2,10"
+                                 IsReadOnly="True"
+                                 />
+                            <!--Text="{x:Bind AFNConsiderations, Mode=TwoWay}"-->
+                        </Grid>
+                        <!--<Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -58,21 +223,21 @@
                                              Tag="Complete"/>
                             </muxc:RadioButtons>
 
-                            <!--<MyNamespace:ToggleButtonGroup x:Name="reportType" Visibility="Collapsed" IsTabStop="False"
+                            <MyNamespace:ToggleButtonGroup x:Name="reportType" Visibility="Collapsed" IsTabStop="False"
                                                            CheckedControlName ="ReportType"
                                                            Tag="19.,required,Select Report Type"/>
                             <RadioButton Grid.Column="1" x:Name="update" GroupName="reportType" Content="Update"
                                          Checked="ReportType_Checked" Tag="Update"/>
                             <RadioButton Grid.Column="2" x:Name="complete" GroupName="reportType" Content="Complete"
-                                         Checked="ReportType_Checked" Tag="Complete"/>-->
+                                         Checked="ReportType_Checked" Tag="Complete"/>
                             <TextBlock Grid.Column="3" Text="Shelter Name:" VerticalAlignment="Center" Margin="8,0,5,0"/>
                             <TextBox Grid.Column="4" Margin="0,2,2,2" x:Name="shelterName"
                                      
                                      TextChanged="ShelterName_Changed"
                                      Tag="32.,required,Enter Shelter Name"/>
-                            <!--Text="{x:Bind ShelterName, Mode=TwoWay}"-->
-                        </Grid>
-                        <Grid Grid.Row="2" BorderBrush="Black" BorderThickness="1,0,1,0">
+                            <Text="{x:Bind ShelterName, Mode=TwoWay}"
+                    </Grid>
+                    <Grid Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition />
@@ -87,23 +252,15 @@
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
-                            </Grid.RowDefinitions>
                             <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0" Background="LightGray" Height="32" >
-                                <TextBlock Text="Shelter" Style="{StaticResource EOC213RRFieldLabelLarge}" 
+                                <TextBlock Text="General Site Information" Style="{StaticResource EOC213RRFieldLabelLarge}" 
                                            Margin="8,2,0,2" VerticalAlignment="Center"/>
                             </Border>
                             <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Shelter Type:"                                        
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Shelter Type:"                                        
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0" />
-                            <!--<ComboBox Grid.Column="1" Grid.Row="1" x:Name="shelterType" 
-                                      Style="{StaticResource FormsComboBox}"
-                                      ItemsSource="{x:Bind ShelterTypes}" 
-                                      SelectedValuePath="Content"
-                                      Tag="30.,conditionallyrequired"
-                                      SelectionChanged="ComboBox_SelectionChanged"
-                                      Loaded="ComboBox_Loaded"/>-->
-                            <Grid Grid.Row="1" Grid.Column="2">
+                        <Grid Grid.Row="1" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
@@ -116,7 +273,6 @@
                                 <muxc:RadioButtons Grid.Column="1" x:Name="shelterType"
                                                MaxColumns="5"
                                                Tag="30." >
-                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
                                     <RadioButton x:Name="Type1" Content="Type 1"
                                              Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
@@ -151,7 +307,6 @@
                                 <muxc:RadioButtons Grid.Column="1" x:Name="shelterStatus"
                                                MaxColumns="5"
                                                Tag="31." >
-                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
                                     <RadioButton x:Name="statusOpen" Content="Open (Green)"
                                              Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
@@ -170,17 +325,17 @@
                                      Margin="2" Visibility="Collapsed" />
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" 
                                     BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="0" Grid.Row="3" Text="Name:" 
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Shelter Name:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="3" x:Name="shelterDetailsName"
                                      Style="{StaticResource ReadOnlyTextBox}" 
                                      Margin="2"
                                      
                                      Tag=""/>
-                            <!--Text="{x:Bind ShelterName, Mode=TwoWay}"-->
+                            
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" 
                                     BorderBrush="Black" BorderThickness="0,1,0,0"/>
-                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Address:" 
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Location:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
                             <TextBox Grid.Column="1" Grid.Row="4" x:Name="shelterAddress"
                                      Margin="2"
@@ -286,11 +441,6 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="6" Text="Pet Friendly:" 
                                        Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <!--<ComboBox Grid.Column="1" Grid.Row="6" x:Name="petFriendly"
-                                      Style="{StaticResource FormsComboBox}"
-                                      ItemsSource="{x:Bind Path=YesNoContentPet}" Tag="43a."
-                                      SelectedValuePath="Content"
-                                      Loaded="ComboBox_Loaded"/>-->
                             <Grid Grid.Row="6" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -299,7 +449,6 @@
                                 <muxc:RadioButtons Grid.Column="1" x:Name="petFriendly" Margin="3,0,0,0"
                                                MaxColumns="5"
                                                Tag="43a." >
-                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
                                     <RadioButton x:Name="petFriendlyYes" Content="Yes"
                                              Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
@@ -323,7 +472,6 @@
                                 <muxc:RadioButtons Grid.Column="1" x:Name="basicSafety" Margin="3,0,0,0"
                                                MaxColumns="2"
                                                Tag="43b." >
-                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
                                     <RadioButton x:Name="basicSafetyYes" Content="Yes"
                                              Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
@@ -339,11 +487,6 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="8" Text="ATC 20 Inspection:" 
                                    Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <!--<ComboBox Grid.Column="1" Grid.Row="8" x:Name="act20Inspection"
-                                      Style="{StaticResource FormsComboBox}"
-                                      ItemsSource="{x:Bind Path=YesNoContentArt20}" Tag="43c."
-                                      SelectedValuePath="Content"
-                                      Loaded="ComboBox_Loaded" Margin="3,2,0,0" VerticalAlignment="Top"/>-->
                             <Grid Grid.Row="8" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -352,7 +495,6 @@
                                 <muxc:RadioButtons Grid.Column="1" x:Name="act20Inspection" Margin="3,0,0,0"
                                                MaxColumns="2"
                                                Tag="43c." >
-                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
                                     <RadioButton x:Name="act20InspectionYes" Content="Yes"
                                              Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
@@ -417,13 +559,6 @@
                             <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Text="Managed By: (Pick One)" 
                                        Style="{StaticResource ShelterStatusHeaderText}" />
-                            <!--<ComboBox Grid.Column="1" Grid.Row="1" x:Name="managedBy" 
-                                      Style="{StaticResource FormsComboBox}"
-                                      DisplayMemberPath="Item"
-                                      ItemsSource="{x:Bind Path=Managers}" 
-                                      SelectedItem="American Red Cross" 
-                                      Tag="50a.,conditionallyrequired" Width="260"
-                                      Loaded="ComboBox_Loaded" Margin="2,0,0,0"/>-->
                             <Grid Grid.Row="1" Grid.Column="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
@@ -434,7 +569,6 @@
                                                MaxColumns="3"
                                                SelectionChanged="ManagedBy_SelectionChanged"
                                                Tag="50a." >
-                                    <!--SelectionChanged="ShelterType_SelectionChanged"-->
                                     <RadioButton x:Name="managedByRedCross" Content="American Red Cross"
                                              Style="{StaticResource RadioButton14}"
                                              Margin="0,-6,0,0"
@@ -574,7 +708,6 @@
                         </Grid>
                         <StackPanel Grid.Row="3" Orientation="Horizontal" BorderBrush="Black" BorderThickness="1,0,1,1">
                             <TextBlock Text="Remove from List:" Style="{StaticResource ShelterStatusHeaderText}"/>
-                            <!--<CheckBox Content="" Tag="71."  />-->
                             <muxc:RadioButtons Grid.Column="1" x:Name="removeFromList" Margin="3,0,0,0"
                                                MaxColumns="2"
                                                
@@ -590,7 +723,7 @@
 
                             </muxc:RadioButtons>
                         </StackPanel>
-                        <src:RadioOperatorUserControl Grid.Row="4" x:Name="radioOperatorControl" Margin="0,8,0,0"/>
+                        <src:RadioOperatorUserControl Grid.Row="4" x:Name="radioOperatorControl" Margin="0,8,0,0"/>-->
                     </Grid>
                 </StackPanel>
             </StackPanel>

@@ -36,9 +36,9 @@ namespace OAShelterStatusFormControl
 
         readonly new List<ComboBoxItem> ToICSPositionItems = new List<ComboBoxItem>
         {
-            new ComboBoxItem() { Content = "Mass Care and Shelter Unit" },
-            new ComboBoxItem() { Content = "Care and Shelter Branch" },
-            new ComboBoxItem() { Content = "Operations Section" },
+            new ComboBoxItem() { Content = "Care & Shelter Unit" },
+            new ComboBoxItem() { Content = "Mass Care & Emerg. Asst. Branch" },
+            new ComboBoxItem() { Content = "Operations" },
         };
 
         //readonly new List<ComboBoxItem> ToICSLocationItems = new List<ComboBoxItem>
@@ -63,11 +63,11 @@ namespace OAShelterStatusFormControl
 
             //InitializeToggleButtonGroups();
 
-            state.Text = "California";
+            //state.Text = "California";
 
-            FormHeaderControl.ViewModel.HeaderString1 = "Santa Clara OA Shelter Status";
-            FormHeaderControl.ViewModel.HeaderSubstring = "WebEOC: 20130814";
-            FormHeaderControl.ViewModelBase.PIF = "2.3";
+            FormHeaderControl.ViewModel.HeaderString1 = "Shelter Form";
+            FormHeaderControl.ViewModel.HeaderSubstring = "PDF: 20250812";
+            FormHeaderControl.ViewModelBase.PIF = "1.0";
 
             //formHeaderControl.SetToLocation(ToICSLocationItems);
             FormHeaderControl.SetToICSPosition(ToICSPositionItems);
@@ -86,7 +86,7 @@ namespace OAShelterStatusFormControl
 
         public override FormProviders FormProvider => FormProviders.PacItForm;
 
-        //public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
+        public override FormControlAttribute.FormType FormControlType => FormControlAttribute.FormType.CountyForm;
 
         //public override string GetPacFormName() => "form-oa-shelter-status";
 
@@ -105,18 +105,19 @@ namespace OAShelterStatusFormControl
             }
 
             shelterName.Text = practiceField;
-            shelterDetailsName.Text = practiceField;
+            //shelterDetailsName.Text = practiceField;
         }
 
         public override Panel CanvasContainer => container;
 
         public override Panel DirectPrintContainer => directPrintContainer;
 
-        public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
+        //public override List<Panel> PrintPanels => new List<Panel> { printPage1, printPage2 };
+        public override List<Panel> PrintPanels => new List<Panel> { printPage1 };
 
         public override FormHeaderUserControl FormHeaderControl => formHeaderControl;
 
-        public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
+        //public override RadioOperatorUserControl RadioOperatorControl => radioOperatorControl;
 
 
         public override string CreateSubject()
@@ -128,9 +129,9 @@ namespace OAShelterStatusFormControl
         {
             try
             {
-                int occupancyInt = string.IsNullOrEmpty(occupancy.Text) ? 0 : Convert.ToInt32(occupancy.Text);
-                int capacityInt = string.IsNullOrEmpty(capacity.Text) ? 0 : Convert.ToInt32(capacity.Text);
-                availablity.Text = (capacityInt - occupancyInt).ToString();
+                //int occupancyInt = string.IsNullOrEmpty(occupancy.Text) ? 0 : Convert.ToInt32(occupancy.Text);
+                //int capacityInt = string.IsNullOrEmpty(capacity.Text) ? 0 : Convert.ToInt32(capacity.Text);
+                //availablity.Text = (capacityInt - occupancyInt).ToString();
             }
             //catch (FormatException fe)
             catch
@@ -147,36 +148,36 @@ namespace OAShelterStatusFormControl
             UpdateAvailability();
         }
 
-        protected override void UpdateRequiredFields(bool required)
-        {
-            if (!required)
-            {
-                shelterType.Tag = (shelterType.Tag as string).Replace(",required", ",conditionallyrequired");
-                shelterStatus.Tag = (shelterStatus.Tag as string).Replace(",required", ",conditionallyrequired");
-                shelterAddress.Tag = (shelterAddress.Tag as string).Replace(",required", ",conditionallyrequired");
-                shelterCity.Tag = (shelterCity.Tag as string).Replace(",required", ",conditionallyrequired");
-                state.Tag = (state.Tag as string).Replace(",required", ",conditionallyrequired");
-                capacity.Tag = (capacity.Tag as string).Replace(",required", ",conditionallyrequired");
-                occupancy.Tag = (occupancy.Tag as string).Replace(",required", ",conditionallyrequired");
-                managedBy.Tag = (managedBy.Tag as string).Replace(",required", ",conditionallyrequired");
-                primaryContact.Tag = (primaryContact.Tag as string).Replace(",required", ",conditionallyrequired");
-                primaryContactPhone.Tag = (primaryContactPhone.Tag as string).Replace(",required", ",conditionallyrequired");
-            }
-            else
-            {
-                shelterType.Tag = (shelterType.Tag as string).Replace(",conditionallyrequired", ",required");
-                shelterStatus.Tag = (shelterStatus.Tag as string).Replace(",conditionallyrequired", ",required");
-                shelterAddress.Tag = (shelterAddress.Tag as string).Replace(",conditionallyrequired", ",required");
-                shelterCity.Tag = (shelterCity.Tag as string).Replace(",conditionallyrequired", ",required");
-                state.Tag = (state.Tag as string).Replace(",conditionallyrequired", ",required");
-                capacity.Tag = (capacity.Tag as string).Replace(",conditionallyrequired", ",required");
-                occupancy.Tag = (occupancy.Tag as string).Replace(",conditionallyrequired", ",required");
-                managedBy.Tag = (managedBy.Tag as string).Replace(",conditionallyrequired", ",required");
-                primaryContact.Tag = (primaryContact.Tag as string).Replace(",conditionallyrequired", ",required");
-                primaryContactPhone.Tag = (primaryContactPhone.Tag as string).Replace(",conditionallyrequired", ",required");
-            }
-            UpdateFormFieldsRequiredColors();
-        }
+        //protected override void UpdateRequiredFields(bool required)
+        //{
+        //    if (!required)
+        //    {
+        //        shelterType.Tag = (shelterType.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        shelterStatus.Tag = (shelterStatus.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        shelterAddress.Tag = (shelterAddress.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        shelterCity.Tag = (shelterCity.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        state.Tag = (state.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        capacity.Tag = (capacity.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        occupancy.Tag = (occupancy.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        managedBy.Tag = (managedBy.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        primaryContact.Tag = (primaryContact.Tag as string).Replace(",required", ",conditionallyrequired");
+        //        primaryContactPhone.Tag = (primaryContactPhone.Tag as string).Replace(",required", ",conditionallyrequired");
+        //    }
+        //    else
+        //    {
+        //        shelterType.Tag = (shelterType.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        shelterStatus.Tag = (shelterStatus.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        shelterAddress.Tag = (shelterAddress.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        shelterCity.Tag = (shelterCity.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        state.Tag = (state.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        capacity.Tag = (capacity.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        occupancy.Tag = (occupancy.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        managedBy.Tag = (managedBy.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        primaryContact.Tag = (primaryContact.Tag as string).Replace(",conditionallyrequired", ",required");
+        //        primaryContactPhone.Tag = (primaryContactPhone.Tag as string).Replace(",conditionallyrequired", ",required");
+        //    }
+        //    UpdateFormFieldsRequiredColors();
+        //}
 
         public override void FillFormFromFormFields(FormField[] formFields)
         {
@@ -198,12 +199,12 @@ namespace OAShelterStatusFormControl
                         //        found1 = true;
                         //    break;
                         case "capacity":
-                            capacity.Text = formField.ControlContent;
+                            //capacity.Text = formField.ControlContent;
                             UpdateAvailability();
                             found2 = true;
                             break;
                         case "occupancy":
-                            occupancy.Text = formField.ControlContent;
+                            //occupancy.Text = formField.ControlContent;
                             UpdateAvailability();
                             found3 = true;
                             break;
@@ -220,25 +221,25 @@ namespace OAShelterStatusFormControl
         void ShelterName_Changed(object sender, RoutedEventArgs e)
         {
             TextBox shelterName = sender as TextBox;
-            shelterDetailsName.Text = shelterName.Text;
+            //shelterDetailsName.Text = shelterName.Text;
 
             Subject_Changed(sender, e);
         }
 
-        //void ShelterCity_Changed(object sender, RoutedEventArgs e)
-        //{
-        //    ComboBox comboBox = sender as ComboBox;
-        //    if (comboBox.SelectedIndex >= 0)
-        //    {
-        //        shelterCityBaseTextBox.Text = comboBox.Text;
-        //    }
-        //    //else
-        //    //{
-        //    //    shelterCityBaseTextBox.Text = "Unincorporated";
-        //    //}
+        void Jurisdiction_Changed(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox.SelectedIndex >= 0)
+            {
+                //shelterCityBaseTextBox.Text = comboBox.Text;
+            }
+            else
+            {
+                //shelterCityBaseTextBox.Text = "Unincorporated";
+            }
 
-        //    Subject_Changed(sender, e);
-        //}
+            //6Subject_Changed(sender, e);
+        }
 
         void ManagedBy_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -248,30 +249,21 @@ namespace OAShelterStatusFormControl
 
             if (rb.Name == "managedByOther")
             {
-                textBoxOther.Text = "";
-                textBoxOther.Tag = (textBoxOther.Tag as string).Replace(",conditionallyrequired", ",required");
-                textBoxOther.Visibility = Visibility.Visible;
+                //textBoxOther.Text = "";
+                //textBoxOther.Tag = (textBoxOther.Tag as string).Replace(",conditionallyrequired", ",required");
+                //textBoxOther.Visibility = Visibility.Visible;
                 UpdateFormFieldsRequiredColors();
             }
             else
             {
-                textBoxOther.Text = (string)rb.Content;
-                textBoxOther.Visibility = Visibility.Collapsed;
+                //textBoxOther.Text = (string)rb.Content;
+                //textBoxOther.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void ShelterCity_Changed(object sender, SelectionChangedEventArgs e)
-        {
-            if (!(sender is ComboBox comboBoxCity)) return;
 
-            if (comboBoxCity.SelectedIndex == -1)
-            {
-                shelterCityBaseTextBox.Text = "Unincorporated";
-            }
-            else
-            {
-                shelterCityBaseTextBox.Text = comboBoxCity.Text;
-            }
+        private void Notes_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
         }
     }
