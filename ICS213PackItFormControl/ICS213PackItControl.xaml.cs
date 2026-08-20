@@ -40,10 +40,10 @@ namespace ICS213PackItFormControl
 
             ScanControls(PrintableArea);
 
-            ViewModel.PIF = "2.2";
-            receivedOrSent.SelectedIndex = 1;
-            ViewModel.HowReceivedSent = otherRecvdType;
-            otherText.Text = "Packet";
+            ViewModel.PIF = "2.3";
+            //receivedOrSent.SelectedIndex = 1;
+            //ViewModel.HowReceivedSent = otherRecvdType;
+            //otherText.Text = "Packet";
             autoSuggestBoxToICSPosition.ItemsSource = ICSPosition;
             autoSuggestBoxFromICSPosition.ItemsSource = ICSPosition;
 
@@ -266,6 +266,11 @@ namespace ICS213PackItFormControl
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBlock_SelectionChanged_1(object sender, RoutedEventArgs e)
         {
 
         }
